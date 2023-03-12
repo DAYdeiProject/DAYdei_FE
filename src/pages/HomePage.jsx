@@ -5,6 +5,7 @@ import Main from '../layout/Main';
 import Sidebar from '../layout/Sidebar';
 import styled from 'styled-components';
 
+
 function HomePage() {
     return (
         <>
