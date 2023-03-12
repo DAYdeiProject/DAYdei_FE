@@ -82,7 +82,7 @@ function JoinPage() {
   );
 }
 
-const LoginWrapper = styled.div`
+export const LoginWrapper = styled.div`
   ${FlexRow}
   min-height: 100vh;
   justify-content: center;
