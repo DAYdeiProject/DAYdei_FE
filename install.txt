@@ -1,0 +1,4 @@
+- calendar
+yarn add @fullcalendar/react @fullcalendar/core @fullcalendar/daygrid
+yarn add style-loader css-loader sass-loader node-sass
+yarn add @fullcalendar/interaction
