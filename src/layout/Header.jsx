@@ -1,7 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 
 function Header() {
-    return <div>Header</div>;
+    return <HeaderWrapper>Header</HeaderWrapper>;
 }
 
 export default Header;
+
+const HeaderWrapper = styled.div`
+    ${(props) => props.theme.FlexCol}
+`;
