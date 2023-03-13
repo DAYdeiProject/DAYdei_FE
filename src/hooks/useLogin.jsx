@@ -4,7 +4,7 @@ const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [nickName, setNickName] = useState("");
   const [birthday, setBirthday] = useState("");
 
   const [isEmailMessage, setIsEmailMessage] = useState("");
@@ -51,8 +51,8 @@ const useLogin = () => {
     setPasswordCheck(e.target.value);
   };
 
-  const handleNicknameChange = (e) => {
-    setNickname(e.target.value);
+  const handleNickNameChange = (e) => {
+    setNickName(e.target.value);
   };
 
   const handleBirthdayChange = (e) => {
@@ -63,7 +63,7 @@ const useLogin = () => {
     setEmail("");
     setPassword("");
     setPasswordCheck("");
-    setNickname("");
+    setNickName("");
     setBirthday("");
   };
 
@@ -78,8 +78,8 @@ const useLogin = () => {
     handlePasswordChange,
     passwordCheck,
     handlePasswordCheckChange,
-    nickname,
-    handleNicknameChange,
+    nickName,
+    handleNickNameChange,
     birthday,
     handleBirthdayChange,
     reset,
