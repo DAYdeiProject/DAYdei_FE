@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
 import useLogin from "../hooks/useLogin";
 import { __addUser } from "../redux/modules/usersSlice";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function JoinPage() {
@@ -70,22 +70,24 @@ function JoinPage() {
             <JoinText>회원가입</JoinText>
             <StInput>
               <InputWrapper>
-                <FontAwesomeIcon icon={faEnvelope} />
-                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} className="email-input" />
-              </InputWrapper>
-              <MessageWrapper>{isEmailMessage}</MessageWrapper>
-              <InputWrapper>
-                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
-              </InputWrapper>
-              <MessageWrapper>{isPwMessage}</MessageWrapper>
-              <InputWrapper>
-                <input type="password" placeholder="비밀번호 확인" value={passwordCheck} onChange={handlePasswordCheckChange} />
-              </InputWrapper>
-              <InputWrapper>
                 <input type="text" placeholder="이름을 입력해주세요" value={nickName} onChange={handleNickNameChange} />
               </InputWrapper>
               <InputWrapper>
                 <input type="text" placeholder="생일을 입력해주세요" value={birthday} onChange={handleBirthdayChange} />
+              </InputWrapper>
+              <InputWrapper>
+                <FontAwesomeIcon icon={faEnvelope} />
+                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
+              </InputWrapper>
+              <MessageWrapper>{isEmailMessage}</MessageWrapper>
+              <InputWrapper>
+                <FontAwesomeIcon icon={faKey} />
+                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
+              </InputWrapper>
+              <MessageWrapper>{isPwMessage}</MessageWrapper>
+              <InputWrapper>
+                <FontAwesomeIcon icon={faKey} />
+                <input type="password" placeholder="비밀번호 확인" value={passwordCheck} onChange={handlePasswordCheckChange} />
               </InputWrapper>
             </StInput>
             <LoginButtton marginTop="54px">
@@ -171,7 +173,6 @@ const BottomText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px 6px;
   gap: 16px;
 
   width: 240px;
