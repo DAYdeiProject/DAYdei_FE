@@ -1,27 +1,30 @@
-import React from 'react';
-import Footer from '../layout/Footer';
-import Header from '../layout/Header';
-import Main from '../layout/Main';
-import Sidebar from '../layout/Sidebar';
-import styled from 'styled-components';
-
+import React from "react";
+import Header from "../layout/Header";
+import Sidebar from "../layout/Sidebar";
+import CalendarMain from "../components/calendar/CalendarMain";
+import styled from "styled-components";
 
 function HomePage() {
-    return (
-        <>
-            <Header />
-            <MainWrapper>
-                <Sidebar />
-                <Main />
-            </MainWrapper>
-            <Footer />
-        </>
-    );
+  return (
+    <HomePageWrapper>
+      <Header />
+      <MainWrapper>
+        <Sidebar />
+        <CalendarMain />
+      </MainWrapper>
+    </HomePageWrapper>
+  );
 }
 
 export default HomePage;
 
+const HomePageWrapper = styled.div`
+  ${(props) => props.theme.FlexCol}
+  margin: 0 auto;
+`;
+
 const MainWrapper = styled.div`
-    ${(props) => props.theme.FlexRow}
-    width: 100%;
+  ${(props) => props.theme.FlexRow}
+  height: calc(100vh - 100px);
+  margin: 0 auto;
 `;
