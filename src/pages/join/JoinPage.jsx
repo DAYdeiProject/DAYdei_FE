@@ -3,9 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
-import useLogin from "../hooks/useLogin";
-import { __addUser } from "../redux/modules/usersSlice";
+import {
+  ScreenLayout,
+  ScreenWrapper,
+  PreviewWrapper,
+  LoginWrapper,
+  LoginBox,
+  InputWrapper,
+  LoginButtton,
+} from "../intro/IntroPage";
+import useLogin from "../../hooks/useLogin";
+import { __addUser } from "../../redux/modules/usersSlice";
 
 function JoinPage() {
   const {

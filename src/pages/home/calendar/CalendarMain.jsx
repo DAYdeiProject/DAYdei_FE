@@ -168,7 +168,7 @@ const CalendarWrapper = styled.div`
   // prev, next button
   .fc-prev-button,
   .fc-next-button {
-    font-size: 12px;
+    font-size: 10px;
     background-color: lightsalmon;
     margin: 0 !important;
     border: none;
@@ -183,7 +183,7 @@ const CalendarWrapper = styled.div`
     width: 96px;
     height: 43px;
     color: white;
-    background-color: #afafaf;
+    background-color: ${(props) => props.theme.Bg.middleColor};
     border: none;
     border-radius: 4px;
   }
@@ -191,10 +191,11 @@ const CalendarWrapper = styled.div`
   // 년,월
   .fc-toolbar-title {
     margin-right: 0.75em;
+    font-size: ${(props) => props.theme.Fs.largeText};
   }
 
   .fc-daygrid {
-    border: 1px solid var(--fc-border-color);
+    border: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
 
   .fc-theme-standard,
@@ -209,8 +210,8 @@ const CalendarWrapper = styled.div`
   th {
     line-height: 30px;
     border: none;
-    border-right: 1px solid var(--fc-border-color);
-    border-bottom: 1px solid var(--fc-border-color);
+    border-right: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
   th:last-child {
     border-right: none;
@@ -219,7 +220,7 @@ const CalendarWrapper = styled.div`
   // 가로
   tr {
     border: none;
-    border-bottom: 1px solid var(--fc-border-color);
+    border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
   tr:last-child {
     border-bottom: none;
@@ -228,7 +229,7 @@ const CalendarWrapper = styled.div`
   // 세로
   td {
     border: none;
-    border-right: 1px solid var(--fc-border-color);
+    border-right: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
   td:last-child {
     border-right: none;
@@ -236,12 +237,12 @@ const CalendarWrapper = styled.div`
 
   // 일정
   .fc-event {
-    font-size: 12px;
-    height: 20px;
+    font-size: ${(props) => props.theme.Fs.smallText};
+    height: 22px;
   }
 
   // 더보기 글씨체
   .fc-more-link {
-    font-size: 15px;
+    font-size: ${(props) => props.theme.Fs.smallText};
   }
 `;
