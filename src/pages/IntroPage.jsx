@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FlexRow, FlexCol } from "../shared/style/Theme";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const emailRef = useRef(null);
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   const isLogin = useSelector((state) => state.users.isLogin);
@@ -28,31 +29,37 @@ function LoginPage() {
     } else {
       alert("이메일과 비밀번호를 입력해 주세요!");
     }
+    if (!isLogin) {
+      alert("아이디 혹은 비밀번호가 틀렸습니다.");
+      emailRef.current.focus();
+    }
   };
 
   return (
     <LoginWrapper>
       <PreviewWrapper>프리뷰 영역입니다.</PreviewWrapper>
-      <LoginBox>
-        <TitleText>DayDei</TitleText>
-        <SubText>공유하는 일상의 시작</SubText>
-        <StInput>
-          <InputWrapper>
-            이메일 : <input type="text" value={email} onChange={handleEmailChange} />
-          </InputWrapper>
-          <InputWrapper>
-            비밀번호 : <input type="password" value={password} onChange={handlePasswordChange} />
-          </InputWrapper>
-        </StInput>
-        <button
-          onClick={() => {
-            loginHandler();
-          }}>
-          로그인
-        </button>
-        <button>카카오톡 로그인</button>
-        <Link to="/join">회원가입 페이지로</Link>
-      </LoginBox>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          loginHandler();
+        }}>
+        <LoginBox>
+          <TitleText>DayDei</TitleText>
+          <SubText>공유하는 일상의 시작</SubText>
+          <StInput>
+            <InputWrapper>
+              이메일 : <input type="text" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
+            </InputWrapper>
+            <InputWrapper>
+              비밀번호 : <input type="password" value={password} onChange={handlePasswordChange} />
+            </InputWrapper>
+          </StInput>
+          <button>로그인</button>
+          <button>카카오톡 로그인</button>
+          <Link to="/join">회원가입 페이지로</Link>
+        </LoginBox>
+      </form>
     </LoginWrapper>
   );
 }
