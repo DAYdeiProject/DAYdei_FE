@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "../../pages/HomePage";
-import JoinPage from "../../pages/JoinPage";
-import IntroPage from "../../pages/IntroPage";
+import HomePage from "../../pages/home/HomePage";
+import JoinPage from "../../pages/join/JoinPage";
+import IntroPage from "../../pages/intro/IntroPage";
 
 function Router() {
   return (

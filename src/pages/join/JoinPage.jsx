@@ -1,7 +1,6 @@
 import { React, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import styled from "styled-components";
 import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
 import useLogin from "../hooks/useLogin";

@@ -1,8 +1,9 @@
 import React from "react";
-import Header from "../layout/Header";
-import Sidebar from "../layout/Sidebar";
-import CalendarMain from "../components/calendar/CalendarMain";
+import Header from "../../layout/Header";
+import Sidebar from "../../layout/Sidebar";
+import CalendarMain from "./calendar/CalendarMain";
 import styled from "styled-components";
+import getCookie from "js-cookie";
 
 function HomePage() {
   return (
@@ -26,5 +27,7 @@ const HomePageWrapper = styled.div`
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   height: calc(100vh - 100px);
+  min-width: 1250px;
+  max-width: 1920px;
   margin: 0 auto;
 `;

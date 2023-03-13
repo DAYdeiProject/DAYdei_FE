@@ -39,27 +39,29 @@ export default Header;
 
 const HeaderWrapper = styled.header`
   ${(props) => props.theme.FlexRow}
-  width: 1920px;
+  min-width: 1250px;
+  max-width: 1920px;
   margin: 0 auto;
-
-  span {
-    font-size: 24px;
-  }
 `;
 
 const LogoContainer = styled.section`
-  background-color: aliceblue;
   ${(props) => props.theme.FlexCol}
   width: 350px;
-  height: 6.25rem;
+  height: 100px;
+  span {
+    font-size: ${(props) => props.theme.Fs.largeText};
+  }
 `;
 
 const NavContainer = styled.section`
-  background-color: #acc5db;
+  background-color: ${(props) => props.theme.Bg.mainColor};
   ${(props) => props.theme.FlexRowBetween}
   width: 1570px;
-  height: 6.25rem;
+  height: 100px;
   padding: 34px 48px;
+  span {
+    font-size: ${(props) => props.theme.Fs.mediumText};
+  }
 `;
 
 const NavTabConatiner = styled.div`

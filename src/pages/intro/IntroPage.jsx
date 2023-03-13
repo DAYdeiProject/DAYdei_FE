@@ -1,8 +1,8 @@
 import { React, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import useLogin from "../hooks/useLogin";
-import { __loginUser } from "../redux/modules/usersSlice";
+import useLogin from "../../hooks/useLogin";
+import { __loginUser } from "../../redux/modules/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

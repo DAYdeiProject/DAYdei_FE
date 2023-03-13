@@ -8,6 +8,7 @@ function Sidebar() {
 export default Sidebar;
 
 const SidebarWrapper = styled.div`
-  background-color: #f3ac92;
+  background-color: ${(props) => props.theme.Bg.lightColor};
   width: 350px;
+  height: 100%;
 `;
