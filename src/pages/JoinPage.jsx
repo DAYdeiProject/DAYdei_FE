@@ -47,6 +47,7 @@ function JoinPage() {
 
   useEffect(() => {
     if (message === "회원가입 완료") {
+      alert("회원가입 완료!");
       navigate("/login");
       window.location.reload();
     } else if (isError) {

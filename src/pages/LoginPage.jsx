@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect } from "react";
 import styled from "styled-components";
 import { FlexRow, FlexCol } from "../shared/style/Theme";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,18 +11,20 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
-  const token = useSelector((state) => state.users.token);
+  const isLogin = useSelector((state) => state.users.isLogin);
+
+  useEffect(() => {
+    if (isLogin === true) {
+      alert("로그인 성공!");
+      navigate("/home");
+    }
+  }, [isLogin, navigate]);
 
   const loginHandler = () => {
     if (email !== "" && password !== "") {
       const loginUser = { email, password };
       dispatch(__loginUser(loginUser));
       reset();
-      if (token) {
-        navigate("/");
-      } else {
-        alert("로그인에 실패했습니다.");
-      }
     } else {
       alert("이메일과 비밀번호를 입력해 주세요!");
     }
