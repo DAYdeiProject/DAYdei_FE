@@ -69,6 +69,9 @@ const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   gap: 40px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const NavUserConatiner = styled.div`
