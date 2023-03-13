@@ -6,11 +6,21 @@ const initialState = {
   users: [],
   message: "",
   token: "",
+  isError: false,
+  isLoading: false,
+  isErrorMessage: "",
 };
 
-export const __addUser = createAsyncThunk("login/signup", async (newUser) => {
-  const response = await api.post("/api/users/signup", newUser);
-  return newUser;
+export const __addUser = createAsyncThunk("login/signup", async (newUser, thunkAPI) => {
+  try {
+    const response = await api.post("/api/users/signup", newUser);
+    console.log(response.data);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data.data);
+    // throw new Error(error.response.data.data);
+  }
 });
 
 export const __loginUser = createAsyncThunk("login/login", async (loginUser) => {
@@ -34,11 +44,19 @@ export const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(__addUser.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
       .addCase(__addUser.fulfilled, (state, action) => {
-        state.users.push(action.payload);
+        state.isLoading = false;
+        state.isError = false;
+        state.users = action.payload;
       })
       .addCase(__addUser.rejected, (state, action) => {
-        state.message = action.error.message;
+        state.isLoading = false;
+        state.isError = true;
+        state.isErrorMessage = action.payload;
       });
 
     builder

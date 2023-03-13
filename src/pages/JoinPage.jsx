@@ -1,6 +1,6 @@
-import React from "react";
+import { React, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { FlexRow, FlexCol } from "../shared/style/Theme";
@@ -21,8 +21,8 @@ function JoinPage() {
     handlePasswordChange,
     passwordCheck,
     handlePasswordCheckChange,
-    nickname,
-    handleNicknameChange,
+    nickName,
+    handleNickNameChange,
     birthday,
     handleBirthdayChange,
     reset,
@@ -30,20 +30,29 @@ function JoinPage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const message = useSelector((state) => state.users.users.data);
+  const isError = useSelector((state) => state.users.isError);
+  const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
+  console.log(isError);
 
   const joinHandler = () => {
     if (isEmail === true && isPw === true && password === passwordCheck) {
-      const newUser = { email, password, passwordCheck, nickname, birthday };
+      const newUser = { email, password, passwordCheck, nickName, birthday };
 
-      dispatch(__addUser(newUser)).then(() => {
-        alert("가입 성공!");
-        navigate("/login");
-        reset();
-      });
+      dispatch(__addUser(newUser));
     } else {
       alert("양식에 맞게 입력란을 작성해 주세요!");
     }
   };
+
+  useEffect(() => {
+    if (message === "회원가입 완료") {
+      navigate("/login");
+      window.location.reload();
+    } else if (isError) {
+      alert(JSON.stringify(isErrorMessage));
+    }
+  }, [message, isError, navigate]);
 
   return (
     <LoginWrapper>
@@ -62,7 +71,7 @@ function JoinPage() {
             비밀번호 확인 : <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
           </InputWrapper>
           <InputWrapper>
-            이름 : <input type="text" value={nickname} onChange={handleNicknameChange} />
+            이름 : <input type="text" value={nickName} onChange={handleNickNameChange} />
           </InputWrapper>
           <InputWrapper>
             생년월일 : <input type="text" value={birthday} onChange={handleBirthdayChange} />

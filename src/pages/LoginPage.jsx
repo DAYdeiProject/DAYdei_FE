@@ -30,8 +30,9 @@ function LoginPage() {
 
   return (
     <LoginWrapper>
+      <PreviewWrapper>프리뷰 영역입니다.</PreviewWrapper>
       <LoginBox>
-        <LoginText>로그인</LoginText>
+        <LoginText>DayDei</LoginText>
         <StInput>
           <InputWrapper>
             이메일 : <input type="text" value={email} onChange={handleEmailChange} />
@@ -59,12 +60,17 @@ const LoginWrapper = styled.div`
   justify-content: center;
 `;
 
+const PreviewWrapper = styled.div`
+  ${FlexRow}
+  min-height: 100vh;
+  width: 1220px;
+  background-color: #f5f5f5;
+`;
+
 const LoginBox = styled.div`
   ${FlexCol}
-  border: 1px solid black;
-  width: 35%;
-  min-height: 35rem;
-  border-radius: 5px;
+  width: 700px;
+  min-height: 100vh;
   & div {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
