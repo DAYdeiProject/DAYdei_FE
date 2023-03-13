@@ -78,6 +78,9 @@ function JoinPage() {
               <InputWrapper>
                 <FontAwesomeIcon icon={faEnvelope} />
                 <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
+                <CheckButton>
+                  <CheckText>중복확인</CheckText>
+                </CheckButton>
               </InputWrapper>
               <MessageWrapper>{isEmailMessage}</MessageWrapper>
               <InputWrapper>
@@ -136,6 +139,40 @@ const StInput = styled.div`
   width: 370px;
   height: 306px;
 
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const CheckButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px 10px;
+  gap: 8px;
+  margin-left: 54px;
+
+  width: 66px;
+  height: 34px;
+
+  background: #626262;
+  border-radius: 4px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+`;
+
+const CheckText = styled.div`
+  /* width: 42px; */
+  height: 14px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
   flex: none;
   order: 0;
   flex-grow: 0;
