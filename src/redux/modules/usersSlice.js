@@ -10,7 +10,19 @@ const initialState = {
   isLoading: false,
   isErrorMessage: "",
   isLogin: false,
+  isCheck: "",
 };
+
+export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
+  try {
+    const response = await api.post(`/api/users/${email}`);
+    console.log(response);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 export const __addUser = createAsyncThunk("login/signup", async (newUser, thunkAPI) => {
   try {
@@ -18,7 +30,7 @@ export const __addUser = createAsyncThunk("login/signup", async (newUser, thunkA
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.data);
-    // throw new Error(error.response.data.data);
+    throw new Error(error.response.data.data);
   }
 });
 
@@ -27,7 +39,6 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const response = await api.post("/api/users/login", loginUser);
     const Token = response.headers.authorization;
     const isLogin = response.data.data.isLogin;
-    console.log(response.data.data.isLogin);
     Cookies.set("accessJWTToken", Token);
 
     api.defaults.headers.common["Authorization"] = Token;
@@ -44,6 +55,21 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(__emailCheck.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(__emailCheck.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isCheck = action.payload;
+      })
+      .addCase(__emailCheck.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
     builder
       .addCase(__addUser.pending, (state) => {
         state.isLoading = true;

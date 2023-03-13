@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
 import useLogin from "../hooks/useLogin";
-import { __addUser } from "../redux/modules/usersSlice";
+import { __addUser, __emailCheck } from "../redux/modules/usersSlice";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function JoinPage() {
   const {
@@ -31,7 +33,12 @@ function JoinPage() {
   const message = useSelector((state) => state.users.users.data);
   const isError = useSelector((state) => state.users.isError);
   const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
-  console.log(isError);
+
+  const emailCheckHandler = (email) => {
+    if (isEmail) {
+      dispatch(__emailCheck(email));
+    }
+  };
 
   const joinHandler = () => {
     if (isEmail === true && isPw === true && password === passwordCheck) {
@@ -68,21 +75,27 @@ function JoinPage() {
             <JoinText>회원가입</JoinText>
             <StInput>
               <InputWrapper>
-                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
-              </InputWrapper>
-              <MessageWrapper>{isEmailMessage}</MessageWrapper>
-              <InputWrapper>
-                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
-              </InputWrapper>
-              <MessageWrapper>{isPwMessage}</MessageWrapper>
-              <InputWrapper>
-                <input type="password" placeholder="비밀번호 확인" value={passwordCheck} onChange={handlePasswordCheckChange} />
-              </InputWrapper>
-              <InputWrapper>
                 <input type="text" placeholder="이름을 입력해주세요" value={nickName} onChange={handleNickNameChange} />
               </InputWrapper>
               <InputWrapper>
                 <input type="text" placeholder="생일을 입력해주세요" value={birthday} onChange={handleBirthdayChange} />
+              </InputWrapper>
+              <InputWrapper>
+                <FontAwesomeIcon icon={faEnvelope} />
+                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
+                <CheckButton onClick={() => emailCheckHandler(email)}>
+                  <CheckText>중복확인</CheckText>
+                </CheckButton>
+              </InputWrapper>
+              <MessageWrapper>{isEmailMessage}</MessageWrapper>
+              <InputWrapper>
+                <FontAwesomeIcon icon={faKey} />
+                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
+              </InputWrapper>
+              <MessageWrapper>{isPwMessage}</MessageWrapper>
+              <InputWrapper>
+                <FontAwesomeIcon icon={faKey} />
+                <input type="password" placeholder="비밀번호 확인" value={passwordCheck} onChange={handlePasswordCheckChange} />
               </InputWrapper>
             </StInput>
             <LoginButtton marginTop="54px">
@@ -136,6 +149,44 @@ const StInput = styled.div`
   flex-grow: 0;
 `;
 
+const CheckButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px 10px;
+  gap: 8px;
+  margin-left: 54px;
+
+  width: 66px;
+  height: 34px;
+
+  background: #626262;
+  border-radius: 4px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const CheckText = styled.div`
+  /* width: 42px; */
+  height: 14px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
 const MessageWrapper = styled.div`
   font-size: 10px;
   ${(props) => props.theme.FlexRow}
@@ -168,7 +219,6 @@ const BottomText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px 6px;
   gap: 16px;
 
   width: 240px;

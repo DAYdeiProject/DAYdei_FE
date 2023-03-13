@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import { __loginUser } from "../redux/modules/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -47,10 +49,12 @@ function IntroPage() {
             </TitleText>
             <StInput>
               <InputWrapper>
-                <input type="text" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
+                <FontAwesomeIcon icon={faEnvelope} />
+                <input type="text" placeholder="이메일 주소" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
               </InputWrapper>
               <InputWrapper>
-                <input type="password" value={password} onChange={handlePasswordChange} />
+                <FontAwesomeIcon icon={faKey} />
+                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
               </InputWrapper>
             </StInput>
             <LoginButtton>
@@ -86,7 +90,7 @@ export const ScreenWrapper = styled.div`
 export const PreviewWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  background: #f5f5f5;
+  background: ${(props) => props.theme.Bg.lightColor};
   text-align: center;
 `;
 
@@ -170,12 +174,16 @@ export const LoginButtton = styled.button`
   width: 370px;
   height: 51px;
 
-  background: #626262;
+  background: ${(props) => props.theme.Bg.deepColor};
   border-radius: 4px;
 
   flex: none;
   order: 1;
   flex-grow: 0;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const LoginText = styled.div`
@@ -232,6 +240,10 @@ const KakaoLogin = styled.button`
   flex: none;
   order: 3;
   flex-grow: 0;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const BottomText = styled.div`
