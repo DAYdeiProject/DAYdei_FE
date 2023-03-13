@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
 import useLogin from "../hooks/useLogin";
 import { __addUser } from "../redux/modules/usersSlice";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function JoinPage() {
   const {
@@ -68,7 +70,8 @@ function JoinPage() {
             <JoinText>회원가입</JoinText>
             <StInput>
               <InputWrapper>
-                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
+                <FontAwesomeIcon icon={faEnvelope} />
+                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} className="email-input" />
               </InputWrapper>
               <MessageWrapper>{isEmailMessage}</MessageWrapper>
               <InputWrapper>
