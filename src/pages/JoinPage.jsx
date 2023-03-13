@@ -52,6 +52,7 @@ function JoinPage() {
       window.location.reload();
     } else if (isError) {
       alert(JSON.stringify(isErrorMessage));
+      reset();
     }
   }, [message, isError, navigate]);
 

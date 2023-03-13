@@ -6,7 +6,7 @@ import useLogin from "../hooks/useLogin";
 import { __loginUser } from "../redux/modules/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-function LoginPage() {
+function IntroPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailRef = useRef(null);
@@ -28,10 +28,6 @@ function LoginPage() {
       reset();
     } else {
       alert("이메일과 비밀번호를 입력해 주세요!");
-    }
-    if (!isLogin) {
-      alert("아이디 혹은 비밀번호가 틀렸습니다.");
-      emailRef.current.focus();
     }
   };
 
@@ -124,4 +120,4 @@ export const InputWrapper = styled.div`
   text-align: right;
 `;
 
-export default LoginPage;
+export default IntroPage;
