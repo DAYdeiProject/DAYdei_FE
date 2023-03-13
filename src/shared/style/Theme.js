@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
+import { css } from "styled-components";
 
-export const FlexRow = css`
+const FlexRow = css`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -8,7 +8,7 @@ export const FlexRow = css`
   width: 100%;
 `;
 
-export const FlexRowBetween = css`
+const FlexRowBetween = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -16,10 +16,18 @@ export const FlexRowBetween = css`
   width: 100%;
 `;
 
-export const FlexCol = css`
+const FlexCol = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
 `;
+
+const theme = {
+  FlexRow,
+  FlexRowBetween,
+  FlexCol,
+};
+
+export default theme;

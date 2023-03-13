@@ -3,9 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import { FlexRow, FlexCol } from "../shared/style/Theme";
-import { InputWrapper } from "./IntroPage";
-
+import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
 import useLogin from "../hooks/useLogin";
 import { __addUser } from "../redux/modules/usersSlice";
 
@@ -57,89 +55,160 @@ function JoinPage() {
   }, [message, isError, navigate]);
 
   return (
-    <LoginWrapper>
-      <LoginBox>
-        <JoinText>회원가입</JoinText>
-        <StInput>
-          <InputWrapper>
-            이메일 : <input type="text" value={email} onChange={handleEmailChange} />
-          </InputWrapper>
-          <MessageWrapper>{isEmailMessage}</MessageWrapper>
-          <InputWrapper>
-            비밀번호 : <input type="password" value={password} onChange={handlePasswordChange} />
-          </InputWrapper>
-          <MessageWrapper>{isPwMessage}</MessageWrapper>
-          <InputWrapper>
-            비밀번호 확인 : <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
-          </InputWrapper>
-          <InputWrapper>
-            이름 : <input type="text" value={nickName} onChange={handleNickNameChange} />
-          </InputWrapper>
-          <InputWrapper>
-            생년월일 : <input type="text" value={birthday} onChange={handleBirthdayChange} />
-          </InputWrapper>
-        </StInput>
-        <button
-          onClick={() => {
+    <ScreenLayout>
+      <ScreenWrapper>
+        <PreviewWrapper></PreviewWrapper>
+        <LoginWrapper
+          onSubmit={(e) => {
+            e.preventDefault();
+
             joinHandler();
           }}>
-          회원가입
-        </button>
-        <Link to="/login">
-          <button>취소 </button>
-        </Link>
-      </LoginBox>
-    </LoginWrapper>
+          <LoginBox>
+            <JoinText>회원가입</JoinText>
+            <StInput>
+              <InputWrapper>
+                <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
+              </InputWrapper>
+              <MessageWrapper>{isEmailMessage}</MessageWrapper>
+              <InputWrapper>
+                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
+              </InputWrapper>
+              <MessageWrapper>{isPwMessage}</MessageWrapper>
+              <InputWrapper>
+                <input type="password" placeholder="비밀번호 확인" value={passwordCheck} onChange={handlePasswordCheckChange} />
+              </InputWrapper>
+              <InputWrapper>
+                <input type="text" placeholder="이름을 입력해주세요" value={nickName} onChange={handleNickNameChange} />
+              </InputWrapper>
+              <InputWrapper>
+                <input type="text" placeholder="생일을 입력해주세요" value={birthday} onChange={handleBirthdayChange} />
+              </InputWrapper>
+            </StInput>
+            <LoginButtton marginTop="54px">
+              <ButtonText>가입하기</ButtonText>
+            </LoginButtton>
+            <BottomText>
+              <BottomLeft>이미 가입된 계정이 있나요?</BottomLeft>
+              <BottomRight>
+                <Link to="/">로그인하기</Link>
+              </BottomRight>
+            </BottomText>
+          </LoginBox>
+        </LoginWrapper>
+      </ScreenWrapper>
+    </ScreenLayout>
   );
 }
 
-export const LoginWrapper = styled.div`
-  ${FlexRow}
-  min-height: 100vh;
-  justify-content: center;
-`;
-
-const LoginBox = styled.div`
-  ${FlexCol}
-  border: 1px solid black;
-  width: 35%;
-  min-height: 35rem;
-  border-radius: 5px;
-  & div {
-    margin-top: 0.5rem;
-    margin-bottom: 0.6rem;
-  }
-  & input[type="text"],
-  & input[type="password"] {
-    width: 15rem;
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 0.5rem;
-  }
-  & button {
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    width: 10rem;
-    height: 2rem;
-    cursor: pointer;
-  }
-`;
-
 const JoinText = styled.div`
+  /* width: 104px; */
+  height: 39px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 800;
   font-size: 30px;
+  line-height: 130%;
+
+  text-align: center;
+
+  color: #000000;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-bottom: 32px;
 `;
 
 const StInput = styled.div`
-  margin-right: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+
+  width: 370px;
+  height: 306px;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 `;
 
 const MessageWrapper = styled.div`
   font-size: 10px;
-  ${FlexRow}
+  ${(props) => props.theme.FlexRow}
   justify-content: center;
   align-items: center;
   min-height: 5px;
   margin-left: 5px;
+`;
+
+const ButtonText = styled.div`
+  width: 70px;
+  height: 19px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const BottomText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px 6px;
+  gap: 16px;
+
+  width: 240px;
+  height: 17px;
+
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+`;
+
+const BottomLeft = styled.div`
+  /* width: 151px; */
+  height: 17px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #626262;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const BottomRight = styled.div`
+  /* width: 61px; */
+  height: 17px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #626262;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 `;
 
 export default JoinPage;

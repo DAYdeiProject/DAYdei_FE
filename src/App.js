@@ -1,18 +1,14 @@
-import { ThemeProvider } from 'styled-components';
-import { FlexRow, FlexRowBetween, FlexCol } from './shared/style/Theme';
-import Router from './shared/router/Router';
+import { ThemeProvider } from "styled-components";
+import { FlexRow, FlexRowBetween, FlexCol } from "./shared/style/Theme";
+import Router from "./shared/router/Router";
+import theme from "./shared/style/Theme";
 
 function App() {
-    const theme = {
-        FlexRow,
-        FlexRowBetween,
-        FlexCol,
-    };
-    return (
-        <ThemeProvider theme={theme}>
-            <Router />
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={theme}>
+      <Router />
+    </ThemeProvider>
+  );
 }
 
 export default App;
