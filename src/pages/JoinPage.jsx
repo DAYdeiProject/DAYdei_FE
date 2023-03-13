@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { FlexRow, FlexCol } from "../shared/style/Theme";
-import { InputWrapper } from "./LoginPage";
+import { InputWrapper } from "./IntroPage";
 
 import useLogin from "../hooks/useLogin";
 import { __addUser } from "../redux/modules/usersSlice";
@@ -48,7 +48,7 @@ function JoinPage() {
   useEffect(() => {
     if (message === "회원가입 완료") {
       alert("회원가입 완료!");
-      navigate("/login");
+      navigate("/");
       window.location.reload();
     } else if (isError) {
       alert(JSON.stringify(isErrorMessage));
