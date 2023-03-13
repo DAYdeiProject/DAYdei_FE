@@ -90,7 +90,7 @@ export const ScreenWrapper = styled.div`
 export const PreviewWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  background: #f5f5f5;
+  background: ${(props) => props.theme.Bg.lightColor};
   text-align: center;
 `;
 
@@ -174,12 +174,16 @@ export const LoginButtton = styled.button`
   width: 370px;
   height: 51px;
 
-  background: #626262;
+  background: ${(props) => props.theme.Bg.deepColor};
   border-radius: 4px;
 
   flex: none;
   order: 1;
   flex-grow: 0;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const LoginText = styled.div`
@@ -236,6 +240,10 @@ const KakaoLogin = styled.button`
   flex: none;
   order: 3;
   flex-grow: 0;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const BottomText = styled.div`

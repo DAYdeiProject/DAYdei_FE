@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginBox, InputWrapper, LoginButtton } from "./IntroPage";
 import useLogin from "../hooks/useLogin";
-import { __addUser } from "../redux/modules/usersSlice";
+import { __addUser, __emailCheck } from "../redux/modules/usersSlice";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -33,7 +33,12 @@ function JoinPage() {
   const message = useSelector((state) => state.users.users.data);
   const isError = useSelector((state) => state.users.isError);
   const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
-  console.log(isError);
+
+  const emailCheckHandler = (email) => {
+    if (isEmail) {
+      dispatch(__emailCheck(email));
+    }
+  };
 
   const joinHandler = () => {
     if (isEmail === true && isPw === true && password === passwordCheck) {
@@ -78,7 +83,7 @@ function JoinPage() {
               <InputWrapper>
                 <FontAwesomeIcon icon={faEnvelope} />
                 <input type="text" placeholder="이메일" value={email} onChange={handleEmailChange} />
-                <CheckButton>
+                <CheckButton onClick={() => emailCheckHandler(email)}>
                   <CheckText>중복확인</CheckText>
                 </CheckButton>
               </InputWrapper>
@@ -161,6 +166,10 @@ const CheckButton = styled.div`
   flex: none;
   order: 1;
   flex-grow: 0;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const CheckText = styled.div`
