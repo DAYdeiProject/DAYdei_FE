@@ -6,11 +6,14 @@ import { __loginUser } from "../../redux/modules/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 
 function IntroPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailRef = useRef(null);
+  const [isKakao, setIsKakao] = useState(false);
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   const isLogin = useSelector((state) => state.users.isLogin);
@@ -28,8 +31,18 @@ function IntroPage() {
       dispatch(__loginUser(loginUser));
       reset();
     } else {
-      alert("이메일과 비밀번호를 입력해 주세요!");
+      if (isKakao === false) {
+        alert("이메일과 비밀번호를 입력해 주세요!");
+      }
     }
+  };
+
+  const KAKAO =
+    "https://kauth.kakao.com/oauth/authorize?client_id=92cd8a1427e9a35ccea2399fa69f896e&redirect_uri=http://localhost:3000/kakao&response_type=code";
+
+  const kakaologinClick = () => {
+    setIsKakao(true);
+    window.location.href = KAKAO;
   };
 
   return (
@@ -61,7 +74,7 @@ function IntroPage() {
               <LoginText>로그인하기</LoginText>
             </LoginButtton>
             <GapArea>또는</GapArea>
-            <KakaoLogin>카카오톡으로 로그인</KakaoLogin>
+            <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
             <BottomText>
               <JoinText>
                 <Link to="/join">회원가입</Link>

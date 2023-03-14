@@ -10,7 +10,6 @@ import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import { useEffect } from "react";
 
 function HomePage() {
-
   const dispatch = useDispatch();
   let code = new URL(window.location.href).searchParams.get("code");
   console.log("홈화면 code : ", code);
@@ -28,7 +27,6 @@ function HomePage() {
   const handleShowFriendsListMain = () => {
     setIsCalendarMainVisible(false);
   };
-
 
   return (
     <HomePageWrapper>
