@@ -1,7 +1,8 @@
-import React from "react";
+import { React, useState } from "react";
 import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
+import FriendsListMain from "./friendslist/FriendsListMain";
 import styled from "styled-components";
 import getCookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import { useEffect } from "react";
 
 function HomePage() {
+
   const dispatch = useDispatch();
   let code = new URL(window.location.href).searchParams.get("code");
   console.log("홈화면 code : ", code);
@@ -17,12 +19,24 @@ function HomePage() {
     dispatch(__kakaoLogin(code));
   });
 
+  const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
+
+  const handleShowCalendarMain = () => {
+    setIsCalendarMainVisible(true);
+  };
+
+  const handleShowFriendsListMain = () => {
+    setIsCalendarMainVisible(false);
+  };
+
+
   return (
     <HomePageWrapper>
-      <Header />
+      <Header handleShowCalendarMain={handleShowCalendarMain} handleShowFriendsListMain={handleShowFriendsListMain} />
       <MainWrapper>
         <Sidebar />
-        <CalendarMain />
+        {isCalendarMainVisible && <CalendarMain />}
+        {!isCalendarMainVisible && <FriendsListMain />}
       </MainWrapper>
     </HomePageWrapper>
   );

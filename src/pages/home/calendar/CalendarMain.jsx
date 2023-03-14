@@ -143,7 +143,7 @@ class CalendarMain extends React.Component {
 
 export default CalendarMain;
 
-const CalendarWrapper = styled.div`
+export const CalendarWrapper = styled.div`
   width: 1570px;
   height: 100%;
   padding: 40px 48px 40px;
