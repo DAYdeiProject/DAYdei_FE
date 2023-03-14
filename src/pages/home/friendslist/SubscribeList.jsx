@@ -23,7 +23,7 @@ function SubscribeList() {
     },
   ];
 
-  if (data.length === 3) {
+  if (data.length === 0) {
     return (
       <NoListMessage>
         No subscription in the list
