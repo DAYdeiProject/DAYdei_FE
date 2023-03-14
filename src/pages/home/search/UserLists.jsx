@@ -7,49 +7,50 @@ function UserLists() {
       nickName: "user1",
       introduction: "안녕하세요 user1입니다!",
       profileImage: null,
-      friendCheck: true,
+      friendCheck: false,
+      userSubscribeCheck: false,
     },
     {
       nickName: "user2",
       introduction: "반갑습니다, 좋은 하루입니다.",
       profileImage: null,
-      friendCheck: true,
+      friendCheck: false,
+      userSubscribeCheck: false,
     },
     {
       nickName: "user3",
       introduction: "배고프다.",
       profileImage: null,
-      friendCheck: true,
+      friendCheck: false,
+      userSubscribeCheck: false,
     },
     {
       nickName: "user1",
       introduction: "안녕하세요 user1입니다!",
       profileImage: null,
-      friendCheck: true,
-    },
-    {
-      nickName: "user2",
-      introduction: "반갑습니다, 좋은 하루입니다.",
-      profileImage: null,
-      friendCheck: true,
-    },
-    {
-      nickName: "user3",
-      introduction: "배고프다.",
-      profileImage: null,
-      friendCheck: true,
+      friendCheck: false,
+      userSubscribeCheck: false,
     },
     {
       nickName: "user1",
       introduction: "안녕하세요 user1입니다!",
       profileImage: null,
-      friendCheck: true,
+      friendCheck: false,
+      userSubscribeCheck: false,
     },
     {
-      nickName: "user2",
-      introduction: "반갑습니다, 좋은 하루입니다.",
+      nickName: "user1",
+      introduction: "안녕하세요 user1입니다!",
       profileImage: null,
-      friendCheck: true,
+      friendCheck: false,
+      userSubscribeCheck: false,
+    },
+    {
+      nickName: "user1",
+      introduction: "안녕하세요 user1입니다!",
+      profileImage: null,
+      friendCheck: false,
+      userSubscribeCheck: false,
     },
   ];
   return (
@@ -64,7 +65,8 @@ function UserLists() {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button>{user.friendCheck === true ? "친구 취소" : "친구 신청"}</Button>
+            <Button>{user.friendCheck === false ? "친구 신청" : "친구 삭제"}</Button>
+            <Button>{user.userSubscribeCheck === false ? "구독 신청" : "구독 취소"}</Button>
           </ButtonArea>
         </PostBox>
       ))}
@@ -93,7 +95,7 @@ const ProfilePhoto = styled.div`
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  margin-left: 12px;
+  margin-left: 20px;
   border: 1px solid black;
   /* background-color: black; */
 `;
@@ -110,17 +112,21 @@ const TextArea = styled.div`
 `;
 
 const ButtonArea = styled.div`
-  height: 75%;
+  height: 100%;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 30px;
   /* border: 1px solid black; */
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 15px;
 `;
 
 const Button = styled.button`
-  height: 40%;
+  height: 35%;
   width: 100px;
+  border-radius: 4px;
 `;
 
 export default UserLists;
