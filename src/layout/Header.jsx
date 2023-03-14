@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 function Header(props) {
-  const { handleShowCalendarMain, handleShowFriendsListMain } = props;
+  const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers } = props;
   return (
     <HeaderWrapper>
       <LogoContainer>
@@ -16,7 +16,7 @@ function Header(props) {
           <div onClick={handleShowFriendsListMain}>
             <span>친구/구독</span>
           </div>
-          <div>
+          <div onClick={handleShowSearchUsers}>
             <span>찾아보기</span>
           </div>
         </NavTabConatiner>

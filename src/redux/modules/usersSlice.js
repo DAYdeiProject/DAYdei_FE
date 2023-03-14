@@ -16,7 +16,7 @@ const initialState = {
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
   try {
     const response = await api.post(`/api/users/signup/${email}`);
-    console.log(response.data.data);
+    console.log(response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log(error);
@@ -30,7 +30,6 @@ export const __addUser = createAsyncThunk("login/signup", async (newUser, thunkA
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.data);
-    throw new Error(error.response.data.data);
   }
 });
 

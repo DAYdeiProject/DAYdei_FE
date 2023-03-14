@@ -5,25 +5,40 @@ import CalendarMain from "./calendar/CalendarMain";
 import FriendsListMain from "./friendslist/FriendsListMain";
 import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
+import { useEffect } from "react";
+import SearchUsers from "./search/SearchUsers";
 
 function HomePage() {
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
+  const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
 
   const handleShowCalendarMain = () => {
     setIsCalendarMainVisible(true);
+    setIsSearchUsersvisible(false);
   };
 
   const handleShowFriendsListMain = () => {
     setIsCalendarMainVisible(false);
+    setIsSearchUsersvisible(false);
+  };
+
+  const handleShowSearchUsers = () => {
+    setIsCalendarMainVisible(false);
+    setIsSearchUsersvisible(true);
   };
 
   return (
     <HomePageWrapper>
-      <Header handleShowCalendarMain={handleShowCalendarMain} handleShowFriendsListMain={handleShowFriendsListMain} />
+      <Header
+        handleShowCalendarMain={handleShowCalendarMain}
+        handleShowFriendsListMain={handleShowFriendsListMain}
+        handleShowSearchUsers={handleShowSearchUsers}
+      />
       <MainWrapper>
         <Sidebar />
         {isCalendarMainVisible && <CalendarMain />}
-        {!isCalendarMainVisible && <FriendsListMain />}
+        {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
+        {isSearchUsersListVisible && <SearchUsers />}
       </MainWrapper>
     </HomePageWrapper>
   );
