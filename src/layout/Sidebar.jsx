@@ -4,37 +4,35 @@ import styled from "styled-components";
 function Sidebar() {
   return (
     <SidebarWrapper>
-      <SidebarContainer>
-        <NickNameBox>
-          <SideTitle>안녕하세요. 다정님</SideTitle>
-        </NickNameBox>
-        <TodaySchedule>
-          <SideTitle>오늘의 일정</SideTitle>
+      <NickNameContainer>
+        <SideTitle>안녕하세요. 다정님</SideTitle>
+      </NickNameContainer>
+      <TodayScheduleContainer>
+        <SideTitle>오늘의 일정</SideTitle>
+        <TodayScheduleBox>
+          <TodayBox>
+            <span></span>
+            <span></span>
+          </TodayBox>
           <div>
-            <div>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-            </div>
+            <span></span>
+            <span></span>
           </div>
-        </TodaySchedule>
-        <section>
-          <SideTitle>친구 목록</SideTitle>
-          <div>
+        </TodayScheduleBox>
+      </TodayScheduleContainer>
+      <FriendsListContainer>
+        <SideTitle>친구 목록</SideTitle>
+        <FriendsListBox>
+          <ListBox>
+            <img></img>
             <div>
-              <img></img>
-              <div>
-                <span></span>
-                <span></span>
-              </div>
-              <button>캘린더</button>
+              <span></span>
+              <span></span>
             </div>
-          </div>
-        </section>
-      </SidebarContainer>
+            <button>캘린더</button>
+          </ListBox>
+        </FriendsListBox>
+      </FriendsListContainer>
     </SidebarWrapper>
   );
 }
@@ -45,20 +43,44 @@ const SidebarWrapper = styled.div`
   background-color: ${(props) => props.theme.Bg.lightColor};
   min-width: 350px;
   height: 100%;
+  padding: 52px 34px;
 `;
 
-const SidebarContainer = styled.div`
+const NickNameContainer = styled.section`
+  background-color: coral;
   ${(props) => props.theme.FlexCol};
-  margin: 20px;
+  margin-bottom: 58px;
 `;
 
-const SideTitle = styled.span`
-  font-size: ${(props) => props.theme.Fs.title};
+const TodayScheduleContainer = styled.section`
+  ${(props) => props.theme.FlexCol};
+  padding-bottom: 24px;
+  border-bottom: 1px solid ${(props) => props.theme.Bg.borderColor};
+  margin-bottom: 35px;
 `;
-const NickNameBox = styled.div`
+
+const TodayScheduleBox = styled.div`
+  background-color: #6ba16b;
+  ${(props) => props.theme.FlexCol};
+  justify-content: start;
+  min-height: 270px;
+  margin-top: 24px;
+`;
+
+const TodayBox = styled.div`
+  background-color: #c2c2a3;
+  ${(props) => props.theme.FlexRow};
+  height: 50px;
+`;
+
+const FriendsListContainer = styled.div`
   ${(props) => props.theme.FlexCol};
 `;
+const FriendsListBox = styled(TodayScheduleBox)``;
+const ListBox = styled(TodayBox)``;
 
-const TodaySchedule = styled.div`
+const SideTitle = styled.section`
   font-size: ${(props) => props.theme.Fs.title};
+  width: 100%;
+  text-align: left;
 `;
