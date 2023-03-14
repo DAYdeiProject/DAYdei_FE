@@ -30,7 +30,6 @@ export const __addUser = createAsyncThunk("login/signup", async (newUser, thunkA
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.data);
-    throw new Error(error.response.data.data);
   }
 });
 
