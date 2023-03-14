@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const api = axios.create({
-    baseURL: process.env.REACT_APP_DAYDEI_URL,
+  baseURL: process.env.REACT_APP_DAYDEI_URL,
 });

@@ -14,10 +14,10 @@ function Header(props) {
             <span>홈 캘린더</span>
           </div>
           <div onClick={handleShowFriendsListMain}>
-            <span>친구 추천</span>
+            <span>친구/구독</span>
           </div>
           <div>
-            <span>메뉴</span>
+            <span>찾아보기</span>
           </div>
         </NavTabConatiner>
         <NavUserConatiner>

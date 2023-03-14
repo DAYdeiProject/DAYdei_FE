@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
+import FriendList from "./FriendList";
+import SubscribeList from "./SubscribeList";
 
 function FriendsListMain() {
   return (
@@ -9,12 +11,15 @@ function FriendsListMain() {
         <WholeAreaWrapper>
           <ListsHeader>리스트 헤더입니다.</ListsHeader>
           <ListsBody>
-            <ListFrame>친구리스트</ListFrame>
-            <ListFrame>구독리스트</ListFrame>
+            <ListFrame>
+              <FriendList />
+            </ListFrame>
+            <ListFrame>
+              <SubscribeList />
+            </ListFrame>
           </ListsBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
-      ;
     </>
   );
 }
@@ -40,7 +45,13 @@ const ListsBody = styled.div`
 
 const ListFrame = styled.div`
   height: 100%;
+  max-height: 520px;
+  overflow: auto;
   width: 49%;
+  border: 1px solid ${(props) => props.theme.Bg.middleColor};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export default FriendsListMain;
