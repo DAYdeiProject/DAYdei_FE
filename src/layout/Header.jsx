@@ -46,10 +46,13 @@ const HeaderWrapper = styled.header`
 
 const LogoContainer = styled.section`
   ${(props) => props.theme.FlexCol}
-  width: 350px;
+  width: 0;
+  min-width: 350px;
   height: 100px;
   span {
+    min-width: 350px;
     font-size: ${(props) => props.theme.Fs.largeText};
+    text-align: center;
   }
 `;
 
