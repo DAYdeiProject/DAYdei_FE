@@ -3,10 +3,9 @@ import styled from "styled-components";
 
 function Sidebar() {
   const KAKAO =
-    "https://kauth.kakao.com/oauth/authorize?client_id=92cd8a1427e9a35ccea2399fa69f896e&redirect_uri=http://localhost:3000/kakao&response_type=code&scope=friends";
+    "https://kauth.kakao.com/oauth/authorize?client_id=92cd8a1427e9a35ccea2399fa69f896e&redirect_uri=http://localhost:3000/friends&response_type=code&scope=friends";
 
   const friendKakao = () => {
-    console.log("목록");
     window.location.href = KAKAO;
   };
 
