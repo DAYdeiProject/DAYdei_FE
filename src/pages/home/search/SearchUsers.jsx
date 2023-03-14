@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
 import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
+import UserLists from "./UserLists";
 
 function SearchUsers() {
   return (
@@ -21,7 +22,9 @@ function SearchUsers() {
               <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요"></SearchBar>
             </SearchBarArea>
           </SearchHeader>
-          <SearchBody></SearchBody>
+          <SearchBody>
+            <UserLists />
+          </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
     </>
@@ -71,9 +74,12 @@ const SearchBar = styled.input`
 `;
 
 const SearchBody = styled.div`
-  height: 100%;
-  display: flex;
-  background-color: lightgray;
+  max-height: 720px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  /* background-color: lightgray; */
+  overflow: auto;
 `;
 
 export default SearchUsers;
