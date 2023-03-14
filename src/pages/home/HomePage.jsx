@@ -4,21 +4,11 @@ import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import FriendsListMain from "./friendslist/FriendsListMain";
 import styled from "styled-components";
-import getCookie from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import { useEffect } from "react";
 import SearchUsers from "./search/SearchUsers";
 
 function HomePage() {
-  const dispatch = useDispatch();
-  let code = new URL(window.location.href).searchParams.get("code");
-  console.log("홈화면 code : ", code);
-
-  useEffect(() => {
-    dispatch(__kakaoLogin(code));
-  });
-
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
   const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
 

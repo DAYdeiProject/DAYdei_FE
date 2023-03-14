@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../utils/api/axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 const initialState = {
-  token: "",
+  data: "",
   isError: false,
   isLoading: false,
 };
@@ -14,21 +13,39 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
   try {
     // 성공 시 토큰 반환 됨
     const response = await api.get(`/api/users/kakao/callback?code=${payload}`);
+    console.log("response : ", response.data);
+
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
     Cookies.set("accessJWTToken", token);
 
-    console.log(response.data);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log("error : ", error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __friendsList = createAsyncThunk("login/friends", async (payload, thunkAPI) => {
+  console.log("payload 친구 : ", payload);
+  try {
+    // 성공 시 토큰 반환 됨
+    const response = await api.get(`/api/users/kakao_friends/callback?code=${payload}`);
+    console.log("response 친구: ", response.data);
+
+    // 토큰 헤더에 넣기
+    const token = response.headers.authorization;
+    Cookies.set("accessJWTToken", token);
 
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
+    console.log("error : ", error);
     return thunkAPI.rejectWithValue(error);
   }
 });
 
 export const kakaoSlice = createSlice({
-  name: "token",
+  name: "data",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -40,9 +57,23 @@ export const kakaoSlice = createSlice({
       .addCase(__kakaoLogin.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.token = action.payload;
+        state.data = action.payload;
       })
       .addCase(__kakaoLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__friendsList.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(__friendsList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.data = action.payload;
+      })
+      .addCase(__friendsList.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
       });
