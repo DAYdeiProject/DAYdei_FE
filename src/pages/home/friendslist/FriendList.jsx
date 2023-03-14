@@ -79,8 +79,8 @@ export const ProfileArea = styled.div`
 `;
 
 export const ProfilePhoto = styled.div`
-  height: 75px;
-  width: 75px;
+  height: 70px;
+  width: 70px;
   border-radius: 50%;
   margin-left: 12px;
   border: 1px solid black;
@@ -95,6 +95,7 @@ export const TextArea = styled.div`
   gap: 10px;
   /* background-color: pink; */
   margin-left: 12px;
+  font-size: ${(props) => props.theme.Fs.smallText};
 `;
 
 export const ButtonArea = styled.div`

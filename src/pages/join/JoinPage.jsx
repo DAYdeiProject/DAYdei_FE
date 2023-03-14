@@ -32,6 +32,8 @@ function JoinPage() {
   const message = useSelector((state) => state.users.users.data);
   const isError = useSelector((state) => state.users.isError);
   const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
+  const isCheck = useSelector((state) => state.users.isCheck);
+  console.log(isCheck);
 
   const emailCheckHandler = (email) => {
     if (isEmail) {
@@ -48,6 +50,12 @@ function JoinPage() {
       alert("양식에 맞게 입력란을 작성해 주세요!");
     }
   };
+
+  useEffect(() => {
+    if (isCheck !== null && email) {
+      alert(isCheck);
+    }
+  }, [isCheck]);
 
   useEffect(() => {
     if (message === "회원가입 완료") {

@@ -8,9 +8,9 @@ import getCookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import { useEffect } from "react";
+import SearchUsers from "./search/SearchUsers";
 
 function HomePage() {
-
   const dispatch = useDispatch();
   let code = new URL(window.location.href).searchParams.get("code");
   console.log("홈화면 code : ", code);
@@ -20,23 +20,35 @@ function HomePage() {
   });
 
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
+  const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
 
   const handleShowCalendarMain = () => {
     setIsCalendarMainVisible(true);
+    setIsSearchUsersvisible(false);
   };
 
   const handleShowFriendsListMain = () => {
     setIsCalendarMainVisible(false);
+    setIsSearchUsersvisible(false);
   };
 
+  const handleShowSearchUsers = () => {
+    setIsCalendarMainVisible(false);
+    setIsSearchUsersvisible(true);
+  };
 
   return (
     <HomePageWrapper>
-      <Header handleShowCalendarMain={handleShowCalendarMain} handleShowFriendsListMain={handleShowFriendsListMain} />
+      <Header
+        handleShowCalendarMain={handleShowCalendarMain}
+        handleShowFriendsListMain={handleShowFriendsListMain}
+        handleShowSearchUsers={handleShowSearchUsers}
+      />
       <MainWrapper>
         <Sidebar />
         {isCalendarMainVisible && <CalendarMain />}
-        {!isCalendarMainVisible && <FriendsListMain />}
+        {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
+        {isSearchUsersListVisible && <SearchUsers />}
       </MainWrapper>
     </HomePageWrapper>
   );
