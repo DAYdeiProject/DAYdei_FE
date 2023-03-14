@@ -80,6 +80,7 @@ const SearchBody = styled.div`
   grid-gap: 20px;
   /* background-color: lightgray; */
   overflow: auto;
+  margin-top: 10px;
 `;
 
 export default SearchUsers;

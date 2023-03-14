@@ -92,8 +92,8 @@ const ProfileArea = styled.div`
 `;
 
 const ProfilePhoto = styled.div`
-  height: 70px;
-  width: 70px;
+  height: 72px;
+  width: 72px;
   border-radius: 50%;
   margin-left: 20px;
   border: 1px solid black;
@@ -120,11 +120,11 @@ const ButtonArea = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
 `;
 
 const Button = styled.button`
-  height: 35%;
+  height: 30%;
   width: 100px;
   border-radius: 4px;
 `;
