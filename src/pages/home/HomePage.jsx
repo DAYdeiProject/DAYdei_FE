@@ -1,17 +1,29 @@
-import React from "react";
+import { React, useState } from "react";
 import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
+import FriendsListMain from "./friendslist/FriendsListMain";
 import styled from "styled-components";
 import getCookie from "js-cookie";
 
 function HomePage() {
+  const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
+
+  const handleShowCalendarMain = () => {
+    setIsCalendarMainVisible(true);
+  };
+
+  const handleShowFriendsListMain = () => {
+    setIsCalendarMainVisible(false);
+  };
+
   return (
     <HomePageWrapper>
-      <Header />
+      <Header handleShowCalendarMain={handleShowCalendarMain} handleShowFriendsListMain={handleShowFriendsListMain} />
       <MainWrapper>
         <Sidebar />
-        <CalendarMain />
+        {isCalendarMainVisible && <CalendarMain />}
+        {!isCalendarMainVisible && <FriendsListMain />}
       </MainWrapper>
     </HomePageWrapper>
   );

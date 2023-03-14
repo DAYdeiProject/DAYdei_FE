@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-function Header() {
+function Header(props) {
+  const { handleShowCalendarMain, handleShowFriendsListMain } = props;
   return (
     <HeaderWrapper>
       <LogoContainer>
@@ -9,14 +10,14 @@ function Header() {
       </LogoContainer>
       <NavContainer>
         <NavTabConatiner>
-          <div>
+          <div onClick={handleShowCalendarMain}>
             <span>홈 캘린더</span>
           </div>
-          <div>
-            <span>친구 추천</span>
+          <div onClick={handleShowFriendsListMain}>
+            <span>친구/구독</span>
           </div>
           <div>
-            <span>메뉴</span>
+            <span>찾아보기</span>
           </div>
         </NavTabConatiner>
         <NavUserConatiner>
@@ -68,6 +69,9 @@ const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   gap: 40px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const NavUserConatiner = styled.div`
