@@ -154,7 +154,7 @@ export const InputWrapper = styled.div`
 
   background: #ffffff;
 
-  border: 1px solid #bababa;
+  border: 1px solid ${(props) => props.theme.Bg.middleColor};
   border-radius: 4px;
 
   flex: none;
@@ -215,7 +215,7 @@ const GapArea = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  color: #626262;
+  color: ${(props) => props.theme.Bg.deepColor};
 
   flex: none;
   order: 2;
@@ -234,7 +234,7 @@ const KakaoLogin = styled.button`
   width: 370px;
   height: 51px;
 
-  background: #bababa;
+  background: ${(props) => props.theme.Bg.middleColor};
   border-radius: 4px;
 
   flex: none;
@@ -271,7 +271,7 @@ const JoinText = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  color: #626262;
+  color: ${(props) => props.theme.Bg.deepColor};
 
   flex: none;
   order: 0;
@@ -288,7 +288,7 @@ const FindPassword = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  color: #626262;
+  color: ${(props) => props.theme.Bg.deepColor};
 
   flex: none;
   order: 0;
