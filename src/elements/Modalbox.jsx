@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ModalWrapper from "./Modalwrapper";
+import ModalWrapper from "./ModalWrapper";
 
 function ModalBox({ children }) {
   return (
