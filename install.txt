@@ -8,3 +8,6 @@ yarn add react-hook-form
 
 - animation
 yarn add framer-motion
+
+- react icon
+yarn add react-icons
