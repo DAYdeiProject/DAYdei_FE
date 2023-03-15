@@ -2,18 +2,32 @@ import { React, useState } from "react";
 import styled from "styled-components";
 import ModalWrapper from "../../../elements/ModalWrapper";
 import ModalBox from "../../../elements/ModalBox";
+import { useDispatch } from "react-redux";
+import { __addCategories } from "../../../redux/modules/usersSlice";
 
 function CategoryModal({ CategoryModalRef }) {
   const Category = ["스포츠", "교육", "연예", "게임", "OTT", "경제"];
 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  console.log(selectedCategories);
+  const categoryMap = { 스포츠: "SPORTS", 교육: "EDUCATION", 연예: "ENTERTAINMENT", 게임: "GAME", OTT: "OTT", 경제: "ECONOMY" };
+  const updatedCategories = selectedCategories.map((category) => categoryMap[category]);
+  const Categories = { category: updatedCategories };
+  // console.log(Categories);
 
   const handleCategoryClick = (category) => {
     if (selectedCategories.includes(category)) {
       setSelectedCategories(selectedCategories.filter((c) => c !== category));
     } else {
       setSelectedCategories([...selectedCategories, category]);
+    }
+  };
+
+  const dispatch = useDispatch();
+  const onClickCategoryHandler = () => {
+    if (updatedCategories.length !== 0) {
+      dispatch(__addCategories(Categories));
+    } else {
+      alert("카테고리를 1개 이상 선택해 주세요!");
     }
   };
 
@@ -34,7 +48,7 @@ function CategoryModal({ CategoryModalRef }) {
               ))}
             </OptionsWrapper>
             <ButtonArea>
-              <Button>다음</Button>
+              <Button onClick={() => onClickCategoryHandler(Categories)}>다음</Button>
             </ButtonArea>
           </ModalContent>
         </div>
@@ -127,6 +141,9 @@ const Button = styled.button`
   text-align: center;
   font-size: ${(props) => props.theme.Fs.tag};
   color: ${(props) => props.theme.Bg.lightColor};
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export default CategoryModal;
