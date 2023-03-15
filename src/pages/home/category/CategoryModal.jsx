@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import styled from "styled-components";
 import ModalWrapper from "../../../elements/ModalWrapper";
 import ModalBox from "../../../elements/ModalBox";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __addCategories } from "../../../redux/modules/usersSlice";
 
 function CategoryModal({ CategoryModalRef }) {
@@ -13,6 +13,8 @@ function CategoryModal({ CategoryModalRef }) {
   const updatedCategories = selectedCategories.map((category) => categoryMap[category]);
   const Categories = { category: updatedCategories };
   // console.log(Categories);
+  const categoryList = useSelector((state) => state.users.categoryList);
+  console.log(categoryList);
 
   const handleCategoryClick = (category) => {
     if (selectedCategories.includes(category)) {
