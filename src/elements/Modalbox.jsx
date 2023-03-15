@@ -13,11 +13,16 @@ function ModalBox({ children }) {
 }
 
 const Modal = styled.div`
-  text-align: center;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 20px;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 85px 42px 86px 41px;
+
+  width: 540px;
+  height: 575px;
+
+  background: #ffffff;
+  border-radius: 16px;
 `;
 
 export default ModalBox;
