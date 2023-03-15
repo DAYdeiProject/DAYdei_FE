@@ -13,8 +13,6 @@ function CategoryModal({ CategoryModalRef }) {
   const updatedCategories = selectedCategories.map((category) => categoryMap[category]);
   const Categories = { category: updatedCategories };
   // console.log(Categories);
-  const categoryList = useSelector((state) => state.users.categoryList);
-  console.log(categoryList);
 
   const handleCategoryClick = (category) => {
     if (selectedCategories.includes(category)) {
