@@ -1,29 +1,58 @@
-import React from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
 import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
+import { useSelector } from "react-redux";
 
 function SearchUsers() {
+  const [category, setCategory] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const RecommendList = useSelector((state) => state.friends.RecommendList);
+
+  const filterUsers = (category) => {
+    setActiveCategory(category);
+    setCategory(category);
+  };
+
+  const filteredList = RecommendList.filter((item) => {
+    if (category === null) {
+      return true;
+    }
+    return item.categoryList.includes(category);
+  });
+
   return (
     <>
       <CalendarWrapper>
         <WholeAreaWrapper>
           <SearchHeader>
             <IconWrapper>
-              <Icon>스포츠</Icon>
-              <Icon>교육</Icon>
-              <Icon>게임</Icon>
-              <Icon>경제</Icon>
-              <Icon>연예</Icon>
-              <Icon>OTT</Icon>
+              <Icon onClick={() => filterUsers("SPORTS")} active={activeCategory === "SPORTS"}>
+                스포츠
+              </Icon>
+              <Icon onClick={() => filterUsers("EDUCATION")} active={activeCategory === "EDUCATION"}>
+                교육
+              </Icon>
+              <Icon onClick={() => filterUsers("GAME")} active={activeCategory === "GAME"}>
+                게임
+              </Icon>
+              <Icon onClick={() => filterUsers("ECONOMY")} active={activeCategory === "ECONOMY"}>
+                경제
+              </Icon>
+              <Icon onClick={() => filterUsers("ENTERTAINMENT")} active={activeCategory === "ENTERTAINMENT"}>
+                연예
+              </Icon>
+              <Icon onClick={() => filterUsers("OTT")} active={activeCategory === "OTT"}>
+                OTT
+              </Icon>
             </IconWrapper>
             <SearchBarArea>
               <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요"></SearchBar>
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists />
+            <UserLists filteredList={filteredList} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
@@ -51,9 +80,9 @@ const Icon = styled.button`
   margin-left: 10px;
   border-radius: 30px;
   border: 1px solid ${(props) => props.theme.Bg.lightColor};
+  background-color: ${(props) => (props.active ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
+  color: ${(props) => (props.active ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
   :hover {
-    background-color: ${(props) => props.theme.Bg.deepColor};
-    color: ${(props) => props.theme.Bg.lightColor};
     cursor: pointer;
   }
 `;
