@@ -37,8 +37,9 @@ function IntroPage() {
     }
   };
 
-  const KAKAO =
-    "https://kauth.kakao.com/oauth/authorize?client_id=92cd8a1427e9a35ccea2399fa69f896e&redirect_uri=http://localhost:3000/kakao&response_type=code";
+  // const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/kakao";
+  const URI = "http://localhost:3000/kakao";
+  const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
 
   const kakaologinClick = () => {
     setIsKakao(true);

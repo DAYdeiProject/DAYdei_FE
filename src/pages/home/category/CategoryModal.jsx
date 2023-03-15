@@ -1,7 +1,7 @@
 import { React } from "react";
 import styled from "styled-components";
-import ModalWrapper from "../../../elements/ModalWrapper";
-import ModalBox from "../../../elements/ModalBox";
+import ModalWrapper from "../../../elements/Modalwrapper";
+import ModalBox from "../../../elements/Modalbox";
 
 function CategoryModal({ CategoryModalRef }) {
   return (
