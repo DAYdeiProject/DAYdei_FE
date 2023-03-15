@@ -7,9 +7,11 @@ import { useSelector } from "react-redux";
 
 function SearchUsers() {
   const [category, setCategory] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
   const RecommendList = useSelector((state) => state.friends.RecommendList);
 
   const filterUsers = (category) => {
+    setActiveCategory(category);
     setCategory(category);
   };
 
@@ -26,12 +28,24 @@ function SearchUsers() {
         <WholeAreaWrapper>
           <SearchHeader>
             <IconWrapper>
-              <Icon onClick={() => filterUsers("SPORTS")}>스포츠</Icon>
-              <Icon onClick={() => filterUsers("EDUCATION")}>교육</Icon>
-              <Icon onClick={() => filterUsers("GAME")}>게임</Icon>
-              <Icon onClick={() => filterUsers("ECONOMY")}>경제</Icon>
-              <Icon onClick={() => filterUsers("ENTERTAINMENT")}>연예</Icon>
-              <Icon onClick={() => filterUsers("OTT")}>OTT</Icon>
+              <Icon onClick={() => filterUsers("SPORTS")} active={activeCategory === "SPORTS"}>
+                스포츠
+              </Icon>
+              <Icon onClick={() => filterUsers("EDUCATION")} active={activeCategory === "EDUCATION"}>
+                교육
+              </Icon>
+              <Icon onClick={() => filterUsers("GAME")} active={activeCategory === "GAME"}>
+                게임
+              </Icon>
+              <Icon onClick={() => filterUsers("ECONOMY")} active={activeCategory === "ECONOMY"}>
+                경제
+              </Icon>
+              <Icon onClick={() => filterUsers("ENTERTAINMENT")} active={activeCategory === "ENTERTAINMENT"}>
+                연예
+              </Icon>
+              <Icon onClick={() => filterUsers("OTT")} active={activeCategory === "OTT"}>
+                OTT
+              </Icon>
             </IconWrapper>
             <SearchBarArea>
               <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요"></SearchBar>
@@ -66,9 +80,9 @@ const Icon = styled.button`
   margin-left: 10px;
   border-radius: 30px;
   border: 1px solid ${(props) => props.theme.Bg.lightColor};
+  background-color: ${(props) => (props.active ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
+  color: ${(props) => (props.active ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
   :hover {
-    background-color: ${(props) => props.theme.Bg.deepColor};
-    color: ${(props) => props.theme.Bg.lightColor};
     cursor: pointer;
   }
 `;
