@@ -37,7 +37,7 @@ function IntroPage() {
     }
   };
 
-  // const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/kakao";
+  //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/kakao";
   const URI = "http://localhost:3000/kakao";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
 

@@ -9,17 +9,23 @@ const initialState = {
 };
 
 export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thunkAPI) => {
-  console.log("payload : ", payload);
   try {
     // 성공 시 토큰 반환 됨
     const response = await api.get(`/api/users/kakao/callback?code=${payload}`);
-    console.log("response : ", response.data);
 
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
+    // 토큰 만료 시간
+    const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    //Cookies.set("accessJWTToken", Token, { expires: expiryDate });
     Cookies.set("accessJWTToken", token);
 
-    return thunkAPI.fulfillWithValue(response.data);
+    // userInfo
+    const userInfo = response.data.data;
+    api.defaults.headers.common["Authorization"] = token;
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+    return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log("error : ", error);
     return thunkAPI.rejectWithValue(error);
@@ -30,14 +36,27 @@ export const __friendsList = createAsyncThunk("login/friends", async (payload, t
   console.log("payload 친구 : ", payload);
   try {
     // 성공 시 토큰 반환 됨
-    const response = await api.get(`/api/users/kakao_friends/callback?code=${payload}`);
-    console.log("response 친구: ", response.data);
+    const response = await api.get(`/api/users/kakao_friends/callback?code=${payload.code}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("response 친구: ", response);
 
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
+    // 토큰 만료 시간
+    const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
     Cookies.set("accessJWTToken", token);
 
-    return thunkAPI.fulfillWithValue(response.data);
+    //userInfo
+    const userInfo = response.data.data;
+    api.defaults.headers.common["Authorization"] = token;
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+    console.log("친구 localStroage---->", localStorage.getItem("userInfo"));
+
+    return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log("error : ", error);
     return thunkAPI.rejectWithValue(error);
