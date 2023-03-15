@@ -11,12 +11,13 @@ const initialState = {
   isErrorMessage: "",
   isLogin: false,
   isCheck: "",
+  categoryList: [],
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
   try {
     const response = await api.post(`/api/users/signup/${email}`);
-    console.log(response);
+    // console.log(response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log(error);
@@ -38,14 +39,26 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const response = await api.post("/api/users/login", loginUser);
     const Token = response.headers.authorization;
     const isLogin = response.data.data.isLogin;
+    const categoryList = response.data.data.categoryList;
     Cookies.set("accessJWTToken", Token);
 
     api.defaults.headers.common["Authorization"] = Token;
 
-    return { token: Token, isLogin };
+    return { token: Token, isLogin, categoryList };
   } catch (error) {
     console.log(error);
     throw new Error(error.response.data.message);
+  }
+});
+
+export const __addCategories = createAsyncThunk("login/addCategories", async (Categories, thunkAPI) => {
+  try {
+    const response = await api.post("/api/users/categories", Categories);
+    // console.log(response);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data.data);
   }
 });
 
@@ -89,9 +102,22 @@ export const usersSlice = createSlice({
       .addCase(__loginUser.fulfilled, (state, action) => {
         state.token = action.payload.token;
         state.isLogin = action.payload.isLogin;
+        state.categoryList = action.payload.categoryList;
       })
       .addCase(__loginUser.rejected, (state, action) => {
         state.message = action.error.message;
+      });
+
+    builder
+      .addCase(__addCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.users = action.payload;
+      })
+      .addCase(__addCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isErrorMessage = action.payload;
       });
   },
 });
