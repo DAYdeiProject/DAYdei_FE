@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import ModalWrapper from "./ModalWrapper";
+import ModalWrap from "./ModalWrap";
 
-function ModalBox({ children }) {
+function Modal({ children }) {
   return (
-    <ModalWrapper>
-      <Modal>
+    <ModalWrap>
+      <ModalBox>
         <div>{children}</div>
-      </Modal>
-    </ModalWrapper>
+      </ModalBox>
+    </ModalWrap>
   );
 }
 
-const Modal = styled.div`
+const ModalBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,4 +25,4 @@ const Modal = styled.div`
   border-radius: 16px;
 `;
 
-export default ModalBox;
+export default Modal;

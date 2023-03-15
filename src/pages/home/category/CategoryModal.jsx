@@ -1,8 +1,8 @@
 import { React, useState } from "react";
 import styled from "styled-components";
-import ModalWrapper from "../../../elements/ModalWrapper";
-import ModalBox from "../../../elements/ModalBox";
-import { useDispatch, useSelector } from "react-redux";
+import ModalWrap from "../../../elements/ModalWrap";
+import Modal from "../../../elements/Modal";
+import { useDispatch } from "react-redux";
 import { __addCategories } from "../../../redux/modules/usersSlice";
 
 function CategoryModal({ CategoryModalRef }) {
@@ -32,8 +32,8 @@ function CategoryModal({ CategoryModalRef }) {
   };
 
   return (
-    <ModalWrapper>
-      <ModalBox>
+    <ModalWrap>
+      <Modal>
         <div ref={CategoryModalRef}>
           <ModalContent>
             <TextWrapper>
@@ -52,8 +52,8 @@ function CategoryModal({ CategoryModalRef }) {
             </ButtonArea>
           </ModalContent>
         </div>
-      </ModalBox>
-    </ModalWrapper>
+      </Modal>
+    </ModalWrap>
   );
 }
 
