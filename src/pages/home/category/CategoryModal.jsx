@@ -1,9 +1,22 @@
-import { React } from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
 import ModalWrapper from "../../../elements/ModalWrapper";
 import ModalBox from "../../../elements/ModalBox";
 
 function CategoryModal({ CategoryModalRef }) {
+  const Category = ["스포츠", "교육", "연예", "게임", "OTT", "경제"];
+
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  console.log(selectedCategories);
+
+  const handleCategoryClick = (category) => {
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(selectedCategories.filter((c) => c !== category));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  };
+
   return (
     <ModalWrapper>
       <ModalBox>
@@ -14,24 +27,11 @@ function CategoryModal({ CategoryModalRef }) {
               <SubText>관심사는 맞춤 설정에 활용됩니다.</SubText>
             </TextWrapper>
             <OptionsWrapper>
-              <CategoryOption>
-                <CategoryText>스포츠</CategoryText>
-              </CategoryOption>
-              <CategoryOption>
-                <CategoryText>교육</CategoryText>
-              </CategoryOption>
-              <CategoryOption>
-                <CategoryText>게임</CategoryText>
-              </CategoryOption>
-              <CategoryOption>
-                <CategoryText>연예</CategoryText>
-              </CategoryOption>
-              <CategoryOption>
-                <CategoryText>OTT</CategoryText>
-              </CategoryOption>
-              <CategoryOption>
-                <CategoryText>경제</CategoryText>
-              </CategoryOption>
+              {Category.map((item) => (
+                <CategoryOption key={item} onClick={() => handleCategoryClick(item)}>
+                  <CategoryText isSelected={selectedCategories.includes(item)}>{item}</CategoryText>
+                </CategoryOption>
+              ))}
             </OptionsWrapper>
             <ButtonArea>
               <Button>다음</Button>
@@ -108,7 +108,8 @@ const CategoryText = styled.div`
   width: 120px;
   border-radius: 20px;
   font-size: ${(props) => props.theme.Fs.tag};
-  color: ${(props) => props.theme.Bg.deepColor};
+  color: ${(props) => (props.isSelected ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
+  background-color: ${(props) => (props.isSelected ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
 `;
 
 const ButtonArea = styled.div`
