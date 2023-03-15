@@ -79,9 +79,9 @@ const CalendarPostModalWrapper = styled(motion.div)`
 
 const PostModalContainer = styled(motion.div)`
   z-index: 999;
-  width: 600px;
-  height: 700px;
-  padding: 20px;
+  width: 500px;
+  min-height: 600px;
+  padding: 0px 35px;
   background-color: white;
   border-radius: 20px;
 `;

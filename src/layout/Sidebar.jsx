@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 function Sidebar() {
-  const KAKAO =
-    "https://kauth.kakao.com/oauth/authorize?client_id=92cd8a1427e9a35ccea2399fa69f896e&redirect_uri=http://localhost:3000/friends&response_type=code&scope=friends";
+  // const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
+  const URI = "http://localhost:3000/friends";
+  const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code&scope=friends`;
 
   const friendKakao = () => {
     window.location.href = KAKAO;
