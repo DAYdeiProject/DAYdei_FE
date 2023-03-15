@@ -1,18 +1,22 @@
-import { React, useRef } from "react";
-// import CalendarPostModal from "../calendar/CalendarPostModal";
-import ModalWrapper from "../../../elements/Modalwrapper";
-import Modalbox from "../../../elements/Modalbox";
+import { React } from "react";
+import styled from "styled-components";
+import ModalWrapper from "../../../elements/ModalWrapper";
+import ModalBox from "../../../elements/ModalBox";
 
 function CategoryModal({ CategoryModalRef }) {
   return (
     <ModalWrapper>
-      <Modalbox>
+      <ModalBox>
         <div ref={CategoryModalRef}>
-          <div>모달입니다</div>
+          <ModalContent>모달입니다</ModalContent>
         </div>
-      </Modalbox>
+      </ModalBox>
     </ModalWrapper>
   );
 }
+
+const ModalContent = styled.div`
+  width: 500px;
+`;
 
 export default CategoryModal;
