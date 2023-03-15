@@ -1,19 +1,18 @@
 import { React, useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { __getRecommend } from "../../../redux/modules/friendsSlice";
 
-function UserLists() {
+function UserLists({ filteredList }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(__getRecommend());
   }, [dispatch]);
 
-  const RecommendList = useSelector((state) => state.friends.RecommendList);
   return (
     <>
-      {RecommendList.map((user) => (
+      {filteredList.map((user) => (
         <PostBox>
           <ProfileArea>
             <ProfilePhoto></ProfilePhoto>

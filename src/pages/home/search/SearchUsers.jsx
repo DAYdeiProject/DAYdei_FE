@@ -1,29 +1,44 @@
-import React from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
 import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
+import { useSelector } from "react-redux";
 
 function SearchUsers() {
+  const [category, setCategory] = useState(null);
+  const RecommendList = useSelector((state) => state.friends.RecommendList);
+
+  const filterUsers = (category) => {
+    setCategory(category);
+  };
+
+  const filteredList = RecommendList.filter((item) => {
+    if (category === null) {
+      return true;
+    }
+    return item.categoryList.includes(category);
+  });
+
   return (
     <>
       <CalendarWrapper>
         <WholeAreaWrapper>
           <SearchHeader>
             <IconWrapper>
-              <Icon>스포츠</Icon>
-              <Icon>교육</Icon>
-              <Icon>게임</Icon>
-              <Icon>경제</Icon>
-              <Icon>연예</Icon>
-              <Icon>OTT</Icon>
+              <Icon onClick={() => filterUsers("SPORTS")}>스포츠</Icon>
+              <Icon onClick={() => filterUsers("EDUCATION")}>교육</Icon>
+              <Icon onClick={() => filterUsers("GAME")}>게임</Icon>
+              <Icon onClick={() => filterUsers("ECONOMY")}>경제</Icon>
+              <Icon onClick={() => filterUsers("ENTERTAINMENT")}>연예</Icon>
+              <Icon onClick={() => filterUsers("OTT")}>OTT</Icon>
             </IconWrapper>
             <SearchBarArea>
               <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요"></SearchBar>
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists />
+            <UserLists filteredList={filteredList} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
