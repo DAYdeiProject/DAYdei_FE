@@ -12,6 +12,7 @@ const initialState = {
   isLogin: false,
   isCheck: "",
   categoryList: [],
+  nickName: "",
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
@@ -40,11 +41,12 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const Token = response.headers.authorization;
     const isLogin = response.data.data.isLogin;
     const categoryList = response.data.data.categoryList;
+    const nickName = response.data.data.nickName;
     Cookies.set("accessJWTToken", Token);
 
     api.defaults.headers.common["Authorization"] = Token;
 
-    return { token: Token, isLogin, categoryList };
+    return { token: Token, isLogin, categoryList, nickName };
   } catch (error) {
     console.log(error);
     throw new Error(error.response.data.message);
@@ -103,6 +105,7 @@ export const usersSlice = createSlice({
         state.token = action.payload.token;
         state.isLogin = action.payload.isLogin;
         state.categoryList = action.payload.categoryList;
+        state.nickName = action.payload.nickName;
       })
       .addCase(__loginUser.rejected, (state, action) => {
         state.message = action.error.message;

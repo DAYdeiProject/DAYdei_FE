@@ -1,61 +1,19 @@
-import React from "react";
+import { React, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { __getRecommend } from "../../../redux/modules/friendsSlice";
 
 function UserLists() {
-  const data = [
-    {
-      nickName: "user1",
-      introduction: "안녕하세요 user1입니다!",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-    {
-      nickName: "user2",
-      introduction: "반갑습니다, 좋은 하루입니다.",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-    {
-      nickName: "user3",
-      introduction: "배고프다.",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-    {
-      nickName: "user1",
-      introduction: "안녕하세요 user1입니다!",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-    {
-      nickName: "user1",
-      introduction: "안녕하세요 user1입니다!",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-    {
-      nickName: "user1",
-      introduction: "안녕하세요 user1입니다!",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-    {
-      nickName: "user1",
-      introduction: "안녕하세요 user1입니다!",
-      profileImage: null,
-      friendCheck: false,
-      userSubscribeCheck: false,
-    },
-  ];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getRecommend());
+  }, [dispatch]);
+
+  const RecommendList = useSelector((state) => state.friends.RecommendList);
   return (
     <>
-      {data.map((user) => (
+      {RecommendList.map((user) => (
         <PostBox>
           <ProfileArea>
             <ProfilePhoto></ProfilePhoto>

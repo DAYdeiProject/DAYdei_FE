@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 function Sidebar() {
@@ -10,10 +11,12 @@ function Sidebar() {
     window.location.href = KAKAO;
   };
 
+  const nickName = useSelector((state) => state.users.nickName);
+
   return (
     <SidebarWrapper>
       <NickNameContainer>
-        <SideTitle>안녕하세요. 다정님</SideTitle>
+        <SideTitle>안녕하세요. {nickName}님</SideTitle>
       </NickNameContainer>
       <TodayScheduleContainer>
         <SideTitle>오늘의 일정</SideTitle>
