@@ -1,14 +1,16 @@
-import { React, useState } from "react";
+import { React, useState, useEffect, useRef } from "react";
+import useOutSideClick from "../../hooks/useOutsideClick";
 import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import FriendsListMain from "./friendslist/FriendsListMain";
 import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
-import { useEffect } from "react";
 import SearchUsers from "./search/SearchUsers";
+import CategoryModal from "./category/CategoryModal";
 
 function HomePage() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
   const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
 
@@ -27,6 +29,17 @@ function HomePage() {
     setIsSearchUsersvisible(true);
   };
 
+  useEffect(() => {
+    setIsModalVisible(true);
+  }, []);
+
+  const handleCategoryModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const CategoryModalRef = useRef(null);
+  useOutSideClick(CategoryModalRef, handleCategoryModalClose);
+
   return (
     <HomePageWrapper>
       <Header
@@ -36,6 +49,7 @@ function HomePage() {
       />
       <MainWrapper>
         <Sidebar />
+        {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} />}
         {isCalendarMainVisible && <CalendarMain />}
         {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
         {isSearchUsersListVisible && <SearchUsers />}

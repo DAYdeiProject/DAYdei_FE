@@ -9,7 +9,10 @@ function FriendsListMain() {
     <>
       <CalendarWrapper>
         <WholeAreaWrapper>
-          <ListsHeader>리스트 헤더입니다.</ListsHeader>
+          <ListsHeader>
+            <TitleText>친구 List</TitleText>
+            <TitleText>구독 List</TitleText>
+          </ListsHeader>
           <ListsBody>
             <ListFrame>
               <FriendList />
@@ -24,7 +27,7 @@ function FriendsListMain() {
   );
 }
 
-const WholeAreaWrapper = styled.div`
+export const WholeAreaWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -34,6 +37,14 @@ const WholeAreaWrapper = styled.div`
 const ListsHeader = styled.div`
   height: 43px;
   margin-bottom: 30px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const TitleText = styled.div`
+  font-size: ${(props) => props.theme.Fs.mediumText};
 `;
 
 const ListsBody = styled.div`
@@ -45,7 +56,7 @@ const ListsBody = styled.div`
 
 const ListFrame = styled.div`
   height: 100%;
-  max-height: 520px;
+  max-height: 720px;
   overflow: auto;
   width: 49%;
   border: 1px solid ${(props) => props.theme.Bg.middleColor};
