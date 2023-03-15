@@ -8,11 +8,13 @@ import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
+import { useSelector } from "react-redux";
 
 function HomePage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
   const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
+  const categoryList = useSelector((state) => state.users.categoryList);
 
   const handleShowCalendarMain = () => {
     setIsCalendarMainVisible(true);
@@ -31,6 +33,9 @@ function HomePage() {
 
   useEffect(() => {
     setIsModalVisible(true);
+    if (categoryList.length !== 0) {
+      setIsModalVisible(false);
+    }
   }, []);
 
   const handleCategoryModalClose = () => {
