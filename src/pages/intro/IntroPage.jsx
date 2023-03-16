@@ -16,14 +16,15 @@ function IntroPage() {
   const [isKakao, setIsKakao] = useState(false);
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
-  const isLogin = useSelector((state) => state.users.isLogin);
+  //const isLogin = useSelector((state) => state.users.isLogin);
+  const data = useSelector((state) => state.users.data);
 
   useEffect(() => {
-    if (isLogin === true) {
+    if (data.statusCode === 200) {
       alert("로그인 성공!");
-      navigate("/home");
+      navigate(`/${data.data.userId}`);
     }
-  }, [isLogin, navigate]);
+  }, [data]);
 
   const loginHandler = () => {
     if (email !== "" && password !== "") {
