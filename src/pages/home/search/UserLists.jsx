@@ -1,10 +1,10 @@
 import { React } from "react";
 import styled from "styled-components";
 
-function UserLists({ RecommendList }) {
+function UserLists({ finalList }) {
   return (
     <>
-      {RecommendList.map((user) => (
+      {finalList.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea>
             <ProfilePhoto></ProfilePhoto>

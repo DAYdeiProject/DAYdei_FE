@@ -42,7 +42,7 @@ function JoinPage() {
   };
 
   const joinHandler = () => {
-    if (isEmail === true && isPw === true && password === passwordCheck && isCheck == "사용 가능한 이메일입니다.") {
+    if (isEmail === true && isPw === true && password === passwordCheck && isCheck === "사용 가능한 이메일입니다.") {
       const newUser = { email, password, passwordCheck, nickName, birthday };
       dispatch(__addUser(newUser));
     }
