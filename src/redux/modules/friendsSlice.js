@@ -7,7 +7,7 @@ const initialState = {
 
 export const __getRecommend = createAsyncThunk("getRecommend", async (_, thunkAPI) => {
   try {
-    const response = await friendsInstance.get(`/recommend?category=&searchword=`);
+    const response = await friendsInstance.get(`/recommend/?category=&searchword=`);
     console.log(response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
@@ -16,7 +16,7 @@ export const __getRecommend = createAsyncThunk("getRecommend", async (_, thunkAP
 });
 
 export const friendsSlice = createSlice({
-  name: "users",
+  name: "friends",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
