@@ -42,12 +42,15 @@ function JoinPage() {
   };
 
   const joinHandler = () => {
-    if (isEmail === true && isPw === true && password === passwordCheck) {
+    if (isEmail === true && isPw === true && password === passwordCheck && isCheck == "사용 가능한 이메일입니다.") {
       const newUser = { email, password, passwordCheck, nickName, birthday };
-
       dispatch(__addUser(newUser));
-    } else {
-      alert("양식에 맞게 입력란을 작성해 주세요!");
+    }
+    if (isCheck !== "사용 가능한 이메일입니다.") {
+      alert("이메일 중복확인이 필요합니다!");
+    }
+    if (isEmail !== true || isPw !== true || password !== passwordCheck) {
+      alert("양식에 맞게 작성해 주세요!");
     }
   };
 
@@ -58,7 +61,7 @@ function JoinPage() {
   }, [isCheck]);
 
   useEffect(() => {
-    if (message === "회원가입 완료") {
+    if (message === "회원가입 완료" && isCheck === "사용 가능한 이메일입니다.") {
       alert("회원가입 완료!");
       navigate("/");
       window.location.reload();
