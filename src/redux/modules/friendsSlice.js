@@ -5,9 +5,9 @@ const initialState = {
   RecommendList: [],
 };
 
-export const __getRecommend = createAsyncThunk("getRecommend", async (_, thunkAPI) => {
+export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunkAPI) => {
   try {
-    const response = await friendsInstance.get(`/recommend/?category=&searchword=`);
+    const response = await friendsInstance.get(`/recommend/${url}`);
     console.log(response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
