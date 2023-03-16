@@ -15,6 +15,7 @@ function HomePage() {
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
   const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
   const categoryList = useSelector((state) => state.users.categoryList);
+  const token = useSelector((state) => state.users.token);
 
   const handleShowCalendarMain = () => {
     setIsCalendarMainVisible(true);
@@ -33,7 +34,7 @@ function HomePage() {
 
   useEffect(() => {
     setIsModalVisible(true);
-    if (categoryList.length !== 0) {
+    if (token === "" || categoryList.length !== 0) {
       setIsModalVisible(false);
     }
   }, []);

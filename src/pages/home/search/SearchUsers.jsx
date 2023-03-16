@@ -9,6 +9,7 @@ function SearchUsers() {
   const [category, setCategory] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const RecommendList = useSelector((state) => state.friends.RecommendList);
+  console.log(RecommendList);
 
   const filterUsers = (category) => {
     setActiveCategory(category);
