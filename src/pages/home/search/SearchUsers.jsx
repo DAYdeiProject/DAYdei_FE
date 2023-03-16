@@ -1,27 +1,44 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
 import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { __getRecommend } from "../../../redux/modules/friendsSlice";
 
 function SearchUsers() {
-  const [category, setCategory] = useState(null);
-  const [activeCategory, setActiveCategory] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const url = "?searchword=&category=";
+    dispatch(__getRecommend(url));
+  }, [dispatch]);
+
   const RecommendList = useSelector((state) => state.friends.RecommendList);
-  console.log(RecommendList);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
-  const filterUsers = (category) => {
-    setActiveCategory(category);
-    setCategory(category);
-  };
-
-  const filteredList = RecommendList.filter((item) => {
-    if (category === null) {
-      return true;
+  const handleCategoryClick = (category) => {
+    let categories = [...selectedCategories];
+    if (categories.includes(category)) {
+      categories = categories.filter((c) => c !== category);
+    } else {
+      categories.push(category);
     }
-    return item.categoryList.includes(category);
-  });
+    setSelectedCategories(categories);
+
+    let url = "?searchword=";
+
+    if (categories.length === 0) {
+      url = "?searchword=&category=";
+    }
+    categories.forEach((c) => {
+      url += `&category=${c}`;
+    });
+
+    console.log(url);
+
+    dispatch(__getRecommend(url));
+  };
 
   return (
     <>
@@ -29,22 +46,22 @@ function SearchUsers() {
         <WholeAreaWrapper>
           <SearchHeader>
             <IconWrapper>
-              <Icon onClick={() => filterUsers("SPORTS")} active={activeCategory === "SPORTS"}>
+              <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
                 스포츠
               </Icon>
-              <Icon onClick={() => filterUsers("EDUCATION")} active={activeCategory === "EDUCATION"}>
+              <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
                 교육
               </Icon>
-              <Icon onClick={() => filterUsers("GAME")} active={activeCategory === "GAME"}>
+              <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
                 게임
               </Icon>
-              <Icon onClick={() => filterUsers("ECONOMY")} active={activeCategory === "ECONOMY"}>
+              <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
                 경제
               </Icon>
-              <Icon onClick={() => filterUsers("ENTERTAINMENT")} active={activeCategory === "ENTERTAINMENT"}>
+              <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
                 연예
               </Icon>
-              <Icon onClick={() => filterUsers("OTT")} active={activeCategory === "OTT"}>
+              <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
                 OTT
               </Icon>
             </IconWrapper>
@@ -53,7 +70,7 @@ function SearchUsers() {
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists filteredList={filteredList} />
+            <UserLists RecommendList={RecommendList} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
@@ -81,8 +98,9 @@ const Icon = styled.button`
   margin-left: 10px;
   border-radius: 30px;
   border: 1px solid ${(props) => props.theme.Bg.lightColor};
-  background-color: ${(props) => (props.active ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
-  color: ${(props) => (props.active ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
+  background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
+  color: ${(props) => (props.className === "selected" ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
+
   :hover {
     cursor: pointer;
   }

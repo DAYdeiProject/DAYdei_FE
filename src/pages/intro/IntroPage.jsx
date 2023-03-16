@@ -23,6 +23,7 @@ function IntroPage() {
     if (data.statusCode === 200) {
       alert("로그인 성공!");
       navigate(`/${data.data.userId}`);
+      window.location.reload();
     }
   }, [data]);
 
