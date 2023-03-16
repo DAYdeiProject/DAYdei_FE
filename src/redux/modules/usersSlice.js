@@ -52,8 +52,7 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
 
     return { token: Token, isLogin, categoryList, nickName, data: response.data };
   } catch (error) {
-    console.log(error);
-    throw new Error(error.response.data.message);
+    alert(error.response.data.data);
   }
 });
 
