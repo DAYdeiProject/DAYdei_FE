@@ -1,10 +1,13 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
 import { BiBell } from "react-icons/bi";
 import { AiOutlineSetting } from "react-icons/ai";
 import useOutSideClick from "../hooks/useOutsideClick";
 
 function Header(props) {
+  const navigate = useNavigate();
   const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -28,7 +31,15 @@ function Header(props) {
     }
   }, []);
 
-  const logoutHandler = () => {};
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    Cookies.remove("accessJWTToken");
+
+    if (!Cookies.get("accessJWTToken")) {
+      alert("로그아웃 되었습니다.");
+      navigate("/");
+    }
+  };
 
   return (
     <HeaderWrapper>
