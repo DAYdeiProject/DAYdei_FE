@@ -12,7 +12,7 @@ const initialState = {
 export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/recommend/${url}`);
-    // console.log(response);
+    console.log(response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -32,8 +32,19 @@ export const __searchUser = createAsyncThunk("searchUser", async (url, thunkAPI)
 export const __requestFriend = createAsyncThunk("requestFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.post(`/${id}`);
-    console.log(response.data);
+    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thunkAPI) => {
+  try {
+    const response = await friendsInstance.delete(`/${id}`);
+    // console.log(response.data);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
@@ -74,6 +85,14 @@ export const friendsSlice = createSlice({
         state.statusCode = action.payload;
       })
       .addCase(__requestFriend.rejected, (state) => {
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__cancelRequest.fulfilled, (state, action) => {
+        state.isError = false;
+      })
+      .addCase(__cancelRequest.rejected, (state) => {
         state.isError = true;
       });
   },

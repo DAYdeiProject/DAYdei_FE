@@ -1,15 +1,26 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __requestFriend } from "../../../redux/modules/friendsSlice";
+import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 
 function UserLists({ finalList }) {
   const dispatch = useDispatch();
-  const friendsHandler = (id) => {
+
+  const requestHandler = (id) => {
     dispatch(__requestFriend(id));
   };
 
-  const statusCode = useSelector((state) => state.friends.statusCode);
+  const cancelRequestHandler = (id) => {
+    dispatch(__cancelRequest(id));
+  };
+
+  const handleButtonClick = (user) => {
+    if (user.friendCheck === false && user.isRequestFriend === null) {
+      requestHandler(user.id);
+    } else if (user.friendCheck === false && user.isRequestFriend === false) {
+      cancelRequestHandler(user.id);
+    }
+  };
 
   return (
     <>
@@ -23,8 +34,18 @@ function UserLists({ finalList }) {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button onClick={() => friendsHandler(user.id)}>{user.friendCheck === false ? "친구 신청" : "신청됨"}</Button>
-            <Button>{user.userSubscribeCheck === false ? "구독 신청" : "구독 취소"}</Button>
+            <Button onClick={() => handleButtonClick(user)}>
+              {user.friendCheck === false && user.isRequestFriend === null
+                ? "친구신청"
+                : user.friendCheck === false && user.isRequestFriend === false
+                ? "친구신청 취소"
+                : user.friendCheck === false && user.isRequestFriend === true
+                ? "신청 승인"
+                : user.friendCheck === true && user.isRequestFriend === null
+                ? "친구 끊기"
+                : null}
+            </Button>
+            <Button>구독하기</Button>
           </ButtonArea>
         </PostBox>
       ))}
