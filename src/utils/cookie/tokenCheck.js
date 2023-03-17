@@ -14,6 +14,7 @@ function TokenCheck() {
 
   useEffect(() => {
     if (!isLoginPage && !isJoinPage && !getToken) {
+      localStorage.removeItem("userInfo");
       alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요");
       navigate("/");
     }

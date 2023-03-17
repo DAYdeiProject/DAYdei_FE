@@ -18,29 +18,25 @@ function IntroPage() {
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   //const isLogin = useSelector((state) => state.users.isLogin);
-  const [userInfo, setUserInfo] = useState();
-
-  useEffect(() => {
-    if (userInfo) {
-      alert("로그인 성공!");
-      navigate(`/${userInfo.userId}`);
-      // window.location.reload();
-    }
-  }, [userInfo]);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
-
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
+    if (storedUserInfo !== null) {
+      const parsedUserInfo = JSON.parse(storedUserInfo);
+      alert("이미 로그인하셨습니다!");
+      navigate(`/${parsedUserInfo.userId}`);
     }
   }, []);
 
   const loginHandler = () => {
     if (email !== "" && password !== "") {
       const loginUser = { email, password };
-      dispatch(__loginUser(loginUser));
-      reset();
+      dispatch(__loginUser(loginUser)).then((data) => {
+        if (data.payload.data.statusCode === 200) {
+          alert("로그인 성공!");
+          navigate(`/${data.payload.data.data.userId}`);
+        }
+      });
     } else {
       if (isKakao === false) {
         alert("이메일과 비밀번호를 입력해 주세요!");
