@@ -45,7 +45,7 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const nickName = response.data.data.nickName;
 
     // 쿠키 시간 설정
-    const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
     Cookies.set("accessJWTToken", Token, { expires: expiryDate });
 
     //userInfo
