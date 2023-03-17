@@ -28,6 +28,8 @@ function Header(props) {
     }
   }, []);
 
+  const logoutHandler = () => {};
+
   return (
     <HeaderWrapper>
       <LogoContainer>
@@ -52,10 +54,10 @@ function Header(props) {
           <IconWrapper>
             <AiOutlineSetting size={31} />
           </IconWrapper>
-          <IconWrapper>
+          <IconWrapper ref={DropdownRef}>
             <Image onClick={handleDropdown} />
             {isDropdownOpen && (
-              <DropdownFrame ref={DropdownRef}>
+              <DropdownFrame>
                 <ContentWrapper>
                   <ShortProfile>
                     <PhotoWrap>
@@ -68,7 +70,7 @@ function Header(props) {
                   </ShortProfile>
                   <Buttons>
                     <Button>프로필 수정</Button>
-                    <Button>로그아웃</Button>
+                    <Button onClick={logoutHandler}>로그아웃</Button>
                   </Buttons>
                 </ContentWrapper>
               </DropdownFrame>
