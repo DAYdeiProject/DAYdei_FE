@@ -1,7 +1,8 @@
-import { React, useState } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { BiBell } from "react-icons/bi";
 import { AiOutlineSetting } from "react-icons/ai";
+import useOutSideClick from "../hooks/useOutsideClick";
 
 function Header(props) {
   const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers } = props;
@@ -10,6 +11,22 @@ function Header(props) {
   const handleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const handleDropdownClose = () => {
+    setIsDropdownOpen(false);
+  };
+
+  const DropdownRef = useRef(null);
+  useOutSideClick(DropdownRef, handleDropdownClose);
+
+  const [userInfo, setUserInfo] = useState({ nickName: "", email: "" });
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
 
   return (
     <HeaderWrapper>
@@ -38,15 +55,15 @@ function Header(props) {
           <IconWrapper>
             <Image onClick={handleDropdown} />
             {isDropdownOpen && (
-              <DropdownFrame>
+              <DropdownFrame ref={DropdownRef}>
                 <ContentWrapper>
                   <ShortProfile>
                     <PhotoWrap>
                       <ProfilePhoto />
                     </PhotoWrap>
                     <IntroductionWrap>
-                      <IntroText>이름 : </IntroText>
-                      <IntroText>이메일 : </IntroText>
+                      <IntroText>이름 : {userInfo.nickName} </IntroText>
+                      <IntroText>이메일 : {userInfo.email}</IntroText>
                     </IntroductionWrap>
                   </ShortProfile>
                   <Buttons>
