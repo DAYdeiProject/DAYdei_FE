@@ -43,10 +43,16 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const isLogin = response.data.data.isLogin;
     const categoryList = response.data.data.categoryList;
     const nickName = response.data.data.nickName;
-    Cookies.set("accessJWTToken", Token);
+
+    // 쿠키 시간 설정
+    const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    Cookies.set("accessJWTToken", Token, { expires: expiryDate });
 
     //userInfo
-    const userInfo = response.data.data;
+    const userInfo = {
+      userId: response.data.data.userId,
+      nickName: response.data.data.nickName,
+    };
     api.defaults.headers.common["Authorization"] = Token;
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 

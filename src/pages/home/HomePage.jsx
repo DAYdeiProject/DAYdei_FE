@@ -9,8 +9,19 @@ import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
 import { useSelector } from "react-redux";
+import TokenCheck from "../../utils/cookie/tokenCheck";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  // 토큰 있는지 체크 -> 없을시 로그아웃
+  TokenCheck();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(window.location.pathname, { replace: true });
+  }, [navigate]);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
   const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
