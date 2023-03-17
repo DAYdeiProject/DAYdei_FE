@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
 function UserLists({ finalList }) {
   const [buttonText, setButtonText] = useState("");
@@ -25,11 +26,30 @@ function UserLists({ finalList }) {
     });
   };
 
-  const handleButtonClick = async (user) => {
+  const subscribeHandler = (id) => {
+    dispatch(__addSubscribe(id));
+  };
+
+  const cancelSubscribeHandler = (id) => {
+    dispatch(__cancelSubscribe(id));
+  };
+
+  const handleFriendButtonClick = async (user) => {
     if (user.friendCheck === false && user.isRequestFriend === null) {
       requestHandler(user.id);
-    } else if (user.friendCheck === false && user.isRequestFriend === false) {
+    } else if (
+      (user.friendCheck === false && user.isRequestFriend === false) ||
+      (user.friendCheck === true && user.isRequestFriend === null)
+    ) {
       cancelRequestHandler(user.id);
+    }
+  };
+
+  const handleSubscribeButtonClick = async (user) => {
+    if (user.userSubscribeCheck === false) {
+      subscribeHandler(user.id);
+    } else {
+      cancelSubscribeHandler(user.id);
     }
   };
 
@@ -45,7 +65,7 @@ function UserLists({ finalList }) {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button onClick={() => handleButtonClick(user)}>
+            <Button onClick={() => handleFriendButtonClick(user)}>
               {buttonText[user.id] ||
                 (user.friendCheck === false && user.isRequestFriend === null
                   ? "친구신청"
@@ -57,7 +77,9 @@ function UserLists({ finalList }) {
                   ? "친구 끊기"
                   : null)}
             </Button>
-            <Button>구독하기</Button>
+            <Button onClick={() => handleSubscribeButtonClick(user)}>
+              {user.userSubscribeCheck === false ? "구독하기" : "구독취소"}
+            </Button>
           </ButtonArea>
         </PostBox>
       ))}

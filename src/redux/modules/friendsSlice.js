@@ -33,7 +33,7 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
   try {
     const response = await friendsInstance.post(`/${id}`);
     console.log(response.data);
-    return thunkAPI.fulfillWithValue(response.data.statusCode);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
@@ -89,7 +89,7 @@ export const friendsSlice = createSlice({
       });
 
     builder
-      .addCase(__cancelRequest.fulfilled, (state, action) => {
+      .addCase(__cancelRequest.fulfilled, (state) => {
         state.isError = false;
       })
       .addCase(__cancelRequest.rejected, (state) => {
