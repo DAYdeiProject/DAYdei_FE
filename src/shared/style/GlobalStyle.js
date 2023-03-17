@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
       overflow: overlay;
     }
     ::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
       height: 10px;
     }
     ::-webkit-scrollbar-thumb {

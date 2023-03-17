@@ -18,6 +18,7 @@ const Fs = {
   tag: "18px", // 카테고리 tag
   day: "16px", // 달력 요일  , 버튼 text , 로그인 input text
   smallText: "14px", // 작은글씨
+  xsmallText: "12px", // 더 작은글씨
 };
 
 const FlexRow = css`

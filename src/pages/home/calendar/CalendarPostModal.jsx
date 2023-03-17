@@ -80,8 +80,8 @@ const CalendarPostModalWrapper = styled(motion.div)`
 const PostModalContainer = styled(motion.div)`
   z-index: 999;
   width: 500px;
-  min-height: 600px;
-  padding: 0px 35px;
+  min-height: 670px;
+  padding: 0px 30px;
   background-color: white;
   border-radius: 20px;
 `;
