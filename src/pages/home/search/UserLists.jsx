@@ -1,10 +1,19 @@
 import { React } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { __requestFriend } from "../../../redux/modules/friendsSlice";
 
-function UserLists({ RecommendList }) {
+function UserLists({ finalList }) {
+  const dispatch = useDispatch();
+  const friendsHandler = (id) => {
+    dispatch(__requestFriend(id));
+  };
+
+  const statusCode = useSelector((state) => state.friends.statusCode);
+
   return (
     <>
-      {RecommendList.map((user) => (
+      {finalList.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea>
             <ProfilePhoto></ProfilePhoto>
@@ -14,7 +23,7 @@ function UserLists({ RecommendList }) {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button>{user.friendCheck === false ? "친구 신청" : "친구 삭제"}</Button>
+            <Button onClick={() => friendsHandler(user.id)}>{user.friendCheck === false ? "친구 신청" : "신청됨"}</Button>
             <Button>{user.userSubscribeCheck === false ? "구독 신청" : "구독 취소"}</Button>
           </ButtonArea>
         </PostBox>

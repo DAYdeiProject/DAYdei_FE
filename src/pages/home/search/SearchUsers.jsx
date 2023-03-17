@@ -4,18 +4,43 @@ import { CalendarWrapper } from "../calendar/CalendarMain";
 import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
 import { useSelector, useDispatch } from "react-redux";
-import { __getRecommend } from "../../../redux/modules/friendsSlice";
+import { __getRecommend, __searchUser } from "../../../redux/modules/friendsSlice";
+import _ from "lodash";
 
 function SearchUsers() {
+  const [searchWord, setSearchWord] = useState("");
   const dispatch = useDispatch();
+  const RecommendList = useSelector((state) => state.friends.RecommendList);
+  // console.log(RecommendList);
+  const searchedList = useSelector((state) => state.friends.searchedList);
+  // console.log(searchedList);
+
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
-    const url = "?searchword=&category=";
-    dispatch(__getRecommend(url));
-  }, [dispatch]);
+    let url = "?searchword=&category=";
+    if (searchWord !== "") {
+      url = `?searchword=${searchWord}&category=`;
+      dispatch(__searchUser(url));
+    } else if (selectedCategories.length === 0) {
+      dispatch(__getRecommend(url));
+    }
+  }, [dispatch, searchWord]);
 
-  const RecommendList = useSelector((state) => state.friends.RecommendList);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  useEffect(() => {
+    const throttleSearch = _.throttle(() => {
+      setSearchWord(searchWord);
+    }, 100);
+    throttleSearch();
+    return () => {
+      throttleSearch.cancel();
+    };
+  }, [searchWord]);
+
+  const searchHandler = (e) => {
+    const value = e.target.value;
+    setSearchWord(value);
+  };
 
   const handleCategoryClick = (category) => {
     let categories = [...selectedCategories];
@@ -35,10 +60,28 @@ function SearchUsers() {
       url += `&category=${c}`;
     });
 
-    console.log(url);
+    // console.log(url);
 
     dispatch(__getRecommend(url));
   };
+
+  let list = [];
+  if (selectedCategories.length !== 0) {
+    for (let i = 0; i <= RecommendList.length - 1; i++) {
+      list.push(RecommendList[i]);
+    }
+  }
+
+  if (searchWord !== "") {
+    for (let i = 0; i <= searchedList.length - 1; i++) {
+      if (!list.includes(searchedList[i])) {
+        list.push(searchedList[i]);
+      }
+    }
+  }
+
+  let filteredList = list.filter((obj, index, self) => index === self.findIndex((el) => el.id === obj.id));
+  let finalList = searchWord === "" && selectedCategories.length === 0 ? RecommendList : filteredList;
 
   return (
     <>
@@ -66,11 +109,11 @@ function SearchUsers() {
               </Icon>
             </IconWrapper>
             <SearchBarArea>
-              <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요"></SearchBar>
+              <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요" value={searchWord} onChange={searchHandler}></SearchBar>
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists RecommendList={RecommendList} />
+            <UserLists finalList={finalList} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
