@@ -17,11 +17,12 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
     const token = response.headers.authorization;
     // 토큰 만료 시간
     const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
-    //Cookies.set("accessJWTToken", Token, { expires: expiryDate });
-    Cookies.set("accessJWTToken", token);
-
+    Cookies.set("accessJWTToken", token, { expires: expiryDate });
     // userInfo
-    const userInfo = response.data.data;
+    const userInfo = {
+      userId: response.data.data.userId,
+      nickName: response.data.data.nickName,
+    };
     api.defaults.headers.common["Authorization"] = token;
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
@@ -33,7 +34,6 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
 });
 
 export const __friendsList = createAsyncThunk("login/friends", async (payload, thunkAPI) => {
-  console.log("payload 친구 : ", payload);
   try {
     // 성공 시 토큰 반환 됨
     const response = await api.get(`/api/users/kakao_friends/callback?code=${payload.code}`, {
@@ -41,20 +41,20 @@ export const __friendsList = createAsyncThunk("login/friends", async (payload, t
         Authorization: payload.token,
       },
     });
-    console.log("response 친구: ", response);
 
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
     // 토큰 만료 시간
     const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
-    Cookies.set("accessJWTToken", token);
+    Cookies.set("accessJWTToken", token, { expires: expiryDate });
 
     //userInfo
-    const userInfo = response.data.data;
+    const userInfo = {
+      userId: response.data.data.userId,
+      nickName: response.data.data.nickName,
+    };
     api.defaults.headers.common["Authorization"] = token;
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
-    console.log("친구 localStroage---->", localStorage.getItem("userInfo"));
 
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {

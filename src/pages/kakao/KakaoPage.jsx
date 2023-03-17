@@ -2,8 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { __kakaoLogin, __friendsList } from "../../redux/modules/kakaoSlice";
-import Cookies from "js-cookie";
+import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 
 function KakaoPage() {
   const dispatch = useDispatch();
