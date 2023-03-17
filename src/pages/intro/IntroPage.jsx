@@ -8,6 +8,7 @@ import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
+import Cookies from "js-cookie";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ function IntroPage() {
   const data = useSelector((state) => state.users.data);
 
   useEffect(() => {
-    if (data.statusCode === 200) {
+    if (Cookies.get("accessJWTToken")) {
       alert("로그인 성공!");
       navigate(`/${data.data.userId}`);
       // window.location.reload();
