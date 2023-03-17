@@ -18,15 +18,23 @@ function IntroPage() {
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   //const isLogin = useSelector((state) => state.users.isLogin);
-  const data = useSelector((state) => state.users.data);
+  const [userInfo, setUserInfo] = useState();
 
   useEffect(() => {
-    if (Cookies.get("accessJWTToken")) {
+    if (userInfo) {
       alert("로그인 성공!");
-      navigate(`/${data.data.userId}`);
+      navigate(`/${userInfo.userId}`);
       // window.location.reload();
     }
-  }, [data]);
+  }, [userInfo]);
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
 
   const loginHandler = () => {
     if (email !== "" && password !== "") {

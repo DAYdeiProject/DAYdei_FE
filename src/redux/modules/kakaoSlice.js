@@ -16,7 +16,7 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
     // 토큰 만료 시간
-    const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
     Cookies.set("accessJWTToken", token, { expires: expiryDate });
     // userInfo
     const userInfo = {
@@ -45,7 +45,7 @@ export const __friendsList = createAsyncThunk("login/friends", async (payload, t
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
     // 토큰 만료 시간
-    const expiryDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
     Cookies.set("accessJWTToken", token, { expires: expiryDate });
 
     //userInfo
