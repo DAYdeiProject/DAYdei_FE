@@ -4,17 +4,28 @@ import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 
 function UserLists({ finalList }) {
+  const [buttonText, setButtonText] = useState("");
   const dispatch = useDispatch();
 
   const requestHandler = (id) => {
-    dispatch(__requestFriend(id));
+    dispatch(__requestFriend(id)).then(() => {
+      setButtonText((prevState) => ({
+        ...prevState,
+        [id]: "친구신청 취소",
+      }));
+    });
   };
 
   const cancelRequestHandler = (id) => {
-    dispatch(__cancelRequest(id));
+    dispatch(__cancelRequest(id)).then(() => {
+      setButtonText((prevState) => ({
+        ...prevState,
+        [id]: "친구신청",
+      }));
+    });
   };
 
-  const handleButtonClick = (user) => {
+  const handleButtonClick = async (user) => {
     if (user.friendCheck === false && user.isRequestFriend === null) {
       requestHandler(user.id);
     } else if (user.friendCheck === false && user.isRequestFriend === false) {
@@ -35,15 +46,16 @@ function UserLists({ finalList }) {
           </ProfileArea>
           <ButtonArea>
             <Button onClick={() => handleButtonClick(user)}>
-              {user.friendCheck === false && user.isRequestFriend === null
-                ? "친구신청"
-                : user.friendCheck === false && user.isRequestFriend === false
-                ? "친구신청 취소"
-                : user.friendCheck === false && user.isRequestFriend === true
-                ? "신청 승인"
-                : user.friendCheck === true && user.isRequestFriend === null
-                ? "친구 끊기"
-                : null}
+              {buttonText[user.id] ||
+                (user.friendCheck === false && user.isRequestFriend === null
+                  ? "친구신청"
+                  : user.friendCheck === false && user.isRequestFriend === false
+                  ? "친구신청 취소"
+                  : user.friendCheck === false && user.isRequestFriend === true
+                  ? "신청 승인"
+                  : user.friendCheck === true && user.isRequestFriend === null
+                  ? "친구 끊기"
+                  : null)}
             </Button>
             <Button>구독하기</Button>
           </ButtonArea>
@@ -106,6 +118,9 @@ const Button = styled.button`
   height: 30%;
   width: 100px;
   border-radius: 4px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export default UserLists;

@@ -32,7 +32,7 @@ export const __searchUser = createAsyncThunk("searchUser", async (url, thunkAPI)
 export const __requestFriend = createAsyncThunk("requestFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.post(`/${id}`);
-    // console.log(response.data);
+    console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     console.log(error);
