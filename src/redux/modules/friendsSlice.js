@@ -11,7 +11,7 @@ const initialState = {
 export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/recommend/${url}`);
-    // console.log(response);
+    console.log("slice getrecommend -------> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -69,8 +69,9 @@ export const friendsSlice = createSlice({
       });
 
     builder
-      .addCase(__cancelRequest.fulfilled, (state) => {
+      .addCase(__cancelRequest.fulfilled, (state, action) => {
         state.isError = false;
+        state.statusCode = action.payload;
       })
       .addCase(__cancelRequest.rejected, (state) => {
         state.isError = true;

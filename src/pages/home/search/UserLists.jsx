@@ -6,14 +6,15 @@ import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscr
 
 function UserLists({ searchWord, selectedCategories }) {
   const [buttonText, setButtonText] = useState("");
+  const [subscribeButtontext, setSubscribeButtonText] = useState("");
   const RecommendList = useSelector((state) => state.friends.RecommendList);
-  console.log(RecommendList);
+  const statusCodeFriend = useSelector((state) => state.friends.statusCode);
+  const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     let url = "?searchword=";
-
     if (searchWord === "" && selectedCategories.length === 0) {
       url = "?searchword=&category=";
       dispatch(__getRecommend(url));
@@ -30,19 +31,17 @@ function UserLists({ searchWord, selectedCategories }) {
       selectedCategories.forEach((c) => {
         url += `&category=${c}`;
       });
-
       dispatch(__getRecommend(url));
     }
-  }, [selectedCategories, searchWord]);
+  }, [selectedCategories, searchWord, dispatch, statusCodeFriend, statusCodeSubscribe]);
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
-    setButtonText("친구신청 취소");
+    console.log("친구 신청 함~~~");
   };
 
   const cancelRequestHandler = (id) => {
     dispatch(__cancelRequest(id));
-    setButtonText("친구신청");
   };
 
   const subscribeHandler = (id) => {
@@ -82,6 +81,8 @@ function UserLists({ searchWord, selectedCategories }) {
       ) {
         setButtonText("친구신청 취소");
       }
+
+      user.userSubscribeCheck === false ? setSubscribeButtonText("구독하기") : setSubscribeButtonText("구독취소");
     });
   }, [RecommendList]);
 
