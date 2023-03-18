@@ -4,6 +4,7 @@ import { api } from "../../utils/api/axios";
 const initialState = {
   data: [],
   total: [],
+  today: [],
   isError: false,
   isLoading: false,
 };
@@ -53,13 +54,27 @@ export const __getOtherUser = createAsyncThunk("getOtherUser", async (payload, t
 // 메인 캘린더 전체 일정 get
 export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload, thunkAPI) => {
   try {
-    //console.log(payload);
     const response = await api.get(`/api/home/posts/${payload.userId}`, {
       headers: {
         Authorization: payload.token,
       },
     });
     //console.log("response : ", response.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// sidebar 오늘의 일정 get
+export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/home/today`, {
+      headers: {
+        Authorization: payload,
+      },
+    });
+    console.log("response today: ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -120,6 +135,19 @@ export const calendarSlice = createSlice({
         state.total = action.payload;
       })
       .addCase(__getTotalPosts.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__getTodaySchedule.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getTodaySchedule.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.today = action.payload;
+      })
+      .addCase(__getTodaySchedule.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

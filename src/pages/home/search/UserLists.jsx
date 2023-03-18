@@ -7,13 +7,12 @@ import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscr
 function UserLists({ searchWord, selectedCategories }) {
   const [buttonText, setButtonText] = useState("");
   const RecommendList = useSelector((state) => state.friends.RecommendList);
-  console.log(RecommendList);
+  const statusCode = useSelector((state) => state.friends.statusCode);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     let url = "?searchword=";
-
     if (searchWord === "" && selectedCategories.length === 0) {
       url = "?searchword=&category=";
       dispatch(__getRecommend(url));
@@ -30,14 +29,13 @@ function UserLists({ searchWord, selectedCategories }) {
       selectedCategories.forEach((c) => {
         url += `&category=${c}`;
       });
-
       dispatch(__getRecommend(url));
     }
-  }, [selectedCategories, searchWord, buttonText]);
+  }, [selectedCategories, searchWord, dispatch, statusCode]);
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
-    setButtonText("친구신청 취소");
+    console.log("친구 신청 함~~~");
   };
 
   const cancelRequestHandler = (id) => {
