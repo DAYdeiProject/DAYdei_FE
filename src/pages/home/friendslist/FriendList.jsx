@@ -1,29 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-function FriendList() {
-  const data = [
-    {
-      nickName: "user1",
-      introduction: "안녕하세요 user1입니다!",
-      profileImage: null,
-      friendCheck: true,
-    },
-    {
-      nickName: "user2",
-      introduction: "반갑습니다, 좋은 하루입니다.",
-      profileImage: null,
-      friendCheck: true,
-    },
-    {
-      nickName: "user3",
-      introduction: "배고프다.",
-      profileImage: null,
-      friendCheck: true,
-    },
-  ];
-
-  if (data.length === 0) {
+function FriendList({ friendsList }) {
+  console.log(friendsList);
+  if (friendsList.length === 0) {
     return (
       <NoListMessage>
         There's no friend in the list
@@ -34,17 +14,17 @@ function FriendList() {
 
   return (
     <>
-      {data.map((user) => (
-        <PostBox>
+      {friendsList.map((user) => (
+        <PostBox key={user.id}>
           <ProfileArea>
             <ProfilePhoto></ProfilePhoto>
             <TextArea>
               <div>닉네임 : {user.nickName} </div>
-              <div>한줄 소개 : {user.introduction} </div>
+              <div>이메일 : {user.email} </div>
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button>{user.friendCheck === true ? "친구 취소" : "친구 신청"}</Button>
+            <Button>{user.friendCheck === true ? "친구 끊기" : "친구 신청"}</Button>
           </ButtonArea>
         </PostBox>
       ))}
