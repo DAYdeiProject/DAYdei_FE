@@ -1,15 +1,57 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __requestFriend } from "../../../redux/modules/friendsSlice";
+import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
 function UserLists({ finalList }) {
+  const [buttonText, setButtonText] = useState("");
   const dispatch = useDispatch();
-  const friendsHandler = (id) => {
-    dispatch(__requestFriend(id));
+
+  const requestHandler = (id) => {
+    dispatch(__requestFriend(id)).then(() => {
+      setButtonText((prevState) => ({
+        ...prevState,
+        [id]: "친구신청 취소",
+      }));
+    });
   };
 
-  const statusCode = useSelector((state) => state.friends.statusCode);
+  const cancelRequestHandler = (id) => {
+    dispatch(__cancelRequest(id)).then(() => {
+      setButtonText((prevState) => ({
+        ...prevState,
+        [id]: "친구신청",
+      }));
+    });
+  };
+
+  const subscribeHandler = (id) => {
+    dispatch(__addSubscribe(id));
+  };
+
+  const cancelSubscribeHandler = (id) => {
+    dispatch(__cancelSubscribe(id));
+  };
+
+  const handleFriendButtonClick = async (user) => {
+    if (user.friendCheck === false && user.isRequestFriend === null) {
+      requestHandler(user.id);
+    } else if (
+      (user.friendCheck === false && user.isRequestFriend === false) ||
+      (user.friendCheck === true && user.isRequestFriend === null)
+    ) {
+      cancelRequestHandler(user.id);
+    }
+  };
+
+  const handleSubscribeButtonClick = async (user) => {
+    if (user.userSubscribeCheck === false) {
+      subscribeHandler(user.id);
+    } else {
+      cancelSubscribeHandler(user.id);
+    }
+  };
 
   return (
     <>
@@ -23,8 +65,21 @@ function UserLists({ finalList }) {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button onClick={() => friendsHandler(user.id)}>{user.friendCheck === false ? "친구 신청" : "신청됨"}</Button>
-            <Button>{user.userSubscribeCheck === false ? "구독 신청" : "구독 취소"}</Button>
+            <Button onClick={() => handleFriendButtonClick(user)}>
+              {buttonText[user.id] ||
+                (user.friendCheck === false && user.isRequestFriend === null
+                  ? "친구신청"
+                  : user.friendCheck === false && user.isRequestFriend === false
+                  ? "친구신청 취소"
+                  : user.friendCheck === false && user.isRequestFriend === true
+                  ? "신청 승인"
+                  : user.friendCheck === true && user.isRequestFriend === null
+                  ? "친구 끊기"
+                  : null)}
+            </Button>
+            <Button onClick={() => handleSubscribeButtonClick(user)}>
+              {user.userSubscribeCheck === false ? "구독하기" : "구독취소"}
+            </Button>
           </ButtonArea>
         </PostBox>
       ))}
@@ -85,6 +140,9 @@ const Button = styled.button`
   height: 30%;
   width: 100px;
   border-radius: 4px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export default UserLists;
