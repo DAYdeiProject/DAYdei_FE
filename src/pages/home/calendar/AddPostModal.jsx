@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import CalendarPostModal from "./CalendarPostModal";
@@ -11,13 +10,11 @@ import { SlLock } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { __createNewPost, __getTargetList } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import { constrainPoint, ContentContainer } from "@fullcalendar/core/internal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
-import { formatDate } from "@fullcalendar/core";
 
-function AddPostModal({ isOpen, closeModal }) {
+function AddPostModal({ isAddPost, setIsAddPost }) {
   const time = [
     "00:00",
     "01:00",
@@ -86,7 +83,7 @@ function AddPostModal({ isOpen, closeModal }) {
     };
   };
   const handleSearchText = useCallback(
-    debounce((text) => setFindTarget(text), 1000),
+    debounce((text) => setFindTarget(text), 300),
     []
   );
   // useForm watch 이용해서 input 값 가져오기
@@ -166,7 +163,7 @@ function AddPostModal({ isOpen, closeModal }) {
   };
 
   const closeClickHandler = () => {
-    closeModal();
+    setIsAddPost(false);
   };
   const showToggieHandler = (target) => {
     target === "location" ? setIsShowLocation(true) : setIsShowContent(true);
@@ -201,6 +198,10 @@ function AddPostModal({ isOpen, closeModal }) {
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
     console.log(data);
+    // 날짜는 date 형식으로~~~~~
+    // startDate + startTime  | endDate + endTime : yyyy-mm-dd HH:MM:ss
+
+    // 이미지빼고 나머지 정보들은 string 으로 formData 아님!!!!
     const newStart = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
     const newEnd = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + (endDate.getDate() + 1);
     const newPost = new FormData();
@@ -233,7 +234,7 @@ function AddPostModal({ isOpen, closeModal }) {
   const [endDate, setEndDate] = useState(new Date());
 
   return (
-    <CalendarPostModal isOpen={isOpen} isCancle={"취소"} closeModal={closeModal}>
+    <CalendarPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} isCancle={"취소"}>
       <AddPostWrapper onSubmit={handleSubmit(addPost)}>
         <HeaderWrapper>
           <BiX className="closeIncon" onClick={closeClickHandler} />
@@ -620,7 +621,7 @@ const SerchModalContainer = styled.div`
   justify-content: flex-start;
   gap: 10px;
   background-color: #ececec;
-  width: 100%;
+  width: 98%;
   height: 200px;
   padding: 10px 20px;
   border-radius: 10px;

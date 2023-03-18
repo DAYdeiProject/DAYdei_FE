@@ -19,10 +19,12 @@ function Sidebar() {
       setUserInfo(JSON.parse(storedUserInfo));
     }
   }, []);
-  console.log("param : ", param.id);
-  console.log("local", userInfo.userId);
 
-  return <SidebarWrapper>{param === userInfo.userId ? <SidebarMyCalendar nickName={userInfo.nickName} /> : <SidebarOtherCalendar />}</SidebarWrapper>;
+  return (
+    <SidebarWrapper>
+      {param.id === String(userInfo.userId) ? <SidebarMyCalendar nickName={userInfo.nickName} /> : <SidebarOtherCalendar userId={param.id} />}
+    </SidebarWrapper>
+  );
 }
 
 export default Sidebar;
