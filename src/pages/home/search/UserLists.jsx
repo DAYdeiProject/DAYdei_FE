@@ -4,26 +4,45 @@ import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
-function UserLists({ finalList }) {
+function UserLists({ searchWord, selectedCategories }) {
   const [buttonText, setButtonText] = useState("");
+  const RecommendList = useSelector((state) => state.friends.RecommendList);
+  console.log(RecommendList);
+
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    let url = "?searchword=";
+
+    if (searchWord === "" && selectedCategories.length === 0) {
+      url = "?searchword=&category=";
+      dispatch(__getRecommend(url));
+    } else if (searchWord !== "" && selectedCategories.length === 0) {
+      url = `?searchword=${searchWord}&category=`;
+      dispatch(__getRecommend(url));
+    } else if (searchWord === "" && selectedCategories !== 0) {
+      selectedCategories.forEach((c) => {
+        url += `&category=${c}`;
+      });
+      dispatch(__getRecommend(url));
+    } else {
+      url = `?searchword=${searchWord}`;
+      selectedCategories.forEach((c) => {
+        url += `&category=${c}`;
+      });
+
+      dispatch(__getRecommend(url));
+    }
+  }, [selectedCategories, searchWord, buttonText]);
+
   const requestHandler = (id) => {
-    dispatch(__requestFriend(id)).then(() => {
-      setButtonText((prevState) => ({
-        ...prevState,
-        [id]: "친구신청 취소",
-      }));
-    });
+    dispatch(__requestFriend(id));
+    setButtonText("친구신청 취소");
   };
 
   const cancelRequestHandler = (id) => {
-    dispatch(__cancelRequest(id)).then(() => {
-      setButtonText((prevState) => ({
-        ...prevState,
-        [id]: "친구신청",
-      }));
-    });
+    dispatch(__cancelRequest(id));
+    setButtonText("친구신청");
   };
 
   const subscribeHandler = (id) => {
@@ -53,9 +72,22 @@ function UserLists({ finalList }) {
     }
   };
 
+  useEffect(() => {
+    RecommendList.forEach((user) => {
+      if (user.friendCheck === false && user.isRequestFriend === null) {
+        setButtonText("친구신청");
+      } else if (
+        (user.friendCheck === false && user.isRequestFriend === false) ||
+        (user.friendCheck === true && user.isRequestFriend === null)
+      ) {
+        setButtonText("친구신청 취소");
+      }
+    });
+  }, [RecommendList]);
+
   return (
     <>
-      {finalList.map((user) => (
+      {RecommendList.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea>
             <ProfilePhoto></ProfilePhoto>
@@ -66,16 +98,15 @@ function UserLists({ finalList }) {
           </ProfileArea>
           <ButtonArea>
             <Button onClick={() => handleFriendButtonClick(user)}>
-              {buttonText[user.id] ||
-                (user.friendCheck === false && user.isRequestFriend === null
-                  ? "친구신청"
-                  : user.friendCheck === false && user.isRequestFriend === false
-                  ? "친구신청 취소"
-                  : user.friendCheck === false && user.isRequestFriend === true
-                  ? "신청 승인"
-                  : user.friendCheck === true && user.isRequestFriend === null
-                  ? "친구 끊기"
-                  : null)}
+              {user.friendCheck === false && user.isRequestFriend === null
+                ? "친구신청"
+                : user.friendCheck === false && user.isRequestFriend === false
+                ? "친구신청 취소"
+                : user.friendCheck === false && user.isRequestFriend === true
+                ? "신청 승인"
+                : user.friendCheck === true && user.isRequestFriend === null
+                ? "친구 끊기"
+                : null}
             </Button>
             <Button onClick={() => handleSubscribeButtonClick(user)}>
               {user.userSubscribeCheck === false ? "구독하기" : "구독취소"}
