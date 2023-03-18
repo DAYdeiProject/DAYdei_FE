@@ -3,29 +3,13 @@ import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
 import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
-import { useSelector, useDispatch } from "react-redux";
-import { __getRecommend, __searchUser } from "../../../redux/modules/friendsSlice";
+import { useDispatch } from "react-redux";
 import _ from "lodash";
 
 function SearchUsers() {
-  const [searchWord, setSearchWord] = useState("");
   const dispatch = useDispatch();
-  const RecommendList = useSelector((state) => state.friends.RecommendList);
-  // console.log(RecommendList);
-  const searchedList = useSelector((state) => state.friends.searchedList);
-  // console.log(searchedList);
-
+  const [searchWord, setSearchWord] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
-
-  useEffect(() => {
-    let url = "?searchword=&category=";
-    if (searchWord !== "") {
-      url = `?searchword=${searchWord}&category=`;
-      dispatch(__searchUser(url));
-    } else if (selectedCategories.length === 0) {
-      dispatch(__getRecommend(url));
-    }
-  }, [dispatch, searchWord]);
 
   useEffect(() => {
     const throttleSearch = _.throttle(() => {
@@ -50,38 +34,7 @@ function SearchUsers() {
       categories.push(category);
     }
     setSelectedCategories(categories);
-
-    let url = "?searchword=";
-
-    if (categories.length === 0) {
-      url = "?searchword=&category=";
-    }
-    categories.forEach((c) => {
-      url += `&category=${c}`;
-    });
-
-    // console.log(url);
-
-    dispatch(__getRecommend(url));
   };
-
-  let list = [];
-  if (selectedCategories.length !== 0) {
-    for (let i = 0; i <= RecommendList.length - 1; i++) {
-      list.push(RecommendList[i]);
-    }
-  }
-
-  if (searchWord !== "") {
-    for (let i = 0; i <= searchedList.length - 1; i++) {
-      if (!list.includes(searchedList[i])) {
-        list.push(searchedList[i]);
-      }
-    }
-  }
-
-  let filteredList = list.filter((obj, index, self) => index === self.findIndex((el) => el.id === obj.id));
-  let finalList = searchWord === "" && selectedCategories.length === 0 ? RecommendList : filteredList;
 
   return (
     <>
@@ -89,19 +42,27 @@ function SearchUsers() {
         <WholeAreaWrapper>
           <SearchHeader>
             <IconWrapper>
-              <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
+              <Icon
+                onClick={() => handleCategoryClick("sports")}
+                className={selectedCategories.includes("sports") ? "selected" : ""}>
                 스포츠
               </Icon>
-              <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
+              <Icon
+                onClick={() => handleCategoryClick("education")}
+                className={selectedCategories.includes("education") ? "selected" : ""}>
                 교육
               </Icon>
               <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
                 게임
               </Icon>
-              <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
+              <Icon
+                onClick={() => handleCategoryClick("economy")}
+                className={selectedCategories.includes("economy") ? "selected" : ""}>
                 경제
               </Icon>
-              <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
+              <Icon
+                onClick={() => handleCategoryClick("entertainment")}
+                className={selectedCategories.includes("entertainment") ? "selected" : ""}>
                 연예
               </Icon>
               <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
@@ -109,11 +70,15 @@ function SearchUsers() {
               </Icon>
             </IconWrapper>
             <SearchBarArea>
-              <SearchBar type="text" placeholder="닉네임 or 이메일을 입력해 주세요" value={searchWord} onChange={searchHandler}></SearchBar>
+              <SearchBar
+                type="text"
+                placeholder="닉네임 or 이메일을 입력해 주세요"
+                value={searchWord}
+                onChange={searchHandler}></SearchBar>
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists finalList={finalList} />
+            <UserLists searchWord={searchWord} selectedCategories={selectedCategories} dispatch={dispatch} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
@@ -143,7 +108,6 @@ const Icon = styled.button`
   border: 1px solid ${(props) => props.theme.Bg.lightColor};
   background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
   color: ${(props) => (props.className === "selected" ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
-
   :hover {
     cursor: pointer;
   }
