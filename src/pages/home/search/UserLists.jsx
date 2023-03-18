@@ -5,7 +5,9 @@ import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux
 import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
 function UserLists({ searchWord, selectedCategories }) {
+  const [buttonText, setButtonText] = useState("");
   const RecommendList = useSelector((state) => state.friends.RecommendList);
+  console.log(RecommendList);
 
   const dispatch = useDispatch();
 
@@ -31,16 +33,16 @@ function UserLists({ searchWord, selectedCategories }) {
 
       dispatch(__getRecommend(url));
     }
-  }, [dispatch, selectedCategories, searchWord]);
-
-  const [buttonText, setButtonText] = useState("");
+  }, [selectedCategories, searchWord, buttonText]);
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
+    setButtonText("친구신청 취소");
   };
 
   const cancelRequestHandler = (id) => {
     dispatch(__cancelRequest(id));
+    setButtonText("친구신청");
   };
 
   const subscribeHandler = (id) => {
@@ -69,6 +71,19 @@ function UserLists({ searchWord, selectedCategories }) {
       cancelSubscribeHandler(user.id);
     }
   };
+
+  useEffect(() => {
+    RecommendList.forEach((user) => {
+      if (user.friendCheck === false && user.isRequestFriend === null) {
+        setButtonText("친구신청");
+      } else if (
+        (user.friendCheck === false && user.isRequestFriend === false) ||
+        (user.friendCheck === true && user.isRequestFriend === null)
+      ) {
+        setButtonText("친구신청 취소");
+      }
+    });
+  }, [RecommendList]);
 
   return (
     <>
