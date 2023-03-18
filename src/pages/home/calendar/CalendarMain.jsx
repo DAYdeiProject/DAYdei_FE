@@ -13,14 +13,32 @@ import Cookies from "js-cookie";
 function CalendarMain() {
   // 일정 추가 모달창 state
   const [isAddPost, setIsAddPost] = useState(false);
+  const [newData, setNewData] = useState("");
   const dispatch = useDispatch();
   const param = useParams();
   const token = Cookies.get("accessJWTToken");
-  //const { data, isLoding } = useSelector();
+
+  const { total, isLoding } = useSelector((state) => {
+    return state.calendar;
+  });
 
   useEffect(() => {
     dispatch(__getTotalPosts({ userId: param.id, token }));
   }, []);
+
+  useEffect(() => {
+    if (total && total.length !== 0) {
+      const result = total.map((data) => ({
+        id: data.id,
+        title: data.title,
+        start: data.startDate,
+        end: data.endDate,
+        color: data.color,
+        text: "black",
+      }));
+      setNewData(result);
+    }
+  }, [total]);
 
   // 일정추가 버튼 클릭 -> 모달창 여부
   const addButtonClick = () => {
@@ -47,18 +65,9 @@ function CalendarMain() {
         dayMaxEventRows: 4,
       },
     },
-    events: [
-      {
-        id: "1",
-        title: "Event 1",
-        start: "2023-03-15",
-        end: "2023-03-18",
-        color: "lightpink",
-        textColor: "black",
-      },
-    ],
+    events: newData,
   };
-
+  if (isLoding) <div>로딩중...</div>;
   return (
     <CalendarWrapper>
       <FullCalendar
@@ -71,7 +80,6 @@ function CalendarMain() {
         moreLinkText="더보기"
       />
       <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} />
-      {/* {this.state.isOpenModal && <AddPostModal isOpen={this.state.isOpenModal} closeModal={this.handleCloseModal} />} */}
     </CalendarWrapper>
   );
 }

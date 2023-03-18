@@ -3,6 +3,7 @@ import { api } from "../../utils/api/axios";
 
 const initialState = {
   data: [],
+  total: [],
   isError: false,
   isLoading: false,
 };
@@ -52,13 +53,13 @@ export const __getOtherUser = createAsyncThunk("getOtherUser", async (payload, t
 // 메인 캘린더 전체 일정 get
 export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload, thunkAPI) => {
   try {
-    console.log(payload);
+    //console.log(payload);
     const response = await api.get(`/api/home/posts/${payload.userId}`, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("response : ", response.data);
+    //console.log("response : ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -116,7 +117,7 @@ export const calendarSlice = createSlice({
       .addCase(__getTotalPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.data = action.payload;
+        state.total = action.payload;
       })
       .addCase(__getTotalPosts.rejected, (state) => {
         state.isLoading = false;
