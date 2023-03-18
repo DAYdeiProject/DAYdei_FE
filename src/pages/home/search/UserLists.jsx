@@ -33,7 +33,7 @@ function UserLists({ searchWord, selectedCategories }) {
 
       dispatch(__getRecommend(url));
     }
-  }, [selectedCategories, searchWord, buttonText]);
+  }, [selectedCategories, searchWord]);
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
