@@ -9,9 +9,10 @@ const initialState = {
   isLoading: false,
 };
 
+// 일정 추가시 태그할 친구 get
 export const __getTargetList = createAsyncThunk("getTargetList", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/friends/find/${payload.target}`, {
+    const response = await api.get(`/api/tags/find/${payload.target}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -22,15 +23,15 @@ export const __getTargetList = createAsyncThunk("getTargetList", async (payload,
   }
 });
 
+// 일정 추가
 export const __createNewPost = createAsyncThunk("createNewPost", async (payload, thunkAPI) => {
-  console.log("create slice payload : ", payload);
   try {
     const response = await api.post(`/api/posts`, payload.newPost, {
       headers: {
         Authorization: payload.token,
-        "Content-Type": "multipart/form-data",
       },
     });
+    console.log("포스트 성공===", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

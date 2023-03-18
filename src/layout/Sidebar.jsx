@@ -22,7 +22,11 @@ function Sidebar() {
 
   return (
     <SidebarWrapper>
-      {param.id === String(userInfo.userId) ? <SidebarMyCalendar nickName={userInfo.nickName} /> : <SidebarOtherCalendar userId={param.id} />}
+      {param.id === String(userInfo.userId) ? (
+        <SidebarMyCalendar nickName={userInfo.nickName} />
+      ) : (
+        <SidebarOtherCalendar userId={param.id} />
+      )}
     </SidebarWrapper>
   );
 }
@@ -33,5 +37,5 @@ const SidebarWrapper = styled.div`
   background-color: ${(props) => props.theme.Bg.lightColor};
   min-width: 350px;
   height: 100%;
-  padding: 52px 34px;
+  padding: 40px 34px;
 `;

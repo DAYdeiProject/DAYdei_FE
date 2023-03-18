@@ -17,6 +17,7 @@ function CalendarMain() {
   const dispatch = useDispatch();
   const param = useParams();
   const token = Cookies.get("accessJWTToken");
+  const [color, setColor] = useState("");
 
   const { total, isLoding } = useSelector((state) => {
     return state.calendar;
@@ -24,18 +25,35 @@ function CalendarMain() {
 
   useEffect(() => {
     dispatch(__getTotalPosts({ userId: param.id, token }));
-  }, []);
+  }, [isAddPost]);
 
   useEffect(() => {
     if (total && total.length !== 0) {
-      const result = total.map((data) => ({
-        id: data.id,
-        title: data.title,
-        start: data.startDate,
-        end: data.endDate,
-        color: data.color,
-        text: "black",
-      }));
+      const result = total.map((data) => {
+        let color = "";
+        if (data.color === "RED") {
+          color = "#EC899F";
+        } else if (data.color === "ORANGE") {
+          color = "#EB8E54";
+        } else if (data.color === "YELLOW") {
+          color = "#FCE0A4";
+        } else if (data.color === "GREEN") {
+          color = "#94DD8E";
+        } else if (data.color === "BLUE") {
+          color = "#95DFFF";
+        } else if (data.color === "NAVY") {
+          color = "#4C7EA0";
+        } else {
+          color = "#9747FF";
+        }
+        return {
+          id: data.id,
+          title: data.title,
+          start: data.startDate,
+          end: data.endDate,
+          color: color,
+        };
+      });
       setNewData(result);
     }
   }, [total]);

@@ -105,23 +105,6 @@ export default function SidebarMyCalendar({ nickName }) {
               </TodayLocation>
             </TodayBox>
           </TodayScheduleBox>
-
-          <TodayScheduleBox>
-            <TimeBox>
-              <span>10:00</span>
-              <span>오전</span>
-            </TimeBox>
-            <TodayBox>
-              <TodayTitle>
-                <ColorIcon color={"#bd7a7a"}></ColorIcon>
-                <span>4조 조별 모임</span>
-              </TodayTitle>
-              <TodayLocation>
-                <BsGeoAlt size={13} />
-                <span>서울 마포구 합정동</span>
-              </TodayLocation>
-            </TodayBox>
-          </TodayScheduleBox>
         </TodayScheduleWrapper>
       </TodayScheduleContainer>
 
@@ -130,18 +113,74 @@ export default function SidebarMyCalendar({ nickName }) {
         <FriendsWrapper>
           <FriendsListBox>
             <ListBox>
-              <img src=""></img>
-              <div>
-                <span></span>
-                <span></span>
-              </div>
+              <ImgBox>
+                <img src=""></img>
+              </ImgBox>
+              <InfoBox>
+                <span>닉네임</span>
+                <span>자기소개 한줄</span>
+              </InfoBox>
+              <button>캘린더</button>
+            </ListBox>
+
+            <ListBox>
+              <ImgBox>
+                <img src=""></img>
+              </ImgBox>
+              <InfoBox>
+                <span>닉네임</span>
+                <span>자기소개 한줄</span>
+              </InfoBox>
+              <button>캘린더</button>
+            </ListBox>
+
+            <ListBox>
+              <ImgBox>
+                <img src=""></img>
+              </ImgBox>
+              <InfoBox>
+                <span>닉네임</span>
+                <span>자기소개 한줄</span>
+              </InfoBox>
+              <button>캘린더</button>
+            </ListBox>
+
+            <ListBox>
+              <ImgBox>
+                <img src=""></img>
+              </ImgBox>
+              <InfoBox>
+                <span>닉네임</span>
+                <span>자기소개 한줄</span>
+              </InfoBox>
+              <button>캘린더</button>
+            </ListBox>
+
+            <ListBox>
+              <ImgBox>
+                <img src=""></img>
+              </ImgBox>
+              <InfoBox>
+                <span>닉네임</span>
+                <span>자기소개 한줄</span>
+              </InfoBox>
+              <button>캘린더</button>
+            </ListBox>
+
+            <ListBox>
+              <ImgBox>
+                <img src=""></img>
+              </ImgBox>
+              <InfoBox>
+                <span>닉네임</span>
+                <span>자기소개 한줄</span>
+              </InfoBox>
               <button>캘린더</button>
             </ListBox>
           </FriendsListBox>
         </FriendsWrapper>
       </FriendsListContainer>
-
-      <button onClick={friendKakao}>카톡 친구 추가</button>
+      {/* <button onClick={friendKakao}>카톡 친구 추가</button> */}
     </>
   );
 }
@@ -195,6 +234,7 @@ const TimeBox = styled.div`
   }
   span:nth-child(2) {
     font-size: ${(props) => props.theme.Fs.smallText};
+    color: ${(props) => props.theme.Bg.deepColor};
   }
 `;
 const TodayBox = styled.div`
@@ -214,6 +254,7 @@ const TodayTitle = styled.div`
 const TodayLocation = styled(TodayTitle)`
   span {
     font-size: ${(props) => props.theme.Fs.smallText};
+    color: ${(props) => props.theme.Bg.deepColor};
   }
 `;
 
@@ -225,8 +266,45 @@ const ColorIcon = styled.div`
 `;
 
 const FriendsWrapper = styled(TodayScheduleWrapper)``;
-const FriendsListContainer = styled.div`
-  ${(props) => props.theme.FlexCol};
+const FriendsListContainer = styled(TodayScheduleContainer)`
+  border: none;
 `;
-const FriendsListBox = styled(TodayScheduleBox)``;
-const ListBox = styled(TimeBox)``;
+const FriendsListBox = styled.div`
+  ${(props) => props.theme.FlexCol};
+  gap: 15px;
+`;
+const ListBox = styled(TodayScheduleBox)`
+  ${(props) => props.theme.FlexRow};
+  gap: 8px;
+  height: 60px;
+  padding: 0 5px;
+  span {
+    font-size: ${(props) => props.theme.Fs.tag};
+  }
+  span:nth-child(2) {
+    font-size: ${(props) => props.theme.Fs.smallText};
+    color: ${(props) => props.theme.Bg.deepColor};
+  }
+  button {
+    width: 60px;
+    height: 60%;
+    border: 1px solid ${(props) => props.theme.Bg.borderColor};
+    border-radius: 8px;
+    background-color: white;
+  }
+`;
+
+const ImgBox = styled.div`
+  background-color: #9b9b4b;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 5px;
+`;
+
+const InfoBox = styled.div`
+  ${(props) => props.theme.FlexCol};
+  align-items: flex-start;
+  width: 50%;
+  gap: 8px;
+`;
