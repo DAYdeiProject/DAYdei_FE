@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function CalendarPostModal({ children, ...props }) {
   const outside = useRef();
-  // 일정 추가버튼 클릭시 true/false
-  const [isVisible, setIsVisible] = useState(props.isOpen);
 
   const backdropVariants = {
     visible: { opacity: 1 },
@@ -21,25 +19,19 @@ function CalendarPostModal({ children, ...props }) {
   };
 
   useEffect(() => {
-    if (isVisible === false) {
+    if (props.isAddPost === false) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [isVisible]);
+  }, [props.isAddPost]);
 
   useEffect(() => {
     const outsideClick = (e) => {
       if (!outside.current || !outside.current.contains(e.target)) {
-        setIsVisible(false);
-        setTimeout(() => {
-          props.closeModal();
-        }, 300);
+        props.setIsAddPost(false);
       } else if (props.isCancle === e.target.innerHTML) {
-        setIsVisible(false);
-        setTimeout(() => {
-          props.closeModal();
-        }, 300);
+        props.setIsAddPost(false);
       }
     };
     document.addEventListener("mousedown", outsideClick);
@@ -47,11 +39,11 @@ function CalendarPostModal({ children, ...props }) {
     return () => {
       document.removeEventListener("mousedown", outsideClick);
     };
-  }, [isVisible]);
+  }, [props.isAddPost]);
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {props.isAddPost && (
         <CalendarPostModalWrapper variants={backdropVariants} initial="hidden" animate="visible" exit="hidden">
           <PostModalContainer ref={outside} variants={modalVariants} initial="hidden" animate={"visible"} exit={"exit"}>
             {children}

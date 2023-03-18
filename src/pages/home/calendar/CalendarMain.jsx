@@ -1,144 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import styled from "styled-components";
 import interactionPlugin from "@fullcalendar/interaction";
+import styled from "styled-components";
 import AddPostModal from "./AddPostModal";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { __getTotalPosts } from "../../../redux/modules/calendarSlice";
+import Cookies from "js-cookie";
 
-class CalendarMain extends React.Component {
-  // 일정 추가 클릭시 모달창
-  state = {
-    isOpenModal: false,
+function CalendarMain() {
+  // 일정 추가 모달창 state
+  const [isAddPost, setIsAddPost] = useState(false);
+  const dispatch = useDispatch();
+  const param = useParams();
+  const token = Cookies.get("accessJWTToken");
+  //const { data, isLoding } = useSelector();
+
+  useEffect(() => {
+    dispatch(__getTotalPosts({ userId: param.id, token }));
+  }, []);
+
+  // 일정추가 버튼 클릭 -> 모달창 여부
+  const addButtonClick = () => {
+    showAddpostModal();
+  };
+  const showAddpostModal = () => {
+    setIsAddPost(true);
   };
 
-  // 모달창 열기
-  handleOpenModal = () => {
-    this.setState({ isOpenModal: true });
-  };
-  // 모달창 닫기
-  handleCloseModal = () => {
-    this.setState({ isOpenModal: false });
-  };
-
-  headerToolbar = {
-    left: "today",
-    center: "prev title next",
-    right: "addButton",
-  };
-
-  customButtons = {
-    addButton: {
-      text: "일정 추가",
-      click: this.handleOpenModal,
+  const setting = {
+    headerToolbar: {
+      left: "today",
+      center: "prev title next",
+      right: "addButton",
     },
-  };
-
-  views = {
-    timeGrid: {
-      dayMaxEventRows: 4,
+    customButtons: {
+      addButton: {
+        text: "일정 추가",
+        click: addButtonClick,
+      },
     },
-  };
-
-  // 클릭한 event(일정)
-  handleEventClick = (info) => {
-    console.log("info : ", info.event.title);
+    views: {
+      timeGrid: {
+        dayMaxEventRows: 4,
+      },
+    },
+    events: [
+      {
+        id: "1",
+        title: "Event 1",
+        start: "2023-03-15",
+        end: "2023-03-18",
+        color: "lightpink",
+        textColor: "black",
+      },
+    ],
   };
 
-  // 클릭한 date만
-  handleDateClick = (date) => {
-    console.log("date :", date);
-  };
-
-  // 일정 more 클릭시
-  handleMoreLinkClick = (e) => {
-    alert("ddd");
-    e.preventDefault();
-  };
-
-  events = [
-    {
-      id: "1",
-      title: "Event 1",
-      start: "2023-03-15",
-      end: "2023-03-18",
-      color: "lightpink",
-      textColor: "black",
-    },
-    {
-      id: "2",
-      title: "밥먹기",
-      start: "2023-03-10",
-      end: "2023-03-10",
-      color: "#7e0000",
-    },
-    {
-      id: "3",
-      title: "자기",
-      start: "2023-03-10",
-      end: "2023-03-14",
-      color: "pink",
-    },
-    {
-      id: "4",
-      title: "놀기",
-      start: "2023-03-13",
-      end: "2023-03-15",
-      color: "#056b85",
-    },
-    {
-      id: "5",
-      title: "먹기",
-      start: "2023-03-14",
-      end: "2023-03-16",
-      color: "#96a75b",
-    },
-    {
-      id: "6",
-      title: "여행가기",
-      start: "2023-03-12",
-      end: "2023-03-16",
-      color: "#9992c4",
-    },
-    {
-      id: "7",
-      title: "까꿍",
-      start: "2023-03-12",
-      end: "2023-03-16",
-      color: "#69a9ac",
-    },
-    {
-      id: "8",
-      title: "까꿍",
-      start: "2023-03-13",
-      end: "2023-03-18",
-      color: "#b16666",
-      allDay: true,
-    },
-  ];
-
-  render() {
-    //console.log(this.state.isOpenModal);
-    return (
-      <CalendarWrapper>
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          locale="ko"
-          headerToolbar={this.headerToolbar}
-          customButtons={this.customButtons}
-          dayMaxEventRows={true}
-          views={this.views}
-          initialView="dayGridMonth"
-          defaultAllDay={true}
-          events={this.events}
-          eventClick={this.handleEventClick}
-          dateClick={this.handleDateClick}
-          moreLinkClick={this.handleMoreLinkClick}
-          moreLinkText="더보기"
-        />
-        {this.state.isOpenModal && <AddPostModal isOpen={this.state.isOpenModal} closeModal={this.handleCloseModal} />}
-      </CalendarWrapper>
-    );
-  }
+  return (
+    <CalendarWrapper>
+      <FullCalendar
+        {...setting}
+        plugins={[dayGridPlugin, interactionPlugin]}
+        locale="ko"
+        dayMaxEventRows={true}
+        initialView="dayGridMonth"
+        defaultAllDay={true}
+        moreLinkText="더보기"
+      />
+      <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} />
+      {/* {this.state.isOpenModal && <AddPostModal isOpen={this.state.isOpenModal} closeModal={this.handleCloseModal} />} */}
+    </CalendarWrapper>
+  );
 }
 
 export default CalendarMain;
@@ -246,3 +181,80 @@ export const CalendarWrapper = styled.div`
     font-size: ${(props) => props.theme.Fs.smallText};
   }
 `;
+
+// // 클릭한 event(일정)
+//   handleEventClick = (info) => {
+//     console.log("info : ", info.event.title);
+//   };
+
+//   // 클릭한 date만
+//   handleDateClick = (date) => {
+//     console.log("date :", date);
+//   };
+
+//   // 일정 more 클릭시
+//   handleMoreLinkClick = (e) => {
+//     alert("ddd");
+//     e.preventDefault();
+//   };
+
+// events: [
+//   {
+//     id: "1",
+//     title: "Event 1",
+//     start: "2023-03-15",
+//     end: "2023-03-18",
+//     color: "lightpink",
+//     textColor: "black",
+//   },
+//   {
+//     id: "2",
+//     title: "밥먹기",
+//     start: "2023-03-10",
+//     end: "2023-03-10",
+//     color: "#7e0000",
+//   },
+//   {
+//     id: "3",
+//     title: "자기",
+//     start: "2023-03-10",
+//     end: "2023-03-14",
+//     color: "pink",
+//   },
+//   {
+//     id: "4",
+//     title: "놀기",
+//     start: "2023-03-13",
+//     end: "2023-03-15",
+//     color: "#056b85",
+//   },
+//   {
+//     id: "5",
+//     title: "먹기",
+//     start: "2023-03-14",
+//     end: "2023-03-16",
+//     color: "#96a75b",
+//   },
+//   {
+//     id: "6",
+//     title: "여행가기",
+//     start: "2023-03-12",
+//     end: "2023-03-16",
+//     color: "#9992c4",
+//   },
+//   {
+//     id: "7",
+//     title: "까꿍",
+//     start: "2023-03-12",
+//     end: "2023-03-16",
+//     color: "#69a9ac",
+//   },
+//   {
+//     id: "8",
+//     title: "까꿍",
+//     start: "2023-03-13",
+//     end: "2023-03-18",
+//     color: "#b16666",
+//     allDay: true,
+//   },
+// ],
