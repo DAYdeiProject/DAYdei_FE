@@ -62,9 +62,6 @@ function Header(props) {
           <IconWrapper>
             <BiBell size={31} />
           </IconWrapper>
-          <IconWrapper>
-            <AiOutlineSetting size={31} />
-          </IconWrapper>
           <IconWrapper ref={DropdownRef}>
             <Image onClick={handleDropdown} />
             {isDropdownOpen && (

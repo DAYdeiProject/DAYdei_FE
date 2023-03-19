@@ -4,6 +4,7 @@ import { subscribeInstance } from "../../utils/api/axios";
 const initialState = {
   isLoading: false,
   isError: false,
+  statusCode: 0,
 };
 
 export const __addSubscribe = createAsyncThunk("addSubscribe", async (id, thunkAPI) => {
@@ -43,8 +44,9 @@ export const subscribeSlice = createSlice({
       });
 
     builder
-      .addCase(__cancelSubscribe.fulfilled, (state) => {
+      .addCase(__cancelSubscribe.fulfilled, (state, action) => {
         state.isError = false;
+        state.statusCode = action.payload;
       })
       .addCase(__cancelSubscribe.rejected, (state) => {
         state.isError = true;

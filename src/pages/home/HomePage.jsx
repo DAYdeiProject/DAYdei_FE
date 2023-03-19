@@ -68,7 +68,7 @@ function HomePage() {
       />
       <MainWrapper>
         <Sidebar side={side} movePage={movePage} setMovePage={setMovePage} />
-        {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} />}
+        {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
         {isCalendarMainVisible && <CalendarMain setSide={setSide} movePage={movePage} setMovePage={setMovePage} />}
         {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
         {isSearchUsersListVisible && <SearchUsers />}

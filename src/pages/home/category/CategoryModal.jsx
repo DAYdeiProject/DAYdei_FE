@@ -4,8 +4,10 @@ import ModalWrap from "../../../elements/ModalWrap";
 import Modal from "../../../elements/Modal";
 import { useDispatch } from "react-redux";
 import { __addCategories } from "../../../redux/modules/usersSlice";
+import FriendRecommendModal from "./FriendRecommendModal";
 
-function CategoryModal({ CategoryModalRef }) {
+function CategoryModal({ CategoryModalRef, setIsModalVisible }) {
+  const [showFriendRecommendModal, setShowFriendRecommendModal] = useState(false);
   const Category = ["스포츠", "교육", "연예", "게임", "OTT", "경제"];
 
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -23,41 +25,49 @@ function CategoryModal({ CategoryModalRef }) {
   };
 
   const dispatch = useDispatch();
-  const onClickCategoryHandler = () => {
+  const onClickSubmitHandler = () => {
     if (updatedCategories.length !== 0) {
       dispatch(__addCategories(Categories));
+      // setIsModalVisible(false);
+      setShowFriendRecommendModal(true);
     } else {
       alert("카테고리를 1개 이상 선택해 주세요!");
     }
   };
 
   return (
-    <ModalWrap>
-      <Modal>
-        <div ref={CategoryModalRef}>
-          <ModalContent>
-            <TextWrapper>
-              <TitleText>내 캘린더는 어떤 일정을 공유하나요?</TitleText>
-              <SubText>관심사는 맞춤 설정에 활용됩니다.</SubText>
-            </TextWrapper>
-            <OptionsWrapper>
-              {Category.map((item) => (
-                <CategoryOption key={item} onClick={() => handleCategoryClick(item)}>
-                  <CategoryText isSelected={selectedCategories.includes(item)}>{item}</CategoryText>
-                </CategoryOption>
-              ))}
-            </OptionsWrapper>
-            <ButtonArea>
-              <Button onClick={() => onClickCategoryHandler(Categories)}>다음</Button>
-            </ButtonArea>
-          </ModalContent>
-        </div>
-      </Modal>
-    </ModalWrap>
+    <>
+      {showFriendRecommendModal ? (
+        <FriendRecommendModal setShowFriendRecommendModal={setShowFriendRecommendModal} setIsModalVisible={setIsModalVisible} />
+      ) : (
+        <ModalWrap>
+          <Modal>
+            <div ref={CategoryModalRef}>
+              <ModalContent>
+                <TextWrapper>
+                  <TitleText>내 캘린더는 어떤 일정을 공유하나요?</TitleText>
+                  <SubText>관심사는 맞춤 설정에 활용됩니다.</SubText>
+                </TextWrapper>
+                <OptionsWrapper>
+                  {Category.map((item) => (
+                    <CategoryOption key={item} onClick={() => handleCategoryClick(item)}>
+                      <CategoryText isSelected={selectedCategories.includes(item)}>{item}</CategoryText>
+                    </CategoryOption>
+                  ))}
+                </OptionsWrapper>
+                <ButtonArea>
+                  <Button onClick={onClickSubmitHandler}>다음</Button>
+                </ButtonArea>
+              </ModalContent>
+            </div>
+          </Modal>
+        </ModalWrap>
+      )}
+    </>
   );
 }
 
-const ModalContent = styled.div`
+export const ModalContent = styled.div`
   height: 100%;
   width: 100%;
   display: flex;

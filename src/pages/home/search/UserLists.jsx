@@ -6,8 +6,10 @@ import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscr
 
 function UserLists({ searchWord, selectedCategories }) {
   const [buttonText, setButtonText] = useState("");
+  const [subscribeButtontext, setSubscribeButtonText] = useState("");
   const RecommendList = useSelector((state) => state.friends.RecommendList);
-  const statusCode = useSelector((state) => state.friends.statusCode);
+  const statusCodeFriend = useSelector((state) => state.friends.statusCode);
+  const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   const dispatch = useDispatch();
 
@@ -31,7 +33,7 @@ function UserLists({ searchWord, selectedCategories }) {
       });
       dispatch(__getRecommend(url));
     }
-  }, [selectedCategories, searchWord, dispatch, statusCode]);
+  }, [selectedCategories, searchWord, dispatch, statusCodeFriend, statusCodeSubscribe]);
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
@@ -40,7 +42,6 @@ function UserLists({ searchWord, selectedCategories }) {
 
   const cancelRequestHandler = (id) => {
     dispatch(__cancelRequest(id));
-    setButtonText("친구신청");
   };
 
   const subscribeHandler = (id) => {
@@ -80,6 +81,8 @@ function UserLists({ searchWord, selectedCategories }) {
       ) {
         setButtonText("친구신청 취소");
       }
+
+      user.userSubscribeCheck === false ? setSubscribeButtonText("구독하기") : setSubscribeButtonText("구독취소");
     });
   }, [RecommendList]);
 
