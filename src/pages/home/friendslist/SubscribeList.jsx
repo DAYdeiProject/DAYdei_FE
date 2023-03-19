@@ -2,7 +2,7 @@ import React from "react";
 import { NoListMessage, PostBox, ProfileArea, ProfilePhoto, TextArea, ButtonArea, Button } from "./FriendList";
 
 function SubscribeList({ subscribeList }) {
-  console.log(subscribeList);
+  // console.log(subscribeList);
   if (subscribeList.length === 0) {
     return (
       <NoListMessage>

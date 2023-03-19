@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
@@ -8,17 +8,23 @@ import { __getFriendsList } from "../../../redux/modules/friendsSlice";
 
 function FriendsListMain() {
   const dispatch = useDispatch();
+  const [isFriend, setIsFriend] = useState(true);
+  const [isSubscribed, setIsSubscribed] = useState(true);
 
   useEffect(() => {
     dispatch(__getFriendsList());
-  }, [dispatch]);
+  }, [dispatch, isFriend, isSubscribed]);
+
+  const updateIsFriendState = () => {
+    setIsFriend(false);
+  };
 
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
-  console.log("로딩중 위-->", FriendsList);
+  // console.log("로딩중 위-->", FriendsList);
   if (isLoading) {
     return <div>로딩중...</div>;
   }
-  console.log("로딩아래 -->", FriendsList);
+  // console.log("로딩아래 -->", FriendsList);
   const friendsList = FriendsList?.friendResponseList || [];
   const subscribeList = FriendsList?.userSubscribeResponseList || [];
 
@@ -32,7 +38,7 @@ function FriendsListMain() {
           </ListsHeader>
           <ListsBody>
             <ListFrame>
-              <FriendList friendsList={friendsList} />
+              <FriendList friendsList={friendsList} updateIsFriendState={updateIsFriendState} />
             </ListFrame>
             <ListFrame>
               <SubscribeList subscribeList={subscribeList} />

@@ -1,8 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
 
-function FriendList({ friendsList }) {
-  console.log(friendsList);
+function FriendList({ friendsList, updateIsFriendState }) {
+  const dispatch = useDispatch();
+  // console.log(friendsList);
+
+  const deleteFriendHandler = (id) => {
+    dispatch(__cancelRequest(id));
+    updateIsFriendState();
+    dispatch(__getFriendsList());
+  };
+
   if (friendsList.length === 0) {
     return (
       <NoListMessage>
@@ -24,7 +34,7 @@ function FriendList({ friendsList }) {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button>{user.friendCheck === true ? "친구 끊기" : "친구 신청"}</Button>
+            <Button onClick={() => deleteFriendHandler(user.id)}>{user.friendCheck === true ? "친구 끊기" : "친구 신청"}</Button>
           </ButtonArea>
         </PostBox>
       ))}

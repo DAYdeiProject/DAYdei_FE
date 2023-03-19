@@ -33,7 +33,7 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
 export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.delete(`/${id}`);
-    // console.log(response.data);
+    console.log("삭제요청 성공--->", response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
