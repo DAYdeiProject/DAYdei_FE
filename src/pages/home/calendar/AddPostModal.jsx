@@ -1,11 +1,21 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import CalendarPostModal from "./CalendarPostModal";
 import { BiX } from "react-icons/bi";
-import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage } from "react-icons/bs";
+import {
+  BsClock,
+  BsCalendar4Range,
+  BsPeople,
+  BsGeoAlt,
+  BsChatLeftText,
+  BsSearch,
+  BsChevronDown,
+  BsChevronUp,
+  BsCardImage,
+} from "react-icons/bs";
 import { SlLock } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { __createNewPost, __getTargetList } from "../../../redux/modules/calendarSlice";
@@ -13,8 +23,9 @@ import Cookies from "js-cookie";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
+import { format } from "date-fns";
 
-function AddPostModal({ isAddPost, setIsAddPost }) {
+function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
   const time = [
     "00:00",
     "01:00",
@@ -50,9 +61,12 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
     getValues,
     resetField,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [isAllDay, setIsAllDay] = useState(getValues("allDay"));
   const [color, setColor] = useState("RED");
   const [isColor, setIsColor] = useState("#EC899F");
@@ -70,6 +84,7 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
   const [fileName, setFileName] = useState([]);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
+  const outside = useRef();
 
   // 친구 검색어 입력시 debounce 처리
   // custom debounce
@@ -83,7 +98,7 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
     };
   };
   const handleSearchText = useCallback(
-    debounce((text) => setFindTarget(text), 300),
+    debounce((text) => setFindTarget(text), 500),
     []
   );
   // useForm watch 이용해서 input 값 가져오기
@@ -111,7 +126,7 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
   const targetClick = (data) => {
     if (!targetPick.some((list) => list.id === data.id)) {
       setTargetPick([...targetPick, data]);
-      setTargetPickId([...targetPickId, data.id]);
+      setTargetPickId([...targetPickId, parseInt(data.id)]);
     }
     setTargetToggle(false);
     // useForm 특정필드 초기화
@@ -127,6 +142,16 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
     setTargetPick([...deletdPick]);
     setTargetPickId([...deletdPickId]);
   };
+
+  // 초대 토글 닫기
+  useEffect(() => {
+    const outsideClick = (e) => {
+      if (!outside.current || !outside.current.contains(e.target)) {
+        setTargetToggle(false);
+      }
+    };
+    document.addEventListener("mousedown", outsideClick);
+  }, [targetToggle]);
 
   // 클릭한 이미지 파일 삭제
   const deleteImgFile = (index) => {
@@ -164,6 +189,14 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
 
   const closeClickHandler = () => {
     setIsAddPost(false);
+    // 초기화
+    setIsAllDay(false);
+    setIsColor("#EC899F");
+    setFileName([]);
+    setTargetPick([]);
+    setStartDate(new Date());
+    setEndDate(new Date());
+    reset();
   };
   const showToggieHandler = (target) => {
     target === "location" ? setIsShowLocation(true) : setIsShowContent(true);
@@ -197,44 +230,51 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
 
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
-    console.log(data);
-    // 날짜는 date 형식으로~~~~~
-    // startDate + startTime  | endDate + endTime : yyyy-mm-dd HH:MM:ss
+    const newStart = format(startDate, "yyyy-MM-dd");
+    const newEnd = format(endDate.setDate(endDate.getDate() + 1), "yyyy-MM-dd");
 
-    // 이미지빼고 나머지 정보들은 string 으로 formData 아님!!!!
-    const newStart = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
-    const newEnd = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + (endDate.getDate() + 1);
-    const newPost = new FormData();
-    newPost.append("title", String(data.title));
-    newPost.append("startDate", String(newStart));
-    newPost.append("endDate", String(newEnd));
-    newPost.append("startTime", String(data.startTime));
-    newPost.append("endTime", String(data.endTime));
-    newPost.append("color", String(color));
-    newPost.append("participant", targetPickId);
-    newPost.append("location", String(data.location));
-    newPost.append("content", String(data.content));
-    newPost.append("scope", String(data.scope));
+    // let newStartTime = "";
+    // let newEndTime = "";
+    // if (!data.allDay) {
+    //   newStartTime = data.startTime;
+    //   newEndTime = data.endTime;
+    // }
+
+    const newPost = {
+      title: data.title,
+      startDate: newStart,
+      endDate: newEnd,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      color: color,
+      participant: targetPickId,
+      location: data.location,
+      content: data.content,
+      scope: data.scope,
+      image: [""],
+    };
+
+    console.log("newPost-------------", newPost);
+
     // fileList.map((img) => {
     //   newPost.append("image", img);
     // });
-    newPost.append("image", "");
+    //newPost.append("image", "");
 
     dispatch(__createNewPost({ newPost, token }));
+    setIsAddPost(false);
+    setSide(false);
 
     // for (let num of newPost.keys()) {
     //   console.log("formData key----> : ", num);
     // }
-    for (let num of newPost.values()) {
-      console.log("formData valuse----> : ", num);
-    }
+    // for (let num of newPost.values()) {
+    //   console.log("formData valuse----> : ", num);
+    // }
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-
   return (
-    <CalendarPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} isCancle={"취소"}>
+    <CalendarPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost}>
       <AddPostWrapper onSubmit={handleSubmit(addPost)}>
         <HeaderWrapper>
           <BiX className="closeIncon" onClick={closeClickHandler} />
@@ -253,7 +293,13 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
               <DaysCheckContainer>
                 <StartDateContainer>
                   <span>시작</span>
-                  <CustomDatePicker selected={startDate} onChange={(date) => setStartDate(date)} minDate={new Date()} dateFormat="yyyy-MM-dd" locale={ko} />
+                  <CustomDatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    minDate={new Date()}
+                    dateFormat="yyyy-MM-dd"
+                    locale={ko}
+                  />
                   <select {...register("startTime")} disabled={isAllDay}>
                     {time.map((item, i) => (
                       <option key={i} value={item}>
@@ -265,7 +311,13 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
 
                 <StartDateContainer>
                   <span>종료</span>
-                  <CustomDatePicker selected={endDate} onChange={(date) => setEndDate(date)} minDate={startDate} dateFormat="yyyy-MM-dd" locale={ko} />
+                  <CustomDatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    minDate={startDate}
+                    dateFormat="yyyy-MM-dd"
+                    locale={ko}
+                  />
                   <select {...register("endTime")} disabled={isAllDay}>
                     {time.map((item, i) => (
                       <option key={i} value={item}>
@@ -289,7 +341,13 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
               </TextSpan>
               <ColorBoxContainer>
                 {colorList.map((item, i) => (
-                  <ColorBox key={i} value={item} isClick={item === isColor} {...register("color")} onClick={() => colorClick(item)} />
+                  <ColorBox
+                    key={i}
+                    value={item}
+                    isClick={item === isColor}
+                    {...register("color")}
+                    onClick={() => colorClick(item)}
+                  />
                 ))}
               </ColorBoxContainer>
             </ColorBoxWrapper>
@@ -316,11 +374,14 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
                     <input type="text" {...register("participant")} placeholder="닉네임, 이메일 검색" />
                   </FriendBoxInput>
                 </InviteSearchBox>
-                <SerchModalContainer isShow={targetToggle}>
+                <SerchModalContainer isShow={targetToggle} ref={outside}>
                   {targetList?.map((list) => {
                     const newEmail = list.email.split("@");
                     return (
-                      <TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
+                      <TartgetBox
+                        key={list.id}
+                        value={list.id}
+                        onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
                         <TargetBoxImg>
                           <img src=""></img>
                         </TargetBoxImg>

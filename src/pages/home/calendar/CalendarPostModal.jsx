@@ -14,8 +14,8 @@ function CalendarPostModal({ children, ...props }) {
 
   const modalVariants = {
     visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: "100%", transition: { duration: 0.3 } },
-    exit: { opacity: 0, y: "100%", transition: { duration: 0.3 } }, // 모달 닫힐 때 애니메이션 추가
+    hidden: { opacity: 0, y: "100%", transition: { duration: 0.2 } },
+    exit: { opacity: 0, y: "100%", transition: { duration: 0.2 } }, // 모달 닫힐 때 애니메이션 추가
   };
 
   useEffect(() => {
@@ -26,20 +26,18 @@ function CalendarPostModal({ children, ...props }) {
     }
   }, [props.isAddPost]);
 
-  useEffect(() => {
-    const outsideClick = (e) => {
-      if (!outside.current || !outside.current.contains(e.target)) {
-        props.setIsAddPost(false);
-      } else if (props.isCancle === e.target.innerHTML) {
-        props.setIsAddPost(false);
-      }
-    };
-    document.addEventListener("mousedown", outsideClick);
+  // useEffect(() => {
+  //   const outsideClick = (e) => {
+  //     if (!outside.current || !outside.current.contains(e.target)) {
+  //       props.setIsAddPost(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", outsideClick);
 
-    return () => {
-      document.removeEventListener("mousedown", outsideClick);
-    };
-  }, [props.isAddPost]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", outsideClick);
+  //   };
+  // }, [props.isAddPost]);
 
   return (
     <AnimatePresence>
@@ -66,7 +64,7 @@ const CalendarPostModalWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const PostModalContainer = styled(motion.div)`

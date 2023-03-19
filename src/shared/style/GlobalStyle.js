@@ -49,6 +49,14 @@ export const GlobalStyle = createGlobalStyle`
     -moz-user-drag: none;
     -o-user-drag: none;
 }
+  button {
+    &:focus {
+      outline: none !important;
+      border:none !important;
+      box-shadow: none !important;
+    }
+
+  }
   *:focus {
     outline: none !important;
   }

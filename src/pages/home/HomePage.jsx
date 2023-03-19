@@ -27,6 +27,8 @@ function HomePage() {
   const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
   const categoryList = useSelector((state) => state.users.categoryList);
   const token = useSelector((state) => state.users.token);
+  const [side, setSide] = useState(false);
+  const [movePage, setMovePage] = useState(false);
 
   const handleShowCalendarMain = () => {
     setIsCalendarMainVisible(true);
@@ -65,9 +67,9 @@ function HomePage() {
         handleShowSearchUsers={handleShowSearchUsers}
       />
       <MainWrapper>
-        <Sidebar />
+        <Sidebar side={side} movePage={movePage} setMovePage={setMovePage} />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} />}
-        {isCalendarMainVisible && <CalendarMain />}
+        {isCalendarMainVisible && <CalendarMain setSide={setSide} movePage={movePage} setMovePage={setMovePage} />}
         {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
         {isSearchUsersListVisible && <SearchUsers />}
       </MainWrapper>

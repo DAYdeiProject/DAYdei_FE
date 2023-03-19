@@ -5,13 +5,15 @@ const initialState = {
   data: [],
   total: [],
   today: [],
+  update: [],
   isError: false,
   isLoading: false,
 };
 
+// 일정 추가시 태그할 친구 get
 export const __getTargetList = createAsyncThunk("getTargetList", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/friends/find/${payload.target}`, {
+    const response = await api.get(`/api/tags/find/${payload.target}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -22,15 +24,15 @@ export const __getTargetList = createAsyncThunk("getTargetList", async (payload,
   }
 });
 
+// 일정 추가
 export const __createNewPost = createAsyncThunk("createNewPost", async (payload, thunkAPI) => {
-  console.log("create slice payload : ", payload);
   try {
     const response = await api.post(`/api/posts`, payload.newPost, {
       headers: {
         Authorization: payload.token,
-        "Content-Type": "multipart/form-data",
       },
     });
+    console.log("포스트 성공===", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -75,6 +77,21 @@ export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (pa
       },
     });
     console.log("response today: ", response.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// sidebar 업데이트한 친구목록 get
+export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/friends/friendList`, {
+      headers: {
+        Authorization: payload,
+      },
+    });
+    console.log("response update: ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -148,6 +165,19 @@ export const calendarSlice = createSlice({
         state.today = action.payload;
       })
       .addCase(__getTodaySchedule.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__getTodayUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getTodayUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.update = action.payload;
+      })
+      .addCase(__getTodayUpdate.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
