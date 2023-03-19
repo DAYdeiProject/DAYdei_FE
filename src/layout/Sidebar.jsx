@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import SidebarMyCalendar from "../components/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
 
-function Sidebar() {
+function Sidebar({ side, movePage, setMovePage }) {
   const [userInfo, setUserInfo] = useState("");
   const param = useParams();
 
@@ -23,7 +23,7 @@ function Sidebar() {
   return (
     <SidebarWrapper>
       {param.id === String(userInfo.userId) ? (
-        <SidebarMyCalendar nickName={userInfo.nickName} />
+        <SidebarMyCalendar nickName={userInfo.nickName} side={side} movePage={movePage} setMovePage={setMovePage} />
       ) : (
         <SidebarOtherCalendar userId={param.id} />
       )}

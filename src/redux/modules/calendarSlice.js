@@ -5,6 +5,7 @@ const initialState = {
   data: [],
   total: [],
   today: [],
+  update: [],
   isError: false,
   isLoading: false,
 };
@@ -82,6 +83,21 @@ export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (pa
   }
 });
 
+// sidebar 업데이트한 친구목록 get
+export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/friends/friendList`, {
+      headers: {
+        Authorization: payload,
+      },
+    });
+    console.log("response update: ", response.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const calendarSlice = createSlice({
   name: "calendar",
   initialState,
@@ -149,6 +165,19 @@ export const calendarSlice = createSlice({
         state.today = action.payload;
       })
       .addCase(__getTodaySchedule.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__getTodayUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getTodayUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.update = action.payload;
+      })
+      .addCase(__getTodayUpdate.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

@@ -23,9 +23,9 @@ import Cookies from "js-cookie";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 
-function AddPostModal({ isAddPost, setIsAddPost }) {
+function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
   const time = [
     "00:00",
     "01:00",
@@ -263,6 +263,7 @@ function AddPostModal({ isAddPost, setIsAddPost }) {
 
     dispatch(__createNewPost({ newPost, token }));
     setIsAddPost(false);
+    setSide(false);
 
     // for (let num of newPost.keys()) {
     //   console.log("formData key----> : ", num);
