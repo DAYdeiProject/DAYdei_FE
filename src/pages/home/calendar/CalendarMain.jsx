@@ -9,27 +9,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { __getTotalPosts } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import { faGolfBall } from "@fortawesome/free-solid-svg-icons";
 
-function CalendarMain({ setSide, movePage, setMovePage }) {
-  console.log("캘린더 메인 movePage->", movePage);
+function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
   const [isAddPost, setIsAddPost] = useState(false);
   const [newData, setNewData] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
-  const param = useParams();
+
   const token = Cookies.get("accessJWTToken");
+  const param = useParams();
+  const localUserId = localStorage.getItem("userInfo");
+  const userId = JSON.parse(localUserId);
 
   const { total, isLoding } = useSelector((state) => {
     return state.calendar;
   });
 
   useEffect(() => {
-    console.log("캘린더 메인 movePage 두번되는지???");
+    if (String(userId.userId) !== param.id) {
+      setDisabled(true);
+    }
     dispatch(__getTotalPosts({ userId: param.id, token }));
-  }, [isAddPost, movePage]);
+  }, [isAddPost, param]);
 
   useEffect(() => {
+    setNewData([]);
     if (total && total.length !== 0) {
       const result = total.map((data) => {
         let color = "";
@@ -68,6 +73,22 @@ function CalendarMain({ setSide, movePage, setMovePage }) {
     setIsAddPost(true);
   };
 
+  let header = "";
+
+  if (String(userId.userId) !== param.id) {
+    header = {
+      left: "today",
+      center: "prevYear prev title next nextYear",
+      right: "",
+    };
+  } else {
+    header = {
+      left: "today",
+      center: "prevYear prev title next nextYear",
+      right: "addButton",
+    };
+  }
+
   const setting = {
     headerToolbar: {
       left: "today",
@@ -95,7 +116,7 @@ function CalendarMain({ setSide, movePage, setMovePage }) {
   if (isLoding) <div>로딩중...</div>;
 
   return (
-    <CalendarWrapper>
+    <CalendarWrapper disabled={disabled}>
       <FullCalendar
         {...setting}
         plugins={[dayGridPlugin, interactionPlugin]}
@@ -139,6 +160,7 @@ export const CalendarWrapper = styled.div`
     background-color: white;
     color: black;
     border: none;
+    margin: 0;
     &:active {
       outline: none;
       border: none;
@@ -148,6 +170,7 @@ export const CalendarWrapper = styled.div`
     background-color: white;
     color: black;
     border: none;
+    margin: 0;
     &:active {
       border: none;
       outline: none;
@@ -159,6 +182,7 @@ export const CalendarWrapper = styled.div`
   }
   .fc-button {
     &:active {
+      margin: 0;
       background-color: transparent !important;
       color: black !important;
     }
@@ -179,14 +203,9 @@ export const CalendarWrapper = styled.div`
   // today button
 
   // 일정추가 button
-  /* .fc-addButton-button {
-    width: 96px;
-    height: 43px;
-    color: white;
-    background-color: ${(props) => props.theme.Bg.middleColor};
-    border: none;
-    border-radius: 4px;
-  } */
+  .fc-addButton-button {
+    visibility: ${(props) => props.disabled && "hidden"};
+  }
 
   // 년,월
   .fc-toolbar-title {

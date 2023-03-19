@@ -25,7 +25,9 @@ export default function SidebarOtherCalendar({ userId }) {
       </ImgWrapper>
       <NickNameBox>{userInfo?.nickName}</NickNameBox>
       <EmailBox>{email}</EmailBox>
-      <TextareaBox>{userInfo?.introduction}</TextareaBox>
+      <TextareaBox
+        readOnly
+        value={userInfo?.introduction ? userInfo.introduction : "아직 작성된 자기소개가 없습니다."}></TextareaBox>
       <ButtonBox>
         <button></button>
         <button></button>
@@ -39,11 +41,14 @@ const ProfileWrapper = styled.div`
 `;
 
 const ImgWrapper = styled.div`
-  background-color: #e08868;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
+  ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
+  img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: fixed;
+  }
 `;
 
 const NickNameBox = styled.span`
@@ -61,7 +66,7 @@ const TextareaBox = styled.textarea`
   padding: 15px;
   border: 1px solid ${(props) => props.theme.Bg.borderColor};
   border-radius: 10px;
-  font-size: ${(props) => props.theme.Fs.day};
+  font-size: ${(props) => props.theme.Fs.smallText};
   resize: none;
 `;
 

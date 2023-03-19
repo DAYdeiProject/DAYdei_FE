@@ -7,7 +7,7 @@ import format from "date-fns/format";
 import { getDay } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-export default function SidebarMyCalendar({ nickName, side, movePage, setMovePage }) {
+export default function SidebarMyCalendar({ nickName, side }) {
   //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
   const URI = "http://localhost:3000/friends";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code&scope=friends`;
@@ -44,14 +44,11 @@ export default function SidebarMyCalendar({ nickName, side, movePage, setMovePag
 
   const { today, update, isLoding } = useSelector((state) => state.calendar);
 
-  console.log("today-------", today);
-  console.log("update-------", update);
-
   const navigate = useNavigate();
   const moveUserPage = (id) => {
     navigate(`/${id}`);
-    setMovePage(true);
   };
+
   if (isLoding) <div>로딩중...</div>;
   return (
     <>
@@ -148,7 +145,7 @@ export default function SidebarMyCalendar({ nickName, side, movePage, setMovePag
 
 const NickNameContainer = styled.section`
   ${(props) => props.theme.FlexCol};
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 `;
 
 const NickNameTitle = styled.section`
@@ -164,6 +161,7 @@ const SideTitle = styled(NickNameTitle)`
   span:nth-child(2) {
     font-size: ${(props) => props.theme.Fs.xsmallText};
     color: ${(props) => props.theme.Bg.deepColor};
+    margin-right: 10px;
   }
 `;
 
@@ -177,8 +175,8 @@ const TodayScheduleContainer = styled.section`
 const TodayScheduleWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  gap: 15px;
-  height: 250px;
+  gap: 5px;
+  height: 200px;
   margin-bottom: 20px;
   overflow-y: auto;
 `;
@@ -243,10 +241,13 @@ const TodayCountBox = styled.div`
 const FriendsWrapper = styled(TodayScheduleWrapper)``;
 const FriendsListContainer = styled(TodayScheduleContainer)`
   border: none;
+  /* span:nth-child(2) {
+    padding-right: 10px;
+  } */
 `;
 const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
-  gap: 15px;
+  gap: 5px;
 `;
 const ListBox = styled(TodayScheduleBox)``;
 

@@ -263,7 +263,7 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
 
     dispatch(__createNewPost({ newPost, token }));
     setIsAddPost(false);
-    setSide(false);
+    setSide(true);
 
     // for (let num of newPost.keys()) {
     //   console.log("formData key----> : ", num);

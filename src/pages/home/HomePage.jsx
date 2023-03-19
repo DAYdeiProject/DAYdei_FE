@@ -67,9 +67,9 @@ function HomePage() {
         handleShowSearchUsers={handleShowSearchUsers}
       />
       <MainWrapper>
-        <Sidebar side={side} movePage={movePage} setMovePage={setMovePage} />
+        <Sidebar side={side} />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
-        {isCalendarMainVisible && <CalendarMain setSide={setSide} movePage={movePage} setMovePage={setMovePage} />}
+        {isCalendarMainVisible && <CalendarMain setSide={setSide} />}
         {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
         {isSearchUsersListVisible && <SearchUsers />}
       </MainWrapper>

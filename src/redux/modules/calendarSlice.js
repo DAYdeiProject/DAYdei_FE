@@ -61,7 +61,6 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
         Authorization: payload.token,
       },
     });
-    //console.log("response : ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -76,7 +75,6 @@ export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (pa
         Authorization: payload,
       },
     });
-    console.log("response today: ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -91,7 +89,6 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
         Authorization: payload,
       },
     });
-    console.log("response update: ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
