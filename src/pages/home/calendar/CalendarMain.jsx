@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { __getTotalPosts } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
+import { faGolfBall } from "@fortawesome/free-solid-svg-icons";
 
-function CalendarMain() {
+function CalendarMain({ setSide, movePage, setMovePage }) {
+  console.log("캘린더 메인 movePage->", movePage);
   // 일정 추가 모달창 state
   const [isAddPost, setIsAddPost] = useState(false);
   const [newData, setNewData] = useState("");
@@ -23,19 +25,37 @@ function CalendarMain() {
   });
 
   useEffect(() => {
+    console.log("캘린더 메인 movePage 두번되는지???");
     dispatch(__getTotalPosts({ userId: param.id, token }));
-  }, []);
+  }, [isAddPost, movePage]);
 
   useEffect(() => {
     if (total && total.length !== 0) {
-      const result = total.map((data) => ({
-        id: data.id,
-        title: data.title,
-        start: data.startDate,
-        end: data.endDate,
-        color: data.color,
-        text: "black",
-      }));
+      const result = total.map((data) => {
+        let color = "";
+        if (data.color === "RED") {
+          color = "#EC899F";
+        } else if (data.color === "ORANGE") {
+          color = "#EB8E54";
+        } else if (data.color === "YELLOW") {
+          color = "#FCE0A4";
+        } else if (data.color === "GREEN") {
+          color = "#94DD8E";
+        } else if (data.color === "BLUE") {
+          color = "#95DFFF";
+        } else if (data.color === "NAVY") {
+          color = "#4C7EA0";
+        } else {
+          color = "#9747FF";
+        }
+        return {
+          id: data.id,
+          title: data.title,
+          start: data.startDate,
+          end: data.endDate,
+          color: color,
+        };
+      });
       setNewData(result);
     }
   }, [total]);
@@ -51,7 +71,7 @@ function CalendarMain() {
   const setting = {
     headerToolbar: {
       left: "today",
-      center: "prev title next",
+      center: "prevYear prev title next nextYear",
       right: "addButton",
     },
     customButtons: {
@@ -65,9 +85,15 @@ function CalendarMain() {
         dayMaxEventRows: 4,
       },
     },
+    buttonText: {
+      //버튼 텍스트 변환
+      today: "오늘",
+    },
+    timeZone: "local",
     events: newData,
   };
   if (isLoding) <div>로딩중...</div>;
+
   return (
     <CalendarWrapper>
       <FullCalendar
@@ -79,7 +105,7 @@ function CalendarMain() {
         defaultAllDay={true}
         moreLinkText="더보기"
       />
-      <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} />
+      <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} setSide={setSide} />
     </CalendarWrapper>
   );
 }
@@ -108,8 +134,38 @@ export const CalendarWrapper = styled.div`
     position: relative;
   }
 
+  // 버튼 초기화
+  .fc .fc-button-primary:disabled {
+    background-color: white;
+    color: black;
+    border: none;
+    &:active {
+      outline: none;
+      border: none;
+    }
+  }
+  .fc .fc-button-primary {
+    background-color: white;
+    color: black;
+    border: none;
+    &:active {
+      border: none;
+      outline: none;
+    }
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+  .fc-button {
+    &:active {
+      background-color: transparent !important;
+      color: black !important;
+    }
+  }
+
   // prev, next button
-  .fc-prev-button,
+  /* .fc-prev-button,
   .fc-next-button {
     font-size: 10px;
     background-color: lightsalmon;
@@ -119,17 +175,18 @@ export const CalendarWrapper = styled.div`
     .fc-icon {
       size: 10px;
     }
-  }
+  } */
+  // today button
 
   // 일정추가 button
-  .fc-addButton-button {
+  /* .fc-addButton-button {
     width: 96px;
     height: 43px;
     color: white;
     background-color: ${(props) => props.theme.Bg.middleColor};
     border: none;
     border-radius: 4px;
-  }
+  } */
 
   // 년,월
   .fc-toolbar-title {
