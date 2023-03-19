@@ -21,21 +21,21 @@ function Sidebar({ side }) {
   }, []);
 
   return (
-    <SidebarWrapper>
+    <SideStyle>
       {param.id === String(userInfo.userId) ? (
         <SidebarMyCalendar nickName={userInfo.nickName} side={side} />
       ) : (
         <SidebarOtherCalendar userId={param.id} />
       )}
-    </SidebarWrapper>
+    </SideStyle>
   );
 }
 
 export default Sidebar;
 
-const SidebarWrapper = styled.div`
+const SideStyle = styled.div`
   background-color: ${(props) => props.theme.Bg.lightColor};
   min-width: 350px;
+  max-width: 350px;
   height: 100%;
-  padding: 40px 34px;
 `;

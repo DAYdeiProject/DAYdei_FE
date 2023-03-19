@@ -6,6 +6,7 @@ import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarS
 import format from "date-fns/format";
 import { getDay } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 
 export default function SidebarMyCalendar({ nickName, side }) {
   //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
@@ -51,7 +52,7 @@ export default function SidebarMyCalendar({ nickName, side }) {
 
   if (isLoding) <div>로딩중...</div>;
   return (
-    <>
+    <SidebarWrapper>
       <NickNameContainer>
         <NickNameTitle>안녕하세요. {nickName}님</NickNameTitle>
       </NickNameContainer>
@@ -61,7 +62,17 @@ export default function SidebarMyCalendar({ nickName, side }) {
           <span>{day}</span>
         </SideTitle>
         <TodayScheduleWrapper>
-          {today &&
+          {today.length === 0 ? (
+            <NoneSchedule>
+              <MdOutlineEditCalendar className="noneToday" />
+              <span>새로운 일정이 없습니다.</span>
+              <p>
+                달력을 보면서 일정을 확인할 수 있어요.
+                <br /> 완료한 할 일은 바로 체크해보세요.
+              </p>
+            </NoneSchedule>
+          ) : (
+            today &&
             today.map((list) => {
               let color = "";
               list.color === "RED"
@@ -98,7 +109,8 @@ export default function SidebarMyCalendar({ nickName, side }) {
                   </ColorCheck>
                 </TodayScheduleBox>
               );
-            })}
+            })
+          )}
         </TodayScheduleWrapper>
         <TodayCountBox>
           <span>오늘은 {today.length}개의 일정이 있어요.</span>
@@ -113,35 +125,52 @@ export default function SidebarMyCalendar({ nickName, side }) {
 
         <FriendsWrapper>
           <FriendsListBox>
-            {update.map((list) => {
-              return (
-                <ListBox key={list.userId}>
-                  <ImgBox>
-                    <img src=""></img>
-                  </ImgBox>
-                  <InfoBox>
-                    <span>{list.nickName}</span>
-                    <span>
-                      {list.introduction
-                        ? list.introduction.length > 15
-                          ? list.introduction.substr(0, 15)
-                          : list.introduction
-                        : "아직 자기소개가 없습니다."}
-                    </span>
-                  </InfoBox>
-                  <ButtonBox>
-                    <button onClick={() => moveUserPage(list.userId)}>캘린더</button>
-                  </ButtonBox>
-                </ListBox>
-              );
-            })}
+            {update.length === 0 ? (
+              <NoneSchedule>
+                <MdOutlineAddReaction className="noneUpdate" />
+                <span>새로운 친구를 만나보세요!</span>
+                <p>
+                  다른 사람을 친구 추가나 구독하면
+                  <br />
+                  상대방의 캘린더를 볼 수 있어요.
+                </p>
+              </NoneSchedule>
+            ) : (
+              update &&
+              update.map((list) => {
+                return (
+                  <ListBox key={list.userId}>
+                    <ImgBox>
+                      <img src=""></img>
+                    </ImgBox>
+                    <InfoBox>
+                      <span>{list.nickName}</span>
+                      <span>
+                        {list.introduction
+                          ? list.introduction.length > 15
+                            ? list.introduction.substr(0, 15)
+                            : list.introduction
+                          : "아직 자기소개가 없습니다."}
+                      </span>
+                    </InfoBox>
+                    <ButtonBox>
+                      <button onClick={() => moveUserPage(list.userId)}>캘린더</button>
+                    </ButtonBox>
+                  </ListBox>
+                );
+              })
+            )}
           </FriendsListBox>
         </FriendsWrapper>
       </FriendsListContainer>
       {/* <button onClick={friendKakao}>카톡 친구 추가</button> */}
-    </>
+    </SidebarWrapper>
   );
 }
+
+const SidebarWrapper = styled.div`
+  padding: 40px 34px;
+`;
 
 const NickNameContainer = styled.section`
   ${(props) => props.theme.FlexCol};
@@ -241,9 +270,6 @@ const TodayCountBox = styled.div`
 const FriendsWrapper = styled(TodayScheduleWrapper)``;
 const FriendsListContainer = styled(TodayScheduleContainer)`
   border: none;
-  /* span:nth-child(2) {
-    padding-right: 10px;
-  } */
 `;
 const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
@@ -276,5 +302,23 @@ const ButtonBox = styled(ColorCheck)`
     font-size: ${(props) => props.theme.Fs.xsmallText};
     border: none;
     border-radius: 5px;
+  }
+`;
+
+// 일정 없을때
+const NoneSchedule = styled.div`
+  ${(props) => props.theme.FlexCol};
+  gap: 10px;
+  font-size: ${(props) => props.theme.Fs.day};
+  background-color: white;
+  height: 200px;
+  border-radius: 10px;
+  p {
+    font-size: ${(props) => props.theme.Fs.xsmallText};
+    text-align: center;
+  }
+  .noneToday,
+  .noneUpdate {
+    font-size: 25px;
   }
 `;

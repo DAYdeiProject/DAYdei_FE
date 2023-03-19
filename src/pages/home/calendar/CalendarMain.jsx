@@ -7,12 +7,14 @@ import AddPostModal from "./AddPostModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { __getTotalPosts } from "../../../redux/modules/calendarSlice";
+import { __getTotalPosts, __getPostDetail } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
 
 function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
   const [isAddPost, setIsAddPost] = useState(false);
+  // 상세 일정 모달창 state
+  const [isDetailPost, setIsDetailPost] = useState(false);
   const [newData, setNewData] = useState("");
   const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
@@ -22,9 +24,10 @@ function CalendarMain({ setSide }) {
   const localUserId = localStorage.getItem("userInfo");
   const userId = JSON.parse(localUserId);
 
-  const { total, isLoding } = useSelector((state) => {
+  const { total, detail, isLoding } = useSelector((state) => {
     return state.calendar;
   });
+  //console.log("detail : ", detail);
 
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
@@ -73,21 +76,18 @@ function CalendarMain({ setSide }) {
     setIsAddPost(true);
   };
 
-  let header = "";
+  // 일정 more 클릭시
+  const handleMoreLinkClick = (e) => {
+    e.jsEvent.preventDefault();
+    console.log("더보기 클릭됨");
+  };
 
-  if (String(userId.userId) !== param.id) {
-    header = {
-      left: "today",
-      center: "prevYear prev title next nextYear",
-      right: "",
-    };
-  } else {
-    header = {
-      left: "today",
-      center: "prevYear prev title next nextYear",
-      right: "addButton",
-    };
-  }
+  // 이벤트 클릭시
+  const handlerEventClick = (e) => {
+    // console.log("event 클릭 : ", e.event._def);
+    dispatch(__getPostDetail({ id: e.event._def.publicId, token }));
+    setIsDetailPost(true);
+  };
 
   const setting = {
     headerToolbar: {
@@ -125,6 +125,8 @@ function CalendarMain({ setSide }) {
         initialView="dayGridMonth"
         defaultAllDay={true}
         moreLinkText="더보기"
+        moreLinkClick={handleMoreLinkClick}
+        eventClick={handlerEventClick}
       />
       <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} setSide={setSide} />
     </CalendarWrapper>
@@ -188,6 +190,10 @@ export const CalendarWrapper = styled.div`
     }
   }
 
+  .fc-popover,
+  .fc-more-popover {
+    visibility: hidden;
+  }
   // prev, next button
   /* .fc-prev-button,
   .fc-next-button {
