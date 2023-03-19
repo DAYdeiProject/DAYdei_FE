@@ -8,16 +8,12 @@ import { __getFriendsList } from "../../../redux/modules/friendsSlice";
 
 function FriendsListMain() {
   const dispatch = useDispatch();
-  const [isFriend, setIsFriend] = useState(true);
-  const [isSubscribed, setIsSubscribed] = useState(true);
+
+  const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   useEffect(() => {
     dispatch(__getFriendsList());
-  }, [dispatch, isFriend, isSubscribed]);
-
-  const updateIsFriendState = () => {
-    setIsFriend(false);
-  };
+  }, [dispatch, statusCodeSubscribe]);
 
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
   // console.log("로딩중 위-->", FriendsList);
@@ -38,7 +34,7 @@ function FriendsListMain() {
           </ListsHeader>
           <ListsBody>
             <ListFrame>
-              <FriendList friendsList={friendsList} updateIsFriendState={updateIsFriendState} />
+              <FriendList friendsList={friendsList} />
             </ListFrame>
             <ListFrame>
               <SubscribeList subscribeList={subscribeList} />

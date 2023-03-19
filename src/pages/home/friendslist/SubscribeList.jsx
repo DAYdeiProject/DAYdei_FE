@@ -1,8 +1,17 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { __getFriendsList } from "../../../redux/modules/friendsSlice";
+import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { NoListMessage, PostBox, ProfileArea, ProfilePhoto, TextArea, ButtonArea, Button } from "./FriendList";
 
 function SubscribeList({ subscribeList }) {
   // console.log(subscribeList);
+  const dispatch = useDispatch();
+
+  const cancelSubscribeHandler = (id) => {
+    dispatch(__cancelSubscribe(id));
+  };
+
   if (subscribeList.length === 0) {
     return (
       <NoListMessage>
@@ -24,7 +33,12 @@ function SubscribeList({ subscribeList }) {
             </TextArea>
           </ProfileArea>
           <ButtonArea>
-            <Button>{user.userSubscribeCheck === true ? "구독 취소" : "구독 신청"}</Button>
+            <Button
+              onClick={() => {
+                cancelSubscribeHandler(user.id);
+              }}>
+              {user.userSubscribeCheck === true ? "구독 취소" : "구독 신청"}
+            </Button>
           </ButtonArea>
         </PostBox>
       ))}
