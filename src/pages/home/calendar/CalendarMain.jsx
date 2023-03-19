@@ -7,29 +7,37 @@ import AddPostModal from "./AddPostModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { __getTotalPosts } from "../../../redux/modules/calendarSlice";
+import { __getTotalPosts, __getPostDetail } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import { faGolfBall } from "@fortawesome/free-solid-svg-icons";
 
-function CalendarMain({ setSide, movePage, setMovePage }) {
-  console.log("캘린더 메인 movePage->", movePage);
+function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
   const [isAddPost, setIsAddPost] = useState(false);
+  // 상세 일정 모달창 state
+  const [isDetailPost, setIsDetailPost] = useState(false);
   const [newData, setNewData] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
-  const param = useParams();
-  const token = Cookies.get("accessJWTToken");
 
-  const { total, isLoding } = useSelector((state) => {
+  const token = Cookies.get("accessJWTToken");
+  const param = useParams();
+  const localUserId = localStorage.getItem("userInfo");
+  const userId = JSON.parse(localUserId);
+
+  const { total, detail, isLoding } = useSelector((state) => {
     return state.calendar;
   });
+  //console.log("detail : ", detail);
 
   useEffect(() => {
-    console.log("캘린더 메인 movePage 두번되는지???");
+    if (String(userId.userId) !== param.id) {
+      setDisabled(true);
+    }
     dispatch(__getTotalPosts({ userId: param.id, token }));
-  }, [isAddPost, movePage]);
+  }, [isAddPost, param]);
 
   useEffect(() => {
+    setNewData([]);
     if (total && total.length !== 0) {
       const result = total.map((data) => {
         let color = "";
@@ -68,6 +76,19 @@ function CalendarMain({ setSide, movePage, setMovePage }) {
     setIsAddPost(true);
   };
 
+  // 일정 more 클릭시
+  const handleMoreLinkClick = (e) => {
+    e.jsEvent.preventDefault();
+    console.log("더보기 클릭됨");
+  };
+
+  // 이벤트 클릭시
+  const handlerEventClick = (e) => {
+    // console.log("event 클릭 : ", e.event._def);
+    dispatch(__getPostDetail({ id: e.event._def.publicId, token }));
+    setIsDetailPost(true);
+  };
+
   const setting = {
     headerToolbar: {
       left: "today",
@@ -95,7 +116,7 @@ function CalendarMain({ setSide, movePage, setMovePage }) {
   if (isLoding) <div>로딩중...</div>;
 
   return (
-    <CalendarWrapper>
+    <CalendarWrapper disabled={disabled}>
       <FullCalendar
         {...setting}
         plugins={[dayGridPlugin, interactionPlugin]}
@@ -104,6 +125,8 @@ function CalendarMain({ setSide, movePage, setMovePage }) {
         initialView="dayGridMonth"
         defaultAllDay={true}
         moreLinkText="더보기"
+        moreLinkClick={handleMoreLinkClick}
+        eventClick={handlerEventClick}
       />
       <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} setSide={setSide} />
     </CalendarWrapper>
@@ -139,6 +162,7 @@ export const CalendarWrapper = styled.div`
     background-color: white;
     color: black;
     border: none;
+    margin: 0;
     &:active {
       outline: none;
       border: none;
@@ -148,6 +172,7 @@ export const CalendarWrapper = styled.div`
     background-color: white;
     color: black;
     border: none;
+    margin: 0;
     &:active {
       border: none;
       outline: none;
@@ -159,11 +184,16 @@ export const CalendarWrapper = styled.div`
   }
   .fc-button {
     &:active {
+      margin: 0;
       background-color: transparent !important;
       color: black !important;
     }
   }
 
+  .fc-popover,
+  .fc-more-popover {
+    visibility: hidden;
+  }
   // prev, next button
   /* .fc-prev-button,
   .fc-next-button {
@@ -179,14 +209,9 @@ export const CalendarWrapper = styled.div`
   // today button
 
   // 일정추가 button
-  /* .fc-addButton-button {
-    width: 96px;
-    height: 43px;
-    color: white;
-    background-color: ${(props) => props.theme.Bg.middleColor};
-    border: none;
-    border-radius: 4px;
-  } */
+  .fc-addButton-button {
+    visibility: ${(props) => props.disabled && "hidden"};
+  }
 
   // 년,월
   .fc-toolbar-title {

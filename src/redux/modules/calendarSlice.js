@@ -6,6 +6,7 @@ const initialState = {
   total: [],
   today: [],
   update: [],
+  detail: [],
   isError: false,
   isLoading: false,
 };
@@ -61,7 +62,6 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
         Authorization: payload.token,
       },
     });
-    //console.log("response : ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -76,7 +76,6 @@ export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (pa
         Authorization: payload,
       },
     });
-    console.log("response today: ", response.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -91,7 +90,20 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
         Authorization: payload,
       },
     });
-    console.log("response update: ", response.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 상세 일정 get
+export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/posts/${payload.id}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -178,6 +190,19 @@ export const calendarSlice = createSlice({
         state.update = action.payload;
       })
       .addCase(__getTodayUpdate.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__getPostDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getPostDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.detail = action.payload;
+      })
+      .addCase(__getPostDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

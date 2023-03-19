@@ -24,6 +24,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
+import postStyle from "../../../shared/style/PostStyle";
 
 function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
   const time = [
@@ -263,7 +264,7 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
 
     dispatch(__createNewPost({ newPost, token }));
     setIsAddPost(false);
-    setSide(false);
+    setSide(true);
 
     // for (let num of newPost.keys()) {
     //   console.log("formData key----> : ", num);
@@ -275,25 +276,25 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
 
   return (
     <CalendarPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost}>
-      <AddPostWrapper onSubmit={handleSubmit(addPost)}>
-        <HeaderWrapper>
+      <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
+        <postStyle.HeaderWrapper>
           <BiX className="closeIncon" onClick={closeClickHandler} />
-        </HeaderWrapper>
+        </postStyle.HeaderWrapper>
 
-        <BodyWrapper>
-          <BodyContainer>
-            <TitleWrapper>
+        <postStyle.BodyWrapper>
+          <postStyle.BodyContainer>
+            <postStyle.TitleWrapper>
               <input {...register("title", { required: "제목을 입력해주세요." })} placeholder="일정 제목 추가" />
-            </TitleWrapper>
+            </postStyle.TitleWrapper>
 
-            <DaysCheckWrapper>
-              <DaysIconBox>
+            <postStyle.DaysCheckWrapper>
+              <postStyle.DaysIconBox>
                 <BsClock className="daysIcon" />
-              </DaysIconBox>
-              <DaysCheckContainer>
-                <StartDateContainer>
+              </postStyle.DaysIconBox>
+              <postStyle.DaysCheckContainer>
+                <postStyle.StartDateContainer>
                   <span>시작</span>
-                  <CustomDatePicker
+                  <postStyle.CustomDatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     minDate={new Date()}
@@ -307,11 +308,11 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
                       </option>
                     ))}
                   </select>
-                </StartDateContainer>
+                </postStyle.StartDateContainer>
 
-                <StartDateContainer>
+                <postStyle.StartDateContainer>
                   <span>종료</span>
-                  <CustomDatePicker
+                  <postStyle.CustomDatePicker
                     selected={endDate}
                     onChange={(date) => setEndDate(date)}
                     minDate={startDate}
@@ -325,23 +326,23 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
                       </option>
                     ))}
                   </select>
-                </StartDateContainer>
-              </DaysCheckContainer>
+                </postStyle.StartDateContainer>
+              </postStyle.DaysCheckContainer>
 
-              <DaysAllCheckContainer>
+              <postStyle.DaysAllCheckContainer>
                 <input type="checkbox" {...register("allDay")} onChange={isAllDayChange}></input>
                 <span>종일</span>
-              </DaysAllCheckContainer>
-            </DaysCheckWrapper>
+              </postStyle.DaysAllCheckContainer>
+            </postStyle.DaysCheckWrapper>
 
-            <ColorBoxWrapper>
+            <postStyle.ColorBoxWrapper>
               <BsCalendar4Range className="colorIcon" />
-              <TextSpan>
+              <postStyle.TextSpan>
                 <span>달력</span>
-              </TextSpan>
-              <ColorBoxContainer>
+              </postStyle.TextSpan>
+              <postStyle.ColorBoxContainer>
                 {colorList.map((item, i) => (
-                  <ColorBox
+                  <postStyle.ColorBox
                     key={i}
                     value={item}
                     isClick={item === isColor}
@@ -349,496 +350,143 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
                     onClick={() => colorClick(item)}
                   />
                 ))}
-              </ColorBoxContainer>
-            </ColorBoxWrapper>
+              </postStyle.ColorBoxContainer>
+            </postStyle.ColorBoxWrapper>
 
-            <InviteWrapper>
+            <postStyle.InviteWrapper>
               <BsPeople className="inviteIcon" />
-              <TextSpan>
+              <postStyle.TextSpan>
                 <span>초대</span>
-              </TextSpan>
-              <InviteSearchContainer>
-                <InviteSearchBox>
+              </postStyle.TextSpan>
+              <postStyle.InviteSearchContainer>
+                <postStyle.InviteSearchBox>
                   <div>
                     <BsSearch className="searchIcon" />
                   </div>
-                  <FriendPickBox>
+                  <postStyle.FriendPickBox>
                     {targetPick?.map((pick) => (
-                      <FriendBox key={pick.id}>
+                      <postStyle.FriendBox key={pick.id}>
                         <span>{pick.nickName}</span>
                         <BiX className="friendX" onClick={() => deleteTarget(pick.id)} />
-                      </FriendBox>
+                      </postStyle.FriendBox>
                     ))}
-                  </FriendPickBox>
-                  <FriendBoxInput>
+                  </postStyle.FriendPickBox>
+                  <postStyle.FriendBoxInput>
                     <input type="text" {...register("participant")} placeholder="닉네임, 이메일 검색" />
-                  </FriendBoxInput>
-                </InviteSearchBox>
-                <SerchModalContainer isShow={targetToggle} ref={outside}>
+                  </postStyle.FriendBoxInput>
+                </postStyle.InviteSearchBox>
+                <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
                   {targetList?.map((list) => {
                     const newEmail = list.email.split("@");
                     return (
-                      <TartgetBox
+                      <postStyle.TartgetBox
                         key={list.id}
                         value={list.id}
                         onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
-                        <TargetBoxImg>
+                        <postStyle.TargetBoxImg>
                           <img src=""></img>
-                        </TargetBoxImg>
-                        <TargetBoxText>
+                        </postStyle.TargetBoxImg>
+                        <postStyle.TargetBoxText>
                           <span>
                             {list.nickName} ( {newEmail[0]} )
                           </span>
                           <span>{list.introduction ? list.introduction : "아직 작성된 소개글이 없습니다."}</span>
-                        </TargetBoxText>
-                      </TartgetBox>
+                        </postStyle.TargetBoxText>
+                      </postStyle.TartgetBox>
                     );
                   })}
-                </SerchModalContainer>
-              </InviteSearchContainer>
-            </InviteWrapper>
+                </postStyle.SerchModalContainer>
+              </postStyle.InviteSearchContainer>
+            </postStyle.InviteWrapper>
 
-            <LocationWrapper>
-              <LocationContainer>
+            <postStyle.LocationWrapper>
+              <postStyle.LocationContainer>
                 <BsGeoAlt className="locationIcon" />
-                <TextSpan>
+                <postStyle.TextSpan>
                   <span>장소</span>
-                </TextSpan>
-                <ToggleContainer>
+                </postStyle.TextSpan>
+                <postStyle.ToggleContainer>
                   {isShowLocation ? (
                     <BsChevronUp className="showToggle" onClick={() => hideToggieHandler("location")} />
                   ) : (
                     <BsChevronDown className="showToggle" onClick={() => showToggieHandler("location")} />
                   )}
-                </ToggleContainer>
-              </LocationContainer>
-              <WriteLocationBox isShow={isShowLocation}>
+                </postStyle.ToggleContainer>
+              </postStyle.LocationContainer>
+              <postStyle.WriteLocationBox isShow={isShowLocation}>
                 <input type="text" {...register("location")} />
-              </WriteLocationBox>
-            </LocationWrapper>
+              </postStyle.WriteLocationBox>
+            </postStyle.LocationWrapper>
 
-            <ContentWrapper>
-              <ContentBoxContainer>
+            <postStyle.ContentWrapper>
+              <postStyle.ContentBoxContainer>
                 <BsChatLeftText className="contentIcon" />
-                <TextSpan>
+                <postStyle.TextSpan>
                   <span>상세</span>
-                </TextSpan>
-                <ToggleContainer>
+                </postStyle.TextSpan>
+                <postStyle.ToggleContainer>
                   {isShowContent ? (
                     <BsChevronUp className="showToggle" onClick={() => hideToggieHandler("content")} />
                   ) : (
                     <BsChevronDown className="showToggle" onClick={() => showToggieHandler("content")} />
                   )}
-                </ToggleContainer>
-              </ContentBoxContainer>
-              <WriteContentBox isShow={isShowContent}>
+                </postStyle.ToggleContainer>
+              </postStyle.ContentBoxContainer>
+              <postStyle.WriteContentBox isShow={isShowContent}>
                 <textarea {...register("content")} />
-              </WriteContentBox>
-            </ContentWrapper>
+              </postStyle.WriteContentBox>
+            </postStyle.ContentWrapper>
 
-            <ImgWrapper>
-              <ImgContainer>
+            <postStyle.ImgWrapper>
+              <postStyle.ImgContainer>
                 <BsCardImage className="imgIcon" />
-                <TextSpan>
+                <postStyle.TextSpan>
                   <span>사진</span>
-                </TextSpan>
-                <ImgUploadBox>
-                  <ImgUploadListBox>
+                </postStyle.TextSpan>
+                <postStyle.ImgUploadBox>
+                  <postStyle.ImgUploadListBox>
                     {fileName?.map((list, i) => {
                       return (
-                        <ImgBox key={i}>
+                        <postStyle.ImgBox key={i}>
                           <span>{list}.jpg</span>
                           <BiX className="friendX" onClick={() => deleteImgFile(i)} />
-                        </ImgBox>
+                        </postStyle.ImgBox>
                       );
                     })}
-                  </ImgUploadListBox>
+                  </postStyle.ImgUploadListBox>
                   <div>
-                    <ImgLabel htmlFor="inputImg">
-                      <ImgUploadButton>파일추가</ImgUploadButton>
+                    <postStyle.ImgLabel htmlFor="inputImg">
+                      <postStyle.ImgUploadButton>파일추가</postStyle.ImgUploadButton>
                       <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} />
-                    </ImgLabel>
+                    </postStyle.ImgLabel>
                   </div>
-                </ImgUploadBox>
-              </ImgContainer>
-            </ImgWrapper>
+                </postStyle.ImgUploadBox>
+              </postStyle.ImgContainer>
+            </postStyle.ImgWrapper>
 
-            <ScopeWrapper>
+            <postStyle.ScopeWrapper>
               <SlLock className="scopeIcon" />
-              <TextSpan>
+              <postStyle.TextSpan>
                 <span>공개</span>
-              </TextSpan>
-              <SelectContainer>
+              </postStyle.TextSpan>
+              <postStyle.SelectContainer>
                 <select {...register("scope", { required: true })}>
                   <option value="ALL">전체공개</option>
                   <option value="SUBSCRIBE">전체공개(스크랩허용)</option>
                   <option value="FRIEND">친구공개</option>
                   <option value="ME">나만보기</option>
                 </select>
-              </SelectContainer>
-            </ScopeWrapper>
-          </BodyContainer>
-        </BodyWrapper>
+              </postStyle.SelectContainer>
+            </postStyle.ScopeWrapper>
+          </postStyle.BodyContainer>
+        </postStyle.BodyWrapper>
 
-        <SubmitButtonWrapper>
+        <postStyle.SubmitButtonWrapper>
           <button>저장</button>
-        </SubmitButtonWrapper>
-      </AddPostWrapper>
+        </postStyle.SubmitButtonWrapper>
+      </postStyle.AddPostWrapper>
     </CalendarPostModal>
   );
 }
 
 export default AddPostModal;
-
-const AddPostWrapper = styled.form`
-  span {
-    font-size: ${(props) => props.theme.Fs.day};
-    margin: 0 10px;
-    text-align: center;
-  }
-`;
-
-const HeaderWrapper = styled.section`
-  ${(props) => props.theme.FlexRow}
-  justify-content: right;
-  margin-top: 20px;
-  .closeIncon {
-    font-size: 30px;
-    color: ${(props) => props.theme.Bg.deepColor};
-    cursor: pointer;
-  }
-`;
-
-const BodyWrapper = styled.section`
-  height: 530px;
-  padding: 0 10px;
-  overflow-y: auto;
-  &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.Bg.borderColor};
-  }
-`;
-
-const BodyContainer = styled.div`
-  ${(props) => props.theme.FlexCol}
-  align-items: flex-start;
-  gap: 25px;
-`;
-
-// 타이틀 text
-const TextSpan = styled.div`
-  ${(props) => props.theme.FlexRow}
-  width: 70px;
-`;
-
-// 제목쓰기 영역
-const TitleWrapper = styled.div`
-  ${(props) => props.theme.FlexRow}
-  border-bottom: 1px solid ${(props) => props.theme.Bg.borderColor};
-  input {
-    width: 100%;
-    height: 50px;
-    font-size: ${(props) => props.theme.Fs.title};
-  }
-`;
-// 날짜 체크 영역
-const DaysCheckWrapper = styled.div`
-  ${(props) => props.theme.FlexRow}
-  height: 50px;
-`;
-const DaysIconBox = styled.div`
-  height: 100%;
-  display: flex;
-  padding-top: 2px;
-  .daysIcon {
-    font-size: 16px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-const DaysCheckContainer = styled.div`
-  ${(props) => props.theme.FlexCol}
-`;
-const DaysAllCheckContainer = styled(DaysIconBox)`
-  ${(props) => props.theme.FlexRow}
-  width: 80px;
-  align-items: flex-start;
-  span {
-    margin: 0;
-    font-size: ${(props) => props.theme.Fs.smallText};
-  }
-`;
-const StartDateContainer = styled.div`
-  ${(props) => props.theme.FlexRow}
-  width: 100%;
-  margin-bottom: 8px;
-  span {
-    min-width: 32px;
-  }
-  .react-datepicker-wrapper {
-    width: 100px;
-    margin-right: 10px;
-  }
-  select {
-    margin-right: 115px;
-    border: none;
-    font-size: ${(props) => props.theme.Fs.smallText};
-  }
-`;
-const CustomDatePicker = styled(DatePicker)`
-  width: 100px;
-  font-size: ${(props) => props.theme.Fs.day};
-  cursor: pointer;
-`;
-
-// 색깔 선택 영역
-const ColorBoxWrapper = styled.div`
-  ${(props) => props.theme.FlexRow}
-  .colorIcon {
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-const ColorBoxContainer = styled(ColorBoxWrapper)`
-  justify-content: left;
-`;
-const ColorBox = styled.div`
-  width: ${(props) => (props.isClick ? "25px" : "20px")};
-  height: ${(props) => (props.isClick ? "25px" : "20px")};
-  background-color: ${(props) => props.value};
-  border-radius: 50%;
-  margin-right: 20px;
-  border: ${(props) => props.isClick && "3px solid #686363"};
-`;
-
-// 초대하기 영역
-const InviteWrapper = styled.div`
-  ${(props) => props.theme.FlexRow}
-  .inviteIcon {
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-
-const InviteSearchContainer = styled(InviteWrapper)`
-  justify-content: left;
-  position: relative;
-`;
-
-const InviteSearchBox = styled(InviteSearchContainer)`
-  width: 340px;
-  height: 40px;
-  padding: 10px;
-  border: 1px solid ${(props) => props.theme.Bg.borderColor};
-  border-radius: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  &::-webkit-scrollbar {
-    height: 5px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.Bg.borderColor}; /* 스크롤 바의 색상 */
-  }
-  .searchIcon {
-    font-size: 14px;
-    color: ${(props) => props.theme.Bg.deepColor};
-    margin-right: 5px;
-  }
-`;
-const FriendPickBox = styled.div`
-  ${(props) => props.theme.FlexRow}
-  justify-content: left;
-  width: auto;
-`;
-const FriendBox = styled.div`
-  ${(props) => props.theme.FlexRow}
-  min-width: 80px;
-  height: 22px;
-  padding: 0 5px;
-  margin: 0 5px;
-  border-radius: 5px;
-  background-color: lightblue;
-  span {
-    margin: 0;
-    margin-right: 5px;
-    font-size: 11px;
-  }
-  .friendX {
-    cursor: pointer;
-  }
-`;
-const FriendBoxInput = styled.div`
-  ${(props) => props.theme.FlexRow}
-  width: 0;
-  min-width: 200px;
-  input {
-    font-size: 12px;
-    width: 100%;
-  }
-`;
-const SerchModalContainer = styled.div`
-  position: absolute;
-  top: 45px;
-  ${(props) => props.theme.FlexCol}
-  justify-content: flex-start;
-  gap: 10px;
-  background-color: #ececec;
-  width: 98%;
-  height: 200px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  display: ${(props) => (props.isShow ? "block" : "none")};
-  z-index: 100;
-`;
-
-const TartgetBox = styled.div`
-  ${(props) => props.theme.FlexRow}
-  padding: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: lightskyblue;
-  }
-`;
-const TargetBoxImg = styled.div`
-  width: 50px;
-  height: 45px;
-  img {
-    background-color: lightcoral;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  }
-`;
-
-const TargetBoxText = styled.div`
-  ${(props) => props.theme.FlexCol}
-  align-items: flex-start;
-  gap: 5px;
-  span {
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-  }
-`;
-
-// 장소 영역
-const LocationWrapper = styled.div`
-  ${(props) => props.theme.FlexCol}
-  padding-bottom: 20px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.borderColor};
-`;
-const LocationContainer = styled(InviteWrapper)`
-  justify-content: left;
-  .locationIcon {
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-const ToggleContainer = styled.div`
-  display: flex;
-  justify-content: right;
-  width: 100%;
-`;
-const WriteLocationBox = styled.div`
-  display: ${(props) => (props.isShow ? "block" : "none")};
-  width: 100%;
-  margin-top: 10px;
-  input {
-    width: 100%;
-    height: 40px;
-    padding: 10px;
-    font-size: 12px;
-    border: 1px solid ${(props) => props.theme.Bg.borderColor};
-    border-radius: 8px;
-  }
-`;
-
-// 메모 영역
-const ContentWrapper = styled(LocationWrapper)``;
-const ContentBoxContainer = styled(LocationContainer)`
-  .contentIcon {
-    font-size: 16px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-const WriteContentBox = styled(WriteLocationBox)`
-  textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid ${(props) => props.theme.Bg.borderColor};
-    border-radius: 8px;
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-    resize: none;
-  }
-`;
-
-// 이미지 업로드 영역
-const ImgWrapper = styled(LocationWrapper)``;
-const ImgContainer = styled(LocationContainer)`
-  .imgIcon {
-    font-size: 14px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-const ImgUploadBox = styled.div`
-  ${(props) => props.theme.FlexRow}
-  justify-content: left;
-  width: 340px;
-  height: 30px;
-`;
-
-const ImgLabel = styled.label`
-  input {
-    display: none;
-  }
-`;
-const ImgUploadButton = styled.div`
-  width: 70px;
-  line-height: 30px;
-  margin-left: 8px;
-  border-radius: 5px;
-  text-align: center;
-  background-color: ${(props) => props.theme.Bg.middleColor};
-  font-size: ${(props) => props.theme.Fs.xsmallText};
-  cursor: pointer;
-`;
-
-const ImgUploadListBox = styled(InviteSearchBox)`
-  border: none;
-  padding: 0;
-`;
-const ImgBox = styled(FriendBox)`
-  width: 0;
-  height: 25px;
-`;
-
-// 공개범위 영역
-const ScopeWrapper = styled.div`
-  ${(props) => props.theme.FlexRow}
-  justify-content: left;
-  margin-bottom: 20px;
-  .scopeIcon {
-    font-size: 16px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
-const SelectContainer = styled(ScopeWrapper)`
-  margin: 0;
-  select {
-    width: 90px;
-    height: 21px;
-    border: none;
-    font-size: ${(props) => props.theme.Fs.smallText};
-  }
-`;
-
-const SubmitButtonWrapper = styled.div`
-  padding: 0 5px;
-  button {
-    width: 100%;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    background-color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
