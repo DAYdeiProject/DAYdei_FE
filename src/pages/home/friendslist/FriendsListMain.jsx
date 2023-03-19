@@ -9,11 +9,12 @@ import { __getFriendsList } from "../../../redux/modules/friendsSlice";
 function FriendsListMain() {
   const dispatch = useDispatch();
 
+  const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   useEffect(() => {
     dispatch(__getFriendsList());
-  }, [dispatch, statusCodeSubscribe]);
+  }, [dispatch, statusCodeFriend, statusCodeSubscribe]);
 
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
   // console.log("로딩중 위-->", FriendsList);
