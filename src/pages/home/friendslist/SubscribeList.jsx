@@ -2,7 +2,18 @@ import { React, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { __getFriendsList } from "../../../redux/modules/friendsSlice";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
-import { NoListMessage, PostBox, ProfileArea, ProfilePhoto, TextArea, ButtonArea, Button } from "./FriendList";
+import {
+  NoListMessage,
+  PostBox,
+  ProfileArea,
+  ProfileWrap,
+  PhotoFrame,
+  TextArea,
+  NickNameWrap,
+  EmailWrap,
+  IntroductionWrap,
+  ButtonArea,
+} from "./FriendList";
 
 function SubscribeList({ subscribeList }) {
   // console.log(subscribeList);
@@ -26,19 +37,21 @@ function SubscribeList({ subscribeList }) {
       {subscribeList.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea>
-            <ProfilePhoto></ProfilePhoto>
-            <TextArea>
-              <div>닉네임 : {user.nickName} </div>
-              <div>한줄 소개 : {user.email} </div>
-            </TextArea>
+            <ProfileWrap>
+              <PhotoFrame src={user.profileImage}></PhotoFrame>
+
+              <TextArea>
+                <NickNameWrap>{user.nickName} </NickNameWrap>
+                <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+              </TextArea>
+            </ProfileWrap>
+            <IntroductionWrap></IntroductionWrap>
           </ProfileArea>
-          <ButtonArea>
-            <Button
-              onClick={() => {
-                cancelSubscribeHandler(user.id);
-              }}>
-              {user.userSubscribeCheck === true ? "구독 취소" : "구독 신청"}
-            </Button>
+          <ButtonArea
+            onClick={() => {
+              cancelSubscribeHandler(user.id);
+            }}>
+            {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
           </ButtonArea>
         </PostBox>
       ))}
