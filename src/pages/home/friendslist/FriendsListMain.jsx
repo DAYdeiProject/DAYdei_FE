@@ -1,25 +1,42 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { CalendarWrapper } from "../calendar/CalendarMain";
+
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import { __getFriendsList } from "../../../redux/modules/friendsSlice";
+import { AiOutlineSearch } from "react-icons/ai";
+import { BsPersonAdd } from "react-icons/bs";
+import { RxTextAlignMiddle } from "react-icons/rx";
+import ApproveRequestModal from "./ApproveRequestModal";
+import useOutSideClick from "../../../hooks/useOutsideClick";
 
 function FriendsListMain() {
   const dispatch = useDispatch();
-
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
+
+  const [isApproveRequestModalOpen, setIsApproveRequestModalOpen] = useState(false);
+
+  const approveRequestModalHandler = () => {
+    setIsApproveRequestModalOpen(true);
+  };
+
+  const handleCategoryModalClose = () => {
+    setIsApproveRequestModalOpen(false);
+  };
+
+  const ApproveRequestModalRef = useRef(null);
+  useOutSideClick(ApproveRequestModalRef, handleCategoryModalClose);
 
   useEffect(() => {
     dispatch(__getFriendsList());
   }, [dispatch, statusCodeFriend, statusCodeSubscribe]);
-
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
   // console.log("로딩중 위-->", FriendsList);
+
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <LoadingWrapper>로딩중...</LoadingWrapper>;
   }
   // console.log("로딩아래 -->", FriendsList);
   const friendsList = FriendsList?.friendResponseList || [];
@@ -29,60 +46,171 @@ function FriendsListMain() {
     <>
       <CalendarWrapper>
         <WholeAreaWrapper>
-          <ListsHeader>
-            <TitleText>친구 List</TitleText>
-            <TitleText>구독 List</TitleText>
-          </ListsHeader>
-          <ListsBody>
+          <ListFrameBig>
             <ListFrame>
-              <FriendList friendsList={friendsList} />
+              <ContentWrapper>
+                <TopText>
+                  <TopLeft>친구 {friendsList.length}</TopLeft>
+                  <TopRight>
+                    <SearchIcon />
+                    <PersonAddIcon onClick={approveRequestModalHandler} />
+                    {isApproveRequestModalOpen && <ApproveRequestModal ApproveRequestModalRef={ApproveRequestModalRef} />}
+                    <AlignIcon />
+                  </TopRight>
+                </TopText>
+                <ListWrap>
+                  <FriendList friendsList={friendsList} />
+                </ListWrap>
+              </ContentWrapper>
             </ListFrame>
+          </ListFrameBig>
+          <ListFrameBig>
             <ListFrame>
-              <SubscribeList subscribeList={subscribeList} />
+              <ContentWrapper>
+                <TopText>
+                  <TopLeft>구독 {subscribeList.length}</TopLeft>
+                </TopText>
+                <ListWrap>
+                  <SubscribeList subscribeList={subscribeList} />
+                </ListWrap>
+              </ContentWrapper>
             </ListFrame>
-          </ListsBody>
+          </ListFrameBig>
         </WholeAreaWrapper>
       </CalendarWrapper>
     </>
   );
 }
 
-export const WholeAreaWrapper = styled.div`
-  width: 100%;
+const LoadingWrapper = styled.div`
+  width: 1570px;
   height: 100%;
-  display: flex;
-  flex-direction: column;
 `;
 
-const ListsHeader = styled.div`
-  height: 43px;
-  margin-bottom: 30px !important;
+const CalendarWrapper = styled.div`
+  width: 1570px;
+  height: 100%;
+`;
+export const WholeAreaWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 4px;
+  /* position: absolute; */
+  width: 1570px;
+  height: 980px;
+  left: 350px;
+  top: 100px;
+  /* background-color: skyblue; */
+`;
+const ListFrameBig = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  padding: 60px 40px 71px;
+  gap: 16px;
+  width: 783px;
+  height: 980px;
+  /* background-color: pink; */
 `;
-
-const TitleText = styled.div`
-  font-size: ${(props) => props.theme.Fs.mediumText};
+const ListFrame = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+  width: 698px;
+  height: 835px;
+  /* background-color: gray; */
 `;
-
-const ListsBody = styled.div`
-  height: 100%;
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 16px;
+  width: 678px;
+  height: 835px;
+  /* background-color: ${(props) => props.theme.Bg.lightColor}; */
+`;
+const TopText = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 0px 16px 0px 0px;
+  gap: 467px;
+  width: 678px;
+  height: 44px;
+  /* background-color: pink; */
 `;
 
-const ListFrame = styled.div`
-  height: 100%;
-  max-height: 720px;
-  overflow: auto;
-  width: 49%;
-  border: 1px solid ${(props) => props.theme.Bg.middleColor};
+const TopLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 10px;
+
+  /* width: 85px; */
+  height: 44px;
+  /* background-color: skyblue; */
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+`;
+
+const TopRight = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+
+  width: 92px;
+  height: 20px;
+  /* background-color: pink; */
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const SearchIcon = styled(AiOutlineSearch)`
+  color: gray;
+  width: 20px;
+  height: 20px;
+`;
+
+const PersonAddIcon = styled(BsPersonAdd)`
+  color: gray;
+  width: 20px;
+  height: 20px;
+`;
+
+const AlignIcon = styled(RxTextAlignMiddle)`
+  color: gray;
+  width: 20px;
+  height: 20px;
+`;
+
+const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  padding: 0px;
+  width: 678px;
+  height: 770px;
+  background: #fbfbfb;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default FriendsListMain;

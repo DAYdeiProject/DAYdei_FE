@@ -4,6 +4,7 @@ import { friendsInstance } from "../../utils/api/axios";
 const initialState = {
   RecommendList: [],
   FriendsList: [],
+  FamousList: [],
   isLoading: false,
   isError: false,
   statusCode: 0,
@@ -44,8 +45,18 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
 export const __getFriendsList = createAsyncThunk("getFriendsList", async (_, thunkAPI) => {
   try {
     const response = await friendsInstance.get("/list");
-    console.log(response.data.data);
+    // console.log(response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __getFamousList = createAsyncThunk("getFamousList", async (_, thunkAPI) => {
+  try {
+    const response = await friendsInstance.get("/list/famous");
+    console.log(response);
+    return thunkAPI.fulfillWithValue(response);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -98,6 +109,20 @@ export const friendsSlice = createSlice({
         state.FriendsList = action.payload;
       })
       .addCase(__getFriendsList.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__getFamousList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getFamousList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.FamousList = action.payload;
+      })
+      .addCase(__getFamousList.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

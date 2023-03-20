@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
-import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
+// import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
 import { useDispatch } from "react-redux";
 import _ from "lodash";
@@ -102,6 +102,13 @@ function SearchUsers() {
     </>
   );
 }
+
+const WholeAreaWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
 const HeaderText = styled.div`
   display: flex;
