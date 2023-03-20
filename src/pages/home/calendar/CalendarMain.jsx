@@ -9,14 +9,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { __getTotalPosts, __getPostDetail } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
+import { add, format } from "date-fns";
+import { addDays } from "date-fns";
 
 function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
   const [isAddPost, setIsAddPost] = useState(false);
-  // 상세 일정 모달창 state
-  const [isDetailPost, setIsDetailPost] = useState(false);
-  const [newData, setNewData] = useState("");
+  // 일정 추가 버튼 여부(로그인한 유저 캘린더 / 타 유저 캘린더)
   const [disabled, setDisabled] = useState(false);
+  const [newData, setNewData] = useState("");
+  // 날짜 클릭시 일정추가모달 뜨고 startDate 해당 클릭 날짜로
+  const [pickDate, setPickDate] = useState("");
+  // 일정 detail
+  const [detailPostId, setDetailPostId] = useState("");
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessJWTToken");
@@ -24,10 +29,10 @@ function CalendarMain({ setSide }) {
   const localUserId = localStorage.getItem("userInfo");
   const userId = JSON.parse(localUserId);
 
-  const { total, detail, isLoding } = useSelector((state) => {
+  const { total, isLoding } = useSelector((state) => {
     return state.calendar;
   });
-  //console.log("detail : ", detail);
+  //console.log("메인 detailPost : ", detailPost);
 
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
@@ -82,11 +87,14 @@ function CalendarMain({ setSide }) {
     console.log("더보기 클릭됨");
   };
 
-  // 이벤트 클릭시
+  // 일정detail 클릭시
   const handlerEventClick = (e) => {
-    // console.log("event 클릭 : ", e.event._def);
-    dispatch(__getPostDetail({ id: e.event._def.publicId, token }));
-    setIsDetailPost(true);
+    setDetailPostId(e.event._def.publicId);
+  };
+
+  // 클릭한 date만
+  const handlerDateClick = (date) => {
+    setPickDate(date.date);
   };
 
   const setting = {
@@ -127,8 +135,17 @@ function CalendarMain({ setSide }) {
         moreLinkText="더보기"
         moreLinkClick={handleMoreLinkClick}
         eventClick={handlerEventClick}
+        dateClick={handlerDateClick}
       />
-      <AddPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost} setSide={setSide} />
+      <AddPostModal
+        isAddPost={isAddPost}
+        setIsAddPost={setIsAddPost}
+        setSide={setSide}
+        pickDate={pickDate}
+        setPickDate={setPickDate}
+        detailPostId={detailPostId}
+        setDetailPostId={setDetailPostId}
+      />
     </CalendarWrapper>
   );
 }

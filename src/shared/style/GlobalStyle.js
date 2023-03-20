@@ -57,11 +57,20 @@ export const GlobalStyle = createGlobalStyle`
     }
 
   }
+  * {
+    @font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    }
+  }
   *:focus {
     outline: none !important;
   }
     * {
       box-sizing: border-box;
+      font-family: 'Pretendard-Regular';
     }
     //반드시 overflow: overlay해야 -webkit-scrollbar-track 투명도를 설정할 수 있다.
     body {

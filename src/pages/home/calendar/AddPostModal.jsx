@@ -2,9 +2,9 @@ import React, { useCallback, useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 import CalendarPostModal from "./CalendarPostModal";
 import { BiX } from "react-icons/bi";
+import { BsTrash3 } from "react-icons/bs";
 import {
   BsClock,
   BsCalendar4Range,
@@ -18,15 +18,22 @@ import {
 } from "react-icons/bs";
 import { SlLock } from "react-icons/sl";
 import { useDispatch } from "react-redux";
-import { __createNewPost, __getTargetList } from "../../../redux/modules/calendarSlice";
+import {
+  __createNewPost,
+  __getTargetList,
+  __postImgUpload,
+  __getPostDetail,
+  __updatePost,
+} from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
+import add from "date-fns/add";
+import { inRange } from "lodash";
 
-function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
+function AddPostModal({ ...props }) {
   const time = [
     "00:00",
     "01:00",
@@ -60,32 +67,103 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
     register,
     handleSubmit,
     getValues,
+    setValue,
     resetField,
     watch,
     reset,
     formState: { errors },
   } = useForm();
 
+  // 쓰레기통 아이콘
+  const [isDelete, setIsDelete] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(startDate);
   const [isAllDay, setIsAllDay] = useState(getValues("allDay"));
   const [color, setColor] = useState("RED");
   const [isColor, setIsColor] = useState("#EC899F");
   const [isShowLocation, setIsShowLocation] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
+  const [isShowImg, setIsShowImg] = useState(false);
   const [findTarget, setFindTarget] = useState("");
   const [targetList, setTargetList] = useState([]);
   const [targetToggle, setTargetToggle] = useState(false);
   const [targetPick, setTargetPick] = useState([]);
+  // 저장되어있던 친구
+  const [savePick, setSavePick] = useState([]);
   // db에 보내줄 친구 리스트
   const [targetPickId, setTargetPickId] = useState([]);
   // db에 보내줄 파일 리스트
   const [fileList, setFileList] = useState([]);
   // 이름 뿌려줄 리스트
   const [fileName, setFileName] = useState([]);
+  // 이미지 뷰 뿌려줄 리스트
+  const [fileImg, setFileImg] = useState([]);
+  // 저장되어있던 이미지
+  const [saveView, setSaveView] = useState([]);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const outside = useRef();
+
+  useEffect(() => {
+    if (props.detailPostId) {
+      dispatch(__getPostDetail({ id: props.detailPostId, token })).then((data) => {
+        console.log("=====>", data);
+        // 정보 뿌려주기
+        setValue("title", data.payload.title);
+        setValue("startTime", data.payload.startTime.substr(0, 5));
+        setValue("endTime", data.payload.endTime.substr(0, 5));
+        setValue("location", data.payload.location);
+        setValue("content", data.payload.content);
+        setValue("scope", data.payload.scope);
+
+        const newStart = new Date(data.payload.startDate);
+        const newEnd = add(new Date(data.payload.endDate), { days: -1 });
+        setStartDate(newStart);
+        setEndDate(newEnd);
+        setSaveView(data.payload.image);
+        if (data.payload.participent.length !== 0) {
+          data.payload.participent.map((user) => {
+            const newUser = {
+              id: user.participentId,
+              nickName: user.participentName,
+            };
+            setTargetPick([...targetPick, newUser]);
+            setTargetPickId([...targetPickId, parseInt(newUser.id)]);
+          });
+        }
+        //setSavePick(data.payload.participant);
+        //setTargetPickId([...targetPickId, parseInt(data.payload.participant.participantId)]);
+
+        data.payload.color === "RED"
+          ? setIsColor("#EC899F")
+          : data.payload.color === "ORANGE"
+          ? setIsColor("#EB8E54")
+          : data.payload.color === "YELLOW"
+          ? setIsColor("#FCE0A4")
+          : data.payload.color === "GREEN"
+          ? setIsColor("#94DD8E")
+          : data.payload.color === "BLUE"
+          ? setIsColor("#95DFFF")
+          : data.payload.color === "NAVY"
+          ? setIsColor("#4C7EA0")
+          : setIsColor("#9747FF");
+
+        props.setIsAddPost(true);
+        setIsDelete(true);
+      });
+    }
+  }, [props.detailPostId]);
+
+  console.log("정보넣고  id : ", targetPick);
+
+  // 날짜 클릭시 해당날짜의 일정추가
+  useEffect(() => {
+    if (props.pickDate) {
+      setStartDate(props.pickDate);
+      setEndDate(props.pickDate);
+      props.setIsAddPost(true);
+    }
+  }, [props.pickDate]);
 
   // 친구 검색어 입력시 debounce 처리
   // custom debounce
@@ -99,7 +177,7 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
     };
   };
   const handleSearchText = useCallback(
-    debounce((text) => setFindTarget(text), 500),
+    debounce((text) => setFindTarget(text), 200),
     []
   );
   // useForm watch 이용해서 input 값 가져오기
@@ -154,16 +232,6 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
     document.addEventListener("mousedown", outsideClick);
   }, [targetToggle]);
 
-  // 클릭한 이미지 파일 삭제
-  const deleteImgFile = (index) => {
-    // fileName ,fileList 값 삭제
-    const newName = fileName.filter((item, i) => i !== index);
-    const newList = fileList.filter((item, i) => i !== index);
-
-    setFileName([...newName]);
-    setFileList([...newList]);
-  };
-
   const colorClick = (data) => {
     setIsColor(data);
     switch (data) {
@@ -188,27 +256,36 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
     setIsAllDay(!isAllDay);
   };
 
+  // 삭제하기
+  const deletePostHandler = () => {};
+  // 닫기
   const closeClickHandler = () => {
-    setIsAddPost(false);
+    props.setIsAddPost(false);
     // 초기화
     setIsAllDay(false);
     setIsColor("#EC899F");
     setFileName([]);
+    setFileImg([]);
+    setSaveView([]);
     setTargetPick([]);
     setStartDate(new Date());
     setEndDate(new Date());
+    setIsShowLocation(false);
+    setIsShowContent(false);
+    setIsShowImg(false);
+    setIsDelete(false);
+    props.setDetailPostId("");
     reset();
   };
   const showToggieHandler = (target) => {
-    target === "location" ? setIsShowLocation(true) : setIsShowContent(true);
+    target === "location" ? setIsShowLocation(true) : target === "content" ? setIsShowContent(true) : setIsShowImg(true);
   };
   const hideToggieHandler = (target) => {
-    target === "location" ? setIsShowLocation(false) : setIsShowContent(false);
+    target === "location" ? setIsShowLocation(false) : target === "content" ? setIsShowContent(false) : setIsShowImg(false);
   };
 
   const imgUploadHandler = (e) => {
     //console.log("사진 : ", e.target.files); // => 객체!! 배열아님
-    setFileName([]);
     const img = Array.from(e.target.files);
     setFileList([...img]);
     // 파일 이름 뿌려주기 위해서
@@ -222,6 +299,34 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
         setFileName((state) => [...state, newName]);
       }
     });
+
+    // 프리뷰
+    let fileUrl = [];
+    for (let i = 0; i < img.length; i++) {
+      let file = img[i];
+      let fileReader = new FileReader();
+      fileReader.onload = () => {
+        fileUrl[i] = fileReader.result;
+        setFileImg([...fileImg, ...fileUrl]);
+      };
+      fileReader.readAsDataURL(file);
+    }
+  };
+
+  // 클릭한 이미지 파일 삭제
+  const deleteImgFile = (index, save) => {
+    if (save) {
+      const newSaveView = saveView.filter((itme, i) => i !== index);
+      setSaveView([...newSaveView]);
+    } else {
+      // fileName ,fileList, fileImg 값 삭제
+      const newName = fileName.filter((item, i) => i !== index);
+      const newList = fileList.filter((item, i) => i !== index);
+      const newView = fileImg.filter((item, i) => i !== index);
+      setFileName([...newName]);
+      setFileList([...newList]);
+      setFileImg([...newView]);
+    }
   };
 
   // 제목이 비었을때
@@ -234,13 +339,11 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
     const newStart = format(startDate, "yyyy-MM-dd");
     const newEnd = format(endDate.setDate(endDate.getDate() + 1), "yyyy-MM-dd");
 
-    // let newStartTime = "";
-    // let newEndTime = "";
-    // if (!data.allDay) {
-    //   newStartTime = data.startTime;
-    //   newEndTime = data.endTime;
-    // }
-
+    const imgList = new FormData();
+    fileList.map((img) => {
+      imgList.append("images", img);
+    });
+    console.log("저장 클릭 후 targetId=========", targetPickId);
     const newPost = {
       title: data.title,
       startDate: newStart,
@@ -252,32 +355,63 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
       location: data.location,
       content: data.content,
       scope: data.scope,
-      image: [""],
     };
+    console.log("newPost---------", newPost);
+    if (fileList.length) {
+      // 이미지 있을때 + 수정하기일때
+      if (props.detailPostId) {
+        dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
+          if (saveView) {
+            // 이전 저장되어있던 이미지가 있다
+            let saveNewView = [];
+            saveNewView.push(...saveView);
+            saveNewView.push(...data.payload);
 
-    console.log("newPost-------------", newPost);
-
-    // fileList.map((img) => {
-    //   newPost.append("image", img);
-    // });
-    //newPost.append("image", "");
-
-    dispatch(__createNewPost({ newPost, token }));
-    setIsAddPost(false);
-    setSide(true);
-
-    // for (let num of newPost.keys()) {
-    //   console.log("formData key----> : ", num);
-    // }
-    // for (let num of newPost.values()) {
-    //   console.log("formData valuse----> : ", num);
-    // }
+            newPost.image = saveNewView;
+            dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
+            alert("수정되었습니다.");
+            props.setSide(true);
+            closeClickHandler();
+          } else {
+            newPost.image = data.payload;
+            dispatch(__createNewPost({ newPost, token })).then((data) => {
+              alert(data.payload);
+              props.setSide(true);
+              closeClickHandler();
+            });
+          }
+        });
+      } else {
+        newPost.image = data.payload;
+        dispatch(__createNewPost({ newPost, token })).then((data) => {
+          alert(data.payload);
+          props.setSide(true);
+          closeClickHandler();
+        });
+      }
+    } else {
+      // 이미지 없을때 + 수정하기 일때
+      if (props.detailPostId) {
+        console.log("여기");
+        dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
+        alert("수정되었습니다.");
+        props.setSide(true);
+        closeClickHandler();
+      } else {
+        dispatch(__createNewPost({ newPost, token })).then((data) => {
+          alert(data.payload);
+          props.setSide(true);
+          closeClickHandler();
+        });
+      }
+    }
   };
 
   return (
-    <CalendarPostModal isAddPost={isAddPost} setIsAddPost={setIsAddPost}>
+    <CalendarPostModal isAddPost={props.isAddPost} setIsAddPost={props.setIsAddPost}>
       <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
-        <postStyle.HeaderWrapper>
+        <postStyle.HeaderWrapper isDelete={isDelete}>
+          <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
           <BiX className="closeIncon" onClick={closeClickHandler} />
         </postStyle.HeaderWrapper>
 
@@ -297,7 +431,6 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
                   <postStyle.CustomDatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
-                    minDate={new Date()}
                     dateFormat="yyyy-MM-dd"
                     locale={ko}
                   />
@@ -443,8 +576,28 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
                 <postStyle.TextSpan>
                   <span>사진</span>
                 </postStyle.TextSpan>
+                <postStyle.ToggleContainer>
+                  {isShowImg ? (
+                    <BsChevronUp className="showToggle" onClick={() => hideToggieHandler("img")} />
+                  ) : (
+                    <BsChevronDown className="showToggle" onClick={() => showToggieHandler("img")} />
+                  )}
+                </postStyle.ToggleContainer>
+              </postStyle.ImgContainer>
+              <postStyle.ModifyImgUploadBox isShow={isShowImg}>
                 <postStyle.ImgUploadBox>
                   <postStyle.ImgUploadListBox>
+                    {saveView &&
+                      saveView?.map((list, i) => {
+                        const save = "save";
+                        //let sliceName = "..." + list.substr(-7, 3);
+                        return (
+                          <postStyle.ImgBox key={i}>
+                            <span>파일{i}.jpg</span>
+                            <BiX className="friendX" onClick={() => deleteImgFile(i, save)} />
+                          </postStyle.ImgBox>
+                        );
+                      })}
                     {fileName?.map((list, i) => {
                       return (
                         <postStyle.ImgBox key={i}>
@@ -454,14 +607,20 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
                       );
                     })}
                   </postStyle.ImgUploadListBox>
-                  <div>
-                    <postStyle.ImgLabel htmlFor="inputImg">
-                      <postStyle.ImgUploadButton>파일추가</postStyle.ImgUploadButton>
-                      <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} />
-                    </postStyle.ImgLabel>
-                  </div>
+                  <postStyle.ImgLabel htmlFor="inputImg">
+                    <postStyle.ImgUploadButton>파일추가</postStyle.ImgUploadButton>
+                    <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} />
+                  </postStyle.ImgLabel>
                 </postStyle.ImgUploadBox>
-              </postStyle.ImgContainer>
+                <postStyle.PreviewContainer>
+                  {saveView.map((url, i) => {
+                    return <img key={i} src={url}></img>;
+                  })}
+                  {fileImg.map((url, i) => {
+                    return <img key={i} src={url}></img>;
+                  })}
+                </postStyle.PreviewContainer>
+              </postStyle.ModifyImgUploadBox>
             </postStyle.ImgWrapper>
 
             <postStyle.ScopeWrapper>
@@ -482,7 +641,7 @@ function AddPostModal({ isAddPost, setIsAddPost, setSide }) {
         </postStyle.BodyWrapper>
 
         <postStyle.SubmitButtonWrapper>
-          <button>저장</button>
+          <button>{props.detailPostId ? "수정" : "저장"}</button>
         </postStyle.SubmitButtonWrapper>
       </postStyle.AddPostWrapper>
     </CalendarPostModal>
