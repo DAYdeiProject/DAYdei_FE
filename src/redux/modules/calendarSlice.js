@@ -43,13 +43,27 @@ export const __createNewPost = createAsyncThunk("createNewPost", async (payload,
 // 일정 update
 export const __updatePost = createAsyncThunk("updatePost", async (payload, thunkAPI) => {
   try {
-    console.log("update ---> ", payload);
     const response = await api.put(`/api/posts/${payload.postId}`, payload.updatePost, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("update response---> ", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 일정 delete
+export const __deletePost = createAsyncThunk("deletePost", async (payload, thunkAPI) => {
+  try {
+    console.log("deletePost ---> ", payload);
+    const response = await api.delete(`/api/posts/${payload.id}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("delete response---> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -183,6 +197,20 @@ export const calendarSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(__updatePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__deletePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__deletePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.data = action.payload;
+      })
+      .addCase(__deletePost.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
