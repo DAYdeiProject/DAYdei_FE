@@ -24,6 +24,7 @@ import {
   __postImgUpload,
   __getPostDetail,
   __updatePost,
+  __deletePost,
 } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
@@ -31,7 +32,6 @@ import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
 import add from "date-fns/add";
-import { inRange } from "lodash";
 
 function AddPostModal({ ...props }) {
   const time = [
@@ -107,7 +107,6 @@ function AddPostModal({ ...props }) {
   useEffect(() => {
     if (props.detailPostId) {
       dispatch(__getPostDetail({ id: props.detailPostId, token })).then((data) => {
-        console.log("=====>", data);
         // 정보 뿌려주기
         setValue("title", data.payload.title);
         setValue("startTime", data.payload.startTime.substr(0, 5));
@@ -115,6 +114,7 @@ function AddPostModal({ ...props }) {
         setValue("location", data.payload.location);
         setValue("content", data.payload.content);
         setValue("scope", data.payload.scope);
+        setColor(data.payload.color);
 
         const newStart = new Date(data.payload.startDate);
         const newEnd = add(new Date(data.payload.endDate), { days: -1 });
@@ -131,8 +131,6 @@ function AddPostModal({ ...props }) {
             setTargetPickId([...targetPickId, parseInt(newUser.id)]);
           });
         }
-        //setSavePick(data.payload.participant);
-        //setTargetPickId([...targetPickId, parseInt(data.payload.participant.participantId)]);
 
         data.payload.color === "RED"
           ? setIsColor("#EC899F")
@@ -153,8 +151,6 @@ function AddPostModal({ ...props }) {
       });
     }
   }, [props.detailPostId]);
-
-  console.log("정보넣고  id : ", targetPick);
 
   // 날짜 클릭시 해당날짜의 일정추가
   useEffect(() => {
@@ -256,8 +252,14 @@ function AddPostModal({ ...props }) {
     setIsAllDay(!isAllDay);
   };
 
-  // 삭제하기
-  const deletePostHandler = () => {};
+  // 일정 삭제하기
+  const deletePostHandler = (id) => {
+    //console.log(id);
+    dispatch(__deletePost({ id, token })).then((data) => {
+      alert(data.payload);
+      props.setIsAddPost(false);
+    });
+  };
   // 닫기
   const closeClickHandler = () => {
     props.setIsAddPost(false);
@@ -343,7 +345,7 @@ function AddPostModal({ ...props }) {
     fileList.map((img) => {
       imgList.append("images", img);
     });
-    console.log("저장 클릭 후 targetId=========", targetPickId);
+
     const newPost = {
       title: data.title,
       startDate: newStart,
@@ -356,7 +358,7 @@ function AddPostModal({ ...props }) {
       content: data.content,
       scope: data.scope,
     };
-    console.log("newPost---------", newPost);
+
     if (fileList.length) {
       // 이미지 있을때 + 수정하기일때
       if (props.detailPostId) {
@@ -392,7 +394,6 @@ function AddPostModal({ ...props }) {
     } else {
       // 이미지 없을때 + 수정하기 일때
       if (props.detailPostId) {
-        console.log("여기");
         dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
         alert("수정되었습니다.");
         props.setSide(true);
