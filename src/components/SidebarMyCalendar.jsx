@@ -39,7 +39,8 @@ export default function SidebarMyCalendar({ nickName, side }) {
   }
 
   useEffect(() => {
-    dispatch(__getTodaySchedule(token));
+    const today = format(new Date(), "yyyy-MM-dd");
+    dispatch(__getTodaySchedule({ today, token }));
     dispatch(__getTodayUpdate(token));
   }, [side]);
 

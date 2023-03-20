@@ -13,6 +13,13 @@ const HeaderWrapper = styled.section`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
   margin-top: 20px;
+  .trashIcon {
+    display: ${(props) => (props.isDelete ? "block" : "none")};
+    margin-right: 5px;
+    font-size: 18px;
+    color: ${(props) => props.theme.Bg.deepColor};
+    cursor: pointer;
+  }
   .closeIncon {
     font-size: 30px;
     color: ${(props) => props.theme.Bg.deepColor};
@@ -293,7 +300,7 @@ const ImgContainer = styled(LocationContainer)`
 const ImgUploadBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  width: 340px;
+  //width: ${(props) => (props.isShowImg ? "400px" : "340px")};
   height: 30px;
 `;
 
@@ -314,12 +321,29 @@ const ImgUploadButton = styled.div`
 `;
 
 const ImgUploadListBox = styled(InviteSearchBox)`
+  width: 100%;
   border: none;
   padding: 0;
 `;
 const ImgBox = styled(FriendBox)`
   width: 0;
   height: 25px;
+`;
+
+const ModifyImgUploadBox = styled.div`
+  display: ${(props) => (props.isShow ? "block" : "none")};
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const PreviewContainer = styled.div`
+  ${(props) => props.theme.FlexCol}
+  gap: 10px;
+  margin-top: 20px;
+  img {
+    width: 330px;
+    height: 330px;
+  }
 `;
 
 // 공개범위 영역
@@ -394,6 +418,8 @@ const postStyle = {
   ImgUploadButton,
   ImgUploadListBox,
   ImgBox,
+  ModifyImgUploadBox,
+  PreviewContainer,
   ScopeWrapper,
   SelectContainer,
   SubmitButtonWrapper,

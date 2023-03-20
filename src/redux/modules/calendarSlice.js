@@ -7,6 +7,7 @@ const initialState = {
   today: [],
   update: [],
   detail: [],
+  imgList: [],
   isError: false,
   isLoading: false,
 };
@@ -33,7 +34,22 @@ export const __createNewPost = createAsyncThunk("createNewPost", async (payload,
         Authorization: payload.token,
       },
     });
-    console.log("포스트 성공===", response.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 일정 update
+export const __updatePost = createAsyncThunk("updatePost", async (payload, thunkAPI) => {
+  try {
+    console.log("update ---> ", payload);
+    const response = await api.put(`/api/posts/${payload.postId}`, payload.updatePost, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("update response---> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -71,9 +87,9 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
 // sidebar 오늘의 일정 get
 export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/today`, {
+    const response = await api.get(`/api/home/today?date=${payload.today}`, {
       headers: {
-        Authorization: payload,
+        Authorization: payload.token,
       },
     });
     return thunkAPI.fulfillWithValue(response.data.data);
@@ -85,7 +101,8 @@ export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (pa
 // sidebar 업데이트한 친구목록 get
 export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/friends/friendList`, {
+    // update로 수정
+    const response = await api.get(`/api/friends/update`, {
       headers: {
         Authorization: payload,
       },
@@ -102,6 +119,21 @@ export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload,
     const response = await api.get(`/api/posts/${payload.id}`, {
       headers: {
         Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// img s3 post
+export const __postImgUpload = createAsyncThunk("postImgUpload", async (payload, thunkAPI) => {
+  try {
+    const response = await api.post(`/api/posts/images`, payload.images, {
+      headers: {
+        Authorization: payload.token,
+        "Content-Type": "multipart/form-data",
       },
     });
     return thunkAPI.fulfillWithValue(response.data.data);
@@ -138,6 +170,19 @@ export const calendarSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(__createNewPost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__updatePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__updatePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.data = action.payload;
+      })
+      .addCase(__updatePost.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
@@ -203,6 +248,19 @@ export const calendarSlice = createSlice({
         state.detail = action.payload;
       })
       .addCase(__getPostDetail.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__postImgUpload.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__postImgUpload.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.imgList = action.payload;
+      })
+      .addCase(__postImgUpload.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
