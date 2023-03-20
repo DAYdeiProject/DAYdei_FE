@@ -8,6 +8,7 @@ const initialState = {
   update: [],
   detail: [],
   imgList: [],
+  mainToday: [],
   isError: false,
   isLoading: false,
 };
@@ -121,6 +122,22 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
         Authorization: payload,
       },
     });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 타 유저의 오늘의 일정 get
+export const __getOtherUserToday = createAsyncThunk("getOtherUserTodaySchedule", async (payload, thunkAPI) => {
+  try {
+    console.log("타유저 payload : ", payload);
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("타유저 today : ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -263,6 +280,19 @@ export const calendarSlice = createSlice({
         state.update = action.payload;
       })
       .addCase(__getTodayUpdate.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__getOtherUserToday.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getOtherUserToday.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.mainToday = action.payload;
+      })
+      .addCase(__getOtherUserToday.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

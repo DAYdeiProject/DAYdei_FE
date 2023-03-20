@@ -360,15 +360,15 @@ function AddPostModal({ ...props }) {
     };
 
     if (fileList.length) {
-      // 이미지 있을때 + 수정하기일때
-      if (props.detailPostId) {
-        dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
+      // 이미지 있을때
+      dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
+        // 수정하기 일때
+        if (props.detailPostId) {
           if (saveView) {
             // 이전 저장되어있던 이미지가 있다
             let saveNewView = [];
             saveNewView.push(...saveView);
             saveNewView.push(...data.payload);
-
             newPost.image = saveNewView;
             dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
             alert("수정되었습니다.");
@@ -382,15 +382,15 @@ function AddPostModal({ ...props }) {
               closeClickHandler();
             });
           }
-        });
-      } else {
-        newPost.image = data.payload;
-        dispatch(__createNewPost({ newPost, token })).then((data) => {
-          alert(data.payload);
-          props.setSide(true);
-          closeClickHandler();
-        });
-      }
+        } else {
+          newPost.image = data.payload;
+          dispatch(__createNewPost({ newPost, token })).then((data) => {
+            alert(data.payload);
+            props.setSide(true);
+            closeClickHandler();
+          });
+        }
+      });
     } else {
       // 이미지 없을때 + 수정하기 일때
       if (props.detailPostId) {
