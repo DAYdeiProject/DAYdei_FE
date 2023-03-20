@@ -52,11 +52,15 @@ export const __getFriendsList = createAsyncThunk("getFriendsList", async (_, thu
   }
 });
 
-export const __getFamousList = createAsyncThunk("getFamousList", async (_, thunkAPI) => {
+export const __getFamousList = createAsyncThunk("getFamousList", async (payload, thunkAPI) => {
   try {
-    const response = await friendsInstance.get("/list/famous");
-    console.log(response);
-    return thunkAPI.fulfillWithValue(response);
+    const response = await friendsInstance.get("/list/famous", {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    // console.log(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }

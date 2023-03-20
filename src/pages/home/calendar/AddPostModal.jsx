@@ -154,7 +154,7 @@ function AddPostModal({ ...props }) {
     }
   }, [props.detailPostId]);
 
-  console.log("정보넣고  id : ", targetPick);
+  // console.log("정보넣고  id : ", targetPick);
 
   // 날짜 클릭시 해당날짜의 일정추가
   useEffect(() => {
