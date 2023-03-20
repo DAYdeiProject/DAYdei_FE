@@ -2,17 +2,31 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
+import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
+
 function FriendList({ friendsList }) {
   const dispatch = useDispatch();
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
   };
+
   if (friendsList.length === 0) {
     return (
-      <NoListMessage>
-        There's no friend in the list
-        <button>초대하기</button>
-      </NoListMessage>
+      <NoListMessageWrapper>
+        <MessageBox>
+          <ContentArea>
+            <IconStyle />
+            <TextWrap>
+              <UpperText>나와 친구인 사람</UpperText>
+              <BottomText>친구와 연결하여 캘린더를 공유해보세요.</BottomText>
+            </TextWrap>
+          </ContentArea>
+          <ButtonWrap>
+            <KakaoButton>카카오톡 친구와 연동</KakaoButton>
+            <InviteButton>친구 초대</InviteButton>
+          </ButtonWrap>
+        </MessageBox>
+      </NoListMessageWrapper>
     );
   }
   return (
@@ -22,7 +36,6 @@ function FriendList({ friendsList }) {
           <ProfileArea>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
-
               <TextArea>
                 <NickNameWrap>{user.nickName} </NickNameWrap>
                 <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
@@ -41,14 +54,158 @@ function FriendList({ friendsList }) {
     </>
   );
 }
-export const NoListMessage = styled.div`
-  height: 100%;
+export const NoListMessageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+
+  width: 678px;
+  height: 372px;
+
+  background: #fbfbfb;
+  border-radius: 8px;
+  /* background-color: skyblue; */
+`;
+
+export const MessageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  gap: 24px;
+
+  /* width: 240px; */
+  height: 195px;
+  /* background-color: yellow; */
+`;
+
+export const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  padding: 10px;
+  gap: 24px;
+
+  /* width: 240px; */
+  height: 131px;
+  border-radius: 4px;
+  /* background-color: lightgray; */
 `;
+
+export const IconStyle = styled(MdOutlineAddReaction)`
+  color: gray;
+  width: 40px;
+  height: 40px;
+`;
+
+export const TextWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+
+  /* width: 220px; */
+  height: 47px;
+  /* background-color: gray; */
+`;
+
+export const UpperText = styled.div`
+  padding: 0px;
+  gap: 10px;
+
+  /* width: 105px; */
+  height: 19px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+
+  text-align: center;
+`;
+
+export const BottomText = styled.div`
+  padding: 0px;
+  gap: 10px;
+
+  /* width: 220px; */
+  height: 20px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  text-align: center;
+
+  color: #626262;
+`;
+
+export const ButtonWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px;
+  gap: 16px;
+
+  width: 100%;
+  height: 40px;
+  /* background-color: pink; */
+`;
+
+const KakaoButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 16px;
+
+  /* width: 144px; */
+  height: 40px;
+
+  background: #d9d9d9;
+  border-radius: 4px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const InviteButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 16px;
+
+  /* width: 80px; */
+  height: 40px;
+
+  background: #d9d9d9;
+  border-radius: 4px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 export const PostBox = styled.div`
   display: flex;
   flex-direction: row;

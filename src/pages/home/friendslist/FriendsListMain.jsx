@@ -15,7 +15,7 @@ function FriendsListMain() {
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
   // console.log("로딩중 위-->", FriendsList);
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <LoadingWrapper>로딩중...</LoadingWrapper>;
   }
   // console.log("로딩아래 -->", FriendsList);
   const friendsList = FriendsList?.friendResponseList || [];
@@ -53,6 +53,11 @@ function FriendsListMain() {
     </>
   );
 }
+
+const LoadingWrapper = styled.div`
+  width: 1570px;
+  height: 100%;
+`;
 
 const CalendarWrapper = styled.div`
   width: 1570px;
@@ -139,7 +144,7 @@ const ListWrap = styled.div`
   padding: 0px;
   width: 678px;
   height: 770px;
-  /* background-color: lightgreen; */
+  background: #fbfbfb;
   overflow: auto;
   ::-webkit-scrollbar {
     display: none;
