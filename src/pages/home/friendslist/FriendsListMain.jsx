@@ -1,25 +1,47 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-// import { CalendarWrapper } from "../calendar/CalendarMain";
+
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import { __getFriendsList } from "../../../redux/modules/friendsSlice";
+import { AiOutlineSearch } from "react-icons/ai";
+import { BsPersonAdd } from "react-icons/bs";
+import { RxTextAlignMiddle } from "react-icons/rx";
+import ApproveRequestModal from "./ApproveRequestModal";
+import useOutSideClick from "../../../hooks/useOutsideClick";
+
 function FriendsListMain() {
   const dispatch = useDispatch();
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
+
+  const [isApproveRequestModalOpen, setIsApproveRequestModalOpen] = useState(false);
+
+  const approveRequestModalHandler = () => {
+    setIsApproveRequestModalOpen(true);
+  };
+
+  const handleCategoryModalClose = () => {
+    setIsApproveRequestModalOpen(false);
+  };
+
+  const ApproveRequestModalRef = useRef(null);
+  useOutSideClick(ApproveRequestModalRef, handleCategoryModalClose);
+
   useEffect(() => {
     dispatch(__getFriendsList());
   }, [dispatch, statusCodeFriend, statusCodeSubscribe]);
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
   // console.log("로딩중 위-->", FriendsList);
+
   if (isLoading) {
     return <LoadingWrapper>로딩중...</LoadingWrapper>;
   }
   // console.log("로딩아래 -->", FriendsList);
   const friendsList = FriendsList?.friendResponseList || [];
   const subscribeList = FriendsList?.userSubscribeResponseList || [];
+
   return (
     <>
       <CalendarWrapper>
@@ -29,6 +51,12 @@ function FriendsListMain() {
               <ContentWrapper>
                 <TopText>
                   <TopLeft>친구 {friendsList.length}</TopLeft>
+                  <TopRight>
+                    <SearchIcon />
+                    <PersonAddIcon onClick={approveRequestModalHandler} />
+                    {isApproveRequestModalOpen && <ApproveRequestModal ApproveRequestModalRef={ApproveRequestModalRef} />}
+                    <AlignIcon />
+                  </TopRight>
                 </TopText>
                 <ListWrap>
                   <FriendList friendsList={friendsList} />
@@ -137,6 +165,40 @@ const TopLeft = styled.div`
   line-height: 24px;
 `;
 
+const TopRight = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+
+  width: 92px;
+  height: 20px;
+  /* background-color: pink; */
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const SearchIcon = styled(AiOutlineSearch)`
+  color: gray;
+  width: 20px;
+  height: 20px;
+`;
+
+const PersonAddIcon = styled(BsPersonAdd)`
+  color: gray;
+  width: 20px;
+  height: 20px;
+`;
+
+const AlignIcon = styled(RxTextAlignMiddle)`
+  color: gray;
+  width: 20px;
+  height: 20px;
+`;
+
 const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -150,4 +212,5 @@ const ListWrap = styled.div`
     display: none;
   }
 `;
+
 export default FriendsListMain;

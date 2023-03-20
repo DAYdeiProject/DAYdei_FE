@@ -107,7 +107,7 @@ const RecommendButton = styled.div`
   line-height: 140%;
 
   color: #121212;
-  background-color: lightgray;
+  background: #d9d9d9;
   :hover {
     cursor: pointer;
   }
