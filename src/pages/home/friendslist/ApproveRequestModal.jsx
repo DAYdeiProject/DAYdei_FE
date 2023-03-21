@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 import ModalWrap from "../../../elements/ModalWrap";
 import Modal from "../../../elements/Modal";
-import { __getRequestedUsersList, __acceptNewFriend } from "../../../redux/modules/friendsSlice";
+import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
@@ -16,7 +16,7 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
     }
-  }, [acceptStatusCode]);
+  }, []);
 
   const HandleModalClose = () => {
     setIsApproveRequestModalOpen(false);
@@ -26,6 +26,10 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
 
   const ApproveRequestHandler = (id) => {
     dispatch(__acceptNewFriend(id));
+  };
+
+  const refuseHandler = (id) => {
+    dispatch(__cancelRequest(id));
   };
 
   return (
@@ -49,7 +53,12 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
                         }}>
                         신청수락
                       </Button>
-                      <Button>신청거절</Button>
+                      <Button
+                        onClick={() => {
+                          refuseHandler(user.id);
+                        }}>
+                        신청거절
+                      </Button>
                     </ButtonsWrap>
                   </PostWrap>
                 </>

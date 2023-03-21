@@ -38,9 +38,10 @@ function FriendsListMain() {
   const ApproveRequestModalRef = useRef(null);
   useOutSideClick(ApproveRequestModalRef, handleCategoryModalClose);
 
+  // 친구수락/거절 모달에서 수락/거절 눌렀을 때 업데이트 된 목록 가져오기
   useEffect(() => {
     dispatch(__getRequestedUsersList({ token }));
-  }, [acceptStatusCode]);
+  }, [acceptStatusCode, statusCodeFriend]);
 
   // 버튼을 누를 때 마다 친구/구독 리스트를 새로 가져오도록 조치함.
 
