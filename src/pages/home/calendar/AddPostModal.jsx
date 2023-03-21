@@ -32,37 +32,11 @@ import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
 import add from "date-fns/add";
+import ColorFromDB, { ColorList, ColorToDB, TimeList } from "./CalendarBasic";
 
 function AddPostModal({ ...props }) {
-  const time = [
-    "00:00",
-    "01:00",
-    "02:00",
-    "03:00",
-    "04:00",
-    "05:00",
-    "06:00",
-    "07:00",
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-    "23:00",
-    "24:00",
-  ];
-  // 빨주노초파남보
-  const colorList = ["#EC899F", "#EB8E54", "#FCE0A4", "#94DD8E", "#95DFFF", "#4C7EA0", "#9747FF"];
+  const time = TimeList();
+  const colorList = ColorList();
   const {
     register,
     handleSubmit,
@@ -132,19 +106,8 @@ function AddPostModal({ ...props }) {
           });
         }
 
-        data.payload.color === "RED"
-          ? setIsColor("#EC899F")
-          : data.payload.color === "ORANGE"
-          ? setIsColor("#EB8E54")
-          : data.payload.color === "YELLOW"
-          ? setIsColor("#FCE0A4")
-          : data.payload.color === "GREEN"
-          ? setIsColor("#94DD8E")
-          : data.payload.color === "BLUE"
-          ? setIsColor("#95DFFF")
-          : data.payload.color === "NAVY"
-          ? setIsColor("#4C7EA0")
-          : setIsColor("#9747FF");
+        const color = ColorFromDB(data.payload.color);
+        setIsColor(color);
 
         props.setIsAddPost(true);
         setIsDelete(true);
@@ -228,26 +191,14 @@ function AddPostModal({ ...props }) {
     document.addEventListener("mousedown", outsideClick);
   }, [targetToggle]);
 
+  // 색깔 클릭시
   const colorClick = (data) => {
     setIsColor(data);
-    switch (data) {
-      case "#EC899F":
-        return setColor("RED");
-      case "#EB8E54":
-        return setColor("ORANGE");
-      case "#FCE0A4":
-        return setColor("YELLOW");
-      case "#94DD8E":
-        return setColor("GREEN");
-      case "#95DFFF":
-        return setColor("BLUE");
-      case "#4C7EA0":
-        return setColor("NAVY");
-      default:
-        return setColor("PURPLE");
-    }
+    const color = ColorToDB(data);
+    setColor(color);
   };
 
+  // 종일 체크
   const isAllDayChange = () => {
     setIsAllDay(!isAllDay);
   };
@@ -287,7 +238,6 @@ function AddPostModal({ ...props }) {
   };
 
   const imgUploadHandler = (e) => {
-    //console.log("사진 : ", e.target.files); // => 객체!! 배열아님
     const img = Array.from(e.target.files);
     setFileList([...img]);
     // 파일 이름 뿌려주기 위해서
@@ -360,15 +310,15 @@ function AddPostModal({ ...props }) {
     };
 
     if (fileList.length) {
-      // 이미지 있을때 + 수정하기일때
-      if (props.detailPostId) {
-        dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
+      // 이미지 있을때
+      dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
+        // 수정하기 일때
+        if (props.detailPostId) {
           if (saveView) {
             // 이전 저장되어있던 이미지가 있다
             let saveNewView = [];
             saveNewView.push(...saveView);
             saveNewView.push(...data.payload);
-
             newPost.image = saveNewView;
             dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
             alert("수정되었습니다.");
@@ -382,15 +332,15 @@ function AddPostModal({ ...props }) {
               closeClickHandler();
             });
           }
-        });
-      } else {
-        newPost.image = data.payload;
-        dispatch(__createNewPost({ newPost, token })).then((data) => {
-          alert(data.payload);
-          props.setSide(true);
-          closeClickHandler();
-        });
-      }
+        } else {
+          newPost.image = data.payload;
+          dispatch(__createNewPost({ newPost, token })).then((data) => {
+            alert(data.payload);
+            props.setSide(true);
+            closeClickHandler();
+          });
+        }
+      });
     } else {
       // 이미지 없을때 + 수정하기 일때
       if (props.detailPostId) {

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import SidebarMyCalendar from "../components/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
+import UserInfo from "../utils/localStorage/userInfo";
 
 function Sidebar({ side }) {
   const [userInfo, setUserInfo] = useState("");
@@ -14,10 +15,8 @@ function Sidebar({ side }) {
   //const nickName = useSelector((state) => state.users);
   // 로컬 스토리지 userInfo
   useEffect(() => {
-    const storedUserInfo = localStorage.getItem("userInfo");
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
+    const userInfo = UserInfo();
+    setUserInfo(userInfo);
   }, []);
 
   return (
