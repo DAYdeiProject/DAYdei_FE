@@ -12,7 +12,7 @@ import ApproveRequestModal from "./ApproveRequestModal";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 
-function FriendsListMain() {
+function FriendsListMain({ handleShowSearchUsers, handleShowCalendarMain, setIsCalendarMainVisible }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
@@ -80,7 +80,7 @@ function FriendsListMain() {
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <FriendList friendsList={friendsList} />
+                  <FriendList friendsList={friendsList} handleShowCalendarMain={handleShowCalendarMain} setIsCalendarMainVisible={setIsCalendarMainVisible} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -92,7 +92,7 @@ function FriendsListMain() {
                   <TopLeft>구독 {subscribeList.length}</TopLeft>
                 </TopText>
                 <ListWrap>
-                  <SubscribeList subscribeList={subscribeList} />
+                  <SubscribeList subscribeList={subscribeList} handleShowSearchUsers={handleShowSearchUsers} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>

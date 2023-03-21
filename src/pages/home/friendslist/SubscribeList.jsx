@@ -21,7 +21,7 @@ import {
   ButtonArea,
 } from "./FriendList";
 
-function SubscribeList({ subscribeList }) {
+function SubscribeList({ subscribeList, handleShowSearchUsers }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ function SubscribeList({ subscribeList }) {
             </TextWrap>
           </ContentArea>
           <ButtonWrap>
-            <RecommendButton>회원님을 위한 추천</RecommendButton>
+            <RecommendButton onClick={handleShowSearchUsers}>회원님을 위한 추천</RecommendButton>
           </ButtonWrap>
         </MessageBox>
       </NoListMessageWrapper>
@@ -55,7 +55,6 @@ function SubscribeList({ subscribeList }) {
           <ProfileArea>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
-
               <TextArea>
                 <NickNameWrap>{user.nickName} </NickNameWrap>
                 <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
