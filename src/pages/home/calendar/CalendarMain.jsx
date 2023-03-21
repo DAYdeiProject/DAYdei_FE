@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { __getTotalPosts, __getPostDetail } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import { add, format } from "date-fns";
-import { addDays } from "date-fns";
+import Loading from "../../../components/Loading";
+import DayScheduleModal from "./DayScheduleModal";
+import UserInfo from "../../../utils/localStorage/userInfo";
+import ColorFromDB from "./CalendarBasic";
 
 function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
@@ -22,14 +24,15 @@ function CalendarMain({ setSide }) {
   const [pickDate, setPickDate] = useState("");
   // 일정 detail
   const [detailPostId, setDetailPostId] = useState("");
+  // 하루 일정 모달창 state
+  const [isTodaySchedule, setIsTodaySchedule] = useState(false);
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
-  const localUserId = localStorage.getItem("userInfo");
-  const userId = JSON.parse(localUserId);
+  const userId = UserInfo();
 
-  const { total, isLoding } = useSelector((state) => {
+  const { total, isLoading } = useSelector((state) => {
     return state.calendar;
   });
   //console.log("메인 detailPost : ", detailPost);
@@ -45,22 +48,7 @@ function CalendarMain({ setSide }) {
     setNewData([]);
     if (total && total.length !== 0) {
       const result = total.map((data) => {
-        let color = "";
-        if (data.color === "RED") {
-          color = "#EC899F";
-        } else if (data.color === "ORANGE") {
-          color = "#EB8E54";
-        } else if (data.color === "YELLOW") {
-          color = "#FCE0A4";
-        } else if (data.color === "GREEN") {
-          color = "#94DD8E";
-        } else if (data.color === "BLUE") {
-          color = "#95DFFF";
-        } else if (data.color === "NAVY") {
-          color = "#4C7EA0";
-        } else {
-          color = "#9747FF";
-        }
+        const color = ColorFromDB(data.color);
         return {
           id: data.id,
           title: data.title,
@@ -84,7 +72,7 @@ function CalendarMain({ setSide }) {
   // 일정 more 클릭시
   const handleMoreLinkClick = (e) => {
     e.jsEvent.preventDefault();
-    console.log("더보기 클릭됨");
+    setIsTodaySchedule(true);
   };
 
   // 일정detail 클릭시
@@ -94,7 +82,9 @@ function CalendarMain({ setSide }) {
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    setPickDate(date.date);
+    if (String(userId.userId) === param.id) {
+      setPickDate(date.date);
+    }
   };
 
   const setting = {
@@ -121,32 +111,36 @@ function CalendarMain({ setSide }) {
     timeZone: "local",
     events: newData,
   };
-  if (isLoding) <div>로딩중...</div>;
+  // if (isLoding) <Loading loading={isLoding} />;
 
   return (
-    <CalendarWrapper disabled={disabled}>
-      <FullCalendar
-        {...setting}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        locale="ko"
-        dayMaxEventRows={true}
-        initialView="dayGridMonth"
-        defaultAllDay={true}
-        moreLinkText="더보기"
-        moreLinkClick={handleMoreLinkClick}
-        eventClick={handlerEventClick}
-        dateClick={handlerDateClick}
-      />
-      <AddPostModal
-        isAddPost={isAddPost}
-        setIsAddPost={setIsAddPost}
-        setSide={setSide}
-        pickDate={pickDate}
-        setPickDate={setPickDate}
-        detailPostId={detailPostId}
-        setDetailPostId={setDetailPostId}
-      />
-    </CalendarWrapper>
+    <>
+      {isLoading && <Loading />}
+      <CalendarWrapper disabled={disabled}>
+        <FullCalendar
+          {...setting}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          locale="ko"
+          dayMaxEventRows={true}
+          initialView="dayGridMonth"
+          defaultAllDay={true}
+          moreLinkText="더보기"
+          moreLinkClick={handleMoreLinkClick}
+          eventClick={handlerEventClick}
+          dateClick={handlerDateClick}
+        />
+        <AddPostModal
+          isAddPost={isAddPost}
+          setIsAddPost={setIsAddPost}
+          setSide={setSide}
+          pickDate={pickDate}
+          setPickDate={setPickDate}
+          detailPostId={detailPostId}
+          setDetailPostId={setDetailPostId}
+        />
+        <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} />
+      </CalendarWrapper>
+    </>
   );
 }
 
@@ -173,7 +167,9 @@ export const CalendarWrapper = styled.div`
     align-items: center;
     position: relative;
   }
-
+  .fc-h-event .fc-event-title-container {
+    cursor: pointer;
+  }
   // 버튼 초기화
   .fc .fc-button-primary:disabled {
     background-color: white;
@@ -288,80 +284,3 @@ export const CalendarWrapper = styled.div`
     font-size: ${(props) => props.theme.Fs.smallText};
   }
 `;
-
-// // 클릭한 event(일정)
-//   handleEventClick = (info) => {
-//     console.log("info : ", info.event.title);
-//   };
-
-//   // 클릭한 date만
-//   handleDateClick = (date) => {
-//     console.log("date :", date);
-//   };
-
-//   // 일정 more 클릭시
-//   handleMoreLinkClick = (e) => {
-//     alert("ddd");
-//     e.preventDefault();
-//   };
-
-// events: [
-//   {
-//     id: "1",
-//     title: "Event 1",
-//     start: "2023-03-15",
-//     end: "2023-03-18",
-//     color: "lightpink",
-//     textColor: "black",
-//   },
-//   {
-//     id: "2",
-//     title: "밥먹기",
-//     start: "2023-03-10",
-//     end: "2023-03-10",
-//     color: "#7e0000",
-//   },
-//   {
-//     id: "3",
-//     title: "자기",
-//     start: "2023-03-10",
-//     end: "2023-03-14",
-//     color: "pink",
-//   },
-//   {
-//     id: "4",
-//     title: "놀기",
-//     start: "2023-03-13",
-//     end: "2023-03-15",
-//     color: "#056b85",
-//   },
-//   {
-//     id: "5",
-//     title: "먹기",
-//     start: "2023-03-14",
-//     end: "2023-03-16",
-//     color: "#96a75b",
-//   },
-//   {
-//     id: "6",
-//     title: "여행가기",
-//     start: "2023-03-12",
-//     end: "2023-03-16",
-//     color: "#9992c4",
-//   },
-//   {
-//     id: "7",
-//     title: "까꿍",
-//     start: "2023-03-12",
-//     end: "2023-03-16",
-//     color: "#69a9ac",
-//   },
-//   {
-//     id: "8",
-//     title: "까꿍",
-//     start: "2023-03-13",
-//     end: "2023-03-18",
-//     color: "#b16666",
-//     allDay: true,
-//   },
-// ],

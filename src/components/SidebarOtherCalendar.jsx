@@ -17,7 +17,7 @@ export default function SidebarOtherCalendar({ userId }) {
       setEmail(newEmail);
     });
   }, []);
-
+  console.log(userInfo);
   return (
     <ProfileWrapper>
       <BackImgWrapper>
