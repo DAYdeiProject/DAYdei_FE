@@ -5,7 +5,7 @@ import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friend
 import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-function FriendList({ friendsList, setIsCalendarMainVisible }) {
+function FriendList({ friendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,6 +40,9 @@ function FriendList({ friendsList, setIsCalendarMainVisible }) {
           onClick={() => {
             navigate(`/${user.id}`);
             setIsCalendarMainVisible(true);
+            setIsFriendListVisible(false);
+            setIsSearchUsersvisible(false);
+            setIsFriendDetailVisible(false);
           }}>
           <ProfileArea>
             <ProfileWrap>

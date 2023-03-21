@@ -2,6 +2,7 @@ import { React } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
+import { useNavigate } from "react-router-dom";
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -21,9 +22,10 @@ import {
   ButtonArea,
 } from "./FriendList";
 
-function SubscribeList({ subscribeList, handleShowSearchUsers }) {
+function SubscribeList({ subscribeList, handleShowSearchUsers, setIsCalendarMainVisible }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));
@@ -51,7 +53,12 @@ function SubscribeList({ subscribeList, handleShowSearchUsers }) {
   return (
     <>
       {subscribeList.map((user) => (
-        <PostBox key={user.id}>
+        <PostBox
+          key={user.id}
+          onClick={() => {
+            navigate(`/${user.id}`);
+            setIsCalendarMainVisible(true);
+          }}>
           <ProfileArea>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>

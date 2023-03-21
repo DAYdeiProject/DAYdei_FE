@@ -12,7 +12,14 @@ import ApproveRequestModal from "./ApproveRequestModal";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 
-function FriendsListMain({ handleShowSearchUsers, handleShowCalendarMain, setIsCalendarMainVisible }) {
+function FriendsListMain({
+  handleShowSearchUsers,
+  handleShowCalendarMain,
+  setIsCalendarMainVisible,
+  setIsFriendListVisible,
+  setIsSearchUsersvisible,
+  setIsFriendDetailVisible,
+}) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
@@ -80,7 +87,14 @@ function FriendsListMain({ handleShowSearchUsers, handleShowCalendarMain, setIsC
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <FriendList friendsList={friendsList} handleShowCalendarMain={handleShowCalendarMain} setIsCalendarMainVisible={setIsCalendarMainVisible} />
+                  <FriendList
+                    friendsList={friendsList}
+                    handleShowCalendarMain={handleShowCalendarMain}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -92,7 +106,11 @@ function FriendsListMain({ handleShowSearchUsers, handleShowCalendarMain, setIsC
                   <TopLeft>구독 {subscribeList.length}</TopLeft>
                 </TopText>
                 <ListWrap>
-                  <SubscribeList subscribeList={subscribeList} handleShowSearchUsers={handleShowSearchUsers} />
+                  <SubscribeList
+                    subscribeList={subscribeList}
+                    handleShowSearchUsers={handleShowSearchUsers}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -103,12 +121,12 @@ function FriendsListMain({ handleShowSearchUsers, handleShowCalendarMain, setIsC
   );
 }
 
-const LoadingWrapper = styled.div`
+export const LoadingWrapper = styled.div`
   width: 1570px;
   height: 100%;
 `;
 
-const CalendarWrapper = styled.div`
+export const CalendarWrapper = styled.div`
   width: 1570px;
   height: 100%;
 `;
@@ -125,7 +143,7 @@ export const WholeAreaWrapper = styled.div`
   top: 100px;
   /* background-color: skyblue; */
 `;
-const ListFrameBig = styled.div`
+export const ListFrameBig = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -136,7 +154,7 @@ const ListFrameBig = styled.div`
   height: 980px;
   /* background-color: pink; */
 `;
-const ListFrame = styled.div`
+export const ListFrame = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,7 +164,7 @@ const ListFrame = styled.div`
   height: 835px;
   /* background-color: gray; */
 `;
-const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -156,7 +174,7 @@ const ContentWrapper = styled.div`
   height: 835px;
   /* background-color: ${(props) => props.theme.Bg.lightColor}; */
 `;
-const TopText = styled.div`
+export const TopText = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -168,7 +186,7 @@ const TopText = styled.div`
   /* background-color: pink; */
 `;
 
-const TopLeft = styled.div`
+export const TopLeft = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -186,7 +204,7 @@ const TopLeft = styled.div`
   line-height: 24px;
 `;
 
-const TopRight = styled.div`
+export const TopRight = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -202,25 +220,25 @@ const TopRight = styled.div`
   }
 `;
 
-const SearchIcon = styled(AiOutlineSearch)`
+export const SearchIcon = styled(AiOutlineSearch)`
   color: gray;
   width: 20px;
   height: 20px;
 `;
 
-const PersonAddIcon = styled(BsPersonAdd)`
+export const PersonAddIcon = styled(BsPersonAdd)`
   color: gray;
   width: 20px;
   height: 20px;
 `;
 
-const AlignIcon = styled(RxTextAlignMiddle)`
+export const AlignIcon = styled(RxTextAlignMiddle)`
   color: gray;
   width: 20px;
   height: 20px;
 `;
 
-const ListWrap = styled.div`
+export const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
