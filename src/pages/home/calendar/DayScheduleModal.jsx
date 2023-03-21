@@ -8,13 +8,13 @@ import Cookies from "js-cookie";
 import { useParams } from "react-router";
 import { __getOtherUserToday } from "../../../redux/modules/calendarSlice";
 import format from "date-fns/format";
+import UserInfo from "../../../utils/localStorage/userInfo";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
-  const localUserInfo = localStorage.getItem("userInfo");
-  const userInfo = JSON.parse(localUserInfo);
+  const userInfo = UserInfo();
   const today = format(new Date(), "yyyy-MM-dd");
 
   useEffect(() => {

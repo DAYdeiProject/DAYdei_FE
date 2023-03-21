@@ -8,8 +8,9 @@ import { getDay } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 import Loading from "./Loading";
+import ColorFromDB from "../pages/home/calendar/CalendarBasic";
 
-export default function SidebarMyCalendar({ nickName, side }) {
+export default function SidebarMyCalendar({ ...props }) {
   //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
   const URI = "http://localhost:3000/friends";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code&scope=friends`;
@@ -43,21 +44,22 @@ export default function SidebarMyCalendar({ nickName, side }) {
     const today = format(new Date(), "yyyy-MM-dd");
     dispatch(__getTodaySchedule({ today, token }));
     dispatch(__getTodayUpdate(token));
-  }, [side]);
+  }, [props.side]);
 
   const { today, update, isLoading } = useSelector((state) => state.calendar);
 
   const navigate = useNavigate();
   const moveUserPage = (id) => {
+    console.log("------------", id);
     navigate(`/${id}`);
   };
-
+  console.log("------------update", update);
   return (
     <>
       {isLoading && <Loading />}
       <SidebarWrapper>
         <NickNameContainer>
-          <NickNameTitle>안녕하세요. {nickName}님</NickNameTitle>
+          <NickNameTitle>안녕하세요. {props.nickName}님</NickNameTitle>
         </NickNameContainer>
         <TodayScheduleContainer>
           <SideTitle>
@@ -77,21 +79,7 @@ export default function SidebarMyCalendar({ nickName, side }) {
             ) : (
               today &&
               today.map((list) => {
-                let color = "";
-                list.color === "RED"
-                  ? (color = "#EC899F")
-                  : list.color === "ORANGE"
-                  ? (color = "#EB8E54")
-                  : list.color === "YELLOW"
-                  ? (color = "#FCE0A4")
-                  : list.color === "GREEN"
-                  ? (color = "#94DD8E")
-                  : list.color === "BLUE"
-                  ? (color = "#95DFFF")
-                  : list.color === "NAVY"
-                  ? (color = "#4C7EA0")
-                  : (color = "#9747FF");
-
+                let color = ColorFromDB(list.color);
                 return (
                   <TodayScheduleBox key={list.id}>
                     <IconBox>
@@ -123,7 +111,7 @@ export default function SidebarMyCalendar({ nickName, side }) {
         <FriendsListContainer>
           <SideTitle>
             <span>업데이트한 친구</span>
-            <span>0</span>
+            <span>{update.length}</span>
           </SideTitle>
 
           <FriendsWrapper>
@@ -140,28 +128,26 @@ export default function SidebarMyCalendar({ nickName, side }) {
                 </NoneSchedule>
               ) : (
                 update &&
-                update.map((list) => {
-                  return (
-                    <ListBox key={list.userId}>
-                      <ImgBox>
-                        <img src=""></img>
-                      </ImgBox>
-                      <InfoBox>
-                        <span>{list.nickName}</span>
-                        <span>
-                          {list.introduction
-                            ? list.introduction.length > 15
-                              ? list.introduction.substr(0, 15)
-                              : list.introduction
-                            : "아직 자기소개가 없습니다."}
-                        </span>
-                      </InfoBox>
-                      <ButtonBox>
-                        <button onClick={() => moveUserPage(list.userId)}>캘린더</button>
-                      </ButtonBox>
-                    </ListBox>
-                  );
-                })
+                update.map((list) => (
+                  <ListBox key={list.id}>
+                    <ImgBox>
+                      <img src={list.profileImage}></img>
+                    </ImgBox>
+                    <InfoBox>
+                      <span>{list.nickName}</span>
+                      <span>
+                        {list.introduction
+                          ? list.introduction.length > 15
+                            ? list.introduction.substr(0, 15)
+                            : list.introduction
+                          : "아직 자기소개가 없습니다."}
+                      </span>
+                    </InfoBox>
+                    <ButtonBox>
+                      <button onClick={() => moveUserPage(list.id)}>캘린더</button>
+                    </ButtonBox>
+                  </ListBox>
+                ))
               )}
             </FriendsListBox>
           </FriendsWrapper>

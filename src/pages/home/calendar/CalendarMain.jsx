@@ -9,10 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { __getTotalPosts, __getPostDetail } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import { add, format } from "date-fns";
-import { addDays } from "date-fns";
 import Loading from "../../../components/Loading";
 import DayScheduleModal from "./DayScheduleModal";
+import UserInfo from "../../../utils/localStorage/userInfo";
+import ColorFromDB from "./CalendarBasic";
 
 function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
@@ -30,8 +30,7 @@ function CalendarMain({ setSide }) {
 
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
-  const localUserId = localStorage.getItem("userInfo");
-  const userId = JSON.parse(localUserId);
+  const userId = UserInfo();
 
   const { total, isLoading } = useSelector((state) => {
     return state.calendar;
@@ -49,22 +48,7 @@ function CalendarMain({ setSide }) {
     setNewData([]);
     if (total && total.length !== 0) {
       const result = total.map((data) => {
-        let color = "";
-        if (data.color === "RED") {
-          color = "#EC899F";
-        } else if (data.color === "ORANGE") {
-          color = "#EB8E54";
-        } else if (data.color === "YELLOW") {
-          color = "#FCE0A4";
-        } else if (data.color === "GREEN") {
-          color = "#94DD8E";
-        } else if (data.color === "BLUE") {
-          color = "#95DFFF";
-        } else if (data.color === "NAVY") {
-          color = "#4C7EA0";
-        } else {
-          color = "#9747FF";
-        }
+        const color = ColorFromDB(data.color);
         return {
           id: data.id,
           title: data.title,
