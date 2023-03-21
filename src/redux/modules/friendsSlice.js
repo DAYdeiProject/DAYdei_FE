@@ -5,9 +5,11 @@ const initialState = {
   RecommendList: [],
   FriendsList: [],
   FamousList: [],
+  RequestedUsersList: [],
   isLoading: false,
   isError: false,
   statusCode: 0,
+  acceptStatusCode: 0,
 };
 
 export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunkAPI) => {
@@ -24,6 +26,17 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
   try {
     const response = await friendsInstance.post(`/${id}`);
     // console.log(response.data);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thunkAPI) => {
+  try {
+    const response = await friendsInstance.put(`/${id}`);
+    console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -52,11 +65,29 @@ export const __getFriendsList = createAsyncThunk("getFriendsList", async (_, thu
   }
 });
 
-export const __getFamousList = createAsyncThunk("getFamousList", async (_, thunkAPI) => {
+export const __getFamousList = createAsyncThunk("getFamousList", async (payload, thunkAPI) => {
   try {
-    const response = await friendsInstance.get("/list/famous");
-    console.log(response);
-    return thunkAPI.fulfillWithValue(response);
+    const response = await friendsInstance.get("/list/famous", {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    // console.log(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __getRequestedUsersList = createAsyncThunk("getRequestedUsersList", async (payload, thunkAPI) => {
+  try {
+    const response = await friendsInstance.get("/list/response", {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    // console.log(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -87,6 +118,15 @@ export const friendsSlice = createSlice({
         state.statusCode = action.payload;
       })
       .addCase(__requestFriend.rejected, (state) => {
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__acceptNewFriend.fulfilled, (state, action) => {
+        state.isError = false;
+        state.acceptStatusCode = action.payload;
+      })
+      .addCase(__acceptNewFriend.rejected, (state) => {
         state.isError = true;
       });
 
@@ -123,6 +163,20 @@ export const friendsSlice = createSlice({
         state.FamousList = action.payload;
       })
       .addCase(__getFamousList.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__getRequestedUsersList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getRequestedUsersList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.RequestedUsersList = action.payload;
+      })
+      .addCase(__getRequestedUsersList.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

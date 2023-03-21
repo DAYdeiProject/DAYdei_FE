@@ -4,22 +4,31 @@ import styled from "styled-components";
 
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
-import { __getFriendsList } from "../../../redux/modules/friendsSlice";
+import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPersonAdd } from "react-icons/bs";
 import { RxTextAlignMiddle } from "react-icons/rx";
 import ApproveRequestModal from "./ApproveRequestModal";
 import useOutSideClick from "../../../hooks/useOutsideClick";
+import Cookies from "js-cookie";
 
 function FriendsListMain() {
   const dispatch = useDispatch();
+  const token = Cookies.get("accessJWTToken");
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
+  const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
+  const RequestedUsersList = useSelector((state) => state.friends.RequestedUsersList);
+
+  // 친구요청 수락 모달 열고닫기 상태관리
 
   const [isApproveRequestModalOpen, setIsApproveRequestModalOpen] = useState(false);
 
+  // 친구추가 아이콘 클릭하는 순간 친구신청한 유저 불러오는 GET요청 함수 dispatch
+
   const approveRequestModalHandler = () => {
     setIsApproveRequestModalOpen(true);
+    dispatch(__getRequestedUsersList({ token }));
   };
 
   const handleCategoryModalClose = () => {
@@ -29,16 +38,22 @@ function FriendsListMain() {
   const ApproveRequestModalRef = useRef(null);
   useOutSideClick(ApproveRequestModalRef, handleCategoryModalClose);
 
+  // 친구수락/거절 모달에서 수락/거절 눌렀을 때 업데이트 된 목록 가져오기
+  useEffect(() => {
+    dispatch(__getRequestedUsersList({ token }));
+  }, [acceptStatusCode, statusCodeFriend]);
+
+  // 버튼을 누를 때 마다 친구/구독 리스트를 새로 가져오도록 조치함.
+
   useEffect(() => {
     dispatch(__getFriendsList());
   }, [dispatch, statusCodeFriend, statusCodeSubscribe]);
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
-  // console.log("로딩중 위-->", FriendsList);
 
   if (isLoading) {
     return <LoadingWrapper>로딩중...</LoadingWrapper>;
   }
-  // console.log("로딩아래 -->", FriendsList);
+
   const friendsList = FriendsList?.friendResponseList || [];
   const subscribeList = FriendsList?.userSubscribeResponseList || [];
 
@@ -54,7 +69,13 @@ function FriendsListMain() {
                   <TopRight>
                     <SearchIcon />
                     <PersonAddIcon onClick={approveRequestModalHandler} />
-                    {isApproveRequestModalOpen && <ApproveRequestModal ApproveRequestModalRef={ApproveRequestModalRef} />}
+                    {isApproveRequestModalOpen && (
+                      <ApproveRequestModal
+                        ApproveRequestModalRef={ApproveRequestModalRef}
+                        RequestedUsersList={RequestedUsersList}
+                        setIsApproveRequestModalOpen={setIsApproveRequestModalOpen}
+                      />
+                    )}
                     <AlignIcon />
                   </TopRight>
                 </TopText>

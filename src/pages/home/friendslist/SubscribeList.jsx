@@ -1,7 +1,6 @@
 import { React } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { __getFriendsList } from "../../../redux/modules/friendsSlice";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import {
   NoListMessageWrapper,
