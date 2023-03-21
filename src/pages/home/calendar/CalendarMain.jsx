@@ -13,6 +13,7 @@ import Loading from "../../../components/Loading";
 import DayScheduleModal from "./DayScheduleModal";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import ColorFromDB from "./CalendarBasic";
+import add from "date-fns/add";
 
 function CalendarMain({ setSide }) {
   // 일정 추가 모달창 state
@@ -49,11 +50,12 @@ function CalendarMain({ setSide }) {
     if (total && total.length !== 0) {
       const result = total.map((data) => {
         const color = ColorFromDB(data.color);
+        const end = add(new Date(data.endDate), { days: 1 });
         return {
           id: data.id,
           title: data.title,
           start: data.startDate,
-          end: data.endDate,
+          end: end,
           color: color,
         };
       });

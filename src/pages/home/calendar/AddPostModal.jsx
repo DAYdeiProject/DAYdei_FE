@@ -5,33 +5,15 @@ import { useForm } from "react-hook-form";
 import CalendarPostModal from "./CalendarPostModal";
 import { BiX } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import {
-  BsClock,
-  BsCalendar4Range,
-  BsPeople,
-  BsGeoAlt,
-  BsChatLeftText,
-  BsSearch,
-  BsChevronDown,
-  BsChevronUp,
-  BsCardImage,
-} from "react-icons/bs";
+import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage } from "react-icons/bs";
 import { SlLock } from "react-icons/sl";
 import { useDispatch } from "react-redux";
-import {
-  __createNewPost,
-  __getTargetList,
-  __postImgUpload,
-  __getPostDetail,
-  __updatePost,
-  __deletePost,
-} from "../../../redux/modules/calendarSlice";
+import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
-import add from "date-fns/add";
 import ColorFromDB, { ColorList, ColorToDB, TimeList } from "./CalendarBasic";
 
 function AddPostModal({ ...props }) {
@@ -81,7 +63,7 @@ function AddPostModal({ ...props }) {
   useEffect(() => {
     if (props.detailPostId) {
       dispatch(__getPostDetail({ id: props.detailPostId, token })).then((data) => {
-        // 정보 뿌려주기
+        // 상세 정보 뿌려주기
         setValue("title", data.payload.title);
         setValue("startTime", data.payload.startTime.substr(0, 5));
         setValue("endTime", data.payload.endTime.substr(0, 5));
@@ -91,7 +73,7 @@ function AddPostModal({ ...props }) {
         setColor(data.payload.color);
 
         const newStart = new Date(data.payload.startDate);
-        const newEnd = add(new Date(data.payload.endDate), { days: -1 });
+        const newEnd = new Date(data.payload.endDate);
         setStartDate(newStart);
         setEndDate(newEnd);
         setSaveView(data.payload.image);
@@ -289,7 +271,7 @@ function AddPostModal({ ...props }) {
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
     const newStart = format(startDate, "yyyy-MM-dd");
-    const newEnd = format(endDate.setDate(endDate.getDate() + 1), "yyyy-MM-dd");
+    const newEnd = format(endDate, "yyyy-MM-dd");
 
     const imgList = new FormData();
     fileList.map((img) => {
@@ -379,12 +361,7 @@ function AddPostModal({ ...props }) {
               <postStyle.DaysCheckContainer>
                 <postStyle.StartDateContainer>
                   <span>시작</span>
-                  <postStyle.CustomDatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="yyyy-MM-dd"
-                    locale={ko}
-                  />
+                  <postStyle.CustomDatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="yyyy-MM-dd" locale={ko} />
                   <select {...register("startTime")} disabled={isAllDay}>
                     {time.map((item, i) => (
                       <option key={i} value={item}>
@@ -426,13 +403,7 @@ function AddPostModal({ ...props }) {
               </postStyle.TextSpan>
               <postStyle.ColorBoxContainer>
                 {colorList.map((item, i) => (
-                  <postStyle.ColorBox
-                    key={i}
-                    value={item}
-                    isClick={item === isColor}
-                    {...register("color")}
-                    onClick={() => colorClick(item)}
-                  />
+                  <postStyle.ColorBox key={i} value={item} isClick={item === isColor} {...register("color")} onClick={() => colorClick(item)} />
                 ))}
               </postStyle.ColorBoxContainer>
             </postStyle.ColorBoxWrapper>
@@ -463,10 +434,7 @@ function AddPostModal({ ...props }) {
                   {targetList?.map((list) => {
                     const newEmail = list.email.split("@");
                     return (
-                      <postStyle.TartgetBox
-                        key={list.id}
-                        value={list.id}
-                        onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
+                      <postStyle.TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
                         <postStyle.TargetBoxImg>
                           <img src=""></img>
                         </postStyle.TargetBoxImg>

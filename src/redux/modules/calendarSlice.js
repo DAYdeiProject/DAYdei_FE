@@ -101,13 +101,11 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
 // sidebar 오늘의 일정 get
 export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
   try {
-    console.log(payload);
     const response = await api.get(`/api/home/today?date=${payload.today}`, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("오늘일정 response----", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
