@@ -108,8 +108,11 @@ function FriendsListMain({
                 <ListWrap>
                   <SubscribeList
                     subscribeList={subscribeList}
-                    handleShowSearchUsers={handleShowSearchUsers}
+                    handleShowCalendarMain={handleShowCalendarMain}
                     setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
                   />
                 </ListWrap>
               </ContentWrapper>

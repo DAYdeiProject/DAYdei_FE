@@ -22,7 +22,7 @@ import {
   ButtonArea,
 } from "./FriendList";
 
-function SubscribeList({ subscribeList, handleShowSearchUsers, setIsCalendarMainVisible }) {
+function SubscribeList({ subscribeList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,7 +43,15 @@ function SubscribeList({ subscribeList, handleShowSearchUsers, setIsCalendarMain
             </TextWrap>
           </ContentArea>
           <ButtonWrap>
-            <RecommendButton onClick={handleShowSearchUsers}>회원님을 위한 추천</RecommendButton>
+            <RecommendButton
+              onClick={() => {
+                setIsCalendarMainVisible(false);
+                setIsFriendListVisible(false);
+                setIsSearchUsersvisible(true);
+                setIsFriendDetailVisible(false);
+              }}>
+              회원님을 위한 추천
+            </RecommendButton>
           </ButtonWrap>
         </MessageBox>
       </NoListMessageWrapper>
@@ -53,13 +61,15 @@ function SubscribeList({ subscribeList, handleShowSearchUsers, setIsCalendarMain
   return (
     <>
       {subscribeList.map((user) => (
-        <PostBox
-          key={user.id}
-          onClick={() => {
-            navigate(`/${user.id}`);
-            setIsCalendarMainVisible(true);
-          }}>
-          <ProfileArea>
+        <PostBox key={user.id}>
+          <ProfileArea
+            onClick={() => {
+              navigate(`/${user.id}`);
+              setIsCalendarMainVisible(true);
+              setIsFriendListVisible(false);
+              setIsSearchUsersvisible(false);
+              setIsFriendDetailVisible(false);
+            }}>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
               <TextArea>

@@ -35,16 +35,15 @@ function FriendList({ friendsList, setIsCalendarMainVisible, setIsFriendListVisi
   return (
     <>
       {friendsList.map((user) => (
-        <PostBox
-          key={user.id}
-          onClick={() => {
-            navigate(`/${user.id}`);
-            setIsCalendarMainVisible(true);
-            setIsFriendListVisible(false);
-            setIsSearchUsersvisible(false);
-            setIsFriendDetailVisible(false);
-          }}>
-          <ProfileArea>
+        <PostBox key={user.id}>
+          <ProfileArea
+            onClick={() => {
+              navigate(`/${user.id}`);
+              setIsCalendarMainVisible(true);
+              setIsFriendListVisible(false);
+              setIsSearchUsersvisible(false);
+              setIsFriendDetailVisible(false);
+            }}>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
               <TextArea>
