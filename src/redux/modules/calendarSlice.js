@@ -9,6 +9,7 @@ const initialState = {
   detail: [],
   imgList: [],
   mainToday: [],
+  otherUser: [],
   isError: false,
   isLoading: false,
 };
@@ -58,13 +59,11 @@ export const __updatePost = createAsyncThunk("updatePost", async (payload, thunk
 // 일정 delete
 export const __deletePost = createAsyncThunk("deletePost", async (payload, thunkAPI) => {
   try {
-    console.log("deletePost ---> ", payload);
     const response = await api.delete(`/api/posts/${payload.id}`, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("delete response---> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -131,7 +130,6 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
 // 타 유저의 오늘의 일정 get
 export const __getOtherUserToday = createAsyncThunk("getOtherUserTodaySchedule", async (payload, thunkAPI) => {
   try {
-    console.log("타유저 payload : ", payload);
     const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
       headers: {
         Authorization: payload.token,
@@ -238,7 +236,7 @@ export const calendarSlice = createSlice({
       .addCase(__getOtherUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.data = action.payload;
+        state.otherUser = action.payload;
       })
       .addCase(__getOtherUser.rejected, (state) => {
         state.isLoading = false;

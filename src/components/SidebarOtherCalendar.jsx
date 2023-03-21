@@ -1,45 +1,45 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import { __getOtherUser } from "../redux/modules/calendarSlice";
+import Loading from "./Loading";
 
 export default function SidebarOtherCalendar({ userId }) {
-  const [userInfo, setUserInfo] = useState();
-  const [email, setEmail] = useState();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
+  const param = useParams();
+
+  const { otherUser, isLoading } = useSelector((state) => state.calendar);
 
   useEffect(() => {
-    dispatch(__getOtherUser({ userId, token })).then((data) => {
-      setUserInfo(data.payload);
-      const newEmail = data.payload?.email.split("@")[0];
-      setEmail(newEmail);
-    });
-  }, []);
-  console.log(userInfo);
+    dispatch(__getOtherUser({ userId: param.id, token }));
+  }, [userId]);
+
   return (
-    <ProfileWrapper>
-      <BackImgWrapper>
-        <img src="" />
-      </BackImgWrapper>
-      <ImgWrapper>
-        <img src={userInfo?.profileImage} />
-      </ImgWrapper>
-      <NickNameBox>{userInfo?.nickName}</NickNameBox>
-      <EmailBox>@{email}</EmailBox>
-      <CountBox>
-        <span>친구 35</span>
-        <span>구독자 250</span>
-      </CountBox>
-      <TextareaBox>
-        {userInfo?.introduction ? userInfo.introduction : "팝업스토어와 오픈일정을 올리는 것을 즐겨해요."}
-      </TextareaBox>
-      <ButtonBox>
-        <button>친구신청</button>
-        <button>구독하기</button>
-      </ButtonBox>
-    </ProfileWrapper>
+    <>
+      {isLoading && <Loading />}
+      <ProfileWrapper>
+        <BackImgWrapper>
+          <img src={otherUser?.backgroundImage} />
+        </BackImgWrapper>
+        <ImgWrapper>
+          <img src={otherUser?.profileImage} />
+        </ImgWrapper>
+        <NickNameBox>{otherUser?.nickName}</NickNameBox>
+        <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
+        <CountBox>
+          <span>친구 {otherUser?.friendCount}</span>
+          <span>구독자 {otherUser?.subscriberCount}</span>
+        </CountBox>
+        <TextareaBox>{otherUser?.introduction ? otherUser.introduction : otherUser.categoryList + " 일정을 올리는 것을 즐겨해요."}</TextareaBox>
+        <ButtonBox>
+          <button>친구신청</button>
+          <button>구독하기</button>
+        </ButtonBox>
+      </ProfileWrapper>
+    </>
   );
 }
 
@@ -49,7 +49,6 @@ const ProfileWrapper = styled.div`
 `;
 
 const BackImgWrapper = styled.div`
-  background-color: #c79786;
   width: 100%;
   height: 350px;
 `;

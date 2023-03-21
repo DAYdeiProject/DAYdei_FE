@@ -50,10 +50,9 @@ export default function SidebarMyCalendar({ ...props }) {
 
   const navigate = useNavigate();
   const moveUserPage = (id) => {
-    console.log("------------", id);
     navigate(`/${id}`);
   };
-  console.log("------------update", update);
+
   return (
     <>
       {isLoading && <Loading />}
@@ -67,7 +66,7 @@ export default function SidebarMyCalendar({ ...props }) {
             <span>{day}</span>
           </SideTitle>
           <TodayScheduleWrapper>
-            {today.length === 0 ? (
+            {!today ? (
               <NoneSchedule>
                 <MdOutlineEditCalendar className="noneToday" />
                 <span>새로운 일정이 없습니다.</span>
@@ -116,7 +115,7 @@ export default function SidebarMyCalendar({ ...props }) {
 
           <FriendsWrapper>
             <FriendsListBox>
-              {update.length === 0 ? (
+              {!update ? (
                 <NoneSchedule>
                   <MdOutlineAddReaction className="noneUpdate" />
                   <span>새로운 친구를 만나보세요!</span>
