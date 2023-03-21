@@ -47,7 +47,7 @@ function FriendsListMain() {
 
   useEffect(() => {
     dispatch(__getFriendsList());
-  }, [dispatch, statusCodeFriend, statusCodeSubscribe]);
+  }, [dispatch, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
   const { FriendsList, isLoading } = useSelector((state) => state.friends);
 
   if (isLoading) {
