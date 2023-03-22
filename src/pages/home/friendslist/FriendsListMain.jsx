@@ -87,7 +87,14 @@ function FriendsListMain({
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <FriendList FriendsList={FriendsList} />
+                  <FriendList
+                    FriendsList={FriendsList}
+                    handleShowCalendarMain={handleShowCalendarMain}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -99,7 +106,14 @@ function FriendsListMain({
                   <TopLeft>구독 00 </TopLeft>
                 </TopText>
                 <ListWrap>
-                  <SubscribeList SubscribesList={SubscribesList} />
+                  <SubscribeList
+                    SubscribesList={SubscribesList}
+                    handleShowCalendarMain={handleShowCalendarMain}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
