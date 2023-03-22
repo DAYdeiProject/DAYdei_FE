@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import styled from "styled-components";
 import AddPostModal from "./AddPostModal";
 import { useState } from "react";
@@ -15,6 +16,7 @@ import UserInfo from "../../../utils/localStorage/userInfo";
 import ColorFromDB from "./CalendarBasic";
 import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
+import CalendarSidebar from "./CalendarSidebar";
 
 function CalendarMain({ side, setSide }) {
   // 일정 추가 모달창 open state
@@ -108,7 +110,7 @@ function CalendarMain({ side, setSide }) {
 
   const setting = {
     headerToolbar: {
-      left: "today",
+      left: "today dayGridMonth timeGridWeek",
       center: "prevYear prev title next nextYear",
       right: "addButton",
     },
@@ -122,6 +124,7 @@ function CalendarMain({ side, setSide }) {
       timeGrid: {
         dayMaxEventRows: 4,
       },
+      week: {},
     },
     buttonText: {
       //버튼 텍스트 변환
@@ -138,8 +141,9 @@ function CalendarMain({ side, setSide }) {
       <CalendarWrapper disabled={disabled}>
         <FullCalendar
           {...setting}
-          plugins={[dayGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           locale="ko"
+          editable={true}
           dayMaxEventRows={true}
           initialView="dayGridMonth"
           defaultAllDay={true}
@@ -174,14 +178,21 @@ function CalendarMain({ side, setSide }) {
         />
         <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} />
       </CalendarWrapper>
+      <CalendarSidebar />
     </>
   );
 }
 
 export default CalendarMain;
 
+// const CalendarSidebarWrapper = styled.div`
+//   ${(props) => props.theme.FlexRow}
+//   width: 100%;
+//   height: 100%;
+// `;
 export const CalendarWrapper = styled.div`
-  width: 1570px;
+  width: 100%;
+  min-width: 690px;
   height: 100%;
   padding: 40px 48px 40px;
 
