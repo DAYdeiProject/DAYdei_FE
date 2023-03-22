@@ -14,14 +14,7 @@ import useOutSideClick from "../../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 
-function FriendsListMain({
-  handleShowSearchUsers,
-  handleShowCalendarMain,
-  setIsCalendarMainVisible,
-  setIsFriendListVisible,
-  setIsSearchUsersvisible,
-  setIsFriendDetailVisible,
-}) {
+function FriendsListMain({ handleShowCalendarMain, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const params = useParams();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
@@ -72,7 +65,7 @@ function FriendsListMain({
             <ListFrame>
               <ContentWrapper>
                 <TopText>
-                  <TopLeft>친구 00</TopLeft>
+                  <TopLeft>친구 {FriendsList.length}</TopLeft>
                   <TopRight>
                     <SearchIcon />
                     <PersonAddIcon onClick={approveRequestModalHandler} />
@@ -103,7 +96,7 @@ function FriendsListMain({
             <ListFrame>
               <ContentWrapper>
                 <TopText>
-                  <TopLeft>구독 00 </TopLeft>
+                  <TopLeft>구독 {SubscribesList.length} </TopLeft>
                 </TopText>
                 <ListWrap>
                   <SubscribeList
