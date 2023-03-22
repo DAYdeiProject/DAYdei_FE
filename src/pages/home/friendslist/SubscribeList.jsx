@@ -2,6 +2,7 @@ import { React } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
+import { useNavigate } from "react-router-dom";
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -21,9 +22,10 @@ import {
   ButtonArea,
 } from "./FriendList";
 
-function SubscribeList({ subscribeList }) {
+function SubscribeList({ subscribeList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));
@@ -41,7 +43,15 @@ function SubscribeList({ subscribeList }) {
             </TextWrap>
           </ContentArea>
           <ButtonWrap>
-            <RecommendButton>회원님을 위한 추천</RecommendButton>
+            <RecommendButton
+              onClick={() => {
+                setIsCalendarMainVisible(false);
+                setIsFriendListVisible(false);
+                setIsSearchUsersvisible(true);
+                setIsFriendDetailVisible(false);
+              }}>
+              회원님을 위한 추천
+            </RecommendButton>
           </ButtonWrap>
         </MessageBox>
       </NoListMessageWrapper>
@@ -52,10 +62,16 @@ function SubscribeList({ subscribeList }) {
     <>
       {subscribeList.map((user) => (
         <PostBox key={user.id}>
-          <ProfileArea>
+          <ProfileArea
+            onClick={() => {
+              navigate(`/${user.id}`);
+              setIsCalendarMainVisible(true);
+              setIsFriendListVisible(false);
+              setIsSearchUsersvisible(false);
+              setIsFriendDetailVisible(false);
+            }}>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
-
               <TextArea>
                 <NickNameWrap>{user.nickName} </NickNameWrap>
                 <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>

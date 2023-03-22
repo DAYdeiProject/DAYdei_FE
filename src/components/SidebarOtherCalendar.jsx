@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { __getOtherUser } from "../redux/modules/calendarSlice";
 import Loading from "./Loading";
 
-export default function SidebarOtherCalendar({ userId }) {
+export default function SidebarOtherCalendar({ userId, handleShowFriendDetail }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -29,9 +29,9 @@ export default function SidebarOtherCalendar({ userId }) {
         </ImgWrapper>
         <NickNameBox>{otherUser?.nickName}</NickNameBox>
         <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
-        <CountBox>
+        <CountBox onClick={handleShowFriendDetail}>
           <span>친구 {otherUser?.friendCount}</span>
-          <span>구독자 {otherUser?.subscriberCount}</span>
+          <span>구독중 {otherUser?.subscriberCount}</span>
         </CountBox>
         <TextareaBox>{otherUser?.introduction ? otherUser.introduction : otherUser.categoryList + " 일정을 올리는 것을 즐겨해요."}</TextareaBox>
         <ButtonBox>
@@ -82,6 +82,9 @@ const CountBox = styled.div`
   ${(props) => props.theme.FlexRowBetween}
   padding: 0 50px;
   margin-bottom: 40px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const TextareaBox = styled.div`
   width: 100%;

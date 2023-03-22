@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import { BiBell } from "react-icons/bi";
-import { AiOutlineSetting } from "react-icons/ai";
 import useOutSideClick from "../hooks/useOutsideClick";
+import UserInfo from "../utils/localStorage/userInfo";
 
 function Header(props) {
   const navigate = useNavigate();
