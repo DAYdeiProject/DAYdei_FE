@@ -6,6 +6,7 @@ const initialState = {
   FriendsList: [],
   FamousList: [],
   RequestedUsersList: [],
+  FriendDetailList: [],
   isLoading: false,
   isError: false,
   statusCode: 0,
@@ -55,10 +56,22 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
   }
 });
 
+// 로그인한 유저의 친구/구독 리스트 가져오기
 export const __getFriendsList = createAsyncThunk("getFriendsList", async (_, thunkAPI) => {
   try {
     const response = await friendsInstance.get("/list");
     // console.log(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 로그인한 유저 친구의 친구/구독 리스트 가져오기
+export const __getFriendDetail = createAsyncThunk("getFriendList", async (url, thunkAPI) => {
+  try {
+    const response = await friendsInstance.get(`/list/${url}`);
+    console.log("getFriendDetail -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -149,6 +162,20 @@ export const friendsSlice = createSlice({
         state.FriendsList = action.payload;
       })
       .addCase(__getFriendsList.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__getFriendDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getFriendDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.FriendDetailList = action.payload;
+      })
+      .addCase(__getFriendDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

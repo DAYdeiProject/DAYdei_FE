@@ -8,7 +8,7 @@ import SidebarMyCalendar from "../components/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
 import UserInfo from "../utils/localStorage/userInfo";
 
-function Sidebar({ side }) {
+function Sidebar({ side, setIsCalendarMainVisible, handleShowFriendDetail }) {
   const [userInfo, setUserInfo] = useState("");
   const param = useParams();
 
@@ -24,7 +24,7 @@ function Sidebar({ side }) {
       {param.id === String(userInfo.userId) ? (
         <SidebarMyCalendar nickName={userInfo.nickName} side={side} />
       ) : (
-        <SidebarOtherCalendar userId={param.id} />
+        <SidebarOtherCalendar handleShowFriendDetail={handleShowFriendDetail} setIsCalendarMainVisible={setIsCalendarMainVisible} userId={param.id} />
       )}
     </SideStyle>
   );

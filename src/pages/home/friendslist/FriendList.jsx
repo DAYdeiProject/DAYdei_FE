@@ -1,11 +1,14 @@
-import React from "react";
+import { React, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
 import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
-function FriendList({ friendsList }) {
+function FriendList({ friendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
   };
@@ -33,7 +36,14 @@ function FriendList({ friendsList }) {
     <>
       {friendsList.map((user) => (
         <PostBox key={user.id}>
-          <ProfileArea>
+          <ProfileArea
+            onClick={() => {
+              navigate(`/${user.id}`);
+              setIsCalendarMainVisible(true);
+              setIsFriendListVisible(false);
+              setIsSearchUsersvisible(false);
+              setIsFriendDetailVisible(false);
+            }}>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
               <TextArea>
@@ -54,6 +64,7 @@ function FriendList({ friendsList }) {
     </>
   );
 }
+
 export const NoListMessageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -215,7 +226,10 @@ export const PostBox = styled.div`
 
   width: 678px;
   height: 70px;
-  /* background-color: skyblue; */
+  :hover {
+    cursor: pointer;
+  }
+  /* background-color: skyblue;
   /* border: 1px solid ${(props) => props.theme.Bg.lightColor}; */
 `;
 export const ProfileArea = styled.div`
