@@ -230,13 +230,13 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {/* <InviteWrapper>
+          <InviteWrapper>
             <span>동그라미 님이 초대하였습니다.</span>
             <div>
               <button>수락</button>
               <button>거절</button>
             </div>
-          </InviteWrapper> */}
+          </InviteWrapper>
         </DetailPostWrapper>
       </CalendarPostModal>
     </>

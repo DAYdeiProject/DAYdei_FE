@@ -18,11 +18,10 @@ function CalendarPostModal({ children, ...props }) {
     exit: { opacity: 0, y: "100%", transition: { duration: 0.2 } }, // 모달 닫힐 때 애니메이션 추가
   };
 
+  // 모달창 열렸을때 스크롤 막기
   useEffect(() => {
-    if (props.isOpen === false) {
+    if (props.isOpen) {
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
     }
   }, [props.isOpen]);
 
