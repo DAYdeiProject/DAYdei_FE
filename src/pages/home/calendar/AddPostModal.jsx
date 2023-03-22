@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import CalendarPostModal from "./CalendarPostModal";
-import { BiX } from "react-icons/bi";
+import { BiX, BiPencil } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage } from "react-icons/bs";
+import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage, BsPencil } from "react-icons/bs";
 import { SlLock } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
@@ -46,6 +46,7 @@ function AddPostModal({ ...props }) {
   const [targetPick, setTargetPick] = useState([]);
   // 저장되어있던 친구
   const [savePick, setSavePick] = useState([]);
+  const [savePickId, setSavePickId] = useState([]);
   // db에 보내줄 친구 리스트
   const [targetPickId, setTargetPickId] = useState([]);
   // db에 보내줄 파일 리스트
@@ -61,8 +62,8 @@ function AddPostModal({ ...props }) {
   const outside = useRef();
 
   useEffect(() => {
-    if (props.detailPostId) {
-      dispatch(__getPostDetail({ id: props.detailPostId, token })).then((data) => {
+    if (props.modifyPostId) {
+      dispatch(__getPostDetail({ id: props.modifyPostId, token })).then((data) => {
         // 상세 정보 뿌려주기
         setValue("title", data.payload.title);
         setValue("startTime", data.payload.startTime.substr(0, 5));
@@ -72,30 +73,37 @@ function AddPostModal({ ...props }) {
         setValue("scope", data.payload.scope);
         setColor(data.payload.color);
 
+        const newStartTime = data.payload.startTime.substr(0, 5);
+        const newEndTime = data.payload.endTime.substr(0, 5);
+        if (newStartTime === "00:00" && newEndTime === "00:00") {
+          setValue("allDay", "checked");
+          setIsAllDay(true);
+        }
+
         const newStart = new Date(data.payload.startDate);
         const newEnd = new Date(data.payload.endDate);
         setStartDate(newStart);
         setEndDate(newEnd);
         setSaveView(data.payload.image);
-        if (data.payload.participent.length !== 0) {
-          data.payload.participent.map((user) => {
+
+        if (data.payload.participant) {
+          data.payload.participant.map((user) => {
             const newUser = {
               id: user.participentId,
               nickName: user.participentName,
             };
-            setTargetPick([...targetPick, newUser]);
-            setTargetPickId([...targetPickId, parseInt(newUser.id)]);
+            setTargetPick((pre) => [...pre, newUser]);
+            setTargetPickId((pre) => [...pre, parseInt(newUser.id)]);
           });
         }
-
         const color = ColorFromDB(data.payload.color);
         setIsColor(color);
 
-        props.setIsAddPost(true);
+        //props.setIsAddPost(true);
         setIsDelete(true);
       });
     }
-  }, [props.detailPostId]);
+  }, [props.modifyPostId]);
 
   // 날짜 클릭시 해당날짜의 일정추가
   useEffect(() => {
@@ -155,12 +163,12 @@ function AddPostModal({ ...props }) {
 
   // 클릭한 친구 삭제
   const deleteTarget = (id) => {
-    const deletdPick = targetPick.filter((list) => list.id !== id);
-    const deletdPickId = targetPick.filter((list) => list.id !== id).map((list) => list.id);
+    const deletePick = targetPick.filter((list) => list.id !== id);
+    const deletePickId = targetPickId.filter((list) => list !== id);
 
     // 픽한 리스트에 담기
-    setTargetPick([...deletdPick]);
-    setTargetPickId([...deletdPickId]);
+    setTargetPick([...deletePick]);
+    setTargetPickId([...deletePickId]);
   };
 
   // 초대 토글 닫기
@@ -186,13 +194,13 @@ function AddPostModal({ ...props }) {
   };
 
   // 일정 삭제하기
-  const deletePostHandler = (id) => {
-    //console.log(id);
-    dispatch(__deletePost({ id, token })).then((data) => {
-      alert(data.payload);
-      props.setIsAddPost(false);
-    });
-  };
+  // const deletePostHandler = (id) => {
+  //   //console.log(id);
+  //   dispatch(__deletePost({ id, token })).then((data) => {
+  //     alert(data.payload);
+  //     props.setIsAddPost(false);
+  //   });
+  // };
   // 닫기
   const closeClickHandler = () => {
     props.setIsAddPost(false);
@@ -201,15 +209,17 @@ function AddPostModal({ ...props }) {
     setIsColor("#EC899F");
     setFileName([]);
     setFileImg([]);
+    setFileList([]);
     setSaveView([]);
     setTargetPick([]);
+    setTargetPickId([]);
     setStartDate(new Date());
     setEndDate(new Date());
     setIsShowLocation(false);
     setIsShowContent(false);
     setIsShowImg(false);
     setIsDelete(false);
-    props.setDetailPostId("");
+    props.setModifyPostId("");
     reset();
   };
   const showToggieHandler = (target) => {
@@ -221,7 +231,7 @@ function AddPostModal({ ...props }) {
 
   const imgUploadHandler = (e) => {
     const img = Array.from(e.target.files);
-    setFileList([...img]);
+    setFileList((pre) => [...pre, ...img]);
     // 파일 이름 뿌려주기 위해서
     img.forEach((list) => {
       let newName = list.name.split(".")[0];
@@ -291,26 +301,31 @@ function AddPostModal({ ...props }) {
       scope: data.scope,
     };
 
-    if (fileList.length) {
+    // fileList == 새 파일 이미지 리스트
+    if (fileList.length !== 0) {
       // 이미지 있을때
       dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
         // 수정하기 일때
-        if (props.detailPostId) {
-          if (saveView) {
+        if (props.modifyPostId) {
+          if (saveView.length !== 0) {
             // 이전 저장되어있던 이미지가 있다
             let saveNewView = [];
             saveNewView.push(...saveView);
             saveNewView.push(...data.payload);
             newPost.image = saveNewView;
-            dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
-            alert("수정되었습니다.");
-            props.setSide(true);
-            closeClickHandler();
+
+            dispatch(__updatePost({ updatePost: newPost, postId: props.modifyPostId, token })).then(() => {
+              alert("수정되었습니다.");
+              props.setSide(!props.side);
+              props.setIsSubmit(!props.isSubmit);
+              closeClickHandler();
+            });
           } else {
             newPost.image = data.payload;
-            dispatch(__createNewPost({ newPost, token })).then((data) => {
-              alert(data.payload);
-              props.setSide(true);
+            dispatch(__updatePost({ updatePost: newPost, postId: props.modifyPostId, token })).then(() => {
+              alert("수정되었습니다.");
+              props.setSide(!props.side);
+              props.setIsSubmit(!props.isSubmit);
               closeClickHandler();
             });
           }
@@ -318,22 +333,26 @@ function AddPostModal({ ...props }) {
           newPost.image = data.payload;
           dispatch(__createNewPost({ newPost, token })).then((data) => {
             alert(data.payload);
-            props.setSide(true);
+            props.setSide(!props.side);
+            props.setIsSubmit(!props.isSubmit);
             closeClickHandler();
           });
         }
       });
     } else {
       // 이미지 없을때 + 수정하기 일때
-      if (props.detailPostId) {
-        dispatch(__updatePost({ updatePost: newPost, postId: props.detailPostId, token }));
-        alert("수정되었습니다.");
-        props.setSide(true);
-        closeClickHandler();
+      if (props.modifyPostId) {
+        dispatch(__updatePost({ updatePost: newPost, postId: props.modifyPostId, token })).then(() => {
+          alert("수정되었습니다.");
+          props.setSide(!props.side);
+          props.setIsSubmit(!props.isSubmit);
+          closeClickHandler();
+        });
       } else {
         dispatch(__createNewPost({ newPost, token })).then((data) => {
           alert(data.payload);
-          props.setSide(true);
+          props.setSide(!props.side);
+          props.setIsSubmit(!props.isSubmit);
           closeClickHandler();
         });
       }
@@ -341,10 +360,9 @@ function AddPostModal({ ...props }) {
   };
 
   return (
-    <CalendarPostModal isAddPost={props.isAddPost} setIsAddPost={props.setIsAddPost}>
+    <CalendarPostModal isOpen={props.isAddPost}>
       <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
         <postStyle.HeaderWrapper isDelete={isDelete}>
-          <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
           <BiX className="closeIncon" onClick={closeClickHandler} />
         </postStyle.HeaderWrapper>
 
@@ -436,13 +454,19 @@ function AddPostModal({ ...props }) {
                     return (
                       <postStyle.TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
                         <postStyle.TargetBoxImg>
-                          <img src=""></img>
+                          <img src={list.profileImage}></img>
                         </postStyle.TargetBoxImg>
                         <postStyle.TargetBoxText>
                           <span>
                             {list.nickName} ( {newEmail[0]} )
                           </span>
-                          <span>{list.introduction ? list.introduction : "아직 작성된 소개글이 없습니다."}</span>
+                          <span>
+                            {list.introduction
+                              ? list.introduction.length > 20
+                                ? `${list.introduction.substr(0, 20)}...`
+                                : list.introduction
+                              : "아직 작성된 소개글이 없습니다."}
+                          </span>
                         </postStyle.TargetBoxText>
                       </postStyle.TartgetBox>
                     );
@@ -560,7 +584,7 @@ function AddPostModal({ ...props }) {
         </postStyle.BodyWrapper>
 
         <postStyle.SubmitButtonWrapper>
-          <button>{props.detailPostId ? "수정" : "저장"}</button>
+          <button>{props.modifyPostId ? "수정하기" : "일정 만들기"}</button>
         </postStyle.SubmitButtonWrapper>
       </postStyle.AddPostWrapper>
     </CalendarPostModal>

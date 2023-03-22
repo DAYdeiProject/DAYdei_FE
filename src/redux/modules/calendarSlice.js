@@ -10,6 +10,7 @@ const initialState = {
   imgList: [],
   mainToday: [],
   otherUser: [],
+  error: "",
   isError: false,
   isLoading: false,
 };
@@ -303,9 +304,10 @@ export const calendarSlice = createSlice({
         state.isError = false;
         state.detail = action.payload;
       })
-      .addCase(__getPostDetail.rejected, (state) => {
+      .addCase(__getPostDetail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.error = action.payload;
       });
     builder
       .addCase(__postImgUpload.pending, (state) => {

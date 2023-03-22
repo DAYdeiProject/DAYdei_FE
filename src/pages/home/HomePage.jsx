@@ -69,7 +69,7 @@ function HomePage() {
       <MainWrapper>
         <Sidebar side={side} />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
-        {isCalendarMainVisible && <CalendarMain setSide={setSide} />}
+        {isCalendarMainVisible && <CalendarMain side={side} setSide={setSide} />}
         {!isCalendarMainVisible && !isSearchUsersListVisible && <FriendsListMain />}
         {isSearchUsersListVisible && <SearchUsers />}
       </MainWrapper>

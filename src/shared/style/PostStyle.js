@@ -2,6 +2,7 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 
 const AddPostWrapper = styled.form`
+  padding: 0 30px;
   span {
     font-size: ${(props) => props.theme.Fs.day};
     margin: 0 10px;
@@ -14,7 +15,7 @@ const HeaderWrapper = styled.section`
   justify-content: right;
   margin-top: 20px;
   .trashIcon {
-    display: ${(props) => (props.isDelete ? "block" : "none")};
+    /* display: ${(props) => (props.isDelete ? "block" : "none")}; */
     margin-right: 5px;
     font-size: 18px;
     color: ${(props) => props.theme.Bg.deepColor};
@@ -74,9 +75,12 @@ const DaysIconBox = styled.div`
 `;
 const DaysCheckContainer = styled.div`
   ${(props) => props.theme.FlexCol}
+  width: 330px;
+  margin-left: 5px;
 `;
 const DaysAllCheckContainer = styled(DaysIconBox)`
   ${(props) => props.theme.FlexRow}
+  justify-content: left;
   width: 80px;
   align-items: flex-start;
   span {
@@ -199,13 +203,14 @@ const SerchModalContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
   gap: 10px;
-  background-color: #ececec;
   width: 98%;
   height: 200px;
   padding: 10px 20px;
   border-radius: 10px;
+  background-color: white;
   display: ${(props) => (props.isShow ? "block" : "none")};
   z-index: 100;
+  box-shadow: -3px 7px 21px 2px rgba(0, 0, 0, 0.3);
 `;
 
 const TartgetBox = styled.div`
@@ -214,14 +219,13 @@ const TartgetBox = styled.div`
   border-radius: 10px;
   cursor: pointer;
   &:hover {
-    background-color: lightskyblue;
+    background-color: #d4e8f5;
   }
 `;
 const TargetBoxImg = styled.div`
   width: 50px;
   height: 45px;
   img {
-    background-color: lightcoral;
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -359,10 +363,11 @@ const ScopeWrapper = styled.div`
 const SelectContainer = styled(ScopeWrapper)`
   margin: 0;
   select {
-    width: 90px;
+    width: 150px;
     height: 21px;
     border: none;
     font-size: ${(props) => props.theme.Fs.smallText};
+    //text-align: center;
   }
 `;
 

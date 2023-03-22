@@ -14,19 +14,34 @@ import DayScheduleModal from "./DayScheduleModal";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import ColorFromDB from "./CalendarBasic";
 import add from "date-fns/add";
+import DetailPostModal from "./DetailPostModal";
 
-function CalendarMain({ setSide }) {
-  // 일정 추가 모달창 state
+function CalendarMain({ side, setSide }) {
+  // 일정 추가 모달창 open state
   const [isAddPost, setIsAddPost] = useState(false);
+  // 일정 detail 모달창 open state
+  const [isDetailPost, setIsDetailPost] = useState(false);
+
+  // 수정하기 state
+  const [isSubmit, setIsSubmit] = useState(false);
+
   // 일정 추가 버튼 여부(로그인한 유저 캘린더 / 타 유저 캘린더)
   const [disabled, setDisabled] = useState(false);
+
   const [newData, setNewData] = useState("");
+
   // 날짜 클릭시 일정추가모달 뜨고 startDate 해당 클릭 날짜로
   const [pickDate, setPickDate] = useState("");
-  // 일정 detail
+
+  // 일정 detailPostId
   const [detailPostId, setDetailPostId] = useState("");
+  const [modifyPostId, setModifyPostId] = useState("");
+  // 일정 detail 로그인/타유저 비교
+  const [isModify, setIsModify] = useState(false);
+
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
+
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessJWTToken");
@@ -36,14 +51,13 @@ function CalendarMain({ setSide }) {
   const { total, isLoading } = useSelector((state) => {
     return state.calendar;
   });
-  //console.log("메인 detailPost : ", detailPost);
 
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
       setDisabled(true);
     }
     dispatch(__getTotalPosts({ userId: param.id, token }));
-  }, [isAddPost, param]);
+  }, [isSubmit, param]);
 
   useEffect(() => {
     setNewData([]);
@@ -80,6 +94,9 @@ function CalendarMain({ setSide }) {
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
     setDetailPostId(e.event._def.publicId);
+    // if (String(userId.userId) === param.id) {
+    //   setIsModify(true);
+    // }
   };
 
   // 클릭한 date만
@@ -134,11 +151,26 @@ function CalendarMain({ setSide }) {
         <AddPostModal
           isAddPost={isAddPost}
           setIsAddPost={setIsAddPost}
+          side={side}
           setSide={setSide}
           pickDate={pickDate}
           setPickDate={setPickDate}
+          isSubmit={isSubmit}
+          setIsSubmit={setIsSubmit}
+          modifyPostId={modifyPostId}
+          setModifyPostId={setModifyPostId}
+        />
+        <DetailPostModal
+          isDetailPost={isDetailPost}
+          setIsDetailPost={setIsDetailPost}
           detailPostId={detailPostId}
           setDetailPostId={setDetailPostId}
+          setModifyPostId={setModifyPostId}
+          setIsAddPost={setIsAddPost}
+          isSubmit={isSubmit}
+          setIsSubmit={setIsSubmit}
+          side={side}
+          setSide={setSide}
         />
         <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} />
       </CalendarWrapper>
