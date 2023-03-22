@@ -20,7 +20,7 @@ import { useParams } from "react-router-dom";
 import DetailFriends from "./DetailFriends";
 import DetailSubscribe from "./DetailSubscribe";
 
-function DetailMain() {
+function DetailMain(setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible) {
   const params = useParams();
   const dispatch = useDispatch();
 
@@ -58,7 +58,13 @@ function DetailMain() {
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <DetailFriends friendsList={friendsList} />
+                  <DetailFriends
+                    friendsList={friendsList}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>

@@ -1,12 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { PostBox, ProfileArea, ProfileWrap, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap } from "../friendslist/FriendList";
 
-function DetailFriends(props) {
+function DetailFriends(props, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible) {
+  const navigate = useNavigate();
   return (
     <>
       {props.friendsList.map((user) => (
         <PostBox key={user.id}>
-          <ProfileArea>
+          <ProfileArea
+            onClick={() => {
+              navigate(`/${user.id}`);
+              setIsCalendarMainVisible(true);
+              setIsFriendListVisible(false);
+              setIsSearchUsersvisible(false);
+              setIsFriendDetailVisible(false);
+            }}>
             <ProfileWrap>
               <PhotoFrame src={user.profileImage}></PhotoFrame>
               <TextArea>

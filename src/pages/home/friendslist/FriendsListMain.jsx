@@ -5,12 +5,14 @@ import styled from "styled-components";
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
+import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPersonAdd } from "react-icons/bs";
 import { RxTextAlignMiddle } from "react-icons/rx";
 import ApproveRequestModal from "./ApproveRequestModal";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
 function FriendsListMain({
   handleShowSearchUsers,
@@ -20,6 +22,7 @@ function FriendsListMain({
   setIsSearchUsersvisible,
   setIsFriendDetailVisible,
 }) {
+  const params = useParams();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
@@ -50,19 +53,16 @@ function FriendsListMain({
     dispatch(__getRequestedUsersList({ token }));
   }, [acceptStatusCode, statusCodeFriend]);
 
-  // 버튼을 누를 때 마다 친구/구독 리스트를 새로 가져오도록 조치함.
-
+  // 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
-    dispatch(__getFriendsList());
+    const id = params.id;
+    let url = `${id}?sort=name&searchword=`;
+    dispatch(__getFriendsList(url));
+    dispatch(__getSubscribeList(url));
   }, [dispatch, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
-  const { FriendsList, isLoading } = useSelector((state) => state.friends);
 
-  if (isLoading) {
-    return <LoadingWrapper>로딩중...</LoadingWrapper>;
-  }
-
-  const friendsList = FriendsList?.friendResponseList || [];
-  const subscribeList = FriendsList?.userSubscribeResponseList || [];
+  const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
+  const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
 
   return (
     <>
@@ -72,7 +72,7 @@ function FriendsListMain({
             <ListFrame>
               <ContentWrapper>
                 <TopText>
-                  <TopLeft>친구 {friendsList.length}</TopLeft>
+                  <TopLeft>친구 00</TopLeft>
                   <TopRight>
                     <SearchIcon />
                     <PersonAddIcon onClick={approveRequestModalHandler} />
@@ -87,14 +87,7 @@ function FriendsListMain({
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <FriendList
-                    friendsList={friendsList}
-                    handleShowCalendarMain={handleShowCalendarMain}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <FriendList FriendsList={FriendsList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -103,17 +96,10 @@ function FriendsListMain({
             <ListFrame>
               <ContentWrapper>
                 <TopText>
-                  <TopLeft>구독 {subscribeList.length}</TopLeft>
+                  <TopLeft>구독 00 </TopLeft>
                 </TopText>
                 <ListWrap>
-                  <SubscribeList
-                    subscribeList={subscribeList}
-                    handleShowCalendarMain={handleShowCalendarMain}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <SubscribeList SubscribesList={SubscribesList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>

@@ -1,11 +1,11 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
-import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
+import { MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-function FriendList({ friendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -13,7 +13,7 @@ function FriendList({ friendsList, setIsCalendarMainVisible, setIsFriendListVisi
     dispatch(__cancelRequest(id));
   };
 
-  if (friendsList.length === 0) {
+  if (FriendsList?.length === 0) {
     return (
       <NoListMessageWrapper>
         <MessageBox>
@@ -34,7 +34,7 @@ function FriendList({ friendsList, setIsCalendarMainVisible, setIsFriendListVisi
   }
   return (
     <>
-      {friendsList.map((user) => (
+      {FriendsList?.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {

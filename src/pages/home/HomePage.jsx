@@ -118,7 +118,14 @@ function HomePage() {
           />
         )}
         {isSearchUsersListVisible && <SearchUsers />}
-        {isFriendDetailVisible && <DetailMain />}
+        {isFriendDetailVisible && (
+          <DetailMain
+            setIsCalendarMainVisible={setIsCalendarMainVisible}
+            setIsFriendListVisible={setIsFriendListVisible}
+            setIsSearchUsersvisible={setIsSearchUsersvisible}
+            setIsFriendDetailVisible={setIsFriendDetailVisible}
+          />
+        )}
       </MainWrapper>
     </HomePageWrapper>
   );
