@@ -107,7 +107,7 @@ function HomePage() {
       <MainWrapper>
         <Sidebar side={side} setIsCalendarMainVisible={setIsCalendarMainVisible} handleShowFriendDetail={handleShowFriendDetail} />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
-        {isCalendarMainVisible && <CalendarMain setSide={setSide} />}
+        {isCalendarMainVisible && <CalendarMain side={side} setSide={setSide} />}
         {isFriendListVisible && (
           <FriendsListMain
             handleShowCalendarMain={handleShowCalendarMain}

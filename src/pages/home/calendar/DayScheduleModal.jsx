@@ -23,12 +23,16 @@ export default function DayScheduleModal({ ...props }) {
     }
   }, [props.isTodaySchedule]);
 
+  const closeModal = () => {
+    props.setIsTodaySchedule(false);
+  };
+
   return (
     <>
       <CalendarPostModal isAddPost={props.isTodaySchedule} setIsAddPost={props.setIsTodaySchedule}>
         <div>
           <postStyle.HeaderWrapper>
-            <BiX className="closeIncon" />
+            <BiX className="closeIncon" onClick={closeModal} />
           </postStyle.HeaderWrapper>
         </div>
       </CalendarPostModal>

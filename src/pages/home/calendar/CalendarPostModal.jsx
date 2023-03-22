@@ -19,29 +19,16 @@ function CalendarPostModal({ children, ...props }) {
   };
 
   useEffect(() => {
-    if (props.isAddPost === false) {
+    if (props.isOpen === false) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [props.isAddPost]);
-
-  // useEffect(() => {
-  //   const outsideClick = (e) => {
-  //     if (!outside.current || !outside.current.contains(e.target)) {
-  //       props.setIsAddPost(false);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", outsideClick);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", outsideClick);
-  //   };
-  // }, [props.isAddPost]);
+  }, [props.isOpen]);
 
   return (
     <AnimatePresence>
-      {props.isAddPost && (
+      {props.isOpen && (
         <CalendarPostModalWrapper variants={backdropVariants} initial="hidden" animate="visible" exit="hidden">
           <PostModalContainer ref={outside} variants={modalVariants} initial="hidden" animate={"visible"} exit={"exit"}>
             {children}
@@ -71,7 +58,6 @@ const PostModalContainer = styled(motion.div)`
   z-index: 999;
   width: 500px;
   min-height: 670px;
-  padding: 0px 30px;
   background-color: white;
   border-radius: 20px;
 `;
