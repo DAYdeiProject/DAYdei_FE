@@ -63,7 +63,7 @@ export default function DetailPostModal({ ...props }) {
     }
   }, [props.detailPostId]);
 
-  console.log(detail);
+  // console.log(detail);
   // toggle
   const downDropClick = (data) => {
     data === "friend" ? setFriendToggle(true) : setImgToggle(true);
