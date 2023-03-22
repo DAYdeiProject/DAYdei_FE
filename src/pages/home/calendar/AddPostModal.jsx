@@ -193,6 +193,16 @@ function AddPostModal({ ...props }) {
     setIsAllDay(!isAllDay);
   };
 
+  useEffect(() => {
+    if (startDate < endDate) {
+      setIsAllDay(true);
+      setValue("allDay", "checked");
+    } else {
+      setIsAllDay(false);
+      setValue("allDay", "");
+    }
+  }, [endDate]);
+
   // 일정 삭제하기
   // const deletePostHandler = (id) => {
   //   //console.log(id);
@@ -282,6 +292,9 @@ function AddPostModal({ ...props }) {
   const addPost = (data) => {
     const newStart = format(startDate, "yyyy-MM-dd");
     const newEnd = format(endDate, "yyyy-MM-dd");
+    if (newStart > newEnd) {
+      return alert("종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.");
+    }
 
     const imgList = new FormData();
     fileList.map((img) => {
@@ -331,8 +344,8 @@ function AddPostModal({ ...props }) {
           }
         } else {
           newPost.image = data.payload;
-          dispatch(__createNewPost({ newPost, token })).then((data) => {
-            alert(data.payload);
+          dispatch(__createNewPost({ newPost, token })).then(() => {
+            alert("작성 완료되었습니다.");
             props.setSide(!props.side);
             props.setIsSubmit(!props.isSubmit);
             closeClickHandler();
@@ -350,7 +363,7 @@ function AddPostModal({ ...props }) {
         });
       } else {
         dispatch(__createNewPost({ newPost, token })).then((data) => {
-          alert(data.payload);
+          alert("작성 완료되었습니다.");
           props.setSide(!props.side);
           props.setIsSubmit(!props.isSubmit);
           closeClickHandler();

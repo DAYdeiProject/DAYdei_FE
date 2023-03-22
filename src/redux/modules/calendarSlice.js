@@ -46,11 +46,13 @@ export const __createNewPost = createAsyncThunk("createNewPost", async (payload,
 // 일정 update
 export const __updatePost = createAsyncThunk("updatePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.put(`/api/posts/${payload.postId}`, payload.updatePost, {
+    console.log("update payload--> ", payload);
+    const response = await api.patch(`/api/posts/${payload.postId}`, payload.updatePost, {
       headers: {
         Authorization: payload.token,
       },
     });
+    console.log("update response--> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

@@ -8,7 +8,7 @@ import AddPostModal from "./AddPostModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { __getTotalPosts, __getPostDetail } from "../../../redux/modules/calendarSlice";
+import { __getTotalPosts, __getPostDetail, __updatePost } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
 import Loading from "../../../components/Loading";
 import DayScheduleModal from "./DayScheduleModal";
@@ -17,6 +17,7 @@ import ColorFromDB from "./CalendarBasic";
 import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
+import format from "date-fns/format";
 
 function CalendarMain({ side, setSide }) {
   // 일정 추가 모달창 open state
@@ -63,15 +64,34 @@ function CalendarMain({ side, setSide }) {
 
   useEffect(() => {
     setNewData([]);
+
     if (total && total.length !== 0) {
       const result = total.map((data) => {
         const color = ColorFromDB(data.color);
-        const end = add(new Date(data.endDate), { days: 1 });
+        let end = "";
+        let startDate = "";
+        let endtDate = "";
+        // 종료날짜 format
+        if (data.startDate === data.endDate) {
+          end = data.endData;
+        } else {
+          end = format(add(new Date(data.endDate), { days: 1 }), "yyyy-MM-dd");
+        }
+
+        if (data.startTime === "00:00:00" && data.endTime === "00:00:00") {
+          // 이건 하루 전체일정
+          startDate = data.startDate;
+          endtDate = end;
+        } else {
+          startDate = `${data.startDate}T${data.startTime}`;
+          endtDate = `${end}T${data.endTime}`;
+        }
+
         return {
           id: data.id,
           title: data.title,
-          start: data.startDate,
-          end: end,
+          start: startDate,
+          end: endtDate,
           color: color,
         };
       });
@@ -108,6 +128,31 @@ function CalendarMain({ side, setSide }) {
     }
   };
 
+  // event drop
+  const handlerEventDrop = (info) => {
+    // { updatePost: newPost, postId: props.modifyPostId, token })
+    console.log(info);
+    console.log(info.event._def.publicId);
+
+    const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
+    const endDate = format(new Date(info.event._instance.range.end), "yyyy-MM-dd");
+    let end = "";
+    if (startDate === endDate) {
+      end = endDate;
+    } else {
+      end = format(add(new Date(info.event._instance.range.end), { days: -1 }), "yyyy-MM-dd");
+    }
+    console.log("----->", startDate);
+    console.log("----->", end);
+    const newPost = {
+      startDate,
+      endDate: end,
+    };
+    dispatch(__updatePost({ updatePost: newPost, postId: info.event._def.publicId, token })).then((data) => {
+      console.log("==>", data);
+    });
+  };
+
   const setting = {
     headerToolbar: {
       left: "today dayGridMonth timeGridWeek",
@@ -120,11 +165,12 @@ function CalendarMain({ side, setSide }) {
         click: addButtonClick,
       },
     },
+
     views: {
       timeGrid: {
         dayMaxEventRows: 4,
+        slotEventOverlap: false,
       },
-      week: {},
     },
     buttonText: {
       //버튼 텍스트 변환
@@ -145,12 +191,13 @@ function CalendarMain({ side, setSide }) {
           locale="ko"
           editable={true}
           dayMaxEventRows={true}
+          displayEventTime={false}
           initialView="dayGridMonth"
-          defaultAllDay={true}
           moreLinkText="더보기"
           moreLinkClick={handleMoreLinkClick}
           eventClick={handlerEventClick}
           dateClick={handlerDateClick}
+          eventDrop={handlerEventDrop}
         />
         <AddPostModal
           isAddPost={isAddPost}
@@ -277,7 +324,8 @@ export const CalendarWrapper = styled.div`
     font-size: ${(props) => props.theme.Fs.largeText};
   }
 
-  .fc-daygrid {
+  .fc-daygrid,
+  .fc-timegrid {
     border: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
 
@@ -285,7 +333,10 @@ export const CalendarWrapper = styled.div`
   .fc-scrollgrid {
     border: none;
   }
-
+  .fc-theme-standard td {
+    border-top: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    //border-top: 0.75px solid blue;
+  }
   table {
     border: none;
   }
@@ -294,7 +345,7 @@ export const CalendarWrapper = styled.div`
     line-height: 30px;
     border: none;
     border-right: 0.75px solid ${(props) => props.theme.Bg.borderColor};
-    border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    //border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
   th:last-child {
     border-right: none;
@@ -327,5 +378,13 @@ export const CalendarWrapper = styled.div`
   // 더보기 글씨체
   .fc-more-link {
     font-size: ${(props) => props.theme.Fs.smallText};
+  }
+
+  .fc-direction-ltr .fc-timegrid-slot-label-frame {
+    text-align: center;
+  }
+
+  .fc-timegrid-axis-frame {
+    justify-content: center;
   }
 `;
