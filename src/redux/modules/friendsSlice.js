@@ -23,6 +23,7 @@ export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunk
   }
 });
 
+// 친구신청 POST 요청
 export const __requestFriend = createAsyncThunk("requestFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.post(`/${id}`);

@@ -56,27 +56,19 @@ function SearchUsers() {
           <SearchHeader>
             <IconWrapper>
               <Icon>전체보기</Icon>
-              <Icon
-                onClick={() => handleCategoryClick("sports")}
-                className={selectedCategories.includes("sports") ? "selected" : ""}>
+              <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
                 스포츠
               </Icon>
-              <Icon
-                onClick={() => handleCategoryClick("education")}
-                className={selectedCategories.includes("education") ? "selected" : ""}>
+              <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
                 교육
               </Icon>
               <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
                 게임
               </Icon>
-              <Icon
-                onClick={() => handleCategoryClick("economy")}
-                className={selectedCategories.includes("economy") ? "selected" : ""}>
+              <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
                 경제
               </Icon>
-              <Icon
-                onClick={() => handleCategoryClick("entertainment")}
-                className={selectedCategories.includes("entertainment") ? "selected" : ""}>
+              <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
                 연예
               </Icon>
               <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
@@ -87,11 +79,7 @@ function SearchUsers() {
               <SearchIcon>
                 <AiOutlineSearch />
               </SearchIcon>
-              <SearchBar
-                type="text"
-                placeholder="ID, 닉네임으로 검색해보세요"
-                value={searchWord}
-                onChange={searchHandler}></SearchBar>
+              <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>

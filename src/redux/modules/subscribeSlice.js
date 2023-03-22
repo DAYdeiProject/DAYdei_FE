@@ -7,6 +7,7 @@ const initialState = {
   statusCode: 0,
 };
 
+// 구독신청 POST요청
 export const __addSubscribe = createAsyncThunk("addSubscribe", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.post(`/${id}`);

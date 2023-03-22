@@ -56,10 +56,7 @@ function UserLists({ searchWord, selectedCategories }) {
   const handleFriendButtonClick = async (user) => {
     if (user.friendCheck === false && user.isRequestFriend === null) {
       requestHandler(user.id);
-    } else if (
-      (user.friendCheck === false && user.isRequestFriend === false) ||
-      (user.friendCheck === true && user.isRequestFriend === null)
-    ) {
+    } else if ((user.friendCheck === false && user.isRequestFriend === false) || (user.friendCheck === true && user.isRequestFriend === null)) {
       cancelRequestHandler(user.id);
     }
   };
@@ -76,10 +73,7 @@ function UserLists({ searchWord, selectedCategories }) {
     RecommendList.forEach((user) => {
       if (user.friendCheck === false && user.isRequestFriend === null) {
         setButtonText("친구신청");
-      } else if (
-        (user.friendCheck === false && user.isRequestFriend === false) ||
-        (user.friendCheck === true && user.isRequestFriend === null)
-      ) {
+      } else if ((user.friendCheck === false && user.isRequestFriend === false) || (user.friendCheck === true && user.isRequestFriend === null)) {
         setButtonText("친구신청 취소");
       }
 
@@ -120,9 +114,7 @@ function UserLists({ searchWord, selectedCategories }) {
                   ? "친구 끊기"
                   : null}
               </Button>
-              <Button onClick={() => handleSubscribeButtonClick(user)}>
-                {user.userSubscribeCheck === false ? "구독하기" : "구독취소"}
-              </Button>
+              <Button onClick={() => handleSubscribeButtonClick(user)}>{user.userSubscribeCheck === false ? "구독하기" : "구독취소"}</Button>
             </ButtonArea>
           </ContentWrap>
         </PostBox>
