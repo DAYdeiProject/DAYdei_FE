@@ -71,7 +71,7 @@ export const NoListMessageWrapper = styled.div`
   align-items: center;
   padding: 0px;
 
-  width: 678px;
+  width: 478px;
   height: 372px;
 
   background: #fbfbfb;

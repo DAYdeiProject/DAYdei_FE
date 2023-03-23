@@ -199,14 +199,20 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
   //검색창 오픈여부 결정 함수
   const HandleSearchFriend = () => {
     setSearchFriendOpen(!searchFriendOpen);
+    setSearchSubscribeOpen(false);
+    setSearchSubscriberOpen(false);
   };
 
   const HandleSearchSubscribe = () => {
     setSearchSubscribeOpen(!searchSubscribeOpen);
+    setSearchFriendOpen(false);
+    setSearchSubscriberOpen(false);
   };
 
   const HandleSearchSubscriber = () => {
     setSearchSubscriberOpen(!searchSubscriberOpen);
+    setSearchFriendOpen(false);
+    setSearchSubscribeOpen(false);
   };
 
   // 드롭다운 모달 제어 함수
@@ -467,7 +473,7 @@ export const TopRight = styled.div`
   }
 `;
 
-const SearchBar = styled.input`
+export const SearchBar = styled.input`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -515,7 +521,7 @@ export const DropdownFrame = styled.div`
   gap: 10px;
 `;
 
-const DropdownItems = styled.div`
+export const DropdownItems = styled.div`
   border-bottom: 1px solid lightgray;
 `;
 
