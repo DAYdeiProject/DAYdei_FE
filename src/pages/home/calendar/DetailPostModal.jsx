@@ -20,6 +20,8 @@ import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
 import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
+import UserInfo from "../../../utils/localStorage/userInfo";
+import { useParams } from "react-router-dom";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(false);
@@ -34,6 +36,8 @@ export default function DetailPostModal({ ...props }) {
   const [color, setColor] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
+  const userInfo = UserInfo();
+  const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
 
@@ -106,15 +110,6 @@ export default function DetailPostModal({ ...props }) {
     });
   };
 
-  // // 일정 삭제하기
-  // const deletePostHandler = (id) => {
-  //   //console.log(id);
-  //   dispatch(__deletePost({ id, token })).then((data) => {
-  //     alert(data.payload);
-  //     props.setIsAddPost(false);
-  //   });
-  // };
-
   return (
     <>
       {isLoading && <Loading />}
@@ -122,8 +117,12 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
-              <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
-              <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
+              {String(userInfo) === String(param.id) && (
+                <>
+                  <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
+                  <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
+                </>
+              )}
               <BsThreeDotsVertical className="dotsIcon" />
               <BiX className="closeIncon" onClick={closeModal} />
             </HeaderWrapper>
