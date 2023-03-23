@@ -189,7 +189,7 @@ const HomePageWrapper = styled.div`
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   height: calc(100vh - 100px);
-  min-width: 1250px;
+  min-width: 1350px;
   max-width: 1920px;
   margin: 0 auto;
 `;

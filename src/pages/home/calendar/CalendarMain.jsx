@@ -40,6 +40,8 @@ function CalendarMain({ side, setSide }) {
   const [isModify, setIsModify] = useState(false);
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
+  // drag 수정 막기
+  const [isDrag, setIsDrag] = useState(true);
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessJWTToken");
@@ -52,7 +54,11 @@ function CalendarMain({ side, setSide }) {
 
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
+      // 타유저 캘린더에 간 상황
       setDisabled(true);
+      setIsDrag(false);
+    } else {
+      setIsDrag(true);
     }
     dispatch(__getTotalPosts({ userId: String(param.id), token }));
   }, [isSubmit, param]);
@@ -185,7 +191,7 @@ function CalendarMain({ side, setSide }) {
           {...setting}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           locale="ko"
-          editable={true}
+          editable={isDrag}
           dayMaxEventRows={true}
           displayEventTime={false}
           initialView="dayGridMonth"
@@ -235,7 +241,6 @@ export default CalendarMain;
 // `;
 export const CalendarWrapper = styled.div`
   width: 100%;
-  min-width: 690px;
   height: 100%;
   padding: 40px 48px 40px;
 

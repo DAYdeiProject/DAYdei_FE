@@ -10,6 +10,8 @@ const initialState = {
   imgList: [],
   mainToday: [],
   otherUser: [],
+  otherUserUpdate: [],
+  otherUserShare: [],
   error: "",
   isError: false,
   isLoading: false,
@@ -188,6 +190,34 @@ export const __postImgUpload = createAsyncThunk("postImgUpload", async (payload,
   }
 });
 
+// 타유저 캘린더 업데이트 일정
+export const __otherUserUpdatePost = createAsyncThunk("otherUserUpdatePost", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/post/update/${payload.userId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 타유저 캘린더 나와 공유한 일정
+export const __otherUserSharePost = createAsyncThunk("otherUserSharePost", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/post/share/${payload.userId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const calendarSlice = createSlice({
   name: "calendar",
   initialState,
@@ -348,6 +378,32 @@ export const calendarSlice = createSlice({
         state.imgList = action.payload;
       })
       .addCase(__postImgUpload.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__otherUserUpdatePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__otherUserUpdatePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.otherUserUpdate = action.payload;
+      })
+      .addCase(__otherUserUpdatePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__otherUserSharePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__otherUserSharePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.otherUserShare = action.payload;
+      })
+      .addCase(__otherUserSharePost.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
