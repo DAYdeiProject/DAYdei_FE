@@ -119,17 +119,19 @@ const ProfileWrapper = styled.div`
 `;
 
 const BackImgWrapper = styled.div`
+  background-color: #cfb3a9;
   width: 100%;
-  height: 350px;
+  height: 340px;
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
-  top: 270px;
+  top: 260px;
   z-index: 50px;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
   img {
+    border: 1px solid black;
     width: 150px;
     height: 150px;
     border-radius: 50%;

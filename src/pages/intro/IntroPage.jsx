@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
+import UserInfo from "../../utils/localStorage/userInfo";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -19,12 +20,12 @@ function IntroPage() {
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   //const isLogin = useSelector((state) => state.users.isLogin);
 
+  const token = Cookies.get("accessJWTToken");
   useEffect(() => {
-    const storedUserInfo = localStorage.getItem("userInfo");
-    if (storedUserInfo !== null) {
-      const parsedUserInfo = JSON.parse(storedUserInfo);
+    if (token) {
+      const userInfo = UserInfo();
       alert("이미 로그인하셨습니다!");
-      navigate(`/${parsedUserInfo.userId}`);
+      navigate(`/${userInfo.userId}`);
     }
   }, []);
 
