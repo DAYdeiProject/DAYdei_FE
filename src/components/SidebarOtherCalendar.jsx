@@ -97,10 +97,10 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
         </ImgWrapper>
         <NickNameBox>{otherUser?.nickName}</NickNameBox>
         <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
-        <CountBox onClick={handleShowFriendDetail}>
+        <CountBox onClick={buttonText === "친구" ? () => handleShowFriendDetail() : () => alert("친구만 열람 가능합니다.")}>
           <span>친구 {otherUser?.friendCount}</span>
-          <span>구독자 {otherUser?.subscriberCount}명</span>
           <span>구독 {otherUser?.subscribingCount}명</span>
+          <span>구독자 {otherUser?.subscriberCount}명</span>
         </CountBox>
         <TextareaBox>{otherUser?.introduction ? otherUser.introduction : otherUser.categoryList + " 일정을 올리는 것을 즐겨해요."}</TextareaBox>
         <ButtonBox>

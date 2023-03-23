@@ -1,7 +1,7 @@
 import { React, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
-import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
+import { __getSubscribeList, __getSubscriberList } from "../../../redux/modules/subscribeSlice";
 import {
   LoadingWrapper,
   CalendarWrapper,
@@ -19,6 +19,7 @@ import {
 import { useParams } from "react-router-dom";
 import DetailFriends from "./DetailFriends";
 import DetailSubscribe from "./DetailSubscribe";
+import DetailSubscriber from "./DetailSubscriber";
 
 function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const params = useParams();
@@ -30,14 +31,16 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
     let url = `${id}?sort=name&searchword=`;
     dispatch(__getFriendsList(url));
     dispatch(__getSubscribeList(url));
+    dispatch(__getSubscriberList(url));
   }, []);
 
   const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
+  const { SubscribersList, isLoadingSubscriber } = useSelector((state) => state.subscribe);
 
-  console.log("디테일 부모에서 찍은 친구 -->", FriendsList);
-  console.log("디테일 부모에서 찍은 구독 -->", SubscribesList);
-
+  // console.log("디테일 부모에서 찍은 친구 -->", FriendsList);
+  // console.log("디테일 부모에서 찍은 구독 -->", SubscribesList);
+  // console.log("구독자 -->", SubscribersList);
   return (
     <>
       <CalendarWrapper>
@@ -72,6 +75,24 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                 <ListWrap>
                   <DetailSubscribe
                     SubscribesList={SubscribesList}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
+                </ListWrap>
+              </ContentWrapper>
+            </ListFrame>
+          </ListFrameBig>
+          <ListFrameBig>
+            <ListFrame>
+              <ContentWrapper>
+                <TopText>
+                  <TopLeft>구독자 {SubscribersList.length}</TopLeft>
+                </TopText>
+                <ListWrap>
+                  <DetailSubscriber
+                    SubscribersList={SubscribersList}
                     setIsCalendarMainVisible={setIsCalendarMainVisible}
                     setIsFriendListVisible={setIsFriendListVisible}
                     setIsSearchUsersvisible={setIsSearchUsersvisible}

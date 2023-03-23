@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
-import { PostBox, ProfileArea, ProfileWrap, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap, ButtonArea } from "./FriendList";
+import { PostBox, ProfileArea, ProfileWrap, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap, ButtonArea } from "../friendslist/FriendList";
 
-function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,10 +14,12 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
     dispatch(__cancelSubscribe(id));
   };
 
+  console.log("자식에서-->", SubscribersList);
+
   return (
     <>
       {SubscribersList?.map((user) => (
-        <PostBox key={user.profileImage}>
+        <PostBox key={user.email}>
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
@@ -35,12 +37,6 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
             </ProfileWrap>
             <IntroductionWrap></IntroductionWrap>
           </ProfileArea>
-          <ButtonArea
-            onClick={() => {
-              cancelSubscribeHandler(user.id);
-            }}>
-            {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
-          </ButtonArea>
         </PostBox>
       ))}
     </>
@@ -84,4 +80,4 @@ const RecommendButton = styled.div`
   }
 `;
 
-export default SubscriberList;
+export default DetailSubscriberList;
