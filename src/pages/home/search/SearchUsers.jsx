@@ -55,7 +55,6 @@ function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSe
           </HeaderText>
           <SearchHeader>
             <IconWrapper>
-              <Icon>전체보기</Icon>
               <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
                 스포츠
               </Icon>
