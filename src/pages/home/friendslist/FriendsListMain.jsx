@@ -14,6 +14,7 @@ import ApproveRequestModal from "./ApproveRequestModal";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
+import _ from "lodash";
 
 function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const params = useParams();
@@ -25,11 +26,17 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
   const RequestedUsersList = useSelector((state) => state.friends.RequestedUsersList);
 
   // 친구요청 수락 모달 열고닫기 상태관리
-
   const [isApproveRequestModalOpen, setIsApproveRequestModalOpen] = useState(false);
+  // 검색어 상태
+  const [searchWord, setSearchWord] = useState("");
+  const [searchWordSubscribe, setSearchWordSubscribe] = useState("");
+  const [searchWordSubscriber, setSearchWordSubscriber] = useState("");
+  // 검색창 상태
+  const [searchFriendOpen, setSearchFriendOpen] = useState(false);
+  const [searchSubscribeOpen, setSearchSubscribeOpen] = useState(false);
+  const [searchSubscriberOpen, setSearchSubscriberOpen] = useState(false);
 
   // 친구추가 아이콘 클릭하는 순간 친구신청한 유저 불러오는 GET요청 함수 dispatch
-
   const approveRequestModalHandler = () => {
     setIsApproveRequestModalOpen(true);
     dispatch(__getRequestedUsersList({ token }));
@@ -50,15 +57,96 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
   // 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
     const id = params.id;
-    let url = `${id}?sort=name&searchword=`;
-    dispatch(__getFriendsList(url));
-    dispatch(__getSubscribeList(url));
-    dispatch(__getSubscriberList(url));
-  }, [dispatch, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
+    if (searchWord === "") {
+      let url = `${id}?sort=name&searchword=`;
+      console.log("검색어 없는 url-->", url);
+      dispatch(__getFriendsList(url));
+      dispatch(__getSubscribeList(url));
+      dispatch(__getSubscriberList(url));
+    }
+
+    if (searchWord !== "") {
+      let url = `${id}?sort=name&searchword=${searchWord}`;
+      // console.log("검색어가 들어간 url -->", url);
+      dispatch(__getFriendsList(url));
+    }
+
+    if (searchWordSubscribe !== "") {
+      let url = `${id}?sort=name&searchword=${searchWordSubscribe}`;
+      // console.log("검색어가 들어간 url -->", url);
+      dispatch(__getSubscribeList(url));
+    }
+
+    if (searchWordSubscriber !== "") {
+      let url = `${id}?sort=name&searchword=${searchWordSubscriber}`;
+      // console.log("검색어가 들어간 url -->", url);
+      dispatch(__getSubscriberList(url));
+    }
+  }, [searchWord, searchWordSubscribe, searchWordSubscriber, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
 
   const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
   const { SubscribersList, isLoadingSubscriber } = useSelector((state) => state.subscribe);
+
+  //입력된 값 기반으로 검색 결과 도출
+  useEffect(() => {
+    const throttleSearch = _.throttle(() => {
+      setSearchWord(searchWord);
+    }, 100);
+    throttleSearch();
+    return () => {
+      throttleSearch.cancel();
+    };
+  }, [searchWord]);
+
+  useEffect(() => {
+    const throttleSearch = _.throttle(() => {
+      setSearchWordSubscribe(searchWordSubscribe);
+    }, 100);
+    throttleSearch();
+    return () => {
+      throttleSearch.cancel();
+    };
+  }, [searchWordSubscribe]);
+
+  useEffect(() => {
+    const throttleSearch = _.throttle(() => {
+      setSearchWordSubscriber(searchWordSubscriber);
+    }, 100);
+    throttleSearch();
+    return () => {
+      throttleSearch.cancel();
+    };
+  }, [searchWordSubscriber]);
+
+  // 입력값 추적하여 searchWord에 넣기
+  const searchHandler = (e) => {
+    const value = e.target.value;
+    setSearchWord(value);
+  };
+
+  const searchSubscribeHandler = (e) => {
+    const value = e.target.value;
+    setSearchWordSubscribe(value);
+  };
+
+  const searchSubscriberHandler = (e) => {
+    const value = e.target.value;
+    setSearchWordSubscriber(value);
+  };
+
+  //검색창 오픈여부 결정 함수
+  const HandleSearchFriend = () => {
+    setSearchFriendOpen(!searchFriendOpen);
+  };
+
+  const HandleSearchSubscribe = () => {
+    setSearchSubscribeOpen(!searchSubscribeOpen);
+  };
+
+  const HandleSearchSubscriber = () => {
+    setSearchSubscriberOpen(!searchSubscriberOpen);
+  };
 
   return (
     <>
@@ -70,7 +158,10 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                 <TopText>
                   <TopLeft>친구 {FriendsList.length}</TopLeft>
                   <TopRight>
-                    <SearchIcon />
+                    {searchFriendOpen && (
+                      <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
+                    )}
+                    <SearchIcon onClick={HandleSearchFriend} />
                     <PersonAddIcon onClick={approveRequestModalHandler} />
                     {isApproveRequestModalOpen && (
                       <ApproveRequestModal
@@ -99,6 +190,16 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
               <ContentWrapper>
                 <TopText>
                   <TopLeft>구독 {SubscribesList.length} </TopLeft>
+                  <TopRight>
+                    {searchSubscribeOpen && (
+                      <SearchBar
+                        type="text"
+                        placeholder="ID, 닉네임으로 검색해보세요"
+                        value={searchWordSubscribe}
+                        onChange={searchSubscribeHandler}></SearchBar>
+                    )}
+                    <SearchIcon onClick={HandleSearchSubscribe} />
+                  </TopRight>
                 </TopText>
                 <ListWrap>
                   <SubscribeList
@@ -117,6 +218,16 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
               <ContentWrapper>
                 <TopText>
                   <TopLeft>구독자 {SubscribersList.length} </TopLeft>
+                  <TopRight>
+                    {searchSubscriberOpen && (
+                      <SearchBar
+                        type="text"
+                        placeholder="ID, 닉네임으로 검색해보세요"
+                        value={searchWordSubscriber}
+                        onChange={searchSubscriberHandler}></SearchBar>
+                    )}
+                    <SearchIcon onClick={HandleSearchSubscriber} />
+                  </TopRight>
                 </TopText>
                 <ListWrap>
                   <SubscriberList
@@ -226,12 +337,23 @@ export const TopRight = styled.div`
   padding: 0px;
   gap: 16px;
 
-  width: 92px;
+  /* width: 92px; */
   height: 20px;
   /* background-color: pink; */
   :hover {
     cursor: pointer;
   }
+`;
+
+const SearchBar = styled.input`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 15px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  width: 230px;
+  height: 20px;
 `;
 
 export const SearchIcon = styled(AiOutlineSearch)`

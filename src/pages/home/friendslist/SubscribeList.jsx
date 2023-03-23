@@ -28,7 +28,7 @@ function SubscribeList({ SubscribesList, setIsCalendarMainVisible, setIsFriendLi
   const navigate = useNavigate();
 
   // const SubscribeList = useSelector((state) => state.subscribe.SubscribeList);
-  console.log("자식에서 찍은 구독-->", SubscribesList);
+  // console.log("자식에서 찍은 구독-->", SubscribesList);
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));

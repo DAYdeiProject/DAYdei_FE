@@ -13,7 +13,7 @@ const initialState = {
 export const __getSubscribeList = createAsyncThunk("getSubscribeList", async (url, thunkAPI) => {
   try {
     const response = await subscribeInstance.get(`/list/${url}`);
-    console.log("내가 구독 List -------> ", response.data.data);
+    // console.log("내가 구독 List -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -24,7 +24,7 @@ export const __getSubscribeList = createAsyncThunk("getSubscribeList", async (ur
 export const __getSubscriberList = createAsyncThunk("getSubscriberList", async (url, thunkAPI) => {
   try {
     const response = await subscribeInstance.get(`/followers/${url}`);
-    console.log("나를 구독 List -------> ", response.data.data);
+    // console.log("나를 구독 List -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
