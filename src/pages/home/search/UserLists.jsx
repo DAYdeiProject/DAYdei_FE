@@ -1,10 +1,11 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
-function UserLists({ searchWord, selectedCategories }) {
+function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const [buttonText, setButtonText] = useState("");
   const [subscribeButtontext, setSubscribeButtonText] = useState("");
   const RecommendList = useSelector((state) => state.friends.RecommendList);
@@ -13,6 +14,7 @@ function UserLists({ searchWord, selectedCategories }) {
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let url = "?searchword=";
@@ -84,7 +86,15 @@ function UserLists({ searchWord, selectedCategories }) {
   return (
     <>
       {RecommendList.map((user) => (
-        <PostBox key={user.id}>
+        <PostBox
+          key={user.id}
+          onClick={() => {
+            navigate(`/${user.id}`);
+            setIsCalendarMainVisible(true);
+            setIsFriendListVisible(false);
+            setIsSearchUsersvisible(false);
+            setIsFriendDetailVisible(false);
+          }}>
           <ContentWrap>
             <ProfileArea>
               <ProfilePhoto>
@@ -139,6 +149,9 @@ const PostBox = styled.div`
   border-radius: 8px;
   /* background-color: pink; */
   border: 1px solid black;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const ContentWrap = styled.div`

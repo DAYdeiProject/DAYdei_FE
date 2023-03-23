@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import _ from "lodash";
 import { AiOutlineSearch } from "react-icons/ai";
 
-function SearchUsers() {
+function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState("");
   const [searchWord, setSearchWord] = useState("");
@@ -83,7 +83,14 @@ function SearchUsers() {
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists searchWord={searchWord} selectedCategories={selectedCategories} dispatch={dispatch} />
+            <UserLists
+              searchWord={searchWord}
+              selectedCategories={selectedCategories}
+              setIsCalendarMainVisible={setIsCalendarMainVisible}
+              setIsFriendListVisible={setIsFriendListVisible}
+              setIsSearchUsersvisible={setIsSearchUsersvisible}
+              setIsFriendDetailVisible={setIsFriendDetailVisible}
+            />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>

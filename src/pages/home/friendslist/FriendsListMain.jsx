@@ -14,7 +14,7 @@ import useOutSideClick from "../../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 
-function FriendsListMain({ handleShowCalendarMain, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const params = useParams();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
