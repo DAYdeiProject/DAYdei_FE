@@ -4,8 +4,9 @@ import styled from "styled-components";
 
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
+import SubscriberList from "./SubscriberList";
 import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
-import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
+import { __getSubscribeList, __getSubscriberList } from "../../../redux/modules/subscribeSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPersonAdd } from "react-icons/bs";
 import { RxTextAlignMiddle } from "react-icons/rx";
@@ -52,10 +53,12 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
     let url = `${id}?sort=name&searchword=`;
     dispatch(__getFriendsList(url));
     dispatch(__getSubscribeList(url));
+    dispatch(__getSubscriberList(url));
   }, [dispatch, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
 
   const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
+  const { SubscribersList, isLoadingSubscriber } = useSelector((state) => state.subscribe);
 
   return (
     <>
@@ -109,6 +112,24 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
               </ContentWrapper>
             </ListFrame>
           </ListFrameBig>
+          <ListFrameBig>
+            <ListFrame>
+              <ContentWrapper>
+                <TopText>
+                  <TopLeft>구독자 {SubscribersList.length} </TopLeft>
+                </TopText>
+                <ListWrap>
+                  <SubscriberList
+                    SubscribersList={SubscribersList}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
+                </ListWrap>
+              </ContentWrapper>
+            </ListFrame>
+          </ListFrameBig>
         </WholeAreaWrapper>
       </CalendarWrapper>
     </>
@@ -144,7 +165,7 @@ export const ListFrameBig = styled.div`
   align-items: center;
   padding: 60px 40px 71px;
   gap: 16px;
-  width: 783px;
+  width: 520px;
   height: 980px;
   /* background-color: pink; */
 `;
@@ -154,7 +175,7 @@ export const ListFrame = styled.div`
   align-items: center;
   padding: 0px;
   gap: 16px;
-  width: 698px;
+  width: 490px;
   height: 835px;
   /* background-color: gray; */
 `;
@@ -164,9 +185,9 @@ export const ContentWrapper = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 16px;
-  width: 678px;
+  width: 480px;
   height: 835px;
-  /* background-color: ${(props) => props.theme.Bg.lightColor}; */
+  /* background-color: skyblue; */
 `;
 export const TopText = styled.div`
   display: flex;
@@ -174,10 +195,9 @@ export const TopText = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0px 16px 0px 0px;
-  gap: 467px;
-  width: 678px;
+  width: 478px;
   height: 44px;
-  /* background-color: pink; */
+  /* background-color: yellow; */
 `;
 
 export const TopLeft = styled.div`
@@ -237,7 +257,7 @@ export const ListWrap = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-  width: 678px;
+  width: 478px;
   height: 770px;
   background: #fbfbfb;
   overflow: auto;

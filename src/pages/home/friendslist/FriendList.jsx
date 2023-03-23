@@ -222,14 +222,14 @@ export const PostBox = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 15px 16px;
-  gap: 165px;
+  gap: 15px;
 
-  width: 678px;
+  width: 478px;
   height: 70px;
   :hover {
     cursor: pointer;
   }
-  /* background-color: skyblue;
+  /* background-color: skyblue; */
   /* border: 1px solid ${(props) => props.theme.Bg.lightColor}; */
 `;
 export const ProfileArea = styled.div`
@@ -237,7 +237,7 @@ export const ProfileArea = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0px;
-  gap: 16px;
+  /* gap: 16px; */
 
   width: 404px;
   height: 40px;
@@ -251,7 +251,7 @@ export const ProfileWrap = styled.div`
   padding: 0px;
   gap: 16px;
 
-  width: 140px;
+  /* width: 140px; */
   height: 40px;
   /* background-color: red; */
 `;
@@ -311,7 +311,7 @@ export const IntroductionWrap = styled.div`
   padding: 0px;
   gap: 8px;
 
-  width: 260px;
+  width: 200px;
   height: 20px;
   background-color: lightgray;
 
@@ -328,7 +328,6 @@ export const ButtonArea = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 16px;
 
   width: 78px;
   height: 40px;
@@ -347,6 +346,7 @@ export const ButtonArea = styled.div`
   :hover {
     cursor: pointer;
   }
+  /* background-color: pink; */
 `;
 
 export default FriendList;
