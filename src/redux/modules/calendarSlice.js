@@ -46,13 +46,27 @@ export const __createNewPost = createAsyncThunk("createNewPost", async (payload,
 // 일정 update
 export const __updatePost = createAsyncThunk("updatePost", async (payload, thunkAPI) => {
   try {
-    console.log("update payload--> ", payload);
     const response = await api.patch(`/api/posts/${payload.postId}`, payload.updatePost, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("update response--> ", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 일정 drag update
+export const __updateDragPost = createAsyncThunk("updateDragPost", async (payload, thunkAPI) => {
+  try {
+    console.log("updateDragPost payload--> ", payload);
+    const response = await api.patch(`/api/posts/drag/${payload.postId}`, payload.updatePost, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("updateDragPost response--> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -215,6 +229,19 @@ export const calendarSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(__updatePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__updateDragPost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__updateDragPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.data = action.payload;
+      })
+      .addCase(__updateDragPost.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
