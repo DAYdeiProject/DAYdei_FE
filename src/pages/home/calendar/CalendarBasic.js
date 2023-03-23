@@ -91,3 +91,13 @@ export function DayCheck(day) {
       return "일";
   }
 }
+
+export function DayAmPm(time) {
+  let result = "";
+  if (time.substr(0, 2) < 13) {
+    result = `오전 ${time.substr(0, 5)}`;
+  } else {
+    result = `오후 ${time.substr(0, 5)}`;
+  }
+  return result;
+}

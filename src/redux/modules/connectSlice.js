@@ -11,7 +11,11 @@ const initialState = {
 //
 export const __getConnect = createAsyncThunk("getConnect", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/notification`);
+    const response = await api.get(`/api/notification`, {
+      headers: {
+        Authorization: payload,
+      },
+    });
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

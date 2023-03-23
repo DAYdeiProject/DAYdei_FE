@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getPostDetail, __deletePost } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
-import ColorFromDB, { DayCheck } from "./CalendarBasic";
+import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
 
 export default function DetailPostModal({ ...props }) {
@@ -26,14 +26,17 @@ export default function DetailPostModal({ ...props }) {
   const [imgToggle, setImgToggle] = useState(false);
   const [nowStart, setStart] = useState("");
   const [nowStartDay, setStartDay] = useState("");
+  const [nowStartTime, setStartTime] = useState("");
   const [nowEnd, setEnd] = useState("");
   const [nowEndDay, setEndDay] = useState("");
+  const [nowEndTime, setEndTime] = useState("");
+  const [timeCheck, setTimeCheck] = useState(false);
   const [color, setColor] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
-  //console.log(detail);
+
   useEffect(() => {
     if (detail) {
       const year = getYear(new Date(detail.startDate));
@@ -44,6 +47,14 @@ export default function DetailPostModal({ ...props }) {
       const dateEnd = getDate(new Date(detail.endDate));
       setStart(`${year}.${month + 1}.${date}`);
       setEnd(`${yearEnd}.${monthEnd + 1}.${dateEnd}`);
+
+      if (detail.startTime !== detail.endTime) {
+        let dayStartTime = DayAmPm(detail.startTime);
+        let dayEndTime = DayAmPm(detail.endTime);
+        setStartTime(dayStartTime);
+        setEndTime(dayEndTime);
+      }
+
       const start = getDay(new Date(detail.startDate));
       const end = getDay(new Date(detail.endDate));
       const startDay = DayCheck(start);
@@ -57,9 +68,8 @@ export default function DetailPostModal({ ...props }) {
 
   useEffect(() => {
     if (props.detailPostId) {
-      dispatch(__getPostDetail({ id: props.detailPostId })).then(() => {
-        props.setIsDetailPost(true);
-      });
+      dispatch(__getPostDetail({ id: String(props.detailPostId), token }));
+      props.setIsDetailPost(true);
     }
   }, [props.detailPostId]);
 
@@ -124,11 +134,9 @@ export default function DetailPostModal({ ...props }) {
                   <span>
                     {nowStart}
                     {nowStartDay}
-                    {detail?.startTime && detail.startTime.substr(0, 2) < 13 ? "오전" : "오후"}
-                    {detail?.startTime && detail?.startTime.substr(0, 5)}-{nowEnd}
+                    {nowStartTime}-{nowEnd}
                     {nowEndDay}
-                    {detail?.endTime && detail?.endTime.substr(0, 2) < 13 ? "오전" : "오후"}
-                    {detail?.endTime && detail?.endTime.substr(0, 5)}
+                    {nowEndTime}
                   </span>
                 </TitleWrapper>
                 <FriendWrapper>
