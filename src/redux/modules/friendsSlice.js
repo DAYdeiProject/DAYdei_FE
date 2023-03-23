@@ -6,7 +6,6 @@ const initialState = {
   FriendsList: [],
   FamousList: [],
   RequestedUsersList: [],
-  FriendDetailList: [],
   isLoading: false,
   isError: false,
   statusCode: 0,
@@ -23,6 +22,7 @@ export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunk
   }
 });
 
+// 친구신청 POST 요청
 export const __requestFriend = createAsyncThunk("requestFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.post(`/${id}`);
@@ -34,6 +34,7 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
   }
 });
 
+// 친구요청 승인
 export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.put(`/${id}`);
@@ -45,6 +46,7 @@ export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thu
   }
 });
 
+// 친구신청 취소, 거절, 친구 끊기
 export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.delete(`/${id}`);
@@ -57,21 +59,10 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
 });
 
 // 로그인한 유저의 친구/구독 리스트 가져오기
-export const __getFriendsList = createAsyncThunk("getFriendsList", async (_, thunkAPI) => {
-  try {
-    const response = await friendsInstance.get("/list");
-    // console.log(response.data.data);
-    return thunkAPI.fulfillWithValue(response.data.data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-// 로그인한 유저 친구의 친구/구독 리스트 가져오기
-export const __getFriendDetail = createAsyncThunk("getFriendList", async (url, thunkAPI) => {
+export const __getFriendsList = createAsyncThunk("getFriendsList", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/list/${url}`);
-    console.log("getFriendDetail -------> ", response.data.data);
+    console.log("getFriendList -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -162,20 +153,6 @@ export const friendsSlice = createSlice({
         state.FriendsList = action.payload;
       })
       .addCase(__getFriendsList.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-      });
-
-    builder
-      .addCase(__getFriendDetail.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(__getFriendDetail.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.FriendDetailList = action.payload;
-      })
-      .addCase(__getFriendDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

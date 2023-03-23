@@ -1,6 +1,6 @@
 import { React } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
 import {
@@ -22,16 +22,19 @@ import {
   ButtonArea,
 } from "./FriendList";
 
-function SubscribeList({ subscribeList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function SubscribeList({ SubscribesList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // const SubscribeList = useSelector((state) => state.subscribe.SubscribeList);
+  console.log("자식에서 찍은 구독-->", SubscribesList);
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));
   };
 
-  if (subscribeList.length === 0) {
+  if (SubscribesList?.length === 0) {
     return (
       <NoListMessageWrapper>
         <MessageBox>
@@ -60,7 +63,7 @@ function SubscribeList({ subscribeList, setIsCalendarMainVisible, setIsFriendLis
 
   return (
     <>
-      {subscribeList.map((user) => (
+      {SubscribesList?.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {

@@ -1,10 +1,11 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
-function UserLists({ searchWord, selectedCategories }) {
+function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const [buttonText, setButtonText] = useState("");
   const [subscribeButtontext, setSubscribeButtonText] = useState("");
   const RecommendList = useSelector((state) => state.friends.RecommendList);
@@ -13,6 +14,7 @@ function UserLists({ searchWord, selectedCategories }) {
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let url = "?searchword=";
@@ -38,7 +40,6 @@ function UserLists({ searchWord, selectedCategories }) {
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
-    console.log("친구 신청 함~~~");
   };
 
   const cancelRequestHandler = (id) => {
@@ -56,10 +57,7 @@ function UserLists({ searchWord, selectedCategories }) {
   const handleFriendButtonClick = async (user) => {
     if (user.friendCheck === false && user.isRequestFriend === null) {
       requestHandler(user.id);
-    } else if (
-      (user.friendCheck === false && user.isRequestFriend === false) ||
-      (user.friendCheck === true && user.isRequestFriend === null)
-    ) {
+    } else if ((user.friendCheck === false && user.isRequestFriend === false) || (user.friendCheck === true && user.isRequestFriend === null)) {
       cancelRequestHandler(user.id);
     }
   };
@@ -76,10 +74,7 @@ function UserLists({ searchWord, selectedCategories }) {
     RecommendList.forEach((user) => {
       if (user.friendCheck === false && user.isRequestFriend === null) {
         setButtonText("친구신청");
-      } else if (
-        (user.friendCheck === false && user.isRequestFriend === false) ||
-        (user.friendCheck === true && user.isRequestFriend === null)
-      ) {
+      } else if ((user.friendCheck === false && user.isRequestFriend === false) || (user.friendCheck === true && user.isRequestFriend === null)) {
         setButtonText("친구신청 취소");
       }
 
@@ -92,7 +87,14 @@ function UserLists({ searchWord, selectedCategories }) {
       {RecommendList.map((user) => (
         <PostBox key={user.id}>
           <ContentWrap>
-            <ProfileArea>
+            <ProfileArea
+              onClick={() => {
+                navigate(`/${user.id}`);
+                setIsCalendarMainVisible(true);
+                setIsFriendListVisible(false);
+                setIsSearchUsersvisible(false);
+                setIsFriendDetailVisible(false);
+              }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage} />
               </ProfilePhoto>
@@ -120,9 +122,7 @@ function UserLists({ searchWord, selectedCategories }) {
                   ? "친구 끊기"
                   : null}
               </Button>
-              <Button onClick={() => handleSubscribeButtonClick(user)}>
-                {user.userSubscribeCheck === false ? "구독하기" : "구독취소"}
-              </Button>
+              <Button onClick={() => handleSubscribeButtonClick(user)}>{user.userSubscribeCheck === false ? "구독하기" : "구독취소"}</Button>
             </ButtonArea>
           </ContentWrap>
         </PostBox>
@@ -147,6 +147,9 @@ const PostBox = styled.div`
   border-radius: 8px;
   /* background-color: pink; */
   border: 1px solid black;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const ContentWrap = styled.div`

@@ -1,7 +1,7 @@
 import { React, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
-import { __getFriendDetail } from "../../../redux/modules/friendsSlice";
+import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import {
   LoadingWrapper,
   CalendarWrapper,
@@ -20,28 +20,23 @@ import { useParams } from "react-router-dom";
 import DetailFriends from "./DetailFriends";
 import DetailSubscribe from "./DetailSubscribe";
 
-function DetailMain() {
+function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const statusCodeFriend = useSelector((state) => state.friends.statusCode);
-  const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
-
+  // 친구의 친구 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
-    const url = params.id;
-    console.log(url);
-    dispatch(__getFriendDetail(url));
-  }, [dispatch, statusCodeFriend, statusCodeSubscribe]);
+    const id = params.id;
+    let url = `${id}?sort=name&searchword=`;
+    dispatch(__getFriendsList(url));
+    dispatch(__getSubscribeList(url));
+  }, []);
 
-  const { FriendDetailList, isLoading } = useSelector((state) => state.friends);
-  //   console.log(FriendDetailList);
+  const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
+  const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
 
-  const friendsList = FriendDetailList?.friendResponseList || [];
-  const subscribeList = FriendDetailList?.userSubscribeResponseList || [];
-
-  if (isLoading) {
-    return <LoadingWrapper>로딩중...</LoadingWrapper>;
-  }
+  console.log("디테일 부모에서 찍은 친구 -->", FriendsList);
+  console.log("디테일 부모에서 찍은 구독 -->", SubscribesList);
 
   return (
     <>
@@ -51,14 +46,19 @@ function DetailMain() {
             <ListFrame>
               <ContentWrapper>
                 <TopText>
-                  <TopLeft>친구 {friendsList.length}</TopLeft>
+                  <TopLeft>친구 {FriendsList.length}</TopLeft>
                   <TopRight>
                     <SearchIcon />
-                    <AlignIcon />
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <DetailFriends friendsList={friendsList} />
+                  <DetailFriends
+                    FriendsList={FriendsList}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -67,10 +67,16 @@ function DetailMain() {
             <ListFrame>
               <ContentWrapper>
                 <TopText>
-                  <TopLeft>구독 {subscribeList.length}</TopLeft>
+                  <TopLeft>구독 {SubscribesList.length}</TopLeft>
                 </TopText>
                 <ListWrap>
-                  <DetailSubscribe subscribeList={subscribeList} />
+                  <DetailSubscribe
+                    SubscribesList={SubscribesList}
+                    setIsCalendarMainVisible={setIsCalendarMainVisible}
+                    setIsFriendListVisible={setIsFriendListVisible}
+                    setIsSearchUsersvisible={setIsSearchUsersvisible}
+                    setIsFriendDetailVisible={setIsFriendDetailVisible}
+                  />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>

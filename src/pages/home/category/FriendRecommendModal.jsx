@@ -5,15 +5,20 @@ import Modal from "../../../elements/Modal";
 import { ModalContent } from "./CategoryModal";
 import { useDispatch, useSelector } from "react-redux";
 import { __getFamousList } from "../../../redux/modules/friendsSlice";
+import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }) {
   const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
   const FamousList = useSelector((state) => state.friends.FamousList);
+  const [clickedButtonIds, setClickedButtonIds] = useState([]);
   const token = Cookies.get("accessJWTToken");
-  console.log(FamousList);
+
+  // console.log(FamousList);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(__getFamousList({ token }));
@@ -22,6 +27,26 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
       setUserInfo(JSON.parse(storedUserInfo));
     }
   }, [dispatch]);
+
+  //구독하기 POST요청함수 Dispatch
+  const addSubscribeHandler = (id) => {
+    dispatch(__addSubscribe(id));
+    setClickedButtonIds((prev) => [...prev, id]);
+  };
+
+  const Button = ({ id }) => {
+    if (clickedButtonIds.includes(id)) {
+      return null;
+    }
+    return (
+      <div
+        onClick={() => {
+          addSubscribeHandler(id);
+        }}>
+        구독하기
+      </div>
+    );
+  };
 
   return (
     <>
@@ -34,12 +59,14 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
                 <>
                   <PostWrap>
                     <UserInfoWrap>
-                      <div>{user.nickName}</div>
+                      <UserInfoUpper>
+                        <div>{user.nickName}</div>
+                        <FollowerWrap>{user.subscriberCount}명이 구독함</FollowerWrap>
+                      </UserInfoUpper>
                       <div>{user.introduction}안녕하세요 추천계정입니다.</div>
                     </UserInfoWrap>
                     <ButtonsWrap>
-                      <Button>친구신청</Button>
-                      <Button>구독하기</Button>
+                      <Button id={user.id} />
                     </ButtonsWrap>
                   </PostWrap>
                 </>
@@ -94,6 +121,18 @@ const UserInfoWrap = styled.div`
   gap: 6px;
 `;
 
+const UserInfoUpper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+`;
+
+const FollowerWrap = styled.div`
+  font-size: 12px;
+  color: gray;
+`;
+
 const ButtonsWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -104,7 +143,7 @@ const ButtonsWrap = styled.div`
   /* background-color: skyblue; */
 `;
 
-const Button = styled.div`
+const ButtonStyle = styled.div`
   border: 1px solid ${(props) => props.theme.Bg.deepColor};
   padding: 7px 7px;
 `;

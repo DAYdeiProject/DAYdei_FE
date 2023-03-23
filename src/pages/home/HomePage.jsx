@@ -117,8 +117,23 @@ function HomePage() {
             setIsFriendDetailVisible={setIsFriendDetailVisible}
           />
         )}
-        {isSearchUsersListVisible && <SearchUsers />}
-        {isFriendDetailVisible && <DetailMain />}
+        {isSearchUsersListVisible && (
+          <SearchUsers
+            setIsCalendarMainVisible={setIsCalendarMainVisible}
+            setIsFriendListVisible={setIsFriendListVisible}
+            setIsSearchUsersvisible={setIsSearchUsersvisible}
+            setIsFriendDetailVisible={setIsFriendDetailVisible}
+          />
+        )}
+        {isFriendDetailVisible && (
+          <DetailMain
+            handleShowCalendarMain={handleShowCalendarMain}
+            setIsCalendarMainVisible={setIsCalendarMainVisible}
+            setIsFriendListVisible={setIsFriendListVisible}
+            setIsSearchUsersvisible={setIsSearchUsersvisible}
+            setIsFriendDetailVisible={setIsFriendDetailVisible}
+          />
+        )}
       </MainWrapper>
     </HomePageWrapper>
   );
