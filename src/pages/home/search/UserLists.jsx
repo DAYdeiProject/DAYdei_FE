@@ -40,7 +40,6 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
 
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
-    console.log("친구 신청 함~~~");
   };
 
   const cancelRequestHandler = (id) => {
