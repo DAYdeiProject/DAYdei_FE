@@ -11,3 +11,6 @@ yarn add framer-motion
 
 - react icon
 yarn add react-icons
+
+- sse
+yarn add event-source-polyfill

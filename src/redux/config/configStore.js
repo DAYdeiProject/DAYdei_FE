@@ -4,6 +4,7 @@ import kakao from "../modules/kakaoSlice";
 import friends from "../modules/friendsSlice";
 import calendar from "../modules/calendarSlice";
 import subscribe from "../modules/subscribeSlice";
+import connect from "../modules/connectSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     friends,
     calendar,
     subscribe,
+    connect,
   },
 });
 

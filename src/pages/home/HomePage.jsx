@@ -8,12 +8,16 @@ import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TokenCheck from "../../utils/cookie/tokenCheck";
 import { useNavigate, useParams } from "react-router-dom";
 import UserInfo from "../../utils/localStorage/userInfo";
 import DetailMain from "./friendsDetail/DetailMain";
+import { __getConnect } from "../../redux/modules/connectSlice";
+import Cookies from "js-cookie";
+import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
 
+const EventSource = EventSourcePolyfill;
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
   TokenCheck();
@@ -39,6 +43,38 @@ function HomePage() {
 
   const userInfo = UserInfo();
   const params = useParams();
+  const dispatch = useDispatch();
+  const tokenn = Cookies.get("accessJWTToken");
+  useEffect(() => {
+    if (userInfo) {
+      let eventSource = "";
+      const fetchEvent = async () => {
+        try {
+          eventSource = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+            headers: {
+              Authorization: tokenn,
+            },
+            withCredentials: true,
+            timeout: 3600000,
+          });
+          eventSource.onmessage = async (event) => {
+            const result = await event.data;
+            console.log("connect ==> ", result);
+          };
+          //console.log(event);
+        } catch (error) {}
+      };
+      fetchEvent();
+      return () => eventSource.close();
+    }
+  });
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(__getConnect()).then((data) => {
+        console.log("알림 리스트 ==>", data);
+      });
+    }
+  }, []);
 
   // 홈 캘린더를 누르면 항상 로그인한 아이디의 캘린더가 나오게하기
   const handleShowCalendarMain = () => {
