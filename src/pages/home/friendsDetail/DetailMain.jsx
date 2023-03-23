@@ -49,7 +49,6 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                   <TopLeft>친구 {FriendsList.length}</TopLeft>
                   <TopRight>
                     <SearchIcon />
-                    <AlignIcon />
                   </TopRight>
                 </TopText>
                 <ListWrap>

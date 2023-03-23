@@ -86,17 +86,16 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
   return (
     <>
       {RecommendList.map((user) => (
-        <PostBox
-          key={user.id}
-          onClick={() => {
-            navigate(`/${user.id}`);
-            setIsCalendarMainVisible(true);
-            setIsFriendListVisible(false);
-            setIsSearchUsersvisible(false);
-            setIsFriendDetailVisible(false);
-          }}>
+        <PostBox key={user.id}>
           <ContentWrap>
-            <ProfileArea>
+            <ProfileArea
+              onClick={() => {
+                navigate(`/${user.id}`);
+                setIsCalendarMainVisible(true);
+                setIsFriendListVisible(false);
+                setIsSearchUsersvisible(false);
+                setIsFriendDetailVisible(false);
+              }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage} />
               </ProfilePhoto>
