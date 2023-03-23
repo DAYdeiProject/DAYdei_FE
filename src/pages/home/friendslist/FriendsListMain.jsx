@@ -82,7 +82,6 @@ function FriendsListMain({ handleShowCalendarMain, setIsCalendarMainVisible, set
                 <ListWrap>
                   <FriendList
                     FriendsList={FriendsList}
-                    handleShowCalendarMain={handleShowCalendarMain}
                     setIsCalendarMainVisible={setIsCalendarMainVisible}
                     setIsFriendListVisible={setIsFriendListVisible}
                     setIsSearchUsersvisible={setIsSearchUsersvisible}
@@ -101,7 +100,6 @@ function FriendsListMain({ handleShowCalendarMain, setIsCalendarMainVisible, set
                 <ListWrap>
                   <SubscribeList
                     SubscribesList={SubscribesList}
-                    handleShowCalendarMain={handleShowCalendarMain}
                     setIsCalendarMainVisible={setIsCalendarMainVisible}
                     setIsFriendListVisible={setIsFriendListVisible}
                     setIsSearchUsersvisible={setIsSearchUsersvisible}
