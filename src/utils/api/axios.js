@@ -45,3 +45,18 @@ subscribeInstance.interceptors.request.use((config) => {
   }
   return config;
 });
+
+export const memosInstance = axios.create({
+  baseURL: `${process.env.REACT_APP_DAYDEI_URL}/api/memos`,
+  headers: {
+    Authorization: token,
+  },
+});
+
+memosInstance.interceptors.request.use((config) => {
+  const token = Cookies.get("accessJWTToken");
+  if (token) {
+    config.headers.Authorization = token;
+  }
+  return config;
+});

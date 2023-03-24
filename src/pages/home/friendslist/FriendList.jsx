@@ -2,6 +2,7 @@ import { React } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
+import { __friendsList } from "../../../redux/modules/kakaoSlice";
 import { MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +13,8 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
   };
+
+  const connectKakaoFriendsHandler = () => {};
 
   if (FriendsList?.length === 0) {
     return (
@@ -25,7 +28,7 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
             </TextWrap>
           </ContentArea>
           <ButtonWrap>
-            <KakaoButton>카카오톡 친구와 연동</KakaoButton>
+            <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
             <InviteButton>친구 초대</InviteButton>
           </ButtonWrap>
         </MessageBox>
