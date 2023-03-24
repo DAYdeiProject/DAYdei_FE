@@ -3,68 +3,23 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
-import {
-  NoListMessageWrapper,
-  MessageBox,
-  ContentArea,
-  IconStyle,
-  TextWrap,
-  UpperText,
-  BottomText,
-  PostBox,
-  ProfileArea,
-  ProfileWrap,
-  PhotoFrame,
-  TextArea,
-  NickNameWrap,
-  EmailWrap,
-  IntroductionWrap,
-  ButtonArea,
-} from "./FriendList";
+import { PostBox, ProfileArea, ProfileWrap, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap, ButtonArea } from "../friendslist/FriendList";
 
-function SubscribeList({ SubscribesList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // const SubscribeList = useSelector((state) => state.subscribe.SubscribeList);
-  // console.log("자식에서 찍은 구독-->", SubscribesList);
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));
   };
 
-  if (SubscribesList?.length === 0) {
-    return (
-      <NoListMessageWrapper>
-        <MessageBox>
-          <ContentArea>
-            <IconStyle />
-            <TextWrap>
-              <UpperText>내가 구독하는 사람</UpperText>
-              <BottomText>회원님이 구독하는 사람들이 여기에 표시됩니다.</BottomText>
-            </TextWrap>
-          </ContentArea>
-          <ButtonWrap>
-            <RecommendButton
-              onClick={() => {
-                setIsCalendarMainVisible(false);
-                setIsFriendListVisible(false);
-                setIsSearchUsersvisible(true);
-                setIsFriendDetailVisible(false);
-              }}>
-              회원님을 위한 추천
-            </RecommendButton>
-          </ButtonWrap>
-        </MessageBox>
-      </NoListMessageWrapper>
-    );
-  }
+  console.log("자식에서-->", SubscribersList);
 
   return (
     <>
-      {SubscribesList?.map((user) => (
-        <PostBox key={user.id}>
+      {SubscribersList?.map((user) => (
+        <PostBox key={user.email}>
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
@@ -82,12 +37,6 @@ function SubscribeList({ SubscribesList, setIsCalendarMainVisible, setIsFriendLi
             </ProfileWrap>
             <IntroductionWrap></IntroductionWrap>
           </ProfileArea>
-          <ButtonArea
-            onClick={() => {
-              cancelSubscribeHandler(user.id);
-            }}>
-            {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
-          </ButtonArea>
         </PostBox>
       ))}
     </>
@@ -131,4 +80,4 @@ const RecommendButton = styled.div`
   }
 `;
 
-export default SubscribeList;
+export default DetailSubscriberList;
