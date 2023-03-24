@@ -5,6 +5,7 @@ import friends from "../modules/friendsSlice";
 import calendar from "../modules/calendarSlice";
 import subscribe from "../modules/subscribeSlice";
 import connect from "../modules/connectSlice";
+import memos from "../modules/memosSlice";
 import calendarReducer from "../modules/calendarReducer";
 
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
     calendar,
     subscribe,
     connect,
+    memos,
     calendarReducer,
   },
 });
