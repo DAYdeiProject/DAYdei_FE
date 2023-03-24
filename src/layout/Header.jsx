@@ -4,11 +4,15 @@ import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import { BiBell } from "react-icons/bi";
 import useOutSideClick from "../hooks/useOutsideClick";
+import { useDispatch } from "react-redux";
+import { notificationState } from "../redux/modules/calendarReducer";
 
 function Header(props) {
   const navigate = useNavigate();
   const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -40,6 +44,18 @@ function Header(props) {
     }
   };
 
+  // 알림 아이콘 클릭
+  const notificationClick = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+  };
+  useEffect(() => {
+    if (isNotificationOpen === true) {
+      dispatch(notificationState(true));
+    } else {
+      dispatch(notificationState(false));
+    }
+  }, [isNotificationOpen]);
+
   return (
     <HeaderWrapper>
       <LogoContainer>
@@ -58,8 +74,9 @@ function Header(props) {
           </div>
         </NavTabConatiner>
         <NavUserConatiner>
-          <IconWrapper>
+          <IconWrapper onClick={notificationClick} className="notification">
             <BiBell size={31} />
+            {/* <NotificationModal isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} /> */}
           </IconWrapper>
           <IconWrapper ref={DropdownRef}>
             <Image onClick={handleDropdown} />
@@ -136,6 +153,10 @@ const NavUserConatiner = styled.div`
   /* background-color: lightgray; */
   gap: 40px;
   align-items: center;
+
+  .notification {
+    position: relative;
+  }
 `;
 
 const IconWrapper = styled.div`

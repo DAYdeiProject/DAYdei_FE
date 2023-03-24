@@ -19,6 +19,7 @@ import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
 import format from "date-fns/format";
 import OtherUserCalendar from "./OtherUserCalendar";
+import NotificationModal from "./NotificationModal";
 
 function CalendarMain({ side, setSide }) {
   // 일정 추가 모달창 open state
@@ -183,7 +184,7 @@ function CalendarMain({ side, setSide }) {
   // if (isLoding) <Loading loading={isLoding} />;
 
   return (
-    <>
+    <CalendarSidebarWrapper>
       {isLoading && <Loading />}
       {userId && String(userId.userId) !== param.id && <OtherUserCalendar />}
       <CalendarWrapper disabled={disabled}>
@@ -228,17 +229,17 @@ function CalendarMain({ side, setSide }) {
         <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} />
       </CalendarWrapper>
       <CalendarSidebar />
-    </>
+      {/* <NotificationModal /> */}
+    </CalendarSidebarWrapper>
   );
 }
 
 export default CalendarMain;
 
-// const CalendarSidebarWrapper = styled.div`
-//   ${(props) => props.theme.FlexRow}
-//   width: 100%;
-//   height: 100%;
-// `;
+const CalendarSidebarWrapper = styled.div`
+  ${(props) => props.theme.FlexRow};
+  height: 100%;
+`;
 export const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;

@@ -8,7 +8,6 @@ const initialState = {
   update: [],
   detail: [],
   imgList: [],
-  mainToday: [],
   otherUser: [],
   otherUserUpdate: [],
   otherUserShare: [],
@@ -117,10 +116,10 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
   }
 });
 
-// sidebar 오늘의 일정 get
+// 오늘의 일정 get (sidebar + 더보기 클릭시)
 export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/today?date=${payload.today}`, {
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -140,21 +139,6 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
         Authorization: payload,
       },
     });
-    return thunkAPI.fulfillWithValue(response.data.data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-// 오늘의 일정 get(내꺼 + 타유저)
-export const __getUserTodaySchedule = createAsyncThunk("getUserTodaySchedule", async (payload, thunkAPI) => {
-  try {
-    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
-    console.log("유저 today일정(더보기클릭) : ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -338,19 +322,6 @@ export const calendarSlice = createSlice({
         state.update = action.payload;
       })
       .addCase(__getTodayUpdate.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-      });
-    builder
-      .addCase(__getUserTodaySchedule.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(__getUserTodaySchedule.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.mainToday = action.payload;
-      })
-      .addCase(__getUserTodaySchedule.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

@@ -209,6 +209,7 @@ function AddPostModal({ ...props }) {
   //     props.setIsAddPost(false);
   //   });
   // };
+
   // 닫기
   const closeClickHandler = () => {
     props.setIsAddPost(false);
