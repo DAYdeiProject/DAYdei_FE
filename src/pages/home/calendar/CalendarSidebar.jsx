@@ -127,67 +127,65 @@ export default function CalendarSidebar() {
 
   return (
     <>
-      <SidebarWrapper>
-        <div onClick={handleTodoBoxOpen}>
-          todo
-          {isTodoBoxOpen && (
-            <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
-              {isAddMemoBoxOpen && <AddMemoBox onClick={handleInputBoxOpen}>+ 메모 작성하기</AddMemoBox>}
-              {isInputBoxOpen && (
-                <InputBox>
-                  <ContentWrapper>
-                    <InputWrapper>
-                      제목 : <SearchBar type="text" value={title} onChange={handleTitleChange} autoFocus />
-                    </InputWrapper>
-                    <InputWrapper>
-                      내용 :<SearchBar type="text" value={content} onChange={handleContentChange} />
-                    </InputWrapper>
-                  </ContentWrapper>
-                  <ButtonWrapper>
-                    <Button onClick={submitMemoHandler}>완료</Button>
-                  </ButtonWrapper>
-                </InputBox>
-              )}
-              <MemoText>Memos</MemoText>
-              <div>
-                {memos.map((memo) => (
-                  <div key={memo.id}>
-                    {clickedMemoId === memo.id ? (
-                      <MemoBox>
-                        <ContentWrapper>
-                          <InputWrapper>
-                            <input type="text" placeholder="제목" value={fixedTitle} onChange={handleFixedTitleChange} />
-                          </InputWrapper>
-                          <InputWrapper>
-                            <input type="text" placeholder="내용" value={fixedContent} onChange={handleFixedContentChange} />
-                          </InputWrapper>
-                          <MemoBoxButtonWrapper>
-                            <FixButton onClick={() => fixMemoHandler(memo.id)}>수정</FixButton>
-                          </MemoBoxButtonWrapper>
-                        </ContentWrapper>
-                      </MemoBox>
-                    ) : (
-                      <MemoBox>
-                        <ContentWrapper>
-                          <InputWrapper>{memo.title}</InputWrapper>
-                          <InputWrapper>{memo.content}</InputWrapper>
-                        </ContentWrapper>
-                        <MemoBoxButtonWrapper>
-                          <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
-                          <FaTrash
-                            onClick={() => {
-                              deleteMemoHandler(memo.id);
-                            }}
-                          />
-                        </MemoBoxButtonWrapper>
-                      </MemoBox>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </SideSpaceWrapper>
+      {isTodoBoxOpen && (
+        <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
+          {isAddMemoBoxOpen && <AddMemoBox onClick={handleInputBoxOpen}>+ 메모 작성하기</AddMemoBox>}
+          {isInputBoxOpen && (
+            <InputBox>
+              <ContentWrapper>
+                <InputWrapper>
+                  제목 : <SearchBar type="text" value={title} onChange={handleTitleChange} autoFocus />
+                </InputWrapper>
+                <InputWrapper>
+                  내용 :<SearchBar type="text" value={content} onChange={handleContentChange} />
+                </InputWrapper>
+              </ContentWrapper>
+              <ButtonWrapper>
+                <Button onClick={submitMemoHandler}>완료</Button>
+              </ButtonWrapper>
+            </InputBox>
           )}
-        </div>
+          <MemoText>Memos</MemoText>
+          <div>
+            {memos.map((memo) => (
+              <div key={memo.id}>
+                {clickedMemoId === memo.id ? (
+                  <MemoBox>
+                    <ContentWrapper>
+                      <InputWrapper>
+                        <input type="text" placeholder="제목" value={fixedTitle} onChange={handleFixedTitleChange} />
+                      </InputWrapper>
+                      <InputWrapper>
+                        <input type="text" placeholder="내용" value={fixedContent} onChange={handleFixedContentChange} />
+                      </InputWrapper>
+                      <MemoBoxButtonWrapper>
+                        <FixButton onClick={() => fixMemoHandler(memo.id)}>수정</FixButton>
+                      </MemoBoxButtonWrapper>
+                    </ContentWrapper>
+                  </MemoBox>
+                ) : (
+                  <MemoBox>
+                    <ContentWrapper>
+                      <InputWrapper>{memo.title}</InputWrapper>
+                      <InputWrapper>{memo.content}</InputWrapper>
+                    </ContentWrapper>
+                    <MemoBoxButtonWrapper>
+                      <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
+                      <FaTrash
+                        onClick={() => {
+                          deleteMemoHandler(memo.id);
+                        }}
+                      />
+                    </MemoBoxButtonWrapper>
+                  </MemoBox>
+                )}
+              </div>
+            ))}
+          </div>
+        </SideSpaceWrapper>
+      )}
+      <SidebarWrapper>
+        <div onClick={handleTodoBoxOpen}>todo</div>
         <div onClick={handleSubscribeBoxOpen}>
           구독
           {isSubscribeBoxOpen && <SideSpaceWrapper>구독자목록</SideSpaceWrapper>}
@@ -200,7 +198,6 @@ export default function CalendarSidebar() {
 const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  position: relative;
   //width: 500px;
   width: 50px;
   height: 100%;
@@ -212,7 +209,7 @@ const SidebarWrapper = styled.div`
 `;
 
 const SideSpaceWrapper = styled.div`
-  position: absolute;
+  display: flex;
   bottom: 0px;
   right: 40px;
   width: 250px; /* adjust this value to change the width of the side space */
@@ -222,7 +219,7 @@ const SideSpaceWrapper = styled.div`
   z-index: 10;
   flex-shrink: 0;
   border: 1px solid black;
-  display: flex;
+
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
