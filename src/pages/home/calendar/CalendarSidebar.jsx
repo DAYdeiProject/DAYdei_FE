@@ -83,7 +83,7 @@ export default function CalendarSidebar() {
   const statusCodeMemo = useSelector((state) => state.memos.statusCode);
   const statusCodeDelete = useSelector((state) => state.memos.statusCodeDelete);
   const updatedMemos = useSelector((state) => state.memos.updatedMemos);
-  // console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
+  console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
 
   useEffect(() => {
     dispatch(__getMemos());
@@ -147,7 +147,7 @@ export default function CalendarSidebar() {
           )}
           <MemoText>Memos</MemoText>
           <div>
-            {memos.map((memo) => (
+            {updatedMemos.map((memo) => (
               <div key={memo.id}>
                 {clickedMemoId === memo.id ? (
                   <MemoBox>
@@ -184,12 +184,10 @@ export default function CalendarSidebar() {
           </div>
         </SideSpaceWrapper>
       )}
+      {isSubscribeBoxOpen && <SideSpaceWrapper>구독자목록</SideSpaceWrapper>}
       <SidebarWrapper>
         <div onClick={handleTodoBoxOpen}>todo</div>
-        <div onClick={handleSubscribeBoxOpen}>
-          구독
-          {isSubscribeBoxOpen && <SideSpaceWrapper>구독자목록</SideSpaceWrapper>}
-        </div>
+        <div onClick={handleSubscribeBoxOpen}>구독</div>
       </SidebarWrapper>
     </>
   );
