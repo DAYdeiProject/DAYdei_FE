@@ -18,7 +18,6 @@ import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
 import format from "date-fns/format";
-import TokenCheck from "../../../utils/cookie/tokenCheck";
 import OtherUserCalendar from "./OtherUserCalendar";
 
 function CalendarMain({ side, setSide }) {
@@ -40,6 +39,8 @@ function CalendarMain({ side, setSide }) {
   const [isModify, setIsModify] = useState(false);
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
+  // drag 수정 막기
+  const [isDrag, setIsDrag] = useState(true);
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessJWTToken");
@@ -52,9 +53,14 @@ function CalendarMain({ side, setSide }) {
 
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
+      // 타유저 캘린더에 간 상황
       setDisabled(true);
+      setIsDrag(false);
+    } else {
+      setIsDrag(true);
+      setDisabled(false);
     }
-    dispatch(__getTotalPosts({ userId: param.id, token }));
+    dispatch(__getTotalPosts({ userId: String(param.id), token }));
   }, [isSubmit, param]);
 
   useEffect(() => {
@@ -96,7 +102,6 @@ function CalendarMain({ side, setSide }) {
 
   // 일정추가 버튼 클릭 -> 모달창 여부
   const addButtonClick = () => {
-    TokenCheck();
     showAddpostModal();
   };
   const showAddpostModal = () => {
@@ -105,15 +110,14 @@ function CalendarMain({ side, setSide }) {
 
   // 일정 more 클릭시
   const handleMoreLinkClick = (e) => {
-    TokenCheck();
     e.jsEvent.preventDefault();
     setIsTodaySchedule(true);
   };
 
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
-    TokenCheck();
     setDetailPostId(e.event._def.publicId);
+
     // if (String(userId.userId) === param.id) {
     //   setIsModify(true);
     // }
@@ -121,32 +125,33 @@ function CalendarMain({ side, setSide }) {
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    TokenCheck();
-    if (String(userId.userId) === param.id) {
+    if (String(userId.userId) === param.id && token) {
       setPickDate(date.date);
     }
   };
 
   // event drop
   const handlerEventDrop = (info) => {
-    TokenCheck();
-    const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
-    const endDate = format(new Date(info.event._instance.range.end), "yyyy-MM-dd");
-    let end = "";
-    if (startDate === endDate) {
-      end = endDate;
-    } else {
-      end = format(add(new Date(info.event._instance.range.end), { days: -1 }), "yyyy-MM-dd");
+    if (token) {
+      const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
+      const endDate = format(new Date(info.event._instance.range.end), "yyyy-MM-dd");
+      let end = "";
+      if (startDate === endDate) {
+        end = endDate;
+      } else {
+        end = format(add(new Date(info.event._instance.range.end), { days: -1 }), "yyyy-MM-dd");
+      }
+
+      const newPost = {
+        startDate,
+        endDate: end,
+      };
+
+      dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
+        alert("일정 날짜가 수정되었습니다.");
+        setSide(!side);
+      });
     }
-
-    const newPost = {
-      startDate,
-      endDate: end,
-    };
-
-    dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
-      alert("일정 날짜가 수정되었습니다.");
-    });
   };
 
   const setting = {
@@ -180,13 +185,13 @@ function CalendarMain({ side, setSide }) {
   return (
     <>
       {isLoading && <Loading />}
-      {String(userId.userId) !== param.id && <OtherUserCalendar />}
+      {userId && String(userId.userId) !== param.id && <OtherUserCalendar />}
       <CalendarWrapper disabled={disabled}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           locale="ko"
-          editable={true}
+          editable={isDrag}
           dayMaxEventRows={true}
           displayEventTime={false}
           initialView="dayGridMonth"
@@ -236,7 +241,6 @@ export default CalendarMain;
 // `;
 export const CalendarWrapper = styled.div`
   width: 100%;
-  min-width: 690px;
   height: 100%;
   padding: 40px 48px 40px;
 

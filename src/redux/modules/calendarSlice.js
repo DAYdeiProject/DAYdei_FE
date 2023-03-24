@@ -10,6 +10,8 @@ const initialState = {
   imgList: [],
   mainToday: [],
   otherUser: [],
+  otherUserUpdate: [],
+  otherUserShare: [],
   error: "",
   isError: false,
   isLoading: false,
@@ -144,15 +146,15 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
   }
 });
 
-// 타 유저의 오늘의 일정 get
-export const __getOtherUserToday = createAsyncThunk("getOtherUserTodaySchedule", async (payload, thunkAPI) => {
+// 오늘의 일정 get(내꺼 + 타유저)
+export const __getUserTodaySchedule = createAsyncThunk("getUserTodaySchedule", async (payload, thunkAPI) => {
   try {
     const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("타유저 today : ", response);
+    console.log("유저 today일정(더보기클릭) : ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -180,6 +182,34 @@ export const __postImgUpload = createAsyncThunk("postImgUpload", async (payload,
       headers: {
         Authorization: payload.token,
         "Content-Type": "multipart/form-data",
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 타유저 캘린더 업데이트 일정
+export const __otherUserUpdatePost = createAsyncThunk("otherUserUpdatePost", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/post/update/${payload.userId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 타유저 캘린더 나와 공유한 일정
+export const __otherUserSharePost = createAsyncThunk("otherUserSharePost", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/post/share/${payload.userId}`, {
+      headers: {
+        Authorization: payload.token,
       },
     });
     return thunkAPI.fulfillWithValue(response.data.data);
@@ -312,15 +342,15 @@ export const calendarSlice = createSlice({
         state.isError = true;
       });
     builder
-      .addCase(__getOtherUserToday.pending, (state) => {
+      .addCase(__getUserTodaySchedule.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(__getOtherUserToday.fulfilled, (state, action) => {
+      .addCase(__getUserTodaySchedule.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.mainToday = action.payload;
       })
-      .addCase(__getOtherUserToday.rejected, (state) => {
+      .addCase(__getUserTodaySchedule.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
@@ -348,6 +378,32 @@ export const calendarSlice = createSlice({
         state.imgList = action.payload;
       })
       .addCase(__postImgUpload.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__otherUserUpdatePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__otherUserUpdatePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.otherUserUpdate = action.payload;
+      })
+      .addCase(__otherUserUpdatePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__otherUserSharePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__otherUserSharePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.otherUserShare = action.payload;
+      })
+      .addCase(__otherUserSharePost.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

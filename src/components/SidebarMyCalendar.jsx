@@ -42,7 +42,7 @@ export default function SidebarMyCalendar({ ...props }) {
 
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
-    dispatch(__getTodaySchedule({ today, token }));
+    dispatch(__getTodaySchedule({ today: String(today), token }));
     dispatch(__getTodayUpdate(token));
   }, [props.side]);
 

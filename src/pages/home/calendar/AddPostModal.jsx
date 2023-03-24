@@ -44,9 +44,7 @@ function AddPostModal({ ...props }) {
   const [targetList, setTargetList] = useState([]);
   const [targetToggle, setTargetToggle] = useState(false);
   const [targetPick, setTargetPick] = useState([]);
-  // 저장되어있던 친구
-  const [savePick, setSavePick] = useState([]);
-  const [savePickId, setSavePickId] = useState([]);
+  const [imgCountCheck, setImgCountCheck] = useState(false);
   // db에 보내줄 친구 리스트
   const [targetPickId, setTargetPickId] = useState([]);
   // db에 보내줄 파일 리스트
@@ -288,6 +286,15 @@ function AddPostModal({ ...props }) {
     if (errors.title) alert(errors.title.message);
   }, [errors]);
 
+  useEffect(() => {
+    if (fileList.length > 4) {
+      alert("파일첨부는 최대 4개까지 첨부가능합니다.");
+      setImgCountCheck(true);
+    } else {
+      setImgCountCheck(false);
+    }
+  }, [fileList]);
+
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
     const newStart = format(startDate, "yyyy-MM-dd");
@@ -295,7 +302,19 @@ function AddPostModal({ ...props }) {
     if (newStart > newEnd) {
       return alert("종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.");
     }
+    let newStartTime = "";
+    let newEndTime = "";
 
+    if (isAllDay) {
+      newStartTime = "00:00:00";
+      newEndTime = "00:00:00";
+    } else {
+      if (data.startTime > data.endTime) {
+        return alert("종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.");
+      }
+      newStartTime = data.startTime;
+      newEndTime = data.endTime;
+    }
     const imgList = new FormData();
     fileList.map((img) => {
       imgList.append("images", img);
@@ -305,8 +324,8 @@ function AddPostModal({ ...props }) {
       title: data.title,
       startDate: newStart,
       endDate: newEnd,
-      startTime: data.startTime,
-      endTime: data.endTime,
+      startTime: newStartTime,
+      endTime: newEndTime,
       color: color,
       participant: targetPickId,
       location: data.location,
@@ -317,56 +336,81 @@ function AddPostModal({ ...props }) {
     // fileList == 새 파일 이미지 리스트
     if (fileList.length !== 0) {
       // 이미지 있을때
-      dispatch(__postImgUpload({ images: imgList, token })).then((data) => {
+      dispatch(__postImgUpload({ images: imgList, token })).then((img) => {
         // 수정하기 일때
         if (props.modifyPostId) {
           if (saveView.length !== 0) {
             // 이전 저장되어있던 이미지가 있다
             let saveNewView = [];
             saveNewView.push(...saveView);
-            saveNewView.push(...data.payload);
+            saveNewView.push(...img.payload);
             newPost.image = saveNewView;
 
-            dispatch(__updatePost({ updatePost: newPost, postId: props.modifyPostId, token })).then(() => {
-              alert("수정되었습니다.");
-              props.setSide(!props.side);
-              props.setIsSubmit(!props.isSubmit);
-              closeClickHandler();
+            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+              if (data.error) {
+                alert("수정 실패하였습니다.");
+                closeClickHandler();
+              } else {
+                alert("수정되었습니다.");
+                props.setSide(!props.side);
+                props.setIsSubmit(!props.isSubmit);
+                closeClickHandler();
+              }
             });
           } else {
-            newPost.image = data.payload;
-            dispatch(__updatePost({ updatePost: newPost, postId: props.modifyPostId, token })).then(() => {
-              alert("수정되었습니다.");
-              props.setSide(!props.side);
-              props.setIsSubmit(!props.isSubmit);
-              closeClickHandler();
+            newPost.image = img.payload;
+            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+              if (data.error) {
+                alert("수정 실패하였습니다.");
+                closeClickHandler();
+              } else {
+                alert("수정되었습니다.");
+                props.setSide(!props.side);
+                props.setIsSubmit(!props.isSubmit);
+                closeClickHandler();
+              }
             });
           }
         } else {
-          newPost.image = data.payload;
-          dispatch(__createNewPost({ newPost, token })).then(() => {
-            alert("작성 완료되었습니다.");
-            props.setSide(!props.side);
-            props.setIsSubmit(!props.isSubmit);
-            closeClickHandler();
+          newPost.image = img.payload;
+          dispatch(__createNewPost({ newPost, token })).then((data) => {
+            if (data.error) {
+              alert("작성 실패하였습니다.");
+              closeClickHandler();
+            } else {
+              alert("작성 완료되었습니다.");
+              props.setSide(!props.side);
+              props.setIsSubmit(!props.isSubmit);
+              closeClickHandler();
+            }
           });
         }
       });
     } else {
       // 이미지 없을때 + 수정하기 일때
       if (props.modifyPostId) {
-        dispatch(__updatePost({ updatePost: newPost, postId: props.modifyPostId, token })).then(() => {
-          alert("수정되었습니다.");
-          props.setSide(!props.side);
-          props.setIsSubmit(!props.isSubmit);
-          closeClickHandler();
+        dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+          if (data.error) {
+            closeClickHandler();
+            return alert("수정 실패하였습니다.");
+          } else {
+            alert("수정되었습니다.");
+            props.setSide(!props.side);
+            props.setIsSubmit(!props.isSubmit);
+            closeClickHandler();
+          }
         });
       } else {
         dispatch(__createNewPost({ newPost, token })).then((data) => {
-          alert("작성 완료되었습니다.");
-          props.setSide(!props.side);
-          props.setIsSubmit(!props.isSubmit);
-          closeClickHandler();
+          if (data.error) {
+            alert("작성 실패하였습니다.");
+            closeClickHandler();
+          } else {
+            alert("작성 완료되었습니다.");
+            props.setSide(!props.side);
+            props.setIsSubmit(!props.isSubmit);
+            closeClickHandler();
+          }
         });
       }
     }
@@ -546,10 +590,10 @@ function AddPostModal({ ...props }) {
                     {saveView &&
                       saveView?.map((list, i) => {
                         const save = "save";
-                        //let sliceName = "..." + list.substr(-7, 3);
+                        let sliceName = "..." + list.substr(-7, 3);
                         return (
                           <postStyle.ImgBox key={i}>
-                            <span>파일{i}.jpg</span>
+                            <span>파일{sliceName}.jpg</span>
                             <BiX className="friendX" onClick={() => deleteImgFile(i, save)} />
                           </postStyle.ImgBox>
                         );
@@ -597,7 +641,7 @@ function AddPostModal({ ...props }) {
         </postStyle.BodyWrapper>
 
         <postStyle.SubmitButtonWrapper>
-          <button>{props.modifyPostId ? "수정하기" : "일정 만들기"}</button>
+          <button disabled={imgCountCheck}>{props.modifyPostId ? "수정하기" : "일정 만들기"}</button>
         </postStyle.SubmitButtonWrapper>
       </postStyle.AddPostWrapper>
     </CalendarPostModal>

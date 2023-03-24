@@ -4,7 +4,7 @@ import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import FriendsListMain from "./friendslist/FriendsListMain";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
@@ -15,9 +15,13 @@ import UserInfo from "../../utils/localStorage/userInfo";
 import DetailMain from "./friendsDetail/DetailMain";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
-import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { motion, AnimatePresence } from "framer-motion";
+// import { eventsource } from "eventsource";
 
+//const EventSource = EventSourcePolyfill;
 const EventSource = EventSourcePolyfill;
+
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
   TokenCheck();
@@ -44,33 +48,59 @@ function HomePage() {
   const userInfo = UserInfo();
   const params = useParams();
   const dispatch = useDispatch();
-  const tokenn = Cookies.get("accessJWTToken");
+  const connectToken = Cookies.get("accessJWTToken");
+  const [sseData, setSseData] = useState("");
+  // sse
+  useEffect(() => {
+    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+      headers: {
+        Authorization: connectToken,
+      },
+      heartbeatTimeout: 120000,
+    });
+
+    // eventConnect.addEventListener("onmessage", async (e) => {
+    //   const data = JSON.parse(e.data);
+    //   console.log("sse data---> ", data);
+    //   setSseData(data);
+    // });
+
+    eventConnect.onmessage = async (event) => {
+      //const result = await JSON.parse(event.data);
+      const result = await event.data;
+      console.log("connect ==> ", result);
+    };
+
+    return () => eventConnect.close();
+  }, []);
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     let eventSource = "";
+  //     const fetchEvent = async () => {
+  //       eventSource = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+  //         headers: {
+  //           Authorization: connectToken,
+  //           // "Content-Type": "text/event-stream",
+  //           // "Cache-Control": "no-cache",
+  //           // Connection: "keep-alive",
+  //           // "X-Accel-Buffering": "no",
+  //         },
+  //         withCredentials: true,
+  //         heartbeatTimeout: 3600000,
+  //       });
+  //       eventSource.onmessage = async (event) => {
+  //         const result = await event.data;
+  //         console.log("connect ==> ", result);
+  //       };
+  //     };
+  //     fetchEvent();
+  //   }
+  // });
+
   useEffect(() => {
     if (userInfo) {
-      let eventSource = "";
-      const fetchEvent = async () => {
-        try {
-          eventSource = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
-            headers: {
-              Authorization: tokenn,
-            },
-            withCredentials: true,
-            timeout: 3600000,
-          });
-          eventSource.onmessage = async (event) => {
-            const result = await event.data;
-            console.log("connect ==> ", result);
-          };
-          //console.log(event);
-        } catch (error) {}
-      };
-      fetchEvent();
-      return () => eventSource.close();
-    }
-  });
-  useEffect(() => {
-    if (userInfo) {
-      dispatch(__getConnect()).then((data) => {
+      dispatch(__getConnect(connectToken)).then((data) => {
         console.log("알림 리스트 ==>", data);
       });
     }
@@ -185,7 +215,7 @@ const HomePageWrapper = styled.div`
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   height: calc(100vh - 100px);
-  min-width: 1250px;
+  min-width: 1350px;
   max-width: 1920px;
   margin: 0 auto;
 `;

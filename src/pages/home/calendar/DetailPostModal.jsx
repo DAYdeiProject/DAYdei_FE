@@ -18,22 +18,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getPostDetail, __deletePost } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
-import ColorFromDB, { DayCheck } from "./CalendarBasic";
+import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
+import UserInfo from "../../../utils/localStorage/userInfo";
+import { useParams } from "react-router-dom";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(false);
   const [imgToggle, setImgToggle] = useState(false);
   const [nowStart, setStart] = useState("");
   const [nowStartDay, setStartDay] = useState("");
+  const [nowStartTime, setStartTime] = useState("");
   const [nowEnd, setEnd] = useState("");
   const [nowEndDay, setEndDay] = useState("");
+  const [nowEndTime, setEndTime] = useState("");
   const [color, setColor] = useState("");
+  const [getId, setGetId] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
+  const userInfo = UserInfo();
+  const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
-  //console.log(detail);
+  const { getPostId } = useSelector((state) => state.calendarReducer);
+
+  useEffect(() => {
+    if (getPostId) setGetId(getPostId);
+  }, [getPostId]);
+
   useEffect(() => {
     if (detail) {
       const year = getYear(new Date(detail.startDate));
@@ -44,6 +56,14 @@ export default function DetailPostModal({ ...props }) {
       const dateEnd = getDate(new Date(detail.endDate));
       setStart(`${year}.${month + 1}.${date}`);
       setEnd(`${yearEnd}.${monthEnd + 1}.${dateEnd}`);
+
+      if (detail.startTime !== detail.endTime) {
+        let dayStartTime = DayAmPm(detail.startTime);
+        let dayEndTime = DayAmPm(detail.endTime);
+        setStartTime(dayStartTime);
+        setEndTime(dayEndTime);
+      }
+
       const start = getDay(new Date(detail.startDate));
       const end = getDay(new Date(detail.endDate));
       const startDay = DayCheck(start);
@@ -57,11 +77,14 @@ export default function DetailPostModal({ ...props }) {
 
   useEffect(() => {
     if (props.detailPostId) {
-      dispatch(__getPostDetail({ id: props.detailPostId })).then(() => {
-        props.setIsDetailPost(true);
-      });
+      dispatch(__getPostDetail({ id: String(props.detailPostId), token }));
+      props.setIsDetailPost(true);
+    } else if (getId) {
+      dispatch(__getPostDetail({ id: String(getId), token }));
+      props.setIsDetailPost(true);
     }
-  }, [props.detailPostId]);
+    setGetId("");
+  }, [props.detailPostId, getId]);
 
   // console.log(detail);
   // toggle
@@ -96,15 +119,6 @@ export default function DetailPostModal({ ...props }) {
     });
   };
 
-  // // 일정 삭제하기
-  // const deletePostHandler = (id) => {
-  //   //console.log(id);
-  //   dispatch(__deletePost({ id, token })).then((data) => {
-  //     alert(data.payload);
-  //     props.setIsAddPost(false);
-  //   });
-  // };
-
   return (
     <>
       {isLoading && <Loading />}
@@ -112,8 +126,12 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
-              <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
-              <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
+              {String(userInfo) === String(param.id) && (
+                <>
+                  <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
+                  <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
+                </>
+              )}
               <BsThreeDotsVertical className="dotsIcon" />
               <BiX className="closeIncon" onClick={closeModal} />
             </HeaderWrapper>
@@ -124,11 +142,9 @@ export default function DetailPostModal({ ...props }) {
                   <span>
                     {nowStart}
                     {nowStartDay}
-                    {detail?.startTime && detail.startTime.substr(0, 2) < 13 ? "오전" : "오후"}
-                    {detail?.startTime && detail?.startTime.substr(0, 5)}-{nowEnd}
+                    {nowStartTime}-{nowEnd}
                     {nowEndDay}
-                    {detail?.endTime && detail?.endTime.substr(0, 2) < 13 ? "오전" : "오후"}
-                    {detail?.endTime && detail?.endTime.substr(0, 5)}
+                    {nowEndTime}
                   </span>
                 </TitleWrapper>
                 <FriendWrapper>

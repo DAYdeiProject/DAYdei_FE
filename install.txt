@@ -14,3 +14,4 @@ yarn add react-icons
 
 - sse
 yarn add event-source-polyfill
+yarn add eventsource

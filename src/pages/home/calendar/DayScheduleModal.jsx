@@ -6,7 +6,7 @@ import { BiX } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useParams } from "react-router";
-import { __getOtherUserToday } from "../../../redux/modules/calendarSlice";
+import { __getUserTodaySchedule } from "../../../redux/modules/calendarSlice";
 import format from "date-fns/format";
 import UserInfo from "../../../utils/localStorage/userInfo";
 
@@ -19,7 +19,7 @@ export default function DayScheduleModal({ ...props }) {
 
   useEffect(() => {
     if (props.isTodaySchedule && param.id !== String(userInfo.userId)) {
-      dispatch(__getOtherUserToday({ userId: param.id, today, token }));
+      dispatch(__getUserTodaySchedule({ userId: param.id, today, token }));
     }
   }, [props.isTodaySchedule]);
 
