@@ -75,7 +75,7 @@ export default function CalendarSidebar() {
     }
   }, [statusCodeMemo, updatedMemos]);
 
-  console.log("마지막최신화 memo-->", memos);
+  //console.log("마지막최신화 memo-->", memos);
 
   return (
     <>

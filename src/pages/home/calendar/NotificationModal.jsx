@@ -19,6 +19,10 @@ export default function NotificationModal({ ...props }) {
     dispatch(__getConnect(token));
   }, [isMessage]);
 
+  const notificationClick = (notiId) => {
+    //console.log()
+  };
+
   return (
     <NotificationWrapper isShow={isNotification}>
       <NotificationTitle>
@@ -28,7 +32,7 @@ export default function NotificationModal({ ...props }) {
       <NotificationContainer>
         {data &&
           data?.map((list) => (
-            <div key={list.id}>
+            <div key={list.id} onClick={() => notificationClick(list.id)}>
               <div>{list.content}</div>
             </div>
           ))}

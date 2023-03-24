@@ -41,14 +41,13 @@ export default function SidebarMyCalendar({ ...props }) {
   } else if (nowDay === 6) {
     day = now + "(토)";
   }
+  const { today, update, isLoading } = useSelector((state) => state.calendar);
 
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
-    dispatch(__getTodaySchedule({ today: String(today), userId: userInfo.userId, token }));
+    dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
     dispatch(__getTodayUpdate(token));
   }, [props.side]);
-
-  const { today, update, isLoading } = useSelector((state) => state.calendar);
 
   const navigate = useNavigate();
   const moveUserPage = (id) => {

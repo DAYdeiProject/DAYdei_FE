@@ -20,6 +20,8 @@ import CalendarSidebar from "./CalendarSidebar";
 import format from "date-fns/format";
 import OtherUserCalendar from "./OtherUserCalendar";
 import NotificationModal from "./NotificationModal";
+import getDate from "date-fns/getDate";
+import { getYear, getMonth } from "date-fns";
 
 function CalendarMain({ side, setSide }) {
   // 일정 추가 모달창 open state
@@ -40,6 +42,7 @@ function CalendarMain({ side, setSide }) {
   const [isModify, setIsModify] = useState(false);
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
+  const [moreDate, setMoreDate] = useState("");
   // drag 수정 막기
   const [isDrag, setIsDrag] = useState(true);
   const dispatch = useDispatch();
@@ -112,6 +115,8 @@ function CalendarMain({ side, setSide }) {
   // 일정 more 클릭시
   const handleMoreLinkClick = (e) => {
     e.jsEvent.preventDefault();
+    const pickDate = format(new Date(getYear(e.date), getMonth(e.date), getDate(e.date)), "yyyy-MM-dd");
+    setMoreDate(pickDate);
     setIsTodaySchedule(true);
   };
 
@@ -226,10 +231,9 @@ function CalendarMain({ side, setSide }) {
           side={side}
           setSide={setSide}
         />
-        <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} />
+        <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} moreDate={moreDate} />
       </CalendarWrapper>
       <CalendarSidebar />
-      {/* <NotificationModal /> */}
     </CalendarSidebarWrapper>
   );
 }

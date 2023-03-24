@@ -5,6 +5,7 @@ const initialState = {
   data: [],
   total: [],
   today: [],
+  todayList: [],
   update: [],
   detail: [],
   imgList: [],
@@ -116,10 +117,24 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
   }
 });
 
-// 오늘의 일정 get (sidebar + 더보기 클릭시)
+// 오늘의 일정 get (sidebar)
 export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${String(payload.today)}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 오늘의 일정 get (더보기 클릭시)
+export const __getDateSchedule = createAsyncThunk("getDateSchedule", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.date}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -312,6 +327,20 @@ export const calendarSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       });
+    builder
+      .addCase(__getDateSchedule.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getDateSchedule.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.todayList = action.payload;
+      })
+      .addCase(__getDateSchedule.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
     builder
       .addCase(__getTodayUpdate.pending, (state) => {
         state.isLoading = true;
