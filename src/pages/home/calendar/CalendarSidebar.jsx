@@ -1,7 +1,9 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __addMemo, __getMemos } from "../../../redux/modules/memosSlice";
+import { FaTrash } from "react-icons/fa";
+import { HiPencil } from "react-icons/hi";
+import { __addMemo, __getMemos, __deleteMemo, __fixMemo } from "../../../redux/modules/memosSlice";
 
 export default function CalendarSidebar() {
   //창의 열고닫힘 상태
@@ -12,10 +14,25 @@ export default function CalendarSidebar() {
   //메모에 적히는 제목,내용 상태
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  // 수정 메모 제목, 내용 상태
+  const [fixedTitle, setFixedTitle] = useState("");
+  const [fixedContent, setFixedContent] = useState("");
   //메모리스트 상태 추적
   const [memos, setMemos] = useState([]);
+  //수정할 메모박스 추적
+  const [clickedMemoId, setClickedMemoId] = useState(null);
 
   //메모 상태변경 추적
+  const handleFixedTitleChange = (e) => {
+    setFixedTitle(e.target.value);
+  };
+
+  const handleFixedContentChange = (e) => {
+    setFixedContent(e.target.value);
+  };
+
+  //수정메모 상태변경 추적
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -29,6 +46,7 @@ export default function CalendarSidebar() {
     setIsSubscribeBoxOpen(false);
     setIsAddMemoBoxOpen(true);
     setIsInputBoxOpen(false);
+    setClickedMemoId(null);
   };
 
   const handleSubscribeBoxOpen = () => {
@@ -61,21 +79,51 @@ export default function CalendarSidebar() {
     }
   };
 
+  //메모 추가 후의 메모리스트 불러오기
   const statusCodeMemo = useSelector((state) => state.memos.statusCode);
+  const statusCodeDelete = useSelector((state) => state.memos.statusCodeDelete);
   const updatedMemos = useSelector((state) => state.memos.updatedMemos);
   // console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
 
   useEffect(() => {
     dispatch(__getMemos());
-  }, []);
+  }, [isTodoBoxOpen]);
 
   useEffect(() => {
-    if (statusCodeMemo === 200) {
+    if (statusCodeMemo === 200 || statusCodeDelete === 200) {
       setMemos(updatedMemos);
     }
   }, [statusCodeMemo, updatedMemos]);
 
-  console.log("마지막최신화 memo-->", memos);
+  //메모 삭제
+
+  const deleteMemoHandler = (id) => {
+    dispatch(__deleteMemo(id)).then(() => {
+      dispatch(__getMemos());
+    });
+  };
+
+  //수정할 메모박스찾기 함수
+  const findClickedMemoHandler = (id) => {
+    if (id !== clickedMemoId) {
+      setFixedTitle("");
+      setFixedContent("");
+    }
+    setClickedMemoId(id);
+  };
+
+  //
+
+  //메모 수정
+
+  const fixMemoHandler = (id) => {
+    const memo = memos.find((memo) => memo.id === id);
+    const fixedMemo = { title: fixedTitle || memo.title, content: fixedContent || memo.content };
+    dispatch(__fixMemo({ id, fixedMemo })).then(() => {
+      dispatch(__getMemos());
+    });
+    setClickedMemoId(null);
+  };
 
   return (
     <>
@@ -100,17 +148,41 @@ export default function CalendarSidebar() {
                   </ButtonWrapper>
                 </InputBox>
               )}
-              <div>Memos</div>
+              <MemoText>Memos</MemoText>
               <div>
                 {memos.map((memo) => (
-                  <>
-                    <MemoBox>
-                      <ContentWrapper>
-                        <InputWrapper>{memo.title}</InputWrapper>
-                        <InputWrapper>{memo.content}</InputWrapper>
-                      </ContentWrapper>
-                    </MemoBox>
-                  </>
+                  <div key={memo.id}>
+                    {clickedMemoId === memo.id ? (
+                      <MemoBox>
+                        <ContentWrapper>
+                          <InputWrapper>
+                            <input type="text" placeholder="제목" value={fixedTitle} onChange={handleFixedTitleChange} />
+                          </InputWrapper>
+                          <InputWrapper>
+                            <input type="text" placeholder="내용" value={fixedContent} onChange={handleFixedContentChange} />
+                          </InputWrapper>
+                          <MemoBoxButtonWrapper>
+                            <FixButton onClick={() => fixMemoHandler(memo.id)}>수정</FixButton>
+                          </MemoBoxButtonWrapper>
+                        </ContentWrapper>
+                      </MemoBox>
+                    ) : (
+                      <MemoBox>
+                        <ContentWrapper>
+                          <InputWrapper>{memo.title}</InputWrapper>
+                          <InputWrapper>{memo.content}</InputWrapper>
+                        </ContentWrapper>
+                        <MemoBoxButtonWrapper>
+                          <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
+                          <FaTrash
+                            onClick={() => {
+                              deleteMemoHandler(memo.id);
+                            }}
+                          />
+                        </MemoBoxButtonWrapper>
+                      </MemoBox>
+                    )}
+                  </div>
                 ))}
               </div>
             </SideSpaceWrapper>
@@ -146,6 +218,7 @@ const SideSpaceWrapper = styled.div`
   width: 250px; /* adjust this value to change the width of the side space */
   height: 100%;
   background-color: white;
+  overflow: auto;
   z-index: 10;
   flex-shrink: 0;
   border: 1px solid black;
@@ -153,6 +226,9 @@ const SideSpaceWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const AddMemoBox = styled.div`
@@ -184,6 +260,7 @@ const ContentWrapper = styled.div`
   padding-left: 10px;
   gap: 4px;
   margin-bottom: 10px;
+  /* background-color: yellow; */
 `;
 
 const InputWrapper = styled.div`
@@ -207,8 +284,9 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: right;
-  padding-right: 10px;
+  padding-right: 5px;
   width: 100%;
+  gap: 10px;
   /* background-color: yellow; */
 `;
 
@@ -218,6 +296,11 @@ const Button = styled.div`
   border-radius: 4px;
   text-align: center;
   padding: 3px;
+  margin-bottom: 3px;
+`;
+
+const MemoText = styled.div`
+  margin-bottom: 30px;
 `;
 
 const MemoBox = styled.div`
@@ -230,4 +313,23 @@ const MemoBox = styled.div`
   height: 100px;
   border: 1px solid black;
   margin-bottom: 10px;
+`;
+
+const MemoBoxButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding-right: 5px;
+  width: 100%;
+  gap: 10px;
+  margin-top: 10px;
+  /* background-color: yellow; */
+`;
+
+const FixButton = styled.div`
+  width: 50px;
+  background-color: lightgray;
+  border-radius: 4px;
+  text-align: center;
+  padding: 3px;
 `;
