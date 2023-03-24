@@ -32,14 +32,19 @@ export default function DetailPostModal({ ...props }) {
   const [nowEnd, setEnd] = useState("");
   const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
-  const [timeCheck, setTimeCheck] = useState(false);
   const [color, setColor] = useState("");
+  const [getId, setGetId] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = UserInfo();
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
+  const { getPostId } = useSelector((state) => state.calendarReducer);
+
+  useEffect(() => {
+    if (getPostId) setGetId(getPostId);
+  }, [getPostId]);
 
   useEffect(() => {
     if (detail) {
@@ -74,8 +79,12 @@ export default function DetailPostModal({ ...props }) {
     if (props.detailPostId) {
       dispatch(__getPostDetail({ id: String(props.detailPostId), token }));
       props.setIsDetailPost(true);
+    } else if (getId) {
+      dispatch(__getPostDetail({ id: String(getId), token }));
+      props.setIsDetailPost(true);
     }
-  }, [props.detailPostId]);
+    setGetId("");
+  }, [props.detailPostId, getId]);
 
   // console.log(detail);
   // toggle

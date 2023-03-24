@@ -17,8 +17,11 @@ import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { motion, AnimatePresence } from "framer-motion";
+// import { eventsource } from "eventsource";
 
+//const EventSource = EventSourcePolyfill;
 const EventSource = EventSourcePolyfill;
+
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
   TokenCheck();
@@ -46,8 +49,31 @@ function HomePage() {
   const params = useParams();
   const dispatch = useDispatch();
   const connectToken = Cookies.get("accessJWTToken");
-
+  const [sseData, setSseData] = useState("");
   // sse
+  useEffect(() => {
+    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+      headers: {
+        Authorization: connectToken,
+      },
+      heartbeatTimeout: 120000,
+    });
+
+    // eventConnect.addEventListener("onmessage", async (e) => {
+    //   const data = JSON.parse(e.data);
+    //   console.log("sse data---> ", data);
+    //   setSseData(data);
+    // });
+
+    eventConnect.onmessage = async (event) => {
+      //const result = await JSON.parse(event.data);
+      const result = await event.data;
+      console.log("connect ==> ", result);
+    };
+
+    return () => eventConnect.close();
+  }, []);
+
   // useEffect(() => {
   //   if (userInfo) {
   //     let eventSource = "";

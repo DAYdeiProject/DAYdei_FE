@@ -6,16 +6,17 @@ import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import ColorFromDB from "./CalendarBasic";
 import Loading from "../../../components/Loading";
+import { throwPostId } from "../../../redux/modules/calendarReducer";
+import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 
 export default function OtherUserCalendar() {
-  const [timeText, setTimeText] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
 
   const { otherUserUpdate, otherUserShare, isLoading } = useSelector((state) => state.calendar);
-  //console.log("otherUserUpdate : ", otherUserUpdate);
-  //console.log("otherUserShare : ", otherUserShare);
+  // console.log("otherUserUpdate : ", otherUserUpdate);
+  // console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {
     dispatch(__otherUserUpdatePost({ userId: String(param.id), token }));
@@ -24,7 +25,8 @@ export default function OtherUserCalendar() {
 
   // 업데이트 된 일정
   const updatePostClick = (postId) => {
-    //
+    console.log("dd", postId);
+    dispatch(throwPostId(postId));
   };
 
   const timeForToday = (date) => {
@@ -37,10 +39,10 @@ export default function OtherUserCalendar() {
     if (time < 60) result = `${time}분 전`;
 
     const hour = Math.floor(time / 60);
-    if (hour < 24) result = `${hour}시간 전`;
+    if (hour > 0 && hour < 24) result = `${hour}시간 전`;
 
     const day = Math.floor(time / 60 / 24);
-    if (hour < 365) result = `${day}일 전`;
+    if (day > 0 && day < 365) result = `${day}일 전`;
 
     return result;
   };
@@ -53,10 +55,10 @@ export default function OtherUserCalendar() {
         <OtherUpdateWrapper>
           <UpdateTitle>업데이트 된 일정</UpdateTitle>
           <UpdateContainer>
-            {otherUserUpdate &&
+            {otherUserUpdate.length !== 0 ? (
               otherUserUpdate?.map((list) => {
                 const color = ColorFromDB(list.color);
-                const time = timeForToday(list.createdAt);
+                const time = timeForToday(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
@@ -71,13 +73,18 @@ export default function OtherUserCalendar() {
                     </TimeBox>
                   </UpdateBox>
                 );
-              })}
+              })
+            ) : (
+              <div>
+                <div>일주일간 업데이트 된 일정이 없습니다.</div>
+              </div>
+            )}
           </UpdateContainer>
         </OtherUpdateWrapper>
         <OtherUpdateWrapper>
           <UpdateTitle>나와 공유한 일정</UpdateTitle>
-          <UpdateContainer>
-            {/* {otherUserShare &&
+          <ShareContainer>
+            {otherUserShare.length !== 0 ? (
               otherUserShare?.map((list) => {
                 const color = ColorFromDB(list.color);
                 return (
@@ -92,8 +99,14 @@ export default function OtherUserCalendar() {
                     </div>
                   </div>
                 );
-              })} */}
-          </UpdateContainer>
+              })
+            ) : (
+              <NoneScheduleBox>
+                <MdOutlineEditCalendar size={30} className="noneToday" />
+                <div>나와 공유한 일정이 없습니다.</div>
+              </NoneScheduleBox>
+            )}
+          </ShareContainer>
         </OtherUpdateWrapper>
       </OtherWrapper>
     </>
@@ -128,7 +141,12 @@ const UpdateTitle = styled.span`
 
 const UpdateContainer = styled.div`
   ${(props) => props.theme.FlexCol}
-  margin-bottom: 10px;
+  padding-bottom: 20px;
+  border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+`;
+
+const ShareContainer = styled(UpdateContainer)`
+  border-bottom: none;
 `;
 
 const UpdateBox = styled.div`
@@ -138,16 +156,17 @@ const UpdateBox = styled.div`
   border-radius: 10px;
   &:hover {
     background-color: #e4beaf;
+    cursor: pointer;
   }
 `;
 
 const ImgBox = styled.div`
   img {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: #69864f;
-    margin-left: 10px;
+    margin-left: 5px;
     margin-right: 10px;
   }
 `;
@@ -166,6 +185,16 @@ const WriterBox = styled.div`
 `;
 
 const TimeBox = styled.div`
-  min-width: 40px;
-  font-size: ${(props) => props.theme.Fs.smallText};
+  min-width: 60px;
+  margin-right: 5px;
+  text-align: right;
+  font-size: ${(props) => props.theme.Fs.xsmallText};
+`;
+
+const NoneScheduleBox = styled.div`
+  background-color: ${(props) => props.theme.Bg.lightColor};
+  ${(props) => props.theme.FlexCol}
+  height: 310px;
+  gap: 20px;
+  border-radius: 10px;
 `;

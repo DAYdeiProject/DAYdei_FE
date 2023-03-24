@@ -146,15 +146,15 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
   }
 });
 
-// 타 유저의 오늘의 일정 get
-export const __getOtherUserToday = createAsyncThunk("getOtherUserTodaySchedule", async (payload, thunkAPI) => {
+// 오늘의 일정 get(내꺼 + 타유저)
+export const __getUserTodaySchedule = createAsyncThunk("getUserTodaySchedule", async (payload, thunkAPI) => {
   try {
     const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("타유저 today : ", response);
+    console.log("유저 today일정(더보기클릭) : ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -342,15 +342,15 @@ export const calendarSlice = createSlice({
         state.isError = true;
       });
     builder
-      .addCase(__getOtherUserToday.pending, (state) => {
+      .addCase(__getUserTodaySchedule.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(__getOtherUserToday.fulfilled, (state, action) => {
+      .addCase(__getUserTodaySchedule.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.mainToday = action.payload;
       })
-      .addCase(__getOtherUserToday.rejected, (state) => {
+      .addCase(__getUserTodaySchedule.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

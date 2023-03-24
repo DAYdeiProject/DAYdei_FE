@@ -18,7 +18,6 @@ import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
 import format from "date-fns/format";
-import TokenCheck from "../../../utils/cookie/tokenCheck";
 import OtherUserCalendar from "./OtherUserCalendar";
 
 function CalendarMain({ side, setSide }) {
@@ -59,6 +58,7 @@ function CalendarMain({ side, setSide }) {
       setIsDrag(false);
     } else {
       setIsDrag(true);
+      setDisabled(false);
     }
     dispatch(__getTotalPosts({ userId: String(param.id), token }));
   }, [isSubmit, param]);
@@ -111,7 +111,6 @@ function CalendarMain({ side, setSide }) {
   // 일정 more 클릭시
   const handleMoreLinkClick = (e) => {
     e.jsEvent.preventDefault();
-
     setIsTodaySchedule(true);
   };
 
@@ -150,6 +149,7 @@ function CalendarMain({ side, setSide }) {
 
       dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
+        setSide(!side);
       });
     }
   };
