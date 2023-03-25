@@ -15,6 +15,7 @@ const initialState = {
   nickName: "",
   data: "",
   statusCode: 0,
+  myProfile: [],
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
@@ -82,6 +83,17 @@ export const __requestNewPassword = createAsyncThunk("requestNewPassord", async 
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error.response.data.data);
+  }
+});
+
+export const __getMyProfile = createAsyncThunk("getMyProfile", async (id, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/home/profile/${id}`);
+    // console.log("profile get요청 리스펀스 콘솔-->", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
   }
 });
 
@@ -159,6 +171,20 @@ export const usersSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isErrorMessage = action.payload;
+      });
+
+    builder
+      .addCase(__getMyProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getMyProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.myProfile = action.payload;
+      })
+      .addCase(__getMyProfile.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });
