@@ -42,7 +42,7 @@ export default function SidebarMyCalendar({ ...props }) {
     day = now + "(토)";
   }
   const { today, update, isLoading } = useSelector((state) => state.calendar);
-
+  //console.log("update", update);
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
     dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
@@ -131,7 +131,7 @@ export default function SidebarMyCalendar({ ...props }) {
                 update.map((list) => (
                   <ListBox key={list.id}>
                     <ImgBox>
-                      <img src={list.profileImage}></img>
+                      <img src={list.profileImage} />
                     </ImgBox>
                     <InfoBox>
                       <span>{list.nickName}</span>

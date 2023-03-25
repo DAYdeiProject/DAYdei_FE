@@ -15,8 +15,8 @@ export default function OtherUserCalendar() {
   const param = useParams();
 
   const { otherUserUpdate, otherUserShare, isLoading } = useSelector((state) => state.calendar);
-  // console.log("otherUserUpdate : ", otherUserUpdate);
-  // console.log("otherUserShare : ", otherUserShare);
+  //console.log("otherUserUpdate : ", otherUserUpdate);
+  //console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {
     dispatch(__otherUserUpdatePost({ userId: String(param.id), token }));
@@ -62,9 +62,9 @@ export default function OtherUserCalendar() {
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
-                      <img src={list.writer.profileImage}></img>
+                      <img src={list.writer.profileImage} />
                     </ImgBox>
-                    <WriterBox isColor={color}>
+                    <WriterBox>
                       <span>{list.writer.name}</span>
                       <span>{list.title}</span>
                     </WriterBox>
@@ -87,17 +87,20 @@ export default function OtherUserCalendar() {
             {otherUserShare.length !== 0 ? (
               otherUserShare?.map((list) => {
                 const color = ColorFromDB(list.color);
+                const time = timeForToday(list.modifiedAt);
                 return (
-                  <div key={list.id}>
-                    <div>
-                      <img>{list.writer.profileImage}</img>
+                  <UpdateBox key={list.id}>
+                    <ImgBox>
+                      <img src={list.writer.profileImage} />
+                    </ImgBox>
+                    <WriterBox>
                       <span>{list.writer.name}</span>
-                    </div>
-                    <div isColor={color}>
                       <span>{list.title}</span>
-                      <span>몇분전...</span>
-                    </div>
-                  </div>
+                    </WriterBox>
+                    <TimeBox>
+                      <span>{time}</span>
+                    </TimeBox>
+                  </UpdateBox>
                 );
               })
             ) : (

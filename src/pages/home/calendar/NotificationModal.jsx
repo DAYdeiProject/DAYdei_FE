@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { __getConnect } from "../../../redux/modules/connectSlice";
+import { tagPostId } from "../../../redux/modules/calendarReducer";
 
 export default function NotificationModal({ ...props }) {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export default function NotificationModal({ ...props }) {
 
   const notificationClick = (notiId) => {
     //console.log()
+    dispatch(tagPostId({ postId: "316", notiId: notiId }));
   };
 
   return (

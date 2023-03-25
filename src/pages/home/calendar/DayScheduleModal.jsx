@@ -17,7 +17,7 @@ export default function DayScheduleModal({ ...props }) {
   const userInfo = UserInfo();
 
   const { todayList, isLoading } = useSelector((state) => state.calendar);
-  console.log("todayList------>", todayList);
+  // console.log("todayList------>", todayList);
 
   useEffect(() => {
     if (props.moreDate) {

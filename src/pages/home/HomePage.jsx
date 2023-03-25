@@ -54,14 +54,18 @@ function HomePage() {
     const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
       headers: {
         Authorization: connectToken,
+        "Content-Type": "text/event-stream",
+        Connection: "keep-alive",
       },
-      heartbeatTimeout: 120000,
+      heartbeatTimeout: 3600000,
     });
 
     eventConnect.onmessage = async (event) => {
       //const result = await JSON.parse(event.data);
       const result = await event.data;
       console.log("connect ==> ", result);
+      //console.log("#####################");
+      //console.log("#####################");
       setIsMessage(true);
       dispatch(messageState(isMessage));
     };
