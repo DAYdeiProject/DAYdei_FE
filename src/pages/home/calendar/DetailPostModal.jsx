@@ -34,8 +34,6 @@ export default function DetailPostModal({ ...props }) {
   const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
   const [isColor, setIsColor] = useState("");
-  // const [getUpdatePostId, setGetUpdatePostId] = useState("");
-  const [tagPostId, setTagPostId] = useState("");
   const [tagNotiId, setTagNotiId] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
@@ -155,7 +153,7 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
-              {String(userInfo) === String(param.id) && (
+              {String(userInfo.userId) === String(param.id) && (
                 <>
                   <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
                   <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />

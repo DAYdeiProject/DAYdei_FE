@@ -126,10 +126,6 @@ function CalendarMain({ ...props }) {
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
     setDetailPostId(e.event._def.publicId);
-
-    // if (String(userId.userId) === param.id) {
-    //   setIsModify(true);
-    // }
   };
 
   // 클릭한 date만

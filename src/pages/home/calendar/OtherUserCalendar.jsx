@@ -88,7 +88,7 @@ export default function OtherUserCalendar({ ...props }) {
                 const color = ColorFromDB(list.color);
                 const time = timeForToday(list.modifiedAt);
                 return (
-                  <UpdateBox key={list.id}>
+                  <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
                       <img src={list.writer.profileImage} />
                     </ImgBox>
