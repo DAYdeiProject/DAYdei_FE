@@ -1,4 +1,4 @@
-import { React, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import ModalWrap from "../../../elements/ModalWrap";
 import Modal from "../../../elements/Modal";
@@ -7,8 +7,37 @@ import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyProfile } from "../../../redux/modules/usersSlice";
 import { useParams } from "react-router-dom";
+import { GiCancel } from "react-icons/gi";
+import useLogin from "../../../hooks/useLogin";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
+  const [profile, setProfile] = useState([]);
+  const [background, setBackground] = useState([]);
+  //업로드된 프로필 이미지 상태
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  //업로드된 배경 이름 상태
+  const [backgroundImageName, setBackgroundImageName] = useState("");
+
+  const {
+    email,
+    isEmail,
+    isEmailMessage,
+    handleEmailChange,
+    password,
+    isPw,
+    isPwMessage,
+    handlePasswordChange,
+    passwordCheck,
+    isPwCheckMessage,
+    handlePasswordCheckChange,
+    nickName,
+    handleNickNameChange,
+    birthday,
+    handleBirthdayChange,
+    introduction,
+    handleIntroductionChange,
+  } = useLogin();
+
   const handleProfileSettingModalClose = () => {
     setIsProfileSettingModalOpen(false);
   };
@@ -27,6 +56,35 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
   //   console.log("selector로 불러온 내프로필-->", myProfile);
   //   console.log("필요한 정보들-->", myProfile.nickName, myProfile.email, myProfile.introduction, myProfile.backgroundImage, myProfile.profileImage);
 
+  const handleProfileImageClick = () => {
+    document.getElementById("profileInput").click();
+  };
+
+  const handleBackgroundButtonClick = () => {
+    document.getElementById("backgroundInput").click();
+  };
+
+  const profileImageHandler = (e) => {
+    setProfile(e.target.files[0]);
+    setProfileImageUrl(URL.createObjectURL(e.target.files[0]));
+  };
+
+  useEffect(() => {
+    setBackgroundImageName(background ? background.name : "");
+  }, [background]);
+
+  const backgroundImageHandler = (e) => {
+    setBackground(e.target.files[0]);
+  };
+
+  const deleteImageHandler = () => {
+    setProfileImageUrl("");
+  };
+
+  const deleteBackGroundHandler = () => {
+    setBackgroundImageName("");
+  };
+
   return (
     <>
       <ModalWrap>
@@ -34,37 +92,66 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
           <WholeAreaWrapper ref={ProfileSettingModalRef}>
             <InfoArea>
               <PhotoArea>
-                <PhotoWrap>
-                  <ProfilePhotoIcon />
-                </PhotoWrap>
+                <PhotoWrapSquare>
+                  {profileImageUrl ? <CancelIcon onClick={deleteImageHandler} /> : null}
+                  <PhotoWrap>
+                    {profileImageUrl ? (
+                      <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
+                    ) : (
+                      <ProfilePhotoIcon onClick={handleProfileImageClick} />
+                    )}
+                    <input id="profileInput" name="profileImage" type="file" hidden onChange={(e) => profileImageHandler(e)} />
+                  </PhotoWrap>
+                </PhotoWrapSquare>
               </PhotoArea>
               <TextArea>
                 <TextWrap>
-                  <SmallTextBox>이름 :</SmallTextBox> <input type="text" placeholder={myProfile.nickName} autoFocus />
+                  <TextMain>
+                    <SmallTextBox>닉네임 :</SmallTextBox>
+                    <input type="text" placeholder={myProfile.nickName} value={nickName} onChange={handleNickNameChange} autoFocus />
+                  </TextMain>
+                </TextWrap>
+                {/* <TextWrap>
+                  <TextMain>
+                    <SmallTextBox>이메일 :</SmallTextBox> <input type="text" placeholder={myProfile.email} value={email} onChange={handleEmailChange} />
+                  </TextMain>
+                  <CheckMessage>{isEmailMessage}</CheckMessage>
+                </TextWrap> */}
+                <TextWrap>
+                  <TextMain>
+                    <SmallTextBox>새 비밀번호 :</SmallTextBox> <input type="password" value={password} onChange={handlePasswordChange} />
+                  </TextMain>
+                  <CheckMessage>{isPwMessage}</CheckMessage>
                 </TextWrap>
                 <TextWrap>
-                  <SmallTextBox>이메일 :</SmallTextBox> <input type="text" placeholder={myProfile.email} />
+                  <TextMain>
+                    <SmallTextBox>비밀번호 확인 :</SmallTextBox> <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
+                  </TextMain>
+                  <CheckMessage>{isPwCheckMessage}</CheckMessage>
                 </TextWrap>
                 <TextWrap>
-                  <SmallTextBox>새 비밀번호 :</SmallTextBox> <input type="password" />
+                  <TextMain>
+                    <SmallTextBox>소개 :</SmallTextBox>
+                    <input type="text" placeholder={myProfile.introduction} value={introduction} onChange={handleIntroductionChange} />
+                  </TextMain>
                 </TextWrap>
-                <TextWrap>
-                  <SmallTextBox>비밀번호 확인 :</SmallTextBox> <input type="password" />
-                </TextWrap>
-                <TextWrap>
-                  <SmallTextBox>소개 :</SmallTextBox> <input type="text" placeholder={myProfile.introduction} />
-                </TextWrap>
-                <TextWrap>
-                  <SmallTextBox>생일 :</SmallTextBox> <input type="text" placeholder={myProfile.birthday} />
-                </TextWrap>
+                {/* <TextWrap>
+                  <SmallTextBox>생일 :</SmallTextBox> <input type="text" placeholder={myProfile.birthday} value={birthday} onChange={handleBirthdayChange} />
+                </TextWrap> */}
               </TextArea>
             </InfoArea>
             <BackgroundImageArea>
-              <div>
+              <BackgroundLeft>
                 <IconStyle />
-                배경사진
-              </div>
-              <AddButton>추가</AddButton>
+                <span>배경사진</span>
+                <FileNameWrap>{backgroundImageName}</FileNameWrap>
+
+                {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
+              </BackgroundLeft>
+              <AddButton>
+                <input id="backgroundInput" name="backgroundImage" type="file" hidden onChange={(e) => backgroundImageHandler(e)} />
+                <span onClick={handleBackgroundButtonClick}>추가</span>
+              </AddButton>
             </BackgroundImageArea>
             <ButtonArea>
               <ButtonWrap onClick={handleProfileSettingModalClose}>취소</ButtonWrap>
@@ -104,14 +191,31 @@ const PhotoArea = styled.div`
   align-items: center;
 `;
 
+const PhotoWrapSquare = styled.div`
+  position: relative;
+  width: 200px;
+  height: 200px;
+  /* background-color: pink; */
+`;
+
+const CancelIcon = styled(GiCancel)`
+  position: absolute;
+  right: 0;
+`;
+
 const PhotoWrap = styled.div`
   width: 200px;
   height: 200px;
-  background-color: lightgreen;
+  background-color: lightgray;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+  }
 `;
 
 const ProfilePhotoIcon = styled(BsCardImage)`
@@ -128,18 +232,37 @@ const TextArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* gap: 3px; */
+  gap: 8px;
   margin-left: 10px;
+  input[type="text"],
+  input[type="password"] {
+    width: 150px;
+  }
 `;
 
 const TextWrap = styled.div`
   width: 290px;
-  height: 50px;
+  height: 60px;
   display: flex;
   flex-direction: row;
   padding-left: 10px;
-  align-items: center;
-  /* background-color: lightgray; */
+  justify-content: center;
+  /* background-color: pink; */
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const TextMain = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3px;
+  /* background-color: skyblue; */
+`;
+
+const CheckMessage = styled.div`
+  font-size: 7px;
+  /* text-align: center; */
+  /* background-color: yellow; */
 `;
 
 const SmallTextBox = styled.div`
@@ -160,8 +283,23 @@ const BackgroundImageArea = styled.div`
   align-items: center;
 `;
 
+const BackgroundLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const IconStyle = styled(BsCardImage)`
   margin-right: 5px;
+  margin-left: 5px;
+`;
+
+const FileNameWrap = styled.div`
+  margin-left: 10px;
+  background-color: skyblue;
+`;
+
+const BackgroundCancel = styled(GiCancel)`
   margin-left: 5px;
 `;
 

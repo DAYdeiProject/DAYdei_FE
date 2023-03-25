@@ -40,15 +40,28 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
         kakao.init("09575cc341b5e4613bf2d9332389afd0");
       }
 
-      // 메시지 공유 함수
-      kakao.Link.sendScrap({
-        requestUrl: "http://localhost:3000", // 페이지 url
-        templateId: 91733, // 메시지템플릿 번호
-        templateArgs: {
-          THUMB: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg", // 썸네일 주소 ${THUMB}
-          TITLE: "DayDei", // 제목 텍스트 ${TITLE}
-          DESC: "공유하는 일상의 시작", // 설명 텍스트 ${DESC}
+      kakao.Link.sendDefault({
+        objectType: "feed",
+        content: {
+          title: "DayDei",
+          description: "공유하는 일상의 시작 ",
+          imageUrl: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+          imageWidth: 600,
+          imageHeight: 315,
+          link: {
+            mobileWebUrl: "http://localhost:3000",
+            androidExecutionParams: "test",
+          },
         },
+        buttons: [
+          {
+            title: "DayDei 방문하기",
+            link: {
+              mobileWebUrl: "http://localhost:3000",
+              webUrl: "http://localhost:3000",
+            },
+          },
+        ],
       });
     }
   };

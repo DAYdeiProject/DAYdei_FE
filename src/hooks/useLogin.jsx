@@ -6,12 +6,15 @@ const useLogin = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickName, setNickName] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [introduction, setIntroduction] = useState("");
 
   const [isEmailMessage, setIsEmailMessage] = useState("");
   const [isPwMessage, setIsPwMessage] = useState("");
+  const [isPwCheckMessage, setIsPwCheckMessage] = useState("");
 
   const [isEmail, setIsEmail] = useState(false);
   const [isPw, setIsPw] = useState(false);
+  const [isPwCheck, setIsPwCheck] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -39,7 +42,7 @@ const useLogin = () => {
       setIsPwMessage("");
       setIsPw(false);
     } else if (!pwRegex.test(e.target.value)) {
-      setIsPwMessage("패스워드는 8자리-15자리로, 영어 소문자, 숫자, 특수문자의 조합이어야 합니다.");
+      setIsPwMessage("패스워드는 영어 소문자, 숫자, 특수문자 조합의 8-15자리여야 합니다.");
       setIsPw(false);
     } else {
       setIsPwMessage("올바른 패스워드 형식입니다.");
@@ -49,6 +52,14 @@ const useLogin = () => {
 
   const handlePasswordCheckChange = (e) => {
     setPasswordCheck(e.target.value);
+
+    if (password === e.target.value) {
+      setIsPwCheckMessage("비밀번호와 일치합니다.");
+      setIsPwCheck(true);
+    } else {
+      setIsPwCheckMessage("");
+      setIsPwCheck(false);
+    }
   };
 
   const handleNickNameChange = (e) => {
@@ -57,6 +68,10 @@ const useLogin = () => {
 
   const handleBirthdayChange = (e) => {
     setBirthday(e.target.value);
+  };
+
+  const handleIntroductionChange = (e) => {
+    setIntroduction(e.target.value);
   };
 
   const reset = () => {
@@ -75,6 +90,7 @@ const useLogin = () => {
     password,
     isPw,
     isPwMessage,
+    isPwCheckMessage,
     handlePasswordChange,
     passwordCheck,
     handlePasswordCheckChange,
@@ -82,6 +98,8 @@ const useLogin = () => {
     handleNickNameChange,
     birthday,
     handleBirthdayChange,
+    introduction,
+    handleIntroductionChange,
     reset,
   };
 };
