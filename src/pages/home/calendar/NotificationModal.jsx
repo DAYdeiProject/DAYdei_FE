@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { __getConnect } from "../../../redux/modules/connectSlice";
-import { tagPostId } from "../../../redux/modules/calendarReducer";
+import Loading from "../../../components/Loading";
 
 export default function NotificationModal({ ...props }) {
   const dispatch = useDispatch();
@@ -16,30 +16,35 @@ export default function NotificationModal({ ...props }) {
   //console.log("useSelect =====> ", data);
   //console.log("isNotification =====> ", isNotification);
   useEffect(() => {
-    //console.log("알림리스트  =====> ");
     dispatch(__getConnect(token));
   }, [isMessage]);
 
-  const notificationClick = (notiId) => {
-    //console.log()
-    dispatch(tagPostId({ postId: "316", notiId: notiId }));
+  const notificationClick = (id) => {
+    props.setNotificationPostId(id);
   };
 
   return (
-    <NotificationWrapper isShow={isNotification}>
-      <NotificationTitle>
-        <span>전체 알림</span>
-        <span>모두 지우기</span>
-      </NotificationTitle>
-      <NotificationContainer>
-        {data &&
-          data?.map((list) => (
-            <div key={list.id} onClick={() => notificationClick(list.id)}>
-              <div>{list.content}</div>
-            </div>
-          ))}
-      </NotificationContainer>
-    </NotificationWrapper>
+    <>
+      {isLoading && <Loading />}
+      <NotificationWrapper isShow={isNotification}>
+        <NotificationTitle>
+          <span>전체 알림</span>
+          <span>모두 지우기</span>
+        </NotificationTitle>
+        <NotificationContainer>
+          {data &&
+            data?.map((list) => {
+              const splitContent = list.content.split("@");
+              return (
+                <ContentBox key={list.id} onClick={() => notificationClick({ notiId: list.id, returnId: list.returnId })}>
+                  <div>{splitContent[0]}</div>
+                  <div>{splitContent[1]}</div>
+                </ContentBox>
+              );
+            })}
+        </NotificationContainer>
+      </NotificationWrapper>
+    </>
   );
 }
 
@@ -75,21 +80,23 @@ const NotificationContainer = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   margin-bottom: 20px;
+`;
+
+const ContentBox = styled.div`
+  ${(props) => props.theme.FlexCol}
+  align-items: flex-start;
+  gap: 5px;
+  min-height: 60px;
+  border-radius: 10px;
+  padding: 15px;
+  white-space: nowrap;
+  background-color: lightblue;
+  &:hover {
+    background-color: #bbe7bb;
+    cursor: pointer;
+  }
   div {
-    ${(props) => props.theme.FlexCol}
-    align-items: flex-start;
-    min-height: 60px;
-    border-radius: 10px;
-    padding: 10px;
-    white-space: nowrap;
-    background-color: lightblue;
-    &:hover {
-      background-color: #bbe7bb;
-      cursor: pointer;
-    }
-    div {
-      min-width: 250px;
-      overflow: hidden;
-    }
+    min-width: 250px;
+    overflow: hidden;
   }
 `;

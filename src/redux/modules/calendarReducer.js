@@ -1,7 +1,6 @@
 const POST_ID = "calendar/POST_ID";
 const NOTIFICATION_STATE = "calendar/NOTIFICATION_STATE";
 const MESSAGE_STATE = "calendar/MESSAGE_STATE";
-const TAG_POST_ID = "calendar/TAG_POST_ID";
 
 // action creator
 // 타유저 업데이트된 일정
@@ -25,19 +24,11 @@ export const messageState = (payload) => {
     payload: payload,
   };
 };
-// 일정 태그 알림 클릭시 postId, 알림id 넘기기
-export const tagPostId = (payload) => {
-  return {
-    type: TAG_POST_ID,
-    payload: payload,
-  };
-};
 
 const initialState = {
   getPostId: 0,
   isNotification: "",
   isMessage: "",
-  getTagPostId: "",
 };
 
 const calendarReducer = (state = initialState, action) => {
@@ -53,10 +44,6 @@ const calendarReducer = (state = initialState, action) => {
     case MESSAGE_STATE:
       return {
         isMessage: action.payload,
-      };
-    case TAG_POST_ID:
-      return {
-        getTagPostId: action.payload,
       };
     default:
       return state;

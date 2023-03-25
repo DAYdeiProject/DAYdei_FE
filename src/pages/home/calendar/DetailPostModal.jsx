@@ -22,6 +22,7 @@ import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import { useParams } from "react-router-dom";
+import { removeTagPostId } from "../../../redux/modules/calendarReducer";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(false);
@@ -34,6 +35,7 @@ export default function DetailPostModal({ ...props }) {
   const [nowEndTime, setEndTime] = useState("");
   const [isColor, setIsColor] = useState("");
   // const [getUpdatePostId, setGetUpdatePostId] = useState("");
+  const [tagPostId, setTagPostId] = useState("");
   const [tagNotiId, setTagNotiId] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
@@ -41,13 +43,9 @@ export default function DetailPostModal({ ...props }) {
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
-  const { getPostId, getTagPostId } = useSelector((state) => state.calendarReducer);
-  //console.log("detail----------", detail);
-  //console.log("getTagPostId----------", getTagPostId);
-  // useEffect(() => {
-  //   if (getPostId) setGetUpdatePostId(getPostId);
-  //   if (getTagPostId) setTagPostId(getTagPostId.postId);
-  // }, [getUpdatePostId, tagPostId]);
+  const { getPostId } = useSelector((state) => state.calendarReducer);
+  //console.log("detail getTagPostId----------", props.notificationPostId);
+  //console.log("props.notificationPostId----------", props.notificationPostId);
 
   useEffect(() => {
     if (detail) {
@@ -80,22 +78,18 @@ export default function DetailPostModal({ ...props }) {
 
   useEffect(() => {
     if (props.detailPostId) {
-      //console.log("1번(일반적)----------");
       dispatch(__getPostDetail({ id: props.detailPostId, token }));
       props.setIsDetailPost(true);
     } else if (getPostId) {
-      //console.log("2번(타유저 사이드바)----------");
       dispatch(__getPostDetail({ id: getPostId, token }));
       props.setIsDetailPost(true);
-    } else if (getTagPostId) {
-      //console.log("3번(알림)----------");
-      dispatch(__getPostDetail({ id: getTagPostId.postId, token }));
+    } else if (props.notificationPostId) {
+      setTagNotiId(props.notificationPostId.notiId);
+      dispatch(__getPostDetail({ id: props.notificationPostId.returnId, token }));
       props.setIsDetailPost(true);
-      setTagNotiId(getTagPostId.notiId);
     }
-  }, [props.detailPostId, getPostId, getTagPostId]);
+  }, [props.detailPostId, getPostId, props.notificationPostId]);
 
-  // console.log(detail);
   // toggle
   const downDropClick = (data) => {
     data === "friend" ? setFriendToggle(true) : setImgToggle(true);
@@ -114,6 +108,7 @@ export default function DetailPostModal({ ...props }) {
   const closeModal = () => {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
+    props.setNotificationPostId("");
     setTagNotiId("");
     setImgToggle(false);
     setFriendToggle(false);
@@ -130,14 +125,26 @@ export default function DetailPostModal({ ...props }) {
   };
   // 공유일정 수락
   const acceptClick = () => {
-    dispatch(__acceptSharePost({ postId: getTagPostId.postId, token })).then(() => {
-      setTagNotiId("");
+    dispatch(__acceptSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
+      if (data.payload.statusCode === 200) {
+        alert("일정을 수락하였습니다.");
+        props.setOtherCalendarState(true);
+        closeModal();
+      } else {
+        alert("이미 처리한 요청입니다.");
+      }
     });
   };
   // 공유일정 거절
   const rejectClick = () => {
-    dispatch(__rejectSharePost({ postId: getTagPostId.postId, token })).then(() => {
-      setTagNotiId("");
+    dispatch(__rejectSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
+      if (data.payload.statusCode === 200) {
+        alert("일정을 거절하였습니다.");
+        props.setOtherCalendarState(true);
+        closeModal();
+      } else {
+        alert("이미 처리한 요청입니다.");
+      }
     });
   };
 
@@ -159,15 +166,17 @@ export default function DetailPostModal({ ...props }) {
             </HeaderWrapper>
             {detail && (
               <DetailContetnContainer>
-                <TitleWrapper>
-                  <TitleSpan pickColor={isColor}>{detail?.title}</TitleSpan>
-                  <span>
-                    {nowStart}
-                    {nowStartDay}
-                    {nowStartTime}-{nowEnd}
-                    {nowEndDay}
-                    {nowEndTime}
-                  </span>
+                <TitleWrapper pickColor={isColor}>
+                  <span>{detail?.title}</span>
+                  <TitleTimeContainer>
+                    <span>{nowStart}</span>
+                    <span>({nowStartDay})</span>
+                    <span>{nowStartTime}</span>
+                    <span>-</span>
+                    <span>{nowEnd}</span>
+                    <span>({nowEndDay})</span>
+                    <span>{nowEndTime}</span>
+                  </TitleTimeContainer>
                 </TitleWrapper>
                 <FriendWrapper>
                   <ToggleContainer>
@@ -175,7 +184,7 @@ export default function DetailPostModal({ ...props }) {
                       <IconBox>
                         <BsPeople />
                       </IconBox>
-                      <span>참여자 {detail.participant && detail?.participant.length !== 0 && "총 " + detail.participant.length + "명"}</span>
+                      <span>참여자 {detail.participant && detail?.participant.length !== 0 && "총 " + (detail.participant.length + 1) + "명"}</span>
                     </TextBox>
                     <ToggieIconBox>
                       {detail.participant && detail?.participant.length !== 0 ? (
@@ -191,12 +200,19 @@ export default function DetailPostModal({ ...props }) {
                   </ToggleContainer>
                   <DropBox isShow={friendToggle}>
                     <FriendDropBox>
+                      {detail.writer && (
+                        <WriterBox>
+                          <img src={detail.writer.profileImage} />
+                          <span>{detail.writer.name}</span>
+                          <div></div>
+                        </WriterBox>
+                      )}
                       {detail.participant &&
                         detail.participant.map((list) => (
-                          <div key={list.participentId}>
-                            <img src="" />
+                          <WriterBox key={list.participentId}>
+                            <img src={list.profileImage} />
                             <span>{list.participentName}</span>
-                          </div>
+                          </WriterBox>
                         ))}
                     </FriendDropBox>
                   </DropBox>
@@ -206,13 +222,13 @@ export default function DetailPostModal({ ...props }) {
                     <IconBox>
                       <BsGeoAlt />
                     </IconBox>
-                    <div>{detail?.location}</div>
+                    <TextArea>{detail?.location}</TextArea>
                   </LocationContentBox>
                   <LocationContentBox>
                     <IconBox>
                       <BsChatLeftText />
                     </IconBox>
-                    <div>{detail?.content}</div>
+                    <TextArea>{detail?.content}</TextArea>
                   </LocationContentBox>
                 </LocationWrapper>
                 <ImgWrapper>
@@ -234,7 +250,7 @@ export default function DetailPostModal({ ...props }) {
                       {detail.image &&
                         detail?.image.map((list, i) => (
                           <ImgFile key={i}>
-                            <img src="" />
+                            <img src={list} />
                           </ImgFile>
                         ))}
                     </ImgDropBox>
@@ -264,7 +280,7 @@ export default function DetailPostModal({ ...props }) {
           </DetailContentWrapper>
           {tagNotiId && (
             <InviteWrapper>
-              <span>동그라미 님이 초대하였습니다.</span>
+              <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
               <div>
                 <button onClick={acceptClick}>수락</button>
                 <button onClick={rejectClick}>거절</button>
@@ -329,22 +345,25 @@ const TitleWrapper = styled.section`
   gap: 8px;
   font-size: ${(props) => props.theme.Fs.title};
   padding-bottom: 25px;
-  /* span {
+  span {
     padding-left: 10px;
-    border-left: ${(props) => props.isColor && `3px solid` + props.isColor};
-  } */
-  span:nth-child(2) {
-    font-size: ${(props) => props.theme.Fs.smallText};
-    color: ${(props) => props.theme.Bg.deepColor};
-    padding-left: 13px;
-    border-left: none;
+    border-left: ${(props) => props.pickColor && `3px solid` + props.pickColor};
   }
 `;
 
-const TitleSpan = styled.span`
+const TitleTimeContainer = styled.div`
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
   padding-left: 10px;
-  border-left: ${(props) => props.pickColor && `3px solid &{props.pickColor}`};
+  gap: 5px;
+  span {
+    font-size: ${(props) => props.theme.Fs.smallText};
+    color: ${(props) => props.theme.Bg.deepColor};
+    border-left: none;
+    padding: 0;
+  }
 `;
+
 const FriendWrapper = styled.section`
   ${(props) => props.theme.FlexCol}
   padding: 20px 0;
@@ -356,9 +375,14 @@ const LocationWrapper = styled(FriendWrapper)`
 `;
 
 const LocationContentBox = styled.div`
-  div {
-    white-space: nowrap;
-  }
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
+  align-items: flex-start;
+`;
+const TextArea = styled.div`
+  width: 360px;
+  padding: 0 10px;
+  white-space: pre-wrap;
 `;
 
 const ImgWrapper = styled(FriendWrapper)`
@@ -400,6 +424,7 @@ const InviteWrapper = styled.div`
     background-color: transparent;
     font-size: ${(props) => props.theme.Fs.smallText};
     color: ${(props) => props.theme.Bg.deepColor};
+    cursor: pointer;
   }
 `;
 
@@ -410,10 +435,32 @@ const DropBox = styled.div`
 
 const FriendDropBox = styled.div`
   width: 100%;
-  height: 100px;
   margin-top: 10px;
   padding-left: 50px;
-  background-color: lavender;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const WriterBox = styled.div`
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
+  padding: 10px;
+  gap: 10px;
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  span {
+    font-size: ${(props) => props.theme.Fs.smallText};
+  }
+  div {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: coral;
+  }
 `;
 
 const ImgDropBox = styled.div`

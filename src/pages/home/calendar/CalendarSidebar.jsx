@@ -83,7 +83,7 @@ export default function CalendarSidebar() {
   const statusCodeMemo = useSelector((state) => state.memos.statusCode);
   const statusCodeDelete = useSelector((state) => state.memos.statusCodeDelete);
   const updatedMemos = useSelector((state) => state.memos.updatedMemos);
-  console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
+  //console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
 
   useEffect(() => {
     dispatch(__getMemos());
@@ -124,7 +124,6 @@ export default function CalendarSidebar() {
     });
     setClickedMemoId(null);
   };
-
 
   return (
     <>

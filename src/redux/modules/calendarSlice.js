@@ -164,7 +164,7 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
 // 상세 일정 get
 export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload, thunkAPI) => {
   try {
-    console.log("getPostDetail response : ", payload);
+    //console.log("getPostDetail response : ", payload);
     const response = await api.get(`/api/posts/${payload.id}`, {
       headers: {
         Authorization: payload.token,
@@ -227,8 +227,7 @@ export const __acceptSharePost = createAsyncThunk("acceptSharePost", async (payl
         Authorization: payload.token,
       },
     });
-    console.log("수락---", response);
-    return thunkAPI.fulfillWithValue(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -241,8 +240,7 @@ export const __rejectSharePost = createAsyncThunk("rejectSharePost", async (payl
         Authorization: payload.token,
       },
     });
-    console.log("거절---", response);
-    return thunkAPI.fulfillWithValue(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
