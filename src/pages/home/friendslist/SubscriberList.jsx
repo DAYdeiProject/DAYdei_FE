@@ -17,7 +17,7 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
   return (
     <>
       {SubscribersList?.map((user) => (
-        <PostBox key={user.profileImage}>
+        <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
