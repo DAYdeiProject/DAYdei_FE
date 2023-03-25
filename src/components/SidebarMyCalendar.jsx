@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 import Loading from "./Loading";
 import ColorFromDB from "../pages/home/calendar/CalendarBasic";
+import UserInfo from "../utils/localStorage/userInfo";
 
 export default function SidebarMyCalendar({ ...props }) {
   //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
@@ -21,6 +22,7 @@ export default function SidebarMyCalendar({ ...props }) {
 
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
+  const userInfo = UserInfo();
   const now = format(new Date(), "yy.MM.dd");
   const nowDay = getDay(new Date());
   let day = "";
@@ -39,14 +41,13 @@ export default function SidebarMyCalendar({ ...props }) {
   } else if (nowDay === 6) {
     day = now + "(토)";
   }
-
+  const { today, update, isLoading } = useSelector((state) => state.calendar);
+  //console.log("update", update);
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
-    dispatch(__getTodaySchedule({ today: String(today), token }));
+    dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
     dispatch(__getTodayUpdate(token));
   }, [props.side]);
-
-  const { today, update, isLoading } = useSelector((state) => state.calendar);
 
   const navigate = useNavigate();
   const moveUserPage = (id) => {
@@ -130,7 +131,7 @@ export default function SidebarMyCalendar({ ...props }) {
                 update.map((list) => (
                   <ListBox key={list.id}>
                     <ImgBox>
-                      <img src={list.profileImage}></img>
+                      <img src={list.profileImage} />
                     </ImgBox>
                     <InfoBox>
                       <span>{list.nickName}</span>

@@ -125,6 +125,7 @@ export default function CalendarSidebar() {
     setClickedMemoId(null);
   };
 
+
   return (
     <>
       {isTodoBoxOpen && (

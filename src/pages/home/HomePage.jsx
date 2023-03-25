@@ -16,10 +16,9 @@ import DetailMain from "./friendsDetail/DetailMain";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { motion, AnimatePresence } from "framer-motion";
-// import { eventsource } from "eventsource";
+import { messageState } from "../../redux/modules/calendarReducer";
+import NotificationModal from "./calendar/NotificationModal";
 
-//const EventSource = EventSourcePolyfill;
 const EventSource = EventSourcePolyfill;
 
 function HomePage() {
@@ -43,7 +42,7 @@ function HomePage() {
   const categoryList = useSelector((state) => state.users.categoryList);
   const token = useSelector((state) => state.users.token);
   const [side, setSide] = useState(false);
-  const [movePage, setMovePage] = useState(false);
+  const [isMessage, setIsMessage] = useState(false);
 
   const userInfo = UserInfo();
   const params = useParams();
@@ -55,55 +54,23 @@ function HomePage() {
     const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
       headers: {
         Authorization: connectToken,
+        "Content-Type": "text/event-stream",
+        Connection: "keep-alive",
       },
-      heartbeatTimeout: 120000,
+      heartbeatTimeout: 3600000,
     });
-
-    // eventConnect.addEventListener("onmessage", async (e) => {
-    //   const data = JSON.parse(e.data);
-    //   console.log("sse data---> ", data);
-    //   setSseData(data);
-    // });
 
     eventConnect.onmessage = async (event) => {
       //const result = await JSON.parse(event.data);
       const result = await event.data;
       console.log("connect ==> ", result);
+      //console.log("#####################");
+      //console.log("#####################");
+      setIsMessage(true);
+      dispatch(messageState(isMessage));
     };
 
     return () => eventConnect.close();
-  }, []);
-
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     let eventSource = "";
-  //     const fetchEvent = async () => {
-  //       eventSource = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
-  //         headers: {
-  //           Authorization: connectToken,
-  //           // "Content-Type": "text/event-stream",
-  //           // "Cache-Control": "no-cache",
-  //           // Connection: "keep-alive",
-  //           // "X-Accel-Buffering": "no",
-  //         },
-  //         withCredentials: true,
-  //         heartbeatTimeout: 3600000,
-  //       });
-  //       eventSource.onmessage = async (event) => {
-  //         const result = await event.data;
-  //         console.log("connect ==> ", result);
-  //       };
-  //     };
-  //     fetchEvent();
-  //   }
-  // });
-
-  useEffect(() => {
-    if (userInfo) {
-      dispatch(__getConnect(connectToken)).then((data) => {
-        console.log("알림 리스트 ==>", data);
-      });
-    }
   }, []);
 
   // 홈 캘린더를 누르면 항상 로그인한 아이디의 캘린더가 나오게하기
@@ -200,6 +167,7 @@ function HomePage() {
             setIsFriendDetailVisible={setIsFriendDetailVisible}
           />
         )}
+        <NotificationModal />
       </MainWrapper>
     </HomePageWrapper>
   );
@@ -218,4 +186,6 @@ const MainWrapper = styled.div`
   min-width: 1350px;
   max-width: 1920px;
   margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 `;

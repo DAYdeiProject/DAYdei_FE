@@ -3,25 +3,31 @@ import styled from "styled-components";
 import CalendarPostModal from "./CalendarPostModal";
 import postStyle from "../../../shared/style/PostStyle";
 import { BiX } from "react-icons/bi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useParams } from "react-router";
-import { __getUserTodaySchedule } from "../../../redux/modules/calendarSlice";
-import format from "date-fns/format";
+import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import UserInfo from "../../../utils/localStorage/userInfo";
+import Loading from "../../../components/Loading";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const userInfo = UserInfo();
-  const today = format(new Date(), "yyyy-MM-dd");
+
+  const { todayList, isLoading } = useSelector((state) => state.calendar);
+  // console.log("todayList------>", todayList);
 
   useEffect(() => {
-    if (props.isTodaySchedule && param.id !== String(userInfo.userId)) {
-      dispatch(__getUserTodaySchedule({ userId: param.id, today, token }));
+    if (props.moreDate) {
+      if (props.isTodaySchedule && param.id !== String(userInfo.userId)) {
+        dispatch(__getDateSchedule({ userId: param.id, date: props.moreDate, token }));
+      } else {
+        dispatch(__getDateSchedule({ userId: userInfo.userId, date: props.moreDate, token }));
+      }
     }
-  }, [props.isTodaySchedule]);
+  }, [props.moreDate]);
 
   const closeModal = () => {
     props.setIsTodaySchedule(false);
@@ -29,15 +35,18 @@ export default function DayScheduleModal({ ...props }) {
 
   return (
     <>
-      <CalendarPostModal isAddPost={props.isTodaySchedule} setIsAddPost={props.setIsTodaySchedule}>
-        <div>
+      {isLoading && <Loading />}
+      <CalendarPostModal isOpen={props.isTodaySchedule}>
+        <TodayScheduleWrapper>
           <postStyle.HeaderWrapper>
             <BiX className="closeIncon" onClick={closeModal} />
           </postStyle.HeaderWrapper>
-        </div>
+        </TodayScheduleWrapper>
       </CalendarPostModal>
     </>
   );
 }
 
-const TodayScheduleWrapper = styled.div``;
+const TodayScheduleWrapper = styled.div`
+  padding: 0 30px;
+`;

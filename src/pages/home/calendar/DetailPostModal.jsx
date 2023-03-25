@@ -15,7 +15,7 @@ import {
   BsChevronUp,
 } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { __getPostDetail, __deletePost } from "../../../redux/modules/calendarSlice";
+import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
 import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
@@ -32,19 +32,22 @@ export default function DetailPostModal({ ...props }) {
   const [nowEnd, setEnd] = useState("");
   const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
-  const [color, setColor] = useState("");
-  const [getId, setGetId] = useState("");
+  const [isColor, setIsColor] = useState("");
+  // const [getUpdatePostId, setGetUpdatePostId] = useState("");
+  const [tagNotiId, setTagNotiId] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = UserInfo();
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
-  const { getPostId } = useSelector((state) => state.calendarReducer);
-
-  useEffect(() => {
-    if (getPostId) setGetId(getPostId);
-  }, [getPostId]);
+  const { getPostId, getTagPostId } = useSelector((state) => state.calendarReducer);
+  //console.log("detail----------", detail);
+  //console.log("getTagPostId----------", getTagPostId);
+  // useEffect(() => {
+  //   if (getPostId) setGetUpdatePostId(getPostId);
+  //   if (getTagPostId) setTagPostId(getTagPostId.postId);
+  // }, [getUpdatePostId, tagPostId]);
 
   useEffect(() => {
     if (detail) {
@@ -71,20 +74,26 @@ export default function DetailPostModal({ ...props }) {
       setStartDay(startDay);
       setEndDay(endDay);
       const color = ColorFromDB(detail.color);
-      setColor(color);
+      setIsColor(color);
     }
   }, [detail]);
 
   useEffect(() => {
     if (props.detailPostId) {
-      dispatch(__getPostDetail({ id: String(props.detailPostId), token }));
+      //console.log("1번(일반적)----------");
+      dispatch(__getPostDetail({ id: props.detailPostId, token }));
       props.setIsDetailPost(true);
-    } else if (getId) {
-      dispatch(__getPostDetail({ id: String(getId), token }));
+    } else if (getPostId) {
+      //console.log("2번(타유저 사이드바)----------");
+      dispatch(__getPostDetail({ id: getPostId, token }));
       props.setIsDetailPost(true);
+    } else if (getTagPostId) {
+      //console.log("3번(알림)----------");
+      dispatch(__getPostDetail({ id: getTagPostId.postId, token }));
+      props.setIsDetailPost(true);
+      setTagNotiId(getTagPostId.notiId);
     }
-    setGetId("");
-  }, [props.detailPostId, getId]);
+  }, [props.detailPostId, getPostId, getTagPostId]);
 
   // console.log(detail);
   // toggle
@@ -105,6 +114,7 @@ export default function DetailPostModal({ ...props }) {
   const closeModal = () => {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
+    setTagNotiId("");
     setImgToggle(false);
     setFriendToggle(false);
   };
@@ -116,6 +126,18 @@ export default function DetailPostModal({ ...props }) {
       props.setIsDetailPost(false);
       props.setSide(!props.side);
       props.setIsSubmit(!props.isSubmit);
+    });
+  };
+  // 공유일정 수락
+  const acceptClick = () => {
+    dispatch(__acceptSharePost({ postId: getTagPostId.postId, token })).then(() => {
+      setTagNotiId("");
+    });
+  };
+  // 공유일정 거절
+  const rejectClick = () => {
+    dispatch(__rejectSharePost({ postId: getTagPostId.postId, token })).then(() => {
+      setTagNotiId("");
     });
   };
 
@@ -137,8 +159,8 @@ export default function DetailPostModal({ ...props }) {
             </HeaderWrapper>
             {detail && (
               <DetailContetnContainer>
-                <TitleWrapper isColor={color}>
-                  <span>{detail?.title}</span>
+                <TitleWrapper>
+                  <TitleSpan pickColor={isColor}>{detail?.title}</TitleSpan>
                   <span>
                     {nowStart}
                     {nowStartDay}
@@ -172,7 +194,7 @@ export default function DetailPostModal({ ...props }) {
                       {detail.participant &&
                         detail.participant.map((list) => (
                           <div key={list.participentId}>
-                            <img src=""></img>
+                            <img src="" />
                             <span>{list.participentName}</span>
                           </div>
                         ))}
@@ -202,23 +224,17 @@ export default function DetailPostModal({ ...props }) {
                       <span>총 사진</span>
                     </TextBox>
                     <ToggieIconBox>
-                      {detail.image && detail?.image.length !== 0 ? (
-                        imgToggle ? (
-                          <BsChevronUp onClick={() => upDropClick("img")} />
-                        ) : (
-                          <BsChevronDown onClick={() => downDropClick("img")} />
-                        )
-                      ) : (
-                        <></>
-                      )}
+                      {detail.image &&
+                        detail?.image.length !== 0 &&
+                        (imgToggle ? <BsChevronUp onClick={() => upDropClick("imgBox")} /> : <BsChevronDown onClick={() => downDropClick("imgBox")} />)}
                     </ToggieIconBox>
                   </ToggleContainer>
                   <DropBox isShow={imgToggle}>
                     <ImgDropBox>
-                      {detail?.image &&
-                        detail.image.map((list, i) => (
+                      {detail.image &&
+                        detail?.image.map((list, i) => (
                           <ImgFile key={i}>
-                            <img src={list} />
+                            <img src="" />
                           </ImgFile>
                         ))}
                     </ImgDropBox>
@@ -246,13 +262,15 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          <InviteWrapper>
-            <span>동그라미 님이 초대하였습니다.</span>
-            <div>
-              <button>수락</button>
-              <button>거절</button>
-            </div>
-          </InviteWrapper>
+          {tagNotiId && (
+            <InviteWrapper>
+              <span>동그라미 님이 초대하였습니다.</span>
+              <div>
+                <button onClick={acceptClick}>수락</button>
+                <button onClick={rejectClick}>거절</button>
+              </div>
+            </InviteWrapper>
+          )}
         </DetailPostWrapper>
       </CalendarPostModal>
     </>
@@ -311,16 +329,21 @@ const TitleWrapper = styled.section`
   gap: 8px;
   font-size: ${(props) => props.theme.Fs.title};
   padding-bottom: 25px;
-  span {
+  /* span {
     padding-left: 10px;
-    border-left: ${(props) => props.isColor && `3px solid ${props.isColor}`};
-  }
+    border-left: ${(props) => props.isColor && `3px solid` + props.isColor};
+  } */
   span:nth-child(2) {
     font-size: ${(props) => props.theme.Fs.smallText};
     color: ${(props) => props.theme.Bg.deepColor};
     padding-left: 13px;
     border-left: none;
   }
+`;
+
+const TitleSpan = styled.span`
+  padding-left: 10px;
+  border-left: ${(props) => props.pickColor && `3px solid &{props.pickColor}`};
 `;
 const FriendWrapper = styled.section`
   ${(props) => props.theme.FlexCol}

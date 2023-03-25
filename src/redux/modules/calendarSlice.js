@@ -5,13 +5,14 @@ const initialState = {
   data: [],
   total: [],
   today: [],
+  todayList: [],
   update: [],
   detail: [],
   imgList: [],
-  mainToday: [],
   otherUser: [],
   otherUserUpdate: [],
   otherUserShare: [],
+  share: "",
   error: "",
   isError: false,
   isLoading: false,
@@ -117,10 +118,24 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
   }
 });
 
-// sidebar 오늘의 일정 get
+// 오늘의 일정 get (sidebar)
 export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/today?date=${payload.today}`, {
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${String(payload.today)}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 오늘의 일정 get (더보기 클릭시)
+export const __getDateSchedule = createAsyncThunk("getDateSchedule", async (payload, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.date}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -146,24 +161,10 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
   }
 });
 
-// 오늘의 일정 get(내꺼 + 타유저)
-export const __getUserTodaySchedule = createAsyncThunk("getUserTodaySchedule", async (payload, thunkAPI) => {
-  try {
-    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.today}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
-    console.log("유저 today일정(더보기클릭) : ", response);
-    return thunkAPI.fulfillWithValue(response.data.data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
 // 상세 일정 get
 export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload, thunkAPI) => {
   try {
+    console.log("getPostDetail response : ", payload);
     const response = await api.get(`/api/posts/${payload.id}`, {
       headers: {
         Authorization: payload.token,
@@ -212,6 +213,35 @@ export const __otherUserSharePost = createAsyncThunk("otherUserSharePost", async
         Authorization: payload.token,
       },
     });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 공유일정 수락
+export const __acceptSharePost = createAsyncThunk("acceptSharePost", async (payload, thunkAPI) => {
+  try {
+    const response = await api.put(`/api/posts/subscribes/${payload.postId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("수락---", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+// 공유일정 거절
+export const __rejectSharePost = createAsyncThunk("rejectSharePost", async (payload, thunkAPI) => {
+  try {
+    const response = await api.delete(`/api/posts/subscribes/${payload.postId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    console.log("거절---", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -329,6 +359,20 @@ export const calendarSlice = createSlice({
         state.isError = true;
       });
     builder
+      .addCase(__getDateSchedule.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getDateSchedule.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.todayList = action.payload;
+      })
+      .addCase(__getDateSchedule.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
       .addCase(__getTodayUpdate.pending, (state) => {
         state.isLoading = true;
       })
@@ -338,19 +382,6 @@ export const calendarSlice = createSlice({
         state.update = action.payload;
       })
       .addCase(__getTodayUpdate.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-      });
-    builder
-      .addCase(__getUserTodaySchedule.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(__getUserTodaySchedule.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.mainToday = action.payload;
-      })
-      .addCase(__getUserTodaySchedule.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
@@ -404,6 +435,32 @@ export const calendarSlice = createSlice({
         state.otherUserShare = action.payload;
       })
       .addCase(__otherUserSharePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__acceptSharePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__acceptSharePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.share = action.payload;
+      })
+      .addCase(__acceptSharePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__rejectSharePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__rejectSharePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.share = action.payload;
+      })
+      .addCase(__rejectSharePost.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
