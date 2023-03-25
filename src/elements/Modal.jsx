@@ -2,15 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import ModalWrap from "./ModalWrap";
 
-function Modal({ children }) {
+function Modal({ height, children }) {
   return (
     <ModalWrap>
-      <ModalBox>
+      <ModalBox height={height}>
         <div>{children}</div>
       </ModalBox>
     </ModalWrap>
   );
 }
+
+Modal.defaultProps = {
+  height: "575px",
+};
 
 const ModalBox = styled.div`
   display: flex;
@@ -19,7 +23,7 @@ const ModalBox = styled.div`
   padding: 85px 42px 86px 41px;
 
   width: 540px;
-  height: 575px;
+  height: ${(props) => props.height};
 
   background: #ffffff;
   border-radius: 16px;

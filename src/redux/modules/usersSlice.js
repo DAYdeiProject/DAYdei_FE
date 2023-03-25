@@ -14,6 +14,7 @@ const initialState = {
   categoryList: [],
   nickName: "",
   data: "",
+  statusCode: 0,
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
@@ -67,6 +68,17 @@ export const __addCategories = createAsyncThunk("login/addCategories", async (Ca
     const response = await api.post("/api/users/categories", Categories);
     // console.log(response);
     return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data.data);
+  }
+});
+
+export const __requestNewPassword = createAsyncThunk("requestNewPassord", async (userInfo, thunkAPI) => {
+  try {
+    const response = await api.post("/api/users/reset/password", userInfo);
+    console.log("이메일, 생일정보 post함-->", response.data.statusCode);
+    return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error.response.data.data);
@@ -128,6 +140,22 @@ export const usersSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(__addCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isErrorMessage = action.payload;
+      });
+
+    builder
+      .addCase(__requestNewPassword.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(__requestNewPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.statusCode = action.payload;
+      })
+      .addCase(__requestNewPassword.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isErrorMessage = action.payload;
