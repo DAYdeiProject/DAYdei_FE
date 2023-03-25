@@ -10,12 +10,15 @@ import { useState } from "react";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
 import UserInfo from "../../utils/localStorage/userInfo";
+import FindPasswordModal from "./FindPasswordModal";
 
 function IntroPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailRef = useRef(null);
   const [isKakao, setIsKakao] = useState(false);
+  //비밀번호 찾기 모달
+  const [isFindPasswordModalOpen, setIsFindPasswordModalOpen] = useState(false);
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   //const isLogin = useSelector((state) => state.users.isLogin);
@@ -54,6 +57,10 @@ function IntroPage() {
     window.location.href = KAKAO;
   };
 
+  const FindPasswordModalOpenHandler = () => {
+    setIsFindPasswordModalOpen(true);
+  };
+
   return (
     <ScreenLayout>
       <ScreenWrapper>
@@ -88,7 +95,8 @@ function IntroPage() {
               <JoinText>
                 <Link to="/join">회원가입</Link>
               </JoinText>
-              <FindPassword>비밀번호 찾기</FindPassword>
+              <FindPassword onClick={FindPasswordModalOpenHandler}>비밀번호 찾기</FindPassword>
+              {isFindPasswordModalOpen && <FindPasswordModal setIsFindPasswordModalOpen={setIsFindPasswordModalOpen} />}
             </BottomText>
           </LoginBox>
         </LoginWrapper>
@@ -182,6 +190,7 @@ export const InputWrapper = styled.div`
   flex: none;
   order: 0;
   flex-grow: 0;
+  /* background-color: pink; */
 `;
 
 export const LoginButtton = styled.button`
@@ -315,6 +324,9 @@ const FindPassword = styled.div`
   flex: none;
   order: 0;
   flex-grow: 0;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export default IntroPage;
