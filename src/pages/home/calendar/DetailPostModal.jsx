@@ -22,7 +22,6 @@ import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import { useParams } from "react-router-dom";
-import { removeTagPostId } from "../../../redux/modules/calendarReducer";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(false);
@@ -34,7 +33,8 @@ export default function DetailPostModal({ ...props }) {
   const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
   const [isColor, setIsColor] = useState("");
-  const [tagNotiId, setTagNotiId] = useState("");
+  const [tagResult, setTagResult] = useState("");
+  const [tagComment, setTagComment] = useState("");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = UserInfo();
@@ -42,7 +42,7 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
   const { getPostId } = useSelector((state) => state.calendarReducer);
-  //console.log("detail getTagPostId----------", props.notificationPostId);
+  //console.log("detail----------", detail);
   //console.log("props.notificationPostId----------", props.notificationPostId);
 
   useEffect(() => {
@@ -82,7 +82,8 @@ export default function DetailPostModal({ ...props }) {
       dispatch(__getPostDetail({ id: getPostId, token }));
       props.setIsDetailPost(true);
     } else if (props.notificationPostId) {
-      setTagNotiId(props.notificationPostId.notiId);
+      setTagComment(props.notificationPostId.comment);
+      setTagResult(props.notificationPostId.result);
       dispatch(__getPostDetail({ id: props.notificationPostId.returnId, token }));
       props.setIsDetailPost(true);
     }
@@ -107,9 +108,10 @@ export default function DetailPostModal({ ...props }) {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
     props.setNotificationPostId("");
-    setTagNotiId("");
     setImgToggle(false);
     setFriendToggle(false);
+    setTagComment("");
+    setTagResult("");
   };
 
   // 삭제
@@ -153,7 +155,7 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
-              {String(userInfo.userId) === String(param.id) && (
+              {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
                 <>
                   <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
                   <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
@@ -276,13 +278,24 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {tagNotiId && (
+          {tagResult && (
             <InviteWrapper>
-              <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
-              <div>
-                <button onClick={acceptClick}>수락</button>
-                <button onClick={rejectClick}>거절</button>
-              </div>
+              {tagResult === "requestPost" ? (
+                <>
+                  <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
+                  <div>
+                    <button onClick={acceptClick}>수락</button>
+                    <button onClick={rejectClick}>거절</button>
+                  </div>
+                </>
+              ) : (
+                tagResult === "acceptPost" && (
+                  <span>
+                    {tagComment.split("@")[0]}
+                    {tagComment.split("@")[1]}
+                  </span>
+                )
+              )}
             </InviteWrapper>
           )}
         </DetailPostWrapper>

@@ -13,6 +13,7 @@ const initialState = {
   otherUserUpdate: [],
   otherUserShare: [],
   share: "",
+  noti: "",
   error: "",
   isError: false,
   isLoading: false,
@@ -245,6 +246,19 @@ export const __rejectSharePost = createAsyncThunk("rejectSharePost", async (payl
     return thunkAPI.rejectWithValue(error);
   }
 });
+// 알림 모두 지우기
+export const __allClearNotification = createAsyncThunk("allClearNotification", async (payload, thunkAPI) => {
+  try {
+    const response = await api.delete(`/api/notification/${payload.userId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 export const calendarSlice = createSlice({
   name: "calendar",
@@ -459,6 +473,19 @@ export const calendarSlice = createSlice({
         state.share = action.payload;
       })
       .addCase(__rejectSharePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__allClearNotification.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__allClearNotification.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.noti = action.payload;
+      })
+      .addCase(__allClearNotification.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
