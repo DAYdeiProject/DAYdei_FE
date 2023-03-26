@@ -37,10 +37,9 @@ export default function SidebarMiniCalendar() {
 
 const MiniWrapper = styled.div`
   width: 100%;
-  height: 350px;
   .react-calendar {
     border: none;
-    max-height: 300px;
+    height: 300px;
   }
 
   // 현재 날짜
@@ -71,7 +70,7 @@ const MiniWrapper = styled.div`
   // 날짜
   .react-calendar__tile {
     width: 20px;
-    height: 50px;
+    height: 40px;
     font-size: ${(props) => props.theme.Fs.xsmallText};
   }
   .react-calendar__tile:hover,
@@ -87,13 +86,7 @@ const MiniWrapper = styled.div`
   } */
   // 토, 일
   .react-calendar__month-view__days__day--weekend {
-    color: black;
-    :nth-child(7n + 1) {
-      color: #b81010;
-    }
-    :nth-child(7n) {
-      color: #072edd;
-    }
+    color: ${(props) => props.theme.Bg.middleColor};
   }
 `;
 
@@ -101,8 +94,8 @@ const CheckPost = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-top: 5px;
   div {
-    height: 10px;
-    width: 10px;
+    height: 6px;
+    width: 6px;
     border-radius: 50%;
     background-color: coral;
   }

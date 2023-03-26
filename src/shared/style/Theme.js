@@ -3,11 +3,22 @@ import { css } from "styled-components";
 const Bg = {
   mainColor: "#E7E7E7", // 헤더
   lightColor: "#F5F5F5", // sidebar
-  borderColor: "#AFAFAF", // border
   middleColor: "#BABABA", // 버튼 연한색
   deepColor: "#626262", // 버튼 진한색
   errorColor: "#DF5445", // 에러
   successColor: "#4FB400", // success
+
+  //---------------------------------------------------
+  border1: "#afb4bf", // main border
+  border2: "#ebebeb", // 정보 없을때 나오는 div border
+
+  button1: "#f2f4f6", // 버튼
+
+  fontBlack: "#121212", // title
+
+  fontColor1: "#494d55", // header nav font + desc
+  fontColor2: "#626262", // 친구/구독 리스트 한줄 소개
+  fontColor3: "#afb4bf", // 날짜 + email(리스트 중 닉네임 밑에)
 };
 
 const Fs = {
@@ -19,6 +30,16 @@ const Fs = {
   day: "16px", // 달력 요일  , 버튼 text , 로그인 input text
   smallText: "14px", // 작은글씨
   xsmallText: "12px", // 더 작은글씨
+
+  // --------------------------------------------------
+  sizeLogo: "35px",
+  size28: "28px",
+  size24: "24px",
+  size20: "20px",
+  size18: "18px",
+  size16: "16px",
+  size14: "14px",
+  size12: "12px",
 };
 
 const FlexRow = css`
@@ -45,10 +66,31 @@ const FlexCol = css`
   width: 100%;
 `;
 
+const HeaderText = css`
+  font-size: 24px;
+  font-weight: 600;
+  color: #494d55;
+`;
+
+// content 중 제목 / 닉네임
+const ContentTitleText = css`
+  font-size: 14px;
+  font-weight: 600;
+  color: #121212;
+`;
+// 설명 text
+const DescriptionText = css`
+  font-size: 14px;
+  color: #626262;
+`;
+
 const theme = {
   FlexRow,
   FlexRowBetween,
   FlexCol,
+  HeaderText,
+  DescriptionText,
+  ContentTitleText,
   Bg,
   Fs,
 };

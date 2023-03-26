@@ -140,7 +140,12 @@ function HomePage() {
         handleShowSearchUsers={handleShowSearchUsers}
       />
       <MainWrapper>
-        <Sidebar side={side} setIsCalendarMainVisible={setIsCalendarMainVisible} handleShowFriendDetail={handleShowFriendDetail} />
+        <Sidebar
+          side={side}
+          isCalendarMainVisible={isCalendarMainVisible}
+          setIsCalendarMainVisible={setIsCalendarMainVisible}
+          handleShowFriendDetail={handleShowFriendDetail}
+        />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
         {isCalendarMainVisible && (
           <CalendarMain side={side} setSide={setSide} notificationPostId={notificationPostId} setNotificationPostId={setNotificationPostId} />
