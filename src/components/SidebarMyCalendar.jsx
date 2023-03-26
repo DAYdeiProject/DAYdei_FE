@@ -13,14 +13,6 @@ import UserInfo from "../utils/localStorage/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 
 export default function SidebarMyCalendar({ ...props }) {
-  //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
-  const URI = "http://localhost:3000/friends";
-  const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code&scope=friends`;
-
-  const friendKakao = () => {
-    window.location.href = KAKAO;
-  };
-
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = UserInfo();
@@ -62,53 +54,104 @@ export default function SidebarMyCalendar({ ...props }) {
         <NickNameContainer>
           <NickNameTitle>안녕하세요. {props.nickName}님</NickNameTitle>
         </NickNameContainer>
-        {/* <SidebarMiniCalendar /> */}
 
         <TodayScheduleContainer>
-          <SideTitle>
-            <span>오늘의 일정</span>
-            <span>{day}</span>
-          </SideTitle>
-          <TodayScheduleWrapper>
-            {!today ? (
-              <NoneSchedule>
-                <MdOutlineEditCalendar className="noneToday" />
-                <span>새로운 일정이 없습니다.</span>
-                <p>
-                  달력을 보면서 일정을 확인할 수 있어요.
-                  <br /> 완료한 할 일은 바로 체크해보세요.
-                </p>
-              </NoneSchedule>
-            ) : (
-              today &&
-              today.map((list) => {
-                let color = ColorFromDB(list.color);
-                return (
-                  <TodayScheduleBox key={list.id}>
-                    <IconBox>
-                      <div></div>
-                    </IconBox>
-                    <TodayBox>
-                      <span>{list.title}</span>
-                      <TodayTime>
-                        <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                        <span>{list.startTime.substr(0, 5)}</span>
-                        <span>-</span>
-                        <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                        <span>{list.endTime.substr(0, 5)}</span>
-                      </TodayTime>
-                    </TodayBox>
-                    <ColorCheck>
-                      <ColorIcon color={color}></ColorIcon>
-                    </ColorCheck>
-                  </TodayScheduleBox>
-                );
-              })
-            )}
-          </TodayScheduleWrapper>
-          <TodayCountBox>
-            <span>오늘은 {today.length}개의 일정이 있어요.</span>
-          </TodayCountBox>
+          {props.isCalnedar ? (
+            <>
+              <SideTitle>
+                <span>오늘의 일정</span>
+                <span>{day}</span>
+              </SideTitle>
+              <TodayScheduleWrapper>
+                {!today ? (
+                  <NoneSchedule>
+                    <MdOutlineEditCalendar className="noneToday" />
+                    <span>새로운 일정이 없습니다.</span>
+                    <p>
+                      달력을 보면서 일정을 확인할 수 있어요.
+                      <br /> 완료한 할 일은 바로 체크해보세요.
+                    </p>
+                  </NoneSchedule>
+                ) : (
+                  today &&
+                  today.map((list) => {
+                    let color = ColorFromDB(list.color);
+                    return (
+                      <TodayScheduleBox key={list.id}>
+                        <IconBox>
+                          <div></div>
+                        </IconBox>
+                        <TodayBox>
+                          <span>{list.title}</span>
+                          <TodayTime>
+                            <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                            <span>{list.startTime.substr(0, 5)}</span>
+                            <span>-</span>
+                            <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                            <span>{list.endTime.substr(0, 5)}</span>
+                          </TodayTime>
+                        </TodayBox>
+                        <ColorCheck>
+                          <ColorIcon color={color}></ColorIcon>
+                        </ColorCheck>
+                      </TodayScheduleBox>
+                    );
+                  })
+                )}
+              </TodayScheduleWrapper>
+              <TodayCountBox>
+                <span>오늘은 {today.length}개의 일정이 있어요.</span>
+              </TodayCountBox>
+            </>
+          ) : (
+            <SidebarMiniCalendar />
+          )}
+          {/* <>
+            <SideTitle>
+              <span>오늘의 일정</span>
+              <span>{day}</span>
+            </SideTitle>
+            <TodayScheduleWrapper>
+              {!today ? (
+                <NoneSchedule>
+                  <MdOutlineEditCalendar className="noneToday" />
+                  <span>새로운 일정이 없습니다.</span>
+                  <p>
+                    달력을 보면서 일정을 확인할 수 있어요.
+                    <br /> 완료한 할 일은 바로 체크해보세요.
+                  </p>
+                </NoneSchedule>
+              ) : (
+                today &&
+                today.map((list) => {
+                  let color = ColorFromDB(list.color);
+                  return (
+                    <TodayScheduleBox key={list.id}>
+                      <IconBox>
+                        <div></div>
+                      </IconBox>
+                      <TodayBox>
+                        <span>{list.title}</span>
+                        <TodayTime>
+                          <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                          <span>{list.startTime.substr(0, 5)}</span>
+                          <span>-</span>
+                          <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                          <span>{list.endTime.substr(0, 5)}</span>
+                        </TodayTime>
+                      </TodayBox>
+                      <ColorCheck>
+                        <ColorIcon color={color}></ColorIcon>
+                      </ColorCheck>
+                    </TodayScheduleBox>
+                  );
+                })
+              )}
+            </TodayScheduleWrapper>
+            <TodayCountBox>
+              <span>오늘은 {today.length}개의 일정이 있어요.</span>
+            </TodayCountBox>
+          </> */}
         </TodayScheduleContainer>
 
         <FriendsListContainer>

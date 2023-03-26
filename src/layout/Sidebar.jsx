@@ -8,7 +8,7 @@ import SidebarMyCalendar from "../components/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
 import UserInfo from "../utils/localStorage/userInfo";
 
-function Sidebar({ side, setIsCalendarMainVisible, handleShowFriendDetail }) {
+function Sidebar({ ...props }) {
   const [userInfo, setUserInfo] = useState("");
   const param = useParams();
 
@@ -22,9 +22,13 @@ function Sidebar({ side, setIsCalendarMainVisible, handleShowFriendDetail }) {
   return (
     <SideStyle>
       {param.id === String(userInfo.userId) ? (
-        <SidebarMyCalendar nickName={userInfo.nickName} side={side} />
+        <SidebarMyCalendar nickName={userInfo.nickName} side={props.side} isCalnedar={props.isCalendarMainVisible} />
       ) : (
-        <SidebarOtherCalendar handleShowFriendDetail={handleShowFriendDetail} setIsCalendarMainVisible={setIsCalendarMainVisible} userId={param.id} />
+        <SidebarOtherCalendar
+          handleShowFriendDetail={props.handleShowFriendDetail}
+          setIsCalendarMainVisible={props.setIsCalendarMainVisible}
+          userId={param.id}
+        />
       )}
     </SideStyle>
   );
@@ -33,8 +37,8 @@ function Sidebar({ side, setIsCalendarMainVisible, handleShowFriendDetail }) {
 export default Sidebar;
 
 const SideStyle = styled.div`
-  background-color: ${(props) => props.theme.Bg.lightColor};
   min-width: 350px;
   max-width: 350px;
   height: 100%;
+  border-right: 0.5px solid ${(props) => props.theme.Bg.borderColor};
 `;

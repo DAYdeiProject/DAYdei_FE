@@ -124,22 +124,24 @@ const HeaderWrapper = styled.header`
   min-width: 1250px;
   max-width: 1920px;
   margin: 0 auto;
+  border-bottom: 0.5px solid ${(props) => props.theme.Bg.borderColor};
 `;
 
 const LogoContainer = styled.section`
-  ${(props) => props.theme.FlexCol}
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
   width: 0;
   min-width: 350px;
   height: 100px;
+  padding-left: 35px;
   span {
-    min-width: 350px;
+    text-align: left;
     font-size: ${(props) => props.theme.Fs.largeText};
     text-align: center;
   }
 `;
 
 const NavContainer = styled.section`
-  background-color: ${(props) => props.theme.Bg.mainColor};
   ${(props) => props.theme.FlexRowBetween}
   width: 1570px;
   height: 100px;
