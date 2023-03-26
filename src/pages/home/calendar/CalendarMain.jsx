@@ -266,11 +266,12 @@ const CalendarSidebarWrapper = styled.div`
 export const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;
-  padding: 40px 48px 40px;
+  padding: 40px 48px 52px;
 
   .fc {
     width: 100%;
     height: 100%;
+    color: ${(props) => props.theme.Bg.fontBlack};
   }
   // 달력 헤더 영역
   .fc-toolbar {
@@ -346,12 +347,36 @@ export const CalendarWrapper = styled.div`
   // 년,월
   .fc-toolbar-title {
     margin-right: 0.75em;
-    font-size: ${(props) => props.theme.Fs.largeText};
+    font-size: ${(props) => props.theme.Fs.size28};
+    font-weight: 600;
   }
 
   .fc-daygrid,
   .fc-timegrid {
-    border: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    border: 0.5px solid ${(props) => props.theme.Bg.border1};
+  }
+  // date 각 한칸
+  .fc-daygrid-day {
+    padding: 10px;
+  }
+  // 날짜 - 왼쪽으로
+  .fc-daygrid-day-top {
+    flex-direction: row;
+  }
+
+  // 오늘날짜
+  .fc,
+  .fc-daygrid-day.fc-day-today {
+    background-color: transparent !important;
+  }
+  .fc-day-today {
+    .fc-daygrid-day-top {
+      a {
+        height: 30px;
+        background-color: red;
+        border-radius: 50%;
+      }
+    }
   }
 
   .fc-theme-standard,
@@ -359,7 +384,7 @@ export const CalendarWrapper = styled.div`
     border: none;
   }
   .fc-theme-standard td {
-    border-top: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    border-top: 0.5px solid ${(props) => props.theme.Bg.border1};
     //border-top: 0.75px solid blue;
   }
   table {
@@ -369,7 +394,7 @@ export const CalendarWrapper = styled.div`
   th {
     line-height: 30px;
     border: none;
-    border-right: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    border-right: 0.5px solid ${(props) => props.theme.Bg.border1};
     //border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
   }
   th:last-child {
@@ -379,7 +404,7 @@ export const CalendarWrapper = styled.div`
   // 가로
   tr {
     border: none;
-    border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    border-bottom: 0.5px solid ${(props) => props.theme.Bg.border1};
   }
   tr:last-child {
     border-bottom: none;
@@ -388,7 +413,7 @@ export const CalendarWrapper = styled.div`
   // 세로
   td {
     border: none;
-    border-right: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    border-right: 0.5px solid ${(props) => props.theme.Bg.border1};
   }
   td:last-child {
     border-right: none;
