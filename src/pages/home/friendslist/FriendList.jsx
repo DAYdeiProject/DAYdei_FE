@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
@@ -22,6 +22,50 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
     window.location.href = KAKAO;
   };
 
+  useEffect(() => {
+    //카카오톡 sdk 추가
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
+  const sendKakao = () => {
+    console.log(window.Kakao);
+    if (window.Kakao) {
+      const kakao = window.Kakao;
+
+      if (!kakao.isInitialized()) {
+        kakao.init("09575cc341b5e4613bf2d9332389afd0");
+      }
+
+      kakao.Link.sendDefault({
+        objectType: "feed",
+        content: {
+          title: "DayDei",
+          description: "공유하는 일상의 시작 ",
+          imageUrl: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+          imageWidth: 600,
+          imageHeight: 315,
+          link: {
+            mobileWebUrl: "http://localhost:3000",
+            androidExecutionParams: "test",
+          },
+        },
+        buttons: [
+          {
+            title: "DayDei 방문하기",
+            link: {
+              mobileWebUrl: "http://localhost:3000",
+              webUrl: "http://localhost:3000",
+            },
+          },
+        ],
+      });
+    }
+  };
+
   if (FriendsList?.length === 0) {
     return (
       <NoListMessageWrapper>
@@ -35,12 +79,13 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
           </ContentArea>
           <ButtonWrap>
             <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
-            <InviteButton>친구 초대</InviteButton>
+            <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
           </ButtonWrap>
         </MessageBox>
       </NoListMessageWrapper>
     );
   }
+
   return (
     <>
       {FriendsList?.map((user) => (

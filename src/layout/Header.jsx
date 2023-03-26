@@ -6,24 +6,32 @@ import { BiBell } from "react-icons/bi";
 import useOutSideClick from "../hooks/useOutsideClick";
 import { useDispatch } from "react-redux";
 import { notificationState } from "../redux/modules/calendarReducer";
+import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
 
 function Header(props) {
   const navigate = useNavigate();
   const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const dispatch = useDispatch();
 
+  // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
+  // 드롭다운 닫힘 함수 (바깥 영역 눌렀을 때 닫히게 할 때 씀)
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
   };
 
   const DropdownRef = useRef(null);
   useOutSideClick(DropdownRef, handleDropdownClose);
+
+  const ProfileSettingModalHandler = () => {
+    setIsDropdownOpen(false);
+    setIsProfileSettingModalOpen(true);
+  };
 
   const [userInfo, setUserInfo] = useState({ nickName: "", email: "" });
 
@@ -57,52 +65,55 @@ function Header(props) {
   }, [isNotificationOpen]);
 
   return (
-    <HeaderWrapper>
-      <LogoContainer>
-        <span>DAY DEI</span>
-      </LogoContainer>
-      <NavContainer>
-        <NavTabConatiner>
-          <div onClick={handleShowCalendarMain}>
-            <span>홈 캘린더</span>
-          </div>
-          <div onClick={handleShowFriendsListMain}>
-            <span>친구/구독</span>
-          </div>
-          <div onClick={handleShowSearchUsers}>
-            <span>찾아보기</span>
-          </div>
-        </NavTabConatiner>
-        <NavUserConatiner>
-          <IconWrapper onClick={notificationClick} className="notification">
-            <BiBell size={31} />
-            {/* <NotificationModal isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} /> */}
-          </IconWrapper>
-          <IconWrapper ref={DropdownRef}>
-            <Image onClick={handleDropdown} />
-            {isDropdownOpen && (
-              <DropdownFrame>
-                <ContentWrapper>
-                  <ShortProfile>
-                    <PhotoWrap>
-                      <ProfilePhoto />
-                    </PhotoWrap>
-                    <IntroductionWrap>
-                      <IntroText>이름 : {userInfo.nickName} </IntroText>
-                      <IntroText>이메일 : {userInfo.email}</IntroText>
-                    </IntroductionWrap>
-                  </ShortProfile>
-                  <Buttons>
-                    <Button>프로필 수정</Button>
-                    <Button onClick={logoutHandler}>로그아웃</Button>
-                  </Buttons>
-                </ContentWrapper>
-              </DropdownFrame>
-            )}
-          </IconWrapper>
-        </NavUserConatiner>
-      </NavContainer>
-    </HeaderWrapper>
+    <>
+      <HeaderWrapper>
+        <LogoContainer>
+          <span>DAY DEI</span>
+        </LogoContainer>
+        <NavContainer>
+          <NavTabConatiner>
+            <div onClick={handleShowCalendarMain}>
+              <span>홈 캘린더</span>
+            </div>
+            <div onClick={handleShowFriendsListMain}>
+              <span>친구/구독</span>
+            </div>
+            <div onClick={handleShowSearchUsers}>
+              <span>찾아보기</span>
+            </div>
+          </NavTabConatiner>
+          <NavUserConatiner>
+            <IconWrapper onClick={notificationClick} className="notification">
+              <BiBell size={31} />
+              {/* <NotificationModal isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} /> */}
+            </IconWrapper>
+            <IconWrapper ref={DropdownRef}>
+              <Image onClick={handleDropdown} />
+              {isDropdownOpen && (
+                <DropdownFrame>
+                  <ContentWrapper>
+                    <ShortProfile>
+                      <PhotoWrap>
+                        <ProfilePhoto />
+                      </PhotoWrap>
+                      <IntroductionWrap>
+                        <IntroText>이름 : {userInfo.nickName} </IntroText>
+                        <IntroText>이메일 : {userInfo.email}</IntroText>
+                      </IntroductionWrap>
+                    </ShortProfile>
+                    <Buttons>
+                      <Button onClick={ProfileSettingModalHandler}>프로필 수정</Button>
+                      <Button onClick={logoutHandler}>로그아웃</Button>
+                    </Buttons>
+                  </ContentWrapper>
+                </DropdownFrame>
+              )}
+            </IconWrapper>
+          </NavUserConatiner>
+        </NavContainer>
+      </HeaderWrapper>
+      {isProfileSettingModalOpen && <ProfileSettingModal setIsProfileSettingModalOpen={setIsProfileSettingModalOpen} />}
+    </>
   );
 }
 
