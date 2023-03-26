@@ -76,7 +76,7 @@ export const __getFamousList = createAsyncThunk("getFamousList", async (payload,
         Authorization: payload.token,
       },
     });
-    // console.log(response.data.data);
+    console.log("인기 계정 가져오기 -->", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
