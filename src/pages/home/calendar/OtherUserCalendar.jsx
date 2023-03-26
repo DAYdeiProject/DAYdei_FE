@@ -1,12 +1,11 @@
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import ColorFromDB from "./CalendarBasic";
 import Loading from "../../../components/Loading";
-import { throwPostId } from "../../../redux/modules/calendarReducer";
 import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 
 export default function OtherUserCalendar({ ...props }) {
@@ -25,7 +24,7 @@ export default function OtherUserCalendar({ ...props }) {
 
   // 업데이트 된 일정
   const updatePostClick = (postId) => {
-    dispatch(throwPostId(postId));
+    props.setOtherCalendarPostId(postId);
   };
 
   const timeForToday = (date) => {

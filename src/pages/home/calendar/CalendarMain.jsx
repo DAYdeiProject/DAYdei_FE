@@ -37,6 +37,8 @@ function CalendarMain({ ...props }) {
   // 일정 detailPostId
   const [detailPostId, setDetailPostId] = useState("");
   const [modifyPostId, setModifyPostId] = useState("");
+  // 타유저 업데이트/공유한 일정 클릭시 postId
+  const [otherCalendarPostId, setOtherCalendarPostId] = useState("");
   // 일정 detail 로그인/타유저 비교
   const [isModify, setIsModify] = useState(false);
   // 하루 일정 모달창 state
@@ -161,7 +163,7 @@ function CalendarMain({ ...props }) {
 
   const setting = {
     headerToolbar: {
-      left: "today dayGridMonth timeGridWeek",
+      left: "today",
       center: "prevYear prev title next nextYear",
       right: "addButton",
     },
@@ -191,12 +193,16 @@ function CalendarMain({ ...props }) {
     <CalendarSidebarWrapper>
       {isLoading && <Loading />}
       {userId && String(userId.userId) !== param.id && (
-        <OtherUserCalendar otherCalendarState={otherCalendarState} setOtherCalendarState={setOtherCalendarState} />
+        <OtherUserCalendar
+          otherCalendarState={otherCalendarState}
+          setOtherCalendarState={setOtherCalendarState}
+          setOtherCalendarPostId={setOtherCalendarPostId}
+        />
       )}
       <CalendarWrapper disabled={disabled}>
         <FullCalendar
           {...setting}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]}
           locale="ko"
           editable={isDrag}
           dayMaxEventRows={true}
@@ -235,8 +241,16 @@ function CalendarMain({ ...props }) {
           setNotificationPostId={props.setNotificationPostId}
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
+          otherCalendarPostId={otherCalendarPostId}
+          setOtherCalendarPostId={setOtherCalendarPostId}
         />
-        <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} moreDate={moreDate} />
+        <DayScheduleModal
+          isTodaySchedule={isTodaySchedule}
+          setIsTodaySchedule={setIsTodaySchedule}
+          setIsAddPost={setIsAddPost}
+          moreDate={moreDate}
+          setOtherCalendarPostId={setOtherCalendarPostId}
+        />
       </CalendarWrapper>
       <CalendarSidebar />
     </CalendarSidebarWrapper>

@@ -9,7 +9,6 @@ import { useParams } from "react-router";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import Loading from "../../../components/Loading";
-import { throwPostId } from "../../../redux/modules/calendarReducer";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ export default function DayScheduleModal({ ...props }) {
   };
 
   const detailClick = (id) => {
-    dispatch(throwPostId(id));
+    props.setOtherCalendarPostId(id);
     closeModal();
   };
   return (
