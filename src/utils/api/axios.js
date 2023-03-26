@@ -3,6 +3,10 @@ import Cookies from "js-cookie";
 
 const token = Cookies.get("accessJWTToken");
 
+export const kakao = axios.create({
+  baseURL: process.env.REACT_APP_DAYDEI_URL,
+});
+
 export const api = axios.create({
   baseURL: process.env.REACT_APP_DAYDEI_URL,
 });

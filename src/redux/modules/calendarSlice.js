@@ -13,6 +13,7 @@ const initialState = {
   otherUserUpdate: [],
   otherUserShare: [],
   share: "",
+  noti: "",
   error: "",
   isError: false,
   isLoading: false,
@@ -164,7 +165,7 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
 // 상세 일정 get
 export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload, thunkAPI) => {
   try {
-    console.log("getPostDetail response : ", payload);
+    //console.log("getPostDetail response : ", payload);
     const response = await api.get(`/api/posts/${payload.id}`, {
       headers: {
         Authorization: payload.token,
@@ -227,8 +228,7 @@ export const __acceptSharePost = createAsyncThunk("acceptSharePost", async (payl
         Authorization: payload.token,
       },
     });
-    console.log("수락---", response);
-    return thunkAPI.fulfillWithValue(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -241,8 +241,20 @@ export const __rejectSharePost = createAsyncThunk("rejectSharePost", async (payl
         Authorization: payload.token,
       },
     });
-    console.log("거절---", response);
-    return thunkAPI.fulfillWithValue(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+// 알림 모두 지우기
+export const __allClearNotification = createAsyncThunk("allClearNotification", async (payload, thunkAPI) => {
+  try {
+    const response = await api.delete(`/api/notification/${payload.userId}`, {
+      headers: {
+        Authorization: payload.token,
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -461,6 +473,19 @@ export const calendarSlice = createSlice({
         state.share = action.payload;
       })
       .addCase(__rejectSharePost.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+    builder
+      .addCase(__allClearNotification.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__allClearNotification.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.noti = action.payload;
+      })
+      .addCase(__allClearNotification.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

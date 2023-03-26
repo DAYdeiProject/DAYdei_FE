@@ -14,8 +14,8 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
     dispatch(__cancelRequest(id));
   };
 
-  //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
-  const URI = "http://localhost:3000/friends";
+  const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
+  //const URI = "http://localhost:3000/friends";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code&scope=friends`;
 
   const connectKakaoFriendsHandler = () => {

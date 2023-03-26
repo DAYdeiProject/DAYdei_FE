@@ -19,11 +19,10 @@ import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
 import format from "date-fns/format";
 import OtherUserCalendar from "./OtherUserCalendar";
-import NotificationModal from "./NotificationModal";
 import getDate from "date-fns/getDate";
 import { getYear, getMonth } from "date-fns";
 
-function CalendarMain({ side, setSide }) {
+function CalendarMain({ ...props }) {
   // 일정 추가 모달창 open state
   const [isAddPost, setIsAddPost] = useState(false);
   // 일정 detail 모달창 open state
@@ -45,6 +44,9 @@ function CalendarMain({ side, setSide }) {
   const [moreDate, setMoreDate] = useState("");
   // drag 수정 막기
   const [isDrag, setIsDrag] = useState(true);
+  // 타유저 캘린더 share 일정 state
+  const [otherCalendarState, setOtherCalendarState] = useState(false);
+
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessJWTToken");
@@ -55,6 +57,7 @@ function CalendarMain({ side, setSide }) {
     return state.calendar;
   });
 
+  //console.log("메인----------", total);
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
@@ -123,10 +126,6 @@ function CalendarMain({ side, setSide }) {
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
     setDetailPostId(e.event._def.publicId);
-
-    // if (String(userId.userId) === param.id) {
-    //   setIsModify(true);
-    // }
   };
 
   // 클릭한 date만
@@ -155,7 +154,7 @@ function CalendarMain({ side, setSide }) {
 
       dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
-        setSide(!side);
+        props.CookiessetSide(!props.side);
       });
     }
   };
@@ -191,7 +190,9 @@ function CalendarMain({ side, setSide }) {
   return (
     <CalendarSidebarWrapper>
       {isLoading && <Loading />}
-      {userId && String(userId.userId) !== param.id && <OtherUserCalendar />}
+      {userId && String(userId.userId) !== param.id && (
+        <OtherUserCalendar otherCalendarState={otherCalendarState} setOtherCalendarState={setOtherCalendarState} />
+      )}
       <CalendarWrapper disabled={disabled}>
         <FullCalendar
           {...setting}
@@ -210,8 +211,8 @@ function CalendarMain({ side, setSide }) {
         <AddPostModal
           isAddPost={isAddPost}
           setIsAddPost={setIsAddPost}
-          side={side}
-          setSide={setSide}
+          side={props.side}
+          setSide={props.setSide}
           pickDate={pickDate}
           setPickDate={setPickDate}
           isSubmit={isSubmit}
@@ -228,8 +229,12 @@ function CalendarMain({ side, setSide }) {
           setIsAddPost={setIsAddPost}
           isSubmit={isSubmit}
           setIsSubmit={setIsSubmit}
-          side={side}
-          setSide={setSide}
+          side={props.side}
+          setSide={props.setSide}
+          notificationPostId={props.notificationPostId}
+          setNotificationPostId={props.setNotificationPostId}
+          otherCalendarState={otherCalendarState}
+          setOtherCalendarState={setOtherCalendarState}
         />
         <DayScheduleModal isTodaySchedule={isTodaySchedule} setIsTodaySchedule={setIsTodaySchedule} setIsAddPost={setIsAddPost} moreDate={moreDate} />
       </CalendarWrapper>

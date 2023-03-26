@@ -13,6 +13,10 @@ export default function ColorFromDB(data) {
       return "#95DFFF";
     case "NAVY":
       return "#4C7EA0";
+    case "GRAY":
+      return "#8a8888";
+    case "PINK":
+      return "#e69fec";
     default:
       return "#9747FF";
   }

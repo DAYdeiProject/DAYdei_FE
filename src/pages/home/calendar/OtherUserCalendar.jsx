@@ -9,7 +9,7 @@ import Loading from "../../../components/Loading";
 import { throwPostId } from "../../../redux/modules/calendarReducer";
 import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 
-export default function OtherUserCalendar() {
+export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -21,11 +21,10 @@ export default function OtherUserCalendar() {
   useEffect(() => {
     dispatch(__otherUserUpdatePost({ userId: String(param.id), token }));
     dispatch(__otherUserSharePost({ userId: String(param.id), token }));
-  }, [param]);
+  }, [param, props.otherCalendarState]);
 
   // 업데이트 된 일정
   const updatePostClick = (postId) => {
-    console.log("dd", postId);
     dispatch(throwPostId(postId));
   };
 
@@ -89,7 +88,7 @@ export default function OtherUserCalendar() {
                 const color = ColorFromDB(list.color);
                 const time = timeForToday(list.modifiedAt);
                 return (
-                  <UpdateBox key={list.id}>
+                  <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
                       <img src={list.writer.profileImage} />
                     </ImgBox>
@@ -168,7 +167,6 @@ const ImgBox = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #69864f;
     margin-left: 5px;
     margin-right: 10px;
   }

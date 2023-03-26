@@ -9,6 +9,7 @@ import { useParams } from "react-router";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import Loading from "../../../components/Loading";
+import { throwPostId } from "../../../redux/modules/calendarReducer";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
@@ -17,15 +18,11 @@ export default function DayScheduleModal({ ...props }) {
   const userInfo = UserInfo();
 
   const { todayList, isLoading } = useSelector((state) => state.calendar);
-  // console.log("todayList------>", todayList);
+  //console.log("todayList------>", todayList);
 
   useEffect(() => {
     if (props.moreDate) {
-      if (props.isTodaySchedule && param.id !== String(userInfo.userId)) {
-        dispatch(__getDateSchedule({ userId: param.id, date: props.moreDate, token }));
-      } else {
-        dispatch(__getDateSchedule({ userId: userInfo.userId, date: props.moreDate, token }));
-      }
+      dispatch(__getDateSchedule({ userId: param.id, date: props.moreDate, token }));
     }
   }, [props.moreDate]);
 
@@ -33,6 +30,10 @@ export default function DayScheduleModal({ ...props }) {
     props.setIsTodaySchedule(false);
   };
 
+  const detailClick = (id) => {
+    dispatch(throwPostId(id));
+    closeModal();
+  };
   return (
     <>
       {isLoading && <Loading />}
@@ -41,6 +42,20 @@ export default function DayScheduleModal({ ...props }) {
           <postStyle.HeaderWrapper>
             <BiX className="closeIncon" onClick={closeModal} />
           </postStyle.HeaderWrapper>
+          <div>
+            {todayList &&
+              todayList?.map((list) => {
+                return (
+                  <div key={list.id} onClick={() => detailClick(list.id)}>
+                    <div pickColor={list.color}>
+                      <span>{list.title}</span>
+                      <span>{list.startDate}</span>
+                      <span>{list.endDate}</span>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </TodayScheduleWrapper>
       </CalendarPostModal>
     </>

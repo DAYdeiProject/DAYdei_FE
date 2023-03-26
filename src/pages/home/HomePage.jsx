@@ -4,7 +4,7 @@ import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import FriendsListMain from "./friendslist/FriendsListMain";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
@@ -31,6 +31,8 @@ function HomePage() {
     navigate(window.location.pathname, { replace: true });
   }, [navigate]);
 
+  // 알림 클릭시 알림id + returnId
+  const [notificationPostId, setNotificationPostId] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   //각 탭의 상태(캘린더, 친구/구독, 찾아보기, 친구의 친구/구독)
@@ -140,7 +142,9 @@ function HomePage() {
       <MainWrapper>
         <Sidebar side={side} setIsCalendarMainVisible={setIsCalendarMainVisible} handleShowFriendDetail={handleShowFriendDetail} />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
-        {isCalendarMainVisible && <CalendarMain side={side} setSide={setSide} />}
+        {isCalendarMainVisible && (
+          <CalendarMain side={side} setSide={setSide} notificationPostId={notificationPostId} setNotificationPostId={setNotificationPostId} />
+        )}
         {isFriendListVisible && (
           <FriendsListMain
             handleShowCalendarMain={handleShowCalendarMain}
@@ -167,7 +171,7 @@ function HomePage() {
             setIsFriendDetailVisible={setIsFriendDetailVisible}
           />
         )}
-        <NotificationModal />
+        <NotificationModal notificationPostId={notificationPostId} setNotificationPostId={setNotificationPostId} />
       </MainWrapper>
     </HomePageWrapper>
   );

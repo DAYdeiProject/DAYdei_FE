@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../utils/api/axios";
+import { kakao } from "../../utils/api/axios";
 import Cookies from "js-cookie";
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
 export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thunkAPI) => {
   try {
     // 성공 시 토큰 반환 됨
-    const response = await api.get(`/api/users/kakao/callback?code=${payload}`);
+    const response = await kakao.get(`/api/users/kakao/callback?code=${payload}`);
 
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
@@ -23,7 +23,7 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
       userId: response.data.data.userId,
       nickName: response.data.data.nickName,
     };
-    api.defaults.headers.common["Authorization"] = token;
+    kakao.defaults.headers.common["Authorization"] = token;
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
     return thunkAPI.fulfillWithValue(response.data.data);
@@ -36,7 +36,7 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
 export const __friendsList = createAsyncThunk("login/friends", async (payload, thunkAPI) => {
   try {
     // 성공 시 토큰 반환 됨
-    const response = await api.get(`/api/users/kakao_friends/callback?code=${payload.code}`, {
+    const response = await kakao.get(`/api/users/kakao_friends/callback?code=${payload.code}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -53,7 +53,7 @@ export const __friendsList = createAsyncThunk("login/friends", async (payload, t
       userId: response.data.data.userId,
       nickName: response.data.data.nickName,
     };
-    api.defaults.headers.common["Authorization"] = token;
+    kakao.defaults.headers.common["Authorization"] = token;
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
     return thunkAPI.fulfillWithValue(response.data.data);
