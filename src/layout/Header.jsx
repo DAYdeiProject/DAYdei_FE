@@ -2,11 +2,11 @@ import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-import { BiBell } from "react-icons/bi";
 import useOutSideClick from "../hooks/useOutsideClick";
 import { useDispatch } from "react-redux";
 import { notificationState } from "../redux/modules/calendarReducer";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
+import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
 
 function Header(props) {
   const navigate = useNavigate();
@@ -83,11 +83,8 @@ function Header(props) {
             </div>
           </NavTabConatiner>
           <NavUserConatiner>
-            <IconWrapper onClick={notificationClick} className="notification">
-              <BiBell size={31} />
-              {/* <NotificationModal isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} /> */}
-            </IconWrapper>
-            <IconWrapper ref={DropdownRef}>
+            <IconWrapper ref={DropdownRef} className="notification">
+              <Alert onClick={notificationClick} />
               <Image onClick={handleDropdown} />
               {isDropdownOpen && (
                 <DropdownFrame>
@@ -124,7 +121,8 @@ const HeaderWrapper = styled.header`
   min-width: 1250px;
   max-width: 1920px;
   margin: 0 auto;
-  border-bottom: 0.5px solid ${(props) => props.theme.Bg.borderColor};
+  border: 0.5px solid ${(props) => props.theme.Bg.border1};
+  border-top: none;
 `;
 
 const LogoContainer = styled.section`
@@ -136,7 +134,7 @@ const LogoContainer = styled.section`
   padding-left: 35px;
   span {
     text-align: left;
-    font-size: ${(props) => props.theme.Fs.largeText};
+    font-size: ${(props) => props.theme.Fs.sizeLogo};
     text-align: center;
   }
 `;
@@ -147,7 +145,10 @@ const NavContainer = styled.section`
   height: 100px;
   padding: 34px 48px;
   span {
-    font-size: ${(props) => props.theme.Fs.mediumText};
+    ${(props) => props.theme.HeaderText};
+    :hover {
+      color: ${(props) => props.theme.Bg.mainColor1};
+    }
   }
 `;
 
@@ -187,6 +188,7 @@ const Image = styled.div`
   width: 40px;
   border-radius: 50%;
   background-color: gray;
+  margin-left: 24px;
 `;
 
 const DropdownFrame = styled.div`

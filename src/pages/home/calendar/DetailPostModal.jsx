@@ -41,9 +41,6 @@ export default function DetailPostModal({ ...props }) {
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
-  const { getPostId } = useSelector((state) => state.calendarReducer);
-  //console.log("detail----------", detail);
-  //console.log("props.notificationPostId----------", props.notificationPostId);
 
   useEffect(() => {
     if (detail) {
@@ -78,8 +75,8 @@ export default function DetailPostModal({ ...props }) {
     if (props.detailPostId) {
       dispatch(__getPostDetail({ id: props.detailPostId, token }));
       props.setIsDetailPost(true);
-    } else if (getPostId) {
-      dispatch(__getPostDetail({ id: getPostId, token }));
+    } else if (props.otherCalendarPostId) {
+      dispatch(__getPostDetail({ id: props.otherCalendarPostId, token }));
       props.setIsDetailPost(true);
     } else if (props.notificationPostId) {
       setTagComment(props.notificationPostId.comment);
@@ -87,7 +84,7 @@ export default function DetailPostModal({ ...props }) {
       dispatch(__getPostDetail({ id: props.notificationPostId.returnId, token }));
       props.setIsDetailPost(true);
     }
-  }, [props.detailPostId, getPostId, props.notificationPostId]);
+  }, [props.detailPostId, props.otherCalendarPostId, props.notificationPostId]);
 
   // toggle
   const downDropClick = (data) => {
@@ -108,6 +105,7 @@ export default function DetailPostModal({ ...props }) {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
     props.setNotificationPostId("");
+    props.setOtherCalendarPostId("");
     setImgToggle(false);
     setFriendToggle(false);
     setTagComment("");

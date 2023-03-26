@@ -19,6 +19,8 @@ const Bg = {
   fontColor1: "#494d55", // header nav font + desc
   fontColor2: "#626262", // 친구/구독 리스트 한줄 소개
   fontColor3: "#afb4bf", // 날짜 + email(리스트 중 닉네임 밑에)
+
+  mainColor1: "#0eafe1;",
 };
 
 const Fs = {
@@ -72,6 +74,13 @@ const HeaderText = css`
   color: #494d55;
 `;
 
+// sidebar title
+const SidebarTitleText = css`
+  font-size: 18px;
+  font-weight: 600;
+  color: #121212;
+`;
+
 // content 중 제목 / 닉네임
 const ContentTitleText = css`
   font-size: 14px;
@@ -89,8 +98,9 @@ const theme = {
   FlexRowBetween,
   FlexCol,
   HeaderText,
-  DescriptionText,
+  SidebarTitleText,
   ContentTitleText,
+  DescriptionText,
   Bg,
   Fs,
 };
