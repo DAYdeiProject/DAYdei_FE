@@ -15,3 +15,6 @@ yarn add react-icons
 - sse
 yarn add event-source-polyfill
 yarn add eventsource
+
+- sidebar mini-calendar
+yarn add react-calendar

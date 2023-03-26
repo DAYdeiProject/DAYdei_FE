@@ -54,7 +54,7 @@ export default function NotificationModal({ ...props }) {
               let result = "";
               let id = "";
               let comment = "";
-              if (splitContent[1].includes("일정 참여 요청이 도착")) {
+              if (splitContent[1].includes("일정 참여 요청이 도착") || splitContent[1].includes("수정")) {
                 result = "requestPost";
                 id = list.returnId;
               } else if (splitContent[1].includes("일정 참여 요청을 수락")) {

@@ -10,6 +10,7 @@ import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 import Loading from "./Loading";
 import ColorFromDB from "../pages/home/calendar/CalendarBasic";
 import UserInfo from "../utils/localStorage/userInfo";
+import SidebarMiniCalendar from "./SidebarMiniCalendar";
 
 export default function SidebarMyCalendar({ ...props }) {
   //const URI = "http://daydei.s3-website.ap-northeast-2.amazonaws.com/friends";
@@ -61,6 +62,8 @@ export default function SidebarMyCalendar({ ...props }) {
         <NickNameContainer>
           <NickNameTitle>안녕하세요. {props.nickName}님</NickNameTitle>
         </NickNameContainer>
+        {/* <SidebarMiniCalendar /> */}
+
         <TodayScheduleContainer>
           <SideTitle>
             <span>오늘의 일정</span>

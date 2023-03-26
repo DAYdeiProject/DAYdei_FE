@@ -4,7 +4,7 @@ import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import FriendsListMain from "./friendslist/FriendsListMain";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";

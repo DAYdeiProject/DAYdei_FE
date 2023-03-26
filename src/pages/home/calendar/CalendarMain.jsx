@@ -19,7 +19,6 @@ import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
 import format from "date-fns/format";
 import OtherUserCalendar from "./OtherUserCalendar";
-import NotificationModal from "./NotificationModal";
 import getDate from "date-fns/getDate";
 import { getYear, getMonth } from "date-fns";
 
@@ -58,6 +57,7 @@ function CalendarMain({ ...props }) {
     return state.calendar;
   });
 
+  //console.log("메인----------", total);
   useEffect(() => {
     if (String(userId.userId) !== param.id) {
       // 타유저 캘린더에 간 상황

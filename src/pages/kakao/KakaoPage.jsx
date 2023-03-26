@@ -17,7 +17,7 @@ function KakaoPage() {
     });
   });
 
-  return <div>KakaoPage</div>;
+  return <div></div>;
 }
 
 export default KakaoPage;

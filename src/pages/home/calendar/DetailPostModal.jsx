@@ -129,6 +129,7 @@ export default function DetailPostModal({ ...props }) {
       if (data.payload.statusCode === 200) {
         alert("일정을 수락하였습니다.");
         props.setOtherCalendarState(true);
+        props.setIsSubmit(!props.isSubmit);
         closeModal();
       } else {
         alert("이미 처리한 요청입니다.");
@@ -141,6 +142,7 @@ export default function DetailPostModal({ ...props }) {
       if (data.payload.statusCode === 200) {
         alert("일정을 거절하였습니다.");
         props.setOtherCalendarState(true);
+        props.setIsSubmit(!props.isSubmit);
         closeModal();
       } else {
         alert("이미 처리한 요청입니다.");
