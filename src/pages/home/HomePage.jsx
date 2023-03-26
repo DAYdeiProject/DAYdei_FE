@@ -197,4 +197,6 @@ const MainWrapper = styled.div`
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  border: 0.5px solid ${(props) => props.theme.Bg.border1};
+  border-top: none;
 `;

@@ -6,11 +6,12 @@ import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarS
 import format from "date-fns/format";
 import { getDay } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
 import Loading from "./Loading";
 import ColorFromDB from "../pages/home/calendar/CalendarBasic";
 import UserInfo from "../utils/localStorage/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
+import { ReactComponent as NoneToday } from "../assets/lcon/calendarIcon/noneSchedule.svg";
+import { ReactComponent as Smile } from "../assets/lcon/smile.svg";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ export default function SidebarMyCalendar({ ...props }) {
       {isLoading && <Loading />}
       <SidebarWrapper>
         <NickNameContainer>
-          <NickNameTitle>안녕하세요. {props.nickName}님</NickNameTitle>
+          <NickNameTitle>반가워요. {props.nickName}님👋🏻</NickNameTitle>
         </NickNameContainer>
 
         <TodayScheduleContainer>
@@ -63,9 +64,9 @@ export default function SidebarMyCalendar({ ...props }) {
                 <span>{day}</span>
               </SideTitle>
               <TodayScheduleWrapper>
-                {!today ? (
+                {today.length === 0 ? (
                   <NoneSchedule>
-                    <MdOutlineEditCalendar className="noneToday" />
+                    <NoneToday />
                     <span>새로운 일정이 없습니다.</span>
                     <p>
                       달력을 보면서 일정을 확인할 수 있어요.
@@ -100,58 +101,12 @@ export default function SidebarMyCalendar({ ...props }) {
                 )}
               </TodayScheduleWrapper>
               <TodayCountBox>
-                <span>오늘은 {today.length}개의 일정이 있어요.</span>
+                <span>{today.length !== 0 && "오늘은 {today.length}개의 일정이 있어요."}</span>
               </TodayCountBox>
             </>
           ) : (
             <SidebarMiniCalendar />
           )}
-          {/* <>
-            <SideTitle>
-              <span>오늘의 일정</span>
-              <span>{day}</span>
-            </SideTitle>
-            <TodayScheduleWrapper>
-              {!today ? (
-                <NoneSchedule>
-                  <MdOutlineEditCalendar className="noneToday" />
-                  <span>새로운 일정이 없습니다.</span>
-                  <p>
-                    달력을 보면서 일정을 확인할 수 있어요.
-                    <br /> 완료한 할 일은 바로 체크해보세요.
-                  </p>
-                </NoneSchedule>
-              ) : (
-                today &&
-                today.map((list) => {
-                  let color = ColorFromDB(list.color);
-                  return (
-                    <TodayScheduleBox key={list.id}>
-                      <IconBox>
-                        <div></div>
-                      </IconBox>
-                      <TodayBox>
-                        <span>{list.title}</span>
-                        <TodayTime>
-                          <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                          <span>{list.startTime.substr(0, 5)}</span>
-                          <span>-</span>
-                          <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                          <span>{list.endTime.substr(0, 5)}</span>
-                        </TodayTime>
-                      </TodayBox>
-                      <ColorCheck>
-                        <ColorIcon color={color}></ColorIcon>
-                      </ColorCheck>
-                    </TodayScheduleBox>
-                  );
-                })
-              )}
-            </TodayScheduleWrapper>
-            <TodayCountBox>
-              <span>오늘은 {today.length}개의 일정이 있어요.</span>
-            </TodayCountBox>
-          </> */}
         </TodayScheduleContainer>
 
         <FriendsListContainer>
@@ -162,9 +117,9 @@ export default function SidebarMyCalendar({ ...props }) {
 
           <FriendsWrapper>
             <FriendsListBox>
-              {!update ? (
+              {update.length === 0 ? (
                 <NoneSchedule>
-                  <MdOutlineAddReaction className="noneUpdate" />
+                  <Smile />
                   <span>새로운 친구를 만나보세요!</span>
                   <p>
                     다른 사람을 친구 추가나 구독하면
@@ -214,26 +169,28 @@ const NickNameContainer = styled.section`
 `;
 
 const NickNameTitle = styled.section`
-  font-size: ${(props) => props.theme.Fs.tag};
+  ${(props) => props.theme.SidebarTitleText};
   width: 100%;
   text-align: left;
 `;
 
 const SideTitle = styled(NickNameTitle)`
   ${(props) => props.theme.FlexRowBetween};
-  font-size: ${(props) => props.theme.Fs.day};
   margin-bottom: 20px;
+  span:nth-child(1) {
+    ${(props) => props.theme.SidebarTitleText};
+  }
   span:nth-child(2) {
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-    color: ${(props) => props.theme.Bg.deepColor};
-    margin-right: 10px;
+    ${(props) => props.theme.DescriptionText};
+    color: ${(props) => props.theme.Fs.fontColor3};
+    margin-right: 5px;
   }
 `;
 
 const TodayScheduleContainer = styled.section`
   ${(props) => props.theme.FlexCol};
   padding-bottom: 24px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.borderColor};
+  border-bottom: 1px solid ${(props) => props.theme.Bg.border1};
   margin-bottom: 35px;
 `;
 
@@ -241,7 +198,7 @@ const TodayScheduleWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   gap: 5px;
-  height: 200px;
+  height: 250px;
   margin-bottom: 20px;
   overflow-y: auto;
 `;
@@ -261,7 +218,6 @@ const IconBox = styled.div`
   width: 10%;
   height: 50px;
   div {
-    background-color: coral;
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -345,16 +301,15 @@ const ButtonBox = styled(ColorCheck)`
 const NoneSchedule = styled.div`
   ${(props) => props.theme.FlexCol};
   gap: 10px;
-  font-size: ${(props) => props.theme.Fs.day};
-  background-color: white;
   height: 200px;
+  border: 1px solid ${(props) => props.theme.Bg.border2};
   border-radius: 10px;
-  p {
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-    text-align: center;
+  span {
+    ${(props) => props.theme.ContentTitleText};
   }
-  .noneToday,
-  .noneUpdate {
-    font-size: 25px;
+  p {
+    ${(props) => props.theme.DescriptionText};
+    text-align: center;
+    line-height: 18px;
   }
 `;
