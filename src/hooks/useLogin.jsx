@@ -11,6 +11,7 @@ const useLogin = () => {
   const [isEmailMessage, setIsEmailMessage] = useState("");
   const [isPwMessage, setIsPwMessage] = useState("");
   const [isPwCheckMessage, setIsPwCheckMessage] = useState("");
+  const [isNickNameMessage, setIsNickNameMessage] = useState("");
 
   const [isEmail, setIsEmail] = useState(false);
   const [isPw, setIsPw] = useState(false);
@@ -66,10 +67,24 @@ const useLogin = () => {
       setIsPwCheckMessage("비밀번호가 일치하지 않습니다");
       setIsPwCheck(false);
     }
+
+    if (password === "" && e.target.value === "") {
+      setIsPwCheckMessage("");
+    }
   };
 
   const handleNickNameChange = (e) => {
     setNickName(e.target.value);
+
+    if (e.target.value.length <= 6) {
+      setIsNickNameMessage("최대 6자 이내");
+    } else {
+      setIsNickNameMessage("제한 글자 수 초과");
+    }
+
+    if (e.target.value === "") {
+      setIsNickNameMessage("");
+    }
   };
 
   const handleBirthdayChange = (e) => {
@@ -102,6 +117,7 @@ const useLogin = () => {
     handlePasswordCheckChange,
     nickName,
     handleNickNameChange,
+    isNickNameMessage,
     birthday,
     handleBirthdayChange,
     introduction,
