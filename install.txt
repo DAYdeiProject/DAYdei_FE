@@ -18,3 +18,5 @@ yarn add eventsource
 
 - sidebar mini-calendar
 yarn add react-calendar
+
+- test
