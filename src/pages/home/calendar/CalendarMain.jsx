@@ -103,6 +103,7 @@ function CalendarMain({ ...props }) {
           start: startDate,
           end: endtDate,
           color: color,
+          textColor: "#121212",
         };
       });
       setNewData(result);
@@ -397,11 +398,13 @@ export const CalendarWrapper = styled.div`
   .fc-daygrid-day.fc-day-today {
     background-color: transparent !important;
   }
-
   .fc-day-today {
     .fc-daygrid-day-top {
       a {
-        color: ${(props) => props.theme.Bg.mainColor1};
+        font-weight: 600;
+        text-decoration-line: underline;
+        text-decoration-color: ${(props) => props.theme.Bg.mainColor5};
+        text-decoration-thickness: 3px;
       }
     }
   }

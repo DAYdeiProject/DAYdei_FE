@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import CalendarPostModal from "./CalendarPostModal";
 import { BiX, BiPencil } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage, BsPencil } from "react-icons/bs";
+// import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage, BsPencil } from "react-icons/bs";
 import { SlLock } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
@@ -15,6 +15,16 @@ import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
 import ColorFromDB, { ColorList, ColorToDB, TimeList } from "./CalendarBasic";
+import { ReactComponent as Clock } from "../../../assets/lcon/calendarIcon/clock.svg";
+import { ReactComponent as Calendar } from "../../../assets/lcon/calendarIcon/calendar.svg";
+import { ReactComponent as Invite } from "../../../assets/lcon/calendarIcon/invite.svg";
+import { ReactComponent as Location } from "../../../assets/lcon/calendarIcon/location.svg";
+import { ReactComponent as Memo } from "../../../assets/lcon/calendarIcon/memo.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/lcon/calendarIcon/image.svg";
+import { ReactComponent as Lock } from "../../../assets/lcon/calendarIcon/lock.svg";
+import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
+import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
+import { ReactComponent as Search } from "../../../assets/lcon/searchList/search.svg";
 
 function AddPostModal({ ...props }) {
   const time = TimeList();
@@ -432,7 +442,7 @@ function AddPostModal({ ...props }) {
 
             <postStyle.DaysCheckWrapper>
               <postStyle.DaysIconBox>
-                <BsClock className="daysIcon" />
+                <Clock />
               </postStyle.DaysIconBox>
               <postStyle.DaysCheckContainer>
                 <postStyle.StartDateContainer>
@@ -473,7 +483,7 @@ function AddPostModal({ ...props }) {
             </postStyle.DaysCheckWrapper>
 
             <postStyle.ColorBoxWrapper>
-              <BsCalendar4Range className="colorIcon" />
+              <Calendar />
               <postStyle.TextSpan>
                 <span>달력</span>
               </postStyle.TextSpan>
@@ -485,15 +495,15 @@ function AddPostModal({ ...props }) {
             </postStyle.ColorBoxWrapper>
 
             <postStyle.InviteWrapper>
-              <BsPeople className="inviteIcon" />
+              <Invite />
               <postStyle.TextSpan>
                 <span>초대</span>
               </postStyle.TextSpan>
               <postStyle.InviteSearchContainer>
                 <postStyle.InviteSearchBox>
-                  <div>
-                    <BsSearch className="searchIcon" />
-                  </div>
+                  <postStyle.InviteIconBox>
+                    <Search className="searchIcon" />
+                  </postStyle.InviteIconBox>
                   <postStyle.FriendPickBox>
                     {targetPick?.map((pick) => (
                       <postStyle.FriendBox key={pick.id}>
@@ -535,15 +545,15 @@ function AddPostModal({ ...props }) {
 
             <postStyle.LocationWrapper>
               <postStyle.LocationContainer>
-                <BsGeoAlt className="locationIcon" />
+                <Location />
                 <postStyle.TextSpan>
                   <span>장소</span>
                 </postStyle.TextSpan>
                 <postStyle.ToggleContainer>
                   {isShowLocation ? (
-                    <BsChevronUp className="showToggle" onClick={() => hideToggieHandler("location")} />
+                    <Up className="showToggle" onClick={() => hideToggieHandler("location")} />
                   ) : (
-                    <BsChevronDown className="showToggle" onClick={() => showToggieHandler("location")} />
+                    <Down className="showToggle" onClick={() => showToggieHandler("location")} />
                   )}
                 </postStyle.ToggleContainer>
               </postStyle.LocationContainer>
@@ -554,15 +564,15 @@ function AddPostModal({ ...props }) {
 
             <postStyle.ContentWrapper>
               <postStyle.ContentBoxContainer>
-                <BsChatLeftText className="contentIcon" />
+                <Memo />
                 <postStyle.TextSpan>
                   <span>상세</span>
                 </postStyle.TextSpan>
                 <postStyle.ToggleContainer>
                   {isShowContent ? (
-                    <BsChevronUp className="showToggle" onClick={() => hideToggieHandler("content")} />
+                    <Up className="showToggle" onClick={() => hideToggieHandler("content")} />
                   ) : (
-                    <BsChevronDown className="showToggle" onClick={() => showToggieHandler("content")} />
+                    <Down className="showToggle" onClick={() => showToggieHandler("content")} />
                   )}
                 </postStyle.ToggleContainer>
               </postStyle.ContentBoxContainer>
@@ -573,15 +583,15 @@ function AddPostModal({ ...props }) {
 
             <postStyle.ImgWrapper>
               <postStyle.ImgContainer>
-                <BsCardImage className="imgIcon" />
+                <ImageIcon />
                 <postStyle.TextSpan>
                   <span>사진</span>
                 </postStyle.TextSpan>
                 <postStyle.ToggleContainer>
                   {isShowImg ? (
-                    <BsChevronUp className="showToggle" onClick={() => hideToggieHandler("img")} />
+                    <Up className="showToggle" onClick={() => hideToggieHandler("img")} />
                   ) : (
-                    <BsChevronDown className="showToggle" onClick={() => showToggieHandler("img")} />
+                    <Down className="showToggle" onClick={() => showToggieHandler("img")} />
                   )}
                 </postStyle.ToggleContainer>
               </postStyle.ImgContainer>
@@ -625,7 +635,7 @@ function AddPostModal({ ...props }) {
             </postStyle.ImgWrapper>
 
             <postStyle.ScopeWrapper>
-              <SlLock className="scopeIcon" />
+              <Lock />
               <postStyle.TextSpan>
                 <span>공개</span>
               </postStyle.TextSpan>
