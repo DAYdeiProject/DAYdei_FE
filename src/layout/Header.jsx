@@ -3,18 +3,16 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import useOutSideClick from "../hooks/useOutsideClick";
-import { useDispatch } from "react-redux";
-import { notificationState } from "../redux/modules/calendarReducer";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
 import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
 
 function Header(props) {
   const navigate = useNavigate();
-  const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers } = props;
+  const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers, isNotificationOpen, setIsNotificationOpen } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const dispatch = useDispatch();
+  const token = Cookies.get("accessJWTToken");
+  const [clickNav, setClickNav] = useState("home");
 
   // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
@@ -52,62 +50,72 @@ function Header(props) {
     }
   };
 
-  // 알림 아이콘 클릭
   const notificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
   };
-  useEffect(() => {
-    if (isNotificationOpen === true) {
-      dispatch(notificationState(true));
-    } else {
-      dispatch(notificationState(false));
-    }
-  }, [isNotificationOpen]);
+
+  // 홈클릭
+  const homeClickHandler = () => {
+    handleShowCalendarMain();
+    setClickNav("home"); // 색깔 진하게
+  };
+  // 친구/구독
+  const friendclickHandler = () => {
+    handleShowFriendsListMain();
+    setClickNav("friend");
+  };
+  // 찾아보기
+  const searchClickHandler = () => {
+    handleShowSearchUsers();
+    setClickNav("search");
+  };
 
   return (
     <>
-      <HeaderWrapper>
+      <HeaderWrapper isToken={token}>
         <LogoContainer>
           <span>DAY DEI</span>
         </LogoContainer>
-        <NavContainer>
-          <NavTabConatiner>
-            <div onClick={handleShowCalendarMain}>
-              <span>홈 캘린더</span>
-            </div>
-            <div onClick={handleShowFriendsListMain}>
-              <span>친구/구독</span>
-            </div>
-            <div onClick={handleShowSearchUsers}>
-              <span>찾아보기</span>
-            </div>
-          </NavTabConatiner>
-          <NavUserConatiner>
-            <IconWrapper ref={DropdownRef} className="notification">
-              <Alert onClick={notificationClick} />
-              <Image onClick={handleDropdown} />
-              {isDropdownOpen && (
-                <DropdownFrame>
-                  <ContentWrapper>
-                    <ShortProfile>
-                      <PhotoWrap>
-                        <ProfilePhoto />
-                      </PhotoWrap>
-                      <IntroductionWrap>
-                        <IntroText>이름 : {userInfo.nickName} </IntroText>
-                        <IntroText>이메일 : {userInfo.email}</IntroText>
-                      </IntroductionWrap>
-                    </ShortProfile>
-                    <Buttons>
-                      <Button onClick={ProfileSettingModalHandler}>프로필 수정</Button>
-                      <Button onClick={logoutHandler}>로그아웃</Button>
-                    </Buttons>
-                  </ContentWrapper>
-                </DropdownFrame>
-              )}
-            </IconWrapper>
-          </NavUserConatiner>
-        </NavContainer>
+        {token && (
+          <NavContainer>
+            <NavTabConatiner isNav={clickNav}>
+              <div onClick={homeClickHandler}>
+                <span className="homeSpan">홈 캘린더</span>
+              </div>
+              <div onClick={friendclickHandler}>
+                <span className="friendSpan">친구/구독</span>
+              </div>
+              <div onClick={searchClickHandler}>
+                <span className="searchSpan">찾아보기</span>
+              </div>
+            </NavTabConatiner>
+            <NavUserConatiner>
+              <IconWrapper ref={DropdownRef} className="notification">
+                <Alert onClick={notificationClick} />
+                <Image onClick={handleDropdown} />
+                {isDropdownOpen && (
+                  <DropdownFrame>
+                    <ContentWrapper>
+                      <ShortProfile>
+                        <PhotoWrap>
+                          <ProfilePhoto />
+                        </PhotoWrap>
+                        <IntroductionWrap>
+                          <IntroText>이름 : {userInfo.nickName} </IntroText>
+                          <IntroText>이메일 : {userInfo.email}</IntroText>
+                        </IntroductionWrap>
+                      </ShortProfile>
+                      <Buttons>
+                        <Button onClick={ProfileSettingModalHandler}>프로필 수정</Button>
+                        <Button onClick={logoutHandler}>로그아웃</Button>
+                      </Buttons>
+                    </ContentWrapper>
+                  </DropdownFrame>
+                )}
+              </IconWrapper>
+            </NavUserConatiner>
+          </NavContainer>
+        )}
       </HeaderWrapper>
       {isProfileSettingModalOpen && <ProfileSettingModal setIsProfileSettingModalOpen={setIsProfileSettingModalOpen} />}
     </>
@@ -120,9 +128,12 @@ const HeaderWrapper = styled.header`
   ${(props) => props.theme.FlexRow}
   min-width: 1250px;
   max-width: 1920px;
+  height: 64px;
   margin: 0 auto;
-  border: 0.5px solid ${(props) => props.theme.Bg.border1};
+  border: 0.5px solid ${(props) => props.theme.Bg.color3};
+  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color1};
   border-top: none;
+  justify-content: ${(props) => !props.isToken && "left"};
 `;
 
 const LogoContainer = styled.section`
@@ -130,7 +141,6 @@ const LogoContainer = styled.section`
   justify-content: left;
   width: 0;
   min-width: 350px;
-  height: 100px;
   padding-left: 35px;
   span {
     text-align: left;
@@ -142,13 +152,10 @@ const LogoContainer = styled.section`
 const NavContainer = styled.section`
   ${(props) => props.theme.FlexRowBetween}
   width: 1570px;
-  height: 100px;
   padding: 34px 48px;
   span {
     ${(props) => props.theme.HeaderText};
-    :hover {
-      color: ${(props) => props.theme.Bg.mainColor1};
-    }
+    color: ${(props) => props.theme.Bg.fontColor3};
   }
 `;
 
@@ -156,6 +163,15 @@ const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   gap: 40px;
+  .homeSpan {
+    color: ${(props) => props.isNav === "home" && props.theme.Bg.fontBlack};
+  }
+  .friendSpan {
+    color: ${(props) => props.isNav === "friend" && props.theme.Bg.fontBlack};
+  }
+  .searchSpan {
+    color: ${(props) => props.isNav === "search" && props.theme.Bg.fontBlack};
+  }
   :hover {
     cursor: pointer;
   }
@@ -164,10 +180,8 @@ const NavTabConatiner = styled.div`
 const NavUserConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
-  /* background-color: lightgray; */
   gap: 40px;
   align-items: center;
-
   .notification {
     position: relative;
   }
@@ -184,10 +198,10 @@ const IconWrapper = styled.div`
 `;
 
 const Image = styled.div`
-  height: 40px;
-  width: 40px;
+  ${(props) => props.theme.BoxCustom};
+  height: 32px;
+  width: 32px;
   border-radius: 50%;
-  background-color: gray;
   margin-left: 24px;
 `;
 
@@ -208,7 +222,6 @@ const DropdownFrame = styled.div`
 const ContentWrapper = styled.div`
   height: 100%;
   width: 100%;
-  /* background-color: pink; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -217,14 +230,12 @@ const ContentWrapper = styled.div`
 const ShortProfile = styled.div`
   height: 45%;
   width: 100%;
-  /* background-color: skyblue; */
   display: flex;
   flex-direction: row;
 `;
 
 const PhotoWrap = styled.div`
   width: 35%;
-  /* background-color: yellow; */
   display: flex;
   align-items: center;
   justify-content: center;

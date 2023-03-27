@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import TokenCheck from "../../utils/cookie/tokenCheck";
 import { useNavigate, useParams } from "react-router-dom";
 import UserInfo from "../../utils/localStorage/userInfo";
@@ -16,7 +16,6 @@ import DetailMain from "./friendsDetail/DetailMain";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { messageState } from "../../redux/modules/calendarReducer";
 import NotificationModal from "./calendar/NotificationModal";
 
 const EventSource = EventSourcePolyfill;
@@ -33,6 +32,8 @@ function HomePage() {
 
   // 알림 클릭시 알림id + returnId
   const [notificationPostId, setNotificationPostId] = useState("");
+  // 알림창 오픈 여부
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   //각 탭의 상태(캘린더, 친구/구독, 찾아보기, 친구의 친구/구독)
@@ -44,11 +45,10 @@ function HomePage() {
   const categoryList = useSelector((state) => state.users.categoryList);
   const token = useSelector((state) => state.users.token);
   const [side, setSide] = useState(false);
-  const [isMessage, setIsMessage] = useState(false);
+  const [isMessageState, setIsMessageState] = useState(false);
 
   const userInfo = UserInfo();
   const params = useParams();
-  const dispatch = useDispatch();
   const connectToken = Cookies.get("accessJWTToken");
   const [sseData, setSseData] = useState("");
   // sse
@@ -63,17 +63,30 @@ function HomePage() {
     });
 
     eventConnect.onmessage = async (event) => {
-      //const result = await JSON.parse(event.data);
       const result = await event.data;
       console.log("connect ==> ", result);
-      //console.log("#####################");
-      //console.log("#####################");
-      setIsMessage(true);
-      dispatch(messageState(isMessage));
-    };
 
+      if (!result.includes("EventStream")) {
+        console.log("message", result.content);
+        setSseData(result);
+        setIsMessageState(true);
+      }
+    };
     return () => eventConnect.close();
   }, []);
+
+  // 실시간 알림창
+  useEffect(() => {
+    let timer;
+    if (isMessageState) {
+      timer = setTimeout(() => {
+        setIsMessageState(false);
+      }, 3000); // 4초 후 모달이 자동으로 닫힘
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isMessageState]);
 
   // 홈 캘린더를 누르면 항상 로그인한 아이디의 캘린더가 나오게하기
   const handleShowCalendarMain = () => {
@@ -138,6 +151,8 @@ function HomePage() {
         handleShowCalendarMain={handleShowCalendarMain}
         handleShowFriendsListMain={handleShowFriendsListMain}
         handleShowSearchUsers={handleShowSearchUsers}
+        isNotificationOpen={isNotificationOpen}
+        setIsNotificationOpen={setIsNotificationOpen}
       />
       <MainWrapper>
         <Sidebar
@@ -176,7 +191,14 @@ function HomePage() {
             setIsFriendDetailVisible={setIsFriendDetailVisible}
           />
         )}
-        <NotificationModal notificationPostId={notificationPostId} setNotificationPostId={setNotificationPostId} />
+        <NotificationModal
+          notificationPostId={notificationPostId}
+          setNotificationPostId={setNotificationPostId}
+          isNotificationOpen={isNotificationOpen}
+          setIsNotificationOpen={setIsNotificationOpen}
+        />
+        {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
+        <MessageBox isMessage={isMessageState}>{sseData && sseData.content}</MessageBox>
       </MainWrapper>
     </HomePageWrapper>
   );
@@ -191,7 +213,7 @@ const HomePageWrapper = styled.div`
 
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
-  height: calc(100vh - 100px - 1px);
+  height: calc(100vh - 64px - 1px);
   min-width: 1350px;
   max-width: 1920px;
   margin: 0 auto;
@@ -200,4 +222,23 @@ const MainWrapper = styled.div`
   border: 0.5px solid ${(props) => props.theme.Bg.border1};
   border-top: none;
   border-bottom: none;
+`;
+
+const MessageBox = styled.div`
+  position: absolute;
+  bottom: 0px;
+  z-index: 500;
+  right: 0;
+  width: 300px;
+  height: 150px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  padding: 20px;
+  transform: ${(props) => !props.isMessage && "transLateY(100%)"};
+  transition: transform 0.5s;
+`;
+
+const MButton = styled.button`
+  width: 100px;
+  height: 50px;
 `;

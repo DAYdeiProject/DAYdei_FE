@@ -316,44 +316,71 @@ export const CalendarWrapper = styled.div`
   .fc-button {
     &:active {
       margin: 0;
-      background-color: transparent !important;
-      color: black !important;
     }
   }
-
   .fc-popover,
   .fc-more-popover {
     visibility: hidden;
   }
-  // prev, next button
-  /* .fc-prev-button,
-  .fc-next-button {
-    font-size: 10px;
-    background-color: lightsalmon;
-    margin: 0 !important;
-    border: none;
 
+  // 버튼 감싸고 있는 div
+  .fc-toolbar-chunk {
+    display: flex;
+    gap: 15px;
+  }
+  // prev, next button
+  .fc-prev-button,
+  .fc-next-button,
+  .fc-nextYear-button,
+  .fc-prevYear-button {
+    ${(props) => props.theme.FlexCol};
+    ${(props) => props.theme.ButtonSmall};
+    width: 30px !important;
+    height: 30px !important;
+    border: solid 1.4px #121212 !important;
     .fc-icon {
-      size: 10px;
+      size: 15px;
     }
-  } */
+    &:active {
+      background-color: #fbdf96 !important;
+    }
+  }
   // today button
 
   // 일정추가 button
   .fc-addButton-button {
     visibility: ${(props) => props.disabled && "hidden"};
+    ${(props) => props.theme.ButtonSmall};
+    width: 96px;
+    height: 38px;
+    font-size: ${(props) => props.theme.Fs.size16};
+    border: solid 1.4px #121212 !important;
+    background-color: #0eafe1 !important;
+    color: #ffffff !important;
+  }
+  // 오늘 button
+  .fc-today-button {
+    ${(props) => props.theme.ButtonSmall};
+    width: 48px;
+    height: 38px;
+    font-size: ${(props) => props.theme.Fs.size14};
+    border: solid 1.4px #121212 !important;
+    color: #121212 !important;
+    &:active {
+      background-color: #fbdf96 !important;
+    }
   }
 
   // 년,월
   .fc-toolbar-title {
     margin-right: 0.75em;
-    font-size: ${(props) => props.theme.Fs.size28};
+    font-size: ${(props) => props.theme.Fs.size24};
     font-weight: 600;
   }
-
   .fc-daygrid,
   .fc-timegrid {
     border: 0.5px solid ${(props) => props.theme.Bg.border1};
+    border-radius: 4px;
   }
   // date 각 한칸
   .fc-daygrid-day {
@@ -362,6 +389,7 @@ export const CalendarWrapper = styled.div`
   // 날짜 - 왼쪽으로
   .fc-daygrid-day-top {
     flex-direction: row;
+    font-size: ${(props) => props.theme.Fs.size14};
   }
 
   // 오늘날짜
@@ -369,12 +397,11 @@ export const CalendarWrapper = styled.div`
   .fc-daygrid-day.fc-day-today {
     background-color: transparent !important;
   }
+
   .fc-day-today {
     .fc-daygrid-day-top {
       a {
-        height: 30px;
-        background-color: red;
-        border-radius: 50%;
+        color: ${(props) => props.theme.Bg.mainColor1};
       }
     }
   }
@@ -385,17 +412,20 @@ export const CalendarWrapper = styled.div`
   }
   .fc-theme-standard td {
     border-top: 0.5px solid ${(props) => props.theme.Bg.border1};
-    //border-top: 0.75px solid blue;
   }
+
   table {
     border: none;
   }
+
   // 요일
   th {
     line-height: 30px;
     border: none;
     border-right: 0.5px solid ${(props) => props.theme.Bg.border1};
-    //border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
+    background: ${(props) => props.theme.Bg.color5};
+    border-radius: 4px;
+    font-size: ${(props) => props.theme.Fs.size16};
   }
   th:last-child {
     border-right: none;
@@ -421,8 +451,9 @@ export const CalendarWrapper = styled.div`
 
   // 일정
   .fc-event {
-    font-size: ${(props) => props.theme.Fs.smallText};
-    height: 22px;
+    line-height: 20px;
+    font-size: ${(props) => props.theme.Fs.size14};
+    vertical-align: middle;
   }
 
   // 더보기 글씨체

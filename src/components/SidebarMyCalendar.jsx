@@ -17,23 +17,23 @@ export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = UserInfo();
-  const now = format(new Date(), "yy.MM.dd");
+  const now = format(new Date(), "yy.M.dd");
   const nowDay = getDay(new Date());
   let day = "";
   if (nowDay === 0) {
-    day = now + "(일)";
+    day = now + " (일)";
   } else if (nowDay === 1) {
-    day = now + "(월)";
+    day = now + " (월)";
   } else if (nowDay === 2) {
-    day = now + "(화)";
+    day = now + " (화)";
   } else if (nowDay === 3) {
-    day = now + "(수)";
+    day = now + " (수)";
   } else if (nowDay === 4) {
-    day = now + "(목)";
+    day = now + " (목)";
   } else if (nowDay === 5) {
-    day = now + "(금)";
+    day = now + " (금)";
   } else if (nowDay === 6) {
-    day = now + "(토)";
+    day = now + " (토)";
   }
   const { today, update, isLoading } = useSelector((state) => state.calendar);
   //console.log("update", update);
@@ -160,7 +160,9 @@ export default function SidebarMyCalendar({ ...props }) {
 }
 
 const SidebarWrapper = styled.div`
-  padding: 40px 34px;
+  padding: 0 35px;
+  padding-top: 48px;
+  background: ${(props) => props.theme.Bg.color5};
 `;
 
 const NickNameContainer = styled.section`
@@ -177,21 +179,24 @@ const NickNameTitle = styled.section`
 const SideTitle = styled(NickNameTitle)`
   ${(props) => props.theme.FlexRowBetween};
   margin-bottom: 20px;
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color1};
+  padding: 0 2.5px;
+  // 오늘의 일정 / 업데이트한 친구 text
   span:nth-child(1) {
     ${(props) => props.theme.SidebarTitleText};
+    line-height: 35px;
+    margin-bottom: 5.5px;
   }
+  // 날짜 / 갯수
   span:nth-child(2) {
     ${(props) => props.theme.DescriptionText};
     color: ${(props) => props.theme.Fs.fontColor3};
-    margin-right: 5px;
   }
 `;
 
 const TodayScheduleContainer = styled.section`
   ${(props) => props.theme.FlexCol};
   padding-bottom: 24px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.border1};
-  margin-bottom: 35px;
 `;
 
 const TodayScheduleWrapper = styled.div`
@@ -300,10 +305,10 @@ const ButtonBox = styled(ColorCheck)`
 // 일정 없을때
 const NoneSchedule = styled.div`
   ${(props) => props.theme.FlexCol};
-  gap: 10px;
+  ${(props) => props.theme.BoxCustom}
+  gap: 12px;
+  width: 275px;
   height: 200px;
-  border: 1px solid ${(props) => props.theme.Bg.border2};
-  border-radius: 10px;
   span {
     ${(props) => props.theme.ContentTitleText};
   }
