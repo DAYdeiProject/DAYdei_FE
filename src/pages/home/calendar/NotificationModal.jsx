@@ -10,19 +10,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { __allClearNotification } from "../../../redux/modules/calendarSlice";
 
 export default function NotificationModal({ ...props }) {
-  const [notificationState, setNotificationState] = useState(false);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const navigate = useNavigate();
-
-  const { isNotification, isMessage } = useSelector((state) => state.calendarReducer);
   const { data, isLoading } = useSelector((state) => state.connect);
   //console.log("useSelect =====> ", data);
-  //console.log("isNotification =====> ", isNotification);
   useEffect(() => {
     dispatch(__getConnect(token));
-  }, [isMessage, notificationState]);
+  }, [props.isNotificationOpen]);
 
   const notificationClick = (data) => {
     if (data.result === "user") {
@@ -32,17 +28,29 @@ export default function NotificationModal({ ...props }) {
     }
   };
 
+  useEffect(() => {
+    let timer;
+    if (props.isNotificationOpen) {
+      timer = setTimeout(() => {
+        props.setIsNotificationOpen(false);
+      }, 4000); // 4초 후 모달이 자동으로 닫힘
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [props.isNotificationOpen]);
+
   const allClearClick = () => {
     dispatch(__allClearNotification({ token, userId: param.id })).then(() => {
       alert("모두 삭제되었습니다.");
-      setNotificationState(!notificationState);
+      props.setIsNotificationOpen(false);
     });
   };
 
   return (
     <>
       {isLoading && <Loading />}
-      <NotificationWrapper isShow={isNotification}>
+      <NotificationWrapper isShow={props.isNotificationOpen}>
         <NotificationTitle>
           <span>전체 알림</span>
           <button onClick={allClearClick}>모두 지우기</button>
