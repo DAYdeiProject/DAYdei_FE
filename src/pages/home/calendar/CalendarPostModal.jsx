@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function CalendarPostModal({ children, ...props }) {
   const outside = useRef();
-  // 일정 추가버튼 클릭시 true/false
-  const [isVisible, setIsVisible] = useState(props.isOpen);
 
   const backdropVariants = {
     visible: { opacity: 1 },
@@ -16,42 +14,20 @@ function CalendarPostModal({ children, ...props }) {
 
   const modalVariants = {
     visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: "100%", transition: { duration: 0.3 } },
-    exit: { opacity: 0, y: "100%", transition: { duration: 0.3 } }, // 모달 닫힐 때 애니메이션 추가
+    hidden: { opacity: 0, y: "100%", transition: { duration: 0.2 } },
+    exit: { opacity: 0, y: "100%", transition: { duration: 0.2 } }, // 모달 닫힐 때 애니메이션 추가
   };
 
+  // 모달창 열렸을때 스크롤 막기
   useEffect(() => {
-    if (isVisible === false) {
+    if (props.isOpen) {
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
     }
-  }, [isVisible]);
-
-  useEffect(() => {
-    const outsideClick = (e) => {
-      if (!outside.current || !outside.current.contains(e.target)) {
-        setIsVisible(false);
-        setTimeout(() => {
-          props.closeModal();
-        }, 300);
-      } else if (props.isCancle === e.target.innerHTML) {
-        setIsVisible(false);
-        setTimeout(() => {
-          props.closeModal();
-        }, 300);
-      }
-    };
-    document.addEventListener("mousedown", outsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", outsideClick);
-    };
-  }, [isVisible]);
+  }, [props.isOpen]);
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {props.isOpen && (
         <CalendarPostModalWrapper variants={backdropVariants} initial="hidden" animate="visible" exit="hidden">
           <PostModalContainer ref={outside} variants={modalVariants} initial="hidden" animate={"visible"} exit={"exit"}>
             {children}
@@ -74,14 +50,13 @@ const CalendarPostModalWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const PostModalContainer = styled(motion.div)`
   z-index: 999;
-  width: 600px;
-  height: 700px;
-  padding: 20px;
+  width: 500px;
+  min-height: 670px;
   background-color: white;
   border-radius: 20px;
 `;

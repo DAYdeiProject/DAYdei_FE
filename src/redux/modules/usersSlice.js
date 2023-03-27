@@ -11,13 +11,18 @@ const initialState = {
   isErrorMessage: "",
   isLogin: false,
   isCheck: "",
+  categoryList: [],
+  nickName: "",
+  data: "",
+  statusCode: 0,
+  myProfile: [],
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
   try {
-    const response = await api.post(`/api/users/${email}`);
-    console.log(response);
-    return thunkAPI.fulfillWithValue(response.data);
+    const response = await api.post(`/api/users/signup/${email}`);
+    // console.log(response);
+    return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
@@ -30,7 +35,6 @@ export const __addUser = createAsyncThunk("login/signup", async (newUser, thunkA
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.data);
-    throw new Error(error.response.data.data);
   }
 });
 
@@ -39,14 +43,87 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const response = await api.post("/api/users/login", loginUser);
     const Token = response.headers.authorization;
     const isLogin = response.data.data.isLogin;
-    Cookies.set("accessJWTToken", Token);
+    const categoryList = response.data.data.categoryList;
+    const nickName = response.data.data.nickName;
 
+    // 쿠키 시간 설정
+    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
+    Cookies.set("accessJWTToken", Token, { expires: expiryDate });
+
+    //userInfo
+    const userInfo = {
+      userId: response.data.data.userId,
+      nickName: response.data.data.nickName,
+    };
     api.defaults.headers.common["Authorization"] = Token;
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
-    return { token: Token, isLogin };
+    return { token: Token, isLogin, categoryList, nickName, data: response.data };
+  } catch (error) {
+    alert(error.response.data.data);
+  }
+});
+
+export const __addCategories = createAsyncThunk("login/addCategories", async (Categories, thunkAPI) => {
+  try {
+    const response = await api.post("/api/users/categories", Categories);
+    // console.log(response);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response.data.data);
+  }
+});
+
+export const __requestNewPassword = createAsyncThunk("requestNewPassord", async (userInfo, thunkAPI) => {
+  try {
+    const response = await api.post("/api/users/reset/password", userInfo);
+    console.log("이메일, 생일정보 post함-->", response.data.statusCode);
+    return thunkAPI.fulfillWithValue(response.data.statusCode);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data.data);
+  }
+});
+
+export const __getMyProfile = createAsyncThunk("getMyProfile", async (id, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/home/profile/${id}`);
+    // console.log("profile get요청 리스펀스 콘솔-->", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __setProfile = createAsyncThunk("setProfile", async (formData, thunkAPI) => {
+  try {
+    console.log(formData);
+    const response = await api.put(`/api/users/profile`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("profile 수정 put요청 리스펀스-->", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __postProfileImgUpload = createAsyncThunk("postProfileImgUpload", async (payload, thunkAPI) => {
+  try {
+    console.log("리스펀스 위에서 찍음", payload);
+    const response = await api.post(`/api/posts/images`, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
   }
 });
 
@@ -90,9 +167,82 @@ export const usersSlice = createSlice({
       .addCase(__loginUser.fulfilled, (state, action) => {
         state.token = action.payload.token;
         state.isLogin = action.payload.isLogin;
+        state.categoryList = action.payload.categoryList;
+        state.nickName = action.payload.nickName;
+        state.data = action.payload.data;
       })
       .addCase(__loginUser.rejected, (state, action) => {
         state.message = action.error.message;
+      });
+
+    builder
+      .addCase(__addCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.users = action.payload;
+      })
+      .addCase(__addCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isErrorMessage = action.payload;
+      });
+
+    builder
+      .addCase(__requestNewPassword.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(__requestNewPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.statusCode = action.payload;
+      })
+      .addCase(__requestNewPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isErrorMessage = action.payload;
+      });
+
+    builder
+      .addCase(__getMyProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getMyProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.myProfile = action.payload;
+      })
+      .addCase(__getMyProfile.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__setProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__setProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.myProfile = action.payload;
+      })
+      .addCase(__setProfile.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__postProfileImgUpload.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__postProfileImgUpload.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.myProfile = action.payload;
+      })
+      .addCase(__postProfileImgUpload.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });
