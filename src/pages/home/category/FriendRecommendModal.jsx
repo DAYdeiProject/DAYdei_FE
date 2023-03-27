@@ -36,7 +36,7 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
 
   const Button = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
-      return null;
+      return <div>구독 완료!</div>;
     }
     return (
       <div

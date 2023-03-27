@@ -97,6 +97,36 @@ export const __getMyProfile = createAsyncThunk("getMyProfile", async (id, thunkA
   }
 });
 
+export const __setProfile = createAsyncThunk("setProfile", async (formData, thunkAPI) => {
+  try {
+    console.log(formData);
+    const response = await api.put(`/api/users/profile`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("profile 수정 put요청 리스펀스-->", response);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __postProfileImgUpload = createAsyncThunk("postProfileImgUpload", async (payload, thunkAPI) => {
+  try {
+    console.log("리스펀스 위에서 찍음", payload);
+    const response = await api.post(`/api/posts/images`, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -183,6 +213,34 @@ export const usersSlice = createSlice({
         state.myProfile = action.payload;
       })
       .addCase(__getMyProfile.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__setProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__setProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.myProfile = action.payload;
+      })
+      .addCase(__setProfile.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__postProfileImgUpload.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__postProfileImgUpload.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.myProfile = action.payload;
+      })
+      .addCase(__postProfileImgUpload.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
