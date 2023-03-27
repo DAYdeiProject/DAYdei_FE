@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { FaTrash } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { __addMemo, __getMemos, __deleteMemo, __fixMemo } from "../../../redux/modules/memosSlice";
+import { useParams } from "react-router-dom";
+import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
+import SubscribeListControl from "./SubscribeListControl";
 
 export default function CalendarSidebar() {
   //창의 열고닫힘 상태
@@ -86,6 +89,7 @@ export default function CalendarSidebar() {
 
   // console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
 
+  //메모 박스 열렸을 때 메모 정보 GET
   useEffect(() => {
     dispatch(__getMemos());
   }, [isTodoBoxOpen]);
@@ -112,8 +116,6 @@ export default function CalendarSidebar() {
     }
     setClickedMemoId(id);
   };
-
-  //
 
   //메모 수정
 
@@ -185,7 +187,7 @@ export default function CalendarSidebar() {
           </div>
         </SideSpaceWrapper>
       )}
-      {isSubscribeBoxOpen && <SideSpaceWrapper>구독자목록</SideSpaceWrapper>}
+      {isSubscribeBoxOpen && <SubscribeListControl isSubscribeBoxOpen={isSubscribeBoxOpen} />}
       <SidebarWrapper>
         <div onClick={handleTodoBoxOpen}>todo</div>
         <div onClick={handleSubscribeBoxOpen}>구독</div>
@@ -207,7 +209,7 @@ const SidebarWrapper = styled.div`
   /* background-color: pink; */
 `;
 
-const SideSpaceWrapper = styled.div`
+export const SideSpaceWrapper = styled.div`
   display: flex;
   bottom: 0px;
   right: 40px;

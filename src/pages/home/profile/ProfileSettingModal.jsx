@@ -5,12 +5,12 @@ import Modal from "../../../elements/Modal";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMyProfile } from "../../../redux/modules/usersSlice";
+import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
 import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 
-function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
+function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen }) {
   const [profile, setProfile] = useState([]);
   const [background, setBackground] = useState([]);
   //업로드된 프로필 이미지 상태
@@ -50,11 +50,11 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
   const id = params.id;
   useEffect(() => {
     dispatch(__getMyProfile(id));
-  }, []);
+  }, [isProfileSettingModalOpen, profile]);
 
   const myProfile = useSelector((state) => state.users.myProfile);
   //   console.log("selector로 불러온 내프로필-->", myProfile);
-  //   console.log("필요한 정보들-->", myProfile.nickName, myProfile.email, myProfile.introduction, myProfile.backgroundImage, myProfile.profileImage);
+  // console.log("필요한 정보들-->", myProfile.nickName, myProfile.email, myProfile.introduction, myProfile.backgroundImage, myProfile.profileImage);
 
   const handleProfileImageClick = () => {
     document.getElementById("profileInput").click();
@@ -79,10 +79,34 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
 
   const deleteImageHandler = () => {
     setProfileImageUrl("");
+    if (myProfile.profileImage) {
+      const newProfile = [myProfile.profileImage];
+      console.log(newProfile);
+      setProfile(newProfile.slice(1));
+    }
   };
+  console.log("프로필 배열 상태 확인-->", profile);
 
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
+  };
+
+  const profileChangeHandler = (e) => {
+    e.preventDefault();
+
+    const userProfileRequestDto = {
+      nickName,
+      newPassword: password,
+      newPasswordConfirm: passwordCheck,
+      introduction: introduction,
+    };
+
+    const formData = new FormData();
+    formData.append("userProfileRequestDto", new Blob([JSON.stringify(userProfileRequestDto)], { type: "application/json" })); // 텍스트 데이터
+    formData.append("profileImage", profile); // 파일 데이터
+    formData.append("backgroundImage", background); // 파일 데이터
+
+    dispatch(__setProfile(formData));
   };
 
   return (
@@ -90,73 +114,69 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen }) {
       <ModalWrap>
         <Modal height="580px" padding="30px 5px 10px 5px">
           <WholeAreaWrapper ref={ProfileSettingModalRef}>
-            <InfoArea>
-              <PhotoArea>
-                <PhotoWrapSquare>
-                  {profileImageUrl ? <CancelIcon onClick={deleteImageHandler} /> : null}
-                  <PhotoWrap>
-                    {profileImageUrl ? (
-                      <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
-                    ) : (
-                      <ProfilePhotoIcon onClick={handleProfileImageClick} />
-                    )}
-                    <input id="profileInput" name="profileImage" type="file" hidden onChange={(e) => profileImageHandler(e)} />
-                  </PhotoWrap>
-                </PhotoWrapSquare>
-              </PhotoArea>
-              <TextArea>
-                <TextWrap>
-                  <TextMain>
-                    <SmallTextBox>닉네임 :</SmallTextBox>
-                    <input type="text" placeholder={myProfile.nickName} value={nickName} onChange={handleNickNameChange} autoFocus />
-                  </TextMain>
-                </TextWrap>
-                {/* <TextWrap>
-                  <TextMain>
-                    <SmallTextBox>이메일 :</SmallTextBox> <input type="text" placeholder={myProfile.email} value={email} onChange={handleEmailChange} />
-                  </TextMain>
-                  <CheckMessage>{isEmailMessage}</CheckMessage>
-                </TextWrap> */}
-                <TextWrap>
-                  <TextMain>
-                    <SmallTextBox>새 비밀번호 :</SmallTextBox> <input type="password" value={password} onChange={handlePasswordChange} />
-                  </TextMain>
-                  <CheckMessage>{isPwMessage}</CheckMessage>
-                </TextWrap>
-                <TextWrap>
-                  <TextMain>
-                    <SmallTextBox>비밀번호 확인 :</SmallTextBox> <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
-                  </TextMain>
-                  <CheckMessage>{isPwCheckMessage}</CheckMessage>
-                </TextWrap>
-                <TextWrap>
-                  <TextMain>
-                    <SmallTextBox>소개 :</SmallTextBox>
-                    <input type="text" placeholder={myProfile.introduction} value={introduction} onChange={handleIntroductionChange} />
-                  </TextMain>
-                </TextWrap>
-                {/* <TextWrap>
-                  <SmallTextBox>생일 :</SmallTextBox> <input type="text" placeholder={myProfile.birthday} value={birthday} onChange={handleBirthdayChange} />
-                </TextWrap> */}
-              </TextArea>
-            </InfoArea>
-            <BackgroundImageArea>
-              <BackgroundLeft>
-                <IconStyle />
-                <span>배경사진</span>
-                <FileNameWrap>{backgroundImageName}</FileNameWrap>
-
-                {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
-              </BackgroundLeft>
-              <AddButton>
-                <input id="backgroundInput" name="backgroundImage" type="file" hidden onChange={(e) => backgroundImageHandler(e)} />
-                <span onClick={handleBackgroundButtonClick}>추가</span>
-              </AddButton>
-            </BackgroundImageArea>
-            <ButtonArea>
-              <ButtonWrap onClick={handleProfileSettingModalClose}>취소</ButtonWrap>
-              <ButtonWrap>수정</ButtonWrap>
-            </ButtonArea>
+            <form onSubmit={profileChangeHandler}>
+              <InfoArea>
+                <PhotoArea>
+                  <PhotoWrapSquare>
+                    {profileImageUrl || myProfile.profileImage ? <CancelIcon onClick={deleteImageHandler} /> : null}
+                    <PhotoWrap>
+                      {profileImageUrl ? (
+                        <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
+                      ) : myProfile.profileImage ? (
+                        <img src={myProfile.profileImage} alt="profileImage" width="100%" height="100%" />
+                      ) : (
+                        <ProfilePhotoIcon onClick={handleProfileImageClick} />
+                      )}
+                      <input id="profileInput" name="profileImage" type="file" hidden onChange={(e) => profileImageHandler(e)} />
+                    </PhotoWrap>
+                  </PhotoWrapSquare>
+                </PhotoArea>
+                <TextArea>
+                  <TextWrap>
+                    <TextMain>
+                      <SmallTextBox>닉네임 :</SmallTextBox>
+                      <input type="text" placeholder={myProfile.nickName} value={nickName} onChange={handleNickNameChange} autoFocus />
+                    </TextMain>
+                  </TextWrap>
+                  <TextWrap>
+                    <TextMain>
+                      <SmallTextBox>새 비밀번호 :</SmallTextBox> <input type="password" value={password} onChange={handlePasswordChange} />
+                    </TextMain>
+                    <CheckMessage>{isPwMessage}</CheckMessage>
+                  </TextWrap>
+                  <TextWrap>
+                    <TextMain>
+                      <SmallTextBox>비밀번호 확인 :</SmallTextBox> <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
+                    </TextMain>
+                    <CheckMessage>{isPwCheckMessage}</CheckMessage>
+                  </TextWrap>
+                  <TextWrap>
+                    <TextMain>
+                      <SmallTextBox>소개 :</SmallTextBox>
+                      <input type="text" placeholder={myProfile.introduction} value={introduction} onChange={handleIntroductionChange} />
+                    </TextMain>
+                  </TextWrap>
+                </TextArea>
+              </InfoArea>
+              <BackgroundImageArea>
+                <BackgroundLeft>
+                  <IconStyle />
+                  <span>배경사진</span>
+                  <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                  {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
+                </BackgroundLeft>
+                <AddButton>
+                  <input id="backgroundInput" name="backgroundImage" type="file" hidden onChange={(e) => backgroundImageHandler(e)} />
+                  <span onClick={handleBackgroundButtonClick}>추가</span>
+                </AddButton>
+              </BackgroundImageArea>
+              <ButtonArea>
+                <ButtonWrap type="button" onClick={handleProfileSettingModalClose}>
+                  취소
+                </ButtonWrap>
+                <ButtonWrap>수정</ButtonWrap>
+              </ButtonArea>
+            </form>
           </WholeAreaWrapper>
         </Modal>
       </ModalWrap>
@@ -201,6 +221,9 @@ const PhotoWrapSquare = styled.div`
 const CancelIcon = styled(GiCancel)`
   position: absolute;
   right: 0;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const PhotoWrap = styled.div`
@@ -327,7 +350,7 @@ const ButtonArea = styled.div`
   margin-top: 20px;
 `;
 
-const ButtonWrap = styled.div`
+const ButtonWrap = styled.button`
   height: 50px;
   width: 120px;
   background-color: ${(props) => props.theme.Bg.deepColor};

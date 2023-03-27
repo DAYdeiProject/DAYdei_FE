@@ -11,6 +11,9 @@ import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
 import UserInfo from "../../utils/localStorage/userInfo";
 import FindPasswordModal from "./FindPasswordModal";
+import Header from "../../layout/Header";
+import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
+import { ReactComponent as Key } from "../../assets/lcon/sign/key.svg";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -63,8 +66,9 @@ function IntroPage() {
 
   return (
     <ScreenLayout>
+      <Header></Header>
       <ScreenWrapper>
-        <PreviewWrapper>프리뷰 영역입니다.</PreviewWrapper>
+        <PreviewWrapper></PreviewWrapper>
         <LoginWrapper
           onSubmit={(e) => {
             e.preventDefault();
@@ -73,16 +77,16 @@ function IntroPage() {
           }}>
           <LoginBox>
             <TitleText>
-              <p>DayDei</p>
-              <p>공유하는 일상의 시작</p>
+              DayDei
+              <br /> 공유하는 일상의 시작
             </TitleText>
             <StInput>
               <InputWrapper>
-                <FontAwesomeIcon icon={faEnvelope} />
+                <Mail />
                 <input type="text" placeholder="이메일 주소" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
               </InputWrapper>
               <InputWrapper>
-                <FontAwesomeIcon icon={faKey} />
+                <Key />
                 <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
               </InputWrapper>
             </StInput>
@@ -90,12 +94,16 @@ function IntroPage() {
               <LoginText>로그인하기</LoginText>
             </LoginButtton>
             <GapArea>또는</GapArea>
-            <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
+            <KakaoLogin onClick={kakaologinClick}>
+              <KakaoText>카카오톡으로 로그인</KakaoText>
+            </KakaoLogin>
             <BottomText>
               <JoinText>
                 <Link to="/join">회원가입</Link>
               </JoinText>
-              <FindPassword onClick={FindPasswordModalOpenHandler}>비밀번호 찾기</FindPassword>
+              <FindPassword onClick={FindPasswordModalOpenHandler}>
+                <FindPasswordText>비밀번호 찾기</FindPasswordText>
+              </FindPassword>
               {isFindPasswordModalOpen && <FindPasswordModal setIsFindPasswordModalOpen={setIsFindPasswordModalOpen} />}
             </BottomText>
           </LoginBox>
@@ -108,19 +116,22 @@ function IntroPage() {
 export const ScreenLayout = styled.div`
   height: 100%;
   margin: 0 auto;
+  max-width: 1920px;
+  ${(props) => props.theme.FlexCol};
 `;
 
 export const ScreenWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 100px - 1px);
+  /* background-color: pink; */
 `;
 
 export const PreviewWrapper = styled.div`
   width: 100%;
-  height: 100vh;
-  background: ${(props) => props.theme.Bg.lightColor};
+  height: 100%;
+  background-color: lightgray;
   text-align: center;
 `;
 
@@ -128,6 +139,7 @@ export const LoginWrapper = styled.form`
   ${(props) => props.theme.FlexCol}
   min-width: 720px;
   max-width: 720px;
+  /* background-color: yellow; */
 `;
 
 export const LoginBox = styled.div`
@@ -136,61 +148,55 @@ export const LoginBox = styled.div`
   align-items: center;
   padding: 0px;
   position: absolute;
-
-  /* border: 1px solid black; */
+  /* background-color: pink; */
 `;
 
 const TitleText = styled.div`
   width: 371px;
   height: 78px;
 
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 30px;
   line-height: 130%;
   text-align: center;
   color: #000000;
-
   flex: none;
   order: 0;
   flex-grow: 0;
   margin-bottom: 32px;
+  /* background-color: pink; */
 `;
 
 const StInput = styled.div`
+  width: 369px;
+  height: 108px;
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: flex-start;
-  padding: 0px;
-  gap: 12px;
-
-  width: 370px;
-  height: 116px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
+  gap: 16px;
+  padding: 0;
+  /* margin-bottom: 18px; */
 `;
 
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 16px 240px 16px 24px;
+  padding: 16px 52px 16px 24px;
   gap: 12px;
 
-  width: 370px;
-  height: 52px;
+  width: 369px;
+  height: 46px;
 
   background: #ffffff;
-
-  border: 1px solid ${(props) => props.theme.Bg.middleColor};
-  border-radius: 4px;
+  border: 1px solid #121212;
+  border-radius: 8px;
 
   flex: none;
   order: 0;
   flex-grow: 0;
-  /* background-color: pink; */
 `;
 
 export const LoginButtton = styled.button`
@@ -199,14 +205,159 @@ export const LoginButtton = styled.button`
   align-items: center;
   padding: 16px 150px;
   gap: 12px;
-  margin-top: ${(props) => props.marginTop || "18px"};
-  margin-bottom: 18px;
 
   width: 370px;
-  height: 51px;
+  height: 48px;
 
-  background: ${(props) => props.theme.Bg.deepColor};
+  background: #0eafe1;
+
+  border: 1.4px solid #121212;
+
+  box-shadow: 2px 2px 0px #000000;
   border-radius: 4px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const LoginText = styled.div`
+  /* width: 70px; */
+  height: 19px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #ffffff;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const GapArea = styled.div`
+  /* width: 25px; */
+  height: 17px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: ${(props) => props.theme.Bg.deepColor};
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+`;
+
+const KakaoLogin = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: 370px;
+  height: 48px;
+
+  background: #fcd90e;
+  border: 1.4px solid #121212;
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 4px;
+
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const KakaoText = styled.div`
+  height: 19px;
+
+  /* body/2-3 bold */
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+
+  text-align: center;
+  color: #121212;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const BottomText = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0px 6px;
+  gap: 168px;
+
+  width: 370px;
+  height: 17px;
+
+  flex: none;
+  order: 4;
+  align-self: stretch;
+  flex-grow: 0;
+`;
+
+const JoinText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+
+  height: 17px;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #494d55;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const FindPassword = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+
+  width: 77px;
+  height: 17px;
+
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #494d55;
 
   flex: none;
   order: 1;
@@ -217,116 +368,9 @@ export const LoginButtton = styled.button`
   }
 `;
 
-const LoginText = styled.div`
-  /* width: 70px; */
-  height: 19px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-
-  text-align: center;
-
-  color: #ffffff;
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
-
-const GapArea = styled.div`
-  /* width: 25px; */
+const FindPasswordText = styled.div`
+  width: 77px;
   height: 17px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: ${(props) => props.theme.Bg.deepColor};
-
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-`;
-
-const KakaoLogin = styled.button`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 121px 16px 120px;
-  gap: 12px;
-  margin-top: 18px;
-  margin-bottom: 18px;
-
-  width: 370px;
-  height: 51px;
-
-  background: ${(props) => props.theme.Bg.middleColor};
-  border-radius: 4px;
-
-  flex: none;
-  order: 3;
-  flex-grow: 0;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const BottomText = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px 6px;
-  gap: 216px;
-
-  width: 371px;
-  height: 17px;
-
-  flex: none;
-  order: 4;
-  flex-grow: 0;
-`;
-
-const JoinText = styled.div`
-  /* width: 49px; */
-  height: 17px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: ${(props) => props.theme.Bg.deepColor};
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
-
-const FindPassword = styled.div`
-  /* width: 77px; */
-  height: 17px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: ${(props) => props.theme.Bg.deepColor};
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 export default IntroPage;

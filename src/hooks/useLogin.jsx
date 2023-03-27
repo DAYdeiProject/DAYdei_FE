@@ -53,11 +53,17 @@ const useLogin = () => {
   const handlePasswordCheckChange = (e) => {
     setPasswordCheck(e.target.value);
 
-    if (password === e.target.value) {
+    if (password === "") {
+      setIsPwCheckMessage("패스워드를 먼저 입력해주세요.");
+      setIsPwCheck(false);
+    } else if (e.target.value === "") {
+      setIsPwCheckMessage("");
+      setIsPwCheck(false);
+    } else if (password === e.target.value) {
       setIsPwCheckMessage("비밀번호와 일치합니다.");
       setIsPwCheck(true);
     } else {
-      setIsPwCheckMessage("");
+      setIsPwCheckMessage("비밀번호가 일치하지 않습니다");
       setIsPwCheck(false);
     }
   };
