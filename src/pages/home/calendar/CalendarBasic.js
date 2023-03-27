@@ -2,39 +2,39 @@ export default function ColorFromDB(data) {
   //console.log("-------------", data);
   switch (data) {
     case "RED":
-      return "#EC899F";
+      return "#FFEBF5";
     case "ORANGE":
-      return "#EB8E54";
+      return "#FDF2DE";
     case "YELLOW":
-      return "#FCE0A4";
+      return "#EEF9F7";
     case "GREEN":
-      return "#94DD8E";
+      return "#DFF3FE";
     case "BLUE":
-      return "#95DFFF";
+      return "#B8EEFF";
     case "NAVY":
-      return "#4C7EA0";
+      return "#EFECFF";
     case "GRAY":
-      return "#8a8888";
+      return "#AFB4BF";
     case "PINK":
-      return "#e69fec";
+      return "#F6A89E";
     default:
-      return "#9747FF";
+      return "#F2F4F6";
   }
 }
 
 export function ColorToDB(data) {
   switch (data) {
-    case "#EC899F":
+    case "#FFEBF5":
       return "RED";
-    case "#EB8E54":
+    case "#FDF2DE":
       return "ORANGE";
-    case "#FCE0A4":
+    case "#EEF9F7":
       return "YELLOW";
-    case "#94DD8E":
+    case "#DFF3FE":
       return "GREEN";
-    case "#95DFFF":
+    case "#B8EEFF":
       return "BLUE";
-    case "#4C7EA0":
+    case "#EFECFF":
       return "NAVY";
     default:
       return "PURPLE";
@@ -42,7 +42,7 @@ export function ColorToDB(data) {
 }
 
 export function ColorList() {
-  const colorList = ["#EC899F", "#EB8E54", "#FCE0A4", "#94DD8E", "#95DFFF", "#4C7EA0", "#9747FF"];
+  const colorList = ["#FFEBF5", "#FDF2DE", "#EEF9F7", "#DFF3FE", "#B8EEFF", "#EFECFF", "#F2F4F6"];
   return colorList;
 }
 export function TimeList() {

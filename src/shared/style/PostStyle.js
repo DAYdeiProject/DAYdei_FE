@@ -52,7 +52,7 @@ const TextSpan = styled.div`
 // 제목쓰기 영역
 const TitleWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
-  border-bottom: 1px solid ${(props) => props.theme.Bg.borderColor};
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color1};
   input {
     width: 100%;
     height: 50px;
@@ -134,10 +134,6 @@ const ColorBox = styled.div`
 // 초대하기 영역
 const InviteWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
-  .inviteIcon {
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
 `;
 
 const InviteSearchContainer = styled(InviteWrapper)`
@@ -146,10 +142,12 @@ const InviteSearchContainer = styled(InviteWrapper)`
 `;
 
 const InviteSearchBox = styled(InviteSearchContainer)`
-  width: 340px;
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
+  width: 335px;
   height: 40px;
   padding: 10px;
-  border: 1px solid ${(props) => props.theme.Bg.borderColor};
+  border: 1px solid ${(props) => props.theme.Bg.color1};
   border-radius: 8px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -165,6 +163,11 @@ const InviteSearchBox = styled(InviteSearchContainer)`
     color: ${(props) => props.theme.Bg.deepColor};
     margin-right: 5px;
   }
+`;
+
+const InviteIconBox = styled.div`
+  ${(props) => props.theme.FlexCol}
+  width: 20px;
 `;
 const FriendPickBox = styled.div`
   ${(props) => props.theme.FlexRow}
@@ -245,7 +248,7 @@ const TargetBoxText = styled.div`
 const LocationWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-bottom: 20px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.borderColor};
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color1};
 `;
 const LocationContainer = styled(InviteWrapper)`
   justify-content: left;
@@ -268,7 +271,7 @@ const WriteLocationBox = styled.div`
     height: 40px;
     padding: 10px;
     font-size: 12px;
-    border: 1px solid ${(props) => props.theme.Bg.borderColor};
+    border: 1px solid ${(props) => props.theme.Bg.color1};
     border-radius: 8px;
   }
 `;
@@ -286,7 +289,7 @@ const WriteContentBox = styled(WriteLocationBox)`
     width: 100%;
     height: 100px;
     padding: 10px;
-    border: 1px solid ${(props) => props.theme.Bg.borderColor};
+    border: 1px solid ${(props) => props.theme.Bg.color1};
     border-radius: 8px;
     font-size: ${(props) => props.theme.Fs.xsmallText};
     resize: none;
@@ -402,6 +405,7 @@ const postStyle = {
   InviteWrapper,
   InviteSearchContainer,
   InviteSearchBox,
+  InviteIconBox,
   FriendPickBox,
   FriendBox,
   FriendBoxInput,
