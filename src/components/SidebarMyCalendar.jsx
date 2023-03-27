@@ -12,6 +12,8 @@ import UserInfo from "../utils/localStorage/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 import { ReactComponent as NoneToday } from "../assets/lcon/calendarIcon/noneSchedule.svg";
 import { ReactComponent as Smile } from "../assets/lcon/smile.svg";
+import { ReactComponent as DeepEmoji } from "../assets/lcon/calendarIcon/deepEmoji.svg";
+import { ReactComponent as LightEmoji } from "../assets/lcon/calendarIcon/lightEmoji.svg";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -76,14 +78,13 @@ export default function SidebarMyCalendar({ ...props }) {
                 ) : (
                   today &&
                   today.map((list) => {
-                    let color = ColorFromDB(list.color);
                     return (
                       <TodayScheduleBox key={list.id}>
                         <IconBox>
-                          <div></div>
+                          <LightEmoji />
                         </IconBox>
                         <TodayBox>
-                          <span>{list.title}</span>
+                          <span>{list.title.length > 16 ? list.title.substr(0, 16) + "..." : list.title}</span>
                           <TodayTime>
                             <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
                             <span>{list.startTime.substr(0, 5)}</span>
@@ -92,17 +93,11 @@ export default function SidebarMyCalendar({ ...props }) {
                             <span>{list.endTime.substr(0, 5)}</span>
                           </TodayTime>
                         </TodayBox>
-                        <ColorCheck>
-                          <ColorIcon color={color}></ColorIcon>
-                        </ColorCheck>
                       </TodayScheduleBox>
                     );
                   })
                 )}
               </TodayScheduleWrapper>
-              <TodayCountBox>
-                <span>{today.length !== 0 && "오늘은 {today.length}개의 일정이 있어요."}</span>
-              </TodayCountBox>
             </>
           ) : (
             <SidebarMiniCalendar />
@@ -136,13 +131,7 @@ export default function SidebarMyCalendar({ ...props }) {
                     </ImgBox>
                     <InfoBox>
                       <span>{list.nickName}</span>
-                      <span>
-                        {list.introduction
-                          ? list.introduction.length > 15
-                            ? list.introduction.substr(0, 15)
-                            : list.introduction
-                          : "아직 자기소개가 없습니다."}
-                      </span>
+                      <span>@{list.email.split("@")[0]}</span>
                     </InfoBox>
                     <ButtonBox>
                       <button onClick={() => moveUserPage(list.id)}>캘린더</button>
@@ -153,7 +142,6 @@ export default function SidebarMyCalendar({ ...props }) {
             </FriendsListBox>
           </FriendsWrapper>
         </FriendsListContainer>
-        {/* <button onClick={friendKakao}>카톡 친구 추가</button> */}
       </SidebarWrapper>
     </>
   );
@@ -202,19 +190,19 @@ const TodayScheduleContainer = styled.section`
 const TodayScheduleWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  gap: 5px;
-  height: 250px;
-  margin-bottom: 20px;
+  gap: 3px;
+  height: 255px;
+  margin-bottom: 30px;
   overflow-y: auto;
 `;
 const TodayScheduleBox = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: start;
   padding: 0 10px;
-  gap: 10px;
-  border-radius: 10px;
+  gap: 15px;
+  border-radius: 8px;
   &:hover {
-    background-color: white;
+    background-color: ${(props) => props.theme.Bg.mainColor3};
   }
 `;
 
@@ -222,45 +210,24 @@ const IconBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 10%;
   height: 50px;
-  div {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-  }
 `;
 const TodayBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
   gap: 3px;
-  width: 70%;
+  width: 100%;
   height: 100%;
   span {
-    font-size: ${(props) => props.theme.Fs.smallText};
+    ${(props) => props.theme.ContentTitleText};
   }
 `;
 const TodayTime = styled.div`
   display: flex;
   gap: 5px;
   span {
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-    color: ${(props) => props.theme.Bg.deepColor};
+    ${(props) => props.theme.DescriptionText};
+    font-weight: normal;
   }
-`;
-const ColorCheck = styled.div`
-  ${(props) => props.theme.FlexCol};
-  width: 15%;
-`;
-const ColorIcon = styled.div`
-  width: 15px;
-  height: 15px;
-  background-color: ${(props) => (props.isCheck ? props.color : "transparent")};
-  border: ${(props) => (props.isCheck ? "none" : `2px solid ${props.color}`)};
-  border-radius: 50%;
-`;
-
-const TodayCountBox = styled.div`
-  font-size: ${(props) => props.theme.Fs.xsmallText};
-  color: ${(props) => props.theme.Bg.deepColor};
 `;
 
 // 업데이트한 친구
@@ -276,29 +243,29 @@ const ListBox = styled(TodayScheduleBox)``;
 
 const ImgBox = styled(IconBox)`
   img {
-    background-color: coral;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
   }
 `;
 
 const InfoBox = styled(TodayBox)`
   span:nth-child(2) {
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-    color: ${(props) => props.theme.Bg.deepColor};
+    ${(props) => props.theme.DescriptionText};
+    font-weight: normal;
   }
 `;
 
-const ButtonBox = styled(ColorCheck)`
+const ButtonBox = styled.div`
+  ${(props) => props.theme.FlexCol};
   width: 30%;
   button {
-    width: 60px;
-    height: 32px;
-    background-color: ${(props) => props.theme.Bg.middleColor};
-    font-size: ${(props) => props.theme.Fs.xsmallText};
-    border: none;
-    border-radius: 5px;
+    ${(props) => props.theme.ButtonSmall};
+    width: 66px;
+    height: 34px;
+    font-weight: 600;
+    color: ${(props) => props.theme.Bg.color1};
+    ${(props) => props.theme.BtnClickYellow};
   }
 `;
 

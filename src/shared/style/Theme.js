@@ -106,11 +106,13 @@ const ContentTitleText = css`
 // 설명 text
 const DescriptionText = css`
   font-size: 12px;
+  font-weight: normal;
   color: #626262;
 `;
 
 // 버튼 large
 const ButtonLarge = css`
+  background-color: #ffffff;
   width: 100%;
   height: 48px;
   color: #ffffff;
@@ -121,6 +123,7 @@ const ButtonLarge = css`
 
 // 버튼 middle
 const ButtonMedium = css`
+  background-color: #ffffff;
   width: 144px;
   height: 40px;
   color: #ffffff;
@@ -131,12 +134,14 @@ const ButtonMedium = css`
 
 // 버튼 small
 const ButtonSmall = css`
+  background-color: #ffffff;
   width: 78px;
   height: 40px;
   color: #ffffff;
   border: solid 1.4px #121212;
   box-shadow: 1px 1px 0 0 #000;
   border-radius: 4px;
+  font-size: 12px;
 `;
 
 // box border + shadow
@@ -144,6 +149,12 @@ const BoxCustom = css`
   border: solid 1px #121212;
   box-shadow: 2px 2px 0 0 #000;
   border-radius: 8px;
+`;
+
+const BtnClickYellow = css`
+  &:active {
+    background-color: #fbdf96;
+  }
 `;
 
 const theme = {
@@ -158,6 +169,7 @@ const theme = {
   ButtonMedium,
   ButtonSmall,
   BoxCustom,
+  BtnClickYellow,
   Bg,
   Fs,
 };
