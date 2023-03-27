@@ -4,9 +4,12 @@ import styled from "styled-components";
 import { FaTrash } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { __addMemo, __getMemos, __deleteMemo, __fixMemo } from "../../../redux/modules/memosSlice";
+import { ReactComponent as Star } from "../../../assets/lcon/star.svg";
+import { ReactComponent as Note } from "../../../assets/lcon/note.svg";
 import { useParams } from "react-router-dom";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import SubscribeListControl from "./SubscribeListControl";
+
 
 export default function CalendarSidebar() {
   //창의 열고닫힘 상태
@@ -189,8 +192,12 @@ export default function CalendarSidebar() {
       )}
       {isSubscribeBoxOpen && <SubscribeListControl isSubscribeBoxOpen={isSubscribeBoxOpen} />}
       <SidebarWrapper>
-        <div onClick={handleTodoBoxOpen}>todo</div>
-        <div onClick={handleSubscribeBoxOpen}>구독</div>
+        <div onClick={handleTodoBoxOpen}>
+          <Note />
+        </div>
+        <div onClick={handleSubscribeBoxOpen}>
+          <Star />
+        </div>
       </SidebarWrapper>
     </>
   );
@@ -199,14 +206,12 @@ export default function CalendarSidebar() {
 const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  //width: 500px;
-  width: 50px;
+  width: 46px;
   height: 100%;
-  gap: 50px;
-  padding-top: 30px;
-  background-color: ${(props) => props.theme.Bg.mainColor};
+  gap: 30px;
+  padding-top: 50px;
+  border-left: solid 1px #121212;
   cursor: pointer;
-  /* background-color: pink; */
 `;
 
 export const SideSpaceWrapper = styled.div`
@@ -258,7 +263,6 @@ const ContentWrapper = styled.div`
   padding-left: 10px;
   gap: 4px;
   margin-bottom: 10px;
-  /* background-color: yellow; */
 `;
 
 const InputWrapper = styled.div`
@@ -285,7 +289,6 @@ const ButtonWrapper = styled.div`
   padding-right: 5px;
   width: 100%;
   gap: 10px;
-  /* background-color: yellow; */
 `;
 
 const Button = styled.div`
@@ -321,7 +324,6 @@ const MemoBoxButtonWrapper = styled.div`
   width: 100%;
   gap: 10px;
   margin-top: 10px;
-  /* background-color: yellow; */
 `;
 
 const FixButton = styled.div`
