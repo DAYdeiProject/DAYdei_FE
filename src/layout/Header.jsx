@@ -109,7 +109,9 @@ function Header(props) {
           </NavUserConatiner>
         </NavContainer>
       </HeaderWrapper>
-      {isProfileSettingModalOpen && <ProfileSettingModal setIsProfileSettingModalOpen={setIsProfileSettingModalOpen} />}
+      {isProfileSettingModalOpen && (
+        <ProfileSettingModal isProfileSettingModalOpen={isProfileSettingModalOpen} setIsProfileSettingModalOpen={setIsProfileSettingModalOpen} />
+      )}
     </>
   );
 }
