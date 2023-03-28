@@ -7,6 +7,7 @@ import { __getOtherUser } from "../redux/modules/calendarSlice";
 import Loading from "./Loading";
 import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../redux/modules/subscribeSlice";
+import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 export default function SidebarOtherCalendar({ userId, handleShowFriendDetail }) {
   const dispatch = useDispatch();
@@ -93,7 +94,7 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
           <img src={otherUser?.backgroundImage} />
         </BackImgWrapper>
         <ImgWrapper>
-          <img src={otherUser?.profileImage} />
+          <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
         </ImgWrapper>
         <NickNameBox>{otherUser?.nickName}</NickNameBox>
         <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
@@ -128,21 +129,20 @@ const ProfileWrapper = styled.div`
 `;
 
 const BackImgWrapper = styled.div`
-  background-color: #cfb3a9;
+  background-color: ${(props) => props.theme.Bg.mainColor3};
   width: 100%;
-  height: 340px;
+  height: 370px;
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
-  top: 260px;
+  top: 300px;
   z-index: 50px;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
   img {
-    border: 1px solid black;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     background: fixed;
   }
@@ -151,18 +151,23 @@ const ImgWrapper = styled.div`
 const NickNameBox = styled.span`
   padding-top: 100px;
   margin-bottom: 10px;
-  font-size: ${(props) => props.theme.Fs.mediumText};
+  font-size: 24px;
+  font-weight: 600;
+  color: ${(props) => props.theme.Bg.color1};
 `;
 
 const EmailBox = styled.span`
-  margin-bottom: 20px;
-  font-size: ${(props) => props.theme.Fs.smallText};
+  margin-bottom: 25px;
+  ${(props) => props.theme.DescriptionText};
+  font-size: 14px;
 `;
 
 const CountBox = styled.div`
   ${(props) => props.theme.FlexRowBetween}
   padding: 0 50px;
   margin-bottom: 40px;
+  font-size: 16px;
+  color: ${(props) => props.theme.Bg.color1};
   :hover {
     cursor: pointer;
   }
@@ -177,12 +182,14 @@ const TextareaBox = styled.div`
 
 const ButtonBox = styled.div`
   display: flex;
-  gap: 15px;
+  gap: 10px;
   margin-top: 20px;
   button {
-    width: 100px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
+    ${(props) => props.theme.ButtonMedium};
+    color: ${(props) => props.theme.Bg.color1};
+  }
+  button:nth-child(1) {
+    background-color: ${(props) => props.theme.Bg.mainColor5};
+    color: #ffffff;
   }
 `;

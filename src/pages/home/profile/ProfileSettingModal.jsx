@@ -11,9 +11,11 @@ import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 import { set } from "lodash";
 
-function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen }) {
+
+function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
   const [profile, setProfile] = useState("");
   const [background, setBackground] = useState("");
+
   //업로드된 프로필 이미지 상태
   const [profileImageUrl, setProfileImageUrl] = useState("");
   //업로드된 배경 이름 상태
@@ -126,6 +128,8 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
         console.log("value", value);
       }
       dispatch(__setProfile(formData)).then((data) => {
+        // 헤더에 이미지 최신꺼 들고오기 위해서
+        setIsEditProfile(true);
         console.log("콘솔-->", data.payload.response.status);
       });
     } else {
@@ -135,6 +139,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     // if (statusCodeProfile === 200) {
     //   alert("수정 성공");
     // }
+
   };
 
   return (
