@@ -5,14 +5,29 @@ import Cookies from "js-cookie";
 import useOutSideClick from "../hooks/useOutsideClick";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
 import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
+import defaultProfile from "../assets/defaultImage/profile.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { __getMyProfile } from "../redux/modules/usersSlice";
+import UserInfo from "../utils/localStorage/userInfo";
 
 function Header(props) {
   const navigate = useNavigate();
   const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers, isNotificationOpen, setIsNotificationOpen } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
+  // 프로필 수정시 최신정보 가져오기
+  const [isEditProfile, setIsEditProfile] = useState(false);
   const token = Cookies.get("accessJWTToken");
   const [clickNav, setClickNav] = useState("home");
+  const dispatch = useDispatch();
+  const userId = UserInfo();
+
+  const myProfile = useSelector((state) => state.users.myProfile);
+  // 헤더 프로필 이미지 가져오기
+  useEffect(() => {
+    // 프로필 수정시에도 get요청 다시하기
+    dispatch(__getMyProfile(userId.userId));
+  }, [isEditProfile]);
 
   // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
@@ -92,7 +107,9 @@ function Header(props) {
             <NavUserConatiner>
               <IconWrapper ref={DropdownRef} className="notification">
                 <Alert onClick={notificationClick} />
-                <Image onClick={handleDropdown} />
+                <Image onClick={handleDropdown}>
+                  <img src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
+                </Image>
                 {isDropdownOpen && (
                   <DropdownFrame>
                     <ContentWrapper>
@@ -118,7 +135,11 @@ function Header(props) {
         )}
       </HeaderWrapper>
       {isProfileSettingModalOpen && (
-        <ProfileSettingModal isProfileSettingModalOpen={isProfileSettingModalOpen} setIsProfileSettingModalOpen={setIsProfileSettingModalOpen} />
+        <ProfileSettingModal
+          isProfileSettingModalOpen={isProfileSettingModalOpen}
+          setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
+          setIsEditProfile={setIsEditProfile}
+        />
       )}
     </>
   );
@@ -201,10 +222,15 @@ const IconWrapper = styled.div`
 
 const Image = styled.div`
   ${(props) => props.theme.BoxCustom};
+  margin-left: 24px;
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  margin-left: 24px;
+  img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+  }
 `;
 
 const DropdownFrame = styled.div`

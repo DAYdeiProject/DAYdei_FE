@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 
-function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen }) {
+function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
   const [profile, setProfile] = useState([]);
   const [background, setBackground] = useState([]);
   //업로드된 프로필 이미지 상태
@@ -106,7 +106,9 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    dispatch(__setProfile(formData));
+    dispatch(__setProfile(formData)).then(() => {
+      setIsEditProfile(true);
+    });
   };
 
   return (
