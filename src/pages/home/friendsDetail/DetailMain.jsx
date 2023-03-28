@@ -7,10 +7,13 @@ import {
   CalendarWrapper,
   WholeAreaWrapper,
   ListFrameBig,
+  FrameBigWithPadding,
+  FrameBigWithMargin,
   ListFrame,
   ContentWrapper,
   TopText,
   TopLeft,
+  TopLeftWithMargin,
   TopRight,
   SearchIcon,
   SearchBar,
@@ -265,7 +268,8 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
               </ContentWrapper>
             </ListFrame>
           </ListFrameBig>
-          <ListFrameBig>
+
+          <FrameBigWithPadding>
             <ListFrame>
               <ContentWrapper>
                 <TopText>
@@ -302,8 +306,9 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
-          </ListFrameBig>
-          <ListFrameBig>
+          </FrameBigWithPadding>
+
+          <FrameBigWithMargin>
             <ListFrame>
               <ContentWrapper>
                 <TopText>
@@ -339,7 +344,7 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
-          </ListFrameBig>
+          </FrameBigWithMargin>
         </WholeAreaWrapper>
       </CalendarWrapper>
     </>

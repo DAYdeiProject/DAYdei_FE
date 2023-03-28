@@ -13,21 +13,24 @@ function Modal({ height, children, padding }) {
 }
 
 Modal.defaultProps = {
-  height: "575px",
-  padding: "85px 42px 86px 41px",
+  width: "400px",
+  height: "414px",
 };
 
 const ModalBox = styled.div`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  padding: 48px 38px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: ${(props) => props.padding};
 
-  width: 540px;
   height: ${(props) => props.height};
 
   background: #ffffff;
   border-radius: 16px;
+  /* background-color: pink; */
 `;
 
 export default Modal;

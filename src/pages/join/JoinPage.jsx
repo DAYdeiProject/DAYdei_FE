@@ -2,14 +2,10 @@ import { React, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper, LoginButtton } from "../intro/IntroPage";
+import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper } from "../intro/IntroPage";
 import useLogin from "../../hooks/useLogin";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../layout/Header";
-import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
-import { ReactComponent as Key } from "../../assets/lcon/sign/key.svg";
 
 function JoinPage() {
   const {
@@ -26,6 +22,7 @@ function JoinPage() {
     handlePasswordCheckChange,
     nickName,
     handleNickNameChange,
+    isNickNameMessage,
     birthday,
     handleBirthdayChange,
     reset,
@@ -39,16 +36,6 @@ function JoinPage() {
   const isCheck = useSelector((state) => state.users.isCheck);
   // console.log(isCheck);
 
-  const [showMessage, setShowMessage] = useState(false);
-
-  useEffect(() => {
-    if (isEmailMessage || isPwMessage || isPwCheckMessage) {
-      setShowMessage(true);
-    } else {
-      setShowMessage(false);
-    }
-  }, [isEmailMessage, isPwMessage, isPwCheckMessage]);
-
   const emailCheckHandler = (email) => {
     if (isEmail) {
       dispatch(__emailCheck(email));
@@ -58,7 +45,15 @@ function JoinPage() {
   const joinHandler = () => {
     if (isEmail === true && isPw === true && password === passwordCheck && isCheck === "사용 가능한 이메일입니다.") {
       const newUser = { email, password, passwordCheck, nickName, birthday };
-      dispatch(__addUser(newUser));
+      dispatch(__addUser(newUser)).then((data) => {
+        console.log(data);
+        if (data.payload.statusCode === 200) {
+          alert("회원가입 완료!");
+          navigate("/");
+        } else {
+          alert("오류 발생");
+        }
+      });
     }
     if (isCheck !== "사용 가능한 이메일입니다.") {
       alert("이메일 중복확인이 필요합니다!");
@@ -74,19 +69,6 @@ function JoinPage() {
     }
   }, [isCheck]);
 
-  useEffect(() => {
-    if (message === "회원가입 완료" && isCheck === "사용 가능한 이메일입니다.") {
-      alert("회원가입 완료!");
-      navigate("/");
-      window.location.reload();
-    } else if (isError) {
-      alert(JSON.stringify(isErrorMessage));
-      reset();
-    }
-  }, [message, isError, navigate]);
-
-  console.log(nickName.length);
-
   return (
     <ScreenLayout>
       <Header></Header>
@@ -100,64 +82,65 @@ function JoinPage() {
           }}>
           <JoinBox>
             <JoinText>회원가입</JoinText>
-            <ContentWrapper>
-              <InputArea>
-                <InputWrapper>
-                  <InputTitleText>이메일</InputTitleText>
-                  <InputFrame border={email === "" ? "#afb4bf" : isEmail ? "#58c179" : "#DF5445"}>
-                    <InputInnerWrap>
-                      <input type="text" value={email} onChange={handleEmailChange} />
-                      <CheckButton onClick={() => emailCheckHandler(email)}>
-                        <CheckText>중복확인</CheckText>
-                      </CheckButton>
-                    </InputInnerWrap>
-                  </InputFrame>
-                  {email && <MessageWrapper color={isEmail ? "#58c179" : "#DF5445"}>{isEmailMessage}</MessageWrapper>}
-                </InputWrapper>
 
-                <InputWrapper>
-                  <InputTitleText>비밀번호</InputTitleText>
-                  <InputFrame border={password === "" ? "#afb4bf" : isPw ? "#58c179" : "#DF5445"}>
-                    <InputInnerWrap>
-                      <input type="password" value={password} onChange={handlePasswordChange} />
-                    </InputInnerWrap>
-                  </InputFrame>
-                  <MessageWrapper color={isPw ? "#58c179" : "#DF5445"}>{isPwMessage}</MessageWrapper>
-                </InputWrapper>
+            <InputArea>
+              <InputWrapper>
+                <InputTitleText>이메일</InputTitleText>
+                <InputFrame border={email === "" ? "#afb4bf" : isEmail ? "#58c179" : "#DF5445"}>
+                  <InputInnerWrap>
+                    <input type="text" value={email} onChange={handleEmailChange} />
+                    <CheckButton onClick={() => emailCheckHandler(email)}>
+                      <CheckText>중복확인</CheckText>
+                    </CheckButton>
+                  </InputInnerWrap>
+                </InputFrame>
+                {email && <MessageWrapper color={isEmail ? "#58c179" : "#DF5445"}>{isEmailMessage}</MessageWrapper>}
+              </InputWrapper>
 
-                <InputWrapper>
-                  <InputTitleText>비밀번호 확인</InputTitleText>
-                  <InputFrame border={passwordCheck === "" ? "#afb4bf" : password === passwordCheck ? "#58c179" : "#DF5445"}>
-                    <InputInnerWrap>
-                      <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
-                    </InputInnerWrap>
-                  </InputFrame>
-                  <MessageWrapper color={passwordCheck !== "" && password === passwordCheck ? "#58c179" : "#DF5445"}>{isPwCheckMessage}</MessageWrapper>
-                </InputWrapper>
+              <InputWrapper>
+                <InputTitleText>비밀번호</InputTitleText>
+                <InputFrame border={password === "" ? "#afb4bf" : isPw ? "#58c179" : "#DF5445"}>
+                  <InputInnerWrap>
+                    <input type="password" value={password} onChange={handlePasswordChange} />
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper color={isPw ? "#58c179" : "#DF5445"}>{isPwMessage}</MessageWrapper>
+              </InputWrapper>
 
-                <InputWrapper>
-                  <InputTitleText>닉네임</InputTitleText>
-                  <InputFrame>
-                    <InputInnerWrap>
-                      <input type="text" value={nickName} onChange={handleNickNameChange} />
-                    </InputInnerWrap>
-                  </InputFrame>
-                </InputWrapper>
+              <InputWrapper>
+                <InputTitleText>비밀번호 확인</InputTitleText>
+                <InputFrame border={passwordCheck === "" ? "#afb4bf" : password === passwordCheck ? "#58c179" : "#DF5445"}>
+                  <InputInnerWrap>
+                    <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper color={passwordCheck !== "" && password === passwordCheck ? "#58c179" : "#DF5445"}>{isPwCheckMessage}</MessageWrapper>
+              </InputWrapper>
 
-                <InputWrapper>
-                  <InputTitleText>생일</InputTitleText>
-                  <InputFrame>
-                    <InputInnerWrap>
-                      <input type="text" value={birthday} onChange={handleBirthdayChange} />
-                    </InputInnerWrap>
-                  </InputFrame>
-                </InputWrapper>
-              </InputArea>
+              <InputWrapper>
+                <InputTitleText>닉네임</InputTitleText>
+                <InputFrame border={nickName === "" ? "#afb4bf" : nickName.length <= 6 ? "#58c179" : "#DF5445"}>
+                  <InputInnerWrap>
+                    <input type="text" value={nickName} onChange={handleNickNameChange} />
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper color={nickName.length <= 6 ? "#58c179" : "#DF5445"}>{isNickNameMessage}</MessageWrapper>
+              </InputWrapper>
 
-              <LoginButtton marginTop="54px">
-                <ButtonText>가입하기</ButtonText>
-              </LoginButtton>
-            </ContentWrapper>
+              <InputWrapper>
+                <InputTitleText>생일</InputTitleText>
+                <InputFrame>
+                  <InputInnerWrap>
+                    <input type="text" placeholder="예시 : 0325" value={birthday} onChange={handleBirthdayChange} />
+                  </InputInnerWrap>
+                </InputFrame>
+              </InputWrapper>
+            </InputArea>
+
+            <SignUpButtton>
+              <ButtonText>가입하기</ButtonText>
+            </SignUpButtton>
+
             <BottomText>
               <BottomLeft>이미 가입된 계정이 있나요?</BottomLeft>
               <BottomRight>
@@ -175,12 +158,13 @@ const JoinBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   width: 386px;
   height: 697px;
   left: 1385px;
   top: 191px;
-  /* background-color: pink; */
+  /* background-color: yellow; */
 `;
 
 const JoinText = styled.div`
@@ -188,9 +172,7 @@ const JoinText = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  font-family: "HGGGothicssi";
-  font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: ${(props) => props.theme.Fs.size24};
   line-height: 130%;
 
@@ -201,25 +183,16 @@ const JoinText = styled.div`
   margin-bottom: 24px;
 `;
 
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 370px;
-  height: 585px;
-  gap: 24px;
-
-  /* background-color: skyblue; */
-`;
-
 const InputArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
+  gap: 12px;
 
   width: 370px;
-  height: 513px;
+  /* height: 513px; */
+  /* background-color: pink; */
+  margin-bottom: 24px;
 `;
 
 const InputWrapper = styled.div`
@@ -349,7 +322,28 @@ const MessageWrapper = styled.div`
   /* background-color: yellow; */
 `;
 
-const GetClose = styled.div``;
+const SignUpButtton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px 150px;
+
+  width: 370px;
+  height: 48px;
+
+  background: #0eafe1;
+
+  border: 1.4px solid #121212;
+
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 4px;
+
+  margin-bottom: 24px;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const ButtonText = styled.div`
   width: 70px;
@@ -376,12 +370,7 @@ const BottomText = styled.div`
   align-items: flex-start;
   gap: 16px;
 
-  width: 240px;
-  height: 17px;
-
-  flex: none;
-  order: 2;
-  flex-grow: 0;
+  /* background-color: pink; */
 `;
 
 const BottomLeft = styled.div`

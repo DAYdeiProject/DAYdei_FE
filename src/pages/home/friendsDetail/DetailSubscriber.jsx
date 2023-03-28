@@ -3,7 +3,18 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
-import { PostBox, ProfileArea, ProfileWrap, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap, ButtonArea } from "../friendslist/FriendList";
+import {
+  PostBox,
+  ProfileArea,
+  ProfileWrap,
+  PostLeft,
+  PhotoFrame,
+  TextArea,
+  NickNameWrap,
+  EmailWrap,
+  IntroductionWrap,
+  ButtonArea,
+} from "../friendslist/FriendList";
 
 function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
@@ -29,11 +40,14 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
               setIsFriendDetailVisible(false);
             }}>
             <ProfileWrap>
-              <PhotoFrame src={user.profileImage}></PhotoFrame>
-              <TextArea>
-                <NickNameWrap>{user.nickName} </NickNameWrap>
-                <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-              </TextArea>
+              <PostLeft>
+                <PhotoFrame src={user.profileImage}></PhotoFrame>
+                <TextArea>
+                  <NickNameWrap>{user.nickName} </NickNameWrap>
+                  <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+                </TextArea>
+              </PostLeft>
+              <IntroductionWrap>{user.introduction === null ? "일정을 기록합니다." : user.introduction}</IntroductionWrap>
             </ProfileWrap>
             <IntroductionWrap></IntroductionWrap>
           </ProfileArea>

@@ -99,19 +99,21 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
               setIsFriendDetailVisible(false);
             }}>
             <ProfileWrap>
-              <PhotoFrame src={user.profileImage}></PhotoFrame>
-              <TextArea>
-                <NickNameWrap>{user.nickName} </NickNameWrap>
-                <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-              </TextArea>
+              <PostLeft>
+                <PhotoFrame src={user.profileImage}></PhotoFrame>
+                <TextArea>
+                  <NickNameWrap>{user.nickName} </NickNameWrap>
+                  <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+                </TextArea>
+              </PostLeft>
+              <IntroductionWrap>{user.introduction === null ? "일정을 기록합니다." : user.introduction}</IntroductionWrap>
             </ProfileWrap>
-            <IntroductionWrap></IntroductionWrap>
           </ProfileArea>
           <ButtonArea
             onClick={() => {
               deleteFriendHandler(user.id);
             }}>
-            {user.friendCheck === true ? "친구 끊기" : "친구 신청"}
+            {user.friendCheck === true ? "친구삭제" : "친구신청"}
           </ButtonArea>
         </PostBox>
       ))}
@@ -153,7 +155,6 @@ export const ContentArea = styled.div`
   padding: 10px;
   gap: 24px;
 
-  /* width: 240px; */
   height: 131px;
   border-radius: 4px;
   /* background-color: lightgray; */
@@ -172,7 +173,6 @@ export const TextWrap = styled.div`
   padding: 0px;
   gap: 8px;
 
-  /* width: 220px; */
   height: 47px;
   /* background-color: gray; */
 `;
@@ -181,7 +181,6 @@ export const UpperText = styled.div`
   padding: 0px;
   gap: 10px;
 
-  /* width: 105px; */
   height: 19px;
 
   font-family: "Pretendard";
@@ -275,16 +274,21 @@ export const PostBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 15px 16px;
-  gap: 15px;
+  padding: 15px 8px;
 
-  width: 478px;
+  width: 456px;
   height: 70px;
+
+  background: #ffffff;
+  border-radius: 4px;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
   :hover {
     cursor: pointer;
   }
-  /* background-color: skyblue; */
-  /* border: 1px solid ${(props) => props.theme.Bg.lightColor}; */
+  /* background-color: pink; */
 `;
 export const ProfileArea = styled.div`
   display: flex;
@@ -303,17 +307,34 @@ export const ProfileWrap = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0px;
-  gap: 16px;
+  gap: 2px;
 
-  /* width: 140px; */
+  width: 370px;
   height: 40px;
-  /* background-color: red; */
+  /* background-color: pink; */
 `;
 
 export const PhotoFrame = styled.img`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 13.33px;
+
   width: 40px;
   height: 40px;
   border-radius: 50%;
+`;
+
+export const PostLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+
+  width: 132px;
+  height: 40px;
 `;
 
 export const TextArea = styled.div`
@@ -324,38 +345,23 @@ export const TextArea = styled.div`
   gap: 2px;
 
   width: 84px;
-  height: 35px;
-  /* background-color: pink; */
+  height: 31px;
+
+  /* background-color: yellow; */
 `;
 
 export const NickNameWrap = styled.div`
-  padding: 0px;
-  gap: 8px;
-  /* 
-  width: 42px; */
-  height: 19px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
 `;
 
 export const EmailWrap = styled.div`
-  padding: 0px;
-  gap: 8px;
-
-  /* width: 67px; */
-  height: 14px;
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 10px;
+  line-height: 12px;
 
-  color: #a5a5a5;
+  color: #afb4bf;
 `;
 
 export const IntroductionWrap = styled.div`
@@ -365,16 +371,15 @@ export const IntroductionWrap = styled.div`
   padding: 0px;
   gap: 8px;
 
-  width: 200px;
+  width: 210px;
   height: 20px;
-  background-color: lightgray;
+  /* background-color: lightblue; */
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
-  color: #626262;
+
+  color: #494d55;
 `;
 
 export const ButtonArea = styled.div`
@@ -382,21 +387,24 @@ export const ButtonArea = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  padding: 10px 10px;
 
-  width: 78px;
-  height: 40px;
+  width: 70px;
+  height: 34px;
 
-  background: #d9d9d9;
+  background: #fbfeff;
+
+  border: 1px solid #121212;
+
+  box-shadow: 1px 1px 0px #000000;
   border-radius: 4px;
 
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 140%;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
 
   color: #121212;
-
   :hover {
     cursor: pointer;
   }
