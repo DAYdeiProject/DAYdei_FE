@@ -63,7 +63,7 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible }) {
                   </OptionsWrapper>
                 </UpperWrapper>
                 <ButtonArea>
-                  <Button onClick={onClickSubmitHandler}>다음</Button>
+                  <ButtonBottom onClick={onClickSubmitHandler}>다음</ButtonBottom>
                 </ButtonArea>
               </ModalContent>
             </div>
@@ -92,7 +92,7 @@ export const UpperWrapper = styled.div`
   gap: 32px;
 `;
 
-const TextWrapper = styled.div`
+export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -127,28 +127,28 @@ const TextBottom = styled.div`
   color: #afb4bf;
 `;
 
-const TitleText = styled.div`
-  /* width: 405px; */
-  height: 39px;
+// const TitleText = styled.div`
+//   /* width: 405px; */
+//   height: 39px;
 
-  font-weight: 500;
-  font-size: ${(props) => props.theme.Fs.mediumText};
+//   font-weight: 500;
+//   font-size: ${(props) => props.theme.Fs.mediumText};
 
-  text-align: center;
-  color: #121212;
-`;
+//   text-align: center;
+//   color: #121212;
+// `;
 
-const SubText = styled.div`
-  /* width: 267px; */
-  height: 21px;
+// const SubText = styled.div`
+//   /* width: 267px; */
+//   height: 21px;
 
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  text-align: center;
+//   font-weight: 500;
+//   font-size: 18px;
+//   line-height: 21px;
+//   text-align: center;
 
-  color: #bababa;
-`;
+//   color: #bababa;
+// `;
 
 const OptionsWrapper = styled.div`
   display: grid;
@@ -182,7 +182,7 @@ const CategoryText = styled.div`
   font-weight: 600;
 `;
 
-const ButtonArea = styled.div`
+export const ButtonArea = styled.div`
   width: 100%;
   height: 42px;
   display: flex;
@@ -190,7 +190,7 @@ const ButtonArea = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
+export const ButtonBottom = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
