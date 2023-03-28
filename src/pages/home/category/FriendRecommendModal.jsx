@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModalWrap from "../../../elements/ModalWrap";
 import Modal from "../../../elements/Modal";
-import { ModalContent } from "./CategoryModal";
+import { TextWrapper, ButtonArea } from "./CategoryModal";
 import { useDispatch, useSelector } from "react-redux";
 import { __getFamousList } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../../components/Loading";
 
 function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }) {
   const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
-  const FamousList = useSelector((state) => state.friends.FamousList);
+  const { isLoading, FamousList } = useSelector((state) => state.friends);
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
+  //구독 눌림 상태
+
   const token = Cookies.get("accessJWTToken");
 
   // console.log(FamousList);
@@ -36,7 +39,7 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
 
   const Button = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
-      return <div>구독 완료!</div>;
+      return <div>구독중</div>;
     }
     return (
       <div
@@ -48,37 +51,60 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
     );
   };
 
+  if (isLoading) {
+    return (
+      <>
+        <ModalWrap>
+          <Modal>
+            <ModalContent>
+              <Loading />
+            </ModalContent>
+          </Modal>
+        </ModalWrap>
+      </>
+    );
+  }
+
   return (
     <>
       <ModalWrap>
         <Modal>
           <ModalContent>
-            <ModalHeader>{userInfo.nickName}님을 위한 추천 캘린더!</ModalHeader>
-            <ModalContentWrap>
-              {FamousList.map((user) => (
-                <>
-                  <PostWrap>
-                    <UserInfoWrap>
-                      <UserInfoUpper>
-                        <div>{user.nickName}</div>
-                        <FollowerWrap>{user.subscriberCount}명이 구독함</FollowerWrap>
-                      </UserInfoUpper>
-                      <div>{user.introduction}안녕하세요 추천계정입니다.</div>
-                    </UserInfoWrap>
-                    <ButtonsWrap>
-                      <Button id={user.id} />
-                    </ButtonsWrap>
-                  </PostWrap>
-                </>
-              ))}
-            </ModalContentWrap>
-            <SkipButton
-              onClick={() => {
-                setShowFriendRecommendModal(false);
-                setIsModalVisible(false);
-              }}>
-              닫기
-            </SkipButton>
+            <ContentWrapper>
+              <TextWrapper>
+                <ModalHeader>{userInfo.nickName}님을 위한 추천 캘린더!</ModalHeader>
+                <SubText>
+                  <p>다른 사용자들을 구독하면</p>
+                  <p>내 캘린더에서 확인할 수 있어요.</p>
+                </SubText>
+              </TextWrapper>
+
+              <ListWrap>
+                {FamousList.map((user) => (
+                  <div key={user.id}>
+                    <PostWrap>
+                      <PhotoFrame src={user.profileImage}></PhotoFrame>
+                      <UserInfoWrap>
+                        <UserInfoText1>{user.nickName}</UserInfoText1>
+                        <UserInfoText2>{user.introduction === null ? `${user.nickName}의 캘린더입니다.` : user.introduction}</UserInfoText2>
+                      </UserInfoWrap>
+                      <ButtonStyle backgroundColor={clickedButtonIds.includes(user.id) ? "#FBDF96" : "#FFFFFF"}>
+                        <Button id={user.id} />
+                      </ButtonStyle>
+                    </PostWrap>
+                  </div>
+                ))}
+              </ListWrap>
+            </ContentWrapper>
+            <ButtonArea>
+              <ButtonBottom
+                onClick={() => {
+                  setShowFriendRecommendModal(false);
+                  setIsModalVisible(false);
+                }}>
+                시작하기
+              </ButtonBottom>
+            </ButtonArea>
           </ModalContent>
         </Modal>
       </ModalWrap>
@@ -86,70 +112,142 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
   );
 }
 
+const ModalContent = styled.div`
+  width: 320px;
+  height: 318px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+
+  width: 311px;
+  height: 250px;
+  /* background-color: pink; */
+  margin-bottom: 26px;
+`;
+
 const ModalHeader = styled.div`
-  font-size: 28px;
-  margin-bottom: 24px;
+  font-size: ${(props) => props.theme.Fs.size20};
+  font-weight: 500;
   /* background-color: lightgray; */
 `;
 
-const ModalContentWrap = styled.div`
-  height: 330px;
-  /* background: lightgray; */
+const SubText = styled.div`
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 140%;
+  text-align: center;
+  color: #afb4bf;
+  /* background-color: yellow; */
+`;
+
+const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
-  /* background-color: pink; */
+  align-items: flex-start;
+  gap: 8px;
+
+  width: 280px;
+  height: 166px;
+  /* background-color: yellow; */
 `;
 
 const PostWrap = styled.div`
-  width: 100%;
-  height: 100px;
   display: flex;
   flex-direction: row;
-  /* background-color: pink; */
   align-items: center;
-  justify-content: space-between;
+
+  width: 280px;
+  height: 50px;
+  /* background-color: pink; */
   :hover {
     cursor: pointer;
   }
 `;
 
+const PhotoFrame = styled.div`
+  width: 32px;
+  height: 32px;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin-right: 8px;
+`;
+
 const UserInfoWrap = styled.div`
+  /* width: 124px; */
+  height: 33px;
+
   display: flex;
   flex-direction: column;
-  margin-left: 5px;
-  font-size: 20px;
-  gap: 6px;
-`;
-
-const UserInfoUpper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-`;
-
-const FollowerWrap = styled.div`
-  font-size: 12px;
-  color: gray;
-`;
-
-const ButtonsWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-right: 5px;
-  gap: 6px;
-  align-items: center;
-  font-size: 14px;
+  gap: 2px;
   /* background-color: skyblue; */
 `;
 
-const ButtonStyle = styled.div`
-  border: 1px solid ${(props) => props.theme.Bg.deepColor};
-  padding: 7px 7px;
+const UserInfoText1 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
 `;
 
-const SkipButton = styled.button`
+const UserInfoText2 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+
+  color: #afb4bf;
+`;
+
+const ButtonStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px;
+
+  width: 66px;
+  height: 34px;
+
+  border: 1px solid #121212;
+
+  box-shadow: 1px 1px 0px #000000;
+  border-radius: 4px;
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  margin-left: auto;
+  background-color: ${(props) => props.backgroundColor};
+`;
+
+export const ButtonBottom = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 170px;
   height: 42px;
+  font-size: ${(props) => props.theme.Fs.tag};
+  color: ${(props) => props.theme.Bg.lightColor};
+  background: ${(props) => props.theme.Bg.mainColor5};
+
+  border: 1.4px solid #121212;
+
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 4px;
   :hover {
     cursor: pointer;
   }
