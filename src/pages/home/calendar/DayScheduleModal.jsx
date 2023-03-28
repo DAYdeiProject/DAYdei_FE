@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import CalendarPostModal from "./CalendarPostModal";
 import postStyle from "../../../shared/style/PostStyle";
 import { BiX } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +8,7 @@ import { useParams } from "react-router";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import Loading from "../../../components/Loading";
+import ModalBox from "../../../elements/ModalBox";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export default function DayScheduleModal({ ...props }) {
   return (
     <>
       {isLoading && <Loading />}
-      <CalendarPostModal isOpen={props.isTodaySchedule}>
+      <ModalBox isOpen={props.isTodaySchedule} width={"500px"} height={"670px"}>
         <TodayScheduleWrapper>
           <postStyle.HeaderWrapper>
             <BiX className="closeIncon" onClick={closeModal} />
@@ -56,7 +56,7 @@ export default function DayScheduleModal({ ...props }) {
               })}
           </div>
         </TodayScheduleWrapper>
-      </CalendarPostModal>
+      </ModalBox>
     </>
   );
 }

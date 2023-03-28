@@ -13,17 +13,9 @@ const AddPostWrapper = styled.form`
 const HeaderWrapper = styled.section`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
-  margin-top: 20px;
-  .trashIcon {
-    /* display: ${(props) => (props.isDelete ? "block" : "none")}; */
-    margin-right: 5px;
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-    cursor: pointer;
-  }
+  margin-top: 25px;
+  margin-bottom: 5px;
   .closeIncon {
-    font-size: 30px;
-    color: ${(props) => props.theme.Bg.deepColor};
     cursor: pointer;
   }
 `;
@@ -68,10 +60,6 @@ const DaysIconBox = styled.div`
   height: 100%;
   display: flex;
   padding-top: 2px;
-  .daysIcon {
-    font-size: 16px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
 `;
 const DaysCheckContainer = styled.div`
   ${(props) => props.theme.FlexCol}
@@ -114,10 +102,6 @@ const CustomDatePicker = styled(DatePicker)`
 // 색깔 선택 영역
 const ColorBoxWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
-  .colorIcon {
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
 `;
 const ColorBoxContainer = styled(ColorBoxWrapper)`
   justify-content: left;
@@ -159,8 +143,6 @@ const InviteSearchBox = styled(InviteSearchContainer)`
     background-color: ${(props) => props.theme.Bg.borderColor}; /* 스크롤 바의 색상 */
   }
   .searchIcon {
-    font-size: 14px;
-    color: ${(props) => props.theme.Bg.deepColor};
     margin-right: 5px;
   }
 `;
@@ -174,18 +156,20 @@ const FriendPickBox = styled.div`
   justify-content: left;
   width: auto;
 `;
+// 타겟 클릭시 이름 리스트
 const FriendBox = styled.div`
   ${(props) => props.theme.FlexRow}
+  justify-content: space-between;
   min-width: 80px;
-  height: 22px;
-  padding: 0 5px;
+  height: 25px;
+  padding: 0 8px;
   margin: 0 5px;
-  border-radius: 5px;
-  background-color: lightblue;
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.Bg.mainColor2};
   span {
     margin: 0;
     margin-right: 5px;
-    font-size: 11px;
+    font-size: ${(props) => props.theme.Fs.size12};
   }
   .friendX {
     cursor: pointer;
@@ -206,23 +190,23 @@ const SerchModalContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
   gap: 10px;
-  width: 98%;
+  width: 335px;
   height: 200px;
-  padding: 10px 20px;
+  padding: 10px 15px;
+  border: solid 1px #121212;
   border-radius: 10px;
   background-color: white;
   display: ${(props) => (props.isShow ? "block" : "none")};
   z-index: 100;
-  box-shadow: -3px 7px 21px 2px rgba(0, 0, 0, 0.3);
 `;
 
 const TartgetBox = styled.div`
   ${(props) => props.theme.FlexRow}
-  padding: 5px;
-  border-radius: 10px;
+  padding: 5px 10px;
+  border-radius: 8px;
   cursor: pointer;
   &:hover {
-    background-color: #d4e8f5;
+    background-color: ${(props) => props.theme.Bg.calendar5};
   }
 `;
 const TargetBoxImg = styled.div`
@@ -252,11 +236,8 @@ const LocationWrapper = styled.div`
 `;
 const LocationContainer = styled(InviteWrapper)`
   justify-content: left;
-  .locationIcon {
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
 `;
+
 const ToggleContainer = styled.div`
   display: flex;
   justify-content: right;
@@ -278,12 +259,7 @@ const WriteLocationBox = styled.div`
 
 // 메모 영역
 const ContentWrapper = styled(LocationWrapper)``;
-const ContentBoxContainer = styled(LocationContainer)`
-  .contentIcon {
-    font-size: 16px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
+const ContentBoxContainer = styled(LocationContainer)``;
 const WriteContentBox = styled(WriteLocationBox)`
   textarea {
     width: 100%;
@@ -298,43 +274,41 @@ const WriteContentBox = styled(WriteLocationBox)`
 
 // 이미지 업로드 영역
 const ImgWrapper = styled(LocationWrapper)``;
-const ImgContainer = styled(LocationContainer)`
-  .imgIcon {
-    font-size: 14px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
-`;
+const ImgContainer = styled(LocationContainer)``;
 const ImgUploadBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  //width: ${(props) => (props.isShowImg ? "400px" : "340px")};
   height: 30px;
 `;
-
 const ImgLabel = styled.label`
   input {
     display: none;
   }
 `;
 const ImgUploadButton = styled.div`
+  ${(props) => props.theme.ButtonSmall};
   width: 70px;
+  height: 30px;
   line-height: 30px;
   margin-left: 8px;
-  border-radius: 5px;
   text-align: center;
-  background-color: ${(props) => props.theme.Bg.middleColor};
-  font-size: ${(props) => props.theme.Fs.xsmallText};
-  cursor: pointer;
+  color: #121212;
+  ${(props) => props.theme.BtnClickYellow};
 `;
-
 const ImgUploadListBox = styled(InviteSearchBox)`
   width: 100%;
   border: none;
   padding: 0;
 `;
 const ImgBox = styled(FriendBox)`
-  width: 0;
+  justify-content: space-between;
+  width: 90px;
   height: 25px;
+  padding: 0 8px;
+  span {
+    text-align: center;
+    margin: 0;
+  }
 `;
 
 const ModifyImgUploadBox = styled.div`
@@ -358,10 +332,6 @@ const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   margin-bottom: 20px;
-  .scopeIcon {
-    font-size: 16px;
-    color: ${(props) => props.theme.Bg.deepColor};
-  }
 `;
 const SelectContainer = styled(ScopeWrapper)`
   margin: 0;
@@ -377,12 +347,8 @@ const SelectContainer = styled(ScopeWrapper)`
 const SubmitButtonWrapper = styled.div`
   padding: 0 5px;
   button {
-    width: 100%;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    background-color: ${(props) => props.theme.Bg.deepColor};
+    ${(props) => props.theme.ButtonLarge}
+    background-color: ${(props) => props.theme.Bg.mainColor5};
   }
 `;
 

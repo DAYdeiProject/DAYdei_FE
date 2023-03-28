@@ -119,6 +119,7 @@ const ButtonLarge = css`
   border: solid 1.4px #121212;
   box-shadow: 1px 1px 0 0 #000;
   border-radius: 4px;
+  cursor: pointer;
 `;
 
 // 버튼 middle
@@ -130,6 +131,7 @@ const ButtonMedium = css`
   border: solid 1.4px #121212;
   box-shadow: 1px 1px 0 0 #000;
   border-radius: 4px;
+  cursor: pointer;
 `;
 
 // 버튼 small
@@ -142,6 +144,7 @@ const ButtonSmall = css`
   box-shadow: 1px 1px 0 0 #000;
   border-radius: 4px;
   font-size: 12px;
+  cursor: pointer;
 `;
 
 // box border + shadow
@@ -149,10 +152,17 @@ const BoxCustom = css`
   border: solid 1px #121212;
   box-shadow: 2px 2px 0 0 #000;
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 const BtnClickYellow = css`
   &:active {
+    background-color: #fbdf96;
+  }
+`;
+
+const BtnHoverYellow = css`
+  &:hover {
     background-color: #fbdf96;
   }
 `;
@@ -170,6 +180,7 @@ const theme = {
   ButtonSmall,
   BoxCustom,
   BtnClickYellow,
+  BtnHoverYellow,
   Bg,
   Fs,
 };

@@ -1,19 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import CalendarPostModal from "./CalendarPostModal";
-import { BiX } from "react-icons/bi";
-import {
-  BsTrash3,
-  BsPencil,
-  BsThreeDotsVertical,
-  BsPeople,
-  BsGeoAlt,
-  BsChatLeftText,
-  BsCardImage,
-  BsCalendar4Range,
-  BsChevronDown,
-  BsChevronUp,
-} from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
@@ -22,6 +8,18 @@ import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
 import UserInfo from "../../../utils/localStorage/userInfo";
 import { useParams } from "react-router-dom";
+import { ReactComponent as EditCalendar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
+import { ReactComponent as Invite } from "../../../assets/lcon/calendarIcon/invite.svg";
+import { ReactComponent as Location } from "../../../assets/lcon/calendarIcon/location.svg";
+import { ReactComponent as Memo } from "../../../assets/lcon/calendarIcon/memo.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/lcon/calendarIcon/image.svg";
+import { ReactComponent as Delete } from "../../../assets/lcon/calendarIcon/delete.svg";
+import { ReactComponent as Edit } from "../../../assets/lcon/calendarIcon/edit.svg";
+import { ReactComponent as MoreY } from "../../../assets/lcon/calendarIcon/moreY.svg";
+import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
+import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
+import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
+import ModalBox from "../../../elements/ModalBox";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(false);
@@ -35,6 +33,7 @@ export default function DetailPostModal({ ...props }) {
   const [isColor, setIsColor] = useState("");
   const [tagResult, setTagResult] = useState("");
   const [tagComment, setTagComment] = useState("");
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = UserInfo();
@@ -94,12 +93,6 @@ export default function DetailPostModal({ ...props }) {
     data === "friend" ? setFriendToggle(false) : setImgToggle(false);
   };
 
-  // 수정하기 모달창 이동
-  const modifyPostHandler = (id) => {
-    props.setModifyPostId(id);
-    closeModal();
-    props.setIsAddPost(true);
-  };
   // 닫기
   const closeModal = () => {
     props.setIsDetailPost(false);
@@ -110,8 +103,18 @@ export default function DetailPostModal({ ...props }) {
     setFriendToggle(false);
     setTagComment("");
     setTagResult("");
+    setIsEditOpen(false);
   };
-
+  // dot아이콘 누르면
+  const editOpenClickHandler = () => {
+    setIsEditOpen(!isEditOpen);
+  };
+  // 수정하기 모달창 이동
+  const modifyPostHandler = (id) => {
+    props.setModifyPostId(id);
+    closeModal();
+    props.setIsAddPost(true);
+  };
   // 삭제
   const deletePostHandler = (id) => {
     dispatch(__deletePost({ id, token })).then(() => {
@@ -121,6 +124,7 @@ export default function DetailPostModal({ ...props }) {
       props.setIsSubmit(!props.isSubmit);
     });
   };
+
   // 공유일정 수락
   const acceptClick = () => {
     dispatch(__acceptSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
@@ -148,21 +152,30 @@ export default function DetailPostModal({ ...props }) {
     });
   };
 
+  console.log("isEditOpen", isEditOpen);
   return (
     <>
       {isLoading && <Loading />}
-      <CalendarPostModal isOpen={props.isDetailPost}>
+      <ModalBox isOpen={props.isDetailPost} width={"500px"} height={"580px"}>
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
               {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
-                <>
-                  <BsPencil className="pencilIcon" onClick={() => modifyPostHandler(props.detailPostId)} />
-                  <BsTrash3 className="trashIcon" onClick={() => deletePostHandler(props.detailPostId)} />
-                </>
+                <MoreY className="dotsIcon" onClick={editOpenClickHandler} />
               )}
-              <BsThreeDotsVertical className="dotsIcon" />
-              <BiX className="closeIncon" onClick={closeModal} />
+              <Dismiss className="closeIncon" onClick={closeModal} />
+              {isEditOpen && String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
+                <EditBoxContainer>
+                  <EditBox onClick={() => modifyPostHandler(props.detailPostId)}>
+                    <Edit className="pencilIcon" />
+                    <span>수정하기</span>
+                  </EditBox>
+                  <EditBox onClick={() => deletePostHandler(props.detailPostId)}>
+                    <Delete className="trashIcon" />
+                    <span>삭제하기</span>
+                  </EditBox>
+                </EditBoxContainer>
+              )}
             </HeaderWrapper>
             {detail && (
               <DetailContetnContainer>
@@ -182,16 +195,16 @@ export default function DetailPostModal({ ...props }) {
                   <ToggleContainer>
                     <TextBox>
                       <IconBox>
-                        <BsPeople />
+                        <Invite />
                       </IconBox>
                       <span>참여자 {detail.participant && detail?.participant.length !== 0 && "총 " + (detail.participant.length + 1) + "명"}</span>
                     </TextBox>
                     <ToggieIconBox>
                       {detail.participant && detail?.participant.length !== 0 ? (
                         friendToggle ? (
-                          <BsChevronUp onClick={() => upDropClick("friend")} />
+                          <Up onClick={() => upDropClick("friend")} />
                         ) : (
-                          <BsChevronDown onClick={() => downDropClick("friend")} />
+                          <Down onClick={() => downDropClick("friend")} />
                         )
                       ) : (
                         <></>
@@ -220,13 +233,13 @@ export default function DetailPostModal({ ...props }) {
                 <LocationWrapper>
                   <LocationContentBox>
                     <IconBox>
-                      <BsGeoAlt />
+                      <Location />
                     </IconBox>
                     <TextArea>{detail?.location}</TextArea>
                   </LocationContentBox>
                   <LocationContentBox>
                     <IconBox>
-                      <BsChatLeftText />
+                      <Memo />
                     </IconBox>
                     <TextArea>{detail?.content}</TextArea>
                   </LocationContentBox>
@@ -235,14 +248,14 @@ export default function DetailPostModal({ ...props }) {
                   <ToggleContainer>
                     <TextBox>
                       <IconBox>
-                        <BsCardImage />
+                        <ImageIcon />
                       </IconBox>
                       <span>총 사진</span>
                     </TextBox>
                     <ToggieIconBox>
                       {detail.image &&
                         detail?.image.length !== 0 &&
-                        (imgToggle ? <BsChevronUp onClick={() => upDropClick("imgBox")} /> : <BsChevronDown onClick={() => downDropClick("imgBox")} />)}
+                        (imgToggle ? <Up onClick={() => upDropClick("imgBox")} /> : <Down onClick={() => downDropClick("imgBox")} />)}
                     </ToggieIconBox>
                   </ToggleContainer>
                   <DropBox isShow={imgToggle}>
@@ -259,7 +272,7 @@ export default function DetailPostModal({ ...props }) {
                 <ScopeWrapper>
                   <ScopeContainer>
                     <IconBox>
-                      <BsCalendar4Range />
+                      <EditCalendar />
                     </IconBox>
                     <span>캘린더</span>
                   </ScopeContainer>
@@ -299,7 +312,7 @@ export default function DetailPostModal({ ...props }) {
             </InviteWrapper>
           )}
         </DetailPostWrapper>
-      </CalendarPostModal>
+      </ModalBox>
     </>
   );
 }
@@ -320,22 +333,16 @@ const DetailContentWrapper = styled.div`
 
 const HeaderWrapper = styled.section`
   ${(props) => props.theme.FlexRow}
+  gap : 8px;
   justify-content: right;
-  margin: 20px 0;
+  margin-top: 25px;
+  margin-bottom: 10px;
   border-bottom: none !important;
-  .pencilIcon {
-    margin-right: 10px;
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
+  position: relative;
+  .dotsIcon {
     cursor: pointer;
   }
-  .trashIcon {
-    /* display: ${(props) => (props.isDelete ? "block" : "none")}; */
-    margin-right: 5px;
-    font-size: 18px;
-    color: ${(props) => props.theme.Bg.deepColor};
-    cursor: pointer;
-  }
+
   .closeIncon {
     font-size: 30px;
     color: ${(props) => props.theme.Bg.deepColor};
@@ -343,6 +350,30 @@ const HeaderWrapper = styled.section`
   }
 `;
 
+const EditBoxContainer = styled.div`
+  position: absolute;
+  top: 30px;
+  right: -90px;
+  ${(props) => props.theme.FlexCol};
+  gap: 8px;
+  width: 140px;
+  height: 90px;
+  padding: 10px 5px;
+  ${(props) => props.theme.BoxCustom};
+  background-color: #ffffff;
+`;
+
+const EditBox = styled.div`
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
+  gap: 10px;
+  height: 100%;
+  padding: 0 10px;
+  border-radius: 4px;
+  ${(props) => props.theme.BtnClickYellow};
+  ${(props) => props.theme.BtnHoverYellow};
+  cursor: pointer;
+`;
 const DetailContetnContainer = styled.div`
   height: 550px;
   padding: 0 10px;

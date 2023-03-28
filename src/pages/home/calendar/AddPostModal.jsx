@@ -1,12 +1,6 @@
-import React, { useCallback, useRef } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
-import CalendarPostModal from "./CalendarPostModal";
-import { BiX, BiPencil } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
-// import { BsClock, BsCalendar4Range, BsPeople, BsGeoAlt, BsChatLeftText, BsSearch, BsChevronDown, BsChevronUp, BsCardImage, BsPencil } from "react-icons/bs";
-import { SlLock } from "react-icons/sl";
+import { BiX } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
@@ -24,7 +18,9 @@ import { ReactComponent as ImageIcon } from "../../../assets/lcon/calendarIcon/i
 import { ReactComponent as Lock } from "../../../assets/lcon/calendarIcon/lock.svg";
 import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
 import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
+import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
 import { ReactComponent as Search } from "../../../assets/lcon/searchList/search.svg";
+import ModalBox from "../../../elements/ModalBox";
 
 function AddPostModal({ ...props }) {
   const time = TimeList();
@@ -428,10 +424,10 @@ function AddPostModal({ ...props }) {
   };
 
   return (
-    <CalendarPostModal isOpen={props.isAddPost}>
+    <ModalBox isOpen={props.isAddPost} width={"500px"} height={"670px"}>
       <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
         <postStyle.HeaderWrapper isDelete={isDelete}>
-          <BiX className="closeIncon" onClick={closeClickHandler} />
+          <Dismiss className="closeIncon" onClick={closeClickHandler} />
         </postStyle.HeaderWrapper>
 
         <postStyle.BodyWrapper>
@@ -526,7 +522,7 @@ function AddPostModal({ ...props }) {
                         </postStyle.TargetBoxImg>
                         <postStyle.TargetBoxText>
                           <span>
-                            {list.nickName} ( {newEmail[0]} )
+                            {list.nickName} ( @{newEmail[0]} )
                           </span>
                           <span>
                             {list.introduction
@@ -655,7 +651,7 @@ function AddPostModal({ ...props }) {
           <button disabled={imgCountCheck}>{props.modifyPostId ? "수정하기" : "일정 만들기"}</button>
         </postStyle.SubmitButtonWrapper>
       </postStyle.AddPostWrapper>
-    </CalendarPostModal>
+    </ModalBox>
   );
 }
 
