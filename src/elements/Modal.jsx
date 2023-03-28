@@ -12,11 +12,14 @@ function Modal({ height, children, padding }) {
   );
 }
 
-Modal.defaultProps = {};
+Modal.defaultProps = {
+  width: "400px",
+  height: "414px",
+};
 
 const ModalBox = styled.div`
-  width: 400px;
-  height: 414px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   padding: 48px 38px;
   display: flex;
   flex-direction: column;

@@ -251,7 +251,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
   useOutSideClick(DropdownSubscriberRef, handleDropdownSubscriberClose);
 
   return (
-    <>
+    <WholeWrapper>
       <CalendarWrapper>
         <WholeAreaWrapper>
           <ListFrameBig>
@@ -373,7 +373,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
           </FrameBigWithMargin>
         </WholeAreaWrapper>
       </CalendarWrapper>
-    </>
+    </WholeWrapper>
   );
 }
 
@@ -382,9 +382,18 @@ export const LoadingWrapper = styled.div`
   height: 100%;
 `;
 
+export const WholeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* background-color: yellow; */
+  height: calc(100vh - 64px - 1px);
+`;
+
 export const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
   align-items: flex-start;
   padding: 0px 48px;
 
@@ -393,7 +402,7 @@ export const CalendarWrapper = styled.div`
   left: 349px;
   top: 64px;
 
-  background: #ffffff;
+  /* background: pink; */
 
   /* background-color: pink; */
 `;

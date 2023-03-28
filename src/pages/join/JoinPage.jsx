@@ -45,7 +45,15 @@ function JoinPage() {
   const joinHandler = () => {
     if (isEmail === true && isPw === true && password === passwordCheck && isCheck === "사용 가능한 이메일입니다.") {
       const newUser = { email, password, passwordCheck, nickName, birthday };
-      dispatch(__addUser(newUser));
+      dispatch(__addUser(newUser)).then((data) => {
+        console.log(data);
+        if (data.payload.statusCode === 200) {
+          alert("회원가입 완료!");
+          navigate("/");
+        } else {
+          alert("오류 발생");
+        }
+      });
     }
     if (isCheck !== "사용 가능한 이메일입니다.") {
       alert("이메일 중복확인이 필요합니다!");
@@ -60,17 +68,6 @@ function JoinPage() {
       alert(isCheck);
     }
   }, [isCheck]);
-
-  useEffect(() => {
-    if (message === "회원가입 완료" && isCheck === "사용 가능한 이메일입니다.") {
-      alert("회원가입 완료!");
-      navigate("/");
-      window.location.reload();
-    } else if (isError) {
-      alert(JSON.stringify(isErrorMessage));
-      reset();
-    }
-  }, [message, isError, navigate]);
 
   return (
     <ScreenLayout>
