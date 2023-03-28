@@ -15,6 +15,7 @@ import {
   ProfileArea,
   ProfileWrap,
   PhotoFrame,
+  PostLeft,
   TextArea,
   NickNameWrap,
   EmailWrap,
@@ -74,13 +75,15 @@ function SubscribeList({ SubscribesList, setIsCalendarMainVisible, setIsFriendLi
               setIsFriendDetailVisible(false);
             }}>
             <ProfileWrap>
-              <PhotoFrame src={user.profileImage}></PhotoFrame>
-              <TextArea>
-                <NickNameWrap>{user.nickName} </NickNameWrap>
-                <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-              </TextArea>
+              <PostLeft>
+                <PhotoFrame src={user.profileImage}></PhotoFrame>
+                <TextArea>
+                  <NickNameWrap>{user.nickName} </NickNameWrap>
+                  <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+                </TextArea>
+              </PostLeft>
+              <IntroductionWrap>{user.introduction === null ? "일정을 기록합니다." : user.introduction}</IntroductionWrap>
             </ProfileWrap>
-            <IntroductionWrap></IntroductionWrap>
           </ProfileArea>
           <ButtonArea
             onClick={() => {
