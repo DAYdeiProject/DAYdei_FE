@@ -117,7 +117,7 @@ function Header(props) {
                     <ContentWrapper>
                       <ShortProfile>
                         <PhotoWrap>
-                          <ProfilePhoto />
+                          <ProfilePhoto src={myProfile.profileImage} />
                         </PhotoWrap>
                         <IntroductionWrap>
                           <IntroText>이름 : {userInfo.nickName} </IntroText>
@@ -269,6 +269,8 @@ const PhotoWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  /* background-color: pink; */
+  /* border-radius: 50%; */
 `;
 
 const ProfilePhoto = styled.div`
@@ -276,6 +278,10 @@ const ProfilePhoto = styled.div`
   width: 85px;
   border-radius: 50%;
   background-color: lightgray;
+
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
 `;
 
 const IntroductionWrap = styled.div`

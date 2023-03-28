@@ -13,7 +13,6 @@ import {
   ContentWrapper,
   TopText,
   TopLeft,
-  TopLeftWithMargin,
   TopRight,
   SearchIcon,
   SearchBar,
@@ -21,6 +20,7 @@ import {
   ListWrap,
   DropdownFrame,
   DropdownItems,
+  IconWrap,
 } from "../friendslist/FriendsListMain";
 import { useParams } from "react-router-dom";
 import DetailFriends from "./DetailFriends";
@@ -186,29 +186,42 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
   //검색창 오픈여부 결정 함수
   const HandleSearchFriend = () => {
     setSearchFriendOpen(!searchFriendOpen);
+    setSearchSubscribeOpen(false);
+    setSearchSubscriberOpen(false);
+    setIsDropdownFriendOpen(false);
   };
 
   const HandleSearchSubscribe = () => {
     setSearchSubscribeOpen(!searchSubscribeOpen);
+    setSearchFriendOpen(false);
+    setSearchSubscriberOpen(false);
+    setIsDropdownSubscribeOpen(false);
   };
 
   const HandleSearchSubscriber = () => {
     setSearchSubscriberOpen(!searchSubscriberOpen);
+    setSearchFriendOpen(false);
+    setSearchSubscribeOpen(false);
+    setIsDropdownSubscriberOpen(false);
   };
 
   // 드롭다운 모달 제어 함수
   const handleDropdownFriend = () => {
     setIsDropdownFriendOpen(!isDropdownFriendOpen);
+    setSearchFriendOpen(false);
   };
 
   const handleDropdownSubscribe = () => {
     setIsDropdownSubscribeOpen(!isDropdownSubscribeOpen);
+    setSearchSubscribeOpen(false);
   };
 
   const handleDropdownSubscriber = () => {
     setIsDropdownSubscriberOpen(!isDropdownSubscriberOpen);
+    setSearchSubscriberOpen(false);
   };
 
+  //모달 닫기 코드
   const handleDropdownFriendClose = () => {
     setIsDropdownFriendOpen(false);
   };
@@ -245,15 +258,17 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                       <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                     )}
                     <SearchIcon onClick={HandleSearchFriend} />
-                    <AlignIcon onClick={handleDropdownFriend} />
-                    {isDropdownFriendOpen && (
-                      <DropdownFrame>
-                        <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                        <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                        <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                        <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
-                      </DropdownFrame>
-                    )}
+                    <IconWrap>
+                      <AlignIcon onClick={handleDropdownFriend} />
+                      {isDropdownFriendOpen && (
+                        <DropdownFrame>
+                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
+                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
+                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
+                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                        </DropdownFrame>
+                      )}
+                    </IconWrap>
                   </TopRight>
                 </TopText>
                 <ListWrap>
@@ -283,15 +298,17 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                         onChange={searchSubscribeHandler}></SearchBar>
                     )}
                     <SearchIcon onClick={HandleSearchSubscribe} />
-                    <AlignIcon onClick={handleDropdownSubscribe} />
-                    {isDropdownSubscribeOpen && (
-                      <DropdownFrame>
-                        <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                        <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                        <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                        <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
-                      </DropdownFrame>
-                    )}
+                    <IconWrap>
+                      <AlignIcon onClick={handleDropdownSubscribe} />
+                      {isDropdownSubscribeOpen && (
+                        <DropdownFrame>
+                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
+                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
+                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
+                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                        </DropdownFrame>
+                      )}
+                    </IconWrap>
                   </TopRight>
                 </TopText>
 
@@ -322,15 +339,17 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                         onChange={searchSubscriberHandler}></SearchBar>
                     )}
                     <SearchIcon onClick={HandleSearchSubscriber} />
-                    <AlignIcon onClick={handleDropdownSubscriber} />
-                    {isDropdownSubscriberOpen && (
-                      <DropdownFrame>
-                        <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                        <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                        <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                        <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
-                      </DropdownFrame>
-                    )}
+                    <IconWrap>
+                      <AlignIcon onClick={handleDropdownSubscriber} />
+                      {isDropdownSubscriberOpen && (
+                        <DropdownFrame>
+                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
+                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
+                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
+                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                        </DropdownFrame>
+                      )}
+                    </IconWrap>
                   </TopRight>
                 </TopText>
                 <ListWrap>

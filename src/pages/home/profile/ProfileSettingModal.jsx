@@ -11,7 +11,6 @@ import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 import { set } from "lodash";
 
-
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
   const [profile, setProfile] = useState("");
   const [background, setBackground] = useState("");
@@ -113,6 +112,14 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       introduction: introduction,
     };
 
+    // if (profile.length !==0) {
+    //   formData.append("profileImage", profile)
+    // }
+
+    // if(background.length !==0) {
+    //   formData.append("backgroundImage",background)
+    // }
+
     const formData = new FormData();
     formData.append("userProfileRequestDto", new Blob([JSON.stringify(userProfileRequestDto)], { type: "application/json" })); // 텍스트 데이터
     formData.append("profileImage", profile); // 파일 데이터
@@ -124,22 +131,22 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     }
 
     if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
-      for (let value of formData.values()) {
-        console.log("value", value);
-      }
+      // for (let value of formData.values()) {
+      //   console.log("value", value);
+      // }
       dispatch(__setProfile(formData)).then((data) => {
         // 헤더에 이미지 최신꺼 들고오기 위해서
         setIsEditProfile(true);
+        if (data.payload.response.status !== 200) {
+          alert("수정 실패");
+        } else {
+          alert("수정 성공");
+        }
         console.log("콘솔-->", data.payload.response.status);
       });
     } else {
       alert("내용을 채워주세요!");
     }
-
-    // if (statusCodeProfile === 200) {
-    //   alert("수정 성공");
-    // }
-
   };
 
   return (
