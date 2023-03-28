@@ -149,7 +149,7 @@ const ButtonSmall = css`
 
 // box border + shadow
 const BoxCustom = css`
-  border: solid 1px #121212;
+  border: solid 1.4px #121212;
   box-shadow: 2px 2px 0 0 #000;
   border-radius: 8px;
   cursor: pointer;

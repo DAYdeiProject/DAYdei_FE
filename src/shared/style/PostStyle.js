@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 const AddPostWrapper = styled.form`
   padding: 0 30px;
   span {
-    font-size: ${(props) => props.theme.Fs.day};
+    font-size: ${(props) => props.theme.Fs.size16};
     margin: 0 10px;
     text-align: center;
   }
@@ -25,7 +25,7 @@ const BodyWrapper = styled.section`
   padding: 0 10px;
   overflow-y: auto;
   &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.Bg.borderColor};
+    background-color: ${(props) => props.theme.Bg.color2};
   }
 `;
 
@@ -44,11 +44,11 @@ const TextSpan = styled.div`
 // 제목쓰기 영역
 const TitleWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color1};
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
   input {
     width: 100%;
     height: 50px;
-    font-size: ${(props) => props.theme.Fs.title};
+    font-size: ${(props) => props.theme.Fs.size24};
   }
 `;
 // 날짜 체크 영역
@@ -64,7 +64,7 @@ const DaysIconBox = styled.div`
 const DaysCheckContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   width: 330px;
-  margin-left: 5px;
+  margin-left: 8px;
 `;
 const DaysAllCheckContainer = styled(DaysIconBox)`
   ${(props) => props.theme.FlexRow}
@@ -73,7 +73,7 @@ const DaysAllCheckContainer = styled(DaysIconBox)`
   align-items: flex-start;
   span {
     margin: 0;
-    font-size: ${(props) => props.theme.Fs.smallText};
+    font-size: ${(props) => props.theme.Fs.size14};
   }
 `;
 const StartDateContainer = styled.div`
@@ -90,12 +90,12 @@ const StartDateContainer = styled.div`
   select {
     margin-right: 115px;
     border: none;
-    font-size: ${(props) => props.theme.Fs.smallText};
+    font-size: ${(props) => props.theme.Fs.size16};
   }
 `;
 const CustomDatePicker = styled(DatePicker)`
   width: 100px;
-  font-size: ${(props) => props.theme.Fs.day};
+  font-size: ${(props) => props.theme.Fs.size16};
   cursor: pointer;
 `;
 
@@ -107,12 +107,12 @@ const ColorBoxContainer = styled(ColorBoxWrapper)`
   justify-content: left;
 `;
 const ColorBox = styled.div`
-  width: ${(props) => (props.isClick ? "25px" : "20px")};
-  height: ${(props) => (props.isClick ? "25px" : "20px")};
+  width: ${(props) => (props.isClick ? "22px" : "18px")};
+  height: ${(props) => (props.isClick ? "22px" : "18px")};
   background-color: ${(props) => props.value};
   border-radius: 50%;
   margin-right: 20px;
-  border: ${(props) => props.isClick && "3px solid #686363"};
+  border: ${(props) => (props.isClick ? "2px solid #121212" : "0.5px solid #121212")};
 `;
 
 // 초대하기 영역
@@ -128,10 +128,10 @@ const InviteSearchContainer = styled(InviteWrapper)`
 const InviteSearchBox = styled(InviteSearchContainer)`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  width: 335px;
+  min-width: 330px;
   height: 40px;
   padding: 10px;
-  border: 1px solid ${(props) => props.theme.Bg.color1};
+  border: 1px solid ${(props) => props.theme.Bg.color3};
   border-radius: 8px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -140,7 +140,7 @@ const InviteSearchBox = styled(InviteSearchContainer)`
     height: 5px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.Bg.borderColor}; /* 스크롤 바의 색상 */
+    background-color: ${(props) => props.theme.Bg.color2}; /* 스크롤 바의 색상 */
   }
   .searchIcon {
     margin-right: 5px;
@@ -190,10 +190,10 @@ const SerchModalContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
   gap: 10px;
-  width: 335px;
+  min-width: 330px;
   height: 200px;
   padding: 10px 15px;
-  border: solid 1px #121212;
+  border: 1px solid ${(props) => props.theme.Bg.color3};
   border-radius: 10px;
   background-color: white;
   display: ${(props) => (props.isShow ? "block" : "none")};
@@ -224,7 +224,7 @@ const TargetBoxText = styled.div`
   align-items: flex-start;
   gap: 5px;
   span {
-    font-size: ${(props) => props.theme.Fs.xsmallText};
+    font-size: ${(props) => props.theme.Fs.size14};
   }
 `;
 
@@ -232,7 +232,7 @@ const TargetBoxText = styled.div`
 const LocationWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-bottom: 20px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color1};
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
 `;
 const LocationContainer = styled(InviteWrapper)`
   justify-content: left;
@@ -252,7 +252,7 @@ const WriteLocationBox = styled.div`
     height: 40px;
     padding: 10px;
     font-size: 12px;
-    border: 1px solid ${(props) => props.theme.Bg.color1};
+    border: 1px solid ${(props) => props.theme.Bg.color3};
     border-radius: 8px;
   }
 `;
@@ -265,9 +265,9 @@ const WriteContentBox = styled(WriteLocationBox)`
     width: 100%;
     height: 100px;
     padding: 10px;
-    border: 1px solid ${(props) => props.theme.Bg.color1};
+    border: 1px solid ${(props) => props.theme.Bg.color3};
     border-radius: 8px;
-    font-size: ${(props) => props.theme.Fs.xsmallText};
+    font-size: ${(props) => props.theme.Fs.size14};
     resize: none;
   }
 `;
@@ -339,8 +339,7 @@ const SelectContainer = styled(ScopeWrapper)`
     width: 150px;
     height: 21px;
     border: none;
-    font-size: ${(props) => props.theme.Fs.smallText};
-    //text-align: center;
+    font-size: ${(props) => props.theme.Fs.size14};
   }
 `;
 
@@ -348,7 +347,10 @@ const SubmitButtonWrapper = styled.div`
   padding: 0 5px;
   button {
     ${(props) => props.theme.ButtonLarge}
-    background-color: ${(props) => props.theme.Bg.mainColor5};
+    background-color: ${(props) => props.theme.Bg.mainColor2};
+    color: ${(props) => props.theme.Bg.color1};
+    font-weight: 600;
+    margin-top: 15px;
   }
 `;
 
