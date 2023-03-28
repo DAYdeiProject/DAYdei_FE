@@ -152,7 +152,6 @@ export default function DetailPostModal({ ...props }) {
     });
   };
 
-  console.log("isEditOpen", isEditOpen);
   return (
     <>
       {isLoading && <Loading />}

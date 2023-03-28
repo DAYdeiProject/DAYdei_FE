@@ -251,6 +251,7 @@ function CalendarMain({ ...props }) {
           setIsAddPost={setIsAddPost}
           moreDate={moreDate}
           setOtherCalendarPostId={setOtherCalendarPostId}
+          isSubmit={isSubmit}
         />
       </CalendarWrapper>
       <CalendarSidebar />
