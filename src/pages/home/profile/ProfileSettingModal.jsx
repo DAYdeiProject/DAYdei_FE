@@ -9,14 +9,26 @@ import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../r
 import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
+import { set } from "lodash";
 
-function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen }) {
-  const [profile, setProfile] = useState([]);
-  const [background, setBackground] = useState([]);
+
+function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
+  const [profile, setProfile] = useState("");
+  const [background, setBackground] = useState("");
+
   //업로드된 프로필 이미지 상태
   const [profileImageUrl, setProfileImageUrl] = useState("");
   //업로드된 배경 이름 상태
   const [backgroundImageName, setBackgroundImageName] = useState("");
+  //useSelector로 요청 전송 성공코드 불러오기
+  const statusCodeProfile = useSelector((state) => state.users.statusCodeProfile);
+  //useSelector로 오류 메시지 불러오기
+  const isError = useSelector((state) => state.users.isError);
+  const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
+  //업로드 성공 여부 추적
+  const [isUpdated, setIsUpdated] = useState(false);
+  //업로드 실패 여부 추적
+  const [isProfileUpdateFailed, setIsProfileUpdateFailed] = useState(false);
 
   const {
     email,
@@ -81,11 +93,12 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     setProfileImageUrl("");
     if (myProfile.profileImage) {
       const newProfile = [myProfile.profileImage];
-      console.log(newProfile);
+      console.log("지우기 전 -->", newProfile);
       setProfile(newProfile.slice(1));
+      console.log("지운 후-->", profile);
     }
   };
-  console.log("프로필 배열 상태 확인-->", profile);
+  // console.log("프로필 배열 상태 확인-->", profile);
 
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
@@ -97,7 +110,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     const userProfileRequestDto = {
       nickName,
       newPassword: password,
-      newPasswordConfirm: passwordCheck,
       introduction: introduction,
     };
 
@@ -106,7 +118,28 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    dispatch(__setProfile(formData));
+    console.log(userProfileRequestDto, profile, background);
+
+    if (nickName !== "" || (password === passwordCheck && password !== "") || introduction !== "") {
+    }
+
+    if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
+      for (let value of formData.values()) {
+        console.log("value", value);
+      }
+      dispatch(__setProfile(formData)).then((data) => {
+        // 헤더에 이미지 최신꺼 들고오기 위해서
+        setIsEditProfile(true);
+        console.log("콘솔-->", data.payload.response.status);
+      });
+    } else {
+      alert("내용을 채워주세요!");
+    }
+
+    // if (statusCodeProfile === 200) {
+    //   alert("수정 성공");
+    // }
+
   };
 
   return (
@@ -118,12 +151,10 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
               <InfoArea>
                 <PhotoArea>
                   <PhotoWrapSquare>
-                    {profileImageUrl || myProfile.profileImage ? <CancelIcon onClick={deleteImageHandler} /> : null}
+                    {profileImageUrl || (myProfile.profileImage && profile.length !== 0) ? <CancelIcon onClick={deleteImageHandler} /> : null}
                     <PhotoWrap>
                       {profileImageUrl ? (
                         <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
-                      ) : myProfile.profileImage ? (
-                        <img src={myProfile.profileImage} alt="profileImage" width="100%" height="100%" />
                       ) : (
                         <ProfilePhotoIcon onClick={handleProfileImageClick} />
                       )}
@@ -162,7 +193,11 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                 <BackgroundLeft>
                   <IconStyle />
                   <span>배경사진</span>
-                  <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                  {backgroundImageName ? (
+                    <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                  ) : myProfile.backgroundImage && background.length !== 0 ? (
+                    <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                  ) : null}
                   {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
                 </BackgroundLeft>
                 <AddButton>

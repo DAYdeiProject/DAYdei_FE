@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-function CalendarPostModal({ children, ...props }) {
+export default function ModalBox({ children, ...props }) {
+  // 필요한 정보
+  // isOpen : 모달 open state
+  // width : 가로 길이
+  // height : 세로 길이
   const outside = useRef();
 
   const backdropVariants = {
@@ -30,15 +33,15 @@ function CalendarPostModal({ children, ...props }) {
       {props.isOpen && (
         <CalendarPostModalWrapper variants={backdropVariants} initial="hidden" animate="visible" exit="hidden">
           <PostModalContainer ref={outside} variants={modalVariants} initial="hidden" animate={"visible"} exit={"exit"}>
-            {children}
+            <PostContent isWidth={props.width} isHeight={props.height}>
+              {children}
+            </PostContent>
           </PostModalContainer>
         </CalendarPostModalWrapper>
       )}
     </AnimatePresence>
   );
 }
-
-export default CalendarPostModal;
 
 const CalendarPostModalWrapper = styled(motion.div)`
   position: fixed;
@@ -50,13 +53,17 @@ const CalendarPostModalWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.2);
 `;
 
 const PostModalContainer = styled(motion.div)`
+  ${(props) => props.theme.BoxCustom};
   z-index: 999;
-  width: 500px;
-  min-height: 670px;
   background-color: white;
   border-radius: 20px;
+`;
+
+const PostContent = styled.div`
+  width: ${(props) => props.isWidth && props.isWidth};
+  height: ${(props) => props.isHeight && props.isHeight};
 `;
