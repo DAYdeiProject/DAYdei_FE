@@ -12,22 +12,22 @@ function Modal({ height, children, padding }) {
   );
 }
 
-Modal.defaultProps = {
-  height: "575px",
-  padding: "85px 42px 86px 41px",
-};
+Modal.defaultProps = {};
 
 const ModalBox = styled.div`
+  width: 400px;
+  height: 414px;
+  padding: 48px 38px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: ${(props) => props.padding};
 
-  width: 540px;
   height: ${(props) => props.height};
 
   background: #ffffff;
   border-radius: 16px;
+  /* background-color: pink; */
 `;
 
 export default Modal;
