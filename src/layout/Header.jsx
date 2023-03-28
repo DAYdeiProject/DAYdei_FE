@@ -26,7 +26,9 @@ function Header(props) {
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
     // 프로필 수정시에도 get요청 다시하기
-    dispatch(__getMyProfile(userId.userId));
+    if (userId) {
+      dispatch(__getMyProfile(userId.userId));
+    }
   }, [isEditProfile]);
 
   // 드롭다운 열고닫힘 관리 함수

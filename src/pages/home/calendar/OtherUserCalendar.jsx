@@ -6,7 +6,8 @@ import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import ColorFromDB from "./CalendarBasic";
 import Loading from "../../../components/Loading";
-import { MdOutlineEditCalendar, MdOutlineAddReaction } from "react-icons/md";
+import { ReactComponent as Note } from "../../../assets/lcon/note32.svg";
+import { ReactComponent as Calnedar } from "../../../assets/lcon/calendar30.svg";
 
 export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -45,11 +46,18 @@ export default function OtherUserCalendar({ ...props }) {
     return result;
   };
 
+  const closeScheduleHandler = () => {
+    //
+  };
+
   return (
     <>
       {isLoading && <Loading />}
       <OtherWrapper>
-        <IconBox>아이콘(달력크게보기)</IconBox>
+        <IconBox>
+          {`<`}
+          <Calnedar onClick={closeScheduleHandler} />
+        </IconBox>
         <OtherUpdateWrapper>
           <UpdateTitle>업데이트 된 일정</UpdateTitle>
           <UpdateContainer>
@@ -73,9 +81,10 @@ export default function OtherUserCalendar({ ...props }) {
                 );
               })
             ) : (
-              <div>
+              <NoneScheduleBox>
+                <Note className="noneToday" />
                 <div>일주일간 업데이트 된 일정이 없습니다.</div>
-              </div>
+              </NoneScheduleBox>
             )}
           </UpdateContainer>
         </OtherUpdateWrapper>
@@ -103,7 +112,7 @@ export default function OtherUserCalendar({ ...props }) {
               })
             ) : (
               <NoneScheduleBox>
-                <MdOutlineEditCalendar size={30} className="noneToday" />
+                <Note className="noneToday" />
                 <div>나와 공유한 일정이 없습니다.</div>
               </NoneScheduleBox>
             )}
@@ -120,30 +129,38 @@ const OtherWrapper = styled.div`
   min-width: 350px;
   max-width: 350px;
   height: 100%;
-  padding: 0 20px;
-  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  padding: 0 30px;
+  border-right: 1px solid #afb4bf;
 `;
 
 const IconBox = styled.div`
-  ${(props) => props.theme.FlexCol}
-  height: 40px;
+  ${(props) => props.theme.FlexRow}
+  justify-content: right;
+  margin: 15px;
+  margin-bottom: 5px;
+  cursor: pointer;
 `;
 
 const OtherUpdateWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 360px;
 `;
 
 const UpdateTitle = styled.span`
-  line-height: 50px;
-  margin-left: 10px;
-  font-size: ${(props) => props.theme.Fs.tag};
+  width: 100%;
+  line-height: 40px;
+  margin: 0;
+  margin-bottom: 12px;
+  padding: 0 10px;
+  border-bottom: 0.75px solid ${(props) => props.theme.Bg.color3};
+  ${(props) => props.theme.SidebarTitleText};
 `;
 
 const UpdateContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-bottom: 20px;
-  border-bottom: 0.75px solid ${(props) => props.theme.Bg.borderColor};
 `;
 
 const ShareContainer = styled(UpdateContainer)`
@@ -192,9 +209,11 @@ const TimeBox = styled.div`
 `;
 
 const NoneScheduleBox = styled.div`
-  background-color: ${(props) => props.theme.Bg.lightColor};
+  ${(props) => props.theme.BoxCustom};
   ${(props) => props.theme.FlexCol}
-  height: 310px;
+  height: 230px;
   gap: 20px;
-  border-radius: 10px;
+  div {
+    font-size: ${(props) => props.theme.DescriptionText};
+  }
 `;
