@@ -5,11 +5,7 @@ import styled from "styled-components";
 import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper } from "../intro/IntroPage";
 import useLogin from "../../hooks/useLogin";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../layout/Header";
-import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
-import { ReactComponent as Key } from "../../assets/lcon/sign/key.svg";
 
 function JoinPage() {
   const {
@@ -39,14 +35,6 @@ function JoinPage() {
   const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
   const isCheck = useSelector((state) => state.users.isCheck);
   // console.log(isCheck);
-
-  useEffect(() => {
-    if (isEmailMessage || isPwMessage || isPwCheckMessage) {
-      setShowMessage(true);
-    } else {
-      setShowMessage(false);
-    }
-  }, [isEmailMessage, isPwMessage, isPwCheckMessage]);
 
   const emailCheckHandler = (email) => {
     if (isEmail) {

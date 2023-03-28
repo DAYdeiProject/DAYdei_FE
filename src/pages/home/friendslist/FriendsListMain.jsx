@@ -295,7 +295,8 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
               </ContentWrapper>
             </ListFrame>
           </ListFrameBig>
-          <ListFrameBig>
+
+          <FrameBigWithPadding>
             <ListFrame>
               <ContentWrapper>
                 <TopText>
@@ -331,8 +332,9 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
-          </ListFrameBig>
-          <ListFrameBig>
+          </FrameBigWithPadding>
+
+          <FrameBigWithMargin>
             <ListFrame>
               <ContentWrapper>
                 <TopText>
@@ -368,7 +370,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
-          </ListFrameBig>
+          </FrameBigWithMargin>
         </WholeAreaWrapper>
       </CalendarWrapper>
     </>
@@ -381,83 +383,62 @@ export const LoadingWrapper = styled.div`
 `;
 
 export const CalendarWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px 48px;
+
   width: 1570px;
-  height: 100%;
+  height: 1016px;
+  left: 349px;
+  top: 64px;
+
+  background: #ffffff;
+
+  /* background-color: pink; */
 `;
+
 export const WholeAreaWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   padding: 0px;
-  gap: 4px;
-  /* position: absolute; */
-  width: 1570px;
-  height: 980px;
-  left: 350px;
-  top: 100px;
+
+  width: 1474px;
+  height: 1016px;
+
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
   /* background-color: skyblue; */
 `;
+
 export const ListFrameBig = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 60px 40px 71px;
-  gap: 16px;
-  width: 520px;
-  height: 980px;
-  /* background-color: pink; */
-`;
-export const ListFrame = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  gap: 16px;
-  width: 490px;
-  height: 835px;
-  /* background-color: gray; */
-`;
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 16px;
-  width: 480px;
-  height: 835px;
-  /* background-color: skyblue; */
-`;
-export const TopText = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 16px 0px 0px;
-  width: 478px;
-  height: 44px;
+  /* align-items: center; */
+
+  width: 484px;
+  height: 100%;
+
   /* background-color: yellow; */
 `;
 
-export const TopLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 10px;
-  gap: 10px;
-
-  /* width: 85px; */
-  height: 44px;
-  /* background-color: skyblue; */
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
+export const FrameBigWithPadding = styled(ListFrameBig)`
+  width: 506px;
+  align-items: center;
+  /* border-left: 0.6px solid rgba(18, 18, 18, 0.6); */
+  /* border-right: 0.6px solid rgba(18, 18, 18, 0.6); */
+  border-left: 0.6px solid ${(props) => props.theme.Bg.border1};
+  border-right: 0.6px solid ${(props) => props.theme.Bg.border1};
 `;
 
-export const TopRight = styled.div`
+export const FrameBigWithMargin = styled(ListFrameBig)`
+  padding-left: 20px;
+`;
+
+export const ListFrame = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -465,9 +446,57 @@ export const TopRight = styled.div`
   padding: 0px;
   gap: 16px;
 
-  /* width: 92px; */
-  height: 20px;
-  /* background-color: pink; */
+  width: 472px;
+
+  /* background-color: skyblue; */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  /* background-color: green; */
+`;
+
+export const TopText = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+
+  width: 464px;
+  height: 43px;
+  /* background-color: lightcoral; */
+  border-bottom: 1px solid black;
+  margin-top: 48px;
+`;
+
+export const TopLeft = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #121212;
+`;
+
+export const TopLeftWithMargin = styled(TopLeft)`
+  margin-left: 10px;
+`;
+
+export const TopRight = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 4px;
+  gap: 8px;
+
   :hover {
     cursor: pointer;
   }
@@ -530,9 +559,9 @@ export const ListWrap = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-  width: 478px;
-  height: 770px;
-  background: #fbfbfb;
+  width: 464px;
+  height: 862px;
+
   overflow: auto;
   ::-webkit-scrollbar {
     display: none;
