@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import { SideSpaceWrapper } from "./CalendarSidebar";
 
 function SubscribeListControl({ isSubscribeBoxOpen }) {
+  const [isCheckBoxClicked, setIsCheckBoxClicked] = useState("");
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
   const dispatch = useDispatch();
   const params = useParams();
@@ -19,6 +20,10 @@ function SubscribeListControl({ isSubscribeBoxOpen }) {
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
   console.log(SubscribesList);
 
+  const onClickCheckBoxHandler = () => {
+    setIsCheckBoxClicked(!isCheckBoxClicked);
+  };
+
   return (
     <>
       <SideSpaceWrapper>
@@ -29,7 +34,7 @@ function SubscribeListControl({ isSubscribeBoxOpen }) {
               <ContentWrap key={user.id}>
                 <BoxWrap>
                   <div>{user.nickName}</div>
-                  <input type="checkbox" />
+                  <input type="checkbox" checked={true} onChange={onClickCheckBoxHandler} />
                 </BoxWrap>
               </ContentWrap>
             </>

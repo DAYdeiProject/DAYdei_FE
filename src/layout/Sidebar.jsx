@@ -41,4 +41,5 @@ const SideStyle = styled.div`
   max-width: 350px;
   height: 100%;
   border-right: 0.5px solid ${(props) => props.theme.Bg.color1};
+  position: relative;
 `;

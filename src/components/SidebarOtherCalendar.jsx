@@ -125,19 +125,29 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
 
 const ProfileWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
-  position: relative;
+  justify-content: flex-start;
+  position: absolute;
+  z-index: 90;
+  background-color: #ffffff;
+  height: 100%;
 `;
 
 const BackImgWrapper = styled.div`
   background-color: ${(props) => props.theme.Bg.mainColor3};
   width: 100%;
   height: 370px;
+  border: none;
+  img {
+    width: 100%;
+    height: 370px;
+    border: none;
+  }
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
   top: 300px;
-  z-index: 50px;
+  z-index: 90;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
   img {

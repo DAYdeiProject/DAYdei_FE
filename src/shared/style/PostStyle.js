@@ -192,6 +192,7 @@ const SerchModalContainer = styled.div`
   gap: 10px;
   min-width: 330px;
   height: 200px;
+  overflow-y: auto;
   padding: 10px 15px;
   border: 1px solid ${(props) => props.theme.Bg.color3};
   border-radius: 10px;

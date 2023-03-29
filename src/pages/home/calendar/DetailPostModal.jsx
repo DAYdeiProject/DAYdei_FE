@@ -320,7 +320,7 @@ const DetailPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 670px;
+  //height: 670px;
   section {
     border-bottom: 1px solid ${(props) => props.theme.Bg.middleColor};
   }
@@ -374,7 +374,7 @@ const EditBox = styled.div`
   cursor: pointer;
 `;
 const DetailContetnContainer = styled.div`
-  height: 550px;
+  height: 480px;
   padding: 0 10px;
   padding-bottom: 20px;
   overflow-y: auto;

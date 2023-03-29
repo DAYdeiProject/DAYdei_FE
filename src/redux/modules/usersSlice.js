@@ -101,7 +101,7 @@ export const __getMyProfile = createAsyncThunk("getMyProfile", async (id, thunkA
 export const __setProfile = createAsyncThunk("setProfile", async (formData, thunkAPI) => {
   try {
     // console.log(formData);
-    const response = await api.put(`/api/users/profile`, formData, {
+    const response = await api.patch(`/api/users/profile`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -113,20 +113,6 @@ export const __setProfile = createAsyncThunk("setProfile", async (formData, thun
     return thunkAPI.rejectWithValue(error);
   }
 });
-
-// export const __postProfileImgUpload = createAsyncThunk("postProfileImgUpload", async (payload, thunkAPI) => {
-//   try {
-//     console.log("리스펀스 위에서 찍음", payload);
-//     const response = await api.post(`/api/posts/images`, payload, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
-//     return thunkAPI.fulfillWithValue(response.data.data);
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error);
-//   }
-// });
 
 export const usersSlice = createSlice({
   name: "users",
