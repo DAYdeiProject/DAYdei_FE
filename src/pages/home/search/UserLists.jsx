@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
 function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   //클릭된 친구신청 버튼 추적
@@ -115,7 +116,7 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
                 setIsFriendDetailVisible(false);
               }}>
               <ProfilePhoto>
-                <PhotoFrame src={user.profileImage} />
+                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />
               </ProfilePhoto>
               <ProfileTextFrame>
                 <NameArea>
@@ -200,10 +201,6 @@ const ProfilePhoto = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 20px;
-
-  /* width: 60px;
-  height: 60px; */
-  /* background-color: lightgray; */
 `;
 
 const PhotoFrame = styled.img`
