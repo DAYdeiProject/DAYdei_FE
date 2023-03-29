@@ -50,12 +50,14 @@ export default function SidebarMyCalendar({ ...props }) {
     navigate(`/${id}`);
   };
 
+  const myProfile = useSelector((state) => state.users.myProfile);
+
   return (
     <>
       {isLoading && <Loading />}
       <SidebarWrapper>
         <NickNameContainer>
-          <NickNameTitle>반가워요. {props.nickName}님👋🏻</NickNameTitle>
+          <NickNameTitle>반가워요. {myProfile.nickName}님👋🏻</NickNameTitle>
         </NickNameContainer>
 
         <TodayScheduleContainer>
