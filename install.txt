@@ -20,3 +20,6 @@ yarn add eventsource
 yarn add react-calendar
 
 - test
+
+
+yarn add cross-env

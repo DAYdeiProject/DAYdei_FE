@@ -86,8 +86,10 @@ function CalendarMain({ ...props }) {
         // 종료날짜 format
         if (data.startDate === data.endDate) {
           end = data.endData;
-        } else {
+        } else if (data.startDate !== data.endDate && data.startTime === "00:00:00" && data.endTime === "00:00:00") {
           end = format(add(new Date(data.endDate), { days: 1 }), "yyyy-MM-dd");
+        } else {
+          end = format(new Date(data.endDate), "yyyy-MM-dd");
         }
 
         if (data.startTime === "00:00:00" && data.endTime === "00:00:00") {
