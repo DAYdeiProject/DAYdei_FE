@@ -31,9 +31,6 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
     dispatch(__cancelSubscribe(id));
   };
 
-  const otherUser = useSelector((state) => state.calendar.otherUser);
-  console.log("다른유저-->", otherUser);
-
   if (SubscribersList?.length === 0) {
     return (
       <NoListMessageWrapper>

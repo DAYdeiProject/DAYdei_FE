@@ -33,7 +33,7 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
   };
 
   const otherUser = useSelector((state) => state.calendar.otherUser);
-  console.log("다른유저-->", otherUser.nickName);
+  // console.log("다른유저-->", otherUser.nickName);
 
   // console.log("자식에서-->", SubscribersList);
 
@@ -44,21 +44,10 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
           <ContentArea>
             <IconStyle />
             <TextWrap>
-              <UpperText>{otherUser.nickName}를 구독하는 사람</UpperText>
-              <BottomText>{otherUser.nickName}를 구독하는 사람들이 여기에 표시됩니다.</BottomText>
+              <UpperText>{otherUser.nickName}님을 구독하는 사람</UpperText>
+              <BottomText>{otherUser.nickName}님을 구독하는 사람들이 여기에 표시됩니다.</BottomText>
             </TextWrap>
           </ContentArea>
-          {/* <ButtonWrap>
-            <RecommendButton
-              onClick={() => {
-                setIsCalendarMainVisible(false);
-                setIsFriendListVisible(false);
-                setIsSearchUsersvisible(true);
-                setIsFriendDetailVisible(false);
-              }}>
-              회원님을 위한 추천
-            </RecommendButton>
-          </ButtonWrap> */}
         </MessageBox>
       </NoListMessageWrapper>
     );
@@ -67,7 +56,7 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
   return (
     <>
       {SubscribersList?.map((user) => (
-        <PostBox key={user.email}>
+        <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
