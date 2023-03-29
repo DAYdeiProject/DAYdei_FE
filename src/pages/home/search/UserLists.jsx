@@ -5,13 +5,15 @@ import styled from "styled-components";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { CalendarWrapper } from "../calendar/CalendarMain";
+import Loading from "../../../components/Loading";
 
 function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   //클릭된 친구신청 버튼 추적
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
   //클릭된 구독하기 버튼 추적
   const [clickedSubscribeButtonIds, setClickedSubscribeButtonIds] = useState([]);
-  const RecommendList = useSelector((state) => state.friends.RecommendList);
+  const { isLoading, RecommendList } = useSelector((state) => state.friends);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -100,7 +102,19 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
     );
   };
 
-  console.log(RecommendList);
+  // console.log(RecommendList);
+
+  if (isLoading) {
+    return (
+      <>
+        <CalendarWrapper>
+          <LoadingInnerWrapper>
+            <Loading />
+          </LoadingInnerWrapper>
+        </CalendarWrapper>
+      </>
+    );
+  }
 
   return (
     <>
@@ -147,6 +161,14 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
     </>
   );
 }
+
+export const LoadingInnerWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const PostBox = styled.div`
   display: flex;
