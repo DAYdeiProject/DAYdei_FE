@@ -8,8 +8,10 @@ import ColorFromDB from "./CalendarBasic";
 import Loading from "../../../components/Loading";
 import { ReactComponent as Note } from "../../../assets/lcon/note32.svg";
 import { ReactComponent as Calnedar } from "../../../assets/lcon/calendar30.svg";
+import { useState } from "react";
 
 export default function OtherUserCalendar({ ...props }) {
+  const [sideOpenState, setSideOpenState] = useState(false);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -47,15 +49,15 @@ export default function OtherUserCalendar({ ...props }) {
   };
 
   const closeScheduleHandler = () => {
-    //
+    //setSideOpenState(!sideOpenState);
+    props.setIsOtherOpen(!props.isOtherOpen);
   };
 
   return (
     <>
       {isLoading && <Loading />}
-      <OtherWrapper>
+      <OtherWrapper isOpen={props.isOtherOpen}>
         <IconBox>
-          {`<`}
           <Calnedar onClick={closeScheduleHandler} />
         </IconBox>
         <OtherUpdateWrapper>
@@ -129,14 +131,16 @@ const OtherWrapper = styled.div`
   min-width: 350px;
   max-width: 350px;
   height: 100%;
-  padding: 0 30px;
   border-right: 1px solid #afb4bf;
+  position: ${(props) => (props.isOpen ? "absolute" : "inherit")};
+  left: 28px;
+  z-index: 10;
 `;
 
 const IconBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
-  margin: 15px;
+  margin-top: 15px;
   margin-bottom: 5px;
   cursor: pointer;
 `;
@@ -146,6 +150,8 @@ const OtherUpdateWrapper = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   min-height: 360px;
+  padding: 0 30px;
+  z-index: 10;
 `;
 
 const UpdateTitle = styled.span`
