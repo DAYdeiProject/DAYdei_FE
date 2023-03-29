@@ -29,6 +29,8 @@ import DetailSubscribe from "./DetailSubscribe";
 import DetailSubscriber from "./DetailSubscriber";
 import _ from "lodash";
 import useOutSideClick from "../../../hooks/useOutsideClick";
+import LoadingInnerWrapper from "../search/UserLists";
+import Loading from "../../../components/Loading";
 
 function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const params = useParams();
@@ -244,6 +246,19 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
 
   const DropdownSubscriberRef = useRef(null);
   useOutSideClick(DropdownSubscriberRef, handleDropdownSubscriberClose);
+
+  //로딩중일때
+  if (isLoadingFriends || isLoadingSubscribe || isLoadingSubscriber) {
+    return (
+      <>
+        <CalendarWrapper>
+          <LoadingInnerWrapper>
+            <Loading />
+          </LoadingInnerWrapper>
+        </CalendarWrapper>
+      </>
+    );
+  }
 
   return (
     <>
