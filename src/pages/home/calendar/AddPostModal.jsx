@@ -600,7 +600,7 @@ function AddPostModal({ ...props }) {
                         let sliceName = "..." + list.substr(-7, 3);
                         return (
                           <postStyle.ImgBox key={i}>
-                            <span>파일{sliceName}.jpg</span>
+                            <span>{sliceName}.jpg</span>
                             <BiX className="friendX" onClick={() => deleteImgFile(i, save)} />
                           </postStyle.ImgBox>
                         );
