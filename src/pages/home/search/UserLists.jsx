@@ -11,9 +11,6 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
   //클릭된 구독하기 버튼 추적
   const [clickedSubscribeButtonIds, setClickedSubscribeButtonIds] = useState([]);
   const RecommendList = useSelector((state) => state.friends.RecommendList);
-  // console.log(RecommendList);
-  // const statusCodeFriend = useSelector((state) => state.friends.statusCode);
-  // const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,23 +81,25 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
   const ButtonSubscribe = ({ id }) => {
     if (clickedSubscribeButtonIds.includes(id)) {
       return (
-        <Button
+        <ButtonSub
           onClick={() => {
             cancelSubscribeHandler(id);
           }}>
           구독취소
-        </Button>
+        </ButtonSub>
       );
     }
     return (
-      <Button
+      <ButtonSub
         onClick={() => {
           subscribeHandler(id);
         }}>
         구독하기
-      </Button>
+      </ButtonSub>
     );
   };
+
+  console.log(RecommendList);
 
   return (
     <>
@@ -120,16 +119,23 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
               </ProfilePhoto>
               <ProfileTextFrame>
                 <NameArea>
-                  <NicknameWrap>{user.nickName} </NicknameWrap>
+                  <NicknameWrap>{user.nickName ? user.nickName : "(이름 없음)"} </NicknameWrap>
                   <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                 </NameArea>
                 <InfoArea>
                   <FriendsWrap>친구 {user.friendCount}</FriendsWrap>
+                  <SubscribingWrap>구독 {user.subscribingCount}</SubscribingWrap>
                   <SubscribeWrap>구독자 {user.subscriberCount}</SubscribeWrap>
                 </InfoArea>
               </ProfileTextFrame>
             </ProfileArea>
-            <IntroductionWrap>{user.introduction}</IntroductionWrap>
+            <IntroductionWrap>
+              {user.introduction
+                ? user.introduction
+                : user.categoryList.length !== 0
+                ? `카테고리 : ${user.categoryList[0]}`
+                : `${user.nickName}의 캘린더 입니다.`}
+            </IntroductionWrap>
             <ButtonArea>
               <ButtonFriend id={user.id} />
               <ButtonSubscribe id={user.id} />
@@ -184,6 +190,8 @@ const ProfileArea = styled.div`
 
   width: 126px;
   height: 124px;
+  /* background-color: orange; */
+  /* margin-bottom: 10px; */
 `;
 
 const ProfilePhoto = styled.div`
@@ -209,7 +217,7 @@ const ProfileTextFrame = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0px;
-  gap: 8px;
+  gap: 12px;
 
   width: 126px;
   height: 56px;
@@ -240,8 +248,6 @@ const NicknameWrap = styled.div`
   width: 83px;
   height: 19px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
@@ -259,8 +265,6 @@ const EmailWrap = styled.div`
   width: 58px;
   height: 14px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
@@ -275,33 +279,40 @@ const InfoArea = styled.div`
   padding: 0px;
   gap: 30px;
 
-  width: 126px;
+  width: 160px;
   height: 13px;
+  /* background-color: pink; */
 `;
 
 const FriendsWrap = styled.div`
   /* width: 32px; */
   height: 12px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
-  color: #a5a5a5;
+  color: black;
+`;
+
+const SubscribingWrap = styled.div`
+  height: 12px;
+
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+
+  color: black;
 `;
 
 const SubscribeWrap = styled.div`
   /* width: 47px; */
   height: 12px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
 
-  color: #a5a5a5;
+  color: black;
 `;
 
 const IntroductionWrap = styled.div`
@@ -309,20 +320,19 @@ const IntroductionWrap = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 10px 32px;
+  /* padding: 10px 32px; */
   gap: 10px;
 
   width: 185px;
   height: 48px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
 
   color: #626262;
-  background-color: lightgray;
+
+  border-top: 1px solid #626262;
 `;
 
 const ButtonArea = styled.div`
@@ -334,6 +344,7 @@ const ButtonArea = styled.div`
 
   width: 188px;
   height: 40px;
+  /* background-color: pink; */
 `;
 
 const Button = styled.button`
@@ -346,12 +357,22 @@ const Button = styled.button`
 
   width: 90px;
   height: 40px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 12px;
 
-  background: #ebebeb;
+  background: ${(props) => props.theme.Bg.mainColor5};
   border-radius: 4px;
   :hover {
     cursor: pointer;
   }
+`;
+
+const ButtonSub = styled(Button)`
+  background-color: ${(props) => props.theme.Bg.mainColor2};
+  color: black;
+  font-weight: 600;
+  font-size: 12px;
 `;
 
 export default UserLists;
