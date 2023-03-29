@@ -101,7 +101,7 @@ export const __getMyProfile = createAsyncThunk("getMyProfile", async (id, thunkA
 export const __setProfile = createAsyncThunk("setProfile", async (formData, thunkAPI) => {
   try {
     // console.log(formData);
-    const response = await api.put(`/api/users/profile`, formData, {
+    const response = await api.patch(`/api/users/profile`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

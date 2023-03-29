@@ -48,6 +48,8 @@ function CalendarMain({ ...props }) {
   const [isDrag, setIsDrag] = useState(true);
   // 타유저 캘린더 share 일정 state
   const [otherCalendarState, setOtherCalendarState] = useState(false);
+  // 타유저  캘린더 share 일정 open state
+  const [isOtherOpen, setIsOtherOpen] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -198,9 +200,11 @@ function CalendarMain({ ...props }) {
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
           setOtherCalendarPostId={setOtherCalendarPostId}
+          isOtherOpen={isOtherOpen}
+          setIsOtherOpen={setIsOtherOpen}
         />
       )}
-      <CalendarWrapper disabled={disabled}>
+      <CalendarWrapper disabled={disabled} isOpen={isOtherOpen}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
