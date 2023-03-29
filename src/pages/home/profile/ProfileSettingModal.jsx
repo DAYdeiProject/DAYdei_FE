@@ -9,8 +9,8 @@ import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../r
 import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
+import UserInfo from "../../../utils/localStorage/userInfo";
 import { set } from "lodash";
-
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
   const [profile, setProfile] = useState("");
@@ -58,8 +58,10 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
 
   const dispatch = useDispatch();
-  const params = useParams();
-  const id = params.id;
+  const userInfo = UserInfo();
+
+  const id = userInfo.userId;
+
   useEffect(() => {
     dispatch(__getMyProfile(id));
   }, [isProfileSettingModalOpen, profile]);
@@ -118,28 +120,29 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    console.log(userProfileRequestDto, profile, background);
+    // console.log(userProfileRequestDto, profile, background);
 
     if (nickName !== "" || (password === passwordCheck && password !== "") || introduction !== "") {
     }
 
     if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
-      for (let value of formData.values()) {
-        console.log("value", value);
-      }
+      // for (let value of formData.values()) {
+      //   console.log("value", value);
+      // }
       dispatch(__setProfile(formData)).then((data) => {
+        console.log(data);
         // 헤더에 이미지 최신꺼 들고오기 위해서
         setIsEditProfile(true);
-        console.log("콘솔-->", data.payload.response.status);
+        if (data.error) {
+          alert("수정 실패");
+        } else {
+          alert("수정 성공");
+        }
+        // console.log("콘솔------>", data.payload.response.status);
       });
     } else {
       alert("내용을 채워주세요!");
     }
-
-    // if (statusCodeProfile === 200) {
-    //   alert("수정 성공");
-    // }
-
   };
 
   return (
