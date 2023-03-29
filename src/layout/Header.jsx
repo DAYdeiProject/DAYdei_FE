@@ -120,8 +120,8 @@ function Header(props) {
                           <ProfilePhoto src={myProfile.profileImage} />
                         </PhotoWrap>
                         <IntroductionWrap>
-                          <IntroText>이름 : {userInfo.nickName} </IntroText>
-                          <IntroText>이메일 : {userInfo.email}</IntroText>
+                          <IntroText>이름 : {myProfile.nickName} </IntroText>
+                          <IntroText>이메일 : {myProfile.email}</IntroText>
                         </IntroductionWrap>
                       </ShortProfile>
                       <Buttons>

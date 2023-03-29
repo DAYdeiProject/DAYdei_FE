@@ -122,6 +122,7 @@ export default function DetailPostModal({ ...props }) {
       props.setIsDetailPost(false);
       props.setSide(!props.side);
       props.setIsSubmit(!props.isSubmit);
+      closeModal();
     });
   };
 
