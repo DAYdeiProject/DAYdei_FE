@@ -414,8 +414,6 @@ export const CalendarWrapper = styled.div`
   left: 349px;
   top: 64px;
 
-  /* background: pink; */
-
   /* background-color: pink; */
 `;
 

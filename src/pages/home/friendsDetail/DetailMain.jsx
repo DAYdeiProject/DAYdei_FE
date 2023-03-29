@@ -4,6 +4,7 @@ import { __getFriendsList, __getRequestedUsersList } from "../../../redux/module
 import { __getSubscribeList, __getSubscriberList } from "../../../redux/modules/subscribeSlice";
 import {
   LoadingWrapper,
+  WholeWrapper,
   CalendarWrapper,
   WholeAreaWrapper,
   ListFrameBig,
@@ -246,126 +247,128 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
 
   return (
     <>
-      <CalendarWrapper>
-        <WholeAreaWrapper>
-          <ListFrameBig>
-            <ListFrame>
-              <ContentWrapper>
-                <TopText>
-                  <TopLeft>친구 {FriendsList.length}</TopLeft>
-                  <TopRight ref={DropdownFriendRef}>
-                    {searchFriendOpen && (
-                      <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
-                    )}
-                    <SearchIcon onClick={HandleSearchFriend} />
-                    <IconWrap>
-                      <AlignIcon onClick={handleDropdownFriend} />
-                      {isDropdownFriendOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
-                        </DropdownFrame>
+      <WholeWrapper>
+        <CalendarWrapper>
+          <WholeAreaWrapper>
+            <ListFrameBig>
+              <ListFrame>
+                <ContentWrapper>
+                  <TopText>
+                    <TopLeft>친구 {FriendsList.length}</TopLeft>
+                    <TopRight ref={DropdownFriendRef}>
+                      {searchFriendOpen && (
+                        <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                       )}
-                    </IconWrap>
-                  </TopRight>
-                </TopText>
-                <ListWrap>
-                  <DetailFriends
-                    FriendsList={FriendsList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
-                </ListWrap>
-              </ContentWrapper>
-            </ListFrame>
-          </ListFrameBig>
+                      <SearchIcon onClick={HandleSearchFriend} />
+                      <IconWrap>
+                        <AlignIcon onClick={handleDropdownFriend} />
+                        {isDropdownFriendOpen && (
+                          <DropdownFrame>
+                            <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
+                            <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
+                            <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
+                            <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                          </DropdownFrame>
+                        )}
+                      </IconWrap>
+                    </TopRight>
+                  </TopText>
+                  <ListWrap>
+                    <DetailFriends
+                      FriendsList={FriendsList}
+                      setIsCalendarMainVisible={setIsCalendarMainVisible}
+                      setIsFriendListVisible={setIsFriendListVisible}
+                      setIsSearchUsersvisible={setIsSearchUsersvisible}
+                      setIsFriendDetailVisible={setIsFriendDetailVisible}
+                    />
+                  </ListWrap>
+                </ContentWrapper>
+              </ListFrame>
+            </ListFrameBig>
 
-          <FrameBigWithPadding>
-            <ListFrame>
-              <ContentWrapper>
-                <TopText>
-                  <TopLeft>구독 {SubscribesList.length}</TopLeft>
-                  <TopRight ref={DropdownSubscribeRef}>
-                    {searchSubscribeOpen && (
-                      <SearchBar
-                        type="text"
-                        placeholder="ID, 닉네임으로 검색해보세요"
-                        value={searchWordSubscribe}
-                        onChange={searchSubscribeHandler}></SearchBar>
-                    )}
-                    <SearchIcon onClick={HandleSearchSubscribe} />
-                    <IconWrap>
-                      <AlignIcon onClick={handleDropdownSubscribe} />
-                      {isDropdownSubscribeOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
-                        </DropdownFrame>
+            <FrameBigWithPadding>
+              <ListFrame>
+                <ContentWrapper>
+                  <TopText>
+                    <TopLeft>구독 {SubscribesList.length}</TopLeft>
+                    <TopRight ref={DropdownSubscribeRef}>
+                      {searchSubscribeOpen && (
+                        <SearchBar
+                          type="text"
+                          placeholder="ID, 닉네임으로 검색해보세요"
+                          value={searchWordSubscribe}
+                          onChange={searchSubscribeHandler}></SearchBar>
                       )}
-                    </IconWrap>
-                  </TopRight>
-                </TopText>
+                      <SearchIcon onClick={HandleSearchSubscribe} />
+                      <IconWrap>
+                        <AlignIcon onClick={handleDropdownSubscribe} />
+                        {isDropdownSubscribeOpen && (
+                          <DropdownFrame>
+                            <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
+                            <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
+                            <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
+                            <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                          </DropdownFrame>
+                        )}
+                      </IconWrap>
+                    </TopRight>
+                  </TopText>
 
-                <ListWrap>
-                  <DetailSubscribe
-                    SubscribesList={SubscribesList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
-                </ListWrap>
-              </ContentWrapper>
-            </ListFrame>
-          </FrameBigWithPadding>
+                  <ListWrap>
+                    <DetailSubscribe
+                      SubscribesList={SubscribesList}
+                      setIsCalendarMainVisible={setIsCalendarMainVisible}
+                      setIsFriendListVisible={setIsFriendListVisible}
+                      setIsSearchUsersvisible={setIsSearchUsersvisible}
+                      setIsFriendDetailVisible={setIsFriendDetailVisible}
+                    />
+                  </ListWrap>
+                </ContentWrapper>
+              </ListFrame>
+            </FrameBigWithPadding>
 
-          <FrameBigWithMargin>
-            <ListFrame>
-              <ContentWrapper>
-                <TopText>
-                  <TopLeft>구독자 {SubscribersList.length}</TopLeft>
-                  <TopRight ref={DropdownSubscriberRef}>
-                    {searchSubscriberOpen && (
-                      <SearchBar
-                        type="text"
-                        placeholder="ID, 닉네임으로 검색해보세요"
-                        value={searchWordSubscriber}
-                        onChange={searchSubscriberHandler}></SearchBar>
-                    )}
-                    <SearchIcon onClick={HandleSearchSubscriber} />
-                    <IconWrap>
-                      <AlignIcon onClick={handleDropdownSubscriber} />
-                      {isDropdownSubscriberOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
-                        </DropdownFrame>
+            <FrameBigWithMargin>
+              <ListFrame>
+                <ContentWrapper>
+                  <TopText>
+                    <TopLeft>구독자 {SubscribersList.length}</TopLeft>
+                    <TopRight ref={DropdownSubscriberRef}>
+                      {searchSubscriberOpen && (
+                        <SearchBar
+                          type="text"
+                          placeholder="ID, 닉네임으로 검색해보세요"
+                          value={searchWordSubscriber}
+                          onChange={searchSubscriberHandler}></SearchBar>
                       )}
-                    </IconWrap>
-                  </TopRight>
-                </TopText>
-                <ListWrap>
-                  <DetailSubscriber
-                    SubscribersList={SubscribersList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
-                </ListWrap>
-              </ContentWrapper>
-            </ListFrame>
-          </FrameBigWithMargin>
-        </WholeAreaWrapper>
-      </CalendarWrapper>
+                      <SearchIcon onClick={HandleSearchSubscriber} />
+                      <IconWrap>
+                        <AlignIcon onClick={handleDropdownSubscriber} />
+                        {isDropdownSubscriberOpen && (
+                          <DropdownFrame>
+                            <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
+                            <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
+                            <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
+                            <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                          </DropdownFrame>
+                        )}
+                      </IconWrap>
+                    </TopRight>
+                  </TopText>
+                  <ListWrap>
+                    <DetailSubscriber
+                      SubscribersList={SubscribersList}
+                      setIsCalendarMainVisible={setIsCalendarMainVisible}
+                      setIsFriendListVisible={setIsFriendListVisible}
+                      setIsSearchUsersvisible={setIsSearchUsersvisible}
+                      setIsFriendDetailVisible={setIsFriendDetailVisible}
+                    />
+                  </ListWrap>
+                </ContentWrapper>
+              </ListFrame>
+            </FrameBigWithMargin>
+          </WholeAreaWrapper>
+        </CalendarWrapper>
+      </WholeWrapper>
     </>
   );
 }

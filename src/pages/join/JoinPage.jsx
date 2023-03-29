@@ -30,9 +30,9 @@ function JoinPage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const message = useSelector((state) => state.users.users.data);
-  const isError = useSelector((state) => state.users.isError);
-  const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
+  // const message = useSelector((state) => state.users.users.data);
+  // const isError = useSelector((state) => state.users.isError);
+  // const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
   const isCheck = useSelector((state) => state.users.isCheck);
   // console.log("ischeck의 값-->", isCheck.statusCode);
 

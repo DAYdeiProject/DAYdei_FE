@@ -5,6 +5,7 @@ import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friend
 import { __friendsList } from "../../../redux/modules/kakaoSlice";
 import { MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
 function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const navigate = useNavigate();
@@ -100,13 +101,19 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
             }}>
             <ProfileWrap>
               <PostLeft>
-                <PhotoFrame src={user.profileImage}></PhotoFrame>
+                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                 <TextArea>
-                  <NickNameWrap>{user.nickName} </NickNameWrap>
+                  <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
                   <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                 </TextArea>
               </PostLeft>
-              <IntroductionWrap>{user.introduction === null ? "일정을 기록합니다." : user.introduction}</IntroductionWrap>
+              <IntroductionWrap>
+                {user.introduction
+                  ? user.introduction
+                  : user.categoryList.length !== 0
+                  ? `주로 ${user.categoryList[0]} 일정을 공유합니다.`
+                  : `${user.nickName}의 캘린더 입니다.`}
+              </IntroductionWrap>
             </ProfileWrap>
           </ProfileArea>
           <ButtonArea
@@ -183,8 +190,6 @@ export const UpperText = styled.div`
 
   height: 19px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
@@ -198,8 +203,7 @@ export const BottomText = styled.div`
 
   /* width: 220px; */
   height: 20px;
-  font-family: "Pretendard";
-  font-style: normal;
+
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
@@ -234,8 +238,6 @@ const KakaoButton = styled.div`
   background: #d9d9d9;
   border-radius: 4px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
@@ -259,8 +261,6 @@ const InviteButton = styled.div`
   background: #d9d9d9;
   border-radius: 4px;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
