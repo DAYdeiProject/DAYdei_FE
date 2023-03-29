@@ -34,19 +34,26 @@ function JoinPage() {
   const isError = useSelector((state) => state.users.isError);
   const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
   const isCheck = useSelector((state) => state.users.isCheck);
-  // console.log(isCheck);
+  // console.log("ischeck의 값-->", isCheck.statusCode);
 
   const emailCheckHandler = (email) => {
     if (isEmail) {
-      dispatch(__emailCheck(email));
+      dispatch(__emailCheck(email)).then((data) => {
+        // console.log("then에서 나오는 200-->", data.payload.statusCode);
+        if (data.payload.statusCode !== 200) {
+          alert(data.payload.data);
+        } else {
+          alert("사용 가능한 이메일입니다.");
+        }
+      });
     }
   };
 
   const joinHandler = () => {
-    if (isEmail === true && isPw === true && password === passwordCheck && isCheck === "사용 가능한 이메일입니다.") {
+    if (isEmail === true && isPw === true && password === passwordCheck && isCheck.statusCode === 200) {
       const newUser = { email, password, passwordCheck, nickName, birthday };
       dispatch(__addUser(newUser)).then((data) => {
-        console.log(data);
+        // console.log("then 데이터-->", data.payload.statusCode);
         if (data.payload.statusCode === 200) {
           alert("회원가입 완료!");
           navigate("/");
@@ -55,19 +62,13 @@ function JoinPage() {
         }
       });
     }
-    if (isCheck !== "사용 가능한 이메일입니다.") {
+    if (isCheck.data !== "사용 가능한 이메일입니다.") {
       alert("이메일 중복확인이 필요합니다!");
     }
-    if (isEmail !== true || isPw !== true || password !== passwordCheck) {
+    if (!isEmail || isPw !== true || password !== passwordCheck) {
       alert("양식에 맞게 작성해 주세요!");
     }
   };
-
-  useEffect(() => {
-    if (isCheck !== null && email) {
-      alert(isCheck);
-    }
-  }, [isCheck]);
 
   return (
     <ScreenLayout>
