@@ -9,6 +9,7 @@ import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../r
 import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
+import UserInfo from "../../../utils/localStorage/userInfo";
 import { set } from "lodash";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
@@ -57,8 +58,10 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
 
   const dispatch = useDispatch();
-  const params = useParams();
-  const id = params.id;
+  const userInfo = UserInfo();
+
+  const id = userInfo.userId;
+
   useEffect(() => {
     dispatch(__getMyProfile(id));
   }, [isProfileSettingModalOpen, profile]);
@@ -112,20 +115,12 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       introduction: introduction,
     };
 
-    // if (profile.length !==0) {
-    //   formData.append("profileImage", profile)
-    // }
-
-    // if(background.length !==0) {
-    //   formData.append("backgroundImage",background)
-    // }
-
     const formData = new FormData();
     formData.append("userProfileRequestDto", new Blob([JSON.stringify(userProfileRequestDto)], { type: "application/json" })); // 텍스트 데이터
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    console.log(userProfileRequestDto, profile, background);
+    // console.log(userProfileRequestDto, profile, background);
 
     if (nickName !== "" || (password === passwordCheck && password !== "") || introduction !== "") {
     }
@@ -135,14 +130,15 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       //   console.log("value", value);
       // }
       dispatch(__setProfile(formData)).then((data) => {
+        console.log(data);
         // 헤더에 이미지 최신꺼 들고오기 위해서
         setIsEditProfile(true);
-        if (data.payload.response.status !== 200) {
+        if (data.error) {
           alert("수정 실패");
         } else {
           alert("수정 성공");
         }
-        console.log("콘솔-->", data.payload.response.status);
+        // console.log("콘솔------>", data.payload.response.status);
       });
     } else {
       alert("내용을 채워주세요!");
