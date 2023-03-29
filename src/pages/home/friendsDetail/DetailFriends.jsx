@@ -4,6 +4,7 @@ import { PostBox, ProfileArea, ProfileWrap, PostLeft, PhotoFrame, TextArea, Nick
 
 function DetailFriends({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const navigate = useNavigate();
+
   return (
     <>
       {FriendsList?.map((user) => (

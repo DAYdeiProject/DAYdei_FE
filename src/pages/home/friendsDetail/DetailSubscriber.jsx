@@ -4,6 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
 import {
+  NoListMessageWrapper,
+  MessageBox,
+  ContentArea,
+  IconStyle,
+  TextWrap,
+  UpperText,
+  BottomText,
   PostBox,
   ProfileArea,
   ProfileWrap,
@@ -25,7 +32,37 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
     dispatch(__cancelSubscribe(id));
   };
 
-  console.log("자식에서-->", SubscribersList);
+  const otherUser = useSelector((state) => state.calendar.otherUser);
+  console.log("다른유저-->", otherUser.nickName);
+
+  // console.log("자식에서-->", SubscribersList);
+
+  if (SubscribersList?.length === 0) {
+    return (
+      <NoListMessageWrapper>
+        <MessageBox>
+          <ContentArea>
+            <IconStyle />
+            <TextWrap>
+              <UpperText>{otherUser.nickName}를 구독하는 사람</UpperText>
+              <BottomText>{otherUser.nickName}를 구독하는 사람들이 여기에 표시됩니다.</BottomText>
+            </TextWrap>
+          </ContentArea>
+          {/* <ButtonWrap>
+            <RecommendButton
+              onClick={() => {
+                setIsCalendarMainVisible(false);
+                setIsFriendListVisible(false);
+                setIsSearchUsersvisible(true);
+                setIsFriendDetailVisible(false);
+              }}>
+              회원님을 위한 추천
+            </RecommendButton>
+          </ButtonWrap> */}
+        </MessageBox>
+      </NoListMessageWrapper>
+    );
+  }
 
   return (
     <>

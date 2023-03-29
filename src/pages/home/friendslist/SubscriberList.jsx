@@ -1,9 +1,26 @@
 import { React } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
-import { PostBox, ProfileArea, ProfileWrap, PhotoFrame, PostLeft, TextArea, NickNameWrap, EmailWrap, IntroductionWrap } from "./FriendList";
+import {
+  NoListMessageWrapper,
+  MessageBox,
+  ContentArea,
+  IconStyle,
+  TextWrap,
+  UpperText,
+  BottomText,
+  PostBox,
+  ProfileArea,
+  ProfileWrap,
+  PhotoFrame,
+  PostLeft,
+  TextArea,
+  NickNameWrap,
+  EmailWrap,
+  IntroductionWrap,
+} from "./FriendList";
 
 function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   // console.log(subscribeList);
@@ -13,6 +30,36 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));
   };
+
+  const otherUser = useSelector((state) => state.calendar.otherUser);
+  console.log("다른유저-->", otherUser);
+
+  if (SubscribersList?.length === 0) {
+    return (
+      <NoListMessageWrapper>
+        <MessageBox>
+          <ContentArea>
+            <IconStyle />
+            <TextWrap>
+              <UpperText>나를 구독하는 사람</UpperText>
+              <BottomText>회원님을 구독하는 사람들이 여기에 표시됩니다.</BottomText>
+            </TextWrap>
+          </ContentArea>
+          {/* <ButtonWrap>
+            <RecommendButton
+              onClick={() => {
+                setIsCalendarMainVisible(false);
+                setIsFriendListVisible(false);
+                setIsSearchUsersvisible(true);
+                setIsFriendDetailVisible(false);
+              }}>
+              회원님을 위한 추천
+            </RecommendButton>
+          </ButtonWrap> */}
+        </MessageBox>
+      </NoListMessageWrapper>
+    );
+  }
 
   return (
     <>

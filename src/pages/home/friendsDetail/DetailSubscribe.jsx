@@ -1,10 +1,46 @@
 import { React } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { PostBox, ProfileArea, ProfileWrap, PostLeft, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap } from "../friendslist/FriendList";
+import {
+  NoListMessageWrapper,
+  MessageBox,
+  ContentArea,
+  IconStyle,
+  TextWrap,
+  UpperText,
+  BottomText,
+  PostBox,
+  ProfileArea,
+  ProfileWrap,
+  PostLeft,
+  PhotoFrame,
+  TextArea,
+  NickNameWrap,
+  EmailWrap,
+  IntroductionWrap,
+} from "../friendslist/FriendList";
 
 function DetailSubscribe({ SubscribesList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
   const navigate = useNavigate();
+
+  const otherUser = useSelector((state) => state.calendar.otherUser);
+
+  if (SubscribesList?.length === 0) {
+    return (
+      <NoListMessageWrapper>
+        <MessageBox>
+          <ContentArea>
+            <IconStyle />
+            <TextWrap>
+              <UpperText>{otherUser.nickName}님이 구독하는 사람</UpperText>
+              <BottomText>{otherUser.nickName}님이 구독하는 사람들이 여기에 표시됩니다.</BottomText>
+            </TextWrap>
+          </ContentArea>
+        </MessageBox>
+      </NoListMessageWrapper>
+    );
+  }
 
   return (
     <>
