@@ -115,8 +115,6 @@ const RecommendButton = styled.div`
   justify-content: center;
   text-align: center;
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
