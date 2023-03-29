@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import ModalWrap from "./ModalWrap";
 
-function Modal({ height, children, padding }) {
+function Modal({ height, children, padding, width }) {
   return (
     <ModalWrap>
-      <ModalBox height={height} padding={padding}>
+      <ModalBox height={height} padding={padding} width={width}>
         <div>{children}</div>
       </ModalBox>
     </ModalWrap>
@@ -25,8 +25,6 @@ const ModalBox = styled.div`
   flex-direction: column;
   align-items: center;
   padding: ${(props) => props.padding};
-
-  height: ${(props) => props.height};
 
   background: #ffffff;
   border-radius: 16px;
