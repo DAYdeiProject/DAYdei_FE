@@ -124,7 +124,7 @@ export const ScreenWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: calc(100vh - 100px - 1px);
+  height: calc(100vh - 64px - 1px);
   /* background-color: pink; */
 `;
 
