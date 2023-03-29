@@ -49,7 +49,7 @@ function CalendarMain({ ...props }) {
   // 타유저 캘린더 share 일정 state
   const [otherCalendarState, setOtherCalendarState] = useState(false);
   // 타유저  캘린더 share 일정 open state
-  const [isOtherOpen, setIsOtherOpen] = useState(true);
+  const [isOtherOpen, setIsOtherOpen] = useState(false);
 
   const dispatch = useDispatch();
 
