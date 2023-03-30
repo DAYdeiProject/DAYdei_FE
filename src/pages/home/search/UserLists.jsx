@@ -251,7 +251,6 @@ const NameArea = styled.div`
   padding: 0px;
   gap: 2px;
 
-  width: 83px;
   height: 35px;
   /* background-color: yellow; */
 `;
@@ -264,7 +263,6 @@ const NicknameWrap = styled.div`
   padding: 0px;
   gap: 8px;
 
-  width: 83px;
   height: 19px;
 
   font-weight: 500;

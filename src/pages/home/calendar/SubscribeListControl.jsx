@@ -22,7 +22,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
 
   //useSelector로 구독하는 유저 정보 가져오기
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  // console.log(SubscribesList);
+  console.log(SubscribesList);
 
   const showUserHandler = (id) => {
     dispatch(__hideUser(id));

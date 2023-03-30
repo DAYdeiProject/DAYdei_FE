@@ -7,7 +7,6 @@ const initialState = {
   isLoading: false,
   isError: false,
   statusCode: 0,
-  clickedButtonIds: [],
 };
 
 // 구독하는 계정 GET 요청
@@ -68,20 +67,14 @@ export const __hideUser = createAsyncThunk("hideUser", async (id, thunkAPI) => {
   }
 });
 
-//구독 보여주기,숨기기 모달에서 클릭된 버튼
-// export const updateClickedButtonIds = (clickedButtonIds) => {
-//   // console.log("리듀서가기전", clickedButtonIds);
-//   return { type: "subscribe/updateClickedButtonIds", payload: clickedButtonIds };
-// };
-
 export const subscribeSlice = createSlice({
   name: "subscribe",
   initialState,
   reducers: {
-    // "subscribe/updateClickedButtonIds": (state, action) => {
-    //   console.log(action.payload);
-    //   state.clickedButtonIds.push(action.payload);
-    // },
+    "subscribe/updateClickedButtonIds": (state, action) => {
+      console.log(action.payload);
+      state.clickedButtonIds.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder

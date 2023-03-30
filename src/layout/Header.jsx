@@ -244,6 +244,7 @@ const DropdownFrame = styled.div`
 
   position: absolute;
   top: calc(100% + 10px);
+  margin-left: 10px;
   right: 0;
   z-index: 100;
   padding: 0px 12px;
