@@ -111,26 +111,31 @@ function Header(props) {
                 <Alert onClick={notificationClick} />
                 <Image onClick={handleDropdown}>
                   <img src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
+                  {isDropdownOpen && (
+                    <DropdownFrame>
+                      <ContentWrapper>
+                        <ProfileWrap>
+                          <PhotoWrap>
+                            <ProfilePhoto src={myProfile.profileImage} />
+                          </PhotoWrap>
+                          <IntroductionWrap>
+                            <NameWrap>{myProfile.nickName} </NameWrap>
+                            <EmailWrap>@{myProfile.email.split("@")[0]}</EmailWrap>
+                          </IntroductionWrap>
+                        </ProfileWrap>
+                        <GapArea></GapArea>
+                        <Options>
+                          <Button onClick={ProfileSettingModalHandler}>
+                            <div>프로필 수정</div>
+                          </Button>
+                          <Button onClick={logoutHandler}>
+                            <div>로그아웃</div>
+                          </Button>
+                        </Options>
+                      </ContentWrapper>
+                    </DropdownFrame>
+                  )}
                 </Image>
-                {isDropdownOpen && (
-                  <DropdownFrame>
-                    <ContentWrapper>
-                      <ShortProfile>
-                        <PhotoWrap>
-                          <ProfilePhoto src={myProfile.profileImage} />
-                        </PhotoWrap>
-                        <IntroductionWrap>
-                          <IntroText>이름 : {myProfile.nickName} </IntroText>
-                          <IntroText>이메일 : {myProfile.email}</IntroText>
-                        </IntroductionWrap>
-                      </ShortProfile>
-                      <Buttons>
-                        <Button onClick={ProfileSettingModalHandler}>프로필 수정</Button>
-                        <Button onClick={logoutHandler}>로그아웃</Button>
-                      </Buttons>
-                    </ContentWrapper>
-                  </DropdownFrame>
-                )}
               </IconWrapper>
             </NavUserConatiner>
           </NavContainer>
@@ -236,18 +241,19 @@ const Image = styled.div`
 `;
 
 const DropdownFrame = styled.div`
-  width: 300px;
-  height: 350px;
-  border-radius: 4px;
-  background-color: white;
-  border: 1px solid black;
+  width: 240px;
+  height: 180px;
+  background: #ffffff;
+  border: 1px solid #121212;
+  box-shadow: 0px 0px 20px rgba(78, 78, 78, 0.15), 1px 1px 0px #000000;
+  padding: 16px 14px;
+  border-radius: 8px;
 
-  position: absolute;
-  top: calc(100% + 10px);
-  margin-left: 10px;
-  right: 0;
+  position: relative;
+  top: 3px;
+  right: 200px;
   z-index: 100;
-  padding: 0px 12px;
+  /* background-color: pink; */
 `;
 
 const ContentWrapper = styled.div`
@@ -255,30 +261,47 @@ const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
+  /* background-color: pink; */
 `;
 
-const ShortProfile = styled.div`
-  height: 45%;
+// const ShortProfile = styled.div`
+//   height: 62px;
+//   width: 100%;
+//   border-bottom: 1px solid black;
+//   background-color: skyblue;
+// `;
+
+const ProfileWrap = styled.div`
   width: 100%;
+  height: 56px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  /* background-color: yellow; */
+`;
+
+const GapArea = styled.div`
+  width: 100%;
+  height: 6px;
+  /* background-color: pink; */
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
 `;
 
 const PhotoWrap = styled.div`
-  width: 35%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: pink; */
-  /* border-radius: 50%; */
 `;
 
 const ProfilePhoto = styled.div`
-  height: 85px;
-  width: 85px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
-  background-color: lightgray;
+  /* background-color: lightgray; */
 
   background-image: url(${(props) => props.src});
   background-size: cover;
@@ -286,37 +309,43 @@ const ProfilePhoto = styled.div`
 `;
 
 const IntroductionWrap = styled.div`
-  width: 65%;
+  height: 35px;
+  width: 142px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+`;
+
+const NameWrap = styled.div`
+  font-size: ${(props) => props.theme.Fs.size16};
+`;
+
+const EmailWrap = styled.div`
+  font-size: ${(props) => props.theme.Fs.size12};
+  color: ${(props) => props.theme.Bg.color3};
+`;
+
+const Options = styled.div`
+  width: 100%;
+  height: 115px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  /* background-color: lightgray; */
+  margin-bottom: -10px;
+`;
+
+const Button = styled.div`
+  height: 33px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: ${(props) => props.theme.Fs.size14};
+  font-weight: 800;
+  padding-left: 8px;
   /* background-color: pink; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 10px;
-  gap: 10px;
-`;
-
-const IntroText = styled.div`
-  font-size: ${(props) => props.theme.Fs.smallText};
-`;
-
-const Buttons = styled.div`
-  height: 45%;
-  width: 100%;
-  /* background-color: lightgreen; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 18px;
-  /* margin-bottom: -18px; */
-`;
-
-const Button = styled.button`
-  height: 30%;
-  width: 100%;
-  border-radius: 10px;
-  background-color: ${(props) => props.theme.Bg.lightColor};
-  color: ${(props) => props.theme.Bg.deepColor};
-  font-size: ${(props) => props.theme.Fs.smallText};
   :hover {
     cursor: pointer;
   }
