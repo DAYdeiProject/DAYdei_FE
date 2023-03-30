@@ -105,3 +105,20 @@ export function DayAmPm(time) {
   }
   return result;
 }
+
+export function CategoryText(data) {
+  switch (data) {
+    case "SPORTS":
+      return "스포츠";
+    case "EDUCATION":
+      return "교육";
+    case "ENTERTAINMENT":
+      return "연예";
+    case "OTT":
+      return "OTT";
+    case "GAME":
+      return "게임";
+    default:
+      return "스포츠";
+  }
+}

@@ -15,7 +15,7 @@ export default function NotificationModal({ ...props }) {
   const param = useParams();
   const navigate = useNavigate();
   const { data, isLoading } = useSelector((state) => state.connect);
-  //console.log("useSelect =====> ", data);
+  console.log("useSelect =====> ", data);
   useEffect(() => {
     dispatch(__getConnect(token));
   }, [props.isNotificationOpen]);
