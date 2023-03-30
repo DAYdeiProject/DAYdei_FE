@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   statusCode: 0,
+  statusCodeHide: 0,
 };
 
 // 구독하는 계정 GET 요청
@@ -59,8 +60,8 @@ export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, 
 export const __hideUser = createAsyncThunk("hideUser", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.put(`/show/${id}`);
-    console.log("put요청 리스펀스", response);
-    return thunkAPI.fulfillWithValue(response.data);
+    console.log("put요청 리스펀스", response.data.statusCode);
+    return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
@@ -126,7 +127,7 @@ export const subscribeSlice = createSlice({
     builder
       .addCase(__hideUser.fulfilled, (state, action) => {
         state.isError = false;
-        state.statusCode = action.payload;
+        state.statusCodeHide = action.payload;
       })
       .addCase(__hideUser.rejected, (state) => {
         state.isError = true;

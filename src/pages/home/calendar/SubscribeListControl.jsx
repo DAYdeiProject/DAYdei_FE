@@ -7,10 +7,15 @@ import { SideSpaceWrapper } from "./CalendarSidebar";
 import { __hideUser } from "../../../redux/modules/subscribeSlice";
 // import { click } from "@testing-library/user-event/dist/click";
 
-function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
+function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
   const dispatch = useDispatch();
   const params = useParams();
+  const [requestStatus, setRequestStatus] = useState(false);
+
+  //useSelector로 구독하는 유저 정보 가져오기
+  const { statusCodeHide, SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
+  console.log(SubscribesList);
 
   useEffect(() => {
     const id = params.id;
@@ -18,30 +23,36 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
     console.log("검색어 없는 url-->", url);
 
     dispatch(__getSubscribeList(url));
-  }, []);
-
-  //useSelector로 구독하는 유저 정보 가져오기
-  const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  console.log(SubscribesList);
+  }, [requestStatus]);
 
   const showUserHandler = (id) => {
-    dispatch(__hideUser(id));
+    dispatch(__hideUser(id)).then((data) => {
+      if (!data.error) {
+        setRequestStatus(!requestStatus);
+        setIsSubmit(!isSubmit);
+      }
+    });
     setClickedButtonIds((prev) => prev.filter((prevId) => prevId !== id));
   };
 
   const hideUserHandler = (id) => {
-    dispatch(__hideUser(id));
+    dispatch(__hideUser(id)).then((data) => {
+      if (!data.error) {
+        setRequestStatus(!requestStatus);
+        setIsSubmit(!isSubmit);
+      }
+    });
     setClickedButtonIds((prev) => [...prev, id]);
   };
 
-  const Button = ({ id }) => {
-    if (clickedButtonIds.includes(id)) {
+  const Button = ({ id, isVisible }) => {
+    if (isVisible) {
       return (
         <ButtonStyle
           onClick={() => {
             showUserHandler(id);
           }}>
-          일정 표시
+          숨기기
         </ButtonStyle>
       );
     }
@@ -50,12 +61,11 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
         onClick={() => {
           hideUserHandler(id);
         }}>
-        숨기기
+        일정표시
       </ButtonStyle>
     );
   };
-
-  console.log("클릭", clickedButtonIds);
+  console.log(clickedButtonIds);
 
   return (
     <>
@@ -67,7 +77,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
               <ContentWrap>
                 <BoxWrap key={user.id}>
                   <div>{user.nickName ? user.nickName : "이름 없음"}</div>
-                  <Button id={user.id} />
+                  <Button id={user.id} isVisible={user.isVisible} />
                 </BoxWrap>
               </ContentWrap>
             </>

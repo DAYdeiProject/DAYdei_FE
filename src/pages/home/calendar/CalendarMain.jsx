@@ -261,7 +261,7 @@ function CalendarMain({ ...props }) {
           isSubmit={isSubmit}
         />
       </CalendarWrapper>
-      {String(userInfo.userId) === String(param.id) && <CalendarSidebar />}
+      {String(userInfo.userId) === String(param.id) && <CalendarSidebar isSubmit={isSubmit} setIsSubmit={setIsSubmit} />}
     </CalendarSidebarWrapper>
   );
 }
