@@ -31,10 +31,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const [isProfileUpdateFailed, setIsProfileUpdateFailed] = useState(false);
 
   const {
-    email,
-    isEmail,
-    isEmailMessage,
-    handleEmailChange,
     password,
     isPw,
     isPwMessage,
@@ -44,8 +40,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     handlePasswordCheckChange,
     nickName,
     handleNickNameChange,
-    birthday,
-    handleBirthdayChange,
+
     introduction,
     handleIntroductionChange,
   } = useLogin();
@@ -148,7 +143,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   return (
     <>
       <ModalWrap>
-        <Modal height="580px" padding="30px 5px 10px 5px">
+        <Modal height="580px" padding="30px 5px 10px 5px" width="540px">
           <WholeAreaWrapper ref={ProfileSettingModalRef}>
             <form onSubmit={profileChangeHandler}>
               <InfoArea>

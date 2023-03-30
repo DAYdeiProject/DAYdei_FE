@@ -55,6 +55,18 @@ export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, 
   }
 });
 
+//일정 가리기 요청
+export const __hideUser = createAsyncThunk("hideUser", async (id, thunkAPI) => {
+  try {
+    const response = await subscribeInstance.put(`/show/${id}`);
+    console.log("put요청 리스펀스", response);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const subscribeSlice = createSlice({
   name: "subscribe",
   initialState,
@@ -103,6 +115,15 @@ export const subscribeSlice = createSlice({
         state.statusCode = action.payload;
       })
       .addCase(__cancelSubscribe.rejected, (state) => {
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__hideUser.fulfilled, (state, action) => {
+        state.isError = false;
+        state.statusCode = action.payload;
+      })
+      .addCase(__hideUser.rejected, (state) => {
         state.isError = true;
       });
   },
