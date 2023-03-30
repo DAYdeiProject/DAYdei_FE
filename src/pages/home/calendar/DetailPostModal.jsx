@@ -511,9 +511,14 @@ const InviteWrapper = styled.div`
   button {
     border: none;
     background-color: transparent;
-    font-size: ${(props) => props.theme.Fs.size12};
-    color: ${(props) => props.theme.Bg.color2};
+    font-size: ${(props) => props.theme.Fs.size14};
     cursor: pointer;
+  }
+  button:nth-child(1) {
+    color: ${(props) => props.theme.Bg.mainColor5};
+  }
+  button:nth-child(2) {
+    color: #df5445;
   }
 `;
 

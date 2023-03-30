@@ -21,6 +21,7 @@ import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
 import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
 import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
 import { ReactComponent as Search } from "../../../assets/lcon/searchList/search.svg";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import ModalBox from "../../../elements/ModalBox";
 
 function AddPostModal({ ...props }) {
@@ -520,7 +521,7 @@ function AddPostModal({ ...props }) {
                   return (
                     <postStyle.TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
                       <postStyle.TargetBoxImg>
-                        <img src={list.profileImage}></img>
+                        <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
                       </postStyle.TargetBoxImg>
                       <postStyle.TargetBoxText>
                         <span>
@@ -531,7 +532,7 @@ function AddPostModal({ ...props }) {
                             ? list.introduction.length > 20
                               ? `${list.introduction.substr(0, 20)}...`
                               : list.introduction
-                            : "아직 작성된 소개글이 없습니다."}
+                            : `${list.nickName}의 캘린더입니다.`}
                         </span>
                       </postStyle.TargetBoxText>
                     </postStyle.TartgetBox>
