@@ -116,7 +116,7 @@ function Header(props) {
                       <ContentWrapper>
                         <ProfileWrap>
                           <PhotoWrap>
-                            <ProfilePhoto src={myProfile.profileImage} />
+                            <ProfilePhoto src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
                           </PhotoWrap>
                           <IntroductionWrap>
                             <NameWrap>{myProfile.nickName} </NameWrap>
@@ -264,13 +264,6 @@ const ContentWrapper = styled.div`
 
   /* background-color: pink; */
 `;
-
-// const ShortProfile = styled.div`
-//   height: 62px;
-//   width: 100%;
-//   border-bottom: 1px solid black;
-//   background-color: skyblue;
-// `;
 
 const ProfileWrap = styled.div`
   width: 100%;
