@@ -25,15 +25,21 @@ const HeaderWrapper = styled.section`
 `;
 
 const BodyWrapper = styled.section`
-  height: 530px;
+  // background-color: lavender;
+  max-height: 420px;
+  margin-top: 25px;
   padding: 0 10px;
   overflow-y: auto;
+  ${(props) => props.theme.FlexCol}
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 25px;
 `;
 
 const BodyContainer = styled.div`
-  ${(props) => props.theme.FlexCol}
+  /* ${(props) => props.theme.FlexCol}
   align-items: flex-start;
-  gap: 25px;
+  gap: 25px; */
 `;
 
 // 타이틀 text
@@ -337,10 +343,12 @@ const PreviewBox = styled.div`
 const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  margin-bottom: 20px;
+  padding: 0 10px;
 `;
+
 const SelectContainer = styled(ScopeWrapper)`
   margin: 0;
+  border: none;
   select {
     width: 150px;
     height: 21px;
@@ -357,7 +365,7 @@ const SubmitButtonWrapper = styled.div`
     color: ${(props) => (props.isEdit ? props.theme.Bg.color1 : props.theme.Bg.color6)};
     font-size: ${(props) => props.theme.Fs.size14};
     font-weight: 500;
-    margin-top: 15px;
+    margin-top: 30px;
   }
 `;
 

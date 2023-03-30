@@ -100,6 +100,16 @@ function AddPostModal({ ...props }) {
         }
         const color = ColorFromDB(data.payload.color);
         setIsColor(color);
+
+        if (data.payload.location) {
+          setIsShowLocation(true);
+        }
+        if (data.payload.content) {
+          setIsShowContent(true);
+        }
+        if (data.payload.image.length !== 0) {
+          setIsShowImg(true);
+        }
       });
     }
   }, [props.modifyPostId]);
@@ -195,7 +205,7 @@ function AddPostModal({ ...props }) {
   };
 
   useEffect(() => {
-    if (startDate < endDate) {
+    if (startDate < endDate || (props.modifyPostId && watch("startTime") === watch("endTime"))) {
       setIsAllDay(true);
       setValue("allDay", "checked");
     } else {
@@ -388,8 +398,12 @@ function AddPostModal({ ...props }) {
         }
       });
     } else {
-      // 이미지 없을때 + 수정하기 일때
+      // 새이미지 없을때 + 수정하기 일때
       if (props.modifyPostId) {
+        let saveNewView = [];
+        saveNewView.push(...saveView);
+        newPost.image = saveNewView;
+
         dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
           if (data.error) {
             closeClickHandler();
@@ -418,230 +432,221 @@ function AddPostModal({ ...props }) {
   };
 
   return (
-    <ModalBox isOpen={props.isAddPost} width={"500px"} height={"670px"}>
+    <ModalBox isOpen={props.isAddPost} width={"500px"} height={"640px"}>
       <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
         <postStyle.HeaderWrapper>
           {props.modifyPostId && <Delete width={22} height={22} onClick={deleteClickHandler} className="deleteIcon" />}
           <Dismiss className="closeIcon" onClick={closeClickHandler} />
         </postStyle.HeaderWrapper>
 
+        <postStyle.TitleWrapper>
+          <input {...register("title", { required: "제목을 입력해주세요." })} placeholder="일정 제목 추가" />
+        </postStyle.TitleWrapper>
+
         <postStyle.BodyWrapper>
-          <postStyle.BodyContainer>
-            <postStyle.TitleWrapper>
-              <input {...register("title", { required: "제목을 입력해주세요." })} placeholder="일정 제목 추가" />
-            </postStyle.TitleWrapper>
+          <postStyle.DaysCheckWrapper>
+            <postStyle.DaysIconBox>
+              <Clock />
+            </postStyle.DaysIconBox>
+            <postStyle.DaysCheckContainer>
+              <postStyle.StartDateContainer>
+                <span>시작</span>
+                <postStyle.CustomDatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="yyyy-MM-dd" locale={ko} />
+                <select {...register("startTime")} disabled={isAllDay}>
+                  {time.map((item, i) => (
+                    <option key={i} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </postStyle.StartDateContainer>
 
-            <postStyle.DaysCheckWrapper>
-              <postStyle.DaysIconBox>
-                <Clock />
-              </postStyle.DaysIconBox>
-              <postStyle.DaysCheckContainer>
-                <postStyle.StartDateContainer>
-                  <span>시작</span>
-                  <postStyle.CustomDatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="yyyy-MM-dd" locale={ko} />
-                  <select {...register("startTime")} disabled={isAllDay}>
-                    {time.map((item, i) => (
-                      <option key={i} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </postStyle.StartDateContainer>
+              <postStyle.StartDateContainer>
+                <span>종료</span>
+                <postStyle.CustomDatePicker selected={endDate} onChange={(date) => setEndDate(date)} minDate={startDate} dateFormat="yyyy-MM-dd" locale={ko} />
+                <select {...register("endTime")} disabled={isAllDay}>
+                  {time.map((item, i) => (
+                    <option key={i} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </postStyle.StartDateContainer>
+            </postStyle.DaysCheckContainer>
 
-                <postStyle.StartDateContainer>
-                  <span>종료</span>
-                  <postStyle.CustomDatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    minDate={startDate}
-                    dateFormat="yyyy-MM-dd"
-                    locale={ko}
-                  />
-                  <select {...register("endTime")} disabled={isAllDay}>
-                    {time.map((item, i) => (
-                      <option key={i} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </postStyle.StartDateContainer>
-              </postStyle.DaysCheckContainer>
+            <postStyle.DaysAllCheckContainer>
+              <input type="checkbox" {...register("allDay")} onChange={isAllDayChange}></input>
+              <span>종일</span>
+            </postStyle.DaysAllCheckContainer>
+          </postStyle.DaysCheckWrapper>
 
-              <postStyle.DaysAllCheckContainer>
-                <input type="checkbox" {...register("allDay")} onChange={isAllDayChange}></input>
-                <span>종일</span>
-              </postStyle.DaysAllCheckContainer>
-            </postStyle.DaysCheckWrapper>
+          <postStyle.ColorBoxWrapper>
+            <Calendar />
+            <postStyle.TextSpan>
+              <span>달력</span>
+            </postStyle.TextSpan>
+            <postStyle.ColorBoxContainer>
+              {colorList.map((item, i) => (
+                <postStyle.ColorBox key={i} value={item} isClick={item === isColor} {...register("color")} onClick={() => colorClick(item)} />
+              ))}
+            </postStyle.ColorBoxContainer>
+          </postStyle.ColorBoxWrapper>
 
-            <postStyle.ColorBoxWrapper>
-              <Calendar />
+          <postStyle.InviteWrapper>
+            <Invite />
+            <postStyle.TextSpan>
+              <span>초대</span>
+            </postStyle.TextSpan>
+            <postStyle.InviteSearchContainer>
+              <postStyle.InviteSearchBox>
+                <postStyle.InviteIconBox>
+                  <Search className="searchIcon" />
+                </postStyle.InviteIconBox>
+                <postStyle.FriendPickBox>
+                  {targetPick?.map((pick) => (
+                    <postStyle.FriendBox key={pick.id}>
+                      <span>{pick.nickName}</span>
+                      <BiX className="friendX" onClick={() => deleteTarget(pick.id)} />
+                    </postStyle.FriendBox>
+                  ))}
+                </postStyle.FriendPickBox>
+                <postStyle.FriendBoxInput>
+                  <input type="text" {...register("participant")} placeholder="닉네임, 이메일 검색" />
+                </postStyle.FriendBoxInput>
+              </postStyle.InviteSearchBox>
+              <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
+                {targetList?.map((list) => {
+                  const newEmail = list.email.split("@");
+                  return (
+                    <postStyle.TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
+                      <postStyle.TargetBoxImg>
+                        <img src={list.profileImage}></img>
+                      </postStyle.TargetBoxImg>
+                      <postStyle.TargetBoxText>
+                        <span>
+                          {list.nickName} ( @{newEmail[0]} )
+                        </span>
+                        <span>
+                          {list.introduction
+                            ? list.introduction.length > 20
+                              ? `${list.introduction.substr(0, 20)}...`
+                              : list.introduction
+                            : "아직 작성된 소개글이 없습니다."}
+                        </span>
+                      </postStyle.TargetBoxText>
+                    </postStyle.TartgetBox>
+                  );
+                })}
+              </postStyle.SerchModalContainer>
+            </postStyle.InviteSearchContainer>
+          </postStyle.InviteWrapper>
+
+          <postStyle.LocationWrapper>
+            <postStyle.LocationContainer>
+              <Location />
               <postStyle.TextSpan>
-                <span>달력</span>
+                <span>장소</span>
               </postStyle.TextSpan>
-              <postStyle.ColorBoxContainer>
-                {colorList.map((item, i) => (
-                  <postStyle.ColorBox key={i} value={item} isClick={item === isColor} {...register("color")} onClick={() => colorClick(item)} />
-                ))}
-              </postStyle.ColorBoxContainer>
-            </postStyle.ColorBoxWrapper>
+              <postStyle.ToggleContainer>
+                {isShowLocation ? (
+                  <Up className="showToggle" onClick={() => hideToggieHandler("location")} />
+                ) : (
+                  <Down className="showToggle" onClick={() => showToggieHandler("location")} />
+                )}
+              </postStyle.ToggleContainer>
+            </postStyle.LocationContainer>
+            <postStyle.WriteLocationBox isShow={isShowLocation}>
+              <input type="text" {...register("location")} />
+            </postStyle.WriteLocationBox>
+          </postStyle.LocationWrapper>
 
-            <postStyle.InviteWrapper>
-              <Invite />
+          <postStyle.ContentWrapper>
+            <postStyle.ContentBoxContainer>
+              <Memo />
               <postStyle.TextSpan>
-                <span>초대</span>
+                <span>상세</span>
               </postStyle.TextSpan>
-              <postStyle.InviteSearchContainer>
-                <postStyle.InviteSearchBox>
-                  <postStyle.InviteIconBox>
-                    <Search className="searchIcon" />
-                  </postStyle.InviteIconBox>
-                  <postStyle.FriendPickBox>
-                    {targetPick?.map((pick) => (
-                      <postStyle.FriendBox key={pick.id}>
-                        <span>{pick.nickName}</span>
-                        <BiX className="friendX" onClick={() => deleteTarget(pick.id)} />
-                      </postStyle.FriendBox>
-                    ))}
-                  </postStyle.FriendPickBox>
-                  <postStyle.FriendBoxInput>
-                    <input type="text" {...register("participant")} placeholder="닉네임, 이메일 검색" />
-                  </postStyle.FriendBoxInput>
-                </postStyle.InviteSearchBox>
-                <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
-                  {targetList?.map((list) => {
-                    const newEmail = list.email.split("@");
-                    return (
-                      <postStyle.TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
-                        <postStyle.TargetBoxImg>
-                          <img src={list.profileImage}></img>
-                        </postStyle.TargetBoxImg>
-                        <postStyle.TargetBoxText>
-                          <span>
-                            {list.nickName} ( @{newEmail[0]} )
-                          </span>
-                          <span>
-                            {list.introduction
-                              ? list.introduction.length > 20
-                                ? `${list.introduction.substr(0, 20)}...`
-                                : list.introduction
-                              : "아직 작성된 소개글이 없습니다."}
-                          </span>
-                        </postStyle.TargetBoxText>
-                      </postStyle.TartgetBox>
-                    );
-                  })}
-                </postStyle.SerchModalContainer>
-              </postStyle.InviteSearchContainer>
-            </postStyle.InviteWrapper>
+              <postStyle.ToggleContainer>
+                {isShowContent ? (
+                  <Up className="showToggle" onClick={() => hideToggieHandler("content")} />
+                ) : (
+                  <Down className="showToggle" onClick={() => showToggieHandler("content")} />
+                )}
+              </postStyle.ToggleContainer>
+            </postStyle.ContentBoxContainer>
+            <postStyle.WriteContentBox isShow={isShowContent}>
+              <textarea {...register("content")} />
+            </postStyle.WriteContentBox>
+          </postStyle.ContentWrapper>
 
-            <postStyle.LocationWrapper>
-              <postStyle.LocationContainer>
-                <Location />
-                <postStyle.TextSpan>
-                  <span>장소</span>
-                </postStyle.TextSpan>
-                <postStyle.ToggleContainer>
-                  {isShowLocation ? (
-                    <Up className="showToggle" onClick={() => hideToggieHandler("location")} />
-                  ) : (
-                    <Down className="showToggle" onClick={() => showToggieHandler("location")} />
-                  )}
-                </postStyle.ToggleContainer>
-              </postStyle.LocationContainer>
-              <postStyle.WriteLocationBox isShow={isShowLocation}>
-                <input type="text" {...register("location")} />
-              </postStyle.WriteLocationBox>
-            </postStyle.LocationWrapper>
-
-            <postStyle.ContentWrapper>
-              <postStyle.ContentBoxContainer>
-                <Memo />
-                <postStyle.TextSpan>
-                  <span>상세</span>
-                </postStyle.TextSpan>
-                <postStyle.ToggleContainer>
-                  {isShowContent ? (
-                    <Up className="showToggle" onClick={() => hideToggieHandler("content")} />
-                  ) : (
-                    <Down className="showToggle" onClick={() => showToggieHandler("content")} />
-                  )}
-                </postStyle.ToggleContainer>
-              </postStyle.ContentBoxContainer>
-              <postStyle.WriteContentBox isShow={isShowContent}>
-                <textarea {...register("content")} />
-              </postStyle.WriteContentBox>
-            </postStyle.ContentWrapper>
-
-            <postStyle.ImgWrapper>
-              <postStyle.ImgContainer>
-                <ImageIcon />
-                <postStyle.TextSpan>
-                  <span>사진</span>
-                </postStyle.TextSpan>
-                <postStyle.ToggleContainer>
-                  {isShowImg ? (
-                    <Up className="showToggle" onClick={() => hideToggieHandler("img")} />
-                  ) : (
-                    <Down className="showToggle" onClick={() => showToggieHandler("img")} />
-                  )}
-                </postStyle.ToggleContainer>
-              </postStyle.ImgContainer>
-              <postStyle.ModifyImgUploadBox isShow={isShowImg}>
-                <postStyle.ImgUploadBox>
-                  <postStyle.ImgUploadListBox>
-                    {saveView &&
-                      saveView?.map((list, i) => {
-                        const save = "save";
-                        let sliceName = "..." + list.substr(-7, 3);
-                        return (
-                          <postStyle.ImgBox key={i}>
-                            <span>{sliceName}.jpg</span>
-                            <BiX className="friendX" onClick={() => deleteImgFile(i, save)} />
-                          </postStyle.ImgBox>
-                        );
-                      })}
-                    {fileName?.map((list, i) => {
+          <postStyle.ImgWrapper>
+            <postStyle.ImgContainer>
+              <ImageIcon />
+              <postStyle.TextSpan>
+                <span>사진</span>
+              </postStyle.TextSpan>
+              <postStyle.ToggleContainer>
+                {isShowImg ? (
+                  <Up className="showToggle" onClick={() => hideToggieHandler("img")} />
+                ) : (
+                  <Down className="showToggle" onClick={() => showToggieHandler("img")} />
+                )}
+              </postStyle.ToggleContainer>
+            </postStyle.ImgContainer>
+            <postStyle.ModifyImgUploadBox isShow={isShowImg}>
+              <postStyle.ImgUploadBox>
+                <postStyle.ImgUploadListBox>
+                  {saveView &&
+                    saveView?.map((list, i) => {
+                      const save = "save";
+                      let sliceName = "..." + list.substr(-7, 3);
                       return (
                         <postStyle.ImgBox key={i}>
-                          <span>{list}.jpg</span>
-                          <BiX className="friendX" onClick={() => deleteImgFile(i)} />
+                          <span>{sliceName}.jpg</span>
+                          <BiX className="friendX" onClick={() => deleteImgFile(i, save)} />
                         </postStyle.ImgBox>
                       );
                     })}
-                  </postStyle.ImgUploadListBox>
-                  <postStyle.ImgLabel htmlFor="inputImg">
-                    <postStyle.ImgUploadButton>파일추가</postStyle.ImgUploadButton>
-                    <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} />
-                  </postStyle.ImgLabel>
-                </postStyle.ImgUploadBox>
-                <postStyle.PreviewContainer>
-                  <postStyle.PreviewBox>
-                    {saveView.map((url, i) => {
-                      return <img key={i} src={url} />;
-                    })}
-                    {fileImg.map((url, i) => {
-                      return <img key={i} src={url} />;
-                    })}
-                  </postStyle.PreviewBox>
-                </postStyle.PreviewContainer>
-              </postStyle.ModifyImgUploadBox>
-            </postStyle.ImgWrapper>
-
-            <postStyle.ScopeWrapper>
-              <Lock />
-              <postStyle.TextSpan>
-                <span>공개</span>
-              </postStyle.TextSpan>
-              <postStyle.SelectContainer>
-                <select {...register("scope", { required: true })}>
-                  <option value="ALL">전체공개</option>
-                  <option value="SUBSCRIBE">전체공개(스크랩허용)</option>
-                  <option value="FRIEND">친구공개</option>
-                  <option value="ME">나만보기</option>
-                </select>
-              </postStyle.SelectContainer>
-            </postStyle.ScopeWrapper>
-          </postStyle.BodyContainer>
+                  {fileName?.map((list, i) => {
+                    return (
+                      <postStyle.ImgBox key={i}>
+                        <span>{list}.jpg</span>
+                        <BiX className="friendX" onClick={() => deleteImgFile(i)} />
+                      </postStyle.ImgBox>
+                    );
+                  })}
+                </postStyle.ImgUploadListBox>
+                <postStyle.ImgLabel htmlFor="inputImg">
+                  <postStyle.ImgUploadButton>파일추가</postStyle.ImgUploadButton>
+                  <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} />
+                </postStyle.ImgLabel>
+              </postStyle.ImgUploadBox>
+              <postStyle.PreviewContainer>
+                <postStyle.PreviewBox>
+                  {saveView.map((url, i) => {
+                    return <img key={i} src={url} />;
+                  })}
+                  {fileImg.map((url, i) => {
+                    return <img key={i} src={url} />;
+                  })}
+                </postStyle.PreviewBox>
+              </postStyle.PreviewContainer>
+            </postStyle.ModifyImgUploadBox>
+          </postStyle.ImgWrapper>
+          <postStyle.ScopeWrapper>
+            <Lock />
+            <postStyle.TextSpan>
+              <span>공개</span>
+            </postStyle.TextSpan>
+            <postStyle.SelectContainer>
+              <select {...register("scope", { required: true })}>
+                <option value="ALL">전체공개</option>
+                <option value="SUBSCRIBE">전체공개(스크랩허용)</option>
+                <option value="FRIEND">친구공개</option>
+                <option value="ME">나만보기</option>
+              </select>
+            </postStyle.SelectContainer>
+          </postStyle.ScopeWrapper>
         </postStyle.BodyWrapper>
 
         <postStyle.SubmitButtonWrapper isEdit={props.modifyPostId && true}>

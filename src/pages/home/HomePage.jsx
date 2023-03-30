@@ -35,6 +35,8 @@ function HomePage() {
   // 알림창 오픈 여부
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  // 오늘의 일정 postId
+  const [detailPostId, setDetailPostId] = useState("");
 
   //각 탭의 상태(캘린더, 친구/구독, 찾아보기, 친구의 친구/구독)
   const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
@@ -160,10 +162,18 @@ function HomePage() {
           isCalendarMainVisible={isCalendarMainVisible}
           setIsCalendarMainVisible={setIsCalendarMainVisible}
           handleShowFriendDetail={handleShowFriendDetail}
+          setDetailPostId={setDetailPostId}
         />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
         {isCalendarMainVisible && (
-          <CalendarMain side={side} setSide={setSide} notificationPostId={notificationPostId} setNotificationPostId={setNotificationPostId} />
+          <CalendarMain
+            side={side}
+            setSide={setSide}
+            notificationPostId={notificationPostId}
+            setNotificationPostId={setNotificationPostId}
+            detailPostId={detailPostId}
+            setDetailPostId={setDetailPostId}
+          />
         )}
         {isFriendListVisible && (
           <FriendsListMain

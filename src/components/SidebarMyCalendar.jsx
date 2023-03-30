@@ -52,6 +52,11 @@ export default function SidebarMyCalendar({ ...props }) {
 
   const myProfile = useSelector((state) => state.users.myProfile);
 
+  // 오늘의 일정 클릭시
+  const todayClickHandler = (postId) => {
+    props.setDetailPostId(postId);
+  };
+
   return (
     <>
       {isLoading && <Loading />}
@@ -81,7 +86,7 @@ export default function SidebarMyCalendar({ ...props }) {
                   today &&
                   today.map((list) => {
                     return (
-                      <TodayScheduleBox key={list.id}>
+                      <TodayScheduleBox key={list.id} onClick={() => todayClickHandler(list.id)}>
                         <IconBox>
                           <LightEmoji />
                         </IconBox>
@@ -204,7 +209,8 @@ const TodayScheduleBox = styled.div`
   gap: 15px;
   border-radius: 8px;
   &:hover {
-    background-color: ${(props) => props.theme.Bg.mainColor3};
+    background-color: ${(props) => props.theme.Bg.hoverColor};
+    cursor: pointer;
   }
 `;
 
@@ -241,7 +247,11 @@ const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
   gap: 5px;
 `;
-const ListBox = styled(TodayScheduleBox)``;
+const ListBox = styled(TodayScheduleBox)`
+  &:hover {
+    cursor: auto;
+  }
+`;
 
 const ImgBox = styled(IconBox)`
   img {
