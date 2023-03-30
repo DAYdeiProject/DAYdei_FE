@@ -30,7 +30,6 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
   // 친구신청요청, 요청 취소
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
-    console.log("친구 신청 함~~~");
   };
 
   const cancelRequestHandler = (id) => {
@@ -97,13 +96,15 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
         <NickNameBox>{otherUser?.nickName}</NickNameBox>
         <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
         <CountBox onClick={buttonText === "친구" ? () => handleShowFriendDetail() : () => alert("친구만 열람 가능합니다.")}>
-          <span>친구 {otherUser?.friendCount}</span>
-          <span>구독 {otherUser?.subscribingCount}명</span>
-          <span>구독자 {otherUser?.subscriberCount}명</span>
+          <div>
+            <span>친구 {otherUser?.friendCount}</span>
+            <span>구독 {otherUser?.subscribingCount}명</span>
+            <span>구독자 {otherUser?.subscriberCount}명</span>
+          </div>
         </CountBox>
-        <TextareaBox>{otherUser?.introduction ? otherUser.introduction : otherUser.categoryList + " 일정을 올리는 것을 즐겨해요."}</TextareaBox>
+        <TextareaBox>{otherUser?.introduction ? otherUser.introduction : `${otherUser.nickName}의 캘린더입니다.`}</TextareaBox>
         <ButtonBox>
-          <button onClick={() => handleFriendButtonClick(otherUser)}>
+          <div onClick={() => handleFriendButtonClick(otherUser)}>
             {otherUser?.friendCheck === false && otherUser?.isRequestFriend === null
               ? "친구신청"
               : otherUser?.friendCheck === false && otherUser?.isRequestFriend === false
@@ -113,9 +114,16 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
               : otherUser?.friendCheck === true && otherUser?.isRequestFriend === null
               ? "친구"
               : null}
-          </button>
-          <button onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</button>
+          </div>
+          <div onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</div>
         </ButtonBox>
+        <TogetherWrapper>
+          {otherUser?.mutualFriendsCount !== 0 && (
+            <div>
+              <span>함께 아는 친구 {otherUser?.mutualFriendsCount}</span>
+            </div>
+          )}
+        </TogetherWrapper>
       </ProfileWrapper>
     </>
   );
@@ -149,15 +157,17 @@ const ImgWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
   img {
+    ${(props) => props.theme.BoxCustom};
     width: 130px;
     height: 130px;
     border-radius: 50%;
     background: fixed;
+    cursor: auto;
   }
 `;
 
 const NickNameBox = styled.span`
-  padding-top: 100px;
+  padding-top: 85px;
   margin-bottom: 10px;
   font-size: 24px;
   font-weight: 600;
@@ -165,17 +175,23 @@ const NickNameBox = styled.span`
 `;
 
 const EmailBox = styled.span`
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   ${(props) => props.theme.DescriptionText};
   font-size: 14px;
 `;
 
 const CountBox = styled.div`
-  ${(props) => props.theme.FlexRowBetween}
-  padding: 0 50px;
-  margin-bottom: 40px;
+  ${(props) => props.theme.FlexCol}
+  padding: 0 30px;
+  margin-bottom: 20px;
   font-size: 16px;
   color: ${(props) => props.theme.Bg.color1};
+  div {
+    ${(props) => props.theme.FlexRowBetween}
+    padding: 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  }
   :hover {
     cursor: pointer;
   }
@@ -185,6 +201,8 @@ const TextareaBox = styled.div`
   height: 100px;
   text-align: center;
   padding: 0 30px;
+  ${(props) => props.theme.DescriptionText};
+  font-size: 14px;
   white-space: pre-wrap;
 `;
 
@@ -192,12 +210,31 @@ const ButtonBox = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 20px;
-  button {
+  font-size: 14px;
+  div {
+    ${(props) => props.theme.FlexCol}
     ${(props) => props.theme.ButtonMedium};
     color: ${(props) => props.theme.Bg.color1};
   }
-  button:nth-child(1) {
+  div:nth-child(1) {
     background-color: ${(props) => props.theme.Bg.mainColor5};
     color: #ffffff;
+  }
+  div:nth-child(2) {
+    ${(props) => props.theme.BtnClickYellow};
+  }
+`;
+
+const TogetherWrapper = styled.div`
+  width: 100%;
+  padding: 0 30px;
+  margin-top: 20px;
+  ${(props) => props.theme.DescriptionText};
+  div {
+    ${(props) => props.theme.FlexCol};
+    background-color: ${(props) => props.theme.Bg.color4};
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
   }
 `;

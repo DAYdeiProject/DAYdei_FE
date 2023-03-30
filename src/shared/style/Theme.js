@@ -37,6 +37,8 @@ const Bg = {
   calendar5: "#B8EEFF",
   calendar6: "#EFECFF",
   calendar7: "#F2F4F6",
+
+  hoverColor: "#eef9f7",
 };
 
 const Fs = {

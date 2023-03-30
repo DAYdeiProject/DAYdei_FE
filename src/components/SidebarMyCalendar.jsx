@@ -7,13 +7,12 @@ import format from "date-fns/format";
 import { getDay } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
-import ColorFromDB from "../pages/home/calendar/CalendarBasic";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 import { ReactComponent as NoneToday } from "../assets/lcon/calendarIcon/noneSchedule.svg";
 import { ReactComponent as Smile } from "../assets/lcon/smile.svg";
-import { ReactComponent as DeepEmoji } from "../assets/lcon/calendarIcon/deepEmoji.svg";
 import { ReactComponent as LightEmoji } from "../assets/lcon/calendarIcon/lightEmoji.svg";
+import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -52,6 +51,11 @@ export default function SidebarMyCalendar({ ...props }) {
 
   const myProfile = useSelector((state) => state.users.myProfile);
 
+  // 오늘의 일정 클릭시
+  const todayClickHandler = (postId) => {
+    props.setDetailPostId(postId);
+  };
+
   return (
     <>
       {isLoading && <Loading />}
@@ -81,7 +85,7 @@ export default function SidebarMyCalendar({ ...props }) {
                   today &&
                   today.map((list) => {
                     return (
-                      <TodayScheduleBox key={list.id}>
+                      <TodayScheduleBox key={list.id} onClick={() => todayClickHandler(list.id)}>
                         <IconBox>
                           <LightEmoji />
                         </IconBox>
@@ -129,14 +133,14 @@ export default function SidebarMyCalendar({ ...props }) {
                 update.map((list) => (
                   <ListBox key={list.id}>
                     <ImgBox>
-                      <img src={list.profileImage} />
+                      <img src={list.profileImage ? list.profileImage : defaultProfile} />
                     </ImgBox>
                     <InfoBox>
                       <span>{list.nickName}</span>
                       <span>@{list.email.split("@")[0]}</span>
                     </InfoBox>
                     <ButtonBox>
-                      <button onClick={() => moveUserPage(list.id)}>캘린더</button>
+                      <div onClick={() => moveUserPage(list.id)}>캘린더</div>
                     </ButtonBox>
                   </ListBox>
                 ))
@@ -204,7 +208,8 @@ const TodayScheduleBox = styled.div`
   gap: 15px;
   border-radius: 8px;
   &:hover {
-    background-color: ${(props) => props.theme.Bg.mainColor3};
+    background-color: ${(props) => props.theme.Bg.hoverColor};
+    cursor: pointer;
   }
 `;
 
@@ -241,7 +246,11 @@ const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
   gap: 5px;
 `;
-const ListBox = styled(TodayScheduleBox)``;
+const ListBox = styled(TodayScheduleBox)`
+  &:hover {
+    cursor: auto;
+  }
+`;
 
 const ImgBox = styled(IconBox)`
   img {
@@ -261,8 +270,9 @@ const InfoBox = styled(TodayBox)`
 const ButtonBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 30%;
-  button {
+  div {
     ${(props) => props.theme.ButtonSmall};
+    ${(props) => props.theme.FlexCol};
     width: 66px;
     height: 34px;
     font-weight: 600;
