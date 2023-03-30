@@ -144,13 +144,7 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
                 </InfoArea>
               </ProfileTextFrame>
             </ProfileArea>
-            <IntroductionWrap>
-              {user.introduction
-                ? user.introduction
-                : user.categoryList.length !== 0
-                ? `카테고리 : ${user.categoryList[0]}`
-                : `${user.nickName}의 캘린더 입니다.`}
-            </IntroductionWrap>
+            <IntroductionWrap>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrap>
             <ButtonArea>
               <ButtonFriend id={user.id} />
               <ButtonSubscribe id={user.id} />
@@ -251,7 +245,6 @@ const NameArea = styled.div`
   padding: 0px;
   gap: 2px;
 
-  width: 83px;
   height: 35px;
   /* background-color: yellow; */
 `;
@@ -264,7 +257,6 @@ const NicknameWrap = styled.div`
   padding: 0px;
   gap: 8px;
 
-  width: 83px;
   height: 19px;
 
   font-weight: 500;

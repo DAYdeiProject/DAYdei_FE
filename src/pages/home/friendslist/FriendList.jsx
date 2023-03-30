@@ -107,13 +107,7 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
                   <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                 </TextArea>
               </PostLeft>
-              <IntroductionWrap>
-                {user.introduction
-                  ? user.introduction
-                  : user.categoryList.length !== 0
-                  ? `주로 ${user.categoryList[0]} 일정을 공유합니다.`
-                  : `${user.nickName}의 캘린더 입니다.`}
-              </IntroductionWrap>
+              <IntroductionWrap>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrap>
             </ProfileWrap>
           </ProfileArea>
           <ButtonArea

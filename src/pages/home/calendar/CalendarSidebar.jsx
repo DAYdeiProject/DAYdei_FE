@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import SubscribeListControl from "./SubscribeListControl";
 
-export default function CalendarSidebar() {
+export default function CalendarSidebar({ ...props }) {
   //창의 열고닫힘 상태
   const [isTodoBoxOpen, setIsTodoBoxOpen] = useState(false);
   const [isSubscribeBoxOpen, setIsSubscribeBoxOpen] = useState(false);
@@ -190,7 +190,14 @@ export default function CalendarSidebar() {
           </div>
         </SideSpaceWrapper>
       )}
-      {isSubscribeBoxOpen && <SubscribeListControl clickedButtonIds={clickedButtonIds} setClickedButtonIds={setClickedButtonIds} />}
+      {isSubscribeBoxOpen && (
+        <SubscribeListControl
+          clickedButtonIds={clickedButtonIds}
+          setClickedButtonIds={setClickedButtonIds}
+          isSubmit={props.isSubmit}
+          setIsSubmit={props.setIsSubmit}
+        />
+      )}
       <SidebarWrapper>
         <div onClick={handleTodoBoxOpen}>
           <Note />

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CalendarWrapper } from "../calendar/CalendarMain";
 // import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { AiOutlineSearch } from "react-icons/ai";
 
@@ -12,6 +12,9 @@ function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSe
   const [userInfo, setUserInfo] = useState("");
   const [searchWord, setSearchWord] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+
+  //유저정보 가져오기
+  const myProfile = useSelector((state) => state.users.myProfile);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -50,7 +53,7 @@ function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSe
       <CalendarWrapper>
         <WholeAreaWrapper>
           <HeaderText>
-            <HeaderTextMain>{userInfo.nickName}님을 위한 추천</HeaderTextMain>
+            <HeaderTextMain>{myProfile.nickName}님을 위한 추천</HeaderTextMain>
             <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
           </HeaderText>
           <SearchHeader>
