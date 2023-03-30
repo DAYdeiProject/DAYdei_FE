@@ -5,18 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import { SideSpaceWrapper } from "./CalendarSidebar";
 import { __hideUser } from "../../../redux/modules/subscribeSlice";
-import { click } from "@testing-library/user-event/dist/click";
+// import { click } from "@testing-library/user-event/dist/click";
 
 function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
-  // 클릭당한 버튼 아이디 추적
-  console.log(clickedButtonIds);
-
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
   const dispatch = useDispatch();
+  const params = useParams();
+
+  useEffect(() => {
+    const id = params.id;
+    let url = `${id}?sort=name&searchword=`;
+    console.log("검색어 없는 url-->", url);
+
+    dispatch(__getSubscribeList(url));
+  }, []);
 
   //useSelector로 구독하는 유저 정보 가져오기
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  console.log(SubscribesList);
+  // console.log(SubscribesList);
 
   const showUserHandler = (id) => {
     dispatch(__hideUser(id));
@@ -48,6 +54,8 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds }) {
       </ButtonStyle>
     );
   };
+
+  console.log("클릭", clickedButtonIds);
 
   return (
     <>

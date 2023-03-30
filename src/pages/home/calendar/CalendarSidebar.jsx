@@ -26,7 +26,6 @@ export default function CalendarSidebar() {
   const [memos, setMemos] = useState([]);
   //수정할 메모박스 추적
   const [clickedMemoId, setClickedMemoId] = useState(null);
-  //클릭된 구독리스트 유저 아이디 추적
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
 
   //메모 상태변경 추적
