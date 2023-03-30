@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   statusCode: 0,
+  clickedButtonIds: [],
 };
 
 // 구독하는 계정 GET 요청
@@ -55,10 +56,33 @@ export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, 
   }
 });
 
+//일정 가리기 요청
+export const __hideUser = createAsyncThunk("hideUser", async (id, thunkAPI) => {
+  try {
+    const response = await subscribeInstance.put(`/show/${id}`);
+    console.log("put요청 리스펀스", response);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+//구독 보여주기,숨기기 모달에서 클릭된 버튼
+// export const updateClickedButtonIds = (clickedButtonIds) => {
+//   // console.log("리듀서가기전", clickedButtonIds);
+//   return { type: "subscribe/updateClickedButtonIds", payload: clickedButtonIds };
+// };
+
 export const subscribeSlice = createSlice({
   name: "subscribe",
   initialState,
-  reducers: {},
+  reducers: {
+    // "subscribe/updateClickedButtonIds": (state, action) => {
+    //   console.log(action.payload);
+    //   state.clickedButtonIds.push(action.payload);
+    // },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__getSubscribeList.pending, (state) => {
@@ -103,6 +127,15 @@ export const subscribeSlice = createSlice({
         state.statusCode = action.payload;
       })
       .addCase(__cancelSubscribe.rejected, (state) => {
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__hideUser.fulfilled, (state, action) => {
+        state.isError = false;
+        state.statusCode = action.payload;
+      })
+      .addCase(__hideUser.rejected, (state) => {
         state.isError = true;
       });
   },
