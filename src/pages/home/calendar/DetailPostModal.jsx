@@ -6,7 +6,7 @@ import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
 import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
-import UserInfo from "../../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { useParams } from "react-router-dom";
 import { ReactComponent as EditCalendar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
 import { ReactComponent as Invite } from "../../../assets/lcon/calendarIcon/invite.svg";
@@ -36,7 +36,7 @@ export default function DetailPostModal({ ...props }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const userInfo = UserInfo();
+  const userInfo = GetUserInfo();
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
@@ -501,7 +501,7 @@ const WriterBox = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: coral;
+    background-color: ${(props) => props.theme.Bg.mainColor5};
   }
 `;
 
@@ -515,7 +515,6 @@ const ImgDropBox = styled.div`
 `;
 
 const ImgFile = styled.div`
-  background-color: lemonchiffon;
   img {
     width: 100%;
     height: 100%;

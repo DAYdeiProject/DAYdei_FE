@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
-import UserInfo from "../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 import FindPasswordModal from "./FindPasswordModal";
 import Header from "../../layout/Header";
 import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
@@ -29,7 +29,7 @@ function IntroPage() {
   const token = Cookies.get("accessJWTToken");
   useEffect(() => {
     if (token) {
-      const userInfo = UserInfo();
+      const userInfo = GetUserInfo();
       alert("이미 로그인하셨습니다!");
       navigate(`/${userInfo.userId}`);
     }

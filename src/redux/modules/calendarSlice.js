@@ -64,13 +64,11 @@ export const __updatePost = createAsyncThunk("updatePost", async (payload, thunk
 // 일정 drag update
 export const __updateDragPost = createAsyncThunk("updateDragPost", async (payload, thunkAPI) => {
   try {
-    console.log("updateDragPost payload--> ", payload);
     const response = await api.patch(`/api/posts/drag/${payload.postId}`, payload.updatePost, {
       headers: {
         Authorization: payload.token,
       },
     });
-    console.log("updateDragPost response--> ", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

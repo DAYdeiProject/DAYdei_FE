@@ -9,7 +9,7 @@ import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../r
 import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
-import UserInfo from "../../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { set } from "lodash";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
@@ -53,7 +53,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
 
   const dispatch = useDispatch();
-  const userInfo = UserInfo();
+  const userInfo = GetUserInfo();
 
   const id = userInfo.userId;
 

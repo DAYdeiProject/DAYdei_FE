@@ -8,7 +8,7 @@ import { getDay } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import ColorFromDB from "../pages/home/calendar/CalendarBasic";
-import UserInfo from "../utils/localStorage/userInfo";
+import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 import { ReactComponent as NoneToday } from "../assets/lcon/calendarIcon/noneSchedule.svg";
 import { ReactComponent as Smile } from "../assets/lcon/smile.svg";
@@ -18,7 +18,7 @@ import { ReactComponent as LightEmoji } from "../assets/lcon/calendarIcon/lightE
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const userInfo = UserInfo();
+  const userInfo = GetUserInfo();
   const now = format(new Date(), "yy.M.dd");
   const nowDay = getDay(new Date());
   let day = "";
@@ -38,7 +38,7 @@ export default function SidebarMyCalendar({ ...props }) {
     day = now + " (토)";
   }
   const { today, update, isLoading } = useSelector((state) => state.calendar);
-  //console.log("update", update);
+
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
     dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
@@ -278,6 +278,8 @@ const NoneSchedule = styled.div`
   gap: 12px;
   width: 275px;
   height: 200px;
+  background-color: white;
+  cursor: auto;
   span {
     ${(props) => props.theme.ContentTitleText};
   }

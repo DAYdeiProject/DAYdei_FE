@@ -90,9 +90,7 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
     <>
       {isLoading && <Loading />}
       <ProfileWrapper>
-        <BackImgWrapper>
-          <img src={otherUser?.backgroundImage} />
-        </BackImgWrapper>
+        <BackImgWrapper>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
         <ImgWrapper>
           <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
         </ImgWrapper>

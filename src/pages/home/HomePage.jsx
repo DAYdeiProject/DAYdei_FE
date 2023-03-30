@@ -11,7 +11,7 @@ import CategoryModal from "./category/CategoryModal";
 import { useSelector } from "react-redux";
 import TokenCheck from "../../utils/cookie/tokenCheck";
 import { useNavigate, useParams } from "react-router-dom";
-import UserInfo from "../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 import DetailMain from "./friendsDetail/DetailMain";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
@@ -47,7 +47,7 @@ function HomePage() {
   const [side, setSide] = useState(false);
   const [isMessageState, setIsMessageState] = useState(false);
 
-  const userInfo = UserInfo();
+  const userInfo = GetUserInfo();
   const params = useParams();
   const connectToken = Cookies.get("accessJWTToken");
   const [sseData, setSseData] = useState("");

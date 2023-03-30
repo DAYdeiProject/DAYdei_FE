@@ -16,6 +16,7 @@ import { ReactComponent as Location } from "../../../assets/lcon/calendarIcon/lo
 import { ReactComponent as Memo } from "../../../assets/lcon/calendarIcon/memo.svg";
 import { ReactComponent as ImageIcon } from "../../../assets/lcon/calendarIcon/image.svg";
 import { ReactComponent as Lock } from "../../../assets/lcon/calendarIcon/lock.svg";
+import { ReactComponent as Delete } from "../../../assets/lcon/calendarIcon/delete.svg";
 import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
 import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
 import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
@@ -36,8 +37,6 @@ function AddPostModal({ ...props }) {
     formState: { errors },
   } = useForm();
 
-  // 쓰레기통 아이콘
-  const [isDelete, setIsDelete] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
   const [isAllDay, setIsAllDay] = useState(getValues("allDay"));
@@ -50,7 +49,6 @@ function AddPostModal({ ...props }) {
   const [targetList, setTargetList] = useState([]);
   const [targetToggle, setTargetToggle] = useState(false);
   const [targetPick, setTargetPick] = useState([]);
-  const [imgCountCheck, setImgCountCheck] = useState(false);
   // db에 보내줄 친구 리스트
   const [targetPickId, setTargetPickId] = useState([]);
   // db에 보내줄 파일 리스트
@@ -102,9 +100,6 @@ function AddPostModal({ ...props }) {
         }
         const color = ColorFromDB(data.payload.color);
         setIsColor(color);
-
-        //props.setIsAddPost(true);
-        setIsDelete(true);
       });
     }
   }, [props.modifyPostId]);
@@ -129,10 +124,12 @@ function AddPostModal({ ...props }) {
       }, delay);
     };
   };
+
   const handleSearchText = useCallback(
     debounce((text) => setFindTarget(text), 200),
     []
   );
+
   // useForm watch 이용해서 input 값 가져오기
   useEffect(() => {
     handleSearchText(watch("participant"));
@@ -207,15 +204,6 @@ function AddPostModal({ ...props }) {
     }
   }, [endDate]);
 
-  // 일정 삭제하기
-  // const deletePostHandler = (id) => {
-  //   //console.log(id);
-  //   dispatch(__deletePost({ id, token })).then((data) => {
-  //     alert(data.payload);
-  //     props.setIsAddPost(false);
-  //   });
-  // };
-
   // 닫기
   const closeClickHandler = () => {
     props.setIsAddPost(false);
@@ -233,10 +221,20 @@ function AddPostModal({ ...props }) {
     setIsShowLocation(false);
     setIsShowContent(false);
     setIsShowImg(false);
-    setIsDelete(false);
     props.setModifyPostId("");
     reset();
   };
+
+  // 삭제
+  const deleteClickHandler = () => {
+    dispatch(__deletePost({ id: props.modifyPostId, token })).then(() => {
+      alert("일정이 삭제되었습니다.");
+      props.setSide(!props.side);
+      props.setIsSubmit(!props.isSubmit);
+      closeClickHandler();
+    });
+  };
+
   const showToggieHandler = (target) => {
     target === "location" ? setIsShowLocation(true) : target === "content" ? setIsShowContent(true) : setIsShowImg(true);
   };
@@ -293,15 +291,6 @@ function AddPostModal({ ...props }) {
     if (errors.title) alert(errors.title.message);
   }, [errors]);
 
-  useEffect(() => {
-    if (fileList.length > 4) {
-      alert("파일첨부는 최대 4개까지 첨부가능합니다.");
-      setImgCountCheck(true);
-    } else {
-      setImgCountCheck(false);
-    }
-  }, [fileList]);
-
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
     const newStart = format(startDate, "yyyy-MM-dd");
@@ -322,10 +311,15 @@ function AddPostModal({ ...props }) {
       newStartTime = data.startTime;
       newEndTime = data.endTime;
     }
+
     const imgList = new FormData();
-    fileList.map((img) => {
-      imgList.append("images", img);
-    });
+    if (fileList.length > 4) {
+      return alert("파일첨부는 최대 4개까지 첨부가능합니다.");
+    } else {
+      fileList.map((img) => {
+        imgList.append("images", img);
+      });
+    }
 
     const newPost = {
       title: data.title,
@@ -426,8 +420,9 @@ function AddPostModal({ ...props }) {
   return (
     <ModalBox isOpen={props.isAddPost} width={"500px"} height={"670px"}>
       <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
-        <postStyle.HeaderWrapper isDelete={isDelete}>
-          <Dismiss className="closeIncon" onClick={closeClickHandler} />
+        <postStyle.HeaderWrapper>
+          {props.modifyPostId && <Delete width={22} height={22} onClick={deleteClickHandler} className="deleteIcon" />}
+          <Dismiss className="closeIcon" onClick={closeClickHandler} />
         </postStyle.HeaderWrapper>
 
         <postStyle.BodyWrapper>
@@ -620,12 +615,14 @@ function AddPostModal({ ...props }) {
                   </postStyle.ImgLabel>
                 </postStyle.ImgUploadBox>
                 <postStyle.PreviewContainer>
-                  {saveView.map((url, i) => {
-                    return <img key={i} src={url}></img>;
-                  })}
-                  {fileImg.map((url, i) => {
-                    return <img key={i} src={url}></img>;
-                  })}
+                  <postStyle.PreviewBox>
+                    {saveView.map((url, i) => {
+                      return <img key={i} src={url} />;
+                    })}
+                    {fileImg.map((url, i) => {
+                      return <img key={i} src={url} />;
+                    })}
+                  </postStyle.PreviewBox>
                 </postStyle.PreviewContainer>
               </postStyle.ModifyImgUploadBox>
             </postStyle.ImgWrapper>
@@ -647,8 +644,8 @@ function AddPostModal({ ...props }) {
           </postStyle.BodyContainer>
         </postStyle.BodyWrapper>
 
-        <postStyle.SubmitButtonWrapper>
-          <button disabled={imgCountCheck}>{props.modifyPostId ? "수정하기" : "일정 만들기"}</button>
+        <postStyle.SubmitButtonWrapper isEdit={props.modifyPostId && true}>
+          <button>{props.modifyPostId ? "수정하기" : "일정 만들기"}</button>
         </postStyle.SubmitButtonWrapper>
       </postStyle.AddPostWrapper>
     </ModalBox>

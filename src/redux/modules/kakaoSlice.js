@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { kakao } from "../../utils/api/axios";
-import Cookies from "js-cookie";
+import SetUserInfo from "../../utils/cookie/userInfo";
 
 const initialState = {
   data: "",
@@ -15,16 +15,9 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
 
     // 토큰 헤더에 넣기
     const token = response.headers.authorization;
-    // 토큰 만료 시간
-    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
-    Cookies.set("accessJWTToken", token, { expires: expiryDate });
-    // userInfo
-    const userInfo = {
-      userId: response.data.data.userId,
-      nickName: response.data.data.nickName,
-    };
     kakao.defaults.headers.common["Authorization"] = token;
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    const id = response.data.data.userId;
+    SetUserInfo(token, id);
 
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
@@ -35,7 +28,6 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
 
 export const __friendsList = createAsyncThunk("login/friends", async (payload, thunkAPI) => {
   try {
-    // 성공 시 토큰 반환 됨
     const response = await kakao.get(`/api/users/kakao_friends/callback?code=${payload.code}`, {
       headers: {
         Authorization: payload.token,
@@ -43,18 +35,10 @@ export const __friendsList = createAsyncThunk("login/friends", async (payload, t
     });
 
     // 토큰 헤더에 넣기
-    const token = response.headers.authorization;
-    // 토큰 만료 시간
-    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
-    Cookies.set("accessJWTToken", token, { expires: expiryDate });
-
-    //userInfo
-    const userInfo = {
-      userId: response.data.data.userId,
-      nickName: response.data.data.nickName,
-    };
-    kakao.defaults.headers.common["Authorization"] = token;
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    // const token = response.headers.authorization;
+    // kakao.defaults.headers.common["Authorization"] = token;
+    // const id = response.data.data.userId;
+    // SetUserInfo(token, id);
 
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
