@@ -12,7 +12,7 @@ import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../red
 import Cookies from "js-cookie";
 import Loading from "../../../components/Loading";
 import DayScheduleModal from "./DayScheduleModal";
-import UserInfo from "../../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import ColorFromDB from "./CalendarBasic";
 import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
@@ -55,7 +55,7 @@ function CalendarMain({ ...props }) {
 
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
-  const userId = UserInfo();
+  const userInfo = GetUserInfo();
 
   const { total, isLoading } = useSelector((state) => {
     return state.calendar;
@@ -63,7 +63,7 @@ function CalendarMain({ ...props }) {
 
   //console.log("메인----------", total);
   useEffect(() => {
-    if (String(userId.userId) !== param.id) {
+    if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
       setDisabled(true);
       setIsDrag(false);
@@ -137,7 +137,7 @@ function CalendarMain({ ...props }) {
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    if (String(userId.userId) === param.id && token) {
+    if (String(userInfo.userId) === param.id && token) {
       setPickDate(date.date);
     }
   };
@@ -161,7 +161,8 @@ function CalendarMain({ ...props }) {
 
       dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
-        props.CookiessetSide(!props.side);
+        //props.CookiessetSide(!props.side);
+        props.setSide(!props.side);
       });
     }
   };
@@ -197,7 +198,7 @@ function CalendarMain({ ...props }) {
   return (
     <CalendarSidebarWrapper>
       {isLoading && <Loading />}
-      {userId && String(userId.userId) !== param.id && (
+      {userInfo && String(userInfo.userId) !== param.id && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
@@ -260,7 +261,7 @@ function CalendarMain({ ...props }) {
           isSubmit={isSubmit}
         />
       </CalendarWrapper>
-      {String(userId.userId) === String(param.id) && <CalendarSidebar />}
+      {String(userInfo.userId) === String(param.id) && <CalendarSidebar />}
     </CalendarSidebarWrapper>
   );
 }

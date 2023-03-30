@@ -8,7 +8,7 @@ import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyProfile } from "../redux/modules/usersSlice";
-import UserInfo from "../utils/localStorage/userInfo";
+import { GetUserInfo } from "../utils/cookie/userInfo";
 
 function Header(props) {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Header(props) {
   const token = Cookies.get("accessJWTToken");
   const [clickNav, setClickNav] = useState("home");
   const dispatch = useDispatch();
-  const userId = UserInfo();
+  const userId = GetUserInfo();
 
   const myProfile = useSelector((state) => state.users.myProfile);
   // 헤더 프로필 이미지 가져오기

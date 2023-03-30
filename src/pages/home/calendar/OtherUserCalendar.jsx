@@ -6,8 +6,8 @@ import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import ColorFromDB from "./CalendarBasic";
 import Loading from "../../../components/Loading";
-import { ReactComponent as Note } from "../../../assets/lcon/note32.svg";
-import { ReactComponent as Calnedar } from "../../../assets/lcon/calendar30.svg";
+import { ReactComponent as Note } from "../../../assets/lcon/note.svg";
+import { ReactComponent as Calnedar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
 import { useState } from "react";
 
 export default function OtherUserCalendar({ ...props }) {
@@ -58,14 +58,13 @@ export default function OtherUserCalendar({ ...props }) {
       {isLoading && <Loading />}
       <OtherWrapper isOpen={props.isOtherOpen}>
         <IconBox>
-          <Calnedar onClick={closeScheduleHandler} />
+          <Calnedar width={28} height={28} onClick={closeScheduleHandler} />
         </IconBox>
         <OtherUpdateWrapper>
           <UpdateTitle>업데이트 된 일정</UpdateTitle>
           <UpdateContainer>
             {otherUserUpdate.length !== 0 ? (
               otherUserUpdate?.map((list) => {
-                const color = ColorFromDB(list.color);
                 const time = timeForToday(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
@@ -84,7 +83,7 @@ export default function OtherUserCalendar({ ...props }) {
               })
             ) : (
               <NoneScheduleBox>
-                <Note className="noneToday" />
+                <Note width={32} height={32} className="noneToday" />
                 <div>일주일간 업데이트 된 일정이 없습니다.</div>
               </NoneScheduleBox>
             )}
@@ -114,7 +113,7 @@ export default function OtherUserCalendar({ ...props }) {
               })
             ) : (
               <NoneScheduleBox>
-                <Note className="noneToday" />
+                <Note width={32} height={32} className="noneToday" />
                 <div>나와 공유한 일정이 없습니다.</div>
               </NoneScheduleBox>
             )}
