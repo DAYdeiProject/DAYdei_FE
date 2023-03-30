@@ -14,7 +14,7 @@ function Header(props) {
   const navigate = useNavigate();
   const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers, isNotificationOpen, setIsNotificationOpen } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
+  const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(true);
   // 프로필 수정시 최신정보 가져오기
   const [isEditProfile, setIsEditProfile] = useState(false);
   const token = Cookies.get("accessJWTToken");
