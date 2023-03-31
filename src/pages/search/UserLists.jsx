@@ -283,12 +283,12 @@ const EmailWrap = styled.div`
 const InfoArea = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   padding: 0px;
   gap: 30px;
 
-  width: 160px;
+  width: 180px;
   height: 13px;
   /* background-color: pink; */
 `;
