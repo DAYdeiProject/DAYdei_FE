@@ -94,8 +94,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
     const userProfileRequestDto = {
       nickName,
-      newPassword: password,
-      introduction: introduction,
+      introduction,
     };
 
     const formData = new FormData();
@@ -105,10 +104,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
     // console.log(userProfileRequestDto, profile, background);
 
-    if (nickName !== "" || (password === passwordCheck && password !== "") || introduction !== "") {
-    }
-
-    if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
+    if ((isPw && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
