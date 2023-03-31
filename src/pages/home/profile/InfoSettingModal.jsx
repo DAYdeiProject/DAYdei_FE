@@ -15,7 +15,6 @@ function InfoSettingModal({ ...props }) {
         <TextMain>
           <div>{myProfile.email}</div>
         </TextMain>
-        <CheckMessage>{props.isPwMessage}</CheckMessage>
       </TextWrap>
       <TextWrap>
         <SmallTextBox>생일 :</SmallTextBox>
@@ -24,7 +23,6 @@ function InfoSettingModal({ ...props }) {
             {myMonth}월 {myDay}일
           </div>
         </TextMain>
-        <CheckMessage>{props.isPwMessage}</CheckMessage>
       </TextWrap>
       <TextWrap>
         <SmallTextBox>새 비밀번호 :</SmallTextBox>
