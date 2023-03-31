@@ -44,14 +44,16 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
   const dispatch = useDispatch();
   const userInfo = GetUserInfo();
-
   const id = userInfo.userId;
 
   useEffect(() => {
     dispatch(__getMyProfile(id));
   }, [isProfileSettingModalOpen, profile]);
 
+  // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
+
+  console.log("store에서 불러온 내프로필-->", myProfile);
 
   const handleProfileImageClick = () => {
     document.getElementById("profileInput").click();
@@ -83,14 +85,16 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       console.log("지운 후-->", profile);
     }
   };
-  // console.log("프로필 배열 상태 확인-->", profile);
 
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
   };
 
+  //제출 버튼 클릭 시 호출되는 함수
   const profileChangeHandler = (e) => {
     e.preventDefault();
+
+    // console.log("store에서 불러온 내프로필-->", myProfile);
 
     const userProfileRequestDto = {
       nickName,
@@ -102,14 +106,11 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    // console.log(userProfileRequestDto, profile, background);
-
-    if ((isPw && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
+    if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
       dispatch(__setProfile(formData)).then((data) => {
-        console.log(data);
         // 헤더에 이미지 최신꺼 들고오기 위해서
         setIsEditProfile(true);
         if (data.error) {
@@ -117,7 +118,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
         } else {
           alert("수정 성공");
         }
-        // console.log("콘솔------>", data.payload.response.status);
       });
     } else {
       alert("내용을 채워주세요!");
@@ -193,13 +193,24 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                           <TextWrap>
                             <SmallTextBox>닉네임 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" placeholder={myProfile.nickName} value={nickName} onChange={handleNickNameChange} autoFocus />
+                              <input
+                                type="text"
+                                placeholder={myProfile.nickName}
+                                value={nickName ? nickName : myProfile.nickName}
+                                onChange={handleNickNameChange}
+                                autoFocus
+                              />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>한 줄 프로필 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" placeholder={myProfile.introduction} value={introduction} onChange={handleIntroductionChange} />
+                              <input
+                                type="text"
+                                placeholder={myProfile.introduction}
+                                value={introduction ? introduction : myProfile.introduction}
+                                onChange={handleIntroductionChange}
+                              />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
@@ -507,7 +518,7 @@ const ButtonArea = styled.div`
   gap: 8px;
 `;
 
-const ButtonWrap = styled.div`
+const ButtonWrap = styled.button`
   height: 100%;
   width: 132px;
   background-color: ${(props) => props.theme.Bg.deepColor};
