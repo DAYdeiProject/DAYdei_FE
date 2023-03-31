@@ -38,6 +38,7 @@ export default function SidebarMyCalendar({ ...props }) {
     day = now + " (토)";
   }
   const { today, update, isLoading } = useSelector((state) => state.calendar);
+  const { data } = useSelector((state) => state.header);
 
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
@@ -66,7 +67,7 @@ export default function SidebarMyCalendar({ ...props }) {
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {props.isCalnedar ? (
+          {data === "home" ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>

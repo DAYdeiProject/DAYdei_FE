@@ -9,7 +9,7 @@ import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/mo
 import { __addSubscribe, __cancelSubscribe } from "../redux/modules/subscribeSlice";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 
-export default function SidebarOtherCalendar({ userId, handleShowFriendDetail }) {
+export default function SidebarOtherCalendar({ userId }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();

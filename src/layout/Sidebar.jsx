@@ -12,18 +12,9 @@ function Sidebar({ ...props }) {
   return (
     <SideStyle>
       {param.id === String(userInfo.userId) ? (
-        <SidebarMyCalendar
-          side={props.side}
-          isCalnedar={props.isCalendarMainVisible}
-          detailPostId={props.detailPostId}
-          setDetailPostId={props.setDetailPostId}
-        />
+        <SidebarMyCalendar side={props.side} detailPostId={props.detailPostId} setDetailPostId={props.setDetailPostId} />
       ) : (
-        <SidebarOtherCalendar
-          handleShowFriendDetail={props.handleShowFriendDetail}
-          setIsCalendarMainVisible={props.setIsCalendarMainVisible}
-          userId={param.id}
-        />
+        <SidebarOtherCalendar userId={param.id} />
       )}
     </SideStyle>
   );
