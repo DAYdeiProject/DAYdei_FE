@@ -106,10 +106,7 @@ const HeaderText = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 8px;
-  /* background-color: pink; */
 
-  /* position: absolute; */
-  /* width: 354px; */
   height: 68px;
   left: 399px;
   top: 152.5px;
@@ -126,9 +123,6 @@ const HeaderTextMain = styled.div`
 
   /* width: 256px; */
   height: 39px;
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 28px;
   line-height: 140%;
@@ -145,9 +139,6 @@ const HeaderTextSub = styled.div`
 
   height: 21px;
   /* background-color: skyblue; */
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;

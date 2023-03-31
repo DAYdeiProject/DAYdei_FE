@@ -72,7 +72,6 @@ function JoinPage() {
 
   return (
     <ScreenLayout>
-      <Header></Header>
       <ScreenWrapper>
         <PreviewWrapper></PreviewWrapper>
         <LoginWrapper
