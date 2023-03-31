@@ -217,8 +217,7 @@ export default Header;
 
 const HeaderWrapper = styled.header`
   ${(props) => props.theme.FlexRow}
-  min-width: 1250px;
-  max-width: 1920px;
+  width: 100%;
   height: 64px;
   margin: 0 auto;
   border: 0.5px solid ${(props) => props.theme.Bg.color3};
