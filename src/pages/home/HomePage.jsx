@@ -86,39 +86,6 @@ function HomePage() {
     };
   }, [isMessageState]);
 
-  // 홈 캘린더를 누르면 항상 로그인한 아이디의 캘린더가 나오게하기
-  const handleShowCalendarMain = () => {
-    if (userInfo.userId !== params.id) {
-      navigate(`/${userInfo.userId}`);
-    }
-    setIsCalendarMainVisible(true);
-    setIsFriendListVisible(false);
-    setIsSearchUsersvisible(false);
-    setIsFriendDetailVisible(false);
-  };
-
-  // 친구/구독 누르면 항상 로그인한 아이디의 친구/구독이 나오게하기
-  const handleShowFriendsListMain = () => {
-    if (userInfo.userId !== params.id) {
-      navigate(`/${userInfo.userId}`);
-    }
-    setIsCalendarMainVisible(false);
-    setIsFriendListVisible(true);
-    setIsSearchUsersvisible(false);
-    setIsFriendDetailVisible(false);
-  };
-
-  // 찾아보기 누르면 항상 로그인한 아이디 기준 추천목록 나오게하기
-  const handleShowSearchUsers = () => {
-    if (userInfo.userId !== params.id) {
-      navigate(`/${userInfo.userId}`);
-    }
-    setIsCalendarMainVisible(false);
-    setIsFriendListVisible(false);
-    setIsSearchUsersvisible(true);
-    setIsFriendDetailVisible(false);
-  };
-
   // 사이드바의 친구, 구독자 누르면 친구의 친구/구독 목록이 나오게하기
   const handleShowFriendDetail = () => {
     setIsCalendarMainVisible(false);
@@ -164,12 +131,12 @@ function HomePage() {
             setDetailPostId={setDetailPostId}
           />
         )}
-        <NotificationModal
+        {/* <NotificationModal
           notificationPostId={notificationPostId}
           setNotificationPostId={setNotificationPostId}
           isNotificationOpen={isNotificationOpen}
           setIsNotificationOpen={setIsNotificationOpen}
-        />
+        /> */}
         {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
         <MessageBox isMessage={isMessageState}>{sseData && sseData.content}</MessageBox>
       </MainWrapper>
