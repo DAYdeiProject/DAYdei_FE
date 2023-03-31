@@ -1,22 +1,21 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import SubscriberList from "./SubscriberList";
-import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
-import { __getSubscribeList, __getSubscriberList } from "../../../redux/modules/subscribeSlice";
+import { __getFriendsList, __getRequestedUsersList } from "../../redux/modules/friendsSlice";
+import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPersonAdd } from "react-icons/bs";
 import { RxTextAlignMiddle } from "react-icons/rx";
 import ApproveRequestModal from "./ApproveRequestModal";
-import useOutSideClick from "../../../hooks/useOutsideClick";
+import useOutSideClick from "../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import _ from "lodash";
 
-function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function FriendsListMain() {
   const params = useParams();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
@@ -292,13 +291,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <FriendList
-                    FriendsList={FriendsList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <FriendList FriendsList={FriendsList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -332,13 +325,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <SubscribeList
-                    SubscribesList={SubscribesList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <SubscribeList SubscribesList={SubscribesList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -372,13 +359,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <SubscriberList
-                    SubscribersList={SubscribersList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <SubscriberList SubscribersList={SubscribersList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>

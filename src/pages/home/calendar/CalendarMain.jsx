@@ -61,7 +61,7 @@ function CalendarMain({ ...props }) {
     return state.calendar;
   });
 
-  //console.log("메인----------", total);
+  console.log("메인----------", total);
   useEffect(() => {
     if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황

@@ -1,18 +1,14 @@
 import { React, useState, useEffect, useRef } from "react";
 import useOutSideClick from "../../hooks/useOutsideClick";
-import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
-import FriendsListMain from "./friendslist/FriendsListMain";
 import styled from "styled-components";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
-import SearchUsers from "./search/SearchUsers";
 import CategoryModal from "./category/CategoryModal";
 import { useSelector } from "react-redux";
 import TokenCheck from "../../utils/cookie/tokenCheck";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
-import DetailMain from "./friendsDetail/DetailMain";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
 import { EventSourcePolyfill } from "event-source-polyfill";
@@ -149,13 +145,6 @@ function HomePage() {
 
   return (
     <HomePageWrapper>
-      <Header
-        handleShowCalendarMain={handleShowCalendarMain}
-        handleShowFriendsListMain={handleShowFriendsListMain}
-        handleShowSearchUsers={handleShowSearchUsers}
-        isNotificationOpen={isNotificationOpen}
-        setIsNotificationOpen={setIsNotificationOpen}
-      />
       <MainWrapper>
         <Sidebar
           side={side}
@@ -173,32 +162,6 @@ function HomePage() {
             setNotificationPostId={setNotificationPostId}
             detailPostId={detailPostId}
             setDetailPostId={setDetailPostId}
-          />
-        )}
-        {isFriendListVisible && (
-          <FriendsListMain
-            handleShowCalendarMain={handleShowCalendarMain}
-            setIsCalendarMainVisible={setIsCalendarMainVisible}
-            setIsFriendListVisible={setIsFriendListVisible}
-            setIsSearchUsersvisible={setIsSearchUsersvisible}
-            setIsFriendDetailVisible={setIsFriendDetailVisible}
-          />
-        )}
-        {isSearchUsersListVisible && (
-          <SearchUsers
-            setIsCalendarMainVisible={setIsCalendarMainVisible}
-            setIsFriendListVisible={setIsFriendListVisible}
-            setIsSearchUsersvisible={setIsSearchUsersvisible}
-            setIsFriendDetailVisible={setIsFriendDetailVisible}
-          />
-        )}
-        {isFriendDetailVisible && (
-          <DetailMain
-            handleShowCalendarMain={handleShowCalendarMain}
-            setIsCalendarMainVisible={setIsCalendarMainVisible}
-            setIsFriendListVisible={setIsFriendListVisible}
-            setIsSearchUsersvisible={setIsSearchUsersvisible}
-            setIsFriendDetailVisible={setIsFriendDetailVisible}
           />
         )}
         <NotificationModal

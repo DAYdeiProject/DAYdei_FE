@@ -1,13 +1,13 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
-import { CalendarWrapper } from "../calendar/CalendarMain";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
 // import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { AiOutlineSearch } from "react-icons/ai";
 
-function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function SearchUsers() {
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState("");
   const [searchWord, setSearchWord] = useState("");
@@ -85,14 +85,7 @@ function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSe
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists
-              searchWord={searchWord}
-              selectedCategories={selectedCategories}
-              setIsCalendarMainVisible={setIsCalendarMainVisible}
-              setIsFriendListVisible={setIsFriendListVisible}
-              setIsSearchUsersvisible={setIsSearchUsersvisible}
-              setIsFriendDetailVisible={setIsFriendDetailVisible}
-            />
+            <UserLists searchWord={searchWord} selectedCategories={selectedCategories} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>

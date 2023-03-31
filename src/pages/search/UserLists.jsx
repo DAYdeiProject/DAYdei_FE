@@ -2,13 +2,13 @@ import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
-import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { CalendarWrapper } from "../calendar/CalendarMain";
-import Loading from "../../../components/Loading";
+import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
+import Loading from "../../components/Loading";
 
-function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
   //클릭된 구독하기 버튼 추적
@@ -124,10 +124,6 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
             <ProfileArea
               onClick={() => {
                 navigate(`/${user.id}`);
-                setIsCalendarMainVisible(true);
-                setIsFriendListVisible(false);
-                setIsSearchUsersvisible(false);
-                setIsFriendDetailVisible(false);
               }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />

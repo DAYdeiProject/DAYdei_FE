@@ -114,12 +114,12 @@ const ColorBoxContainer = styled(ColorBoxWrapper)`
   justify-content: left;
 `;
 const ColorBox = styled.div`
-  width: ${(props) => (props.isClick ? "22px" : "18px")};
+  width: ${(props) => (props.isClick ? "21px" : "18px")};
   height: ${(props) => (props.isClick ? "22px" : "18px")};
   background-color: ${(props) => props.value};
   border-radius: 50%;
   margin-right: 20px;
-  border: ${(props) => (props.isClick ? "2px solid #121212" : "0.5px solid #121212")};
+  border: ${(props) => (props.isClick ? "2.5px solid #121212" : "0.5px solid #121212")};
 `;
 
 // 초대하기 영역
@@ -343,7 +343,6 @@ const PreviewBox = styled.div`
 const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  padding: 0 10px;
 `;
 
 const SelectContainer = styled(ScopeWrapper)`

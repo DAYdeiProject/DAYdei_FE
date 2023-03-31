@@ -1,7 +1,7 @@
 import { React } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
+import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
 import {
   NoListMessageWrapper,
@@ -14,42 +14,52 @@ import {
   PostBox,
   ProfileArea,
   ProfileWrap,
-  PostLeft,
   PhotoFrame,
+  PostLeft,
   TextArea,
   NickNameWrap,
   EmailWrap,
   IntroductionWrap,
   ButtonArea,
-} from "../friendslist/FriendList";
-import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+} from "./FriendList";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 
-function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function SubscribeList({ SubscribesList }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userInfo = GetUserInfo();
+  // const SubscribeList = useSelector((state) => state.subscribe.SubscribeList);
+  // console.log("자식에서 찍은 구독-->", SubscribesList);
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));
   };
 
-  const otherUser = useSelector((state) => state.calendar.otherUser);
-  // console.log("다른유저-->", otherUser.nickName);
-
-  // console.log("자식에서-->", SubscribersList);
-
-  if (SubscribersList?.length === 0) {
+  if (SubscribesList?.length === 0) {
     return (
       <NoListMessageWrapper>
         <MessageBox>
           <ContentArea>
             <IconStyle />
             <TextWrap>
-              <UpperText>{otherUser.nickName}님을 구독하는 사람</UpperText>
-              <BottomText>{otherUser.nickName}님을 구독하는 사람들이 여기에 표시됩니다.</BottomText>
+              <UpperText>내가 구독하는 사람</UpperText>
+              <BottomText>회원님이 구독하는 사람들이 여기에 표시됩니다.</BottomText>
             </TextWrap>
           </ContentArea>
+          <ButtonWrap>
+            <RecommendButton
+              onClick={() => {
+                navigate(`/search/${userInfo.userId}`);
+                // setIsCalendarMainVisible(false);
+                // setIsFriendListVisible(false);
+                // setIsSearchUsersvisible(true);
+                // setIsFriendDetailVisible(false);
+              }}>
+              회원님을 위한 추천
+            </RecommendButton>
+          </ButtonWrap>
         </MessageBox>
       </NoListMessageWrapper>
     );
@@ -57,28 +67,29 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
 
   return (
     <>
-      {SubscribersList?.map((user) => (
+      {SubscribesList?.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
             }}>
-            <ProfileWrapLong>
+            <ProfileWrap>
               <PostLeft>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                 <TextArea>
-                  <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
+                  <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"}</NickNameWrap>
                   <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                 </TextArea>
               </PostLeft>
-              <IntroductionWrapLong>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrapLong>
-            </ProfileWrapLong>
-            <IntroductionWrap></IntroductionWrap>
+              <IntroductionWrap>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrap>
+            </ProfileWrap>
           </ProfileArea>
+          <ButtonArea
+            onClick={() => {
+              cancelSubscribeHandler(user.id);
+            }}>
+            {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
+          </ButtonArea>
         </PostBox>
       ))}
     </>
@@ -120,4 +131,4 @@ const RecommendButton = styled.div`
   }
 `;
 
-export default DetailSubscriberList;
+export default SubscribeList;

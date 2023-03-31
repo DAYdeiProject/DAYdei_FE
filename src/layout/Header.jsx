@@ -9,14 +9,17 @@ import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyProfile } from "../redux/modules/usersSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 
 function Header(props) {
   const navigate = useNavigate();
-  const { handleShowCalendarMain, handleShowFriendsListMain, handleShowSearchUsers, isNotificationOpen, setIsNotificationOpen } = props;
+  const { isNotificationOpen, setIsNotificationOpen } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
   // 프로필 수정시 최신정보 가져오기
   const [isEditProfile, setIsEditProfile] = useState(false);
+  // 프로필 디테일 오픈여부
+  const [isProfileDetail, setIsProfileDetail] = useState(false);
   const token = Cookies.get("accessJWTToken");
   const [clickNav, setClickNav] = useState("home");
   const dispatch = useDispatch();
@@ -73,18 +76,26 @@ function Header(props) {
 
   // 홈클릭
   const homeClickHandler = () => {
-    handleShowCalendarMain();
+    //handleShowCalendarMain();
     setClickNav("home"); // 색깔 진하게
+    navigate(`/${userId.userId}`);
   };
   // 친구/구독
   const friendclickHandler = () => {
-    handleShowFriendsListMain();
+    //handleShowFriendsListMain();
     setClickNav("friend");
+    navigate(`/mylist/${userId.userId}`);
   };
   // 찾아보기
   const searchClickHandler = () => {
-    handleShowSearchUsers();
+    // handleShowSearchUsers();
     setClickNav("search");
+    navigate(`/search/${userId.userId}`);
+  };
+
+  // 프로필 디테일 이동
+  const moveProfileDetail = () => {
+    setIsProfileDetail(!isProfileDetail);
   };
 
   return (
@@ -114,7 +125,7 @@ function Header(props) {
                   {isDropdownOpen && (
                     <DropdownFrame>
                       <ContentWrapper>
-                        <ProfileWrap>
+                        <ProfileWrap onClick={moveProfileDetail}>
                           <PhotoWrap>
                             <ProfilePhoto src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
                           </PhotoWrap>
@@ -148,6 +159,7 @@ function Header(props) {
           setIsEditProfile={setIsEditProfile}
         />
       )}
+      <ProfileDetailModal isProfileDetail={isProfileDetail} setIsProfileDetail={setIsProfileDetail} />
     </>
   );
 }

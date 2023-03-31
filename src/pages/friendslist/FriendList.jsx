@@ -1,13 +1,13 @@
 import { React, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
-import { __friendsList } from "../../../redux/modules/kakaoSlice";
+import { __cancelRequest, __getFriendsList } from "../../redux/modules/friendsSlice";
+import { __friendsList } from "../../redux/modules/kakaoSlice";
 import { MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
-function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function FriendList({ FriendsList }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -94,10 +94,6 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
             }}>
             <ProfileWrap>
               <PostLeft>
