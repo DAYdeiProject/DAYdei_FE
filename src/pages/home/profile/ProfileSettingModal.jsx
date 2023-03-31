@@ -6,11 +6,10 @@ import useOutSideClick from "../../../hooks/useOutsideClick";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
-import { useParams } from "react-router-dom";
 import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
-import { set } from "lodash";
+import InfoSettingModal from "./InfoSettingModal";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
   const [profile, setProfile] = useState("");
@@ -20,15 +19,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const [profileImageUrl, setProfileImageUrl] = useState("");
   //업로드된 배경 이름 상태
   const [backgroundImageName, setBackgroundImageName] = useState("");
-  //useSelector로 요청 전송 성공코드 불러오기
-  const statusCodeProfile = useSelector((state) => state.users.statusCodeProfile);
-  //useSelector로 오류 메시지 불러오기
-  const isError = useSelector((state) => state.users.isError);
-  const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
-  //업로드 성공 여부 추적
-  const [isUpdated, setIsUpdated] = useState(false);
-  //업로드 실패 여부 추적
-  const [isProfileUpdateFailed, setIsProfileUpdateFailed] = useState(false);
+  const [isProfileSectionOpen, setIsProfileSectionOpen] = useState(true);
 
   const {
     password,
@@ -40,7 +31,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     handlePasswordCheckChange,
     nickName,
     handleNickNameChange,
-
     introduction,
     handleIntroductionChange,
   } = useLogin();
@@ -62,8 +52,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   }, [isProfileSettingModalOpen, profile]);
 
   const myProfile = useSelector((state) => state.users.myProfile);
-  //   console.log("selector로 불러온 내프로필-->", myProfile);
-  // console.log("필요한 정보들-->", myProfile.nickName, myProfile.email, myProfile.introduction, myProfile.backgroundImage, myProfile.profileImage);
 
   const handleProfileImageClick = () => {
     document.getElementById("profileInput").click();
@@ -106,8 +94,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
     const userProfileRequestDto = {
       nickName,
-      newPassword: password,
-      introduction: introduction,
+      introduction,
     };
 
     const formData = new FormData();
@@ -117,10 +104,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
     // console.log(userProfileRequestDto, profile, background);
 
-    if (nickName !== "" || (password === passwordCheck && password !== "") || introduction !== "") {
-    }
-
-    if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
+    if ((isPw && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
@@ -140,76 +124,113 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     }
   };
 
+  //나의 프로필, 개인정보 설정 중 어디를 보여줄지 결정하는 함수
+  const handleProfileModalSection = () => {
+    setIsProfileSectionOpen(true);
+  };
+
+  const handleInfoModalSection = () => {
+    setIsProfileSectionOpen(false);
+  };
+
   return (
     <>
       <ModalWrap>
-        <Modal height="580px" padding="30px 5px 10px 5px" width="540px">
+        <Modal width="370px" height="648px" padding="50px 0px 0px 0px;">
           <WholeAreaWrapper ref={ProfileSettingModalRef}>
-            <form onSubmit={profileChangeHandler}>
-              <InfoArea>
-                <PhotoArea>
-                  <PhotoWrapSquare>
-                    {profileImageUrl || (myProfile.profileImage && profile.length !== 0) ? <CancelIcon onClick={deleteImageHandler} /> : null}
-                    <PhotoWrap>
-                      {profileImageUrl ? (
-                        <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
-                      ) : (
-                        <ProfilePhotoIcon onClick={handleProfileImageClick} />
-                      )}
-                      <input id="profileInput" name="profileImage" type="file" hidden onChange={(e) => profileImageHandler(e)} />
-                    </PhotoWrap>
-                  </PhotoWrapSquare>
-                </PhotoArea>
-                <TextArea>
-                  <TextWrap>
-                    <TextMain>
-                      <SmallTextBox>닉네임 :</SmallTextBox>
-                      <input type="text" placeholder={myProfile.nickName} value={nickName} onChange={handleNickNameChange} autoFocus />
-                    </TextMain>
-                  </TextWrap>
-                  <TextWrap>
-                    <TextMain>
-                      <SmallTextBox>새 비밀번호 :</SmallTextBox> <input type="password" value={password} onChange={handlePasswordChange} />
-                    </TextMain>
-                    <CheckMessage>{isPwMessage}</CheckMessage>
-                  </TextWrap>
-                  <TextWrap>
-                    <TextMain>
-                      <SmallTextBox>비밀번호 확인 :</SmallTextBox> <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
-                    </TextMain>
-                    <CheckMessage>{isPwCheckMessage}</CheckMessage>
-                  </TextWrap>
-                  <TextWrap>
-                    <TextMain>
-                      <SmallTextBox>소개 :</SmallTextBox>
-                      <input type="text" placeholder={myProfile.introduction} value={introduction} onChange={handleIntroductionChange} />
-                    </TextMain>
-                  </TextWrap>
-                </TextArea>
-              </InfoArea>
-              <BackgroundImageArea>
-                <BackgroundLeft>
-                  <IconStyle />
-                  <span>배경사진</span>
-                  {backgroundImageName ? (
-                    <FileNameWrap>{backgroundImageName}</FileNameWrap>
-                  ) : myProfile.backgroundImage && background.length !== 0 ? (
-                    <FileNameWrap>{backgroundImageName}</FileNameWrap>
-                  ) : null}
-                  {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
-                </BackgroundLeft>
-                <AddButton>
-                  <input id="backgroundInput" name="backgroundImage" type="file" hidden onChange={(e) => backgroundImageHandler(e)} />
-                  <span onClick={handleBackgroundButtonClick}>추가</span>
-                </AddButton>
-              </BackgroundImageArea>
-              <ButtonArea>
-                <ButtonWrap type="button" onClick={handleProfileSettingModalClose}>
-                  취소
-                </ButtonWrap>
-                <ButtonWrap>수정</ButtonWrap>
-              </ButtonArea>
-            </form>
+            <ContentWrapper>
+              <form onSubmit={profileChangeHandler}>
+                <AboveButtonArea>
+                  <TitleTextWrap>기본정보</TitleTextWrap>
+                  <InfoArea>
+                    <SectionChooseBox>
+                      <SectionBox
+                        onClick={handleProfileModalSection}
+                        color={isProfileSectionOpen ? "black" : "#AFB4BF"}
+                        borderBottom={isProfileSectionOpen ? "#000000" : "white"}>
+                        나의 프로필
+                      </SectionBox>
+                      <SectionBox
+                        onClick={handleInfoModalSection}
+                        color={!isProfileSectionOpen ? "black" : "#AFB4BF"}
+                        borderBottom={!isProfileSectionOpen ? "#000000" : "white"}>
+                        개인정보 설정
+                      </SectionBox>
+                    </SectionChooseBox>
+                    {isProfileSectionOpen ? (
+                      <MyProfileSection>
+                        <PhotoArea>
+                          <PhotoWrapSquare>
+                            {profileImageUrl || (myProfile.profileImage && profile.length !== 0) ? <CancelIcon onClick={deleteImageHandler} /> : null}
+                            <PhotoWrap>
+                              {profileImageUrl ? (
+                                <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
+                              ) : (
+                                <ProfilePhotoIcon onClick={handleProfileImageClick} />
+                              )}
+                              <input id="profileInput" name="profileImage" type="file" hidden onChange={(e) => profileImageHandler(e)} />
+                            </PhotoWrap>
+                          </PhotoWrapSquare>
+                          <BackgroundImageArea>
+                            <BackgroundBox>
+                              <AddBackgroundButton>
+                                <input id="backgroundInput" name="backgroundImage" type="file" hidden onChange={(e) => backgroundImageHandler(e)} />
+                                <span onClick={handleBackgroundButtonClick}>배경 사진</span>
+                              </AddBackgroundButton>
+                              <BackgroundRight>
+                                {backgroundImageName ? (
+                                  <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                                ) : myProfile.backgroundImage && background.length !== 0 ? (
+                                  <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                                ) : null}
+                                {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
+                              </BackgroundRight>
+                            </BackgroundBox>
+                            <LimitTextWrap>10MB 이내의 이미지 파일을 업로드 해주세요.</LimitTextWrap>
+                          </BackgroundImageArea>
+                        </PhotoArea>
+                        <TextArea>
+                          <TextWrap>
+                            <SmallTextBox>닉네임 :</SmallTextBox>
+                            <TextMain>
+                              <input type="text" placeholder={myProfile.nickName} value={nickName} onChange={handleNickNameChange} autoFocus />
+                            </TextMain>
+                          </TextWrap>
+                          <TextWrap>
+                            <SmallTextBox>한 줄 프로필 :</SmallTextBox>
+                            <TextMain>
+                              <input type="text" placeholder={myProfile.introduction} value={introduction} onChange={handleIntroductionChange} />
+                            </TextMain>
+                          </TextWrap>
+                          <TextWrap>
+                            <SmallTextBox>관심 카테고리 :</SmallTextBox>
+                            <TextMain>
+                              <div>교육, 경제</div>
+                            </TextMain>
+                          </TextWrap>
+                        </TextArea>
+                      </MyProfileSection>
+                    ) : (
+                      <InfoSettingModal
+                        password={password}
+                        handlePasswordChange={handlePasswordChange}
+                        isPwMessage={isPwMessage}
+                        passwordCheck={passwordCheck}
+                        handlePasswordCheckChange={handlePasswordCheckChange}
+                        isPwCheckMessage={isPwCheckMessage}
+                      />
+                    )}
+                  </InfoArea>
+                </AboveButtonArea>
+                <GapArea></GapArea>
+                <ButtonArea>
+                  <ButtonWrap type="button" onClick={handleProfileSettingModalClose}>
+                    취소
+                  </ButtonWrap>
+                  <ButtonSubmit>저장하기</ButtonSubmit>
+                </ButtonArea>
+              </form>
+            </ContentWrapper>
           </WholeAreaWrapper>
         </Modal>
       </ModalWrap>
@@ -220,35 +241,102 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 export default ProfileSettingModal;
 
 const WholeAreaWrapper = styled.div`
-  height: 100%;
+  width: 320px;
+  height: 548px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: pink; */
+`;
+
+const ContentWrapper = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* background-color: blue; */
+`;
+
+const AboveButtonArea = styled.div`
+  width: 100%;
+  height: 463px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: skyblue; */
+`;
+
+const TitleTextWrap = styled.div`
+  width: 100%;
+  height: 28.77px;
+  font-size: ${(props) => props.theme.Fs.size20};
+  /* background-color: pink; */
 `;
 
 const InfoArea = styled.div`
-  height: 350px;
-  width: 500px;
+  width: 100%;
+  height: 434.2px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: pink; */
+  gap: 25px;
+`;
+
+const SectionChooseBox = styled.div`
+  width: 100%;
+  height: 46.75px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  :hover {
+    cursor: pointer;
+  }
+  /* background-color: skyblue; */
+`;
+
+const SectionBox = styled.div`
+  width: 143px;
+  height: 31.38px;
+  padding: 7.8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: ${(props) => props.theme.Fs.size14};
+  line-height: 16px;
+  color: ${(props) => props.color};
+  border-bottom: 1px solid ${(props) => props.borderBottom};
   /* background-color: pink; */
-  margin-bottom: 20px;
+`;
+
+const MyProfileSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: skyblue; */
+
+  width: 100%;
+  height: 362.47px;
+  gap: 30px;
 `;
 
 const PhotoArea = styled.div`
-  width: 200px;
-  height: 100%;
-  /* background-color: pink; */
+  width: 294px;
+  height: 77px;
   display: flex;
+  flex-direction: row;
   align-items: center;
+  gap: 28px;
+  /* background-color: skyblue; */
 `;
 
 const PhotoWrapSquare = styled.div`
   position: relative;
-  width: 200px;
-  height: 200px;
-  /* background-color: pink; */
+  width: 77px;
+  height: 77px;
+  /* background-color: red; */
 `;
 
 const CancelIcon = styled(GiCancel)`
@@ -260,8 +348,8 @@ const CancelIcon = styled(GiCancel)`
 `;
 
 const PhotoWrap = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 77px;
+  height: 77px;
   background-color: lightgray;
   border-radius: 50%;
   display: flex;
@@ -275,74 +363,123 @@ const PhotoWrap = styled.div`
 `;
 
 const ProfilePhotoIcon = styled(BsCardImage)`
-  font-size: 30px;
+  font-size: 20px;
   :hover {
     cursor: pointer;
   }
 `;
 
-const TextArea = styled.div`
-  width: 300px;
-  height: 100%;
-  /* background-color: yellow; */
+const BackgroundImageArea = styled.div`
+  width: 189px;
+  height: 57.2px;
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
+  /* background-color: skyblue; */
+  gap: 12px;
+`;
+
+const BackgroundBox = styled.div`
+  width: 100%;
+  height: 32.67px;
+  display: flex;
+  flex-direction: row;
+  gap: 13px;
+  /* background-color: pink; */
+`;
+
+const AddBackgroundButton = styled.div`
+  width: 90px;
+  height: 100%;
+  background: #fbfeff;
+  border: 1px solid #121212;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-left: 10px;
-  input[type="text"],
-  input[type="password"] {
-    width: 150px;
+
+  font-weight: 600;
+  font-size: ${(props) => props.theme.Fs.size12};
+  line-height: 14px;
+
+  :hover {
+    cursor: pointer;
   }
 `;
 
-const TextWrap = styled.div`
-  width: 290px;
-  height: 60px;
+const BackgroundRight = styled.div`
+  width: 86px;
+  height: 100%;
   display: flex;
-  flex-direction: row;
-  padding-left: 10px;
-  justify-content: center;
-  /* background-color: pink; */
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  color: ${(props) => props.theme.Bg.fontColor2};
+  background-color: #f2f4f6;
+  border-radius: 4px;
+  padding: 7px;
 `;
 
-const TextMain = styled.div`
+const FileNameWrap = styled.div`
+  background-color: #f2f4f6;
+  font-size: ${(props) => props.theme.Fs.size12};
+  font-weight: 400;
+  line-height: 14px;
+`;
+
+const LimitTextWrap = styled.div`
+  width: 100%;
+  height: 13px;
+
+  font-weight: 400;
+  font-size: 10.5px;
+  color: #494d55;
+`;
+
+const TextArea = styled.div`
+  width: 100%;
+  height: 256px;
+  /* background-color: yellow; */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+`;
+
+export const TextWrap = styled.div`
+  height: 73px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: pink; */
+  gap: 7.5px;
+`;
+
+export const SmallTextBox = styled.div`
+  color: #494d55;
+  font-weight: 500;
+  font-size: ${(props) => props.theme.Fs.size16};
+  line-height: 18px;
+`;
+
+export const TextMain = styled.div`
+  width: 100%;
+  height: 44px;
   display: flex;
   flex-direction: row;
-  margin-bottom: 3px;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #afb4bf;
+  border-radius: 8px;
+  input[type="text"],
+  input[type="password"] {
+    width: 282.5px;
+  }
   /* background-color: skyblue; */
 `;
 
-const CheckMessage = styled.div`
+export const CheckMessage = styled.div`
   font-size: 7px;
   /* text-align: center; */
   /* background-color: yellow; */
-`;
-
-const SmallTextBox = styled.div`
-  margin-right: 5px;
-`;
-
-const BackgroundImageArea = styled.div`
-  /* height: 80px; */
-  width: 500px;
-  display: flex;
-  flex-direction: row;
-  /* background-color: skyblue; */
-  margin-bottom: 20px;
-  border: 1px solid ${(props) => props.theme.Bg.deepColor};
-  border-radius: 4px;
-  padding: 5px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const BackgroundLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 `;
 
 const IconStyle = styled(BsCardImage)`
@@ -350,50 +487,47 @@ const IconStyle = styled(BsCardImage)`
   margin-left: 5px;
 `;
 
-const FileNameWrap = styled.div`
-  margin-left: 10px;
-  background-color: skyblue;
-`;
-
 const BackgroundCancel = styled(GiCancel)`
   margin-left: 5px;
 `;
 
-const AddButton = styled.div`
-  width: 40px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 3px;
-  background-color: lightgray;
-  :hover {
-    cursor: pointer;
-  }
+const GapArea = styled.div`
+  width: 100%;
+  height: 44px;
+  /* background-color: pink; */
 `;
 
 const ButtonArea = styled.div`
-  height: 60px;
-  width: 500px;
+  height: 40px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   /* background-color: lightgray; */
   justify-content: center;
-  gap: 60px;
-  margin-top: 20px;
+  gap: 8px;
 `;
 
-const ButtonWrap = styled.button`
-  height: 50px;
-  width: 120px;
+const ButtonWrap = styled.div`
+  height: 100%;
+  width: 132px;
   background-color: ${(props) => props.theme.Bg.deepColor};
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #afb4bf;
+  color: ${(props) => props.theme.Bg.lightColor};
+  border: 1.3px solid #121212;
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: ${(props) => props.theme.Fs.size16};
+  line-height: 18px;
   :hover {
     cursor: pointer;
   }
-  font-size: 24px;
-  color: ${(props) => props.theme.Bg.lightColor};
+`;
+
+const ButtonSubmit = styled(ButtonWrap)`
+  background: #0eafe1;
 `;
