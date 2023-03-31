@@ -62,7 +62,13 @@ function SubscriberList({ SubscribersList }) {
                   <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                 </TextArea>
               </PostLeft>
-              <IntroductionWrapLong>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrapLong>
+              <IntroductionWrapLong>
+                {user.introduction
+                  ? user.introduction.length > 30
+                    ? `${user.introduction.substr(0, 30)}...`
+                    : user.introduction
+                  : `${user.nickName}의 캘린더입니다.`}
+              </IntroductionWrapLong>
             </ProfileWrapLong>
           </ProfileArea>
         </PostBox>

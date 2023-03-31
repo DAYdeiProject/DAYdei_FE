@@ -9,8 +9,9 @@ import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/Loading";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
-function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }) {
+function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, setIsButtonclicked }) {
   const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
   const { isLoading, FamousList } = useSelector((state) => state.friends);
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
@@ -22,6 +23,7 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const myProfile = useSelector((state) => state.users.myProfile);
 
   useEffect(() => {
     dispatch(__getFamousList({ token }));
@@ -72,7 +74,7 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
           <ModalContent>
             <ContentWrapper>
               <TextWrapper>
-                <ModalHeader>{userInfo.nickName}님을 위한 추천 캘린더!</ModalHeader>
+                <ModalHeader>{myProfile.nickName}님을 위한 추천 캘린더!</ModalHeader>
                 <SubText>
                   <p>다른 사용자들을 구독하면</p>
                   <p>내 캘린더에서 확인할 수 있어요.</p>
@@ -83,10 +85,16 @@ function FriendRecommendModal({ setShowFriendRecommendModal, setIsModalVisible }
                 {FamousList.map((user) => (
                   <div key={user.id}>
                     <PostWrap>
-                      <PhotoFrame src={user.profileImage}></PhotoFrame>
+                      <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                       <UserInfoWrap>
-                        <UserInfoText1>{user.nickName}</UserInfoText1>
-                        <UserInfoText2>{user.introduction === null ? `${user.nickName}의 캘린더입니다.` : user.introduction}</UserInfoText2>
+                        <UserInfoText1>{user.nickName ? user.nickName : "알수없음"}</UserInfoText1>
+                        <UserInfoText2>
+                          {!user.nickName
+                            ? "알 수 없는 캘린더"
+                            : user.introduction === null
+                            ? `${user.nickName}의 캘린더입니다.`
+                            : `${user.introduction.substr(0, 18)}...`}
+                        </UserInfoText2>
                       </UserInfoWrap>
                       <ButtonStyle backgroundColor={clickedButtonIds.includes(user.id) ? "#FBDF96" : "#FFFFFF"}>
                         <Button id={user.id} />

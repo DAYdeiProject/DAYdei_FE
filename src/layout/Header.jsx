@@ -43,7 +43,7 @@ function Header() {
     if (userId) {
       dispatch(__getMyProfile(userId.userId));
     }
-  }, [isEditProfile]);
+  }, [isEditProfile, token]);
 
   // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
@@ -69,7 +69,7 @@ function Header() {
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
     }
-  }, []);
+  }, [myProfile]);
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -165,6 +165,7 @@ function Header() {
         <ProfileSettingModal
           isProfileSettingModalOpen={isProfileSettingModalOpen}
           setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
+          isEditProfile={isEditProfile}
           setIsEditProfile={setIsEditProfile}
         />
       )}
