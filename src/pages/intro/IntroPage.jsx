@@ -66,7 +66,6 @@ function IntroPage() {
 
   return (
     <ScreenLayout>
-      <Header></Header>
       <ScreenWrapper>
         <PreviewWrapper></PreviewWrapper>
         <LoginWrapper

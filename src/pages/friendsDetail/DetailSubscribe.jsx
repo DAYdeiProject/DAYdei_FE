@@ -1,8 +1,8 @@
 import { React } from "react";
-import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -13,30 +13,28 @@ import {
   BottomText,
   PostBox,
   ProfileArea,
-  ProfileWrap,
-  PhotoFrame,
   PostLeft,
+  PhotoFrame,
   TextArea,
   NickNameWrap,
   EmailWrap,
-  IntroductionWrap,
-} from "./FriendList";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+} from "../friendslist/FriendList";
+import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
 
-function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
-  // console.log(subscribeList);
-  const dispatch = useDispatch();
+function DetailSubscribe({ SubscribesList }) {
   const navigate = useNavigate();
 
-  if (SubscribersList?.length === 0) {
+  const otherUser = useSelector((state) => state.calendar.otherUser);
+
+  if (SubscribesList?.length === 0) {
     return (
       <NoListMessageWrapper>
         <MessageBox>
           <ContentArea>
             <IconStyle />
             <TextWrap>
-              <UpperText>나를 구독하는 사람</UpperText>
-              <BottomText>회원님을 구독하는 사람들이 여기에 표시됩니다.</BottomText>
+              <UpperText>{otherUser.nickName}님이 구독하는 사람</UpperText>
+              <BottomText>{otherUser.nickName}님이 구독하는 사람들이 여기에 표시됩니다.</BottomText>
             </TextWrap>
           </ContentArea>
         </MessageBox>
@@ -46,15 +44,11 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
 
   return (
     <>
-      {SubscribersList?.map((user) => (
+      {SubscribesList?.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
             }}>
             <ProfileWrapLong>
               <PostLeft>
@@ -73,26 +67,4 @@ function SubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriend
   );
 }
 
-export default SubscriberList;
-
-export const ProfileWrapLong = styled(ProfileWrap)`
-  width: 420px;
-`;
-
-export const IntroductionWrapLong = styled(IntroductionWrap)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-
-  width: 280px;
-  height: 20px;
-  /* background-color: lightblue; */
-
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 140%;
-
-  color: #494d55;
-`;
+export default DetailSubscribe;

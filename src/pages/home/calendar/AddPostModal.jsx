@@ -42,7 +42,7 @@ function AddPostModal({ ...props }) {
   const [endDate, setEndDate] = useState(startDate);
   const [isAllDay, setIsAllDay] = useState(getValues("allDay"));
   const [color, setColor] = useState("RED");
-  const [isColor, setIsColor] = useState("#EC899F");
+  const [isColor, setIsColor] = useState("#FFEBF5");
   const [isShowLocation, setIsShowLocation] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
   const [isShowImg, setIsShowImg] = useState(false);
@@ -304,6 +304,9 @@ function AddPostModal({ ...props }) {
 
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
+    if (data.title === "") {
+      return alert("제목을 입력해주세요.");
+    }
     const newStart = format(startDate, "yyyy-MM-dd");
     const newEnd = format(endDate, "yyyy-MM-dd");
     if (newStart > newEnd) {

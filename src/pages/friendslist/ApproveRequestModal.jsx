@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
+import ModalWrap from "../../elements/ModalWrap";
+import Modal from "../../elements/Modal";
+import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 

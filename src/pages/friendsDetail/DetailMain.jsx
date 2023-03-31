@@ -1,7 +1,7 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
-import { __getSubscribeList, __getSubscriberList } from "../../../redux/modules/subscribeSlice";
+import { __getFriendsList, __getRequestedUsersList } from "../../redux/modules/friendsSlice";
+import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
 import {
   LoadingWrapper,
   WholeWrapper,
@@ -28,11 +28,11 @@ import DetailFriends from "./DetailFriends";
 import DetailSubscribe from "./DetailSubscribe";
 import DetailSubscriber from "./DetailSubscriber";
 import _ from "lodash";
-import useOutSideClick from "../../../hooks/useOutsideClick";
+import useOutSideClick from "../../hooks/useOutsideClick";
 import LoadingInnerWrapper from "../search/UserLists";
-import Loading from "../../../components/Loading";
+import Loading from "../../components/Loading";
 
-function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function DetailMain() {
   const params = useParams();
   const dispatch = useDispatch();
   // 검색어 상태
@@ -289,13 +289,7 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                     </TopRight>
                   </TopText>
                   <ListWrap>
-                    <DetailFriends
-                      FriendsList={FriendsList}
-                      setIsCalendarMainVisible={setIsCalendarMainVisible}
-                      setIsFriendListVisible={setIsFriendListVisible}
-                      setIsSearchUsersvisible={setIsSearchUsersvisible}
-                      setIsFriendDetailVisible={setIsFriendDetailVisible}
-                    />
+                    <DetailFriends FriendsList={FriendsList} />
                   </ListWrap>
                 </ContentWrapper>
               </ListFrame>
@@ -330,13 +324,7 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                   </TopText>
 
                   <ListWrap>
-                    <DetailSubscribe
-                      SubscribesList={SubscribesList}
-                      setIsCalendarMainVisible={setIsCalendarMainVisible}
-                      setIsFriendListVisible={setIsFriendListVisible}
-                      setIsSearchUsersvisible={setIsSearchUsersvisible}
-                      setIsFriendDetailVisible={setIsFriendDetailVisible}
-                    />
+                    <DetailSubscribe SubscribesList={SubscribesList} />
                   </ListWrap>
                 </ContentWrapper>
               </ListFrame>
@@ -370,13 +358,7 @@ function DetailMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSea
                     </TopRight>
                   </TopText>
                   <ListWrap>
-                    <DetailSubscriber
-                      SubscribersList={SubscribersList}
-                      setIsCalendarMainVisible={setIsCalendarMainVisible}
-                      setIsFriendListVisible={setIsFriendListVisible}
-                      setIsSearchUsersvisible={setIsSearchUsersvisible}
-                      setIsFriendDetailVisible={setIsFriendDetailVisible}
-                    />
+                    <DetailSubscriber SubscribersList={SubscribersList} />
                   </ListWrap>
                 </ContentWrapper>
               </ListFrame>

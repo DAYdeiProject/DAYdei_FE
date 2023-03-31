@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { __getOtherUser } from "../redux/modules/calendarSlice";
 import Loading from "./Loading";
@@ -20,7 +20,7 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
   const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
-
+  const navigate = useNavigate();
   const { otherUser, isLoading } = useSelector((state) => state.calendar);
 
   useEffect(() => {
@@ -85,6 +85,10 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
     otherUser.userSubscribeCheck === false ? setSubscribeButtonText("구독하기") : setSubscribeButtonText("구독취소");
   }, [otherUser]);
 
+  const ShowFriendDetailHandler = () => {
+    navigate(`/friendsdetail/${userId}`);
+  };
+
   return (
     <>
       {isLoading && <Loading />}
@@ -95,7 +99,7 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
         </ImgWrapper>
         <NickNameBox>{otherUser?.nickName}</NickNameBox>
         <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
-        <CountBox onClick={buttonText === "친구" ? () => handleShowFriendDetail() : () => alert("친구만 열람 가능합니다.")}>
+        <CountBox onClick={buttonText === "친구" ? ShowFriendDetailHandler : () => alert("친구만 열람 가능합니다.")}>
           <div>
             <span>친구 {otherUser?.friendCount}</span>
             <span>구독 {otherUser?.subscribingCount}명</span>
