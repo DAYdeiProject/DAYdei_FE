@@ -9,6 +9,7 @@ import { ReactComponent as Note } from "../../../assets/lcon/note.svg";
 import { ReactComponent as Calnedar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
 import { useState } from "react";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { TimeCheck } from "./CalendarBasic";
 
 export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -29,23 +30,23 @@ export default function OtherUserCalendar({ ...props }) {
     props.setOtherCalendarPostId(postId);
   };
 
-  const timeForToday = (date) => {
-    const today = new Date();
-    const timeValue = new Date(date);
+  // const timeForToday = (date) => {
+  //   const today = new Date();
+  //   const timeValue = new Date(date);
 
-    let result = "";
-    const time = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-    if (time < 1) result = "방금 전";
-    if (time < 60) result = `${time}분 전`;
+  //   let result = "";
+  //   const time = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+  //   if (time < 1) result = "방금 전";
+  //   if (time < 60) result = `${time}분 전`;
 
-    const hour = Math.floor(time / 60);
-    if (hour > 0 && hour < 24) result = `${hour}시간 전`;
+  //   const hour = Math.floor(time / 60);
+  //   if (hour > 0 && hour < 24) result = `${hour}시간 전`;
 
-    const day = Math.floor(time / 60 / 24);
-    if (day > 0 && day < 365) result = `${day}일 전`;
+  //   const day = Math.floor(time / 60 / 24);
+  //   if (day > 0 && day < 365) result = `${day}일 전`;
 
-    return result;
-  };
+  //   return result;
+  // };
 
   // open 여부 - 보류
   // const closeScheduleHandler = () => {
@@ -64,7 +65,7 @@ export default function OtherUserCalendar({ ...props }) {
           <UpdateContainer>
             {otherUserUpdate.length !== 0 ? (
               otherUserUpdate?.map((list) => {
-                const time = timeForToday(list.modifiedAt);
+                const time = TimeCheck(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
@@ -93,7 +94,7 @@ export default function OtherUserCalendar({ ...props }) {
           <ShareContainer>
             {otherUserShare.length !== 0 ? (
               otherUserShare?.map((list) => {
-                const time = timeForToday(list.modifiedAt);
+                const time = TimeCheck(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>

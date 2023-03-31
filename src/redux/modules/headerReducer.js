@@ -1,16 +1,24 @@
 const TEXT_STATE = "header/TEXT_STATE";
+const NOTI_POSTID = "header/NOTI_POSTID";
 
 // action creator
 export const textState = (payload) => {
-  console.log("payload------------", payload);
   return {
     type: TEXT_STATE,
+    payload: payload,
+  };
+};
+// 알림 클릭시 POST ID
+export const setNotificationPostId = (payload) => {
+  return {
+    type: NOTI_POSTID,
     payload: payload,
   };
 };
 
 const initialState = {
   data: "home",
+  notiInfo: "",
 };
 
 const headerReducer = (state = initialState, action) => {
@@ -18,6 +26,10 @@ const headerReducer = (state = initialState, action) => {
     case TEXT_STATE:
       return {
         data: action.payload,
+      };
+    case NOTI_POSTID:
+      return {
+        notiInfo: action.payload,
       };
     default:
       return state;

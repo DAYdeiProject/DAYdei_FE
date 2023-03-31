@@ -38,43 +38,6 @@ function HomePage() {
   const [isMessageState, setIsMessageState] = useState(false);
 
   const connectToken = Cookies.get("accessJWTToken");
-  const [sseData, setSseData] = useState("");
-  // sse
-  useEffect(() => {
-    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
-      headers: {
-        Authorization: connectToken,
-        "Content-Type": "text/event-stream",
-        Connection: "keep-alive",
-      },
-      heartbeatTimeout: 3600000,
-    });
-
-    eventConnect.onmessage = async (event) => {
-      const result = await event.data;
-      console.log("connect ==> ", result);
-
-      if (!result.includes("EventStream")) {
-        console.log("message", result.content);
-        setSseData(result);
-        setIsMessageState(true);
-      }
-    };
-    return () => eventConnect.close();
-  }, []);
-
-  // 실시간 알림창
-  useEffect(() => {
-    let timer;
-    if (isMessageState) {
-      timer = setTimeout(() => {
-        setIsMessageState(false);
-      }, 3000); // 4초 후 모달이 자동으로 닫힘
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isMessageState]);
 
   const params = useParams();
   const dispatch = useDispatch();
@@ -107,7 +70,6 @@ function HomePage() {
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
         <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
         {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
-        <MessageBox isMessage={isMessageState}>{sseData && sseData.content}</MessageBox>
       </MainWrapper>
     </HomePageWrapper>
   );
@@ -123,7 +85,7 @@ const HomePageWrapper = styled.div`
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   height: calc(100vh - 64px - 1px);
-  min-width: 1350px;
+  min-width: 1920px;
   max-width: 1920px;
   margin: 0 auto;
   position: relative;
@@ -131,20 +93,6 @@ const MainWrapper = styled.div`
   border: 0.5px solid ${(props) => props.theme.Bg.border1};
   border-top: none;
   border-bottom: none;
-`;
-
-const MessageBox = styled.div`
-  position: absolute;
-  bottom: 0px;
-  z-index: 500;
-  right: 0;
-  width: 300px;
-  height: 150px;
-  background-color: #ffffff;
-  border: 1px solid black;
-  padding: 20px;
-  transform: ${(props) => !props.isMessage && "transLateY(100%)"};
-  transition: transform 0.5s;
 `;
 
 const MButton = styled.button`

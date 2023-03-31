@@ -274,7 +274,7 @@ export const PostBox = styled.div`
   align-items: center;
   padding: 15px 8px;
 
-  width: 456px;
+  width: 100%;
   height: 70px;
 
   background: #ffffff;
@@ -286,7 +286,6 @@ export const PostBox = styled.div`
   :hover {
     cursor: pointer;
   }
-  /* background-color: pink; */
 `;
 export const ProfileArea = styled.div`
   display: flex;
@@ -388,7 +387,7 @@ export const ButtonArea = styled.div`
   text-align: center;
   padding: 10px 10px;
 
-  width: 70px;
+  width: 80px;
   height: 34px;
 
   background: #fbfeff;
