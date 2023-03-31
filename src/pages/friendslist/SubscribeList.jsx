@@ -24,6 +24,7 @@ import {
 } from "./FriendList";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
+import { textState } from "../../redux/modules/headerReducer";
 
 function SubscribeList({ SubscribesList }) {
   // console.log(subscribeList);
@@ -52,10 +53,6 @@ function SubscribeList({ SubscribesList }) {
             <RecommendButton
               onClick={() => {
                 navigate(`/search/${userInfo.userId}`);
-                // setIsCalendarMainVisible(false);
-                // setIsFriendListVisible(false);
-                // setIsSearchUsersvisible(true);
-                // setIsFriendDetailVisible(false);
               }}>
               회원님을 위한 추천
             </RecommendButton>
@@ -72,6 +69,7 @@ function SubscribeList({ SubscribesList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
+              dispatch(textState("home"));
             }}>
             <ProfileWrap>
               <PostLeft>

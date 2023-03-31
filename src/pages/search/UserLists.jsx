@@ -7,6 +7,7 @@ import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribe
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import Loading from "../../components/Loading";
+import { textState } from "../../redux/modules/headerReducer";
 
 function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적
@@ -124,6 +125,7 @@ function UserLists({ searchWord, selectedCategories }) {
             <ProfileArea
               onClick={() => {
                 navigate(`/${user.id}`);
+                dispatch(textState("home"));
               }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />

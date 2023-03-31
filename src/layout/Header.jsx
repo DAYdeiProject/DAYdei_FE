@@ -10,10 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getMyProfile } from "../redux/modules/usersSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
+import NotifiactionModalBox from "../components/NotifiactionModalBox";
+import { textState } from "../redux/modules/headerReducer";
 
-function Header(props) {
+function Header() {
   const navigate = useNavigate();
-  const { isNotificationOpen, setIsNotificationOpen } = props;
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
   // 프로필 수정시 최신정보 가져오기
@@ -25,8 +27,17 @@ function Header(props) {
   const dispatch = useDispatch();
   const userId = GetUserInfo();
 
+  // 헤더 클릭한 값 state
+  const { data } = useSelector((state) => state.header);
+
   const myProfile = useSelector((state) => state.users.myProfile);
   // 헤더 프로필 이미지 가져오기
+
+  useEffect(() => {
+    console.log("useEffect 안 header에서-------", data);
+    setClickNav(data);
+  }, [clickNav, data]);
+
   useEffect(() => {
     // 프로필 수정시에도 get요청 다시하기
     if (userId) {
@@ -69,27 +80,24 @@ function Header(props) {
       navigate("/");
     }
   };
-
+  // 알림 클릭
   const notificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
   };
 
   // 홈클릭
   const homeClickHandler = () => {
-    //handleShowCalendarMain();
-    setClickNav("home"); // 색깔 진하게
+    dispatch(textState("home")); // 색깔 진하게
     navigate(`/${userId.userId}`);
   };
   // 친구/구독
   const friendclickHandler = () => {
-    //handleShowFriendsListMain();
-    setClickNav("friend");
+    dispatch(textState("friend"));
     navigate(`/mylist/${userId.userId}`);
   };
   // 찾아보기
   const searchClickHandler = () => {
-    // handleShowSearchUsers();
-    setClickNav("search");
+    dispatch(textState("search"));
     navigate(`/search/${userId.userId}`);
   };
 
@@ -119,6 +127,7 @@ function Header(props) {
             </NavTabConatiner>
             <NavUserConatiner>
               <IconWrapper ref={DropdownRef} className="notification">
+                {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
                 <Alert onClick={notificationClick} />
                 <Image onClick={handleDropdown}>
                   <img src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
@@ -224,9 +233,6 @@ const NavUserConatiner = styled.div`
   justify-content: right;
   gap: 40px;
   align-items: center;
-  .notification {
-    position: relative;
-  }
 `;
 
 const IconWrapper = styled.div`

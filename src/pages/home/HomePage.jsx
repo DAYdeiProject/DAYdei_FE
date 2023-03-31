@@ -12,7 +12,6 @@ import { GetUserInfo } from "../../utils/cookie/userInfo";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import NotificationModal from "./calendar/NotificationModal";
 
 const EventSource = EventSourcePolyfill;
 
@@ -26,19 +25,9 @@ function HomePage() {
     navigate(window.location.pathname, { replace: true });
   }, [navigate]);
 
-  // 알림 클릭시 알림id + returnId
-  const [notificationPostId, setNotificationPostId] = useState("");
-  // 알림창 오픈 여부
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 오늘의 일정 postId
   const [detailPostId, setDetailPostId] = useState("");
-
-  //각 탭의 상태(캘린더, 친구/구독, 찾아보기, 친구의 친구/구독)
-  const [isCalendarMainVisible, setIsCalendarMainVisible] = useState(true);
-  const [isFriendListVisible, setIsFriendListVisible] = useState(false);
-  const [isSearchUsersListVisible, setIsSearchUsersvisible] = useState(false);
-  const [isFriendDetailVisible, setIsFriendDetailVisible] = useState(false);
 
   const categoryList = useSelector((state) => state.users.categoryList);
   const token = useSelector((state) => state.users.token);
@@ -86,47 +75,6 @@ function HomePage() {
     };
   }, [isMessageState]);
 
-  // 홈 캘린더를 누르면 항상 로그인한 아이디의 캘린더가 나오게하기
-  const handleShowCalendarMain = () => {
-    if (userInfo.userId !== params.id) {
-      navigate(`/${userInfo.userId}`);
-    }
-    setIsCalendarMainVisible(true);
-    setIsFriendListVisible(false);
-    setIsSearchUsersvisible(false);
-    setIsFriendDetailVisible(false);
-  };
-
-  // 친구/구독 누르면 항상 로그인한 아이디의 친구/구독이 나오게하기
-  const handleShowFriendsListMain = () => {
-    if (userInfo.userId !== params.id) {
-      navigate(`/${userInfo.userId}`);
-    }
-    setIsCalendarMainVisible(false);
-    setIsFriendListVisible(true);
-    setIsSearchUsersvisible(false);
-    setIsFriendDetailVisible(false);
-  };
-
-  // 찾아보기 누르면 항상 로그인한 아이디 기준 추천목록 나오게하기
-  const handleShowSearchUsers = () => {
-    if (userInfo.userId !== params.id) {
-      navigate(`/${userInfo.userId}`);
-    }
-    setIsCalendarMainVisible(false);
-    setIsFriendListVisible(false);
-    setIsSearchUsersvisible(true);
-    setIsFriendDetailVisible(false);
-  };
-
-  // 사이드바의 친구, 구독자 누르면 친구의 친구/구독 목록이 나오게하기
-  const handleShowFriendDetail = () => {
-    setIsCalendarMainVisible(false);
-    setIsFriendListVisible(false);
-    setIsSearchUsersvisible(false);
-    setIsFriendDetailVisible(true);
-  };
-
   //카테고리 선택 모달이 뜨는 기준을 제시
   useEffect(() => {
     setIsModalVisible(true);
@@ -146,30 +94,9 @@ function HomePage() {
   return (
     <HomePageWrapper>
       <MainWrapper>
-        <Sidebar
-          side={side}
-          isCalendarMainVisible={isCalendarMainVisible}
-          setIsCalendarMainVisible={setIsCalendarMainVisible}
-          handleShowFriendDetail={handleShowFriendDetail}
-          setDetailPostId={setDetailPostId}
-        />
+        <Sidebar side={side} setDetailPostId={setDetailPostId} />
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
-        {isCalendarMainVisible && (
-          <CalendarMain
-            side={side}
-            setSide={setSide}
-            notificationPostId={notificationPostId}
-            setNotificationPostId={setNotificationPostId}
-            detailPostId={detailPostId}
-            setDetailPostId={setDetailPostId}
-          />
-        )}
-        <NotificationModal
-          notificationPostId={notificationPostId}
-          setNotificationPostId={setNotificationPostId}
-          isNotificationOpen={isNotificationOpen}
-          setIsNotificationOpen={setIsNotificationOpen}
-        />
+        <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
         {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
         <MessageBox isMessage={isMessageState}>{sseData && sseData.content}</MessageBox>
       </MainWrapper>

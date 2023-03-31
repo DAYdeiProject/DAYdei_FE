@@ -1,7 +1,8 @@
 import { React } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
 
 import {
   NoListMessageWrapper,
@@ -23,6 +24,7 @@ import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/Subscriber
 
 function DetailSubscribe({ SubscribesList }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const otherUser = useSelector((state) => state.calendar.otherUser);
 
@@ -49,6 +51,7 @@ function DetailSubscribe({ SubscribesList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
+              dispatch(textState("home"));
             }}>
             <ProfileWrapLong>
               <PostLeft>

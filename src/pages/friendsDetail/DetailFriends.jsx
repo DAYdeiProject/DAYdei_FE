@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { PostBox, ProfileArea, ProfileWrap, PostLeft, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap } from "../friendslist/FriendList";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
+import { useDispatch } from "react-redux";
 
 function DetailFriends({ FriendsList }) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   return (
     <>
       {FriendsList?.map((user) => (
@@ -14,6 +16,7 @@ function DetailFriends({ FriendsList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
+              dispatch(textState("home"));
             }}>
             <ProfileWrapLong>
               <PostLeft>

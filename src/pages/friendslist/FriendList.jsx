@@ -6,6 +6,7 @@ import { __friendsList } from "../../redux/modules/kakaoSlice";
 import { MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
 
 function FriendList({ FriendsList }) {
   const navigate = useNavigate();
@@ -94,6 +95,7 @@ function FriendList({ FriendsList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
+              dispatch(textState("home"));
             }}>
             <ProfileWrap>
               <PostLeft>

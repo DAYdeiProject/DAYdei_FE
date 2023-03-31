@@ -22,6 +22,7 @@ import {
   IntroductionWrap,
 } from "./FriendList";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
 
 function SubscriberList({ SubscribersList }) {
   // console.log(subscribeList);
@@ -51,6 +52,7 @@ function SubscriberList({ SubscribersList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
+              dispatch(textState("home"));
             }}>
             <ProfileWrapLong>
               <PostLeft>

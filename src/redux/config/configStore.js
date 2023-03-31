@@ -6,6 +6,7 @@ import calendar from "../modules/calendarSlice";
 import subscribe from "../modules/subscribeSlice";
 import connect from "../modules/connectSlice";
 import memos from "../modules/memosSlice";
+import header from "../modules/headerReducer";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     subscribe,
     connect,
     memos,
+    header,
   },
 });
 

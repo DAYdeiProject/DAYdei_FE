@@ -13,6 +13,7 @@ import { ReactComponent as NoneToday } from "../assets/lcon/calendarIcon/noneSch
 import { ReactComponent as Smile } from "../assets/lcon/smile.svg";
 import { ReactComponent as LightEmoji } from "../assets/lcon/calendarIcon/lightEmoji.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
+import { textState } from "../redux/modules/headerReducer";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export default function SidebarMyCalendar({ ...props }) {
     day = now + " (토)";
   }
   const { today, update, isLoading } = useSelector((state) => state.calendar);
+  const { data } = useSelector((state) => state.header);
 
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
@@ -65,7 +67,7 @@ export default function SidebarMyCalendar({ ...props }) {
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {props.isCalnedar ? (
+          {data === "home" ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>
@@ -140,7 +142,13 @@ export default function SidebarMyCalendar({ ...props }) {
                       <span>@{list.email.split("@")[0]}</span>
                     </InfoBox>
                     <ButtonBox>
-                      <div onClick={() => moveUserPage(list.id)}>캘린더</div>
+                      <div
+                        onClick={() => {
+                          moveUserPage(list.id);
+                          dispatch(textState("home"));
+                        }}>
+                        캘린더
+                      </div>
                     </ButtonBox>
                   </ListBox>
                 ))
