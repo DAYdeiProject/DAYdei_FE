@@ -11,9 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
-import { EventSourcePolyfill } from "event-source-polyfill";
-
-const EventSource = EventSourcePolyfill;
 
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
@@ -34,46 +31,7 @@ function HomePage() {
   const [side, setSide] = useState(false);
   const [isMessageState, setIsMessageState] = useState(false);
 
-  const userInfo = GetUserInfo();
-  const params = useParams();
   const connectToken = Cookies.get("accessJWTToken");
-  const [sseData, setSseData] = useState("");
-  // sse
-  useEffect(() => {
-    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
-      headers: {
-        Authorization: connectToken,
-        "Content-Type": "text/event-stream",
-        Connection: "keep-alive",
-      },
-      heartbeatTimeout: 3600000,
-    });
-
-    eventConnect.onmessage = async (event) => {
-      const result = await event.data;
-      console.log("connect ==> ", result);
-
-      if (!result.includes("EventStream")) {
-        console.log("message", result.content);
-        setSseData(result);
-        setIsMessageState(true);
-      }
-    };
-    return () => eventConnect.close();
-  }, []);
-
-  // 실시간 알림창
-  useEffect(() => {
-    let timer;
-    if (isMessageState) {
-      timer = setTimeout(() => {
-        setIsMessageState(false);
-      }, 3000); // 4초 후 모달이 자동으로 닫힘
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isMessageState]);
 
   //카테고리 선택 모달이 뜨는 기준을 제시
   useEffect(() => {
@@ -98,7 +56,6 @@ function HomePage() {
         {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} />}
         <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
         {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
-        <MessageBox isMessage={isMessageState}>{sseData && sseData.content}</MessageBox>
       </MainWrapper>
     </HomePageWrapper>
   );
@@ -122,20 +79,6 @@ const MainWrapper = styled.div`
   border: 0.5px solid ${(props) => props.theme.Bg.border1};
   border-top: none;
   border-bottom: none;
-`;
-
-const MessageBox = styled.div`
-  position: absolute;
-  bottom: 0px;
-  z-index: 500;
-  right: 0;
-  width: 300px;
-  height: 150px;
-  background-color: #ffffff;
-  border: 1px solid black;
-  padding: 20px;
-  transform: ${(props) => !props.isMessage && "transLateY(100%)"};
-  transition: transform 0.5s;
 `;
 
 const MButton = styled.button`

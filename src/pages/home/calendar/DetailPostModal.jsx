@@ -21,6 +21,7 @@ import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
 import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
 import ModalBox from "../../../elements/ModalBox";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { setNotificationPostId } from "../../../redux/modules/headerReducer";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(true);
@@ -32,17 +33,22 @@ export default function DetailPostModal({ ...props }) {
   const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
   const [isColor, setIsColor] = useState("");
-  const [tagResult, setTagResult] = useState("");
-  const [tagComment, setTagComment] = useState("");
   const [isEditOpen, setIsEditOpen] = useState(false);
+  // 알림 클릭시 넘어온 값 저장
+  const [notiState, setNotiState] = useState("");
+  const [notiContent, setNotiContent] = useState("");
   // 정보있는거에 따른 높이 state
   const [isHeight, setIsHeight] = useState("");
+
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
+  const { notiInfo } = useSelector((state) => state.header);
+  //console.log("detail========", notiInfo);
+
   //console.log(detail);
   useEffect(() => {
     if (detail) {
@@ -84,13 +90,13 @@ export default function DetailPostModal({ ...props }) {
     } else if (props.otherCalendarPostId) {
       dispatch(__getPostDetail({ id: props.otherCalendarPostId, token }));
       props.setIsDetailPost(true);
-    } else if (props.notificationPostId) {
-      setTagComment(props.notificationPostId.comment);
-      setTagResult(props.notificationPostId.result);
-      dispatch(__getPostDetail({ id: props.notificationPostId.returnId, token }));
+    } else if (notiInfo) {
+      setNotiContent(notiInfo.content);
+      setNotiState(notiInfo.notiState);
+      dispatch(__getPostDetail({ id: notiInfo.postId, token }));
       props.setIsDetailPost(true);
     }
-  }, [props.detailPostId, props.otherCalendarPostId, props.notificationPostId]);
+  }, [props.detailPostId, props.otherCalendarPostId, notiInfo]);
 
   // toggle
   const downDropClick = (data) => {
@@ -104,13 +110,13 @@ export default function DetailPostModal({ ...props }) {
   const closeModal = () => {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
-    props.setNotificationPostId("");
     props.setOtherCalendarPostId("");
-    setTagComment("");
-    setTagResult("");
     setIsEditOpen(false);
     setFriendToggle(true);
     setImgToggle(true);
+    setNotiState("");
+    setNotiContent("");
+    dispatch(setNotificationPostId(""));
   };
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
@@ -135,7 +141,7 @@ export default function DetailPostModal({ ...props }) {
 
   // 공유일정 수락
   const acceptClick = () => {
-    dispatch(__acceptSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
+    dispatch(__acceptSharePost({ postId: notiInfo.postId, token })).then((data) => {
       if (data.error) {
         alert("이미 처리한 요청입니다.");
       } else {
@@ -144,19 +150,11 @@ export default function DetailPostModal({ ...props }) {
         props.setIsSubmit(!props.isSubmit);
         closeModal();
       }
-      // if (data.payload.statusCode === 200) {
-      //   alert("일정을 수락하였습니다.");
-      //   props.setOtherCalendarState(true);
-      //   props.setIsSubmit(!props.isSubmit);
-      //   closeModal();
-      // } else {
-      //   alert("이미 처리한 요청입니다.");
-      // }
     });
   };
   // 공유일정 거절
   const rejectClick = () => {
-    dispatch(__rejectSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
+    dispatch(__rejectSharePost({ postId: notiInfo.postId.returnId, token })).then((data) => {
       if (data.error) {
         alert("이미 처리한 요청입니다.");
       } else {
@@ -165,14 +163,6 @@ export default function DetailPostModal({ ...props }) {
         props.setIsSubmit(!props.isSubmit);
         closeModal();
       }
-      // if (data.payload.statusCode === 200) {
-      //   alert("일정을 거절하였습니다.");
-      //   props.setOtherCalendarState(true);
-      //   props.setIsSubmit(!props.isSubmit);
-      //   closeModal();
-      // } else {
-      //   alert("이미 처리한 요청입니다.");
-      // }
     });
   };
 
@@ -325,9 +315,9 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {tagResult && (
+          {notiInfo && (
             <InviteWrapper>
-              {tagResult === "requestPost" ? (
+              {notiState === "requestPost" ? (
                 <>
                   <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
                   <div>
@@ -336,10 +326,10 @@ export default function DetailPostModal({ ...props }) {
                   </div>
                 </>
               ) : (
-                tagResult === "acceptPost" && (
+                notiState === "acceptPost" && (
                   <span>
-                    {tagComment.split("@")[0]}
-                    {tagComment.split("@")[1]}
+                    {notiContent.split("@")[0]}
+                    {notiContent.split("@")[1]}
                   </span>
                 )
               )}

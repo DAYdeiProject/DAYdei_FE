@@ -122,3 +122,21 @@ export function CategoryText(data) {
       return "스포츠";
   }
 }
+
+export function TimeCheck(data) {
+  const today = new Date();
+  const timeValue = new Date(data);
+
+  let result = "";
+  const time = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+  if (time < 1) result = "방금 전";
+  if (time < 60) result = `${time}분 전`;
+
+  const hour = Math.floor(time / 60);
+  if (hour > 0 && hour < 24) result = `${hour}시간 전`;
+
+  const day = Math.floor(time / 60 / 24);
+  if (day > 0 && day < 365) result = `${day}일 전`;
+
+  return result;
+}

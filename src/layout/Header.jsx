@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Cookies from "js-cookie";
 import useOutSideClick from "../hooks/useOutsideClick";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
@@ -12,9 +12,13 @@ import { GetUserInfo } from "../utils/cookie/userInfo";
 import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
 import { textState } from "../redux/modules/headerReducer";
+import { EventSourcePolyfill } from "event-source-polyfill";
+
+const EventSource = EventSourcePolyfill;
 
 function Header() {
   const navigate = useNavigate();
+  // 알림창 오픈여부
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
@@ -34,7 +38,6 @@ function Header() {
   // 헤더 프로필 이미지 가져오기
 
   useEffect(() => {
-    console.log("useEffect 안 header에서-------", data);
     setClickNav(data);
   }, [clickNav, data]);
 
@@ -43,7 +46,7 @@ function Header() {
     if (userId) {
       dispatch(__getMyProfile(userId.userId));
     }
-  }, [isEditProfile]);
+  }, [isEditProfile, token]);
 
   // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
@@ -105,6 +108,43 @@ function Header() {
   const moveProfileDetail = () => {
     setIsProfileDetail(!isProfileDetail);
   };
+
+  // SSE 알림
+  useEffect(() => {
+    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "text/event-stream",
+        Connection: "keep-alive",
+      },
+      heartbeatTimeout: 3600000,
+    });
+
+    eventConnect.onmessage = async (event) => {
+      const result = await event.data;
+      console.log("connect ==> ", result);
+
+      if (!result.includes("EventStream")) {
+        console.log("message===>", result.content);
+        //setSseData(result);
+        //setIsMessageState(true);
+      }
+    };
+    return () => eventConnect.close();
+  }, []);
+
+  // 실시간 알림창
+  // useEffect(() => {
+  //   let timer;
+  //   if (isMessageState) {
+  //     timer = setTimeout(() => {
+  //       setIsMessageState(false);
+  //     }, 3000); // 4초 후 모달이 자동으로 닫힘
+  //   }
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [isMessageState]);
 
   return (
     <>
@@ -360,4 +400,18 @@ const Button = styled.div`
   :hover {
     cursor: pointer;
   }
+`;
+
+const MessageBox = styled.div`
+  position: absolute;
+  bottom: 0px;
+  z-index: 500;
+  right: 0;
+  width: 300px;
+  height: 150px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  padding: 20px;
+  transform: ${(props) => !props.isMessage && "transLateY(100%)"};
+  transition: transform 0.5s;
 `;
