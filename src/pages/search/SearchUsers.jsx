@@ -98,61 +98,33 @@ export const WholeAreaWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  /* background-color: skyblue; */
 `;
 
 const HeaderText = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 46px;
   /* background-color: pink; */
-
-  /* position: absolute; */
-  /* width: 354px; */
-  height: 68px;
-  left: 399px;
-  top: 152.5px;
-  margin-bottom: 56px;
 `;
 
 const HeaderTextMain = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 10px;
-  /* background-color: pink; */
-
-  /* width: 256px; */
-  height: 39px;
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 28px;
   line-height: 140%;
-
-  color: #121212;
+  color: ${(props) => props.theme.Bg.color1};
 `;
 
 const HeaderTextSub = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px;
-  gap: 10px;
-
-  height: 21px;
-  /* background-color: skyblue; */
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
-
-  color: #121212;
+  color: ${(props) => props.theme.Bg.color1};
 `;
 
 const SearchHeader = styled.div`
@@ -163,13 +135,8 @@ const SearchHeader = styled.div`
   padding: 0px;
   gap: 165px;
 
-  /* position: absolute; */
-  width: 1476px;
-  height: 40px;
-  left: 399px;
-  top: 276.5px;
   /* background-color: skyblue; */
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 `;
 
 const IconWrapper = styled.div`
@@ -207,8 +174,6 @@ const Icon = styled.button`
     cursor: pointer;
   }
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;

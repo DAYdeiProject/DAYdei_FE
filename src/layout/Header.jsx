@@ -72,7 +72,7 @@ function Header() {
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
     }
-  }, []);
+  }, [myProfile]);
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -205,6 +205,7 @@ function Header() {
         <ProfileSettingModal
           isProfileSettingModalOpen={isProfileSettingModalOpen}
           setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
+          isEditProfile={isEditProfile}
           setIsEditProfile={setIsEditProfile}
         />
       )}

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { __addCategories } from "../../../redux/modules/usersSlice";
 import FriendRecommendModal from "./FriendRecommendModal";
 
-function CategoryModal({ CategoryModalRef, setIsModalVisible }) {
+function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked }) {
   const [showFriendRecommendModal, setShowFriendRecommendModal] = useState(false);
   const Category = ["스포츠", "교육", "연예", "게임", "OTT", "경제"];
 
@@ -38,7 +38,11 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible }) {
   return (
     <>
       {showFriendRecommendModal ? (
-        <FriendRecommendModal setShowFriendRecommendModal={setShowFriendRecommendModal} setIsModalVisible={setIsModalVisible} />
+        <FriendRecommendModal
+          setShowFriendRecommendModal={setShowFriendRecommendModal}
+          setIsModalVisible={setIsModalVisible}
+          setIsButtonClicked={setIsButtonClicked}
+        />
       ) : (
         <ModalWrap>
           <Modal>
@@ -126,29 +130,6 @@ const TextBottom = styled.div`
   line-height: 140%;
   color: #afb4bf;
 `;
-
-// const TitleText = styled.div`
-//   /* width: 405px; */
-//   height: 39px;
-
-//   font-weight: 500;
-//   font-size: ${(props) => props.theme.Fs.mediumText};
-
-//   text-align: center;
-//   color: #121212;
-// `;
-
-// const SubText = styled.div`
-//   /* width: 267px; */
-//   height: 21px;
-
-//   font-weight: 500;
-//   font-size: 18px;
-//   line-height: 21px;
-//   text-align: center;
-
-//   color: #bababa;
-// `;
 
 const OptionsWrapper = styled.div`
   display: grid;

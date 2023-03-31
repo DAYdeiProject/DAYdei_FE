@@ -10,8 +10,9 @@ import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import InfoSettingModal from "./InfoSettingModal";
+import { CategoryText } from "../calendar/CalendarBasic";
 
-function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, setIsEditProfile }) {
+function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
   const [profile, setProfile] = useState("");
   const [background, setBackground] = useState("");
 
@@ -19,6 +20,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const [profileImageUrl, setProfileImageUrl] = useState("");
   //업로드된 배경 이름 상태
   const [backgroundImageName, setBackgroundImageName] = useState("");
+  //모달에서 현재 위치한 탭 상태
   const [isProfileSectionOpen, setIsProfileSectionOpen] = useState(true);
 
   const {
@@ -46,14 +48,14 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const userInfo = GetUserInfo();
   const id = userInfo.userId;
 
-  useEffect(() => {
-    dispatch(__getMyProfile(id));
-  }, [isProfileSettingModalOpen, profile]);
-
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
+  //내 프로필의 카테고리 리스트
+  const myCategory = myProfile.categoryList;
 
-  console.log("store에서 불러온 내프로필-->", myProfile);
+  useEffect(() => {
+    dispatch(__getMyProfile(id));
+  }, [profile, isEditProfile]);
 
   const handleProfileImageClick = () => {
     document.getElementById("profileInput").click();
@@ -95,32 +97,45 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     e.preventDefault();
 
     // console.log("store에서 불러온 내프로필-->", myProfile);
-
-    const userProfileRequestDto = {
-      nickName,
-      introduction,
-    };
+    const nickNameValue = nickName || myProfile.nickName;
+    const introductionValue = introduction || myProfile.introduction;
+    let userProfileRequestDto = {};
+    if (password === "") {
+      userProfileRequestDto = {
+        nickName: nickNameValue,
+        introduction: introductionValue,
+      };
+    } else {
+      userProfileRequestDto = {
+        nickName: nickNameValue,
+        introduction: introductionValue,
+        newPassword: password,
+        newPasswordConfirm: passwordCheck,
+      };
+    }
 
     const formData = new FormData();
     formData.append("userProfileRequestDto", new Blob([JSON.stringify(userProfileRequestDto)], { type: "application/json" })); // 텍스트 데이터
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    if ((isPw === true && password === passwordCheck) || nickName !== "" || profile.length !== 0 || background.length !== 0 || introduction !== "") {
+    if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile.length !== 0 || background.length !== 0 || introductionValue !== "") {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
       dispatch(__setProfile(formData)).then((data) => {
         // 헤더에 이미지 최신꺼 들고오기 위해서
-        setIsEditProfile(true);
+
         if (data.error) {
           alert("수정 실패");
         } else {
           alert("수정 성공");
+          setIsProfileSettingModalOpen(false);
+          setIsEditProfile(!isEditProfile);
         }
       });
     } else {
-      alert("내용을 채워주세요!");
+      alert("양식에 맞게 작성해주세요!");
     }
   };
 
@@ -193,30 +208,24 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                           <TextWrap>
                             <SmallTextBox>닉네임 :</SmallTextBox>
                             <TextMain>
-                              <input
-                                type="text"
-                                placeholder={myProfile.nickName}
-                                value={nickName ? nickName : myProfile.nickName}
-                                onChange={handleNickNameChange}
-                                autoFocus
-                              />
+                              <input type="text" defaultValue={myProfile.nickName} onChange={handleNickNameChange} autoFocus maxlength="6" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>한 줄 프로필 :</SmallTextBox>
                             <TextMain>
-                              <input
-                                type="text"
-                                placeholder={myProfile.introduction}
-                                value={introduction ? introduction : myProfile.introduction}
-                                onChange={handleIntroductionChange}
-                              />
+                              <input type="text" defaultValue={myProfile.introduction} onChange={handleIntroductionChange} maxlength="30" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>관심 카테고리 :</SmallTextBox>
                             <TextMain>
-                              <div>교육, 경제</div>
+                              <CategoryWrap>
+                                {myCategory.map((item) => {
+                                  let newCategory = CategoryText(item);
+                                  return <span>{newCategory}</span>;
+                                })}
+                              </CategoryWrap>
                             </TextMain>
                           </TextWrap>
                         </TextArea>
@@ -485,6 +494,12 @@ export const TextMain = styled.div`
     width: 282.5px;
   }
   /* background-color: skyblue; */
+`;
+
+const CategoryWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 `;
 
 export const CheckMessage = styled.div`
