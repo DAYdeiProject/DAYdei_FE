@@ -6,7 +6,7 @@ import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
 import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
-import UserInfo from "../../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { useParams } from "react-router-dom";
 import { ReactComponent as EditCalendar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
 import { ReactComponent as Invite } from "../../../assets/lcon/calendarIcon/invite.svg";
@@ -20,10 +20,12 @@ import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
 import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
 import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
 import ModalBox from "../../../elements/ModalBox";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { setNotificationPostId } from "../../../redux/modules/headerReducer";
 
 export default function DetailPostModal({ ...props }) {
-  const [friendToggle, setFriendToggle] = useState(false);
-  const [imgToggle, setImgToggle] = useState(false);
+  const [friendToggle, setFriendToggle] = useState(true);
+  const [imgToggle, setImgToggle] = useState(true);
   const [nowStart, setStart] = useState("");
   const [nowStartDay, setStartDay] = useState("");
   const [nowStartTime, setStartTime] = useState("");
@@ -31,16 +33,22 @@ export default function DetailPostModal({ ...props }) {
   const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
   const [isColor, setIsColor] = useState("");
-  const [tagResult, setTagResult] = useState("");
-  const [tagComment, setTagComment] = useState("");
   const [isEditOpen, setIsEditOpen] = useState(false);
+  // 알림 클릭시 넘어온 값 저장
+  const [notiState, setNotiState] = useState("");
+  const [notiContent, setNotiContent] = useState("");
+  // 정보있는거에 따른 높이 state
+  const [isHeight, setIsHeight] = useState("");
+
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const userInfo = UserInfo();
+  const userInfo = GetUserInfo();
   const param = useParams();
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
+  const { notiInfo } = useSelector((state) => state.header);
 
+  //console.log(detail);
   useEffect(() => {
     if (detail) {
       const year = getYear(new Date(detail.startDate));
@@ -59,16 +67,20 @@ export default function DetailPostModal({ ...props }) {
         setEndTime(dayEndTime);
       }
 
-      const start = getDay(new Date(detail.startDate));
-      const end = getDay(new Date(detail.endDate));
-      const startDay = DayCheck(start);
-      const endDay = DayCheck(end);
-      setStartDay(startDay);
-      setEndDay(endDay);
-      const color = ColorFromDB(detail.color);
-      setIsColor(color);
+      if (detail?.participant === [] && detail?.location === "" && detail?.content === "" && detail?.image === []) {
+        setIsHeight("250px");
+      }
     }
-  }, [detail]);
+
+    const start = getDay(new Date(detail.startDate));
+    const end = getDay(new Date(detail.endDate));
+    const startDay = DayCheck(start);
+    const endDay = DayCheck(end);
+    setStartDay(startDay);
+    setEndDay(endDay);
+    const color = ColorFromDB(detail.color);
+    setIsColor(color);
+  }, [detail, props.isSubmit]);
 
   useEffect(() => {
     if (props.detailPostId) {
@@ -77,13 +89,13 @@ export default function DetailPostModal({ ...props }) {
     } else if (props.otherCalendarPostId) {
       dispatch(__getPostDetail({ id: props.otherCalendarPostId, token }));
       props.setIsDetailPost(true);
-    } else if (props.notificationPostId) {
-      setTagComment(props.notificationPostId.comment);
-      setTagResult(props.notificationPostId.result);
-      dispatch(__getPostDetail({ id: props.notificationPostId.returnId, token }));
+    } else if (notiInfo) {
+      setNotiContent(notiInfo.content);
+      setNotiState(notiInfo.notiState);
+      dispatch(__getPostDetail({ id: notiInfo.postId, token }));
       props.setIsDetailPost(true);
     }
-  }, [props.detailPostId, props.otherCalendarPostId, props.notificationPostId]);
+  }, [props.detailPostId, props.otherCalendarPostId, notiInfo, props.isSubmit]);
 
   // toggle
   const downDropClick = (data) => {
@@ -97,13 +109,18 @@ export default function DetailPostModal({ ...props }) {
   const closeModal = () => {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
-    props.setNotificationPostId("");
     props.setOtherCalendarPostId("");
-    setImgToggle(false);
-    setFriendToggle(false);
-    setTagComment("");
-    setTagResult("");
     setIsEditOpen(false);
+    setFriendToggle(true);
+    setImgToggle(true);
+    setNotiState("");
+    setNotiContent("");
+    setStartTime("");
+    setEndTime("");
+    setStartDay("");
+    setEndDay("");
+    setIsColor("");
+    dispatch(setNotificationPostId(""));
   };
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
@@ -128,27 +145,27 @@ export default function DetailPostModal({ ...props }) {
 
   // 공유일정 수락
   const acceptClick = () => {
-    dispatch(__acceptSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
-      if (data.payload.statusCode === 200) {
+    dispatch(__acceptSharePost({ postId: notiInfo.postId, token })).then((data) => {
+      if (data.error) {
+        alert("이미 처리한 요청입니다.");
+      } else {
         alert("일정을 수락하였습니다.");
         props.setOtherCalendarState(true);
         props.setIsSubmit(!props.isSubmit);
         closeModal();
-      } else {
-        alert("이미 처리한 요청입니다.");
       }
     });
   };
   // 공유일정 거절
   const rejectClick = () => {
-    dispatch(__rejectSharePost({ postId: props.notificationPostId.returnId, token })).then((data) => {
-      if (data.payload.statusCode === 200) {
+    dispatch(__rejectSharePost({ postId: notiInfo.postId.returnId, token })).then((data) => {
+      if (data.error) {
+        alert("이미 처리한 요청입니다.");
+      } else {
         alert("일정을 거절하였습니다.");
         props.setOtherCalendarState(true);
         props.setIsSubmit(!props.isSubmit);
         closeModal();
-      } else {
-        alert("이미 처리한 요청입니다.");
       }
     });
   };
@@ -156,7 +173,7 @@ export default function DetailPostModal({ ...props }) {
   return (
     <>
       {isLoading && <Loading />}
-      <ModalBox isOpen={props.isDetailPost} width={"500px"} height={"580px"}>
+      <ModalBox isOpen={props.isDetailPost} width={"500px"} height={isHeight}>
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
@@ -166,11 +183,11 @@ export default function DetailPostModal({ ...props }) {
               <Dismiss className="closeIncon" onClick={closeModal} />
               {isEditOpen && String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
                 <EditBoxContainer>
-                  <EditBox onClick={() => modifyPostHandler(props.detailPostId)}>
+                  <EditBox onClick={() => modifyPostHandler(props.detailPostId ? props.detailPostId : props.notificationPostId.returnId)}>
                     <Edit className="pencilIcon" />
                     <span>수정하기</span>
                   </EditBox>
-                  <EditBox onClick={() => deletePostHandler(props.detailPostId)}>
+                  <EditBox onClick={() => deletePostHandler(props.detailPostId ? props.detailPostId : props.notificationPostId.returnId)}>
                     <Delete className="trashIcon" />
                     <span>삭제하기</span>
                   </EditBox>
@@ -184,116 +201,127 @@ export default function DetailPostModal({ ...props }) {
                   <TitleTimeContainer>
                     <span>{nowStart}</span>
                     <span>({nowStartDay})</span>
-                    <span>{nowStartTime}</span>
-                    <span>-</span>
+                    {nowStartTime && <span>{nowStartTime}</span>}
+                    <span>~</span>
                     <span>{nowEnd}</span>
                     <span>({nowEndDay})</span>
-                    <span>{nowEndTime}</span>
+                    {nowEndTime && <span>{nowEndTime}</span>}
                   </TitleTimeContainer>
                 </TitleWrapper>
-                <FriendWrapper>
-                  <ToggleContainer>
-                    <TextBox>
-                      <IconBox>
-                        <Invite />
-                      </IconBox>
-                      <span>참여자 {detail.participant && detail?.participant.length !== 0 && "총 " + (detail.participant.length + 1) + "명"}</span>
-                    </TextBox>
-                    <ToggieIconBox>
-                      {detail.participant && detail?.participant.length !== 0 ? (
-                        friendToggle ? (
-                          <Up onClick={() => upDropClick("friend")} />
-                        ) : (
-                          <Down onClick={() => downDropClick("friend")} />
-                        )
-                      ) : (
-                        <></>
+                <ContentWrapper>
+                  {detail.participant && detail?.participant.length !== 0 && (
+                    <FriendWrapper>
+                      <ToggleContainer>
+                        <TextBox>
+                          <IconBox>
+                            <Invite />
+                          </IconBox>
+                          <span>참여자 {"총 " + (detail.participant.length + 1) + "명"}</span>
+                        </TextBox>
+                        <ToggieIconBox>
+                          {detail.participant && detail?.participant.length !== 0 ? (
+                            friendToggle ? (
+                              <Up onClick={() => upDropClick("friend")} />
+                            ) : (
+                              <Down onClick={() => downDropClick("friend")} />
+                            )
+                          ) : (
+                            <></>
+                          )}
+                        </ToggieIconBox>
+                      </ToggleContainer>
+                      <DropBox isShow={friendToggle}>
+                        <FriendDropBox>
+                          {detail.writer && (
+                            <WriterBox>
+                              <img src={detail.writer.profileImage ? detail.writer.profileImage : defaultProfile} />
+                              <span>{detail.writer.name}</span>
+                              <div></div>
+                            </WriterBox>
+                          )}
+                          {detail.participant &&
+                            detail.participant.map((list) => (
+                              <WriterBox key={list.participentId}>
+                                <img src={list.profileImage ? list.profileImage : defaultProfile} />
+                                <span>{list.participentName}</span>
+                              </WriterBox>
+                            ))}
+                        </FriendDropBox>
+                      </DropBox>
+                    </FriendWrapper>
+                  )}
+                  {(detail.location || detail.content) && (
+                    <LocationWrapper>
+                      {detail.location && (
+                        <LocationContentBox>
+                          <IconBox>
+                            <Location />
+                          </IconBox>
+                          <TextArea>{detail?.location}</TextArea>
+                        </LocationContentBox>
                       )}
-                    </ToggieIconBox>
-                  </ToggleContainer>
-                  <DropBox isShow={friendToggle}>
-                    <FriendDropBox>
-                      {detail.writer && (
-                        <WriterBox>
-                          <img src={detail.writer.profileImage} />
-                          <span>{detail.writer.name}</span>
-                          <div></div>
-                        </WriterBox>
+                      {detail.content && (
+                        <LocationContentBox>
+                          <IconBox>
+                            <Memo />
+                          </IconBox>
+                          <TextArea>{detail?.content}</TextArea>
+                        </LocationContentBox>
                       )}
-                      {detail.participant &&
-                        detail.participant.map((list) => (
-                          <WriterBox key={list.participentId}>
-                            <img src={list.profileImage} />
-                            <span>{list.participentName}</span>
-                          </WriterBox>
-                        ))}
-                    </FriendDropBox>
-                  </DropBox>
-                </FriendWrapper>
-                <LocationWrapper>
-                  <LocationContentBox>
-                    <IconBox>
-                      <Location />
-                    </IconBox>
-                    <TextArea>{detail?.location}</TextArea>
-                  </LocationContentBox>
-                  <LocationContentBox>
-                    <IconBox>
-                      <Memo />
-                    </IconBox>
-                    <TextArea>{detail?.content}</TextArea>
-                  </LocationContentBox>
-                </LocationWrapper>
-                <ImgWrapper>
-                  <ToggleContainer>
-                    <TextBox>
+                    </LocationWrapper>
+                  )}
+                  {detail.image && detail?.image.length !== 0 && (
+                    <ImgWrapper>
+                      <ToggleContainer>
+                        <TextBox>
+                          <IconBox>
+                            <ImageIcon />
+                          </IconBox>
+                          <span>총 사진</span>
+                        </TextBox>
+                        <ToggieIconBox>
+                          {imgToggle ? <Up onClick={() => upDropClick("imgBox")} /> : <Down onClick={() => downDropClick("imgBox")} />}
+                        </ToggieIconBox>
+                      </ToggleContainer>
+                      <DropBox isShow={imgToggle}>
+                        <ImgDropBox>
+                          {detail?.image.map((list, i) => (
+                            <ImgFile key={i}>
+                              <img src={list} />
+                            </ImgFile>
+                          ))}
+                        </ImgDropBox>
+                      </DropBox>
+                    </ImgWrapper>
+                  )}
+                </ContentWrapper>
+                <ScopeWidthWrapper>
+                  <ScopeWrapper>
+                    <ScopeContainer>
                       <IconBox>
-                        <ImageIcon />
+                        <EditCalendar />
                       </IconBox>
-                      <span>총 사진</span>
-                    </TextBox>
-                    <ToggieIconBox>
-                      {detail.image &&
-                        detail?.image.length !== 0 &&
-                        (imgToggle ? <Up onClick={() => upDropClick("imgBox")} /> : <Down onClick={() => downDropClick("imgBox")} />)}
-                    </ToggieIconBox>
-                  </ToggleContainer>
-                  <DropBox isShow={imgToggle}>
-                    <ImgDropBox>
-                      {detail.image &&
-                        detail?.image.map((list, i) => (
-                          <ImgFile key={i}>
-                            <img src={list} />
-                          </ImgFile>
-                        ))}
-                    </ImgDropBox>
-                  </DropBox>
-                </ImgWrapper>
-                <ScopeWrapper>
-                  <ScopeContainer>
-                    <IconBox>
-                      <EditCalendar />
-                    </IconBox>
-                    <span>캘린더</span>
-                  </ScopeContainer>
-                  <ScopeTextBox>
-                    <span>
-                      {detail?.scope && detail.scope === "ALL"
-                        ? "전체공개"
-                        : detail.scope === "SUBSCRIBE"
-                        ? "전체공개(스크랩허용)"
-                        : detail.scope === "FRIEND"
-                        ? "친구공개"
-                        : "나만보기"}
-                    </span>
-                  </ScopeTextBox>
-                </ScopeWrapper>
+                      <span>캘린더</span>
+                    </ScopeContainer>
+                    <ScopeTextBox>
+                      <span>
+                        {detail?.scope && detail.scope === "ALL"
+                          ? "전체공개"
+                          : detail.scope === "SUBSCRIBE"
+                          ? "전체공개(스크랩허용)"
+                          : detail.scope === "FRIEND"
+                          ? "친구공개"
+                          : "나만보기"}
+                      </span>
+                    </ScopeTextBox>
+                  </ScopeWrapper>
+                </ScopeWidthWrapper>
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {tagResult && (
+          {notiInfo && (
             <InviteWrapper>
-              {tagResult === "requestPost" ? (
+              {notiState === "requestPost" ? (
                 <>
                   <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
                   <div>
@@ -302,10 +330,10 @@ export default function DetailPostModal({ ...props }) {
                   </div>
                 </>
               ) : (
-                tagResult === "acceptPost" && (
+                notiState === "acceptPost" && (
                   <span>
-                    {tagComment.split("@")[0]}
-                    {tagComment.split("@")[1]}
+                    {notiContent.split("@")[0]}
+                    {notiContent.split("@")[1]}
                   </span>
                 )
               )}
@@ -321,9 +349,9 @@ const DetailPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  //height: 670px;
+
   section {
-    border-bottom: 1px solid ${(props) => props.theme.Bg.middleColor};
+    border-top: 1px solid ${(props) => props.theme.Bg.color3};
   }
 `;
 
@@ -337,17 +365,19 @@ const HeaderWrapper = styled.section`
   justify-content: right;
   margin-top: 25px;
   margin-bottom: 10px;
-  border-bottom: none !important;
+  border-top: none !important;
   position: relative;
-  .dotsIcon {
-    cursor: pointer;
-  }
-
+  .dotsIcon,
   .closeIncon {
-    font-size: 30px;
-    color: ${(props) => props.theme.Bg.deepColor};
     cursor: pointer;
   }
+`;
+const ContentWrapper = styled.div`
+  ${(props) => props.theme.FlexCol}
+  justify-content: space-between;
+  min-height: 150px;
+  max-height: 600px;
+  overflow-y: auto;
 `;
 
 const EditBoxContainer = styled.div`
@@ -375,21 +405,23 @@ const EditBox = styled.div`
   cursor: pointer;
 `;
 const DetailContetnContainer = styled.div`
-  height: 480px;
+  ${(props) => props.theme.FlexCol}
+  justify-content: space-between;
   padding: 0 10px;
   padding-bottom: 20px;
-  overflow-y: auto;
 `;
 
 const TitleWrapper = styled.section`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
   gap: 8px;
-  font-size: ${(props) => props.theme.Fs.title};
+  ${(props) => props.theme.ContentTitleText};
+  font-size: 24px;
   padding-bottom: 25px;
+  border: none !important;
   span {
     padding-left: 10px;
-    border-left: ${(props) => props.pickColor && `3px solid` + props.pickColor};
+    border-left: ${(props) => props.pickColor && `4px solid` + props.pickColor};
   }
 `;
 
@@ -399,10 +431,15 @@ const TitleTimeContainer = styled.div`
   padding-left: 10px;
   gap: 5px;
   span {
-    font-size: ${(props) => props.theme.Fs.smallText};
-    color: ${(props) => props.theme.Bg.deepColor};
+    font-size: 14px;
+    color: ${(props) => props.theme.Bg.color2};
     border-left: none;
     padding: 0;
+  }
+
+  div {
+    ${(props) => props.theme.FlexRow}
+    width: 15px;
   }
 `;
 
@@ -430,9 +467,13 @@ const TextArea = styled.div`
 const ImgWrapper = styled(FriendWrapper)`
   ${(props) => props.theme.FlexCol}
 `;
+
+const ScopeWidthWrapper = styled.div`
+  width: 100%;
+`;
 const ScopeWrapper = styled(FriendWrapper)`
   ${(props) => props.theme.FlexRowBetween}
-  border-bottom: none !important;
+  border-top: 1px solid ${(props) => props.theme.Bg.color3};
 `;
 const ScopeContainer = styled.div`
   ${(props) => props.theme.FlexRow}
@@ -442,7 +483,6 @@ const ScopeContainer = styled.div`
 const IconBox = styled.div`
   ${(props) => props.theme.FlexCol}
   width: 50px;
-  color: ${(props) => props.theme.Bg.deepColor};
 `;
 
 const ToggleContainer = styled.div`
@@ -455,8 +495,9 @@ const TextBox = styled.div`
 `;
 const ToggieIconBox = styled.div``;
 
+// 초대일정 알림 클릭시
 const InviteWrapper = styled.div`
-  background-color: ${(props) => props.theme.Bg.lightColor};
+  background-color: #f2f4f6;
   ${(props) => props.theme.FlexRowBetween}
   height: 50px;
   padding: 0 40px;
@@ -464,9 +505,14 @@ const InviteWrapper = styled.div`
   button {
     border: none;
     background-color: transparent;
-    font-size: ${(props) => props.theme.Fs.smallText};
-    color: ${(props) => props.theme.Bg.deepColor};
+    font-size: ${(props) => props.theme.Fs.size14};
     cursor: pointer;
+  }
+  button:nth-child(1) {
+    color: ${(props) => props.theme.Bg.mainColor5};
+  }
+  button:nth-child(2) {
+    color: #df5445;
   }
 `;
 
@@ -481,27 +527,26 @@ const FriendDropBox = styled.div`
   padding-left: 50px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 `;
 
 const WriterBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  padding: 10px;
   gap: 10px;
   img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
   }
   span {
-    font-size: ${(props) => props.theme.Fs.smallText};
+    font-size: ${(props) => props.theme.Fs.size14};
   }
   div {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: coral;
+    background-color: ${(props) => props.theme.Bg.mainColor5};
   }
 `;
 
@@ -515,7 +560,6 @@ const ImgDropBox = styled.div`
 `;
 
 const ImgFile = styled.div`
-  background-color: lemonchiffon;
   img {
     width: 100%;
     height: 100%;

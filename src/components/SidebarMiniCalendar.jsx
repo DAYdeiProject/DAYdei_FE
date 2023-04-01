@@ -8,10 +8,7 @@ import { getDate } from "date-fns";
 import format from "date-fns/format";
 
 export default function SidebarMiniCalendar() {
-  const [totalList, setTotalList] = useState([]);
-
   const { total } = useSelector((state) => state.calendar);
-  console.log("미니==>", total);
 
   const viewList = (date) => {
     if (total && total.find((list) => list.startDate === format(date.date, "yyyy-MM-dd"))) {
@@ -40,23 +37,24 @@ const MiniWrapper = styled.div`
   .react-calendar {
     border: none;
     height: 300px;
+    background: ${(props) => props.theme.Bg.color5};
   }
 
   // 현재 날짜
   .react-calendar__tile--now {
-    background: lightblue;
+    background-color: ${(props) => props.theme.Bg.mainColor3};
     border-radius: 50%;
   }
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
-    background: #eede99;
+    background: ${(props) => props.theme.Fs.size12};
   }
   // 년월
   .react-calendar__navigation {
     height: 30px;
   }
   .react-calendar__navigation__label > span {
-    background: #eede99;
+    // background: #eede99;
   }
   // 요일
   .react-calendar__month-view__weekdays {
@@ -71,12 +69,12 @@ const MiniWrapper = styled.div`
   .react-calendar__tile {
     width: 20px;
     height: 40px;
-    font-size: ${(props) => props.theme.Fs.xsmallText};
+    font-size: ${(props) => props.theme.Fs.size12};
   }
   .react-calendar__tile:hover,
   .react-calendar__tile--active {
     border-radius: 50%;
-    background-color: lightgray;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 
   /* .react-calendar__month-view__days {
@@ -86,7 +84,7 @@ const MiniWrapper = styled.div`
   } */
   // 토, 일
   .react-calendar__month-view__days__day--weekend {
-    color: ${(props) => props.theme.Bg.middleColor};
+    color: ${(props) => props.theme.Bg.color3};
   }
 `;
 
@@ -97,7 +95,7 @@ const CheckPost = styled.div`
     height: 6px;
     width: 6px;
     border-radius: 50%;
-    background-color: coral;
+    background-color: ${(props) => props.theme.Bg.mainColor5};
   }
 `;
 const NoneCheckPost = styled(CheckPost)`

@@ -1,22 +1,21 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import SubscriberList from "./SubscriberList";
-import { __getFriendsList, __getRequestedUsersList } from "../../../redux/modules/friendsSlice";
-import { __getSubscribeList, __getSubscriberList } from "../../../redux/modules/subscribeSlice";
+import { __getFriendsList, __getRequestedUsersList } from "../../redux/modules/friendsSlice";
+import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPersonAdd } from "react-icons/bs";
 import { RxTextAlignMiddle } from "react-icons/rx";
 import ApproveRequestModal from "./ApproveRequestModal";
-import useOutSideClick from "../../../hooks/useOutsideClick";
+import useOutSideClick from "../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import _ from "lodash";
 
-function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function FriendsListMain() {
   const params = useParams();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
@@ -292,13 +291,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <FriendList
-                    FriendsList={FriendsList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <FriendList FriendsList={FriendsList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -332,13 +325,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <SubscribeList
-                    SubscribesList={SubscribesList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <SubscribeList SubscribesList={SubscribesList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -372,13 +359,7 @@ function FriendsListMain({ setIsCalendarMainVisible, setIsFriendListVisible, set
                   </TopRight>
                 </TopText>
                 <ListWrap>
-                  <SubscriberList
-                    SubscribersList={SubscribersList}
-                    setIsCalendarMainVisible={setIsCalendarMainVisible}
-                    setIsFriendListVisible={setIsFriendListVisible}
-                    setIsSearchUsersvisible={setIsSearchUsersvisible}
-                    setIsFriendDetailVisible={setIsFriendDetailVisible}
-                  />
+                  <SubscriberList SubscribersList={SubscribersList} />
                 </ListWrap>
               </ContentWrapper>
             </ListFrame>
@@ -395,90 +376,47 @@ export const LoadingWrapper = styled.div`
 `;
 
 export const WholeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  /* background-color: yellow; */
+  ${(props) => props.theme.FlexCol}
   height: calc(100vh - 64px - 1px);
 `;
 
 export const CalendarWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexCol}
+  justify-content:flex-start;
   padding: 0px 48px;
-
-  width: 1570px;
-  height: 1016px;
-  left: 349px;
-  top: 64px;
-
-  /* background-color: pink; */
+  height: 100%;
 `;
 
 export const WholeAreaWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-
-  width: 1474px;
-  height: 1016px;
-
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-  /* background-color: skyblue; */
+  ${(props) => props.theme.FlexRow};
+  width: 100%;
+  height: 100%;
 `;
 
 export const ListFrameBig = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${(props) => props.theme.FlexCol};
+  justify-content: flex-start;
+  align-items: flex-start;
 
-  width: 484px;
   height: 100%;
-
-  /* background-color: yellow; */
+  flex: 1;
 `;
 
 export const FrameBigWithPadding = styled(ListFrameBig)`
-  width: 506px;
+  flex: 1.05;
   align-items: center;
-  /* border-left: 0.6px solid rgba(18, 18, 18, 0.6); */
-  /* border-right: 0.6px solid rgba(18, 18, 18, 0.6); */
   border-left: 0.6px solid ${(props) => props.theme.Bg.border1};
   border-right: 0.6px solid ${(props) => props.theme.Bg.border1};
 `;
 
 export const FrameBigWithMargin = styled(ListFrameBig)`
-  padding-left: 20px;
+  align-items: flex-end;
 `;
 
-export const ListFrame = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0px;
-  gap: 16px;
-
-  width: 472px;
-
-  /* background-color: skyblue; */
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
+export const ListFrame = styled.div``;
 
 export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  /* background-color: green; */
+  ${(props) => props.theme.FlexCol};
 `;
 
 export const TopText = styled.div`

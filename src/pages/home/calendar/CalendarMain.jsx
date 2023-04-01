@@ -12,7 +12,7 @@ import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../red
 import Cookies from "js-cookie";
 import Loading from "../../../components/Loading";
 import DayScheduleModal from "./DayScheduleModal";
-import UserInfo from "../../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import ColorFromDB from "./CalendarBasic";
 import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
@@ -35,7 +35,7 @@ function CalendarMain({ ...props }) {
   // 날짜 클릭시 일정추가모달 뜨고 startDate 해당 클릭 날짜로
   const [pickDate, setPickDate] = useState("");
   // 일정 detailPostId
-  const [detailPostId, setDetailPostId] = useState("");
+  // const [detailPostId, setDetailPostId] = useState("");
   const [modifyPostId, setModifyPostId] = useState("");
   // 타유저 업데이트/공유한 일정 클릭시 postId
   const [otherCalendarPostId, setOtherCalendarPostId] = useState("");
@@ -55,7 +55,7 @@ function CalendarMain({ ...props }) {
 
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
-  const userId = UserInfo();
+  const userInfo = GetUserInfo();
 
   const { total, isLoading } = useSelector((state) => {
     return state.calendar;
@@ -63,7 +63,7 @@ function CalendarMain({ ...props }) {
 
   //console.log("메인----------", total);
   useEffect(() => {
-    if (String(userId.userId) !== param.id) {
+    if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
       setDisabled(true);
       setIsDrag(false);
@@ -132,12 +132,12 @@ function CalendarMain({ ...props }) {
 
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
-    setDetailPostId(e.event._def.publicId);
+    props.setDetailPostId(e.event._def.publicId);
   };
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    if (String(userId.userId) === param.id && token) {
+    if (String(userInfo.userId) === param.id && token) {
       setPickDate(date.date);
     }
   };
@@ -161,7 +161,8 @@ function CalendarMain({ ...props }) {
 
       dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
-        props.CookiessetSide(!props.side);
+        //props.CookiessetSide(!props.side);
+        props.setSide(!props.side);
       });
     }
   };
@@ -197,7 +198,7 @@ function CalendarMain({ ...props }) {
   return (
     <CalendarSidebarWrapper>
       {isLoading && <Loading />}
-      {userId && String(userId.userId) !== param.id && (
+      {userInfo && String(userInfo.userId) !== param.id && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
@@ -236,8 +237,8 @@ function CalendarMain({ ...props }) {
         <DetailPostModal
           isDetailPost={isDetailPost}
           setIsDetailPost={setIsDetailPost}
-          detailPostId={detailPostId}
-          setDetailPostId={setDetailPostId}
+          detailPostId={props.detailPostId}
+          setDetailPostId={props.setDetailPostId}
           setModifyPostId={setModifyPostId}
           setIsAddPost={setIsAddPost}
           isSubmit={isSubmit}
@@ -260,7 +261,7 @@ function CalendarMain({ ...props }) {
           isSubmit={isSubmit}
         />
       </CalendarWrapper>
-      {String(userId.userId) === String(param.id) && <CalendarSidebar />}
+      {String(userInfo.userId) === String(param.id) && <CalendarSidebar isSubmit={isSubmit} setIsSubmit={setIsSubmit} />}
     </CalendarSidebarWrapper>
   );
 }
@@ -353,7 +354,6 @@ export const CalendarWrapper = styled.div`
       background-color: #fbdf96 !important;
     }
   }
-  // today button
 
   // 일정추가 button
   .fc-addButton-button {
@@ -366,6 +366,7 @@ export const CalendarWrapper = styled.div`
     background-color: #0eafe1 !important;
     color: #ffffff !important;
   }
+
   // 오늘 button
   .fc-today-button {
     ${(props) => props.theme.ButtonSmall};
@@ -392,7 +393,7 @@ export const CalendarWrapper = styled.div`
   }
   // date 각 한칸
   .fc-daygrid-day {
-    padding: 10px;
+    padding: 8px;
   }
   // 날짜 - 왼쪽으로
   .fc-daygrid-day-top {
@@ -403,15 +404,17 @@ export const CalendarWrapper = styled.div`
   // 오늘날짜
   .fc,
   .fc-daygrid-day.fc-day-today {
-    background-color: transparent !important;
+    background-color: transparent;
   }
   .fc-day-today {
+    background-color: #f1fbfe !important;
     .fc-daygrid-day-top {
       a {
+        color: ${(props) => props.theme.Bg.mainColor5};
         font-weight: 600;
         text-decoration-line: underline;
-        text-decoration-color: ${(props) => props.theme.Bg.mainColor5};
-        text-decoration-thickness: 3px;
+        text-decoration-color: ${(props) => props.theme.Bg.mainColor4};
+        text-decoration-thickness: 2px;
       }
     }
   }

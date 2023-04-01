@@ -1,7 +1,8 @@
 import { React } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
 
 import {
   NoListMessageWrapper,
@@ -21,8 +22,9 @@ import {
 } from "../friendslist/FriendList";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
 
-function DetailSubscribe({ SubscribesList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function DetailSubscribe({ SubscribesList }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const otherUser = useSelector((state) => state.calendar.otherUser);
 
@@ -49,10 +51,7 @@ function DetailSubscribe({ SubscribesList, setIsCalendarMainVisible, setIsFriend
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
+              dispatch(textState("home"));
             }}>
             <ProfileWrapLong>
               <PostLeft>
@@ -64,10 +63,10 @@ function DetailSubscribe({ SubscribesList, setIsCalendarMainVisible, setIsFriend
               </PostLeft>
               <IntroductionWrapLong>
                 {user.introduction
-                  ? user.introduction
-                  : user.categoryList.length !== 0
-                  ? `주로 ${user.categoryList[0]} 일정을 공유합니다.`
-                  : `${user.nickName}의 캘린더 입니다.`}
+                  ? user.introduction.length > 27
+                    ? `${user.introduction.substr(0, 27)}...`
+                    : user.introduction
+                  : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrapLong>
             </ProfileWrapLong>
           </ProfileArea>

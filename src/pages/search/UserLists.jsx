@@ -2,13 +2,14 @@ import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getRecommend, __requestFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
-import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { CalendarWrapper } from "../calendar/CalendarMain";
-import Loading from "../../../components/Loading";
+import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
+import Loading from "../../components/Loading";
+import { textState } from "../../redux/modules/headerReducer";
 
-function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
   //클릭된 구독하기 버튼 추적
@@ -124,10 +125,7 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
             <ProfileArea
               onClick={() => {
                 navigate(`/${user.id}`);
-                setIsCalendarMainVisible(true);
-                setIsFriendListVisible(false);
-                setIsSearchUsersvisible(false);
-                setIsFriendDetailVisible(false);
+                dispatch(textState("home"));
               }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />
@@ -144,13 +142,7 @@ function UserLists({ searchWord, selectedCategories, setIsCalendarMainVisible, s
                 </InfoArea>
               </ProfileTextFrame>
             </ProfileArea>
-            <IntroductionWrap>
-              {user.introduction
-                ? user.introduction
-                : user.categoryList.length !== 0
-                ? `카테고리 : ${user.categoryList[0]}`
-                : `${user.nickName}의 캘린더 입니다.`}
-            </IntroductionWrap>
+            <IntroductionWrap>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrap>
             <ButtonArea>
               <ButtonFriend id={user.id} />
               <ButtonSubscribe id={user.id} />
@@ -251,7 +243,6 @@ const NameArea = styled.div`
   padding: 0px;
   gap: 2px;
 
-  width: 83px;
   height: 35px;
   /* background-color: yellow; */
 `;
@@ -264,7 +255,6 @@ const NicknameWrap = styled.div`
   padding: 0px;
   gap: 8px;
 
-  width: 83px;
   height: 19px;
 
   font-weight: 500;
@@ -293,12 +283,12 @@ const EmailWrap = styled.div`
 const InfoArea = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   padding: 0px;
   gap: 30px;
 
-  width: 160px;
+  width: 180px;
   height: 13px;
   /* background-color: pink; */
 `;

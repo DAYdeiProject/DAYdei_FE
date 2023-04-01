@@ -10,8 +10,7 @@ import { useParams } from "react-router-dom";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import SubscribeListControl from "./SubscribeListControl";
 
-
-export default function CalendarSidebar() {
+export default function CalendarSidebar({ ...props }) {
   //창의 열고닫힘 상태
   const [isTodoBoxOpen, setIsTodoBoxOpen] = useState(false);
   const [isSubscribeBoxOpen, setIsSubscribeBoxOpen] = useState(false);
@@ -27,6 +26,7 @@ export default function CalendarSidebar() {
   const [memos, setMemos] = useState([]);
   //수정할 메모박스 추적
   const [clickedMemoId, setClickedMemoId] = useState(null);
+  const [clickedButtonIds, setClickedButtonIds] = useState([]);
 
   //메모 상태변경 추적
   const handleFixedTitleChange = (e) => {
@@ -190,7 +190,14 @@ export default function CalendarSidebar() {
           </div>
         </SideSpaceWrapper>
       )}
-      {isSubscribeBoxOpen && <SubscribeListControl isSubscribeBoxOpen={isSubscribeBoxOpen} />}
+      {isSubscribeBoxOpen && (
+        <SubscribeListControl
+          clickedButtonIds={clickedButtonIds}
+          setClickedButtonIds={setClickedButtonIds}
+          isSubmit={props.isSubmit}
+          setIsSubmit={props.setIsSubmit}
+        />
+      )}
       <SidebarWrapper>
         <div onClick={handleTodoBoxOpen}>
           <Note />

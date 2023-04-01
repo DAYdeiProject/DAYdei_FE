@@ -2,11 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { PostBox, ProfileArea, ProfileWrap, PostLeft, PhotoFrame, TextArea, NickNameWrap, EmailWrap, IntroductionWrap } from "../friendslist/FriendList";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
+import { useDispatch } from "react-redux";
 
-function DetailFriends({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function DetailFriends({ FriendsList }) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   return (
     <>
       {FriendsList?.map((user) => (
@@ -14,10 +16,7 @@ function DetailFriends({ FriendsList, setIsCalendarMainVisible, setIsFriendListV
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
+              dispatch(textState("home"));
             }}>
             <ProfileWrapLong>
               <PostLeft>
@@ -29,10 +28,10 @@ function DetailFriends({ FriendsList, setIsCalendarMainVisible, setIsFriendListV
               </PostLeft>
               <IntroductionWrapLong>
                 {user.introduction
-                  ? user.introduction
-                  : user.categoryList.length !== 0
-                  ? `주로 ${user.categoryList[0]} 일정을 공유합니다.`
-                  : `${user.nickName}의 캘린더 입니다.`}
+                  ? user.introduction.length > 27
+                    ? `${user.introduction.substr(0, 27)}...`
+                    : user.introduction
+                  : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrapLong>
             </ProfileWrapLong>
           </ProfileArea>

@@ -1,17 +1,20 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
-import { CalendarWrapper } from "../calendar/CalendarMain";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
 // import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { AiOutlineSearch } from "react-icons/ai";
 
-function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function SearchUsers() {
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState("");
   const [searchWord, setSearchWord] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+
+  //유저정보 가져오기
+  const myProfile = useSelector((state) => state.users.myProfile);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -50,7 +53,7 @@ function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSe
       <CalendarWrapper>
         <WholeAreaWrapper>
           <HeaderText>
-            <HeaderTextMain>{userInfo.nickName}님을 위한 추천</HeaderTextMain>
+            <HeaderTextMain>{myProfile.nickName}님을 위한 추천</HeaderTextMain>
             <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
           </HeaderText>
           <SearchHeader>
@@ -82,14 +85,7 @@ function SearchUsers({ setIsCalendarMainVisible, setIsFriendListVisible, setIsSe
             </SearchBarArea>
           </SearchHeader>
           <SearchBody>
-            <UserLists
-              searchWord={searchWord}
-              selectedCategories={selectedCategories}
-              setIsCalendarMainVisible={setIsCalendarMainVisible}
-              setIsFriendListVisible={setIsFriendListVisible}
-              setIsSearchUsersvisible={setIsSearchUsersvisible}
-              setIsFriendDetailVisible={setIsFriendDetailVisible}
-            />
+            <UserLists searchWord={searchWord} selectedCategories={selectedCategories} />
           </SearchBody>
         </WholeAreaWrapper>
       </CalendarWrapper>
@@ -102,120 +98,80 @@ export const WholeAreaWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  /* background-color: skyblue; */
 `;
 
 const HeaderText = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
   /* background-color: pink; */
-
-  /* position: absolute; */
-  /* width: 354px; */
-  height: 68px;
-  left: 399px;
-  top: 152.5px;
-  margin-bottom: 56px;
 `;
 
 const HeaderTextMain = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 10px;
-  /* background-color: pink; */
-
-  /* width: 256px; */
-  height: 39px;
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 500;
   font-size: 28px;
   line-height: 140%;
-
-  color: #121212;
+  color: ${(props) => props.theme.Bg.color1};
 `;
 
 const HeaderTextSub = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px;
-  gap: 10px;
-
-  height: 21px;
-  /* background-color: skyblue; */
-
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
-
-  color: #121212;
+  color: ${(props) => props.theme.Bg.color1};
 `;
 
 const SearchHeader = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start
   align-items: center;
   padding: 0px;
-  gap: 165px;
+  gap: 200px;
 
-  /* position: absolute; */
-  width: 1476px;
-  height: 40px;
-  left: 399px;
-  top: 276.5px;
-  /* background-color: skyblue; */
-  margin-bottom: 32px;
+  width: 1478px;
+  margin-bottom: 28px;
+   /* background-color: pink; */
 `;
 
 const IconWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
-  /* background-color: green; */
-
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   padding: 0px;
-  gap: 7.97px;
-
-  width: 673.81px;
-  height: 36px;
+  gap: 12px;
+  /* background-color: green; */
 `;
 const Icon = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 8px 25px;
-  /* width: 99px; */
+  width: 100px;
   height: 36px;
-  text-align: center;
 
-  border: 0.689005px solid #626262;
+  border: 1px solid ${(props) => props.theme.Bg.color1};
   border-radius: 99px;
 
-  border: 1px solid ${(props) => props.theme.Bg.lightColor};
-  background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.deepColor : props.theme.Bg.lightColor)};
-  color: ${(props) => (props.className === "selected" ? props.theme.Bg.lightColor : props.theme.Bg.deepColor)};
-  :hover {
-    cursor: pointer;
-  }
+  background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.color2 : props.theme.Bg.color6)};
+  color: ${(props) => (props.className === "selected" ? props.theme.Bg.color6 : props.theme.Bg.color1)};
 
-  font-family: "Pretendard";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const SearchBarArea = styled.div`
@@ -230,6 +186,7 @@ const SearchBarArea = styled.div`
 
   border: 1px solid #ebebeb;
   border-radius: 8px;
+  margin-left: auto;
   /* background-color: skyblue; */
 `;
 
@@ -250,25 +207,16 @@ const SearchBar = styled.input`
 `;
 
 const SearchBody = styled.div`
-  max-height: 720px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-column-gap: 14px;
-  grid-row-gap: 24px;
+  grid-column-gap: 18px;
+  grid-row-gap: 20px;
   overflow: auto;
-  margin-top: 10px;
-
-  padding: 0px;
-
-  /* position: absolute; */
-  width: 1460px;
-  height: 936px;
-  left: 401px;
-  top: 348.5px;
 
   ::-webkit-scrollbar {
     display: none;
   }
+  /* background-color: pink; */
 `;
 
 export default SearchUsers;

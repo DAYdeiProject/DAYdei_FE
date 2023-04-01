@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { __getOtherUser } from "../redux/modules/calendarSlice";
 import Loading from "./Loading";
@@ -9,7 +9,7 @@ import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/mo
 import { __addSubscribe, __cancelSubscribe } from "../redux/modules/subscribeSlice";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 
-export default function SidebarOtherCalendar({ userId, handleShowFriendDetail }) {
+export default function SidebarOtherCalendar({ userId }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -20,7 +20,7 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
   const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
-
+  const navigate = useNavigate();
   const { otherUser, isLoading } = useSelector((state) => state.calendar);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
   // 친구신청요청, 요청 취소
   const requestHandler = (id) => {
     dispatch(__requestFriend(id));
-    console.log("친구 신청 함~~~");
   };
 
   const cancelRequestHandler = (id) => {
@@ -86,26 +85,30 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
     otherUser.userSubscribeCheck === false ? setSubscribeButtonText("구독하기") : setSubscribeButtonText("구독취소");
   }, [otherUser]);
 
+  const ShowFriendDetailHandler = () => {
+    navigate(`/friendsdetail/${userId}`);
+  };
+
   return (
     <>
       {isLoading && <Loading />}
       <ProfileWrapper>
-        <BackImgWrapper>
-          <img src={otherUser?.backgroundImage} />
-        </BackImgWrapper>
+        <BackImgWrapper>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
         <ImgWrapper>
           <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
         </ImgWrapper>
         <NickNameBox>{otherUser?.nickName}</NickNameBox>
         <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
-        <CountBox onClick={buttonText === "친구" ? () => handleShowFriendDetail() : () => alert("친구만 열람 가능합니다.")}>
-          <span>친구 {otherUser?.friendCount}</span>
-          <span>구독 {otherUser?.subscribingCount}명</span>
-          <span>구독자 {otherUser?.subscriberCount}명</span>
+        <CountBox onClick={buttonText === "친구" ? ShowFriendDetailHandler : () => alert("친구만 열람 가능합니다.")}>
+          <div>
+            <span>친구 {otherUser?.friendCount}</span>
+            <span>구독 {otherUser?.subscribingCount}명</span>
+            <span>구독자 {otherUser?.subscriberCount}명</span>
+          </div>
         </CountBox>
-        <TextareaBox>{otherUser?.introduction ? otherUser.introduction : otherUser.categoryList + " 일정을 올리는 것을 즐겨해요."}</TextareaBox>
+        <TextareaBox>{otherUser?.introduction ? otherUser.introduction : `${otherUser.nickName}의 캘린더입니다.`}</TextareaBox>
         <ButtonBox>
-          <button onClick={() => handleFriendButtonClick(otherUser)}>
+          <div onClick={() => handleFriendButtonClick(otherUser)}>
             {otherUser?.friendCheck === false && otherUser?.isRequestFriend === null
               ? "친구신청"
               : otherUser?.friendCheck === false && otherUser?.isRequestFriend === false
@@ -115,9 +118,16 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
               : otherUser?.friendCheck === true && otherUser?.isRequestFriend === null
               ? "친구"
               : null}
-          </button>
-          <button onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</button>
+          </div>
+          <div onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</div>
         </ButtonBox>
+        <TogetherWrapper>
+          {otherUser?.mutualFriendsCount !== 0 && (
+            <div>
+              <span>함께 아는 친구 {otherUser?.mutualFriendsCount}</span>
+            </div>
+          )}
+        </TogetherWrapper>
       </ProfileWrapper>
     </>
   );
@@ -126,8 +136,8 @@ export default function SidebarOtherCalendar({ userId, handleShowFriendDetail })
 const ProfileWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  position: absolute;
-  z-index: 90;
+  //position: absolute;
+  // z-index: 90;
   background-color: #ffffff;
   height: 100%;
 `;
@@ -147,19 +157,21 @@ const BackImgWrapper = styled.div`
 const ImgWrapper = styled.div`
   position: absolute;
   top: 300px;
-  z-index: 90;
+  //z-index: 0;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
   img {
+    ${(props) => props.theme.BoxCustom};
     width: 130px;
     height: 130px;
     border-radius: 50%;
     background: fixed;
+    cursor: auto;
   }
 `;
 
 const NickNameBox = styled.span`
-  padding-top: 100px;
+  padding-top: 85px;
   margin-bottom: 10px;
   font-size: 24px;
   font-weight: 600;
@@ -167,17 +179,23 @@ const NickNameBox = styled.span`
 `;
 
 const EmailBox = styled.span`
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   ${(props) => props.theme.DescriptionText};
   font-size: 14px;
 `;
 
 const CountBox = styled.div`
-  ${(props) => props.theme.FlexRowBetween}
-  padding: 0 50px;
-  margin-bottom: 40px;
+  ${(props) => props.theme.FlexCol}
+  padding: 0 40px;
+  margin-bottom: 20px;
   font-size: 16px;
   color: ${(props) => props.theme.Bg.color1};
+  div {
+    ${(props) => props.theme.FlexRowBetween}
+    padding: 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  }
   :hover {
     cursor: pointer;
   }
@@ -187,19 +205,44 @@ const TextareaBox = styled.div`
   height: 100px;
   text-align: center;
   padding: 0 30px;
+  ${(props) => props.theme.DescriptionText};
+  font-size: 14px;
   white-space: pre-wrap;
 `;
 
 const ButtonBox = styled.div`
+  ${(props) => props.theme.FlexRow}
   display: flex;
   gap: 10px;
+  margin: 0 40px;
   margin-top: 20px;
-  button {
+  font-size: 14px;
+  div {
+    ${(props) => props.theme.FlexCol}
     ${(props) => props.theme.ButtonMedium};
+    width: 130px;
+    height: 48px;
     color: ${(props) => props.theme.Bg.color1};
   }
-  button:nth-child(1) {
+  div:nth-child(1) {
     background-color: ${(props) => props.theme.Bg.mainColor5};
     color: #ffffff;
+  }
+  div:nth-child(2) {
+    ${(props) => props.theme.BtnClickYellow};
+  }
+`;
+
+const TogetherWrapper = styled.div`
+  width: 100%;
+  padding: 0 40px;
+  margin-top: 20px;
+  ${(props) => props.theme.DescriptionText};
+  div {
+    ${(props) => props.theme.FlexCol};
+    background-color: ${(props) => props.theme.Bg.color4};
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
   }
 `;

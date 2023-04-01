@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../../redux/modules/friendsSlice";
+import ModalWrap from "../../elements/ModalWrap";
+import Modal from "../../elements/Modal";
+import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
@@ -35,7 +35,7 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
   return (
     <>
       <ModalWrap>
-        <Modal>
+        <Modal padding="5px 0px" height="420px">
           <ModalContent ref={ApproveRequestModalRef}>
             <ModalHeader>친구신청 목록</ModalHeader>
             <ModalContentWrap>
@@ -43,22 +43,22 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
                 <>
                   <PostWrap>
                     <UserInfoWrap>
-                      <div>{user.nickName}</div>
-                      <div>{user.introduction}안녕하세요 친구신청합니다.</div>
+                      <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"}</NickNameWrap>
+                      <IntroductionWrap>{user.introduction ? user.introduction : "안녕하세요, 친구신청합니다."}</IntroductionWrap>
                     </UserInfoWrap>
                     <ButtonsWrap>
-                      <Button
+                      <ButtonAccept
                         onClick={() => {
                           ApproveRequestHandler(user.id);
                         }}>
-                        신청수락
-                      </Button>
-                      <Button
+                        수락
+                      </ButtonAccept>
+                      <ButtonRefuse
                         onClick={() => {
                           refuseHandler(user.id);
                         }}>
-                        신청거절
-                      </Button>
+                        거절
+                      </ButtonRefuse>
                     </ButtonsWrap>
                   </PostWrap>
                 </>
@@ -82,65 +82,101 @@ const ModalContent = styled.div`
 `;
 
 const ModalHeader = styled.div`
-  font-size: 28px;
-  margin-bottom: 28px;
+  font-size: ${(props) => props.theme.Fs.size24};
+  font-weight: 600;
   /* background-color: lightgray; */
+  margin-top: 24px;
+  margin-bottom: 20px;
 `;
 
 const ModalContentWrap = styled.div`
-  height: 330px;
+  height: 240px;
   width: 120%;
   display: flex;
   flex-direction: column;
   overflow: auto;
-  gap: 40px;
-  margin-bottom: 28px;
+  gap: 18px;
+  margin-bottom: 12px;
+  /* background-color: skyblue; */
   ::-webkit-scrollbar {
     display: none;
   }
+  margin-bottom: 32px;
   /* background: ${(props) => props.theme.Bg.lightColor}; */
 `;
 
 const PostWrap = styled.div`
   width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
   flex-direction: row;
-  /* background: ${(props) => props.theme.Bg.lightColor}; */
   align-items: center;
-  justify-content: space-between;
-  border: 1px solid ${(props) => props.theme.Bg.lightColor};
+
+  border-radius: 10px;
   :hover {
     cursor: pointer;
   }
+  /* background-color: pink; */
+  /* border: 1px solid ${(props) => props.theme.Bg.lightColor}; */
 `;
 
 const UserInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 5px;
-  font-size: 20px;
-  gap: 6px;
+  /* background-color: skyblue; */
+  gap: 8px;
+`;
+
+const NickNameWrap = styled.div`
+  font-size: ${(props) => props.theme.Fs.size20};
+  font-weight: 600;
+`;
+
+const IntroductionWrap = styled.div`
+  font-size: ${(props) => props.theme.Fs.size14};
 `;
 
 const ButtonsWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 5px;
   gap: 6px;
   align-items: center;
   font-size: 14px;
+  width: 60px;
   /* background-color: skyblue; */
+  margin-left: auto;
 `;
 
 const Button = styled.div`
   border: 1px solid ${(props) => props.theme.Bg.deepColor};
-  padding: 7px 7px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 6px 6px;
+  border-radius: 5px;
+`;
+
+const ButtonAccept = styled(Button)`
+  background-color: ${(props) => props.theme.Bg.mainColor5};
+  color: white;
+`;
+
+const ButtonRefuse = styled(Button)`
+  background-color: ${(props) => props.theme.Bg.mainColor2};
 `;
 
 const SkipButton = styled.button`
   width: 200px;
   height: 42px;
+  color: ${(props) => props.theme.Bg.lightColor};
+  background: #494d55;
+
+  border: 1.4px solid #121212;
+
+  box-shadow: 2px 2px 0px #000000;
+  border-radius: 4px;
   :hover {
     cursor: pointer;
   }

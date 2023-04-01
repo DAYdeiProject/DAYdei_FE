@@ -15,24 +15,31 @@ const HeaderWrapper = styled.section`
   justify-content: right;
   margin-top: 25px;
   margin-bottom: 5px;
-  .closeIncon {
+  .deleteIcon {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  .closeIcon {
     cursor: pointer;
   }
 `;
 
 const BodyWrapper = styled.section`
-  height: 530px;
+  // background-color: lavender;
+  max-height: 420px;
+  margin-top: 25px;
   padding: 0 10px;
   overflow-y: auto;
-  &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.Bg.color2};
-  }
+  ${(props) => props.theme.FlexCol}
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 25px;
 `;
 
 const BodyContainer = styled.div`
-  ${(props) => props.theme.FlexCol}
+  /* ${(props) => props.theme.FlexCol}
   align-items: flex-start;
-  gap: 25px;
+  gap: 25px; */
 `;
 
 // 타이틀 text
@@ -107,12 +114,12 @@ const ColorBoxContainer = styled(ColorBoxWrapper)`
   justify-content: left;
 `;
 const ColorBox = styled.div`
-  width: ${(props) => (props.isClick ? "22px" : "18px")};
+  width: ${(props) => (props.isClick ? "21px" : "18px")};
   height: ${(props) => (props.isClick ? "22px" : "18px")};
   background-color: ${(props) => props.value};
   border-radius: 50%;
   margin-right: 20px;
-  border: ${(props) => (props.isClick ? "2px solid #121212" : "0.5px solid #121212")};
+  border: ${(props) => (props.isClick ? "2.5px solid #121212" : "0.5px solid #121212")};
 `;
 
 // 초대하기 영역
@@ -129,6 +136,7 @@ const InviteSearchBox = styled(InviteSearchContainer)`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   min-width: 330px;
+  max-width: 330px;
   height: 40px;
   padding: 10px;
   border: 1px solid ${(props) => props.theme.Bg.color3};
@@ -139,9 +147,6 @@ const InviteSearchBox = styled(InviteSearchContainer)`
   &::-webkit-scrollbar {
     height: 5px;
   }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.Bg.color2}; /* 스크롤 바의 색상 */
-  }
   .searchIcon {
     margin-right: 5px;
   }
@@ -149,7 +154,7 @@ const InviteSearchBox = styled(InviteSearchContainer)`
 
 const InviteIconBox = styled.div`
   ${(props) => props.theme.FlexCol}
-  width: 20px;
+  width: 15px;
 `;
 const FriendPickBox = styled.div`
   ${(props) => props.theme.FlexRow}
@@ -165,7 +170,7 @@ const FriendBox = styled.div`
   padding: 0 8px;
   margin: 0 5px;
   border-radius: 4px;
-  background-color: ${(props) => props.theme.Bg.mainColor2};
+  background-color: ${(props) => props.theme.Bg.mainColor4};
   span {
     margin: 0;
     margin-right: 5px;
@@ -191,6 +196,7 @@ const SerchModalContainer = styled.div`
   justify-content: flex-start;
   gap: 10px;
   min-width: 330px;
+  max-width: 330px;
   height: 200px;
   overflow-y: auto;
   padding: 10px 15px;
@@ -252,7 +258,7 @@ const WriteLocationBox = styled.div`
     width: 100%;
     height: 40px;
     padding: 10px;
-    font-size: 12px;
+    font-size: 14px;
     border: 1px solid ${(props) => props.theme.Bg.color3};
     border-radius: 8px;
   }
@@ -294,7 +300,6 @@ const ImgUploadButton = styled.div`
   margin-left: 8px;
   text-align: center;
   color: #121212;
-  ${(props) => props.theme.BtnClickYellow};
 `;
 const ImgUploadListBox = styled(InviteSearchBox)`
   width: 100%;
@@ -306,6 +311,7 @@ const ImgBox = styled(FriendBox)`
   width: 90px;
   height: 25px;
   padding: 0 8px;
+  background-color: ${(props) => props.theme.Bg.color4};
   span {
     text-align: center;
     margin: 0;
@@ -319,12 +325,17 @@ const ModifyImgUploadBox = styled.div`
 `;
 
 const PreviewContainer = styled.div`
-  ${(props) => props.theme.FlexCol}
   gap: 10px;
   margin-top: 20px;
+`;
+
+const PreviewBox = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
   img {
-    width: 330px;
-    height: 330px;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -332,10 +343,11 @@ const PreviewContainer = styled.div`
 const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  margin-bottom: 20px;
 `;
+
 const SelectContainer = styled(ScopeWrapper)`
   margin: 0;
+  border: none;
   select {
     width: 150px;
     height: 21px;
@@ -348,10 +360,11 @@ const SubmitButtonWrapper = styled.div`
   padding: 0 5px;
   button {
     ${(props) => props.theme.ButtonLarge}
-    background-color: ${(props) => props.theme.Bg.mainColor2};
-    color: ${(props) => props.theme.Bg.color1};
-    font-weight: 600;
-    margin-top: 15px;
+    background-color: ${(props) => (props.isEdit ? props.theme.Bg.mainColor2 : props.theme.Bg.mainColor5)};
+    color: ${(props) => (props.isEdit ? props.theme.Bg.color1 : props.theme.Bg.color6)};
+    font-size: ${(props) => props.theme.Fs.size14};
+    font-weight: 500;
+    margin-top: 30px;
   }
 `;
 
@@ -398,6 +411,7 @@ const postStyle = {
   ImgBox,
   ModifyImgUploadBox,
   PreviewContainer,
+  PreviewBox,
   ScopeWrapper,
   SelectContainer,
   SubmitButtonWrapper,

@@ -4,37 +4,80 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import { SideSpaceWrapper } from "./CalendarSidebar";
+import { __hideUser } from "../../../redux/modules/subscribeSlice";
+// import { click } from "@testing-library/user-event/dist/click";
 
-function SubscribeListControl({ isSubscribeBoxOpen }) {
-  const [isCheckBoxClicked, setIsCheckBoxClicked] = useState("");
+function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
   const dispatch = useDispatch();
   const params = useParams();
+  const [requestStatus, setRequestStatus] = useState(false);
+
+  //useSelector로 구독하는 유저 정보 가져오기
+  const { statusCodeHide, SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
+  console.log(SubscribesList);
+
   useEffect(() => {
     const id = params.id;
     let url = `${id}?sort=name&searchword=`;
+    console.log("검색어 없는 url-->", url);
+
     dispatch(__getSubscribeList(url));
-  }, [isSubscribeBoxOpen]);
+  }, [requestStatus]);
 
-  //useSelector로 구독하는 유저 정보 가져오기
-  const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  console.log(SubscribesList);
-
-  const onClickCheckBoxHandler = () => {
-    setIsCheckBoxClicked(!isCheckBoxClicked);
+  const showUserHandler = (id) => {
+    dispatch(__hideUser(id)).then((data) => {
+      if (!data.error) {
+        setRequestStatus(!requestStatus);
+        setIsSubmit(!isSubmit);
+      }
+    });
+    setClickedButtonIds((prev) => prev.filter((prevId) => prevId !== id));
   };
+
+  const hideUserHandler = (id) => {
+    dispatch(__hideUser(id)).then((data) => {
+      if (!data.error) {
+        setRequestStatus(!requestStatus);
+        setIsSubmit(!isSubmit);
+      }
+    });
+    setClickedButtonIds((prev) => [...prev, id]);
+  };
+
+  const Button = ({ id, isVisible }) => {
+    if (isVisible) {
+      return (
+        <ButtonStyle
+          onClick={() => {
+            showUserHandler(id);
+          }}>
+          숨기기
+        </ButtonStyle>
+      );
+    }
+    return (
+      <ButtonStyle
+        onClick={() => {
+          hideUserHandler(id);
+        }}>
+        일정표시
+      </ButtonStyle>
+    );
+  };
+  console.log(clickedButtonIds);
 
   return (
     <>
       <SideSpaceWrapper>
         <WholeBoxWrap>
-          <TitleWrap>구독자 List</TitleWrap>
+          <TitleWrap>구독 List ({SubscribesList.length})</TitleWrap>
           {SubscribesList.map((user) => (
             <>
-              <ContentWrap key={user.id}>
-                <BoxWrap>
-                  <div>{user.nickName}</div>
-                  <input type="checkbox" checked={true} onChange={onClickCheckBoxHandler} />
+              <ContentWrap>
+                <BoxWrap key={user.id}>
+                  <div>{user.nickName ? user.nickName : "이름 없음"}</div>
+                  <Button id={user.id} isVisible={user.isVisible} />
                 </BoxWrap>
               </ContentWrap>
             </>
@@ -78,12 +121,20 @@ const BoxWrap = styled.div`
   margin-bottom: 20px;
   justify-content: center;
   align-items: center;
+  font-size: ${(props) => props.theme.Fs.size18};
+  font-weight: 800;
+  width: 200px;
   /* background-color: yellow; */
-  font-size: 24px;
+`;
 
-  input {
-    margin-left: 20px;
-    height: 20px;
-    width: 20px;
+const ButtonStyle = styled.div`
+  margin-left: auto;
+  border: 1px solid black;
+  font-size: ${(props) => props.theme.Fs.size14};
+  padding: 8px 10px;
+  border-radius: 5px;
+  :hover {
+    cursor: pointer;
   }
+  /* background-color: pink; */
 `;

@@ -77,14 +77,14 @@ export const GlobalStyle = createGlobalStyle`
       overflow: overlay;
     }
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 5px;
       height: 10px;
     }
     ::-webkit-scrollbar-thumb {
       background-clip: padding-box;
       border: 0 solid transparent;
       border-radius: 10px;
-      background-color: #0000008e;
+      background-color: #00000011;
     }
     ::-webkit-scrollbar-track {
       background-color: transparent;

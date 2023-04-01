@@ -1,13 +1,14 @@
 import { React, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { __cancelRequest, __getFriendsList } from "../../../redux/modules/friendsSlice";
-import { __friendsList } from "../../../redux/modules/kakaoSlice";
+import { __cancelRequest, __getFriendsList } from "../../redux/modules/friendsSlice";
+import { __friendsList } from "../../redux/modules/kakaoSlice";
 import { MdOutlineAddReaction } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
 
-function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function FriendList({ FriendsList }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -94,10 +95,7 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
+              dispatch(textState("home"));
             }}>
             <ProfileWrap>
               <PostLeft>
@@ -109,10 +107,10 @@ function FriendList({ FriendsList, setIsCalendarMainVisible, setIsFriendListVisi
               </PostLeft>
               <IntroductionWrap>
                 {user.introduction
-                  ? user.introduction
-                  : user.categoryList.length !== 0
-                  ? `주로 ${user.categoryList[0]} 일정을 공유합니다.`
-                  : `${user.nickName}의 캘린더 입니다.`}
+                  ? user.introduction.length > 18
+                    ? `${user.introduction.substr(0, 18)}...`
+                    : user.introduction
+                  : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrap>
             </ProfileWrap>
           </ProfileArea>
@@ -276,7 +274,7 @@ export const PostBox = styled.div`
   align-items: center;
   padding: 15px 8px;
 
-  width: 456px;
+  width: 100%;
   height: 70px;
 
   background: #ffffff;
@@ -288,7 +286,6 @@ export const PostBox = styled.div`
   :hover {
     cursor: pointer;
   }
-  /* background-color: pink; */
 `;
 export const ProfileArea = styled.div`
   display: flex;
@@ -390,7 +387,7 @@ export const ButtonArea = styled.div`
   text-align: center;
   padding: 10px 10px;
 
-  width: 70px;
+  width: 80px;
   height: 34px;
 
   background: #fbfeff;

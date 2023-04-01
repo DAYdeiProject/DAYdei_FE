@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
-import ColorFromDB from "./CalendarBasic";
 import Loading from "../../../components/Loading";
-import { ReactComponent as Note } from "../../../assets/lcon/note32.svg";
-import { ReactComponent as Calnedar } from "../../../assets/lcon/calendar30.svg";
+import { ReactComponent as Note } from "../../../assets/lcon/note.svg";
+import { ReactComponent as Calnedar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
 import { useState } from "react";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { TimeCheck } from "./CalendarBasic";
 
 export default function OtherUserCalendar({ ...props }) {
-  const [sideOpenState, setSideOpenState] = useState(false);
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -30,47 +30,46 @@ export default function OtherUserCalendar({ ...props }) {
     props.setOtherCalendarPostId(postId);
   };
 
-  const timeForToday = (date) => {
-    const today = new Date();
-    const timeValue = new Date(date);
+  // const timeForToday = (date) => {
+  //   const today = new Date();
+  //   const timeValue = new Date(date);
 
-    let result = "";
-    const time = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-    if (time < 1) result = "방금 전";
-    if (time < 60) result = `${time}분 전`;
+  //   let result = "";
+  //   const time = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+  //   if (time < 1) result = "방금 전";
+  //   if (time < 60) result = `${time}분 전`;
 
-    const hour = Math.floor(time / 60);
-    if (hour > 0 && hour < 24) result = `${hour}시간 전`;
+  //   const hour = Math.floor(time / 60);
+  //   if (hour > 0 && hour < 24) result = `${hour}시간 전`;
 
-    const day = Math.floor(time / 60 / 24);
-    if (day > 0 && day < 365) result = `${day}일 전`;
+  //   const day = Math.floor(time / 60 / 24);
+  //   if (day > 0 && day < 365) result = `${day}일 전`;
 
-    return result;
-  };
+  //   return result;
+  // };
 
-  const closeScheduleHandler = () => {
-    //setSideOpenState(!sideOpenState);
-    props.setIsOtherOpen(!props.isOtherOpen);
-  };
+  // open 여부 - 보류
+  // const closeScheduleHandler = () => {
+  //   //props.setIsOtherOpen(!props.isOtherOpen);
+  // };
 
   return (
     <>
       {isLoading && <Loading />}
       <OtherWrapper isOpen={props.isOtherOpen}>
-        <IconBox>
-          <Calnedar onClick={closeScheduleHandler} />
-        </IconBox>
+        {/* <IconBox>
+          <Calnedar width={28} height={28} onClick={closeScheduleHandler} />
+        </IconBox> */}
         <OtherUpdateWrapper>
           <UpdateTitle>업데이트 된 일정</UpdateTitle>
           <UpdateContainer>
             {otherUserUpdate.length !== 0 ? (
               otherUserUpdate?.map((list) => {
-                const color = ColorFromDB(list.color);
-                const time = timeForToday(list.modifiedAt);
+                const time = TimeCheck(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
-                      <img src={list.writer.profileImage} />
+                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
                     </ImgBox>
                     <WriterBox>
                       <span>{list.writer.name}</span>
@@ -84,7 +83,7 @@ export default function OtherUserCalendar({ ...props }) {
               })
             ) : (
               <NoneScheduleBox>
-                <Note className="noneToday" />
+                <Note width={32} height={32} className="noneToday" />
                 <div>일주일간 업데이트 된 일정이 없습니다.</div>
               </NoneScheduleBox>
             )}
@@ -95,12 +94,11 @@ export default function OtherUserCalendar({ ...props }) {
           <ShareContainer>
             {otherUserShare.length !== 0 ? (
               otherUserShare?.map((list) => {
-                const color = ColorFromDB(list.color);
-                const time = timeForToday(list.modifiedAt);
+                const time = TimeCheck(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
-                      <img src={list.writer.profileImage} />
+                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
                     </ImgBox>
                     <WriterBox>
                       <span>{list.writer.name}</span>
@@ -114,7 +112,7 @@ export default function OtherUserCalendar({ ...props }) {
               })
             ) : (
               <NoneScheduleBox>
-                <Note className="noneToday" />
+                <Note width={32} height={32} className="noneToday" />
                 <div>나와 공유한 일정이 없습니다.</div>
               </NoneScheduleBox>
             )}
@@ -132,9 +130,10 @@ const OtherWrapper = styled.div`
   max-width: 350px;
   height: 100%;
   border-right: 1px solid #afb4bf;
-  position: ${(props) => (props.isOpen ? "absolute" : "inherit")};
-  left: 28px;
-  z-index: 10;
+  //position: ${(props) => (props.isOpen ? "absolute" : "inherit")};
+  //left: 28px;
+  //z-index: 10;
+  padding: 30px;
 `;
 
 const IconBox = styled.div`
@@ -142,6 +141,7 @@ const IconBox = styled.div`
   justify-content: right;
   margin-top: 15px;
   margin-bottom: 5px;
+  padding-right: 30px;
   cursor: pointer;
 `;
 
@@ -149,9 +149,9 @@ const OtherUpdateWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
   justify-content: flex-start;
-  min-height: 360px;
-  padding: 0 30px;
-  z-index: 10;
+  min-height: 400px;
+  //padding: 0 30px;
+  //z-index: 10;
 `;
 
 const UpdateTitle = styled.span`
@@ -179,7 +179,7 @@ const UpdateBox = styled.div`
   padding: 5px;
   border-radius: 10px;
   &:hover {
-    background-color: #e4beaf;
+    background-color: ${(props) => props.theme.Bg.hoverColor};
     cursor: pointer;
   }
 `;
@@ -219,6 +219,7 @@ const NoneScheduleBox = styled.div`
   ${(props) => props.theme.FlexCol}
   height: 230px;
   gap: 20px;
+  cursor: auto;
   div {
     font-size: ${(props) => props.theme.DescriptionText};
   }

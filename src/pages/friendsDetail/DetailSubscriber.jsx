@@ -1,7 +1,7 @@
 import { React } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
+import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
 import {
   NoListMessageWrapper,
@@ -23,9 +23,10 @@ import {
   ButtonArea,
 } from "../friendslist/FriendList";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { textState } from "../../redux/modules/headerReducer";
 
-function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIsFriendListVisible, setIsSearchUsersvisible, setIsFriendDetailVisible }) {
+function DetailSubscriberList({ SubscribersList }) {
   // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,10 +63,7 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              setIsCalendarMainVisible(true);
-              setIsFriendListVisible(false);
-              setIsSearchUsersvisible(false);
-              setIsFriendDetailVisible(false);
+              dispatch(textState("home"));
             }}>
             <ProfileWrapLong>
               <PostLeft>
@@ -77,10 +75,10 @@ function DetailSubscriberList({ SubscribersList, setIsCalendarMainVisible, setIs
               </PostLeft>
               <IntroductionWrapLong>
                 {user.introduction
-                  ? user.introduction
-                  : user.categoryList.length !== 0
-                  ? `주로 ${user.categoryList[0]} 일정을 공유합니다.`
-                  : `${user.nickName}의 캘린더 입니다.`}
+                  ? user.introduction.length > 27
+                    ? `${user.introduction.substr(0, 27)}...`
+                    : user.introduction
+                  : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrapLong>
             </ProfileWrapLong>
             <IntroductionWrap></IntroductionWrap>

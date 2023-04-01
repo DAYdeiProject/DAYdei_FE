@@ -9,11 +9,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
-import UserInfo from "../../utils/localStorage/userInfo";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 import FindPasswordModal from "./FindPasswordModal";
 import Header from "../../layout/Header";
 import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
 import { ReactComponent as Key } from "../../assets/lcon/sign/key.svg";
+import PreviewImg from "../../assets/defaultImage/preview.svg";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function IntroPage() {
   const token = Cookies.get("accessJWTToken");
   useEffect(() => {
     if (token) {
-      const userInfo = UserInfo();
+      const userInfo = GetUserInfo();
       alert("이미 로그인하셨습니다!");
       navigate(`/${userInfo.userId}`);
     }
@@ -66,13 +67,11 @@ function IntroPage() {
 
   return (
     <ScreenLayout>
-      <Header></Header>
       <ScreenWrapper>
-        <PreviewWrapper></PreviewWrapper>
+        <PreviewWrapper>{/* <img src={PreviewImg} /> */}</PreviewWrapper>
         <LoginWrapper
           onSubmit={(e) => {
             e.preventDefault();
-
             loginHandler();
           }}>
           <LoginBox>
@@ -131,15 +130,15 @@ export const ScreenWrapper = styled.div`
 export const PreviewWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: lightgray;
   text-align: center;
+  background-color: #ebebeb;
 `;
 
 export const LoginWrapper = styled.form`
   ${(props) => props.theme.FlexCol}
+  //justify-content: flex-start;
   min-width: 720px;
   max-width: 720px;
-  /* background-color: yellow; */
 `;
 
 export const LoginBox = styled.div`
@@ -148,6 +147,7 @@ export const LoginBox = styled.div`
   align-items: center;
   padding: 0px;
   position: absolute;
+
   /* background-color: pink; */
 `;
 

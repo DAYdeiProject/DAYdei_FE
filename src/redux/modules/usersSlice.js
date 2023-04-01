@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../utils/api/axios";
 import Cookies from "js-cookie";
+import SetUserInfo from "../../utils/cookie/userInfo";
 
 const initialState = {
   users: [],
@@ -48,16 +49,9 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const nickName = response.data.data.nickName;
 
     // 쿠키 시간 설정
-    const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
-    Cookies.set("accessJWTToken", Token, { expires: expiryDate });
-
-    //userInfo
-    const userInfo = {
-      userId: response.data.data.userId,
-      nickName: response.data.data.nickName,
-    };
     api.defaults.headers.common["Authorization"] = Token;
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    const id = response.data.data.userId;
+    SetUserInfo(Token, id);
 
     return { token: Token, isLogin, categoryList, nickName, data: response.data };
   } catch (error) {
