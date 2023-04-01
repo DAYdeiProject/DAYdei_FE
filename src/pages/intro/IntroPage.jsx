@@ -68,7 +68,7 @@ function IntroPage() {
   return (
     <ScreenLayout>
       <ScreenWrapper>
-        <PreviewWrapper></PreviewWrapper>
+        <PreviewWrapper>{/* <img src={PreviewImg} /> */}</PreviewWrapper>
         <LoginWrapper
           onSubmit={(e) => {
             e.preventDefault();
@@ -76,7 +76,8 @@ function IntroPage() {
           }}>
           <LoginBox>
             <TitleText>
-              <img src={PreviewImg} />
+              DayDei
+              <br /> 공유하는 일상의 시작
             </TitleText>
             <StInput>
               <InputWrapper>
@@ -129,15 +130,15 @@ export const ScreenWrapper = styled.div`
 export const PreviewWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: lightgray;
   text-align: center;
+  background-color: #ebebeb;
 `;
 
 export const LoginWrapper = styled.form`
   ${(props) => props.theme.FlexCol}
+  //justify-content: flex-start;
   min-width: 720px;
   max-width: 720px;
-  /* background-color: yellow; */
 `;
 
 export const LoginBox = styled.div`
@@ -146,13 +147,12 @@ export const LoginBox = styled.div`
   align-items: center;
   padding: 0px;
   position: absolute;
+
   /* background-color: pink; */
 `;
 
 const TitleText = styled.div`
-  ${(props) => props.theme.FlexCol};
-  height: 100%;
-  /* width: 371px;
+  width: 371px;
   height: 78px;
 
   font-weight: 600;
@@ -163,12 +163,8 @@ const TitleText = styled.div`
   flex: none;
   order: 0;
   flex-grow: 0;
-  margin-bottom: 32px; */
+  margin-bottom: 32px;
   /* background-color: pink; */
-  img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const StInput = styled.div`
