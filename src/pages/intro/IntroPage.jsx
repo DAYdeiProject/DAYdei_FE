@@ -14,6 +14,7 @@ import FindPasswordModal from "./FindPasswordModal";
 import Header from "../../layout/Header";
 import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
 import { ReactComponent as Key } from "../../assets/lcon/sign/key.svg";
+import PreviewImg from "../../assets/defaultImage/preview.svg";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -71,13 +72,11 @@ function IntroPage() {
         <LoginWrapper
           onSubmit={(e) => {
             e.preventDefault();
-
             loginHandler();
           }}>
           <LoginBox>
             <TitleText>
-              DayDei
-              <br /> 공유하는 일상의 시작
+              <img src={PreviewImg} />
             </TitleText>
             <StInput>
               <InputWrapper>
@@ -151,7 +150,9 @@ export const LoginBox = styled.div`
 `;
 
 const TitleText = styled.div`
-  width: 371px;
+  ${(props) => props.theme.FlexCol};
+  height: 100%;
+  /* width: 371px;
   height: 78px;
 
   font-weight: 600;
@@ -162,8 +163,12 @@ const TitleText = styled.div`
   flex: none;
   order: 0;
   flex-grow: 0;
-  margin-bottom: 32px;
+  margin-bottom: 32px; */
   /* background-color: pink; */
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const StInput = styled.div`

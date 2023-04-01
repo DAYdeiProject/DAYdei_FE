@@ -21,7 +21,7 @@ export default function NotifiactionModalBox({ ...props }) {
     dispatch(__getConnect(token));
   }, [props.isNotificationOpen]);
 
-  console.log("알림리스트 ", data);
+  //console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
 
   const notiClickHandler = (postId, userId, content, notiState) => {
@@ -105,7 +105,6 @@ const NotificationWrapper = styled.div`
 
 const NotiHeaderContainer = styled.div`
   ${(props) => props.theme.FlexRowBetween};
-  background-color: red;
   justify-content: left;
   gap: 5px;
   padding-top: 5px;
