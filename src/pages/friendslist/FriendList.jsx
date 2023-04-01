@@ -39,7 +39,7 @@ function FriendList({ FriendsList }) {
       const kakao = window.Kakao;
 
       if (!kakao.isInitialized()) {
-        kakao.init("09575cc341b5e4613bf2d9332389afd0");
+        kakao.init("e4934e4a233af99aa9f9c0c7e4b8ed68");
       }
 
       kakao.Link.sendDefault({

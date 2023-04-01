@@ -142,7 +142,14 @@ function UserLists({ searchWord, selectedCategories }) {
                 </InfoArea>
               </ProfileTextFrame>
             </ProfileArea>
-            <IntroductionWrap>{user.introduction ? user.introduction : `${user.nickName}의 캘린더 입니다.`}</IntroductionWrap>
+            <IntroductionWrap>
+              {" "}
+              {user.introduction
+                ? user.introduction.length > 18
+                  ? `${user.introduction.substr(0, 18)}...`
+                  : user.introduction
+                : `${user.nickName}의 캘린더입니다.`}
+            </IntroductionWrap>
             <ButtonArea>
               <ButtonFriend id={user.id} />
               <ButtonSubscribe id={user.id} />
