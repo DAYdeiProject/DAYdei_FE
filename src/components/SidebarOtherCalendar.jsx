@@ -136,8 +136,8 @@ export default function SidebarOtherCalendar({ userId }) {
 const ProfileWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  position: absolute;
-  z-index: 90;
+  //position: absolute;
+  // z-index: 90;
   background-color: #ffffff;
   height: 100%;
 `;
@@ -157,7 +157,7 @@ const BackImgWrapper = styled.div`
 const ImgWrapper = styled.div`
   position: absolute;
   top: 300px;
-  z-index: 90;
+  //z-index: 0;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 20px;
   img {
@@ -186,7 +186,7 @@ const EmailBox = styled.span`
 
 const CountBox = styled.div`
   ${(props) => props.theme.FlexCol}
-  padding: 0 30px;
+  padding: 0 40px;
   margin-bottom: 20px;
   font-size: 16px;
   color: ${(props) => props.theme.Bg.color1};
@@ -211,13 +211,17 @@ const TextareaBox = styled.div`
 `;
 
 const ButtonBox = styled.div`
+  ${(props) => props.theme.FlexRow}
   display: flex;
   gap: 10px;
+  margin: 0 40px;
   margin-top: 20px;
   font-size: 14px;
   div {
     ${(props) => props.theme.FlexCol}
     ${(props) => props.theme.ButtonMedium};
+    width: 130px;
+    height: 48px;
     color: ${(props) => props.theme.Bg.color1};
   }
   div:nth-child(1) {
@@ -231,7 +235,7 @@ const ButtonBox = styled.div`
 
 const TogetherWrapper = styled.div`
   width: 100%;
-  padding: 0 30px;
+  padding: 0 40px;
   margin-top: 20px;
   ${(props) => props.theme.DescriptionText};
   div {

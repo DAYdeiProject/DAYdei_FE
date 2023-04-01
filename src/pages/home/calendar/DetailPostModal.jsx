@@ -47,7 +47,6 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail, isLoading } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
-  //console.log("detail========", notiInfo);
 
   //console.log(detail);
   useEffect(() => {
@@ -81,7 +80,7 @@ export default function DetailPostModal({ ...props }) {
     setEndDay(endDay);
     const color = ColorFromDB(detail.color);
     setIsColor(color);
-  }, [detail]);
+  }, [detail, props.isSubmit]);
 
   useEffect(() => {
     if (props.detailPostId) {
@@ -96,7 +95,7 @@ export default function DetailPostModal({ ...props }) {
       dispatch(__getPostDetail({ id: notiInfo.postId, token }));
       props.setIsDetailPost(true);
     }
-  }, [props.detailPostId, props.otherCalendarPostId, notiInfo]);
+  }, [props.detailPostId, props.otherCalendarPostId, notiInfo, props.isSubmit]);
 
   // toggle
   const downDropClick = (data) => {
@@ -116,6 +115,11 @@ export default function DetailPostModal({ ...props }) {
     setImgToggle(true);
     setNotiState("");
     setNotiContent("");
+    setStartTime("");
+    setEndTime("");
+    setStartDay("");
+    setEndDay("");
+    setIsColor("");
     dispatch(setNotificationPostId(""));
   };
   // dot아이콘 누르면

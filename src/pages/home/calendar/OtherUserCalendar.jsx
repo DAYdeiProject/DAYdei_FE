@@ -151,7 +151,7 @@ const OtherUpdateWrapper = styled.div`
   justify-content: flex-start;
   min-height: 400px;
   //padding: 0 30px;
-  z-index: 10;
+  //z-index: 10;
 `;
 
 const UpdateTitle = styled.span`
