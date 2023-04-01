@@ -16,6 +16,8 @@ const useLogin = () => {
   const [isEmail, setIsEmail] = useState(false);
   const [isPw, setIsPw] = useState(false);
   const [isPwCheck, setIsPwCheck] = useState(false);
+  const [isNickname, setIsNickName] = useState(false);
+  const [nicknameRegex, setNicknameRegex] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -73,19 +75,38 @@ const useLogin = () => {
     }
   };
 
-  const handleNickNameChange = (e) => {
-    setNickName(e.target.value);
+  // const handleNickNameChange = (e) => {
+  //   setNickName(e.target.value);
+  //   const koreanAndEnglishOnly = /^([ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{1,6}|[a-zA-Z]{1,12})$/;
 
-    if (e.target.value.length <= 6) {
-      setIsNickNameMessage("최대 6자 이내");
-    } else {
-      setIsNickNameMessage("제한 글자 수 초과");
-    }
+  //   if (!koreanAndEnglishOnly.test(e.target.value)) {
+  //     setIsNickNameMessage("최대 6자 이내");
+  //   } else {
+  //     setIsNickNameMessage("제한 글자 수 초과");
+  //   }
 
-    if (e.target.value === "") {
-      setIsNickNameMessage("");
-    }
-  };
+  //   // if (e.target.value.length <= 6) {
+  //   //   setIsNickNameMessage("최대 6자 이내");
+  //   // } else {
+  //   //   setIsNickNameMessage("제한 글자 수 초과");
+  //   // }
+
+  //   if (e.target.value === "") {
+  //     setIsNickNameMessage("");
+  //   }
+  // };
+
+  function handleNickNameChange(e) {
+    const inputValue = e.target.value;
+    setNickName(inputValue);
+    setNicknameRegex(validateInput(inputValue));
+  }
+
+  function validateInput(input) {
+    const koreanAndEnglishOnly = /^([ㄱ-ㅎ|ㅏ-ㅣ|가-힣0-9]{1,6}|[a-zA-Z0-9]{1,8})$/;
+    //const newss = /^(?:[\uAC00-\uD7AF]{1,6}|[\w\uAC00-\uD7AF]{1,8})$/;
+    return koreanAndEnglishOnly.test(input);
+  }
 
   const handleBirthdayChange = (e) => {
     setBirthday(e.target.value);
@@ -123,6 +144,7 @@ const useLogin = () => {
     introduction,
     handleIntroductionChange,
     reset,
+    nicknameRegex,
   };
 };
 

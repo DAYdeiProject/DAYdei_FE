@@ -18,6 +18,7 @@ const initialState = {
   statusCode: 0,
   myProfile: [],
   statusCodeProfile: 0,
+  headerProfile: "",
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
@@ -102,6 +103,16 @@ export const __setProfile = createAsyncThunk("setProfile", async (formData, thun
     });
     console.log("profile 수정 put요청 리스펀스-->", response.data);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __getHeaderProfile = createAsyncThunk("getHeaderProfile", async (id, thunkAPI) => {
+  try {
+    const response = await api.get(`/api/home/profile/${id}`);
+    return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
@@ -208,6 +219,21 @@ export const usersSlice = createSlice({
         state.statusCodeProfile = action.payload;
       })
       .addCase(__setProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        // state.isErrorMessage = action.payload;
+      });
+
+    builder
+      .addCase(__getHeaderProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getHeaderProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.headerProfile = action.payload;
+      })
+      .addCase(__getHeaderProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         // state.isErrorMessage = action.payload;

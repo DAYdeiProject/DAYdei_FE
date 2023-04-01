@@ -327,8 +327,8 @@ function AddPostModal({ ...props }) {
     }
 
     const imgList = new FormData();
-    if (fileList.length > 4) {
-      return alert("파일첨부는 최대 4개까지 첨부가능합니다.");
+    if (fileList.length > 3) {
+      return alert("파일첨부는 최대 3개까지 첨부가능합니다.");
     } else {
       fileList.map((img) => {
         imgList.append("images", img);
@@ -515,7 +515,7 @@ function AddPostModal({ ...props }) {
                   ))}
                 </postStyle.FriendPickBox>
                 <postStyle.FriendBoxInput>
-                  <input type="text" {...register("participant")} placeholder="닉네임, 이메일 검색" />
+                  <input type="text" {...register("participant")} placeholder="친구 닉네임, 이메일 검색" />
                 </postStyle.FriendBoxInput>
               </postStyle.InviteSearchBox>
               <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
@@ -545,57 +545,39 @@ function AddPostModal({ ...props }) {
             </postStyle.InviteSearchContainer>
           </postStyle.InviteWrapper>
 
-          <postStyle.LocationWrapper>
+          <postStyle.LocationWrapper onClick={isShowLocation ? () => hideToggieHandler("location") : () => showToggieHandler("location")}>
             <postStyle.LocationContainer>
               <Location />
               <postStyle.TextSpan>
                 <span>장소</span>
               </postStyle.TextSpan>
-              <postStyle.ToggleContainer>
-                {isShowLocation ? (
-                  <Up className="showToggle" onClick={() => hideToggieHandler("location")} />
-                ) : (
-                  <Down className="showToggle" onClick={() => showToggieHandler("location")} />
-                )}
-              </postStyle.ToggleContainer>
+              <postStyle.ToggleContainer>{isShowLocation ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
             </postStyle.LocationContainer>
             <postStyle.WriteLocationBox isShow={isShowLocation}>
               <input type="text" {...register("location")} />
             </postStyle.WriteLocationBox>
           </postStyle.LocationWrapper>
 
-          <postStyle.ContentWrapper>
+          <postStyle.ContentWrapper onClick={isShowContent ? () => hideToggieHandler("content") : () => showToggieHandler("content")}>
             <postStyle.ContentBoxContainer>
               <Memo />
               <postStyle.TextSpan>
                 <span>상세</span>
               </postStyle.TextSpan>
-              <postStyle.ToggleContainer>
-                {isShowContent ? (
-                  <Up className="showToggle" onClick={() => hideToggieHandler("content")} />
-                ) : (
-                  <Down className="showToggle" onClick={() => showToggieHandler("content")} />
-                )}
-              </postStyle.ToggleContainer>
+              <postStyle.ToggleContainer>{isShowContent ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
             </postStyle.ContentBoxContainer>
             <postStyle.WriteContentBox isShow={isShowContent}>
               <textarea {...register("content")} />
             </postStyle.WriteContentBox>
           </postStyle.ContentWrapper>
 
-          <postStyle.ImgWrapper>
+          <postStyle.ImgWrapper onClick={isShowImg ? () => hideToggieHandler("img") : () => showToggieHandler("img")}>
             <postStyle.ImgContainer>
               <ImageIcon />
               <postStyle.TextSpan>
                 <span>사진</span>
               </postStyle.TextSpan>
-              <postStyle.ToggleContainer>
-                {isShowImg ? (
-                  <Up className="showToggle" onClick={() => hideToggieHandler("img")} />
-                ) : (
-                  <Down className="showToggle" onClick={() => showToggieHandler("img")} />
-                )}
-              </postStyle.ToggleContainer>
+              <postStyle.ToggleContainer>{isShowImg ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
             </postStyle.ImgContainer>
             <postStyle.ModifyImgUploadBox isShow={isShowImg}>
               <postStyle.ImgUploadBox>
@@ -622,7 +604,7 @@ function AddPostModal({ ...props }) {
                 </postStyle.ImgUploadListBox>
                 <postStyle.ImgLabel htmlFor="inputImg">
                   <postStyle.ImgUploadButton>파일추가</postStyle.ImgUploadButton>
-                  <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} />
+                  <input id="inputImg" type="file" accept="image/*" multiple onChange={imgUploadHandler} key={new Date()} />
                 </postStyle.ImgLabel>
               </postStyle.ImgUploadBox>
               <postStyle.PreviewContainer>

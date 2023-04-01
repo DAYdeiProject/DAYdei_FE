@@ -26,6 +26,7 @@ function JoinPage() {
     birthday,
     handleBirthdayChange,
     reset,
+    nicknameRegex,
   } = useLogin();
 
   const dispatch = useDispatch();
@@ -119,9 +120,10 @@ function JoinPage() {
 
               <InputWrapper>
                 <InputTitleText>닉네임</InputTitleText>
-                <InputFrame border={nickName === "" ? "#afb4bf" : nickName.length <= 6 ? "#58c179" : "#DF5445"}>
+                {/* <InputFrame border={nickName === "" ? "#afb4bf" : nickName.length <= 6 ? "#58c179" : "#DF5445"}> */}
+                <InputFrame>
                   <InputInnerWrap>
-                    <input type="text" value={nickName} onChange={handleNickNameChange} />
+                    <input type="text" value={nickName} onChange={handleNickNameChange} maxLength="8" />
                   </InputInnerWrap>
                 </InputFrame>
                 <MessageWrapper color={nickName.length <= 6 ? "#58c179" : "#DF5445"}>{isNickNameMessage}</MessageWrapper>
@@ -137,7 +139,7 @@ function JoinPage() {
               </InputWrapper>
             </InputArea>
 
-            <SignUpButtton>
+            <SignUpButtton disabled={!nicknameRegex}>
               <ButtonText>가입하기</ButtonText>
             </SignUpButtton>
 
@@ -331,7 +333,7 @@ const SignUpButtton = styled.button`
   width: 370px;
   height: 48px;
 
-  background: #0eafe1;
+  background: ${(props) => (props.disabled ? "gray" : "#0eafe1")};
 
   border: 1.4px solid #121212;
 
@@ -339,10 +341,9 @@ const SignUpButtton = styled.button`
   border-radius: 4px;
 
   margin-bottom: 24px;
-
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
+  // 아예 버튼 클릭 막기
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
 
 const ButtonText = styled.div`

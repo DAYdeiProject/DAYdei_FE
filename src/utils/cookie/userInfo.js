@@ -19,7 +19,10 @@ export default SetUserInfo;
 // 로컬스토리지 userId 가져오기
 export function GetUserInfo() {
   const localUserInfo = localStorage.getItem("userInfo");
-  const userInfo = JSON.parse(localUserInfo);
+  let userInfo = "";
+  if (localUserInfo) {
+    userInfo = JSON.parse(localUserInfo);
+  }
 
   return userInfo;
 }
