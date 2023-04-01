@@ -13,11 +13,15 @@ import InfoSettingModal from "./InfoSettingModal";
 import { CategoryText } from "../calendar/CalendarBasic";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
+  //프로필 파일
   const [profile, setProfile] = useState("");
+  //프로필 파일의 이름
+  // const [profileName, setProfileName] = useState("");
+  //업로드된 프로필 이미지 URL 상태 저장
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+
   const [background, setBackground] = useState("");
 
-  //업로드된 프로필 이미지 상태
-  const [profileImageUrl, setProfileImageUrl] = useState("");
   //업로드된 배경 이름 상태
   const [backgroundImageName, setBackgroundImageName] = useState("");
   //모달에서 현재 위치한 탭 상태
@@ -37,13 +41,14 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     handleIntroductionChange,
   } = useLogin();
 
+  //모달 바깥쪽을 누르면 프로필 수정 모달이 닫힘
   const handleProfileSettingModalClose = () => {
     setIsProfileSettingModalOpen(false);
   };
-
   const ProfileSettingModalRef = useRef(null);
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
 
+  //Import하여 쓰는 것들
   const dispatch = useDispatch();
   const userInfo = GetUserInfo();
   const id = userInfo.userId;
@@ -52,34 +57,56 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const myProfile = useSelector((state) => state.users.myProfile);
   //내 프로필의 카테고리 리스트
   const myCategory = myProfile.categoryList;
-
+  //프로필 변경시 내 프로필 GET요청
   useEffect(() => {
     dispatch(__getMyProfile(id));
   }, [profile, isEditProfile]);
 
+  //아이콘이 파일업로드 버튼을 대체함
   const handleProfileImageClick = () => {
     document.getElementById("profileInput").click();
   };
-
   const handleBackgroundButtonClick = () => {
     document.getElementById("backgroundInput").click();
   };
 
+  //업로드한 프로필 이미지 정보 저장
   const profileImageHandler = (e) => {
-    setProfile(e.target.files[0]);
-    setProfileImageUrl(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    if (file && file.size > 10 * 1024 * 1024) {
+      alert("파일 사이즈가 10mb 를 넘습니다.");
+      e.target.value = null;
+      return; // stop the function if the file is too large
+    }
+    setProfile(file);
+    setProfileImageUrl(URL.createObjectURL(file));
+    // setProfileName(file.name);
   };
+
+  console.log("업로드된 프로필", profile, "프로필 url", profileImageUrl);
 
   useEffect(() => {
     setBackgroundImageName(background ? background.name : "");
   }, [background]);
 
   const backgroundImageHandler = (e) => {
-    setBackground(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file && file.size > 10 * 1024 * 1024) {
+      alert("파일 사이즈가 10mb 를 넘습니다.");
+      e.target.value = null;
+      return; // stop the function if the file is too large
+    }
+    if (file) {
+      setBackground(file);
+      setBackgroundImageName(URL.createObjectURL(file));
+    }
   };
 
   const deleteImageHandler = () => {
+    setProfile("");
     setProfileImageUrl("");
+    // setProfileName("");
+    console.log("엑스표 누른 뒤 프로필이미지 url", profileImageUrl);
     if (myProfile.profileImage) {
       const newProfile = [myProfile.profileImage];
       console.log("지우기 전 -->", newProfile);
@@ -183,7 +210,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                               ) : (
                                 <ProfilePhotoIcon onClick={handleProfileImageClick} />
                               )}
-                              <input id="profileInput" name="profileImage" type="file" hidden onChange={(e) => profileImageHandler(e)} />
+                              <input id="profileInput" name="profileImage" type="file" key={new Date()} hidden onChange={(e) => profileImageHandler(e)} />
                             </PhotoWrap>
                           </PhotoWrapSquare>
                           <BackgroundImageArea>
@@ -194,7 +221,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                               </AddBackgroundButton>
                               <BackgroundRight>
                                 {backgroundImageName ? (
-                                  <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                                  <FileNameWrap>{backgroundImageName.substring(0, 6)}..</FileNameWrap>
                                 ) : myProfile.backgroundImage && background.length !== 0 ? (
                                   <FileNameWrap>{backgroundImageName}</FileNameWrap>
                                 ) : null}
@@ -208,13 +235,13 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                           <TextWrap>
                             <SmallTextBox>닉네임 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" defaultValue={myProfile.nickName} onChange={handleNickNameChange} autoFocus maxlength="6" />
+                              <input type="text" defaultValue={myProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="6" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>한 줄 프로필 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" defaultValue={myProfile.introduction} onChange={handleIntroductionChange} maxlength="30" />
+                              <input type="text" defaultValue={myProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
