@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { TextWrap, TextMain, SmallTextBox, CheckMessage } from "./ProfileSettingModal";
 
 function InfoSettingModal({ ...props }) {
-  const myProfile = useSelector((state) => state.users.myProfile);
-  const myBirthday = myProfile.birthday.toString().split("");
+  //const myProfile = useSelector((state) => state.users.myProfile);
+  const headerProfile = useSelector((state) => state.users.getHeaderProfile);
+  const myBirthday = headerProfile.birthday.toString().split("");
   const myMonth = myBirthday[0] + myBirthday[1];
   const myDay = myBirthday[2] + myBirthday[3];
 
@@ -13,7 +14,7 @@ function InfoSettingModal({ ...props }) {
       <TextWrap>
         <SmallTextBox>이메일 :</SmallTextBox>
         <TextMain>
-          <div>{myProfile.email}</div>
+          <div>{headerProfile.email}</div>
         </TextMain>
       </TextWrap>
       <TextWrap>
