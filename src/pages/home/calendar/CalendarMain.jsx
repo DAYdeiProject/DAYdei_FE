@@ -192,6 +192,10 @@ function CalendarMain({ ...props }) {
     },
     timeZone: "local",
     events: newData,
+    dayCellContent: function (args) {
+      const date = args.date.getDate();
+      return { html: `<span class='fc-daygrid-day-number'>${date}</span>` };
+    },
   };
   // if (isLoding) <Loading loading={isLoding} />;
 
@@ -407,14 +411,14 @@ export const CalendarWrapper = styled.div`
     background-color: transparent;
   }
   .fc-day-today {
-    background-color: #f1fbfe !important;
     .fc-daygrid-day-top {
       a {
-        color: ${(props) => props.theme.Bg.mainColor5};
+        color: #ffffff;
         font-weight: 600;
-        text-decoration-line: underline;
         text-decoration-color: ${(props) => props.theme.Bg.mainColor4};
         text-decoration-thickness: 2px;
+        background-color: ${(props) => props.theme.Bg.mainColor5};
+        border-radius: 50%;
       }
     }
   }

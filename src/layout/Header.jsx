@@ -7,7 +7,7 @@ import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
 import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMyProfile } from "../redux/modules/usersSlice";
+import { __getHeaderProfile } from "../redux/modules/usersSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
@@ -34,9 +34,10 @@ function Header() {
   // 헤더 클릭한 값 state
   const { data } = useSelector((state) => state.header);
 
-  const myProfile = useSelector((state) => state.users.myProfile);
-  // 헤더 프로필 이미지 가져오기
+  const headerProfile = useSelector((state) => state.users.headerProfile);
+  console.log(headerProfile);
 
+  // 헤더 프로필 이미지 가져오기
   useEffect(() => {
     setClickNav(data);
   }, [clickNav, data]);
@@ -44,9 +45,9 @@ function Header() {
   useEffect(() => {
     // 프로필 수정시에도 get요청 다시하기
     if (userId) {
-      dispatch(__getMyProfile(userId.userId));
+      dispatch(__getHeaderProfile(userId.userId));
     }
-  }, [isEditProfile, token]);
+  }, [isEditProfile, token, isDropdownOpen]);
 
   // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
@@ -72,7 +73,7 @@ function Header() {
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
     }
-  }, [myProfile]);
+  }, [headerProfile]);
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -170,17 +171,17 @@ function Header() {
                 {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
                 <Alert onClick={notificationClick} />
                 <Image onClick={handleDropdown}>
-                  <img src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
+                  <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
                   {isDropdownOpen && (
                     <DropdownFrame>
                       <ContentWrapper>
                         <ProfileWrap onClick={moveProfileDetail}>
                           <PhotoWrap>
-                            <ProfilePhoto src={myProfile && myProfile?.profileImage ? myProfile.profileImage : defaultProfile} />
+                            <ProfilePhoto src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
                           </PhotoWrap>
                           <IntroductionWrap>
-                            <NameWrap>{myProfile.nickName} </NameWrap>
-                            <EmailWrap>@{myProfile.email.split("@")[0]}</EmailWrap>
+                            <NameWrap>{headerProfile.nickName} </NameWrap>
+                            <EmailWrap>@{headerProfile.email.split("@")[0]}</EmailWrap>
                           </IntroductionWrap>
                         </ProfileWrap>
                         <GapArea></GapArea>
