@@ -29,6 +29,7 @@ const Bg = {
   mainColor4: "#A7EAFF;",
   mainColor5: "#0EAFE1;",
   mainColor6: "#E2CCFB;",
+  mainColor7: "#E1E7ED;",
 
   calendar1: "#FFEBF5",
   calendar2: "#FDF2DE",
