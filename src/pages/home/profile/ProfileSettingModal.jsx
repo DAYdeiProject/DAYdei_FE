@@ -15,15 +15,16 @@ import { CategoryText } from "../calendar/CalendarBasic";
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
   //프로필 파일
   const [profile, setProfile] = useState("");
-  //프로필 파일의 이름
-  // const [profileName, setProfileName] = useState("");
   //업로드된 프로필 이미지 URL 상태 저장
   const [profileImageUrl, setProfileImageUrl] = useState("");
-
+  //업로드 완료된 프로필 이미지 URL 셀렉터로 갖고와서 state에 저장
+  const [updatedProfileUrl, setUpdatedProfileUrl] = useState("");
+  //배경 파일
   const [background, setBackground] = useState("");
-
   //업로드된 배경 이름 상태
   const [backgroundImageName, setBackgroundImageName] = useState("");
+  //업로드 완료된 배경 이미지 URL 셀렉터로 갖고와서 state에 저장
+  const [updatedBackgroundUrl, setUpdatedBackgroundUrl] = useState("");
   //모달에서 현재 위치한 탭 상태
   const [isProfileSectionOpen, setIsProfileSectionOpen] = useState(true);
 
@@ -55,6 +56,16 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
+  //myProfile.profileImage가 있다면 state에 저장
+  useEffect(() => {
+    if (myProfile.profileImage) {
+      setUpdatedProfileUrl(myProfile.profileImage);
+    }
+    if (myProfile.backgroundImage) {
+      setUpdatedBackgroundUrl(myProfile.backgroundImage);
+    }
+  }, [myProfile.profileImage, myProfile.backgroundImage]);
+
   //내 프로필의 카테고리 리스트
   const myCategory = myProfile.categoryList;
   //프로필 변경시 내 프로필 GET요청
@@ -76,14 +87,14 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     if (file && file.size > 10 * 1024 * 1024) {
       alert("파일 사이즈가 10mb 를 넘습니다.");
       e.target.value = null;
-      return; // stop the function if the file is too large
+      return;
     }
     setProfile(file);
     setProfileImageUrl(URL.createObjectURL(file));
-    // setProfileName(file.name);
   };
 
-  console.log("업로드된 프로필", profile, "프로필 url", profileImageUrl);
+  // console.log("업로드된 프로필", profile, "프로필 url", profileImageUrl);
+  // console.log("저장된myProfile", myProfile.profileImage);
 
   useEffect(() => {
     setBackgroundImageName(background ? background.name : "");
@@ -94,7 +105,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     if (file && file.size > 10 * 1024 * 1024) {
       alert("파일 사이즈가 10mb 를 넘습니다.");
       e.target.value = null;
-      return; // stop the function if the file is too large
+      return;
     }
     if (file) {
       setBackground(file);
@@ -105,18 +116,20 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const deleteImageHandler = () => {
     setProfile("");
     setProfileImageUrl("");
-    // setProfileName("");
-    console.log("엑스표 누른 뒤 프로필이미지 url", profileImageUrl);
-    if (myProfile.profileImage) {
-      const newProfile = [myProfile.profileImage];
-      console.log("지우기 전 -->", newProfile);
-      setProfile(newProfile.slice(1));
-      console.log("지운 후-->", profile);
-    }
+    setUpdatedProfileUrl("");
+    // console.log("엑스표 누른 뒤 프로필이미지 url", profileImageUrl);
+    // if (myProfile.profileImage) {
+    //   const newProfile = [myProfile.profileImage];
+    //   console.log("지우기 전 -->", newProfile);
+    //   setProfile(newProfile.slice(1));
+    //   console.log("지운 후-->", profile);
+    // }
+    // console.log("삭제 후 profile-->", profile, "삭제 후 profileImageUrl", profileImageUrl);
   };
 
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
+    setUpdatedBackgroundUrl("");
   };
 
   //제출 버튼 클릭 시 호출되는 함수
@@ -203,9 +216,11 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                       <MyProfileSection>
                         <PhotoArea>
                           <PhotoWrapSquare>
-                            {profileImageUrl || (myProfile.profileImage && profile.length !== 0) ? <CancelIcon onClick={deleteImageHandler} /> : null}
+                            {profileImageUrl || myProfile.profileImage ? <CancelIcon onClick={deleteImageHandler} /> : null}
                             <PhotoWrap>
-                              {profileImageUrl ? (
+                              {updatedProfileUrl ? (
+                                <img src={updatedProfileUrl} alt="profile" width="100%" height="100%" />
+                              ) : profileImageUrl ? (
                                 <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
                               ) : (
                                 <ProfilePhotoIcon onClick={handleProfileImageClick} />
@@ -216,16 +231,25 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                           <BackgroundImageArea>
                             <BackgroundBox>
                               <AddBackgroundButton>
-                                <input id="backgroundInput" name="backgroundImage" type="file" hidden onChange={(e) => backgroundImageHandler(e)} />
+                                <input
+                                  id="backgroundInput"
+                                  name="backgroundImage"
+                                  type="file"
+                                  key={new Date()}
+                                  hidden
+                                  onChange={(e) => backgroundImageHandler(e)}
+                                />
                                 <span onClick={handleBackgroundButtonClick}>배경 사진</span>
                               </AddBackgroundButton>
                               <BackgroundRight>
-                                {backgroundImageName ? (
+                                {updatedBackgroundUrl ? (
+                                  <FileNameWrap>{updatedBackgroundUrl.substring(0, 6)}..</FileNameWrap>
+                                ) : backgroundImageName ? (
                                   <FileNameWrap>{backgroundImageName.substring(0, 6)}..</FileNameWrap>
                                 ) : myProfile.backgroundImage && background.length !== 0 ? (
                                   <FileNameWrap>{backgroundImageName}</FileNameWrap>
                                 ) : null}
-                                {backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
+                                {updatedBackgroundUrl || backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
                               </BackgroundRight>
                             </BackgroundBox>
                             <LimitTextWrap>10MB 이내의 이미지 파일을 업로드 해주세요.</LimitTextWrap>
