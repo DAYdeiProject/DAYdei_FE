@@ -111,7 +111,13 @@ const ColorBoxWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
 `;
 const ColorBoxContainer = styled(ColorBoxWrapper)`
-  justify-content: left;
+  //justify-content: left;
+  background: #afb4bf;
+  div {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+  }
 `;
 const ColorBox = styled.div`
   width: ${(props) => (props.isClick ? "21px" : "18px")};
@@ -119,7 +125,7 @@ const ColorBox = styled.div`
   background-color: ${(props) => props.value};
   border-radius: 50%;
   margin-right: 20px;
-  border: ${(props) => (props.isClick ? "2.5px solid #121212" : "0.5px solid #121212")};
+  border: ${(props) => (props.isClick ? "2px solid #121212" : "0.5px solid #121212")};
 `;
 
 // 초대하기 영역
