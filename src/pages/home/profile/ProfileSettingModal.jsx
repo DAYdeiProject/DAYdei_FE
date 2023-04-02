@@ -216,7 +216,11 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                       <MyProfileSection>
                         <PhotoArea>
                           <PhotoWrapSquare>
-                            {profileImageUrl || myProfile.profileImage ? <CancelIcon onClick={deleteImageHandler} /> : null}
+                            {updatedProfileUrl ? (
+                              <CancelIcon onClick={deleteImageHandler} />
+                            ) : profileImageUrl ? (
+                              <CancelIcon onClick={deleteImageHandler} />
+                            ) : null}
                             <PhotoWrap>
                               {updatedProfileUrl ? (
                                 <img src={updatedProfileUrl} alt="profile" width="100%" height="100%" />
@@ -272,10 +276,12 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                             <SmallTextBox>관심 카테고리 :</SmallTextBox>
                             <TextMain>
                               <CategoryWrap>
-                                {myCategory.map((item) => {
-                                  let newCategory = CategoryText(item);
-                                  return <span>{newCategory}</span>;
-                                })}
+                                {myCategory.length !== 0
+                                  ? myCategory.map((item) => {
+                                      let newCategory = CategoryText(item);
+                                      return <span>{newCategory}</span>;
+                                    })
+                                  : "선택한 카테고리가 없습니다."}
                               </CategoryWrap>
                             </TextMain>
                           </TextWrap>
