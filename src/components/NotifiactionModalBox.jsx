@@ -15,7 +15,7 @@ export default function NotifiactionModalBox({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, isLoading } = useSelector((state) => state.connect);
+  const { data } = useSelector((state) => state.connect);
 
   useEffect(() => {
     dispatch(__getConnect(token));
@@ -38,7 +38,6 @@ export default function NotifiactionModalBox({ ...props }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <NotificationWrapper>
         <NotiHeaderContainer>
           <div>

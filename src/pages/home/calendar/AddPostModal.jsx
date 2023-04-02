@@ -571,7 +571,9 @@ function AddPostModal({ ...props }) {
               <postStyle.ToggleContainer>{isShowContent ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
             </postStyle.ContentBoxContainer>
             <postStyle.WriteContentBox isShow={isShowContent}>
-              <textarea {...register("content")} />
+              <div>
+                <textarea {...register("content")} />
+              </div>
             </postStyle.WriteContentBox>
           </postStyle.ContentWrapper>
 

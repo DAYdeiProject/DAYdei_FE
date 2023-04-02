@@ -16,7 +16,7 @@ export default function OtherUserCalendar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
 
-  const { otherUserUpdate, otherUserShare, isLoading } = useSelector((state) => state.calendar);
+  const { otherUserUpdate, otherUserShare } = useSelector((state) => state.calendar);
   //console.log("otherUserUpdate : ", otherUserUpdate);
   //console.log("otherUserShare : ", otherUserShare);
 
@@ -55,7 +55,6 @@ export default function OtherUserCalendar({ ...props }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <OtherWrapper isOpen={props.isOtherOpen}>
         {/* <IconBox>
           <Calnedar width={28} height={28} onClick={closeScheduleHandler} />

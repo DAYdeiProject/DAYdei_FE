@@ -274,13 +274,16 @@ const WriteLocationBox = styled.div`
 const ContentWrapper = styled(LocationWrapper)``;
 const ContentBoxContainer = styled(LocationContainer)``;
 const WriteContentBox = styled(WriteLocationBox)`
+  div {
+    border: 1px solid ${(props) => props.theme.Bg.color3};
+    border-radius: 8px;
+    padding: 10px;
+  }
   textarea {
     width: 100%;
     height: 100px;
-    padding: 10px;
-    border: 1px solid ${(props) => props.theme.Bg.color3};
-    border-radius: 8px;
     font-size: ${(props) => props.theme.Fs.size14};
+    border: none;
     resize: none;
   }
 `;

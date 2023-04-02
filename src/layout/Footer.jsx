@@ -1,17 +1,12 @@
-import Cookies from "js-cookie";
-import React, { useEffect } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 function Footer() {
-  let token = "";
-  useEffect(() => {
-    token = Cookies.get("accessJWTToken");
-  }, []);
+  const param = useParams();
   return (
     <>
-      {token ? (
-        <></>
-      ) : (
+      {!param.id && (
         <FooterWarrper>
           <LeftTextContainer>
             <LogoText>Daydei</LogoText>

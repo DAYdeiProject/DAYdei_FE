@@ -21,7 +21,7 @@ import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
 import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
 import ModalBox from "../../../elements/ModalBox";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { setNotificationPostId } from "../../../redux/modules/headerReducer";
+import { setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(true);
@@ -39,19 +39,19 @@ export default function DetailPostModal({ ...props }) {
   const [notiContent, setNotiContent] = useState("");
   // 정보있는거에 따른 높이 state
   const [isHeight, setIsHeight] = useState("");
-
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const param = useParams();
 
-  const { detail, isLoading } = useSelector((state) => state.calendar);
+  const { detail } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
 
-  console.log("detail data==========", detail);
+  //console.log("detail data==========", detail);
+
   useEffect(() => {
-    if (detail) {
-      console.log("dddddddddddd");
+    if (detail || []) {
+      //console.log("dddddddddddd");
       // if (detail.writer.id !== userInfo.userId) {
       //   props.setDisabled(false);
       // }
@@ -125,6 +125,7 @@ export default function DetailPostModal({ ...props }) {
     setEndDay("");
     setIsColor("");
     dispatch(setNotificationPostId(""));
+    dispatch(textState("home"));
   };
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
@@ -176,7 +177,6 @@ export default function DetailPostModal({ ...props }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <ModalBox isOpen={props.isDetailPost} width={"500px"} height={isHeight}>
         <DetailPostWrapper>
           <DetailContentWrapper>
@@ -357,9 +357,11 @@ const DetailPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   section {
     border-top: 1px solid ${(props) => props.theme.Bg.color3};
+  }
+  section:nth-child(1) {
+    border-top: none;
   }
 `;
 
@@ -384,7 +386,9 @@ const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
   min-height: 150px;
-  max-height: 600px;
+  max-height: 500px;
+  margin-bottom: 20px;
+  padding: 0 10px;
   overflow-y: auto;
 `;
 
@@ -416,7 +420,7 @@ const DetailContetnContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
   padding: 0 10px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 `;
 
 const TitleWrapper = styled.section`
@@ -425,8 +429,10 @@ const TitleWrapper = styled.section`
   gap: 8px;
   ${(props) => props.theme.ContentTitleText};
   font-size: 24px;
-  padding-bottom: 25px;
-  border: none !important;
+  padding-bottom: 20px;
+  margin-bottom: 15px;
+  border-top: none !important;
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
   span {
     padding-left: 10px;
     border-left: ${(props) => props.pickColor && `4px solid` + props.pickColor};
@@ -444,7 +450,6 @@ const TitleTimeContainer = styled.div`
     border-left: none;
     padding: 0;
   }
-
   div {
     ${(props) => props.theme.FlexRow}
     width: 15px;
@@ -479,8 +484,9 @@ const ImgWrapper = styled(FriendWrapper)`
 const ScopeWidthWrapper = styled.div`
   width: 100%;
 `;
-const ScopeWrapper = styled(FriendWrapper)`
+const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRowBetween}
+  padding: 20px 0;
   border-top: 1px solid ${(props) => props.theme.Bg.color3};
 `;
 const ScopeContainer = styled.div`

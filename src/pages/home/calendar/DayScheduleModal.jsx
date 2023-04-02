@@ -16,7 +16,7 @@ export default function DayScheduleModal({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
 
-  const { todayList, isLoading } = useSelector((state) => state.calendar);
+  const { todayList } = useSelector((state) => state.calendar);
   //console.log("todayList------>", todayList);
 
   useEffect(() => {
@@ -35,7 +35,6 @@ export default function DayScheduleModal({ ...props }) {
   };
   return (
     <>
-      {isLoading && <Loading />}
       <ModalBox isOpen={props.isTodaySchedule} width={"500px"} height={"500px"}>
         <TodayScheduleWrapper>
           <postStyle.HeaderWrapper>

@@ -120,7 +120,7 @@ function Header() {
       },
       heartbeatTimeout: 3600000,
     });
-    
+
     eventConnect.onmessage = (event) => {
       const result = event.data;
       console.log("connect ==> ", result);
@@ -210,7 +210,11 @@ function Header() {
           setIsEditProfile={setIsEditProfile}
         />
       )}
-      <ProfileDetailModal isProfileDetail={isProfileDetail} setIsProfileDetail={setIsProfileDetail} />
+      <ProfileDetailModal
+        isProfileDetail={isProfileDetail}
+        setIsProfileDetail={setIsProfileDetail}
+        setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
+      />
     </>
   );
 }

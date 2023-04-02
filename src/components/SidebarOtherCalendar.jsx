@@ -21,7 +21,7 @@ export default function SidebarOtherCalendar({ userId }) {
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
   const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
   const navigate = useNavigate();
-  const { otherUser, isLoading } = useSelector((state) => state.calendar);
+  const { otherUser } = useSelector((state) => state.calendar);
 
   useEffect(() => {
     dispatch(__getOtherUser({ userId: param.id, token }));
@@ -91,9 +91,8 @@ export default function SidebarOtherCalendar({ userId }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <ProfileWrapper>
-        <BackImgWrapper>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
+        <BackImgWrapper isCover={otherUser?.backgroundImage}>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
         <ImgWrapper>
           <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
         </ImgWrapper>
@@ -143,10 +142,11 @@ const ProfileWrapper = styled.div`
 `;
 
 const BackImgWrapper = styled.div`
-  background-color: ${(props) => props.theme.Bg.mainColor3};
+  background-color: ${(props) => (props.isCover ? "#ffffff" : props.theme.Bg.mainColor3)};
   width: 100%;
   height: 370px;
   border: none;
+  background-size: cover;
   img {
     width: 100%;
     height: 370px;
