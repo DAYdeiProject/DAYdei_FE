@@ -42,7 +42,7 @@ function AddPostModal({ ...props }) {
   const [endDate, setEndDate] = useState(startDate);
   const [isAllDay, setIsAllDay] = useState(getValues("allDay"));
   const [color, setColor] = useState("RED");
-  const [isColor, setIsColor] = useState("#FFEBF5");
+  const [isColor, setIsColor] = useState("#F6A89E");
   const [isShowLocation, setIsShowLocation] = useState(false);
   const [isShowContent, setIsShowContent] = useState(false);
   const [isShowImg, setIsShowImg] = useState(false);
@@ -220,7 +220,7 @@ function AddPostModal({ ...props }) {
     props.setIsAddPost(false);
     // 초기화
     setIsAllDay(false);
-    setIsColor("#EC899F");
+    setIsColor("#F6A89E");
     setFileName([]);
     setFileImg([]);
     setFileList([]);
@@ -490,9 +490,11 @@ function AddPostModal({ ...props }) {
               <span>달력</span>
             </postStyle.TextSpan>
             <postStyle.ColorBoxContainer>
-              {colorList.map((item, i) => (
-                <postStyle.ColorBox key={i} value={item} isClick={item === isColor} {...register("color")} onClick={() => colorClick(item)} />
-              ))}
+              <div>
+                {colorList.map((item, i) => (
+                  <postStyle.ColorBox key={i} value={item} isClick={item === isColor} {...register("color")} onClick={() => colorClick(item)} />
+                ))}
+              </div>
             </postStyle.ColorBoxContainer>
           </postStyle.ColorBoxWrapper>
 
