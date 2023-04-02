@@ -52,7 +52,7 @@ function IntroPage() {
     }
   };
 
-  const URI = "https://daydei.vercel.app/kakao";
+  const URI = "https://daydei.life/kakao";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
 
   const kakaologinClick = () => {
