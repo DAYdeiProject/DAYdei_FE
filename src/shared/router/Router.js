@@ -6,6 +6,7 @@ import IntroPage from "../../pages/intro/IntroPage";
 import KakaoPage from "../../pages/kakao/KakaoPage";
 import KakaoFriendsPage from "../../pages/kakao/KakaoFriendsPage";
 import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
 import MyListPage from "../../pages/friendslist/MyListPage";
 import SearchPage from "../../pages/search/SearchPage";
 import FriendsDetailPage from "../../pages/friendsDetail/FriendsDetailPage";
@@ -26,6 +27,7 @@ function Router() {
           <Route path="/kakao" element={<KakaoPage />} />
           <Route path="/friends" element={<KakaoFriendsPage />} />
         </Routes>
+        <Footer />
       </Wrapper>
     </BrowserRouter>
   );
@@ -36,5 +38,6 @@ export default Router;
 const Wrapper = styled.div`
   min-width: 1920px;
   max-width: 1920px;
+  height: 100vh;
   margin: 0 auto;
 `;

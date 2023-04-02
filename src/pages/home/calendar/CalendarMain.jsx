@@ -255,6 +255,7 @@ function CalendarMain({ ...props }) {
           setOtherCalendarState={setOtherCalendarState}
           otherCalendarPostId={otherCalendarPostId}
           setOtherCalendarPostId={setOtherCalendarPostId}
+          setDisabled={setDisabled}
         />
         <DayScheduleModal
           isTodaySchedule={isTodaySchedule}

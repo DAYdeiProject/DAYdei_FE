@@ -48,9 +48,13 @@ export default function DetailPostModal({ ...props }) {
   const { detail, isLoading } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
 
-  //console.log(detail);
+  console.log("detail data==========", detail);
   useEffect(() => {
     if (detail) {
+      console.log("dddddddddddd");
+      // if (detail.writer.id !== userInfo.userId) {
+      //   props.setDisabled(false);
+      // }
       const year = getYear(new Date(detail.startDate));
       const month = getMonth(new Date(detail.startDate));
       const date = getDate(new Date(detail.startDate));
@@ -70,16 +74,16 @@ export default function DetailPostModal({ ...props }) {
       if (detail?.participant === [] && detail?.location === "" && detail?.content === "" && detail?.image === []) {
         setIsHeight("250px");
       }
-    }
 
-    const start = getDay(new Date(detail.startDate));
-    const end = getDay(new Date(detail.endDate));
-    const startDay = DayCheck(start);
-    const endDay = DayCheck(end);
-    setStartDay(startDay);
-    setEndDay(endDay);
-    const color = ColorFromDB(detail.color);
-    setIsColor(color);
+      const start = getDay(new Date(detail.startDate));
+      const end = getDay(new Date(detail.endDate));
+      const startDay = DayCheck(start);
+      const endDay = DayCheck(end);
+      setStartDay(startDay);
+      setEndDay(endDay);
+      const color = ColorFromDB(detail.color);
+      setIsColor(color);
+    }
   }, [detail, props.isSubmit]);
 
   useEffect(() => {
@@ -177,7 +181,7 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
-              {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
+              {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
                 <MoreY className="dotsIcon" onClick={editOpenClickHandler} />
               )}
               <Dismiss className="closeIncon" onClick={closeModal} />
@@ -319,23 +323,27 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {notiInfo && (
+          {detail.writer && detail?.writer.id !== userInfo.userId && (
             <InviteWrapper>
-              {notiState === "requestPost" ? (
-                <>
-                  <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
-                  <div>
-                    <button onClick={acceptClick}>수락</button>
-                    <button onClick={rejectClick}>거절</button>
-                  </div>
-                </>
-              ) : (
-                notiState === "acceptPost" && (
-                  <span>
-                    {notiContent.split("@")[0]}
-                    {notiContent.split("@")[1]}
-                  </span>
+              {notiInfo ? (
+                notiState === "requestPost" ? (
+                  <>
+                    <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
+                    <div>
+                      <button onClick={acceptClick}>수락</button>
+                      <button onClick={rejectClick}>거절</button>
+                    </div>
+                  </>
+                ) : (
+                  notiState === "acceptPost" && (
+                    <span>
+                      {notiContent.split("@")[0]}
+                      {notiContent.split("@")[1]}
+                    </span>
+                  )
                 )
+              ) : (
+                <span>{detail.writer.name}님의 일정입니다.</span>
               )}
             </InviteWrapper>
           )}

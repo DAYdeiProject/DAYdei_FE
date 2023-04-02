@@ -283,6 +283,7 @@ function AddPostModal({ ...props }) {
 
   // 클릭한 이미지 파일 삭제
   const deleteImgFile = (index, save) => {
+    //showToggieHandler("img");
     if (save) {
       const newSaveView = saveView.filter((itme, i) => i !== index);
       setSaveView([...newSaveView]);
@@ -304,6 +305,7 @@ function AddPostModal({ ...props }) {
 
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
+    console.log("일정 작성시 data ----> ", data);
     if (data.title === "") {
       return alert("제목을 입력해주세요.");
     }
@@ -547,8 +549,8 @@ function AddPostModal({ ...props }) {
             </postStyle.InviteSearchContainer>
           </postStyle.InviteWrapper>
 
-          <postStyle.LocationWrapper onClick={isShowLocation ? () => hideToggieHandler("location") : () => showToggieHandler("location")}>
-            <postStyle.LocationContainer>
+          <postStyle.LocationWrapper>
+            <postStyle.LocationContainer onClick={isShowLocation ? () => hideToggieHandler("location") : () => showToggieHandler("location")}>
               <Location />
               <postStyle.TextSpan>
                 <span>장소</span>
@@ -560,8 +562,8 @@ function AddPostModal({ ...props }) {
             </postStyle.WriteLocationBox>
           </postStyle.LocationWrapper>
 
-          <postStyle.ContentWrapper onClick={isShowContent ? () => hideToggieHandler("content") : () => showToggieHandler("content")}>
-            <postStyle.ContentBoxContainer>
+          <postStyle.ContentWrapper>
+            <postStyle.ContentBoxContainer onClick={isShowContent ? () => hideToggieHandler("content") : () => showToggieHandler("content")}>
               <Memo />
               <postStyle.TextSpan>
                 <span>상세</span>
@@ -573,8 +575,8 @@ function AddPostModal({ ...props }) {
             </postStyle.WriteContentBox>
           </postStyle.ContentWrapper>
 
-          <postStyle.ImgWrapper onClick={isShowImg ? () => hideToggieHandler("img") : () => showToggieHandler("img")}>
-            <postStyle.ImgContainer>
+          <postStyle.ImgWrapper>
+            <postStyle.ImgContainer onClick={isShowImg ? () => hideToggieHandler("img") : () => showToggieHandler("img")}>
               <ImageIcon />
               <postStyle.TextSpan>
                 <span>사진</span>

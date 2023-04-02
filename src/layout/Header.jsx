@@ -35,7 +35,7 @@ function Header() {
   const { data } = useSelector((state) => state.header);
 
   const headerProfile = useSelector((state) => state.users.headerProfile);
-  console.log(headerProfile);
+  //console.log(headerProfile);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
@@ -112,7 +112,7 @@ function Header() {
 
   // SSE 알림
   useEffect(() => {
-    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+    const eventConnect = new EventSource(`https://sparta-daln.shop/api/connect`, {
       headers: {
         Authorization: token,
         "Content-Type": "text/event-stream",
@@ -120,9 +120,9 @@ function Header() {
       },
       heartbeatTimeout: 3600000,
     });
-
-    eventConnect.onmessage = async (event) => {
-      const result = await event.data;
+    
+    eventConnect.onmessage = (event) => {
+      const result = event.data;
       console.log("connect ==> ", result);
 
       if (!result.includes("EventStream")) {
