@@ -37,7 +37,7 @@ export default function SidebarMyCalendar({ ...props }) {
   } else if (nowDay === 6) {
     day = now + " (토)";
   }
-  const { today, update } = useSelector((state) => state.calendar);
+  const { today, update, isLoading } = useSelector((state) => state.calendar);
   const { data } = useSelector((state) => state.header);
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function SidebarMyCalendar({ ...props }) {
 
   return (
     <>
+      {isLoading && <Loading />}
       <SidebarWrapper>
         <NickNameContainer>
           <NickNameTitle>반가워요. {myProfile.nickName}님👋🏻</NickNameTitle>

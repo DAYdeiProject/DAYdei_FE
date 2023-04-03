@@ -3,25 +3,22 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 function Footer() {
-  const param = useParams();
   return (
     <>
-      {!param.id && (
-        <FooterWarrper>
-          <LeftTextContainer>
-            <LogoText>Daydei</LogoText>
-            <InfoText>
-              <span>사업자등록번호 : 691-81-01027</span>
-              <span>대표 : 정다정</span>
-              <span>인성한우삼천포점</span>
-              <span>주소 : 경남 사천시 벌리4길, 74, 1층</span>
-            </InfoText>
-          </LeftTextContainer>
-          <RightTextContainer>
-            <span>© 2023. Daydei. All rights reserved.</span>
-          </RightTextContainer>
-        </FooterWarrper>
-      )}
+      <FooterWarrper>
+        <LeftTextContainer>
+          <LogoText>Daydei</LogoText>
+          <InfoText>
+            <span>사업자등록번호 : 691-81-01027</span>
+            <span>대표 : 정다정</span>
+            <span>인성한우삼천포점</span>
+            <span>주소 : 경남 사천시 벌리4길, 74, 1층</span>
+          </InfoText>
+        </LeftTextContainer>
+        <RightTextContainer>
+          <span>© 2023. Daydei. All rights reserved.</span>
+        </RightTextContainer>
+      </FooterWarrper>
     </>
   );
 }

@@ -44,8 +44,6 @@ function CalendarMain({ ...props }) {
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
   const [moreDate, setMoreDate] = useState("");
-  // drag 수정 막기
-  const [isDrag, setIsDrag] = useState(true);
   // 타유저 캘린더 share 일정 state
   const [otherCalendarState, setOtherCalendarState] = useState(false);
   // 타유저  캘린더 share 일정 open state
@@ -57,18 +55,14 @@ function CalendarMain({ ...props }) {
   const param = useParams();
   const userInfo = GetUserInfo();
 
-  const { total, isLoading } = useSelector((state) => {
-    return state.calendar;
-  });
+  const { total, isLoading } = useSelector((state) => state.calendar);
 
   //console.log("메인----------", total);
   useEffect(() => {
     if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
       setDisabled(true);
-      setIsDrag(false);
     } else {
-      setIsDrag(true);
       setDisabled(false);
     }
     dispatch(__getTotalPosts({ userId: String(param.id), token }));
@@ -80,9 +74,17 @@ function CalendarMain({ ...props }) {
     if (total && total.length !== 0) {
       const result = total.map((data) => {
         const color = ColorFromDB(data.color);
+
         let end = "";
         let startDate = "";
         let endtDate = "";
+        let isEdit = "";
+
+        if (data.color === "GRAY" || String(userInfo.userId) !== param.id) {
+          isEdit = false;
+        } else {
+          isEdit = true;
+        }
         // 종료날짜 format
         if (data.startDate === data.endDate) {
           end = data.endData;
@@ -108,6 +110,7 @@ function CalendarMain({ ...props }) {
           end: endtDate,
           color: color,
           textColor: "#121212",
+          editable: isEdit,
         };
       });
       setNewData(result);
@@ -161,7 +164,6 @@ function CalendarMain({ ...props }) {
 
       dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
-        //props.CookiessetSide(!props.side);
         props.setSide(!props.side);
       });
     }
@@ -216,7 +218,6 @@ function CalendarMain({ ...props }) {
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
           locale="ko"
-          editable={isDrag}
           dayMaxEventRows={true}
           displayEventTime={false}
           initialView="dayGridMonth"

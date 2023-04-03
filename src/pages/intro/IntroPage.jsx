@@ -15,6 +15,7 @@ import Header from "../../layout/Header";
 import { ReactComponent as Mail } from "../../assets/lcon/sign/mail.svg";
 import { ReactComponent as Key } from "../../assets/lcon/sign/key.svg";
 import PreviewArea from "./PreviewArea";
+import Footer from "../../layout/Footer";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -65,47 +66,55 @@ function IntroPage() {
   };
 
   return (
-    <ScreenLayout>
-      <PreviewArea />
-      <LoginWrapper
-        onSubmit={(e) => {
-          e.preventDefault();
-          loginHandler();
-        }}>
-        <LoginBox>
-          <TitleText>
-            <span>Daydei</span>
-            <span>공유하는 일상의 시작</span>
-          </TitleText>
-          <StInput>
-            <InputWrapper>
-              <Mail />
-              <input type="text" placeholder="이메일 주소" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
-            </InputWrapper>
-            <InputWrapper>
-              <Key />
-              <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
-            </InputWrapper>
-          </StInput>
-          <LoginButtton>로그인하기</LoginButtton>
-          <GapArea>
-            <span>또는</span>
-          </GapArea>
-          <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
-          <BottomText>
-            <JoinText>
-              <Link to="/join">회원가입</Link>
-            </JoinText>
-            <FindPassword onClick={FindPasswordModalOpenHandler}>
-              <div>비밀번호 찾기</div>
-            </FindPassword>
-            {isFindPasswordModalOpen && <FindPasswordModal setIsFindPasswordModalOpen={setIsFindPasswordModalOpen} />}
-          </BottomText>
-        </LoginBox>
-      </LoginWrapper>
-    </ScreenLayout>
+    <PageWrapper>
+      <ScreenLayout>
+        <PreviewArea />
+        <LoginWrapper
+          onSubmit={(e) => {
+            e.preventDefault();
+            loginHandler();
+          }}>
+          <LoginBox>
+            <TitleText>
+              <span>Daydei</span>
+              <span>공유하는 일상의 시작</span>
+            </TitleText>
+            <StInput>
+              <InputWrapper>
+                <Mail />
+                <input type="text" placeholder="이메일 주소" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
+              </InputWrapper>
+              <InputWrapper>
+                <Key />
+                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
+              </InputWrapper>
+            </StInput>
+            <LoginButtton>로그인하기</LoginButtton>
+            <GapArea>
+              <span>또는</span>
+            </GapArea>
+            <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
+            <BottomText>
+              <JoinText>
+                <Link to="/join">회원가입</Link>
+              </JoinText>
+              <FindPassword onClick={FindPasswordModalOpenHandler}>
+                <div>비밀번호 찾기</div>
+              </FindPassword>
+              {isFindPasswordModalOpen && <FindPasswordModal setIsFindPasswordModalOpen={setIsFindPasswordModalOpen} />}
+            </BottomText>
+          </LoginBox>
+        </LoginWrapper>
+      </ScreenLayout>
+      <Footer />
+    </PageWrapper>
   );
 }
+
+export const PageWrapper = styled.div`
+  ${(props) => props.theme.FlexCol};
+  height: calc(100vh - 64px - 2px);
+`;
 
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
@@ -129,7 +138,7 @@ export const LoginBox = styled.div`
 const TitleText = styled.div`
   ${(props) => props.theme.FlexCol};
   height: 80px;
-  margin-top: 200px;
+  margin-top: 210px;
   margin-bottom: 30px;
   span {
     font-size: 30px;

@@ -298,14 +298,8 @@ function AddPostModal({ ...props }) {
     }
   };
 
-  // 제목이 비었을때
-  useEffect(() => {
-    if (errors.title) alert(errors.title.message);
-  }, [errors]);
-
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
-    console.log("일정 작성시 data ----> ", data);
     if (data.title === "") {
       return alert("제목을 입력해주세요.");
     }
@@ -354,6 +348,7 @@ function AddPostModal({ ...props }) {
     if (fileList.length !== 0) {
       // 이미지 있을때
       dispatch(__postImgUpload({ images: imgList, token })).then((img) => {
+        console.log("img 실해", img);
         // 수정하기 일때
         if (props.modifyPostId) {
           if (saveView.length !== 0) {
@@ -391,6 +386,7 @@ function AddPostModal({ ...props }) {
         } else {
           newPost.image = img.payload;
           dispatch(__createNewPost({ newPost, token })).then((data) => {
+            console.log("일정작성시 실패----", data);
             if (data.error) {
               alert("작성 실패하였습니다.");
               closeClickHandler();
@@ -446,7 +442,7 @@ function AddPostModal({ ...props }) {
         </postStyle.HeaderWrapper>
 
         <postStyle.TitleWrapper>
-          <input {...register("title", { required: "제목을 입력해주세요." })} placeholder="일정 제목 추가" />
+          <input {...register("title")} placeholder="일정 제목 추가" />
         </postStyle.TitleWrapper>
 
         <postStyle.BodyWrapper>

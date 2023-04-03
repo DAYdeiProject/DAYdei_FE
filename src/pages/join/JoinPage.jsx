@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper } from "../intro/IntroPage";
+import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
 import useLogin from "../../hooks/useLogin";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
 import Header from "../../layout/Header";
@@ -10,6 +10,7 @@ import PreviewArea from "../intro/PreviewArea";
 import { ReactComponent as PwCheck } from "../../assets/lcon/sign/pwCheck.svg";
 import { ReactComponent as Security } from "../../assets/lcon/sign/security.svg";
 import { ReactComponent as Bcak } from "../../assets/lcon/sign/back.svg";
+import Footer from "../../layout/Footer";
 
 function JoinPage() {
   const {
@@ -76,86 +77,89 @@ function JoinPage() {
   };
 
   return (
-    <ScreenLayout>
-      <PreviewArea />
-      <LoginWrapper
-        onSubmit={(e) => {
-          e.preventDefault();
+    <PageWrapper>
+      <ScreenLayout>
+        <PreviewArea />
+        <LoginWrapper
+          onSubmit={(e) => {
+            e.preventDefault();
 
-          joinHandler();
-        }}>
-        <BackPage onClick={() => navigate("/")}>
-          <Bcak />
-          <span>뒤로가기</span>
-        </BackPage>
-        <JoinBox>
-          <JoinText>회원가입</JoinText>
-          <InputArea>
-            <InputWrapper>
-              <InputTitleText>이메일</InputTitleText>
-              <InputFrame isBorder={email === "" ? "none" : isEmail}>
-                <InputInnerWrap>
-                  <input type="text" value={email} onChange={handleEmailChange} />
-                  <CheckButton onClick={() => emailCheckHandler(email)}>중복확인</CheckButton>
-                </InputInnerWrap>
-              </InputFrame>
-              <MessageWrapper isTrue={isEmail}>{isEmailMessage}</MessageWrapper>
-            </InputWrapper>
+            joinHandler();
+          }}>
+          <BackPage onClick={() => navigate("/")}>
+            <Bcak />
+            <span>뒤로가기</span>
+          </BackPage>
+          <JoinBox>
+            <JoinText>회원가입</JoinText>
+            <InputArea>
+              <InputWrapper>
+                <InputTitleText>이메일</InputTitleText>
+                <InputFrame isBorder={email === "" ? "none" : isEmail}>
+                  <InputInnerWrap>
+                    <input type="text" value={email} onChange={handleEmailChange} />
+                    <CheckButton onClick={() => emailCheckHandler(email)}>중복확인</CheckButton>
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper isTrue={isEmail}>{isEmailMessage}</MessageWrapper>
+              </InputWrapper>
 
-            <InputWrapper>
-              <InputTitleText>비밀번호</InputTitleText>
-              <InputFrame isBorder={password === "" ? "none" : isPw}>
-                <InputInnerWrap>
-                  <input type="password" value={password} onChange={handlePasswordChange} />
-                  {isPw ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
-                </InputInnerWrap>
-              </InputFrame>
-              <MessageWrapper isTrue={isPw}>{isPwMessage}</MessageWrapper>
-            </InputWrapper>
+              <InputWrapper>
+                <InputTitleText>비밀번호</InputTitleText>
+                <InputFrame isBorder={password === "" ? "none" : isPw}>
+                  <InputInnerWrap>
+                    <input type="password" value={password} onChange={handlePasswordChange} />
+                    {isPw ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper isTrue={isPw}>{isPwMessage}</MessageWrapper>
+              </InputWrapper>
 
-            <InputWrapper>
-              <InputTitleText>비밀번호 확인</InputTitleText>
-              <InputFrame isBorder={passwordCheck === "" ? "none" : password === passwordCheck}>
-                <InputInnerWrap>
-                  <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
-                  {passwordCheck !== "" && password === passwordCheck ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
-                </InputInnerWrap>
-              </InputFrame>
-              <MessageWrapper isTrue={passwordCheck !== "" && password === passwordCheck}>{isPwCheckMessage}</MessageWrapper>
-            </InputWrapper>
+              <InputWrapper>
+                <InputTitleText>비밀번호 확인</InputTitleText>
+                <InputFrame isBorder={passwordCheck === "" ? "none" : password === passwordCheck}>
+                  <InputInnerWrap>
+                    <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
+                    {passwordCheck !== "" && password === passwordCheck ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper isTrue={passwordCheck !== "" && password === passwordCheck}>{isPwCheckMessage}</MessageWrapper>
+              </InputWrapper>
 
-            <InputWrapper>
-              <InputTitleText>닉네임</InputTitleText>
-              <InputFrame isBorder={nickName === "" ? "none" : nicknameRegex}>
-                <InputInnerWrap>
-                  <input type="text" value={nickName} onChange={handleNickNameChange} maxLength="8" />
-                  {nicknameRegex && <PwCheck className="joinIcon" />}
-                </InputInnerWrap>
-              </InputFrame>
-              <MessageWrapper isTrue={nicknameRegex}>{isNickNameMessage}</MessageWrapper>
-            </InputWrapper>
+              <InputWrapper>
+                <InputTitleText>닉네임</InputTitleText>
+                <InputFrame isBorder={nickName === "" ? "none" : nicknameRegex}>
+                  <InputInnerWrap>
+                    <input type="text" value={nickName} onChange={handleNickNameChange} maxLength="8" />
+                    {nicknameRegex && <PwCheck className="joinIcon" />}
+                  </InputInnerWrap>
+                </InputFrame>
+                <MessageWrapper isTrue={nicknameRegex}>{isNickNameMessage}</MessageWrapper>
+              </InputWrapper>
 
-            <InputWrapper>
-              <InputTitleText>생일</InputTitleText>
-              <InputFrame isBorder={birthday === "" ? "none" : true}>
-                <InputInnerWrap>
-                  <input type="text" placeholder="예시 : 0325" value={birthday} onChange={handleBirthdayChange} />
-                </InputInnerWrap>
-              </InputFrame>
-            </InputWrapper>
-          </InputArea>
+              <InputWrapper>
+                <InputTitleText>생일</InputTitleText>
+                <InputFrame isBorder={birthday === "" ? "none" : true}>
+                  <InputInnerWrap>
+                    <input type="text" placeholder="예시 : 0325" value={birthday} onChange={handleBirthdayChange} />
+                  </InputInnerWrap>
+                </InputFrame>
+              </InputWrapper>
+            </InputArea>
 
-          <SignUpButtton disabled={!nicknameRegex}>가입하기</SignUpButtton>
+            <SignUpButtton disabled={!nicknameRegex}>가입하기</SignUpButtton>
 
-          <BottomText>
-            <div>이미 가입된 계정이 있나요?</div>
-            <div>
-              <Link to="/">로그인하기</Link>
-            </div>
-          </BottomText>
-        </JoinBox>
-      </LoginWrapper>
-    </ScreenLayout>
+            <BottomText>
+              <div>이미 가입된 계정이 있나요?</div>
+              <div>
+                <Link to="/">로그인하기</Link>
+              </div>
+            </BottomText>
+          </JoinBox>
+        </LoginWrapper>
+      </ScreenLayout>
+      <Footer />
+    </PageWrapper>
   );
 }
 
@@ -176,7 +180,7 @@ const BackPage = styled.div`
 `;
 const JoinText = styled.div`
   ${(props) => props.theme.FlexCol};
-  margin-top: 50px;
+  margin-top: 70px;
   margin-bottom: 24px;
   font-size: 24px;
 `;

@@ -13,6 +13,8 @@ import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
 import { textState } from "../redux/modules/headerReducer";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import Loading from "../components/Loading";
+import { ReactComponent as LogoIcon } from "../assets/lcon/main/logo.svg";
 
 const EventSource = EventSourcePolyfill;
 
@@ -34,7 +36,7 @@ function Header() {
   // 헤더 클릭한 값 state
   const { data } = useSelector((state) => state.header);
 
-  const headerProfile = useSelector((state) => state.users.headerProfile);
+  const { headerProfile, isLoading } = useSelector((state) => state.users);
   //console.log(headerProfile);
 
   // 헤더 프로필 이미지 가져오기
@@ -149,9 +151,10 @@ function Header() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <HeaderWrapper isToken={token}>
         <LogoContainer>
-          <span>DAY DEI</span>
+          <LogoIcon />
         </LogoContainer>
         {token && (
           <NavContainer>
@@ -226,8 +229,8 @@ const HeaderWrapper = styled.header`
   width: 100%;
   height: 64px;
   margin: 0 auto;
-  border: 0.5px solid ${(props) => props.theme.Bg.color3};
-  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color1};
+  //border: 0.5px solid ${(props) => props.theme.Bg.color3};
+  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
 `;
