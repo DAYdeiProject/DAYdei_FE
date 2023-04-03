@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModalBox from "../../../elements/ModalBox";
-import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
-import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
+import { ReactComponent as WhiteDismiss } from "../../../assets/defaultIcons/whiteDismiss.svg";
+import { ReactComponent as WhiteMoreY } from "../../../assets/defaultIcons/whiteMoreY.svg";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
@@ -28,8 +28,8 @@ export default function ProfileDetailModal({ ...props }) {
       <ModalBox isOpen={props.isProfileDetail} width={"363px"} height={"648px"}>
         <ProfileDetailWrapper>
           <IconContainer>
-            <MoreY onClick={editProfileClick} />
-            <Dismiss onClick={closeModal} />
+            <WhiteMoreY onClick={editProfileClick} className="moreIcon" />
+            <WhiteDismiss onClick={closeModal} />
           </IconContainer>
           <ProfileBackground>{headerProfile && headerProfile?.backgroundImage && <img src={headerProfile.backgroundImage} />}</ProfileBackground>
           <ProfileImageBox>
@@ -66,6 +66,10 @@ const IconContainer = styled.div`
   right: 15px;
   z-index: 10;
   cursor: pointer;
+  .moreIcon {
+    fill: white !important;
+    visibility: visibility !important;
+  }
 `;
 
 const ProfileBackground = styled.div`
