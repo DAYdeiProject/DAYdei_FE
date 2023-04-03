@@ -152,9 +152,6 @@ function AddPostModal({ ...props }) {
     if (findTarget === "") {
       setTargetToggle(false);
     } else if (findTarget) {
-      //console.log("날짜", startDate, endDate);
-      //console.log("시간", watch("startTime"), watch("endTime"));
-
       const newStart = format(startDate, "yyyy-MM-dd");
       const newEnd = format(endDate, "yyyy-MM-dd");
       if (newStart > newEnd) {
@@ -191,6 +188,11 @@ function AddPostModal({ ...props }) {
 
   // 해당 친구 클릭
   const targetClick = (data) => {
+    if (data.isCheck) {
+      alert(`${data.nickName}님을 해당 날짜에 초대 가능합니다.`);
+    } else {
+      alert(`${data.nickName}님이 해당 날짜에 일정이 있습니다.`);
+    }
     if (!targetPick.some((list) => list.id === data.id)) {
       setTargetPick([...targetPick, data]);
       setTargetPickId([...targetPickId, parseInt(data.id)]);
@@ -549,7 +551,10 @@ function AddPostModal({ ...props }) {
                 {targetList?.map((list) => {
                   const newEmail = list.email.split("@");
                   return (
-                    <postStyle.TartgetBox key={list.id} value={list.id} onClick={() => targetClick({ id: list.id, nickName: list.nickName })}>
+                    <postStyle.TartgetBox
+                      key={list.id}
+                      value={list.id}
+                      onClick={() => targetClick({ id: list.id, nickName: list.nickName, isCheck: list.scheduleCheck })}>
                       <postStyle.TargetBoxImg>
                         <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
                       </postStyle.TargetBoxImg>
@@ -560,7 +565,7 @@ function AddPostModal({ ...props }) {
                         <span>
                           {list.introduction
                             ? list.introduction.length > 20
-                              ? `${list.introduction.substr(0, 20)}...`
+                              ? `${list.introduction.substr(0, 15)}...`
                               : list.introduction
                             : `${list.nickName}의 캘린더입니다.`}
                         </span>
