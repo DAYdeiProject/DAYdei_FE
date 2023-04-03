@@ -10,15 +10,18 @@ import { ReactComponent as Alert } from "../assets/lcon/alert2.svg";
 import { TimeCheck } from "../pages/home/calendar/CalendarBasic";
 import { useNavigate } from "react-router-dom";
 import { setNotificationPostId } from "../redux/modules/headerReducer";
+import { __allClearNotification } from "../redux/modules/calendarSlice";
+import { GetUserInfo } from "../utils/cookie/userInfo";
 
 export default function NotifiactionModalBox({ ...props }) {
   const token = Cookies.get("accessJWTToken");
+  const userInfo = GetUserInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, isLoading } = useSelector((state) => state.connect);
+  const { data } = useSelector((state) => state.connect);
 
   useEffect(() => {
-    dispatch(__getConnect(token));
+    dispatch(__getConnect({ token, userId: userInfo.userId }));
   }, [props.isNotificationOpen]);
 
   //console.log("알림리스트 ", data);
@@ -36,16 +39,23 @@ export default function NotifiactionModalBox({ ...props }) {
     //console.log("user", userId);
   };
 
+  // 알림 모두 지우기
+  const allClearClick = () => {
+    dispatch(__allClearNotification({ token })).then(() => {
+      alert("모두 삭제되었습니다.");
+      //props.setIsNotificationOpen(false);
+    });
+  };
+
   return (
     <>
-      {isLoading && <Loading />}
       <NotificationWrapper>
         <NotiHeaderContainer>
           <div>
             <span>읽지 않은 알림</span>
             <span>{data.count}</span>
           </div>
-          <AllClearBox>
+          <AllClearBox onClick={allClearClick}>
             <span>모두 지우기</span>
           </AllClearBox>
         </NotiHeaderContainer>

@@ -34,6 +34,7 @@ export default function SidebarMiniCalendar() {
 
 const MiniWrapper = styled.div`
   width: 100%;
+  margin-bottom: 47px;
   .react-calendar {
     border: none;
     height: 300px;

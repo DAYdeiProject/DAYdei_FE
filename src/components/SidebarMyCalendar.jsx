@@ -198,7 +198,7 @@ const SideTitle = styled(NickNameTitle)`
 
 const TodayScheduleContainer = styled.section`
   ${(props) => props.theme.FlexCol};
-  padding-bottom: 24px;
+  padding-bottom: 10px;
 `;
 
 const TodayScheduleWrapper = styled.div`

@@ -22,11 +22,7 @@ const initialState = {
 // 일정 추가시 태그할 친구 get
 export const __getTargetList = createAsyncThunk("getTargetList", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/tags/find/${payload.target}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.post(`/api/tags/find`, payload);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

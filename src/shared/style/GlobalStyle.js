@@ -78,7 +78,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     ::-webkit-scrollbar {
       width: 5px;
-      height: 10px;
+      height: 5px;
     }
     ::-webkit-scrollbar-thumb {
       background-clip: padding-box;

@@ -12,7 +12,6 @@ function KakaoPage() {
 
   useEffect(() => {
     dispatch(__kakaoLogin(code)).then((data) => {
-      console.log("카톡 로그인 성공", data);
       navi(`/${data.payload.userId}`);
     });
   });
