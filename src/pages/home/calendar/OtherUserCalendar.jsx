@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { FormatTimeDot, TimeCheck } from "./CalendarBasic";
+import { FormatTimeDot, TimeCheck } from "../../../utils/calendar/CalendarBasic";
 
 export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
