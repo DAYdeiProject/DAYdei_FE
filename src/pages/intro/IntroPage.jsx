@@ -12,8 +12,8 @@ import Cookies from "js-cookie";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
 import FindPasswordModal from "./FindPasswordModal";
 import Header from "../../layout/Header";
-import { ReactComponent as Mail } from "../../assets/icons/sign/mail.svg";
-import { ReactComponent as Key } from "../../assets/icons/sign/key.svg";
+import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
+import { ReactComponent as Key } from "../../assets/sign/key.svg";
 import PreviewArea from "./PreviewArea";
 import Footer from "../../layout/Footer";
 

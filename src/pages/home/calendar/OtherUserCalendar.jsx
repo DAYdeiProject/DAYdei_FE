@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
-import { ReactComponent as Note } from "../../../assets/icons/note.svg";
+import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { FormatTimeDot, TimeCheck } from "./CalendarBasic";
 
