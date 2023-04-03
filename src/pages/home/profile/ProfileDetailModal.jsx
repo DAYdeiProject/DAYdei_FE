@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModalBox from "../../../elements/ModalBox";
-import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
-import { ReactComponent as MoreY } from "../../../assets/lcon/calendarIcon/moreY.svg";
+import { ReactComponent as Dismiss } from "../../../assets/icons/dismiss.svg";
+import { ReactComponent as MoreY } from "../../../assets/icons/calendarIcon/moreY.svg";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
