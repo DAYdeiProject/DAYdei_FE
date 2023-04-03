@@ -4,12 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
-import Loading from "../../../components/Loading";
 import { ReactComponent as Note } from "../../../assets/lcon/note.svg";
-import { ReactComponent as Calnedar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
-import { useState } from "react";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { TimeCheck } from "./CalendarBasic";
+import { FormatTimeDot, TimeCheck } from "./CalendarBasic";
 
 export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -17,7 +14,7 @@ export default function OtherUserCalendar({ ...props }) {
   const param = useParams();
 
   const { otherUserUpdate, otherUserShare } = useSelector((state) => state.calendar);
-  //console.log("otherUserUpdate : ", otherUserUpdate);
+  console.log("otherUserUpdate : ", otherUserUpdate);
   //console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {
@@ -30,40 +27,15 @@ export default function OtherUserCalendar({ ...props }) {
     props.setOtherCalendarPostId(postId);
   };
 
-  // const timeForToday = (date) => {
-  //   const today = new Date();
-  //   const timeValue = new Date(date);
-
-  //   let result = "";
-  //   const time = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-  //   if (time < 1) result = "방금 전";
-  //   if (time < 60) result = `${time}분 전`;
-
-  //   const hour = Math.floor(time / 60);
-  //   if (hour > 0 && hour < 24) result = `${hour}시간 전`;
-
-  //   const day = Math.floor(time / 60 / 24);
-  //   if (day > 0 && day < 365) result = `${day}일 전`;
-
-  //   return result;
-  // };
-
-  // open 여부 - 보류
-  // const closeScheduleHandler = () => {
-  //   //props.setIsOtherOpen(!props.isOtherOpen);
-  // };
-
   return (
     <>
       <OtherWrapper isOpen={props.isOtherOpen}>
-        {/* <IconBox>
-          <Calnedar width={28} height={28} onClick={closeScheduleHandler} />
-        </IconBox> */}
         <OtherUpdateWrapper>
           <UpdateTitle>업데이트 된 일정</UpdateTitle>
           <UpdateContainer>
             {otherUserUpdate.length !== 0 ? (
               otherUserUpdate?.map((list) => {
+                const startDate = FormatTimeDot(list.startDate);
                 const time = TimeCheck(list.modifiedAt);
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
@@ -72,7 +44,10 @@ export default function OtherUserCalendar({ ...props }) {
                     </ImgBox>
                     <WriterBox>
                       <span>{list.writer.name}</span>
-                      <span>{list.title}</span>
+                      <WriterTimeBox>
+                        <span>{startDate}</span>
+                        <span>{list.startTime.substr(0, 5)} ~</span>
+                      </WriterTimeBox>
                     </WriterBox>
                     <TimeBox>
                       <span>{time}</span>
@@ -198,11 +173,14 @@ const WriterBox = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 5px;
+`;
+
+const WriterTimeBox = styled.div`
+  display: flex;
+  gap: 5px;
   span {
-    font-size: ${(props) => props.theme.Fs.day};
-  }
-  span:nth-child(2) {
-    font-size: ${(props) => props.theme.Fs.smallText};
+    font-size: ${(props) => props.theme.Fs.size14};
+    color: ${(props) => props.theme.Fs.color2};
   }
 `;
 
@@ -210,7 +188,7 @@ const TimeBox = styled.div`
   min-width: 60px;
   margin-right: 5px;
   text-align: right;
-  font-size: ${(props) => props.theme.Fs.xsmallText};
+  font-size: ${(props) => props.theme.Fs.size12};
 `;
 
 const NoneScheduleBox = styled.div`

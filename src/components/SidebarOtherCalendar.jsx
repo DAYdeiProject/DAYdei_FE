@@ -135,8 +135,6 @@ export default function SidebarOtherCalendar({ userId }) {
 const ProfileWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  //position: absolute;
-  // z-index: 90;
   background-color: #ffffff;
   height: 100%;
 `;
@@ -204,7 +202,7 @@ const TextareaBox = styled.div`
   width: 100%;
   height: 100px;
   text-align: center;
-  padding: 0 30px;
+  padding: 5px 80px;
   ${(props) => props.theme.DescriptionText};
   font-size: 14px;
   white-space: pre-wrap;

@@ -146,14 +146,41 @@ function AddPostModal({ ...props }) {
     handleSearchText(watch("participant"));
   }, [watch("participant")]);
 
+  // 친구 초대태그하기
   useEffect(() => {
     // findTarget 에 값이 있다면 입력을 멈춘것
     if (findTarget === "") {
       setTargetToggle(false);
     } else if (findTarget) {
+      //console.log("날짜", startDate, endDate);
+      //console.log("시간", watch("startTime"), watch("endTime"));
+
+      const newStart = format(startDate, "yyyy-MM-dd");
+      const newEnd = format(endDate, "yyyy-MM-dd");
+      if (newStart > newEnd) {
+        return alert("종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.");
+      }
+      let newStartTime = "";
+      let newEndTime = "";
+
+      if (isAllDay) {
+        newStartTime = "00:00:00";
+        newEndTime = "00:00:00";
+      } else {
+        if (watch("startTime") > watch("endTime")) {
+          resetField("participant");
+          return alert("종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.");
+        }
+        newStartTime = watch("startTime");
+        newEndTime = watch("endTime");
+      }
+
       const targetData = {
-        target: findTarget,
-        token,
+        searchWord: findTarget,
+        startDate: newStart,
+        endDate: newEnd,
+        startTime: newStartTime,
+        endTime: newEndTime,
       };
       dispatch(__getTargetList(targetData)).then((data) => {
         setTargetList(data.payload);
