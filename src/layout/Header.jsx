@@ -121,7 +121,7 @@ function Header() {
   //  "Content-Type": "text/event-stream",
   //     Connection: "keep-alive",
   useEffect(() => {
-    const eventConnect = new EventSource(`https://daydei.life/api/connect`, {
+    const eventConnect = new EventSource(`https://sparta-daln.shop/api/connect`, {
       headers: {
         Authorization: token,
       },
