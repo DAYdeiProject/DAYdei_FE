@@ -33,6 +33,7 @@ function Header() {
   const [clickNav, setClickNav] = useState("home");
   const dispatch = useDispatch();
   const userId = GetUserInfo();
+  const param = useParams();
 
   // 헤더 클릭한 값 state
   const { data } = useSelector((state) => state.header);
@@ -127,15 +128,17 @@ function Header() {
         "Content-Type": "text/event-stream",
         Connection: "keep-alive",
       },
-      heartbeatTimeout: 45000,
+      heartbeatTimeout: 3600000,
     });
 
-    eventConnect.onmessage = (event) => {
-      const result = event.data;
-      console.log("connect ==> ", result);
+    eventConnect.onMessage = (event) => {
+      const result = JSON.parse(event.data);
+      console.log("result json ==> ", result);
+      console.log("connect event ==> ", event.data);
+      //const data = checkJSON !== "EventStream" && JSON.parse(event.data);
 
       if (!result.includes("EventStream")) {
-        console.log("message===>", result.content);
+        console.log("message===> ", result.content);
         //setSseData(result);
         //setIsMessageState(true);
       }
@@ -268,6 +271,11 @@ const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   gap: 40px;
+  div {
+    :hover {
+      cursor: pointer;
+    }
+  }
   .homeSpan {
     color: ${(props) => props.isNav === "home" && props.theme.Bg.fontBlack};
   }
@@ -276,9 +284,6 @@ const NavTabConatiner = styled.div`
   }
   .searchSpan {
     color: ${(props) => props.isNav === "search" && props.theme.Bg.fontBlack};
-  }
-  :hover {
-    cursor: pointer;
   }
 `;
 
