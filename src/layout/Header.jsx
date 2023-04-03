@@ -20,6 +20,7 @@ const EventSource = EventSourcePolyfill;
 
 function Header() {
   const navigate = useNavigate();
+
   // 알림창 오픈여부
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -54,10 +55,12 @@ function Header() {
   // 드롭다운 열고닫힘 관리 함수
   const handleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+    setIsNotificationOpen(false);
   };
   // 드롭다운 닫힘 함수 (바깥 영역 눌렀을 때 닫히게 할 때 씀)
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
+    setIsNotificationOpen(false);
   };
 
   const DropdownRef = useRef(null);
@@ -84,11 +87,13 @@ function Header() {
     if (!Cookies.get("accessJWTToken")) {
       alert("로그아웃 되었습니다.");
       navigate("/");
+      dispatch(textState("home"));
     }
   };
   // 알림 클릭
   const notificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
+    setIsDropdownOpen(false);
   };
 
   // 홈클릭
@@ -113,14 +118,14 @@ function Header() {
   };
 
   // SSE 알림
+  //  "Content-Type": "text/event-stream",
+  //     Connection: "keep-alive",
   useEffect(() => {
-    const eventConnect = new EventSource(`https://sparta-daln.shop/api/connect`, {
+    const eventConnect = new EventSource(`https://daydei.life/api/connect`, {
       headers: {
         Authorization: token,
-        "Content-Type": "text/event-stream",
-        Connection: "keep-alive",
       },
-      heartbeatTimeout: 3600000,
+      heartbeatTimeout: 45000,
     });
 
     eventConnect.onmessage = (event) => {
@@ -151,7 +156,6 @@ function Header() {
 
   return (
     <>
-      {isLoading && <Loading />}
       <HeaderWrapper isToken={token}>
         <LogoContainer>
           <LogoIcon />

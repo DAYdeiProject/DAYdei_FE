@@ -17,8 +17,8 @@ export default function ModalBox({ children, ...props }) {
 
   const modalVariants = {
     visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: "100%", transition: { duration: 0.2 } },
-    exit: { opacity: 0, y: "100%", transition: { duration: 0.2 } }, // 모달 닫힐 때 애니메이션 추가
+    hidden: { opacity: 0, y: "100%", transition: { duration: 0.1 } },
+    exit: { opacity: 0, y: "100%", transition: { duration: 0.1 } }, // 모달 닫힐 때 애니메이션 추가
   };
 
   // 모달창 열렸을때 스크롤 막기
@@ -55,7 +55,8 @@ const CalendarPostModalWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
+  //background: rgba(0, 0, 0, 0.3);
 `;
 
 const PostModalContainer = styled(motion.div)`

@@ -10,7 +10,7 @@ import { GiCancel } from "react-icons/gi";
 import useLogin from "../../../hooks/useLogin";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import InfoSettingModal from "./InfoSettingModal";
-import { CategoryText } from "../calendar/CalendarBasic";
+import { CategoryText } from "../../../utils/calendar/CalendarBasic";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
   //프로필 파일
