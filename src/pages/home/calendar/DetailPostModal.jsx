@@ -44,8 +44,8 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
-  console.log("detail data==========", detail);
-  console.log("notiInfo data==========", notiInfo);
+  //console.log("detail data==========", detail);
+  //console.log("notiInfo data==========", notiInfo);
 
   useEffect(() => {
     if (detail || []) {
@@ -144,8 +144,8 @@ export default function DetailPostModal({ ...props }) {
   // 공유일정 수락
   const acceptClick = () => {
     dispatch(__acceptSharePost({ postId: notiInfo.postId, token })).then((data) => {
-      if (data.error) {
-        alert("이미 처리한 요청입니다.");
+      if (data.payload.statusCode === 400) {
+        alert("수락 요청이 실패하였습니다.");
       } else {
         alert("일정을 수락하였습니다.");
         props.setOtherCalendarState(true);
@@ -156,9 +156,9 @@ export default function DetailPostModal({ ...props }) {
   };
   // 공유일정 거절
   const rejectClick = () => {
-    dispatch(__rejectSharePost({ postId: notiInfo.postId.returnId, token })).then((data) => {
-      if (data.error) {
-        alert("이미 처리한 요청입니다.");
+    dispatch(__rejectSharePost({ postId: notiInfo.postId, token })).then((data) => {
+      if (data.payload.statusCode === 400) {
+        alert("거절 요청이 실패하였습니다.");
       } else {
         alert("일정을 거절하였습니다.");
         props.setOtherCalendarState(true);
@@ -319,7 +319,6 @@ export default function DetailPostModal({ ...props }) {
               {notiInfo ? (
                 notiState === "requestPost" ? (
                   <>
-                    {}
                     <span>{detail?.writer && detail.writer.name}님이 초대하였습니다.</span>
                     <div>
                       <button onClick={acceptClick}>수락</button>
