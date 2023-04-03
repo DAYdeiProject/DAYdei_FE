@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { __getConnect } from "../redux/modules/connectSlice";
 import Loading from "./Loading";
-import { ReactComponent as Alert } from "../assets/lcon/alert2.svg";
+import { ReactComponent as Alert } from "../assets/icons/alert2.svg";
 import { TimeCheck } from "../pages/home/calendar/CalendarBasic";
 import { useNavigate } from "react-router-dom";
 import { setNotificationPostId } from "../redux/modules/headerReducer";

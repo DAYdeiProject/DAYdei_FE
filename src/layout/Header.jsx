@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router";
 import Cookies from "js-cookie";
 import useOutSideClick from "../hooks/useOutsideClick";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
-import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
+import { ReactComponent as LogoIcon } from "../assets/icons/main/logo.svg";
+import { ReactComponent as Alert } from "../assets/icons/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getHeaderProfile } from "../redux/modules/usersSlice";
@@ -14,7 +15,6 @@ import NotifiactionModalBox from "../components/NotifiactionModalBox";
 import { textState } from "../redux/modules/headerReducer";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import Loading from "../components/Loading";
-import { ReactComponent as LogoIcon } from "../assets/lcon/main/logo.svg";
 
 const EventSource = EventSourcePolyfill;
 
