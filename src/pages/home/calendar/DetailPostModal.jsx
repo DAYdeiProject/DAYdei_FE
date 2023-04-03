@@ -8,20 +8,20 @@ import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
 import Cookies from "js-cookie";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { useParams } from "react-router-dom";
-import { ReactComponent as EditCalendar } from "../../../assets/lcon/calendarIcon/editCalendar.svg";
-import { ReactComponent as Invite } from "../../../assets/lcon/calendarIcon/invite.svg";
-import { ReactComponent as Location } from "../../../assets/lcon/calendarIcon/location.svg";
-import { ReactComponent as Memo } from "../../../assets/lcon/calendarIcon/memo.svg";
-import { ReactComponent as ImageIcon } from "../../../assets/lcon/calendarIcon/image.svg";
-import { ReactComponent as Delete } from "../../../assets/lcon/calendarIcon/delete.svg";
-import { ReactComponent as Edit } from "../../../assets/lcon/calendarIcon/edit.svg";
-import { ReactComponent as MoreY } from "../../../assets/lcon/calendarIcon/moreY.svg";
-import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
-import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
-import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
+import { ReactComponent as EditCalendar } from "../../../assets/calendarIcon/editCalendar.svg";
+import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
+import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
+import { ReactComponent as Memo } from "../../../assets/calendarIcon/memo.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
+import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
+import { ReactComponent as Edit } from "../../../assets/calendarIcon/edit.svg";
+import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
+import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
+import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import ModalBox from "../../../elements/ModalBox";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { setNotificationPostId } from "../../../redux/modules/headerReducer";
+import { setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(true);
@@ -39,18 +39,22 @@ export default function DetailPostModal({ ...props }) {
   const [notiContent, setNotiContent] = useState("");
   // 정보있는거에 따른 높이 state
   const [isHeight, setIsHeight] = useState("");
-
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const param = useParams();
 
-  const { detail, isLoading } = useSelector((state) => state.calendar);
+  const { detail } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
 
-  //console.log(detail);
+  //console.log("detail data==========", detail);
+
   useEffect(() => {
-    if (detail) {
+    if (detail || []) {
+      //console.log("dddddddddddd");
+      // if (detail.writer.id !== userInfo.userId) {
+      //   props.setDisabled(false);
+      // }
       const year = getYear(new Date(detail.startDate));
       const month = getMonth(new Date(detail.startDate));
       const date = getDate(new Date(detail.startDate));
@@ -70,16 +74,16 @@ export default function DetailPostModal({ ...props }) {
       if (detail?.participant === [] && detail?.location === "" && detail?.content === "" && detail?.image === []) {
         setIsHeight("250px");
       }
-    }
 
-    const start = getDay(new Date(detail.startDate));
-    const end = getDay(new Date(detail.endDate));
-    const startDay = DayCheck(start);
-    const endDay = DayCheck(end);
-    setStartDay(startDay);
-    setEndDay(endDay);
-    const color = ColorFromDB(detail.color);
-    setIsColor(color);
+      const start = getDay(new Date(detail.startDate));
+      const end = getDay(new Date(detail.endDate));
+      const startDay = DayCheck(start);
+      const endDay = DayCheck(end);
+      setStartDay(startDay);
+      setEndDay(endDay);
+      const color = ColorFromDB(detail.color);
+      setIsColor(color);
+    }
   }, [detail, props.isSubmit]);
 
   useEffect(() => {
@@ -121,6 +125,7 @@ export default function DetailPostModal({ ...props }) {
     setEndDay("");
     setIsColor("");
     dispatch(setNotificationPostId(""));
+    dispatch(textState("home"));
   };
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
@@ -172,12 +177,11 @@ export default function DetailPostModal({ ...props }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <ModalBox isOpen={props.isDetailPost} width={"500px"} height={isHeight}>
         <DetailPostWrapper>
           <DetailContentWrapper>
             <HeaderWrapper>
-              {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
+              {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
                 <MoreY className="dotsIcon" onClick={editOpenClickHandler} />
               )}
               <Dismiss className="closeIncon" onClick={closeModal} />
@@ -319,23 +323,27 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {notiInfo && (
+          {detail.writer && detail?.writer.id !== userInfo.userId && (
             <InviteWrapper>
-              {notiState === "requestPost" ? (
-                <>
-                  <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
-                  <div>
-                    <button onClick={acceptClick}>수락</button>
-                    <button onClick={rejectClick}>거절</button>
-                  </div>
-                </>
-              ) : (
-                notiState === "acceptPost" && (
-                  <span>
-                    {notiContent.split("@")[0]}
-                    {notiContent.split("@")[1]}
-                  </span>
+              {notiInfo ? (
+                notiState === "requestPost" ? (
+                  <>
+                    <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
+                    <div>
+                      <button onClick={acceptClick}>수락</button>
+                      <button onClick={rejectClick}>거절</button>
+                    </div>
+                  </>
+                ) : (
+                  notiState === "acceptPost" && (
+                    <span>
+                      {notiContent.split("@")[0]}
+                      {notiContent.split("@")[1]}
+                    </span>
+                  )
                 )
+              ) : (
+                <span>{detail.writer.name}님의 일정입니다.</span>
               )}
             </InviteWrapper>
           )}
@@ -349,9 +357,11 @@ const DetailPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   section {
     border-top: 1px solid ${(props) => props.theme.Bg.color3};
+  }
+  section:nth-child(1) {
+    border-top: none;
   }
 `;
 
@@ -376,7 +386,9 @@ const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
   min-height: 150px;
-  max-height: 600px;
+  max-height: 500px;
+  margin-bottom: 20px;
+  padding: 0 10px;
   overflow-y: auto;
 `;
 
@@ -408,7 +420,7 @@ const DetailContetnContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
   padding: 0 10px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 `;
 
 const TitleWrapper = styled.section`
@@ -417,8 +429,10 @@ const TitleWrapper = styled.section`
   gap: 8px;
   ${(props) => props.theme.ContentTitleText};
   font-size: 24px;
-  padding-bottom: 25px;
-  border: none !important;
+  padding-bottom: 20px;
+  margin-bottom: 15px;
+  border-top: none !important;
+  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
   span {
     padding-left: 10px;
     border-left: ${(props) => props.pickColor && `4px solid` + props.pickColor};
@@ -436,7 +450,6 @@ const TitleTimeContainer = styled.div`
     border-left: none;
     padding: 0;
   }
-
   div {
     ${(props) => props.theme.FlexRow}
     width: 15px;
@@ -471,8 +484,9 @@ const ImgWrapper = styled(FriendWrapper)`
 const ScopeWidthWrapper = styled.div`
   width: 100%;
 `;
-const ScopeWrapper = styled(FriendWrapper)`
+const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRowBetween}
+  padding: 20px 0;
   border-top: 1px solid ${(props) => props.theme.Bg.color3};
 `;
 const ScopeContainer = styled.div`

@@ -4,7 +4,7 @@ import { TextWrap, TextMain, SmallTextBox, CheckMessage } from "./ProfileSetting
 
 function InfoSettingModal({ ...props }) {
   //const myProfile = useSelector((state) => state.users.myProfile);
-  const headerProfile = useSelector((state) => state.users.getHeaderProfile);
+  const headerProfile = useSelector((state) => state.users.headerProfile);
   const myBirthday = headerProfile.birthday.toString().split("");
   const myMonth = myBirthday[0] + myBirthday[1];
   const myDay = myBirthday[2] + myBirthday[3];

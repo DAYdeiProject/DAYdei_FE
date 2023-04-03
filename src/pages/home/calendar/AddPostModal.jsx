@@ -9,18 +9,18 @@ import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
 import ColorFromDB, { ColorList, ColorToDB, TimeList } from "./CalendarBasic";
-import { ReactComponent as Clock } from "../../../assets/lcon/calendarIcon/clock.svg";
-import { ReactComponent as Calendar } from "../../../assets/lcon/calendarIcon/calendar.svg";
-import { ReactComponent as Invite } from "../../../assets/lcon/calendarIcon/invite.svg";
-import { ReactComponent as Location } from "../../../assets/lcon/calendarIcon/location.svg";
-import { ReactComponent as Memo } from "../../../assets/lcon/calendarIcon/memo.svg";
-import { ReactComponent as ImageIcon } from "../../../assets/lcon/calendarIcon/image.svg";
-import { ReactComponent as Lock } from "../../../assets/lcon/calendarIcon/lock.svg";
-import { ReactComponent as Delete } from "../../../assets/lcon/calendarIcon/delete.svg";
-import { ReactComponent as Up } from "../../../assets/lcon/up.svg";
-import { ReactComponent as Down } from "../../../assets/lcon/down.svg";
-import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
-import { ReactComponent as Search } from "../../../assets/lcon/searchList/search.svg";
+import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
+import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
+import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
+import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
+import { ReactComponent as Memo } from "../../../assets/calendarIcon/memo.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
+import { ReactComponent as Lock } from "../../../assets/calendarIcon/lock.svg";
+import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
+import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
+import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
+import { ReactComponent as Search } from "../../../assets/searchList/search.svg";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import ModalBox from "../../../elements/ModalBox";
 
@@ -146,14 +146,41 @@ function AddPostModal({ ...props }) {
     handleSearchText(watch("participant"));
   }, [watch("participant")]);
 
+  // 친구 초대태그하기
   useEffect(() => {
     // findTarget 에 값이 있다면 입력을 멈춘것
     if (findTarget === "") {
       setTargetToggle(false);
     } else if (findTarget) {
+      //console.log("날짜", startDate, endDate);
+      //console.log("시간", watch("startTime"), watch("endTime"));
+
+      const newStart = format(startDate, "yyyy-MM-dd");
+      const newEnd = format(endDate, "yyyy-MM-dd");
+      if (newStart > newEnd) {
+        return alert("종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.");
+      }
+      let newStartTime = "";
+      let newEndTime = "";
+
+      if (isAllDay) {
+        newStartTime = "00:00:00";
+        newEndTime = "00:00:00";
+      } else {
+        if (watch("startTime") > watch("endTime")) {
+          resetField("participant");
+          return alert("종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.");
+        }
+        newStartTime = watch("startTime");
+        newEndTime = watch("endTime");
+      }
+
       const targetData = {
-        target: findTarget,
-        token,
+        searchWord: findTarget,
+        startDate: newStart,
+        endDate: newEnd,
+        startTime: newStartTime,
+        endTime: newEndTime,
       };
       dispatch(__getTargetList(targetData)).then((data) => {
         setTargetList(data.payload);
@@ -283,6 +310,7 @@ function AddPostModal({ ...props }) {
 
   // 클릭한 이미지 파일 삭제
   const deleteImgFile = (index, save) => {
+    //showToggieHandler("img");
     if (save) {
       const newSaveView = saveView.filter((itme, i) => i !== index);
       setSaveView([...newSaveView]);
@@ -296,11 +324,6 @@ function AddPostModal({ ...props }) {
       setFileImg([...newView]);
     }
   };
-
-  // 제목이 비었을때
-  useEffect(() => {
-    if (errors.title) alert(errors.title.message);
-  }, [errors]);
 
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
@@ -352,6 +375,7 @@ function AddPostModal({ ...props }) {
     if (fileList.length !== 0) {
       // 이미지 있을때
       dispatch(__postImgUpload({ images: imgList, token })).then((img) => {
+        console.log("img 실해", img);
         // 수정하기 일때
         if (props.modifyPostId) {
           if (saveView.length !== 0) {
@@ -389,6 +413,7 @@ function AddPostModal({ ...props }) {
         } else {
           newPost.image = img.payload;
           dispatch(__createNewPost({ newPost, token })).then((data) => {
+            console.log("일정작성시 실패----", data);
             if (data.error) {
               alert("작성 실패하였습니다.");
               closeClickHandler();
@@ -444,7 +469,7 @@ function AddPostModal({ ...props }) {
         </postStyle.HeaderWrapper>
 
         <postStyle.TitleWrapper>
-          <input {...register("title", { required: "제목을 입력해주세요." })} placeholder="일정 제목 추가" />
+          <input {...register("title")} placeholder="일정 제목 추가" />
         </postStyle.TitleWrapper>
 
         <postStyle.BodyWrapper>
@@ -547,8 +572,8 @@ function AddPostModal({ ...props }) {
             </postStyle.InviteSearchContainer>
           </postStyle.InviteWrapper>
 
-          <postStyle.LocationWrapper onClick={isShowLocation ? () => hideToggieHandler("location") : () => showToggieHandler("location")}>
-            <postStyle.LocationContainer>
+          <postStyle.LocationWrapper>
+            <postStyle.LocationContainer onClick={isShowLocation ? () => hideToggieHandler("location") : () => showToggieHandler("location")}>
               <Location />
               <postStyle.TextSpan>
                 <span>장소</span>
@@ -560,8 +585,8 @@ function AddPostModal({ ...props }) {
             </postStyle.WriteLocationBox>
           </postStyle.LocationWrapper>
 
-          <postStyle.ContentWrapper onClick={isShowContent ? () => hideToggieHandler("content") : () => showToggieHandler("content")}>
-            <postStyle.ContentBoxContainer>
+          <postStyle.ContentWrapper>
+            <postStyle.ContentBoxContainer onClick={isShowContent ? () => hideToggieHandler("content") : () => showToggieHandler("content")}>
               <Memo />
               <postStyle.TextSpan>
                 <span>상세</span>
@@ -569,12 +594,14 @@ function AddPostModal({ ...props }) {
               <postStyle.ToggleContainer>{isShowContent ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
             </postStyle.ContentBoxContainer>
             <postStyle.WriteContentBox isShow={isShowContent}>
-              <textarea {...register("content")} />
+              <div>
+                <textarea {...register("content")} />
+              </div>
             </postStyle.WriteContentBox>
           </postStyle.ContentWrapper>
 
-          <postStyle.ImgWrapper onClick={isShowImg ? () => hideToggieHandler("img") : () => showToggieHandler("img")}>
-            <postStyle.ImgContainer>
+          <postStyle.ImgWrapper>
+            <postStyle.ImgContainer onClick={isShowImg ? () => hideToggieHandler("img") : () => showToggieHandler("img")}>
               <ImageIcon />
               <postStyle.TextSpan>
                 <span>사진</span>

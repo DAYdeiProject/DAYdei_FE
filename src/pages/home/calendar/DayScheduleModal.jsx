@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import ModalBox from "../../../elements/ModalBox";
-import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { format } from "date-fns";
 import ColorFromDB from "./CalendarBasic";
 
@@ -16,7 +16,7 @@ export default function DayScheduleModal({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
 
-  const { todayList, isLoading } = useSelector((state) => state.calendar);
+  const { todayList } = useSelector((state) => state.calendar);
   //console.log("todayList------>", todayList);
 
   useEffect(() => {
@@ -35,7 +35,6 @@ export default function DayScheduleModal({ ...props }) {
   };
   return (
     <>
-      {isLoading && <Loading />}
       <ModalBox isOpen={props.isTodaySchedule} width={"500px"} height={"500px"}>
         <TodayScheduleWrapper>
           <postStyle.HeaderWrapper>

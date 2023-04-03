@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router";
 import Cookies from "js-cookie";
 import useOutSideClick from "../hooks/useOutsideClick";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
-import { ReactComponent as Alert } from "../assets/lcon/alert.svg";
+import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
+import { ReactComponent as Alert } from "../assets/defaultIcons/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getHeaderProfile } from "../redux/modules/usersSlice";
@@ -13,6 +14,7 @@ import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
 import { textState } from "../redux/modules/headerReducer";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import Loading from "../components/Loading";
 
 const EventSource = EventSourcePolyfill;
 
@@ -34,8 +36,8 @@ function Header() {
   // 헤더 클릭한 값 state
   const { data } = useSelector((state) => state.header);
 
-  const headerProfile = useSelector((state) => state.users.headerProfile);
-  console.log(headerProfile);
+  const { headerProfile, isLoading } = useSelector((state) => state.users);
+  //console.log(headerProfile);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
@@ -112,7 +114,7 @@ function Header() {
 
   // SSE 알림
   useEffect(() => {
-    const eventConnect = new EventSource(`${process.env.REACT_APP_DAYDEI_URL}/api/connect`, {
+    const eventConnect = new EventSource(`https://sparta-daln.shop/api/connect`, {
       headers: {
         Authorization: token,
         "Content-Type": "text/event-stream",
@@ -121,8 +123,8 @@ function Header() {
       heartbeatTimeout: 3600000,
     });
 
-    eventConnect.onmessage = async (event) => {
-      const result = await event.data;
+    eventConnect.onmessage = (event) => {
+      const result = event.data;
       console.log("connect ==> ", result);
 
       if (!result.includes("EventStream")) {
@@ -149,9 +151,10 @@ function Header() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <HeaderWrapper isToken={token}>
         <LogoContainer>
-          <span>DAY DEI</span>
+          <LogoIcon />
         </LogoContainer>
         {token && (
           <NavContainer>
@@ -210,7 +213,11 @@ function Header() {
           setIsEditProfile={setIsEditProfile}
         />
       )}
-      <ProfileDetailModal isProfileDetail={isProfileDetail} setIsProfileDetail={setIsProfileDetail} />
+      <ProfileDetailModal
+        isProfileDetail={isProfileDetail}
+        setIsProfileDetail={setIsProfileDetail}
+        setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
+      />
     </>
   );
 }
@@ -222,8 +229,8 @@ const HeaderWrapper = styled.header`
   width: 100%;
   height: 64px;
   margin: 0 auto;
-  border: 0.5px solid ${(props) => props.theme.Bg.color3};
-  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color1};
+  //border: 0.5px solid ${(props) => props.theme.Bg.color3};
+  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
 `;

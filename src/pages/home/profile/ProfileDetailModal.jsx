@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModalBox from "../../../elements/ModalBox";
-import { ReactComponent as Dismiss } from "../../../assets/lcon/dismiss.svg";
-import { ReactComponent as MoreY } from "../../../assets/lcon/calendarIcon/moreY.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
+import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
+import { __getHeaderProfile } from "../../../redux/modules/usersSlice";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 
 export default function ProfileDetailModal({ ...props }) {
-  const { myProfile, isLoading } = useSelector((state) => state.users);
+  const headerProfile = useSelector((state) => state.users.headerProfile);
+
+  // 수정하기 이동
+  const editProfileClick = () => {
+    props.setIsProfileDetail(false);
+    props.setIsProfileSettingModalOpen(true);
+  };
+
   // 모달창 닫기
   const closeModal = () => {
     props.setIsProfileDetail(false);
@@ -16,30 +25,29 @@ export default function ProfileDetailModal({ ...props }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <ModalBox isOpen={props.isProfileDetail} width={"363px"} height={"648px"}>
         <ProfileDetailWrapper>
           <IconContainer>
-            <MoreY />
+            <MoreY onClick={editProfileClick} />
             <Dismiss onClick={closeModal} />
           </IconContainer>
-          <ProfileBackground>{myProfile && myProfile?.backgroundImage && <img src={myProfile.backgroundImage} />}</ProfileBackground>
+          <ProfileBackground>{headerProfile && headerProfile?.backgroundImage && <img src={headerProfile.backgroundImage} />}</ProfileBackground>
           <ProfileImageBox>
-            <img src={myProfile && myProfile.profileImage ? myProfile.profileImage : defaultProfile} />
+            <img src={headerProfile && headerProfile.profileImage ? headerProfile.profileImage : defaultProfile} />
           </ProfileImageBox>
           <ProfileNickNameBox>
-            <span>{myProfile && myProfile.nickName}</span>
-            <span>@{myProfile?.email && myProfile.email.split("@")[0]}</span>
+            <span>{headerProfile && headerProfile.nickName}</span>
+            <span>@{headerProfile?.email && headerProfile.email.split("@")[0]}</span>
           </ProfileNickNameBox>
           <ProfileCount>
             <ProfileBox>
-              <span>친구 {myProfile && myProfile.friendCount}</span>
-              <span>구독 {myProfile && myProfile.subscribingCount}</span>
-              <span>구독자 {myProfile && myProfile.subscriberCount}</span>
+              <span>친구 {headerProfile && headerProfile.friendCount}</span>
+              <span>구독 {headerProfile && headerProfile.subscribingCount}</span>
+              <span>구독자 {headerProfile && headerProfile.subscriberCount}</span>
             </ProfileBox>
           </ProfileCount>
           <ProfileIntro>
-            <p>{myProfile && myProfile.introduction ? myProfile.introduction : `${myProfile.nickName}의 캘린더입니다.`}</p>
+            <p>{headerProfile && headerProfile.introduction ? headerProfile.introduction : `${headerProfile.nickName}의 캘린더입니다.`}</p>
           </ProfileIntro>
         </ProfileDetailWrapper>
       </ModalBox>
@@ -68,6 +76,7 @@ const ProfileBackground = styled.div`
   img {
     width: 100%;
     height: 289px;
+    border-radius: 20px 20px 0 0;
   }
 `;
 

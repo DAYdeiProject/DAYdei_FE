@@ -1,3 +1,5 @@
+import format from "date-fns/format";
+
 export default function ColorFromDB(data) {
   switch (data) {
     case "RED":
@@ -138,4 +140,10 @@ export function TimeCheck(data) {
   if (day > 0 && day < 365) result = `${day}일 전`;
 
   return result;
+}
+
+export function FormatTimeDot(data) {
+  const date = format(new Date(data), "yy.MM.dd");
+
+  return date;
 }

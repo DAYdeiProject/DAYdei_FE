@@ -25,6 +25,8 @@ export default function ModalBox({ children, ...props }) {
   useEffect(() => {
     if (props.isOpen) {
       document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
     }
   }, [props.isOpen]);
 
@@ -53,7 +55,7 @@ const CalendarPostModalWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const PostModalContainer = styled(motion.div)`
@@ -66,4 +68,5 @@ const PostModalContainer = styled(motion.div)`
 const PostContent = styled.div`
   width: ${(props) => props.isWidth && props.isWidth};
   height: ${(props) => props.isHeight && props.isHeight};
+  cursor: auto;
 `;

@@ -2,10 +2,15 @@ import { React, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { ScreenLayout, ScreenWrapper, PreviewWrapper, LoginWrapper } from "../intro/IntroPage";
+import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
 import useLogin from "../../hooks/useLogin";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
 import Header from "../../layout/Header";
+import PreviewArea from "../intro/PreviewArea";
+import { ReactComponent as PwCheck } from "../../assets/sign/pwCheck.svg";
+import { ReactComponent as Security } from "../../assets/sign/security.svg";
+import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
+import Footer from "../../layout/Footer";
 
 function JoinPage() {
   const {
@@ -72,66 +77,69 @@ function JoinPage() {
   };
 
   return (
-    <ScreenLayout>
-      <ScreenWrapper>
-        <PreviewWrapper></PreviewWrapper>
+    <PageWrapper>
+      <ScreenLayout>
+        <PreviewArea />
         <LoginWrapper
           onSubmit={(e) => {
             e.preventDefault();
 
             joinHandler();
           }}>
+          <BackPage onClick={() => navigate("/")}>
+            <Bcak />
+            <span>뒤로가기</span>
+          </BackPage>
           <JoinBox>
             <JoinText>회원가입</JoinText>
-
             <InputArea>
               <InputWrapper>
                 <InputTitleText>이메일</InputTitleText>
-                <InputFrame border={email === "" ? "#afb4bf" : isEmail ? "#58c179" : "#DF5445"}>
+                <InputFrame isBorder={email === "" ? "none" : isEmail}>
                   <InputInnerWrap>
                     <input type="text" value={email} onChange={handleEmailChange} />
-                    <CheckButton onClick={() => emailCheckHandler(email)}>
-                      <CheckText>중복확인</CheckText>
-                    </CheckButton>
+                    <CheckButton onClick={() => emailCheckHandler(email)}>중복확인</CheckButton>
                   </InputInnerWrap>
                 </InputFrame>
-                {email && <MessageWrapper color={isEmail ? "#58c179" : "#DF5445"}>{isEmailMessage}</MessageWrapper>}
+                <MessageWrapper isTrue={isEmail}>{isEmailMessage}</MessageWrapper>
               </InputWrapper>
 
               <InputWrapper>
                 <InputTitleText>비밀번호</InputTitleText>
-                <InputFrame border={password === "" ? "#afb4bf" : isPw ? "#58c179" : "#DF5445"}>
+                <InputFrame isBorder={password === "" ? "none" : isPw}>
                   <InputInnerWrap>
                     <input type="password" value={password} onChange={handlePasswordChange} />
+                    {isPw ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
                   </InputInnerWrap>
                 </InputFrame>
-                <MessageWrapper color={isPw ? "#58c179" : "#DF5445"}>{isPwMessage}</MessageWrapper>
+                <MessageWrapper isTrue={isPw}>{isPwMessage}</MessageWrapper>
               </InputWrapper>
 
               <InputWrapper>
                 <InputTitleText>비밀번호 확인</InputTitleText>
-                <InputFrame border={passwordCheck === "" ? "#afb4bf" : password === passwordCheck ? "#58c179" : "#DF5445"}>
+                <InputFrame isBorder={passwordCheck === "" ? "none" : password === passwordCheck}>
                   <InputInnerWrap>
                     <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
+                    {passwordCheck !== "" && password === passwordCheck ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
                   </InputInnerWrap>
                 </InputFrame>
-                <MessageWrapper color={passwordCheck !== "" && password === passwordCheck ? "#58c179" : "#DF5445"}>{isPwCheckMessage}</MessageWrapper>
+                <MessageWrapper isTrue={passwordCheck !== "" && password === passwordCheck}>{isPwCheckMessage}</MessageWrapper>
               </InputWrapper>
 
               <InputWrapper>
                 <InputTitleText>닉네임</InputTitleText>
-                {/* <InputFrame border={nickName === "" ? "#afb4bf" : nickName.length <= 6 ? "#58c179" : "#DF5445"}> */}
-                <InputFrame>
+                <InputFrame isBorder={nickName === "" ? "none" : nicknameRegex}>
                   <InputInnerWrap>
                     <input type="text" value={nickName} onChange={handleNickNameChange} maxLength="8" />
+                    {nicknameRegex && <PwCheck className="joinIcon" />}
                   </InputInnerWrap>
                 </InputFrame>
-                <MessageWrapper color={nickName.length <= 6 ? "#58c179" : "#DF5445"}>{isNickNameMessage}</MessageWrapper>
+                <MessageWrapper isTrue={nicknameRegex}>{isNickNameMessage}</MessageWrapper>
               </InputWrapper>
 
               <InputWrapper>
                 <InputTitleText>생일</InputTitleText>
-                <InputFrame>
+                <InputFrame isBorder={birthday === "" ? "none" : true}>
                   <InputInnerWrap>
                     <input type="text" placeholder="예시 : 0325" value={birthday} onChange={handleBirthdayChange} />
                   </InputInnerWrap>
@@ -139,271 +147,114 @@ function JoinPage() {
               </InputWrapper>
             </InputArea>
 
-            <SignUpButtton disabled={!nicknameRegex}>
-              <ButtonText>가입하기</ButtonText>
-            </SignUpButtton>
+            <SignUpButtton disabled={!nicknameRegex}>가입하기</SignUpButtton>
 
             <BottomText>
-              <BottomLeft>이미 가입된 계정이 있나요?</BottomLeft>
-              <BottomRight>
+              <div>이미 가입된 계정이 있나요?</div>
+              <div>
                 <Link to="/">로그인하기</Link>
-              </BottomRight>
+              </div>
             </BottomText>
           </JoinBox>
         </LoginWrapper>
-      </ScreenWrapper>
-    </ScreenLayout>
+      </ScreenLayout>
+      <Footer />
+    </PageWrapper>
   );
 }
 
 const JoinBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+  ${(props) => props.theme.FlexCol};
   width: 386px;
-  height: 697px;
-  left: 1385px;
-  top: 191px;
-  /* background-color: yellow; */
 `;
-
+const BackPage = styled.div`
+  ${(props) => props.theme.FlexRow};
+  gap: 8px;
+  justify-content: left;
+  margin-top: 32px;
+  padding-left: 32px;
+  cursor: pointer;
+  span {
+    font-size: 14px;
+  }
+`;
 const JoinText = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-
-  font-weight: 600;
-  font-size: ${(props) => props.theme.Fs.size24};
-  line-height: 130%;
-
-  text-align: center;
-
-  color: ${(props) => props.theme.Bg.fontBlack};
-  margin-top: 8px;
+  ${(props) => props.theme.FlexCol};
+  margin-top: 70px;
   margin-bottom: 24px;
+  font-size: 24px;
 `;
 
 const InputArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-
-  width: 370px;
-  /* height: 513px; */
-  /* background-color: pink; */
+  ${(props) => props.theme.FlexCol};
+  justify-content: flex-start;
   margin-bottom: 24px;
 `;
 
 const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${(props) => props.theme.FlexCol};
   align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-
-  width: 370px;
-  /* height: 93px; */
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  /* background-color: lightgray; */
+  justify-content: flex-start;
 `;
 
 const InputTitleText = styled.div`
-  font-weight: 500;
-  font-size: ${(props) => props.theme.Fs.size16};
-  line-height: 19px;
-
-  color: #494d55;
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
+  font-size: 16px;
+  margin-bottom: 4px;
 `;
 
 const InputFrame = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 8px 10px 8px 18px;
-  gap: 18px;
-
-  width: 370px;
+  ${(props) => props.theme.FlexCol};
+  width: 100%;
   height: 46px;
-
-  border: 1px solid ${(props) => props.border};
+  border: 1px solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
   border-radius: 8px;
-
-  color: ${(props) => props.color};
-  /* color: #58c179; // 조건 충족 
-  color: #DF5445; // 조건 미충족 */
-
-  flex: none;
-  order: 1;
-  flex-grow: 0;
+  margin-bottom: 4px;
 `;
 
 const InputInnerWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 1px;
-
-  width: 342px;
-  height: 28px;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 0;
-  flex-grow: 1;
+  ${(props) => props.theme.FlexRowBetween};
+  padding: 8px 10px 8px 18px;
+  .joinIcon {
+    margin-right: 10px;
+  }
 `;
 
 const CheckButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 12px;
-  gap: 8px;
-
+  ${(props) => props.theme.FlexCol};
   width: 50px;
   height: 28px;
-
+  font-size: 10px;
   background: #f2f4f6;
   border-radius: 4px;
-
-  flex: none;
-  order: 1;
-  flex-grow: 0;
   :hover {
     cursor: pointer;
   }
 `;
 
-const CheckText = styled.div`
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-
-  color: #494d55;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
-
 const MessageWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px 2px;
-  gap: 8px;
-
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-
-  font-weight: 500;
   font-size: 10px;
-  line-height: 12px;
-
-  color: ${(props) => props.color};
-  /* 
-  color: #58c179; // 조건 충족 
-  color: #DF5445; // 조건 미충족 */
-
-  /* background-color: yellow; */
+  line-height: 15px;
+  margin-bottom: 14px;
+  color: ${(props) => (props.isTrue ? "#58c179" : "#DF5445")};
 `;
 
 const SignUpButtton = styled.button`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 150px;
-
-  width: 370px;
+  width: 100%;
   height: 48px;
-
-  background: ${(props) => (props.disabled ? "gray" : "#0eafe1")};
-
-  border: 1.4px solid #121212;
-
-  box-shadow: 2px 2px 0px #000000;
-  border-radius: 4px;
-
-  margin-bottom: 24px;
-  cursor: pointer;
+  ${(props) => props.theme.ButtonLarge}
+  font-size: 16px;
+  font-weight: 600;
+  background: ${(props) => (props.disabled ? props.theme.Bg.mainColor4 : props.theme.Bg.mainColor5)};
+  color: ${(props) => (props.disabled ? props.theme.Bg.color1 : "#ffffff")};
   // 아예 버튼 클릭 막기
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
 
-const ButtonText = styled.div`
-  width: 70px;
-  height: 19px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-
-  text-align: center;
-
-  color: #ffffff;
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
-
 const BottomText = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexRow};
   gap: 16px;
-
-  /* background-color: pink; */
-`;
-
-const BottomLeft = styled.div`
-  /* width: 151px; */
-  height: 17px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
+  margin-top: 24px;
   font-size: 14px;
-  line-height: 17px;
-  color: #626262;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
-
-const BottomRight = styled.div`
-  /* width: 61px; */
-  height: 17px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: #626262;
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
 `;
 
 export default JoinPage;

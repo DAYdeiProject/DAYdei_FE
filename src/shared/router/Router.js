@@ -36,5 +36,6 @@ export default Router;
 const Wrapper = styled.div`
   min-width: 1920px;
   max-width: 1920px;
+  height: 100vh;
   margin: 0 auto;
 `;
