@@ -19,7 +19,7 @@ export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
-  const now = format(new Date(), "yy.M.dd");
+  const now = format(new Date(), "yy.MM.dd");
   const nowDay = getDay(new Date());
   let day = "";
   if (nowDay === 0) {

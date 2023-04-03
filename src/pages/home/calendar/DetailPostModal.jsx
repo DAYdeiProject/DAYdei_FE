@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import { getDay, getYear, getMonth, getDate } from "date-fns";
-import ColorFromDB, { DayAmPm, DayCheck } from "./CalendarBasic";
+import ColorFromDB, { DayAmPm, DayCheck } from "../../../utils/calendar/CalendarBasic";
 import Cookies from "js-cookie";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { useParams } from "react-router-dom";

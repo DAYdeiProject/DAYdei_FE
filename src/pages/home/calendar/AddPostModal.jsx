@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { format } from "date-fns";
 import postStyle from "../../../shared/style/PostStyle";
-import ColorFromDB, { ColorList, ColorToDB, TimeList } from "./CalendarBasic";
+import ColorFromDB, { ColorList, ColorToDB, TimeList } from "../../../utils/calendar/CalendarBasic";
 import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
 import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
 import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";

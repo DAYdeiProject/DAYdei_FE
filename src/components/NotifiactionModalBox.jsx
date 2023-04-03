@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -7,13 +7,15 @@ import { useDispatch } from "react-redux";
 import { __getConnect } from "../redux/modules/connectSlice";
 import Loading from "./Loading";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
-import { TimeCheck } from "../pages/home/calendar/CalendarBasic";
+import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { useNavigate } from "react-router-dom";
 import { setNotificationPostId } from "../redux/modules/headerReducer";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import useOutSideClick from "../hooks/useOutsideClick";
 
 export default function NotifiactionModalBox({ ...props }) {
+  const outside = useRef();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const dispatch = useDispatch();
@@ -47,9 +49,15 @@ export default function NotifiactionModalBox({ ...props }) {
     });
   };
 
+  // 알림창 닫기
+  const closeModal = () => {
+    props.setIsNotificationOpen(false);
+  };
+  useOutSideClick(outside, closeModal);
+
   return (
     <>
-      <NotificationWrapper>
+      <NotificationWrapper ref={outside}>
         <NotiHeaderContainer>
           <div>
             <span>읽지 않은 알림</span>

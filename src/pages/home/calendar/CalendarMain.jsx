@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import Loading from "../../../components/Loading";
 import DayScheduleModal from "./DayScheduleModal";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
-import ColorFromDB from "./CalendarBasic";
+import ColorFromDB from "../../../utils/calendar/CalendarBasic";
 import add from "date-fns/add";
 import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";

@@ -9,7 +9,7 @@ import Loading from "../../../components/Loading";
 import ModalBox from "../../../elements/ModalBox";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { format } from "date-fns";
-import ColorFromDB from "./CalendarBasic";
+import ColorFromDB from "../../../utils/calendar/CalendarBasic";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
