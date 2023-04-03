@@ -7,9 +7,9 @@ import useLogin from "../../hooks/useLogin";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
 import Header from "../../layout/Header";
 import PreviewArea from "../intro/PreviewArea";
-import { ReactComponent as PwCheck } from "../../assets/icons/sign/pwCheck.svg";
-import { ReactComponent as Security } from "../../assets/icons/sign/security.svg";
-import { ReactComponent as Bcak } from "../../assets/icons/sign/back.svg";
+import { ReactComponent as PwCheck } from "../../assets/sign/pwCheck.svg";
+import { ReactComponent as Security } from "../../assets/sign/security.svg";
+import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
 import Footer from "../../layout/Footer";
 
 function JoinPage() {

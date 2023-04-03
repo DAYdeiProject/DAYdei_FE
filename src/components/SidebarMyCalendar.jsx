@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
-import { ReactComponent as NoneToday } from "../assets/icons/calendarIcon/noneSchedule.svg";
-import { ReactComponent as Smile } from "../assets/icons/smile.svg";
-import { ReactComponent as LightEmoji } from "../assets/icons/calendarIcon/lightEmoji.svg";
+import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
+import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
+import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { textState } from "../redux/modules/headerReducer";
 

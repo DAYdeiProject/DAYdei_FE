@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import ModalBox from "../../../elements/ModalBox";
-import { ReactComponent as Dismiss } from "../../../assets/icons/dismiss.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { format } from "date-fns";
 import ColorFromDB from "./CalendarBasic";
 

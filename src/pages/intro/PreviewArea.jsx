@@ -1,19 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Main1 } from "../../assets/icons/main/main1.svg";
-import { ReactComponent as Main2 } from "../../assets/icons/main/main2.svg";
-import { ReactComponent as Main3 } from "../../assets/icons/main/main3.svg";
-import { ReactComponent as Main4 } from "../../assets/icons/main/main4.svg";
-import { ReactComponent as Main5 } from "../../assets/icons/main/main5.svg";
-import { ReactComponent as Main6 } from "../../assets/icons/main/main6.svg";
-import { ReactComponent as Main7 } from "../../assets/icons/main/main7.svg";
-import { ReactComponent as Union1 } from "../../assets/icons/main/union1.svg";
-import { ReactComponent as Union2 } from "../../assets/icons/main/union2.svg";
-import { ReactComponent as Union3 } from "../../assets/icons/main/union3.svg";
-import { ReactComponent as Union4 } from "../../assets/icons/main/union4.svg";
-import { ReactComponent as Union5 } from "../../assets/icons/main/union5.svg";
-import { ReactComponent as Union6 } from "../../assets/icons/main/union6.svg";
-import { ReactComponent as Union7 } from "../../assets/icons/main/union7.svg";
+import { ReactComponent as Main1 } from "../../assets/main/main1.svg";
+import { ReactComponent as Main2 } from "../../assets/main/main2.svg";
+import { ReactComponent as Main3 } from "../../assets/main/main3.svg";
+import { ReactComponent as Main4 } from "../../assets/main/main4.svg";
+import { ReactComponent as Main5 } from "../../assets/main/main5.svg";
+import { ReactComponent as Main6 } from "../../assets/main/main6.svg";
+import { ReactComponent as Main7 } from "../../assets/main/main7.svg";
+import { ReactComponent as Union1 } from "../../assets/main/union1.svg";
+import { ReactComponent as Union2 } from "../../assets/main/union2.svg";
+import { ReactComponent as Union3 } from "../../assets/main/union3.svg";
+import { ReactComponent as Union4 } from "../../assets/main/union4.svg";
+import { ReactComponent as Union5 } from "../../assets/main/union5.svg";
+import { ReactComponent as Union6 } from "../../assets/main/union6.svg";
+import { ReactComponent as Union7 } from "../../assets/main/union7.svg";
 
 export default function PreviewArea() {
   return (
