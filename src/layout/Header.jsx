@@ -132,8 +132,8 @@ function Header() {
     });
 
     eventConnect.onMessage = (event) => {
-      const result = JSON.parse(event.data);
-      console.log("result json ==> ", result);
+      //const result = JSON.parse(event.data);
+      //console.log("result json ==> ", result);
       console.log("connect event ==> ", event.data);
       //const data = checkJSON !== "EventStream" && JSON.parse(event.data);
 
