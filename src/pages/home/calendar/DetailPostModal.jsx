@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
-import { getDay, getYear, getMonth, getDate } from "date-fns";
+import { getDay, getYear, getMonth, getDate, format } from "date-fns";
 import ColorFromDB, { DayAmPm, DayCheck } from "../../../utils/calendar/CalendarBasic";
 import Cookies from "js-cookie";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
@@ -27,10 +27,8 @@ export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(true);
   const [imgToggle, setImgToggle] = useState(true);
   const [nowStart, setStart] = useState("");
-  const [nowStartDay, setStartDay] = useState("");
   const [nowStartTime, setStartTime] = useState("");
   const [nowEnd, setEnd] = useState("");
-  const [nowEndDay, setEndDay] = useState("");
   const [nowEndTime, setEndTime] = useState("");
   const [isColor, setIsColor] = useState("");
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -46,24 +44,26 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
-
-  //console.log("detail data==========", detail);
+  console.log("detail data==========", detail);
+  console.log("notiInfo data==========", notiInfo);
 
   useEffect(() => {
     if (detail || []) {
-      //console.log("dddddddddddd");
-      // if (detail.writer.id !== userInfo.userId) {
-      //   props.setDisabled(false);
-      // }
-      const year = getYear(new Date(detail.startDate));
-      const month = getMonth(new Date(detail.startDate));
-      const date = getDate(new Date(detail.startDate));
-      const yearEnd = getYear(new Date(detail.endDate));
-      const monthEnd = getMonth(new Date(detail.endDate));
-      const dateEnd = getDate(new Date(detail.endDate));
-      setStart(`${year}.${month + 1}.${date}`);
-      setEnd(`${yearEnd}.${monthEnd + 1}.${dateEnd}`);
+      if (detail.startDate) {
+        //날짜;
+        const newStart = format(new Date(detail?.startDate), "yy.MM.dd");
+        const newEnd = format(new Date(detail?.endDate), "yy.MM.dd");
+        // 요일
+        const startDay = DayCheck(getDay(new Date(detail.startDate)));
+        const endDay = DayCheck(getDay(new Date(detail.endDate)));
+        //날짜 + 요일;
+        const resultStart = `${newStart} (${startDay})`;
+        const resultEnd = `${newEnd} (${endDay})`;
+        setStart(resultStart);
+        setEnd(resultEnd);
+      }
 
+      // 시간
       if (detail.startTime !== detail.endTime) {
         let dayStartTime = DayAmPm(detail.startTime);
         let dayEndTime = DayAmPm(detail.endTime);
@@ -75,12 +75,6 @@ export default function DetailPostModal({ ...props }) {
         setIsHeight("250px");
       }
 
-      const start = getDay(new Date(detail.startDate));
-      const end = getDay(new Date(detail.endDate));
-      const startDay = DayCheck(start);
-      const endDay = DayCheck(end);
-      setStartDay(startDay);
-      setEndDay(endDay);
       const color = ColorFromDB(detail.color);
       setIsColor(color);
     }
@@ -121,12 +115,11 @@ export default function DetailPostModal({ ...props }) {
     setNotiContent("");
     setStartTime("");
     setEndTime("");
-    setStartDay("");
-    setEndDay("");
     setIsColor("");
     dispatch(setNotificationPostId(""));
     dispatch(textState("home"));
   };
+
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
     setIsEditOpen(!isEditOpen);
@@ -204,11 +197,9 @@ export default function DetailPostModal({ ...props }) {
                   <span>{detail?.title}</span>
                   <TitleTimeContainer>
                     <span>{nowStart}</span>
-                    <span>({nowStartDay})</span>
                     {nowStartTime && <span>{nowStartTime}</span>}
                     <span>~</span>
                     <span>{nowEnd}</span>
-                    <span>({nowEndDay})</span>
                     {nowEndTime && <span>{nowEndTime}</span>}
                   </TitleTimeContainer>
                 </TitleWrapper>
@@ -328,7 +319,8 @@ export default function DetailPostModal({ ...props }) {
               {notiInfo ? (
                 notiState === "requestPost" ? (
                   <>
-                    <span>{detail?.writer && detail.writer.name} 님이 초대하였습니다.</span>
+                    {}
+                    <span>{detail?.writer && detail.writer.name}님이 초대하였습니다.</span>
                     <div>
                       <button onClick={acceptClick}>수락</button>
                       <button onClick={rejectClick}>거절</button>
@@ -388,7 +380,7 @@ const ContentWrapper = styled.div`
   min-height: 150px;
   max-height: 500px;
   margin-bottom: 20px;
-  padding: 0 10px;
+  padding-right: 10px;
   overflow-y: auto;
 `;
 

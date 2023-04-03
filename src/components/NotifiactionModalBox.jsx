@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -12,10 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { setNotificationPostId } from "../redux/modules/headerReducer";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
-import useOutSideClick from "../hooks/useOutsideClick";
+import { textState } from "../redux/modules/headerReducer";
 
 export default function NotifiactionModalBox({ ...props }) {
-  const outside = useRef();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const dispatch = useDispatch();
@@ -26,19 +25,27 @@ export default function NotifiactionModalBox({ ...props }) {
     dispatch(__getConnect({ token, userId: userInfo.userId }));
   }, [props.isNotificationOpen]);
 
-  //console.log("알림리스트 ", data);
+  console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
 
-  const notiClickHandler = (postId, userId, content, notiState) => {
+  const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
       navigate(`/${userId}`);
+      dispatch(textState("home"));
       props.setIsNotificationOpen(false);
     } else {
+      const notiInfo = {
+        postId,
+        content,
+        notiState,
+        isRead,
+      };
       dispatch(setNotificationPostId({ postId, content, notiState }));
+      navigate(`/${userInfo.userId}`);
+      dispatch(textState("home"));
+      dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);
     }
-    //console.log("post", postId);
-    //console.log("user", userId);
   };
 
   // 알림 모두 지우기
@@ -49,15 +56,9 @@ export default function NotifiactionModalBox({ ...props }) {
     });
   };
 
-  // 알림창 닫기
-  const closeModal = () => {
-    props.setIsNotificationOpen(false);
-  };
-  useOutSideClick(outside, closeModal);
-
   return (
     <>
-      <NotificationWrapper ref={outside}>
+      <NotificationWrapper>
         <NotiHeaderContainer>
           <div>
             <span>읽지 않은 알림</span>
@@ -83,7 +84,7 @@ export default function NotifiactionModalBox({ ...props }) {
                 state = "rejectPost";
               }
               return (
-                <NofiMessageBox key={list.id} onClick={() => notiClickHandler(list.postId, list.userId, list.content, state)}>
+                <NofiMessageBox key={list.id} onClick={() => notiClickHandler(list.postId, list.userId, list.content, state, list.isRead)}>
                   <span>구독알림</span>
                   <span>{splitContent[0]}</span>
                   <span>{splitContent[1]}</span>
@@ -113,7 +114,7 @@ const NotificationWrapper = styled.div`
   max-height: 419px;
   padding: 16px 14px 40px 14px;
   border: solid 1.4px #121212;
-  box-shadow: 2px 2px 0 0 #000;
+  box-shadow: 1px 1px 0 0 #000;
   border-radius: 8px;
   background-color: #ffffff;
   span {

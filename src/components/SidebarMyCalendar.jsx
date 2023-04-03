@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarSlice";
 import format from "date-fns/format";
 import { getDay } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "./Loading";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
@@ -14,32 +14,21 @@ import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
 import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { textState } from "../redux/modules/headerReducer";
+import { DayCheck } from "../utils/calendar/CalendarBasic";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
+  const param = useParams();
   const now = format(new Date(), "yy.MM.dd");
-  const nowDay = getDay(new Date());
-  let day = "";
-  if (nowDay === 0) {
-    day = now + " (일)";
-  } else if (nowDay === 1) {
-    day = now + " (월)";
-  } else if (nowDay === 2) {
-    day = now + " (화)";
-  } else if (nowDay === 3) {
-    day = now + " (수)";
-  } else if (nowDay === 4) {
-    day = now + " (목)";
-  } else if (nowDay === 5) {
-    day = now + " (금)";
-  } else if (nowDay === 6) {
-    day = now + " (토)";
-  }
-  const { today, update, isLoading } = useSelector((state) => state.calendar);
+  const day = DayCheck(getDay(new Date()));
+  const nowDay = `${now} (${day})`;
+
+  const { today, update } = useSelector((state) => state.calendar);
   const { data } = useSelector((state) => state.header);
 
+  // 오늘의 일정, 업데이트한 친구 가져오기
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
     dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
@@ -51,7 +40,8 @@ export default function SidebarMyCalendar({ ...props }) {
     navigate(`/${id}`);
   };
 
-  const myProfile = useSelector((state) => state.users.myProfile);
+  // 닉네임 가져오기 위해..
+  const headerProfile = useSelector((state) => state.users.headerProfile);
 
   // 오늘의 일정 클릭시
   const todayClickHandler = (postId) => {
@@ -60,18 +50,17 @@ export default function SidebarMyCalendar({ ...props }) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <SidebarWrapper>
         <NickNameContainer>
-          <NickNameTitle>반가워요. {myProfile.nickName}님👋🏻</NickNameTitle>
+          <NickNameTitle>반가워요. {headerProfile.nickName}님👋🏻</NickNameTitle>
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {data === "home" ? (
+          {data === "home" || data === undefined ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>
-                <span>{day}</span>
+                <span>{nowDay}</span>
               </SideTitle>
               <TodayScheduleWrapper>
                 {today.length === 0 ? (

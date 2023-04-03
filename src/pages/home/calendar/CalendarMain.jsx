@@ -203,7 +203,7 @@ function CalendarMain({ ...props }) {
 
   return (
     <CalendarSidebarWrapper>
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
       {userInfo && String(userInfo.userId) !== param.id && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
