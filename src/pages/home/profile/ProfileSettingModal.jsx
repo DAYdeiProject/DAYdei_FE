@@ -56,7 +56,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
-  //myProfile.profileImage가 있다면 state에 저장
+  //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
     if (myProfile.profileImage) {
       setUpdatedProfileUrl(myProfile.profileImage);
@@ -93,9 +93,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     setProfileImageUrl(URL.createObjectURL(file));
   };
 
-  // console.log("업로드된 프로필", profile, "프로필 url", profileImageUrl);
-  // console.log("저장된myProfile", myProfile.profileImage);
-
   useEffect(() => {
     setBackgroundImageName(background ? background.name : "");
   }, [background]);
@@ -117,14 +114,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     setProfile("");
     setProfileImageUrl("");
     setUpdatedProfileUrl("");
-    // console.log("엑스표 누른 뒤 프로필이미지 url", profileImageUrl);
-    // if (myProfile.profileImage) {
-    //   const newProfile = [myProfile.profileImage];
-    //   console.log("지우기 전 -->", newProfile);
-    //   setProfile(newProfile.slice(1));
-    //   console.log("지운 후-->", profile);
-    // }
-    // console.log("삭제 후 profile-->", profile, "삭제 후 profileImageUrl", profileImageUrl);
   };
 
   const deleteBackGroundHandler = () => {
@@ -164,8 +153,6 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       //   console.log("value", value);
       // }
       dispatch(__setProfile(formData)).then((data) => {
-        // 헤더에 이미지 최신꺼 들고오기 위해서
-
         if (data.error) {
           alert("수정 실패");
         } else {
