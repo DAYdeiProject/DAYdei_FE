@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
-import { SideSpaceWrapper } from "./CalendarSidebar";
+import { MemoTitle, SideSpaceWrapper } from "./CalendarSidebar";
 import { __hideUser } from "../../../redux/modules/subscribeSlice";
-// import { click } from "@testing-library/user-event/dist/click";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
-function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit }) {
+function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit, setIsSubscribeBoxOpen }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
   const dispatch = useDispatch();
   const params = useParams();
@@ -70,40 +70,27 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
   return (
     <>
       <SideSpaceWrapper>
-        <WholeBoxWrap>
-          <TitleWrap>구독 List ({SubscribesList.length})</TitleWrap>
-          {SubscribesList.map((user) => (
-            <>
-              <ContentWrap>
-                <BoxWrap key={user.id}>
-                  <div>{user.nickName ? user.nickName : "이름 없음"}</div>
-                  <Button id={user.id} isVisible={user.isVisible} />
-                </BoxWrap>
-              </ContentWrap>
-            </>
-          ))}
-        </WholeBoxWrap>
+        <MemoTitle>
+          <div>구독 List ({SubscribesList.length})</div>
+          <Cancel onClick={() => setIsSubscribeBoxOpen(false)} />
+        </MemoTitle>
+
+        {SubscribesList.map((user) => (
+          <>
+            <ContentWrap>
+              <BoxWrap key={user.id}>
+                <div>{user.nickName ? user.nickName : "이름 없음"}</div>
+                <Button id={user.id} isVisible={user.isVisible} />
+              </BoxWrap>
+            </ContentWrap>
+          </>
+        ))}
       </SideSpaceWrapper>
     </>
   );
 }
 
 export default SubscribeListControl;
-
-const WholeBoxWrap = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* background-color: pink; */
-`;
-
-const TitleWrap = styled.div`
-  font-size: 28px;
-  margin-top: 20px;
-  margin-bottom: 50px;
-`;
 
 const ContentWrap = styled.div`
   display: flex;

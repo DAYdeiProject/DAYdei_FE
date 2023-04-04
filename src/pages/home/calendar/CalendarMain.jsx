@@ -277,11 +277,13 @@ export default CalendarMain;
 const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   height: 100%;
+  /* background-color: pink; */
 `;
 export const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: 40px 48px 52px;
+  /* background: blue; */
 
   .fc {
     width: 100%;
