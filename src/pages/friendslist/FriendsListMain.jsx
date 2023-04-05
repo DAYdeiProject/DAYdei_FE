@@ -378,6 +378,7 @@ export const LoadingWrapper = styled.div`
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 64px - 1px);
+  /* background: pink; */
 `;
 
 export const CalendarWrapper = styled.div`
