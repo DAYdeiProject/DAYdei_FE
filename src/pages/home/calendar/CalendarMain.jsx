@@ -289,7 +289,6 @@ export const CalendarWrapper = styled.div`
   padding: 40px 48px 52px;
   margin-right: ${(props) => props.isOpen && "46px"};
   /* background: blue; */
-
   .fc {
     width: 100%;
     height: 100%;
@@ -344,7 +343,6 @@ export const CalendarWrapper = styled.div`
   .fc-more-popover {
     visibility: hidden;
   }
-
   // 버튼 감싸고 있는 div
   .fc-toolbar-chunk {
     display: flex;
@@ -367,7 +365,6 @@ export const CalendarWrapper = styled.div`
       background-color: #fbdf96 !important;
     }
   }
-
   // 일정추가 button
   .fc-addButton-button {
     visibility: ${(props) => props.disabled && "hidden"};
@@ -379,7 +376,6 @@ export const CalendarWrapper = styled.div`
     background-color: #0eafe1 !important;
     color: #ffffff !important;
   }
-
   // 오늘 button
   .fc-today-button {
     ${(props) => props.theme.ButtonSmall};
@@ -392,7 +388,6 @@ export const CalendarWrapper = styled.div`
       background-color: #fbdf96 !important;
     }
   }
-
   // 년,월
   .fc-toolbar-title {
     margin-right: 0.75em;
@@ -413,7 +408,6 @@ export const CalendarWrapper = styled.div`
     flex-direction: row;
     font-size: ${(props) => props.theme.Fs.size14};
   }
-
   // 오늘날짜
   .fc,
   .fc-daygrid-day.fc-day-today {
@@ -431,7 +425,6 @@ export const CalendarWrapper = styled.div`
       }
     }
   }
-
   .fc-theme-standard,
   .fc-scrollgrid {
     border: none;
@@ -439,11 +432,9 @@ export const CalendarWrapper = styled.div`
   .fc-theme-standard td {
     border-top: 0.5px solid ${(props) => props.theme.Bg.border1};
   }
-
   table {
     border: none;
   }
-
   // 요일
   th {
     line-height: 30px;
@@ -456,7 +447,6 @@ export const CalendarWrapper = styled.div`
   th:last-child {
     border-right: none;
   }
-
   // 가로
   tr {
     border: none;
@@ -465,7 +455,6 @@ export const CalendarWrapper = styled.div`
   tr:last-child {
     border-bottom: none;
   }
-
   // 세로
   td {
     border: none;
@@ -474,23 +463,19 @@ export const CalendarWrapper = styled.div`
   td:last-child {
     border-right: none;
   }
-
   // 일정
   .fc-event {
     line-height: 20px;
     font-size: ${(props) => props.theme.Fs.size14};
     vertical-align: middle;
   }
-
   // 더보기 글씨체
   .fc-more-link {
     font-size: ${(props) => props.theme.Fs.smallText};
   }
-
   .fc-direction-ltr .fc-timegrid-slot-label-frame {
     text-align: center;
   }
-
   .fc-timegrid-axis-frame {
     justify-content: center;
   }
