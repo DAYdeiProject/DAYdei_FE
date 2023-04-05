@@ -7,24 +7,21 @@ import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import CategoryModal from "./category/CategoryModal";
 import { useDispatch, useSelector } from "react-redux";
 import TokenCheck from "../../utils/cookie/tokenCheck";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
 import { __getConnect } from "../../redux/modules/connectSlice";
 import Cookies from "js-cookie";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { __getMyProfile } from "../../redux/modules/usersSlice";
+import EmptyPage from "../NotFoundPage";
 
 const EventSource = EventSourcePolyfill;
 
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
+
   TokenCheck();
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate(window.location.pathname, { replace: true });
-  }, [navigate]);
 
   //첫 로그인시 카테고리모달 보여주기 상태
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -42,6 +39,8 @@ function HomePage() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
+
+  const { myProfile, isError, isLoading } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(__getMyProfile(id)).then((data) => {
@@ -63,15 +62,23 @@ function HomePage() {
   const CategoryModalRef = useRef(null);
   useOutSideClick(CategoryModalRef, handleCategoryModalClose);
 
+  const location = useLocation();
+
   return (
-    <HomePageWrapper>
-      <MainWrapper>
-        <Sidebar side={side} setDetailPostId={setDetailPostId} />
-        {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
-        <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
-        {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
-      </MainWrapper>
-    </HomePageWrapper>
+    <>
+      {myProfile && (
+        <HomePageWrapper>
+          <MainWrapper>
+            <Sidebar side={side} setDetailPostId={setDetailPostId} />
+            {isModalVisible && (
+              <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />
+            )}
+            <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
+            {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
+          </MainWrapper>
+        </HomePageWrapper>
+      )}
+    </>
   );
 }
 

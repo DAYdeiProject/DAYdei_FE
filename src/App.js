@@ -1,14 +1,17 @@
-import { ThemeProvider } from "styled-components";
-import { FlexRow, FlexRowBetween, FlexCol } from "./shared/style/Theme";
-import Router from "./shared/router/Router";
-import theme from "./shared/style/Theme";
+import { Outlet } from "react-router-dom";
+import styled from "styled-components";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router />
-    </ThemeProvider>
+    <Wrapper>
+      <Outlet />
+    </Wrapper>
   );
 }
 
 export default App;
+
+const Wrapper = styled.main`
+  width: 100%;
+  height: 100%;
+`;

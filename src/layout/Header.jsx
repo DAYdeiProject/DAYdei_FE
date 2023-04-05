@@ -31,7 +31,7 @@ function Header() {
   // 헤더 클릭한 값 state
   const { text } = useSelector((state) => state.header);
 
-  const { headerProfile, isLoading } = useSelector((state) => state.users);
+  const { headerProfile } = useSelector((state) => state.users);
   //console.log(headerProfile);
 
   // 헤더 프로필 이미지 가져오기

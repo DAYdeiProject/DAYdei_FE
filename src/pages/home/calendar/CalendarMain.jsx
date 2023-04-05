@@ -46,7 +46,7 @@ function CalendarMain({ ...props }) {
   // 타유저  캘린더 share 일정 open state
   const [isOtherOpen, setIsOtherOpen] = useState(false);
   // memo side open 여부
-  const [isSideOpen, setIsSideOpen] = useState(false);
+  const [isSideOpen, setIsSideOpen] = useState(true);
 
   const dispatch = useDispatch();
 

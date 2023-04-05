@@ -7,6 +7,7 @@ import subscribe from "../modules/subscribeSlice";
 import connect from "../modules/connectSlice";
 import memos from "../modules/memosSlice";
 import header from "../modules/headerReducer";
+import notFound from "../modules/notFoundReducer";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     connect,
     memos,
     header,
+    notFound,
   },
 });
 
