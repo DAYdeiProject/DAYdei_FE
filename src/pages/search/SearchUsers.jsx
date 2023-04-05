@@ -217,11 +217,13 @@ const SearchBar = styled.input`
 `;
 
 const SearchBody = styled.div`
+  height: 700px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 18px;
   grid-row-gap: 20px;
   overflow: auto;
+  justify-content: center;
 
   ::-webkit-scrollbar {
     display: none;
