@@ -48,6 +48,8 @@ function CalendarMain({ ...props }) {
   const [otherCalendarState, setOtherCalendarState] = useState(false);
   // 타유저  캘린더 share 일정 open state
   const [isOtherOpen, setIsOtherOpen] = useState(false);
+  // memo side open 여부
+  const [isSideOpen, setIsSideOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -213,7 +215,7 @@ function CalendarMain({ ...props }) {
           setIsOtherOpen={setIsOtherOpen}
         />
       )}
-      <CalendarWrapper disabled={disabled} isOpen={isOtherOpen}>
+      <CalendarWrapper disabled={disabled} isOpen={isSideOpen}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -267,7 +269,9 @@ function CalendarMain({ ...props }) {
           isSubmit={isSubmit}
         />
       </CalendarWrapper>
-      {String(userInfo.userId) === String(param.id) && <CalendarSidebar isSubmit={isSubmit} setIsSubmit={setIsSubmit} />}
+      {String(userInfo.userId) === String(param.id) && (
+        <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />
+      )}
     </CalendarSidebarWrapper>
   );
 }
@@ -283,6 +287,7 @@ export const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: 40px 48px 52px;
+  margin-right: ${(props) => props.isOpen && "46px"};
   /* background: blue; */
 
   .fc {

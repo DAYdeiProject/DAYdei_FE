@@ -40,6 +40,7 @@ const Bg = {
   calendar7: "#F2F4F6",
 
   hoverColor: "#eef9f7",
+  memoColor: "#f1fbfe",
 };
 
 const Fs = {

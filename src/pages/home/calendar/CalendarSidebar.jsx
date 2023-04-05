@@ -58,6 +58,7 @@ export default function CalendarSidebar({ ...props }) {
     setIsAddMemoBoxOpen(true);
     setIsInputBoxOpen(false);
     setClickedMemoId(null);
+    props.setIsSideOpen(!props.isSideOpen);
   };
 
   const handleSubscribeBoxOpen = () => {
@@ -82,6 +83,8 @@ export default function CalendarSidebar({ ...props }) {
       setIsAddMemoBoxOpen(true);
       setTitle("");
       setContent("");
+    } else if (title === "" || content === "") {
+      alert("빈칸을 채워주세요");
     } else {
       setIsInputBoxOpen(false);
       setIsAddMemoBoxOpen(true);
@@ -142,7 +145,7 @@ export default function CalendarSidebar({ ...props }) {
 
   return (
     <>
-      <WholeWrapper>
+      <WholeWrapper isOpen={props.isSideOpen}>
         <SidebarWrapper>
           <div onClick={handleTodoBoxOpen}>
             <Note />
@@ -151,72 +154,70 @@ export default function CalendarSidebar({ ...props }) {
             <Star />
           </div>
         </SidebarWrapper>
+        <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
+          <UpperArea>
+            <MemoTitle>
+              <div>내 메모 목록</div>
+              <Cancel onClick={() => setIsTodoBoxOpen(false)} />
+            </MemoTitle>
+            <GapArea />
+            {isAddMemoBoxOpen && (
+              <AddMemoBox>
+                <SmallText>내 메모</SmallText>
+                <AddBox onClick={handleInputBoxOpen}>
+                  <Memo /> 메모 추가하기
+                </AddBox>
+                {isInputBoxOpen && (
+                  <InputBox>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        submitMemoHandler();
+                      }}>
+                      <ContentWrapper>
+                        <InputBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
+                        <InputBarContent type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
+                      </ContentWrapper>
+                      <button hidden>제출</button>
+                    </form>
+                  </InputBox>
+                )}
+              </AddMemoBox>
+            )}
+          </UpperArea>
+          <UnderWrap>
+            {updatedMemos.map((memo) => (
+              <div key={memo.id}>
+                {clickedMemoId === memo.id ? (
+                  <MemoBox>
+                    <input type="text" placeholder="제목" value={fixedTitle} onChange={handleFixedTitleChange} />
+                    <input type="text" placeholder="내용" value={fixedContent} onChange={handleFixedContentChange} />
+                    <MemoBoxButtonWrapper>
+                      <FixButton onClick={() => fixMemoHandler(memo.id)}>수정</FixButton>
+                    </MemoBoxButtonWrapper>
+                  </MemoBox>
+                ) : (
+                  <MemoBox>
+                    <UpperBox>
+                      <div>{memo.title}</div>
+                      <MoreY width="16px" height="16px" onClick={EditDropdownHandler}></MoreY>
+                    </UpperBox>
+                    <UnderBox>{memo.content}</UnderBox>
+                    <MemoBoxButtonWrapper>
+                      <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
+                      <FaTrash
+                        onClick={() => {
+                          deleteMemoHandler(memo.id);
+                        }}
+                      />
+                    </MemoBoxButtonWrapper>
+                  </MemoBox>
+                )}
+              </div>
+            ))}
+          </UnderWrap>
+        </SideSpaceWrapper>
 
-        {isTodoBoxOpen && (
-          <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
-            <UpperArea>
-              <MemoTitle>
-                <div>내 메모 목록</div>
-                <Cancel onClick={() => setIsTodoBoxOpen(false)} />
-              </MemoTitle>
-              <GapArea />
-              {isAddMemoBoxOpen && (
-                <AddMemoBox>
-                  <SmallText>내 메모</SmallText>
-                  <AddBox onClick={handleInputBoxOpen}>
-                    <Memo /> 메모 추가하기
-                  </AddBox>
-                  {isInputBoxOpen && (
-                    <InputBox>
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          submitMemoHandler();
-                        }}>
-                        <ContentWrapper>
-                          <InputBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
-                          <InputBarContent type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
-                        </ContentWrapper>
-                        <button hidden>제출</button>
-                      </form>
-                    </InputBox>
-                  )}
-                </AddMemoBox>
-              )}
-            </UpperArea>
-            <UnderWrap>
-              {updatedMemos.map((memo) => (
-                <div key={memo.id}>
-                  {clickedMemoId === memo.id ? (
-                    <MemoBox>
-                      <input type="text" placeholder="제목" value={fixedTitle} onChange={handleFixedTitleChange} />
-                      <input type="text" placeholder="내용" value={fixedContent} onChange={handleFixedContentChange} />
-                      <MemoBoxButtonWrapper>
-                        <FixButton onClick={() => fixMemoHandler(memo.id)}>수정</FixButton>
-                      </MemoBoxButtonWrapper>
-                    </MemoBox>
-                  ) : (
-                    <MemoBox>
-                      <UpperBox>
-                        <div>{memo.title}</div>
-                        <MoreY width="16px" height="16px" onClick={EditDropdownHandler}></MoreY>
-                      </UpperBox>
-                      <UnderBox>{memo.content}</UnderBox>
-                      <MemoBoxButtonWrapper>
-                        <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
-                        <FaTrash
-                          onClick={() => {
-                            deleteMemoHandler(memo.id);
-                          }}
-                        />
-                      </MemoBoxButtonWrapper>
-                    </MemoBox>
-                  )}
-                </div>
-              ))}
-            </UnderWrap>
-          </SideSpaceWrapper>
-        )}
         {isSubscribeBoxOpen && (
           <SubscribeListControl
             clickedButtonIds={clickedButtonIds}
@@ -235,6 +236,8 @@ const WholeWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
+  position: ${(props) => props.isOpen && "absolute"};
+  right: -240px;
 `;
 
 //사이드바
@@ -262,11 +265,10 @@ export const SideSpaceWrapper = styled.div`
   overflow: auto;
   z-index: 10;
   flex-shrink: 0;
-  border: 1px solid black;
+  border-left: 1px solid #121212;
   gap: 18px;
 
   padding-top: 20px;
-
   ::-webkit-scrollbar {
     display: none;
   }
