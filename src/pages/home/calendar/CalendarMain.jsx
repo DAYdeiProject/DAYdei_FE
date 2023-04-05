@@ -287,7 +287,7 @@ export const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: 40px 48px 52px;
-  margin-right: ${(props) => props.isOpen && "46px"};
+  margin-right: 46px;
   /* background: blue; */
   .fc {
     width: 100%;

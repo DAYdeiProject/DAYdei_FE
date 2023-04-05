@@ -264,14 +264,19 @@ export default function CalendarSidebar({ ...props }) {
 }
 
 const WholeWrapper = styled.div`
+  right: 0;
+  position: absolute;
   display: flex;
   flex-direction: row;
   height: 100%;
+  z-index: 10;
 `;
 
 //사이드바
 const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
+  position: relative;
+  right: 0;
   display: flex;
   justify-content: flex-start;
   width: 46px;
@@ -280,11 +285,12 @@ const SidebarWrapper = styled.div`
   padding-top: 50px;
   border-left: solid 1px #121212;
   cursor: pointer;
-  /* background-color: lightgreen; */
+  background: white;
 `;
 
 //사이드바 아이콘 클릭 시 나오는 영역
 export const SideSpaceWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -300,6 +306,7 @@ export const SideSpaceWrapper = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  /* background: yellow; */
 `;
 
 //메모 모달 상단(메모 추가하기까지)
