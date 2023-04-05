@@ -17,7 +17,7 @@ export const setNotificationPostId = (payload) => {
 };
 
 const initialState = {
-  data: "home",
+  text: "home",
   notiInfo: "",
 };
 
@@ -25,7 +25,7 @@ const headerReducer = (state = initialState, action) => {
   switch (action.type) {
     case TEXT_STATE:
       return {
-        data: action.payload,
+        text: action.payload,
       };
     case NOTI_POSTID:
       return {
