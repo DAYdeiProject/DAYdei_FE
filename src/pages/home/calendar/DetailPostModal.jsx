@@ -49,6 +49,7 @@ export default function DetailPostModal({ ...props }) {
 
   useEffect(() => {
     if (detail || []) {
+      //console.log("detail", detail);
       if (detail.startDate) {
         //날짜;
         const newStart = format(new Date(detail?.startDate), "yy.MM.dd");
@@ -75,8 +76,10 @@ export default function DetailPostModal({ ...props }) {
         setIsHeight("250px");
       }
 
+      //if(detail?.writer.id)
       const color = ColorFromDB(detail.color);
       setIsColor(color);
+      //console.log("dddd", color);
     }
   }, [detail, props.isSubmit]);
 
