@@ -269,7 +269,7 @@ const WholeWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
-  z-index: 10;
+  /* z-index: 10; */
 `;
 
 //사이드바
@@ -286,6 +286,7 @@ const SidebarWrapper = styled.div`
   border-left: solid 1px #121212;
   cursor: pointer;
   background: white;
+  z-index: 1;
 `;
 
 //사이드바 아이콘 클릭 시 나오는 영역
