@@ -19,7 +19,7 @@ export default function ColorFromDB(data) {
     case "PINK":
       return "#ce7cc7";
     default:
-      return "#FBDF96";
+      return "#D5D5DC";
   }
 }
 
