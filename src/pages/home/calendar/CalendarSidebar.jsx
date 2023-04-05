@@ -20,6 +20,7 @@ export default function CalendarSidebar({ ...props }) {
   const [isSubscribeBoxOpen, setIsSubscribeBoxOpen] = useState(false);
   const [isAddMemoBoxOpen, setIsAddMemoBoxOpen] = useState(true);
   const [isInputBoxOpen, setIsInputBoxOpen] = useState(false);
+  const [isEditDropDownOpen, setIsEditDropDownOpen] = useState(false);
   //메모에 적히는 제목,내용 상태
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -135,6 +136,10 @@ export default function CalendarSidebar({ ...props }) {
     setClickedMemoId(null);
   };
 
+  const EditDropdownHandler = () => {
+    setIsEditDropDownOpen(!isEditDropDownOpen);
+  };
+
   return (
     <>
       <WholeWrapper>
@@ -169,8 +174,8 @@ export default function CalendarSidebar({ ...props }) {
                           submitMemoHandler();
                         }}>
                         <ContentWrapper>
-                          <SearchBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
-                          <SearchBar type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
+                          <InputBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
+                          <InputBarContent type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
                         </ContentWrapper>
                         <button hidden>제출</button>
                       </form>
@@ -192,9 +197,11 @@ export default function CalendarSidebar({ ...props }) {
                     </MemoBox>
                   ) : (
                     <MemoBox>
-                      <div>{memo.title}</div>
-                      <div>{memo.content}</div>
-
+                      <UpperBox>
+                        <div>{memo.title}</div>
+                        <MoreY width="16px" height="16px" onClick={EditDropdownHandler}></MoreY>
+                      </UpperBox>
+                      <UnderBox>{memo.content}</UnderBox>
                       <MemoBoxButtonWrapper>
                         <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
                         <FaTrash
@@ -329,6 +336,14 @@ const AddBox = styled.div`
   color: ${(props) => props.theme.Bg.mainColor5};
   :hover {
     background: #f1fbfe;
+
+    > div > svg {
+      display: block;
+    }
+  }
+
+  > div > svg {
+    display: none;
   }
 `;
 
@@ -358,7 +373,7 @@ const ContentWrapper = styled.div`
 `;
 
 // 입력창 input에 대한 상세 style
-const SearchBar = styled.input`
+const InputBar = styled.input`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -371,6 +386,13 @@ const SearchBar = styled.input`
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
+  color: ${(props) => props.theme.Bg.color1};
+`;
+
+const InputBarContent = styled(InputBar)`
+  font-weight: 400;
+  line-height: 150%;
+  color: ${(props) => props.theme.Bg.color2};
 `;
 
 //입력완료한 메모박스가 쌓이는 하단 영역
@@ -395,6 +417,10 @@ const MemoBox = styled.div`
   border: 1px solid ${(props) => props.theme.Bg.border1};
   border-radius: 4px;
   word-break: break-word;
+
+  :hover {
+    background: #f1fbfe;
+  }
 `;
 
 const MemoBoxButtonWrapper = styled.div`
@@ -405,6 +431,36 @@ const MemoBoxButtonWrapper = styled.div`
   width: 100%;
   gap: 10px;
   margin-top: 10px;
+  background: pink;
+`;
+
+const UpperBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 184px;
+  justify-content: space-between;
+
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  color: ${(props) => props.theme.Bg.color1};
+`;
+
+const EditDropDown = styled.div`
+  position: absolute;
+  width: 60px;
+  height: 40px;
+  background: skyblue;
+  z-index: 10;
+  top: 10px;
+  left: 10px;
+`;
+
+const UnderBox = styled.div`\
+font-weight: normal;
+font-size:12px;
+line-height:150%;
 `;
 
 const FixButton = styled.div`
