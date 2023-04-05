@@ -115,7 +115,7 @@ export default function SidebarOtherCalendar({ userId }) {
               : otherUser?.friendCheck === false && otherUser?.isRequestFriend === true
               ? "신청 승인"
               : otherUser?.friendCheck === true && otherUser?.isRequestFriend === null
-              ? "친구"
+              ? "친구 끊기"
               : null}
           </div>
           <div onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</div>

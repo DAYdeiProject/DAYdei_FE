@@ -31,18 +31,17 @@ export default function NotifiactionModalBox({ ...props }) {
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
       navigate(`/${userId}`);
-      dispatch(textState("home"));
+      dispatch(textState(""));
       props.setIsNotificationOpen(false);
-    } else {
+    } else if (userId === null) {
       const notiInfo = {
         postId,
         content,
         notiState,
         isRead,
       };
-      dispatch(setNotificationPostId({ postId, content, notiState }));
       navigate(`/${userInfo.userId}`);
-      dispatch(textState("home"));
+      dispatch(textState(""));
       dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);
     }
@@ -83,6 +82,7 @@ export default function NotifiactionModalBox({ ...props }) {
               } else if (splitContent[1].includes("일정 참여 요청을 거절")) {
                 state = "rejectPost";
               }
+
               return (
                 <NofiMessageBox key={list.id} onClick={() => notiClickHandler(list.postId, list.userId, list.content, state, list.isRead)}>
                   <span>구독알림</span>

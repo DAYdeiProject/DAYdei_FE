@@ -26,7 +26,7 @@ export default function SidebarMyCalendar({ ...props }) {
   const nowDay = `${now} (${day})`;
 
   const { today, update } = useSelector((state) => state.calendar);
-  const { data } = useSelector((state) => state.header);
+  const { text } = useSelector((state) => state.header);
 
   // 오늘의 일정, 업데이트한 친구 가져오기
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function SidebarMyCalendar({ ...props }) {
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {data === "home" || data === undefined ? (
+          {text === "home" || text === undefined ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>
@@ -134,7 +134,7 @@ export default function SidebarMyCalendar({ ...props }) {
                       <div
                         onClick={() => {
                           moveUserPage(list.id);
-                          dispatch(textState("home"));
+                          dispatch(textState(""));
                         }}>
                         캘린더
                       </div>

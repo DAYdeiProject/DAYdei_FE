@@ -93,11 +93,19 @@ export default function DetailPostModal({ ...props }) {
     } else if (notiInfo) {
       setNotiContent(notiInfo.content);
       setNotiState(notiInfo.notiState);
-      dispatch(__getPostDetail({ id: notiInfo.postId, token }));
-      props.setIsDetailPost(true);
+      dispatch(__getPostDetail({ id: notiInfo.postId, token })).then((data) => {
+        if (data.error) {
+          if (data.payload.response.data.statusCode === 404) {
+            alert("존재하지 않는 일정입니다.");
+          }
+        } else {
+          props.setIsDetailPost(true);
+        }
+      });
     }
   }, [props.detailPostId, props.otherCalendarPostId, notiInfo, props.isSubmit]);
 
+  console.log("notiInfo========>", notiInfo);
   // toggle
   const downDropClick = (data) => {
     data === "friend" ? setFriendToggle(true) : setImgToggle(true);
@@ -183,11 +191,11 @@ export default function DetailPostModal({ ...props }) {
               <Dismiss className="closeIncon" onClick={closeModal} />
               {isEditOpen && String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
                 <EditBoxContainer>
-                  <EditBox onClick={() => modifyPostHandler(props.detailPostId ? props.detailPostId : props.notificationPostId.returnId)}>
+                  <EditBox onClick={() => modifyPostHandler(props.detailPostId ? props.detailPostId : notiInfo.postId)}>
                     <Edit className="pencilIcon" />
                     <span>수정하기</span>
                   </EditBox>
-                  <EditBox onClick={() => deletePostHandler(props.detailPostId ? props.detailPostId : props.notificationPostId.returnId)}>
+                  <EditBox onClick={() => deletePostHandler(props.detailPostId ? props.detailPostId : notiInfo.postId)}>
                     <Delete className="trashIcon" />
                     <span>삭제하기</span>
                   </EditBox>

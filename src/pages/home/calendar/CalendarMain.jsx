@@ -21,6 +21,7 @@ import format from "date-fns/format";
 import OtherUserCalendar from "./OtherUserCalendar";
 import getDate from "date-fns/getDate";
 import { getYear, getMonth } from "date-fns";
+import defaultImg from "../../../assets/defaultImage/profile.jpg";
 
 function CalendarMain({ ...props }) {
   // 일정 추가 모달창 open state
@@ -34,13 +35,9 @@ function CalendarMain({ ...props }) {
   const [newData, setNewData] = useState("");
   // 날짜 클릭시 일정추가모달 뜨고 startDate 해당 클릭 날짜로
   const [pickDate, setPickDate] = useState("");
-  // 일정 detailPostId
-  // const [detailPostId, setDetailPostId] = useState("");
   const [modifyPostId, setModifyPostId] = useState("");
   // 타유저 업데이트/공유한 일정 클릭시 postId
   const [otherCalendarPostId, setOtherCalendarPostId] = useState("");
-  // 일정 detail 로그인/타유저 비교
-  const [isModify, setIsModify] = useState(false);
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
   const [moreDate, setMoreDate] = useState("");
@@ -57,7 +54,7 @@ function CalendarMain({ ...props }) {
   const param = useParams();
   const userInfo = GetUserInfo();
 
-  const { total, isLoading } = useSelector((state) => state.calendar);
+  const { total, isLoading, error } = useSelector((state) => state.calendar);
 
   //console.log("메인----------", total);
   useEffect(() => {
@@ -107,6 +104,7 @@ function CalendarMain({ ...props }) {
 
         return {
           id: data.id,
+          imageUrl: data.userProfileImage,
           title: data.title,
           start: startDate,
           end: endtDate,
@@ -200,8 +198,20 @@ function CalendarMain({ ...props }) {
       const date = args.date.getDate();
       return { html: `<span class='fc-daygrid-day-number'>${date}</span>` };
     },
+    eventContent(eventInfo) {
+      const { event } = eventInfo;
+      return (
+        <>
+          {event.extendedProps.imageUrl !== null && event.allDay && String(param.id) === String(userInfo.userId) ? (
+            <img src={event.extendedProps.imageUrl} alt={event.title} />
+          ) : (
+            !event.allDay && <AlldayColor isEventColor={event.backgroundColor}></AlldayColor>
+          )}
+          {event.title.length > 11 ? <span>{event.title.substr(0, 10)}...</span> : <span>{event.title}</span>}
+        </>
+      );
+    },
   };
-  // if (isLoding) <Loading loading={isLoding} />;
 
   return (
     <CalendarSidebarWrapper>
@@ -439,6 +449,22 @@ export const CalendarWrapper = styled.div`
   .fc-theme-standard td {
     border-top: 0.5px solid ${(props) => props.theme.Bg.border1};
   }
+  // event
+  .fc-event-main {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    img {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+    span {
+      margin-left: 5px;
+    }
+  }
 
   table {
     border: none;
@@ -494,4 +520,12 @@ export const CalendarWrapper = styled.div`
   .fc-timegrid-axis-frame {
     justify-content: center;
   }
+`;
+
+const AlldayColor = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+  background-color: ${(props) => props.isEventColor};
 `;

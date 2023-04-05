@@ -14,7 +14,7 @@ export default function OtherUserCalendar({ ...props }) {
   const param = useParams();
 
   const { otherUserUpdate, otherUserShare } = useSelector((state) => state.calendar);
-  console.log("otherUserUpdate : ", otherUserUpdate);
+  //console.log("otherUserUpdate : ", otherUserUpdate);
   //console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {

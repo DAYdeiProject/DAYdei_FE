@@ -16,7 +16,7 @@ function DetailFriends({ FriendsList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              dispatch(textState("home"));
+              dispatch(textState(""));
             }}>
             <ProfileWrapLong>
               <PostLeft>

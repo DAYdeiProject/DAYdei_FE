@@ -25,19 +25,19 @@ function Header() {
   // 프로필 디테일 오픈여부
   const [isProfileDetail, setIsProfileDetail] = useState(false);
   const token = Cookies.get("accessJWTToken");
-  const [clickNav, setClickNav] = useState("home");
+  const [clickNav, setClickNav] = useState("");
   const dispatch = useDispatch();
   const userId = GetUserInfo();
   // 헤더 클릭한 값 state
-  const { data } = useSelector((state) => state.header);
+  const { text } = useSelector((state) => state.header);
 
   const { headerProfile, isLoading } = useSelector((state) => state.users);
   //console.log(headerProfile);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
-    setClickNav(data);
-  }, [clickNav, data]);
+    setClickNav(text);
+  }, [clickNav, text]);
 
   useEffect(() => {
     // 프로필 수정시에도 get요청 다시하기

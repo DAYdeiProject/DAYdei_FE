@@ -63,7 +63,7 @@ function DetailSubscriberList({ SubscribersList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              dispatch(textState("home"));
+              dispatch(textState(""));
             }}>
             <ProfileWrapLong>
               <PostLeft>

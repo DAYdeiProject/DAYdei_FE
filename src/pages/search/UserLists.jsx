@@ -125,7 +125,7 @@ function UserLists({ searchWord, selectedCategories }) {
             <ProfileArea
               onClick={() => {
                 navigate(`/${user.id}`);
-                dispatch(textState("home"));
+                dispatch(textState(""));
               }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />

@@ -188,10 +188,11 @@ function AddPostModal({ ...props }) {
 
   // 해당 친구 클릭
   const targetClick = (data) => {
+    console.log("친구클릭====", data);
     if (data.isCheck) {
-      alert(`${data.nickName}님을 해당 날짜에 초대 가능합니다.`);
-    } else {
       alert(`${data.nickName}님이 해당 날짜에 일정이 있습니다.`);
+    } else {
+      alert(`${data.nickName}님을 해당 날짜에 초대 가능합니다.`);
     }
     if (!targetPick.some((list) => list.id === data.id)) {
       setTargetPick([...targetPick, data]);
@@ -663,7 +664,7 @@ function AddPostModal({ ...props }) {
                 <option value="ALL">전체공개</option>
                 <option value="SUBSCRIBE">전체공개(스크랩허용)</option>
                 <option value="FRIEND">친구공개</option>
-                <option value="ME">나만보기</option>
+                {targetPick.length === 0 && <option value="ME">나만보기</option>}
               </select>
             </postStyle.SelectContainer>
           </postStyle.ScopeWrapper>
