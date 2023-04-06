@@ -10,12 +10,8 @@ import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 import { DayCheck } from "../utils/calendar/CalendarBasic";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
-import defaultProfile from "../assets/defaultImage/profile.jpg";
-import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
 import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
 import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
-import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
-import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
 import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
 
 export default function SidebarMyCalendar({ ...props }) {
