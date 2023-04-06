@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import { TextWrapper, ButtonArea } from "./CategoryModal";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import { __getFamousList } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
+import Modal from "../../../elements/Modal";
+import ModalWrap from "../../../elements/ModalWrap";
 import Loading from "../../../components/Loading";
+
+import { TextWrapper, ButtonArea } from "./CategoryModal";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
-function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, setIsButtonclicked }) {
+function FriendRecommendModal({ setIsModalVisible, showFriendRecommendModal, setShowFriendRecommendModal, setIsButtonclicked }) {
   const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
   const { isLoading, FamousList } = useSelector((state) => state.friends);
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
   //구독 눌림 상태
 
   const token = Cookies.get("accessJWTToken");
-
-  // console.log(FamousList);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, 
   return (
     <>
       <ModalWrap>
-        <Modal>
+        <Modal padding="48px 38px">
           <ModalContent>
             <ContentWrapper>
               <TextWrapper>
@@ -93,7 +94,7 @@ function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, 
                             ? "알 수 없는 캘린더"
                             : user.introduction === null
                             ? `${user.nickName}의 캘린더입니다.`
-                            : `${user.introduction.substr(0, 18)}...`}
+                            : `${user.introduction.substr(0, 16)}...`}
                         </UserInfoText2>
                       </UserInfoWrap>
                       <ButtonStyle backgroundColor={clickedButtonIds.includes(user.id) ? "#FBDF96" : "#FFFFFF"}>

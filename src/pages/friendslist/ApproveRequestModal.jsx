@@ -1,22 +1,29 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../elements/ModalWrap";
-import Modal from "../../elements/Modal";
+import { useDispatch } from "react-redux";
+
 import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 
-function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIsApproveRequestModalOpen }) {
-  const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
-  const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
-  const token = Cookies.get("accessJWTToken");
+import Modal from "../../elements/Modal";
+import ModalWrap from "../../elements/ModalWrap";
 
-  useEffect(() => {
-    const storedUserInfo = localStorage.getItem("userInfo");
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
-  }, []);
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+
+function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIsApproveRequestModalOpen, SentUsersList }) {
+  //보낸 친구요청 or 받은 친구요청 띄우기 상태
+  const [isReceivedRequestOpen, setIsReceivedRequestOpen] = useState(true);
+  const [isSentRequestOpen, setIsSentRequestOpen] = useState(false);
+
+  //보낸 친구요청 오픈함수
+  const SentRequestOpenHandler = () => {
+    setIsSentRequestOpen(true);
+    setIsReceivedRequestOpen(false);
+  };
+  //받은 친구요청 오픈함수
+  const ReceivedRequestOpenHandler = () => {
+    setIsReceivedRequestOpen(true);
+    setIsSentRequestOpen(false);
+  };
 
   const HandleModalClose = () => {
     setIsApproveRequestModalOpen(false);
@@ -35,36 +42,74 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
   return (
     <>
       <ModalWrap>
-        <Modal padding="5px 0px" height="420px">
+        <Modal padding="42px 0px" width="370px" height="400px">
           <ModalContent ref={ApproveRequestModalRef}>
-            <ModalHeader>친구신청 목록</ModalHeader>
-            <ModalContentWrap>
-              {RequestedUsersList.map((user) => (
-                <>
-                  <PostWrap>
-                    <UserInfoWrap>
-                      <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"}</NickNameWrap>
-                      <IntroductionWrap>{user.introduction ? user.introduction : "안녕하세요, 친구신청합니다."}</IntroductionWrap>
-                    </UserInfoWrap>
-                    <ButtonsWrap>
-                      <ButtonAccept
-                        onClick={() => {
-                          ApproveRequestHandler(user.id);
-                        }}>
-                        수락
-                      </ButtonAccept>
-                      <ButtonRefuse
-                        onClick={() => {
-                          refuseHandler(user.id);
-                        }}>
-                        거절
-                      </ButtonRefuse>
-                    </ButtonsWrap>
-                  </PostWrap>
-                </>
-              ))}
-            </ModalContentWrap>
-            <SkipButton onClick={HandleModalClose}>닫기</SkipButton>
+            <UpperBox>
+              <ModalHeader>친구신청</ModalHeader>
+              <OptionsWrap>
+                <OptionBoxSent onClick={SentRequestOpenHandler} isSent={isSentRequestOpen}>
+                  보낸 친구 요청
+                </OptionBoxSent>
+                <OptionBoxReceived onClick={ReceivedRequestOpenHandler} isReceived={isReceivedRequestOpen}>
+                  받은 친구 요청
+                </OptionBoxReceived>
+              </OptionsWrap>
+            </UpperBox>
+            {isReceivedRequestOpen ? (
+              <ModalContentWrap>
+                {RequestedUsersList.map((user) => (
+                  <>
+                    <PostWrap>
+                      <UserInfoWrap>
+                        <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                        <ProfileWrap>
+                          <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
+                          <EmailWrap>@{user.email.split("@")[0]}</EmailWrap>
+                        </ProfileWrap>
+                      </UserInfoWrap>
+                      <ButtonsWrap>
+                        <ButtonAccept
+                          onClick={() => {
+                            ApproveRequestHandler(user.id);
+                          }}>
+                          수락
+                        </ButtonAccept>
+                        <ButtonRefuse
+                          onClick={() => {
+                            refuseHandler(user.id);
+                          }}>
+                          요청 삭제
+                        </ButtonRefuse>
+                      </ButtonsWrap>
+                    </PostWrap>
+                  </>
+                ))}
+              </ModalContentWrap>
+            ) : (
+              <ModalContentWrap>
+                {SentUsersList.map((user) => (
+                  <>
+                    <PostWrap>
+                      <UserInfoWrap>
+                        <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                        <ProfileWrap>
+                          <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
+                          <EmailWrap>@{user.email.split("@")[0]}</EmailWrap>
+                        </ProfileWrap>
+                      </UserInfoWrap>
+                      <ButtonsWrap>
+                        <ButtonRefuse
+                          onClick={() => {
+                            refuseHandler(user.id);
+                          }}>
+                          신청 취소
+                        </ButtonRefuse>
+                      </ButtonsWrap>
+                    </PostWrap>
+                  </>
+                ))}
+              </ModalContentWrap>
+            )}
           </ModalContent>
         </Modal>
       </ModalWrap>
@@ -73,113 +118,155 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
 }
 
 const ModalContent = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 316px;
+  width: 326px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 26px;
   /* background-color: pink; */
 `;
 
+const UpperBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 26px;
+
+  width: 100%;
+  height: 80px;
+  /* background: lightgray; */
+`;
+
 const ModalHeader = styled.div`
-  font-size: ${(props) => props.theme.Fs.size24};
-  font-weight: 600;
-  /* background-color: lightgray; */
-  margin-top: 24px;
-  margin-bottom: 20px;
+ 
+font-weight: 600;
+font-size: ${(props) => props.theme.Fs.size20}
+line-height: 23px;
+text-align: center;
+`;
+
+const OptionsWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+
+  width: 100%;
+  height: 31px;
+  /* background: yellow; */
+`;
+
+const OptionBox = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: ${(props) => props.theme.Fs.size14};
+  border-bottom: 1px solid black;
+`;
+
+const OptionBoxSent = styled(OptionBox)`
+  border-bottom: ${(props) => (props.isSent ? "1px solid black" : "none")};
+`;
+
+const OptionBoxReceived = styled(OptionBox)`
+  border-bottom: ${(props) => (props.isReceived ? "1px solid black" : "none")};
 `;
 
 const ModalContentWrap = styled.div`
-  height: 240px;
-  width: 120%;
+  min-height: 220px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   overflow: auto;
-  gap: 18px;
+  gap: 20px;
   margin-bottom: 12px;
-  /* background-color: skyblue; */
   ::-webkit-scrollbar {
     display: none;
   }
   margin-bottom: 32px;
-  /* background: ${(props) => props.theme.Bg.lightColor}; */
+  /* background: lightgray; ; */
 `;
 
 const PostWrap = styled.div`
   width: 100%;
-  height: 80px;
+  height: 40px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-
-  border-radius: 10px;
-  :hover {
-    cursor: pointer;
-  }
-  /* background-color: pink; */
-  /* border: 1px solid ${(props) => props.theme.Bg.lightColor}; */
+  /* background-color: skyblue; */
 `;
 
 const UserInfoWrap = styled.div`
   display: flex;
-  flex-direction: column;
-  /* background-color: skyblue; */
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
+  /* background-color: gray; */
 `;
 
-const NickNameWrap = styled.div`
-  font-size: ${(props) => props.theme.Fs.size20};
+const PhotoFrame = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+`;
+
+const ProfileWrap = styled.div`
+  height: 31px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+`;
+
+const NicknameWrap = styled.div`
   font-weight: 600;
+  font-size: ${(props) => props.theme.Fs.size14};
 `;
 
-const IntroductionWrap = styled.div`
-  font-size: ${(props) => props.theme.Fs.size14};
+const EmailWrap = styled.div`
+  font-weight: 500;
+  font-size: 10px;
+  color: ${(props) => props.theme.Bg.fontColor3};
 `;
 
 const ButtonsWrap = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
   align-items: center;
-  font-size: 14px;
-  width: 60px;
-  /* background-color: skyblue; */
-  margin-left: auto;
+  height: 34px;
+  gap: 8px;
 `;
 
 const Button = styled.div`
-  border: 1px solid ${(props) => props.theme.Bg.deepColor};
+  height: 34px;
+  border: 1px solid ${(props) => props.theme.Bg.color1};
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 6px 6px;
-  border-radius: 5px;
+  border-radius: 4px;
+
+  font-size: ${(props) => props.theme.Fs.size12};
+  font-weight: 600;
+  line-height: 14px;
 `;
 
 const ButtonAccept = styled(Button)`
+  width: 40px;
   background-color: ${(props) => props.theme.Bg.mainColor5};
   color: white;
 `;
 
 const ButtonRefuse = styled(Button)`
-  background-color: ${(props) => props.theme.Bg.mainColor2};
-`;
-
-const SkipButton = styled.button`
-  width: 200px;
-  height: 42px;
-  color: ${(props) => props.theme.Bg.lightColor};
-  background: #494d55;
-
-  border: 1.4px solid #121212;
-
-  box-shadow: 2px 2px 0px #000000;
-  border-radius: 4px;
-  :hover {
-    cursor: pointer;
-  }
+  width: 60px;
+  background-color: ${(props) => props.theme.Bg.color6};
 `;
 
 export default ApproveRequestModal;

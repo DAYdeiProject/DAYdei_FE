@@ -1,26 +1,25 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
+
+import { textState } from "../redux/modules/headerReducer";
+import { __getHeaderProfile } from "../redux/modules/usersSlice";
+
 import useOutSideClick from "../hooks/useOutsideClick";
+import NotifiactionModalBox from "../components/NotifiactionModalBox";
+import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
+
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
-import { useDispatch, useSelector } from "react-redux";
-import { __getHeaderProfile } from "../redux/modules/usersSlice";
-import { GetUserInfo } from "../utils/cookie/userInfo";
-import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
-import NotifiactionModalBox from "../components/NotifiactionModalBox";
-import { textState } from "../redux/modules/headerReducer";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import Loading from "../components/Loading";
 
-const EventSource = EventSourcePolyfill;
+import { GetUserInfo } from "../utils/cookie/userInfo";
 
 function Header() {
   const navigate = useNavigate();
-
   // 알림창 오픈여부
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -30,21 +29,18 @@ function Header() {
   // 프로필 디테일 오픈여부
   const [isProfileDetail, setIsProfileDetail] = useState(false);
   const token = Cookies.get("accessJWTToken");
-  const [clickNav, setClickNav] = useState("home");
+  const [clickNav, setClickNav] = useState("");
   const dispatch = useDispatch();
   const userId = GetUserInfo();
-  const param = useParams();
-
   // 헤더 클릭한 값 state
-  const { data } = useSelector((state) => state.header);
-
-  const { headerProfile, isLoading } = useSelector((state) => state.users);
+  const { text } = useSelector((state) => state.header);
+  const { headerProfile } = useSelector((state) => state.users);
   //console.log(headerProfile);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
-    setClickNav(data);
-  }, [clickNav, data]);
+    setClickNav(text);
+  }, [clickNav, text]);
 
   useEffect(() => {
     // 프로필 수정시에도 get요청 다시하기
@@ -118,54 +114,20 @@ function Header() {
     setIsProfileDetail(!isProfileDetail);
   };
 
-  // SSE 알림
-  //  "Content-Type": "text/event-stream",
-  //     Connection: "keep-alive",
-  useEffect(() => {
-    const eventConnect = new EventSource(`https://sparta-daln.shop/api/connect`, {
-      headers: {
-        Authorization: token,
-        "Content-Type": "text/event-stream",
-        Connection: "keep-alive",
-      },
-      heartbeatTimeout: 3600000,
-    });
-
-    eventConnect.onMessage = (event) => {
-      //const result = JSON.parse(event.data);
-      //console.log("result json ==> ", result);
-      console.log("connect event ==> ", event.data);
-      //const data = checkJSON !== "EventStream" && JSON.parse(event.data);
-
-      if (!result.includes("EventStream")) {
-        console.log("message===> ", result.content);
-        //setSseData(result);
-        //setIsMessageState(true);
-      }
-    };
-    return () => eventConnect.close();
-  }, []);
-
-  // 실시간 알림창
-  // useEffect(() => {
-  //   let timer;
-  //   if (isMessageState) {
-  //     timer = setTimeout(() => {
-  //       setIsMessageState(false);
-  //     }, 3000); // 4초 후 모달이 자동으로 닫힘
-  //   }
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [isMessageState]);
-
   return (
     <>
-      <HeaderWrapper isToken={token}>
-        <LogoContainer>
-          <LogoIcon />
-        </LogoContainer>
-        {token && (
+      {!token && (
+        <HeaderWrapper isToken={token}>
+          <LogoContainer>
+            <LogoIcon />
+          </LogoContainer>
+        </HeaderWrapper>
+      )}
+      {token && (
+        <HeaderWrapper isToken={token}>
+          <LogoContainer>
+            <LogoIcon />
+          </LogoContainer>
           <NavContainer>
             <NavTabConatiner isNav={clickNav}>
               <div onClick={homeClickHandler}>
@@ -181,9 +143,11 @@ function Header() {
             <NavUserConatiner>
               <IconWrapper ref={DropdownRef} className="notification">
                 {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
-                <Alert onClick={notificationClick} />
-                <Image onClick={handleDropdown}>
-                  <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                <Alert className="AlertIcon" onClick={notificationClick} />
+                <ImageContainer onClick={handleDropdown}>
+                  <ImgBox>
+                    <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                  </ImgBox>
                   {isDropdownOpen && (
                     <DropdownFrame>
                       <ContentWrapper>
@@ -208,12 +172,13 @@ function Header() {
                       </ContentWrapper>
                     </DropdownFrame>
                   )}
-                </Image>
+                </ImageContainer>
               </IconWrapper>
             </NavUserConatiner>
           </NavContainer>
-        )}
-      </HeaderWrapper>
+        </HeaderWrapper>
+      )}
+
       {isProfileSettingModalOpen && (
         <ProfileSettingModal
           isProfileSettingModalOpen={isProfileSettingModalOpen}
@@ -299,12 +264,18 @@ const IconWrapper = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  :hover {
-    cursor: pointer;
+  .AlertIcon {
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
-const Image = styled.div`
+const ImageContainer = styled.div`
+  position: relative;
+`;
+const ImgBox = styled.div`
+  ${(props) => props.theme.FlexCol};
   ${(props) => props.theme.BoxCustom};
   margin-left: 24px;
   height: 32px;
@@ -326,9 +297,9 @@ const DropdownFrame = styled.div`
   padding: 16px 14px;
   border-radius: 8px;
 
-  position: relative;
-  top: 3px;
-  right: 200px;
+  position: absolute;
+  top: 40px;
+  right: 0px;
   z-index: 100;
   /* background-color: pink; */
 `;

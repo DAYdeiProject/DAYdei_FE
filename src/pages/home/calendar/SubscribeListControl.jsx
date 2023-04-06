@@ -1,13 +1,14 @@
-import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
-import { SideSpaceWrapper } from "./CalendarSidebar";
+import { MemoTitle } from "./CalendarSidebar";
 import { __hideUser } from "../../../redux/modules/subscribeSlice";
-// import { click } from "@testing-library/user-event/dist/click";
+import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
-function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit }) {
+function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit, setIsSubscribeBoxOpen }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
   const dispatch = useDispatch();
   const params = useParams();
@@ -20,7 +21,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
   useEffect(() => {
     const id = params.id;
     let url = `${id}?sort=name&searchword=`;
-    console.log("검색어 없는 url-->", url);
+    //console.log("검색어 없는 url-->", url);
 
     dispatch(__getSubscribeList(url));
   }, [requestStatus]);
@@ -49,10 +50,11 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
     if (isVisible) {
       return (
         <ButtonStyle
+          isVisible={isVisible}
           onClick={() => {
             showUserHandler(id);
           }}>
-          숨기기
+          표시
         </ButtonStyle>
       );
     }
@@ -61,7 +63,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
         onClick={() => {
           hideUserHandler(id);
         }}>
-        일정표시
+        숨김
       </ButtonStyle>
     );
   };
@@ -70,19 +72,33 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
   return (
     <>
       <SideSpaceWrapper>
-        <WholeBoxWrap>
-          <TitleWrap>구독 List ({SubscribesList.length})</TitleWrap>
-          {SubscribesList.map((user) => (
-            <>
-              <ContentWrap>
-                <BoxWrap key={user.id}>
-                  <div>{user.nickName ? user.nickName : "이름 없음"}</div>
-                  <Button id={user.id} isVisible={user.isVisible} />
-                </BoxWrap>
-              </ContentWrap>
-            </>
-          ))}
-        </WholeBoxWrap>
+        <MemoTitle>
+          <div>구독 캘린더</div>
+          <Cancel onClick={() => setIsSubscribeBoxOpen(false)} />
+        </MemoTitle>
+        <GapArea />
+        <ContentWrap>
+          <MembersArea>
+            <SmallTitleWrap>구독 캘린더</SmallTitleWrap>
+            {SubscribesList.filter((user) => user.isVisible).map((user) => (
+              <BoxWrap key={user.id}>
+                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                <div>{user.nickName ? user.nickName : "이름 없음"}</div>
+                <Button id={user.id} isVisible={user.isVisible} />
+              </BoxWrap>
+            ))}
+          </MembersArea>
+          <MembersArea>
+            <SmallTitleWrap>숨김 캘린더</SmallTitleWrap>
+            {SubscribesList.filter((user) => user.isVisible === false).map((user) => (
+              <BoxWrap key={user.id}>
+                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                <div>{user.nickName ? user.nickName : "이름 없음"}</div>
+                <Button id={user.id} isVisible={user.isVisible} />
+              </BoxWrap>
+            ))}
+          </MembersArea>
+        </ContentWrap>
       </SideSpaceWrapper>
     </>
   );
@@ -90,51 +106,91 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
 
 export default SubscribeListControl;
 
-const WholeBoxWrap = styled.div`
-  width: 100%;
-  height: 100%;
+export const SideSpaceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: pink; */
+  width: 240px;
+  height: 100%;
+  background-color: white;
+  overflow: auto;
+  z-index: 10;
+  flex-shrink: 0;
+  border: 1px solid black;
+  padding-top: 20px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  /* background: blue; */
 `;
 
-const TitleWrap = styled.div`
-  font-size: 28px;
-  margin-top: 20px;
-  margin-bottom: 50px;
+export const GapArea = styled.div`
+  height: 12px;
+  width: 192px;
+  border-bottom: 1px solid gray;
+  margin-bottom: 12px;
+  /* background: yellow; */
 `;
 
 const ContentWrap = styled.div`
   display: flex;
+  width: 192px;
   flex-direction: column;
-  gap: 5px;
-  align-items: center;
+  gap: 24px;
+`;
 
-  /* background-color: pink; */
+const MembersArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const SmallTitleWrap = styled.div`
+  width: 100%;
+  height: 14px;
+
+  font-weight: 400;
+  font-size: ${(props) => props.theme.Fs.size12};
+  line-height: 14px;
+  color: ${(props) => props.theme.Bg.fontColor3};
 `;
 
 const BoxWrap = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3px;
-  margin-bottom: 20px;
-  justify-content: center;
   align-items: center;
-  font-size: ${(props) => props.theme.Fs.size18};
-  font-weight: 800;
-  width: 200px;
+  width: 100%;
+  height: 28px;
+  font-size: ${(props) => props.theme.Fs.size14};
+  font-weight: 600;
+  line-height: 17px;
   /* background-color: yellow; */
+`;
+
+export const PhotoFrame = styled.img`
+  padding: 0px;
+  margin-right: 8px;
+
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
 `;
 
 const ButtonStyle = styled.div`
   margin-left: auto;
+  width: 30px;
+  height: 20px;
   border: 1px solid black;
-  font-size: ${(props) => props.theme.Fs.size14};
-  padding: 8px 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 10px;
   border-radius: 5px;
+  background-color: ${(props) => (props.isVisible ? "#FBDF96" : "white")};
   :hover {
     cursor: pointer;
   }
-  /* background-color: pink; */
 `;

@@ -73,77 +73,80 @@ const PreviewWrapper = styled.div`
   // 31
   .main1 {
     top: 88px;
-    left: 174px;
+    left: 140px;
   }
   // 왼쪽 text
   .main2 {
-    top: 275px;
+    top: 180px;
     left: 143px;
+    width: 290px;
   }
   // 오른쪽 text
   .main3 {
-    top: 194.13px;
-    left: 672.28px;
+    top: 170px;
+    left: 710px;
+    width: 280px;
   }
   // 포스트잇
   .main4 {
-    top: 428px;
-    left: 919px;
+    top: 400px;
+    left: 930px;
   }
   // 그래프
   .main5 {
-    top: 825px;
-    left: 247px;
+    top: 660px;
+    left: 230px;
   }
   // 손가락
   .main6 {
-    top: 291px;
-    left: 351px;
+    top: 200px;
+    left: 380px;
+    width: 400px;
   }
   // 눈알
   .main7 {
-    top: 181px;
-    left: 676px;
+    top: 160px;
+    left: 700px;
   }
   // 포스트잇 밑 돼지꼬리
   .union1 {
-    top: 615px;
-    left: 910px;
+    top: 570px;
+    left: 880px;
   }
   // 포스트잇 밑 별
   .union2 {
-    top: 593px;
+    top: 450px;
     left: 866px;
   }
   // 포스트잇 밑 하트
   .union3 {
-    top: 712px;
+    top: 650px;
     left: 1015px;
   }
   // 포스트잇 밑 큰 별
   .union4 {
-    top: 836px;
-    left: 928px;
+    top: 700px;
+    left: 850px;
   }
   // 왼쪽 별 두개
   .union5 {
-    top: 732px;
-    left: 163px;
+    top: 660px;
+    left: 120px;
   }
   // 왼쪽 돼지꼬리
   .union6 {
-    top: 562px;
-    left: 174px;
+    top: 510px;
+    left: 150px;
   }
   // 왼쪽 하트
   .union7 {
-    top: 512px;
+    top: 460px;
     left: 255px;
   }
   // 왼쪽 작은 별
   .union8 {
-    top: 303px;
-    left: 418px;
+    top: 250px;
+    left: 450px;
   }
 `;
 
@@ -151,7 +154,7 @@ const PreviewWrapper = styled.div`
 const TextContainer = styled.div`
   position: absolute;
   top: 93px;
-  left: 290px;
+  left: 260px;
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
   gap: 15px;

@@ -1,9 +1,8 @@
 import Cookies from "js-cookie";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function TokenCheck() {
-  //const isLogin = () => !!Cookies.get("accessJWTToken");
   const navigate = useNavigate();
   const location = useLocation();
   const getToken = !!Cookies.get("accessJWTToken");
@@ -15,15 +14,12 @@ function TokenCheck() {
   useEffect(() => {
     if (!isLoginPage && !isJoinPage && !getToken) {
       localStorage.removeItem("userInfo");
-      alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요");
-      navigate("/");
+      alert("유저 정보가 유효하지 않습니다. 로그인 해주세요");
+      //navigate("/");
+      window.location.replace(`/`);
     }
-  }, [isLoginPage, isJoinPage, getToken, navigate]);
+  }, [isLoginPage, isJoinPage, getToken]);
 
   return null;
 }
 export default TokenCheck;
-
-// 사용 방법
-// import TokenCheck from '../modules/util/TokenCheck';
-// TokenCheck();

@@ -1,8 +1,13 @@
 import { React } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
+
+import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import { textState } from "../../redux/modules/headerReducer";
+
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -13,7 +18,6 @@ import {
   BottomText,
   PostBox,
   ProfileArea,
-  ProfileWrap,
   PostLeft,
   PhotoFrame,
   TextArea,
@@ -22,9 +26,6 @@ import {
   IntroductionWrap,
   ButtonArea,
 } from "../friendslist/FriendList";
-import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
-import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { textState } from "../../redux/modules/headerReducer";
 
 function DetailSubscriberList({ SubscribersList }) {
   // console.log(subscribeList);
@@ -63,7 +64,7 @@ function DetailSubscriberList({ SubscribersList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              dispatch(textState("home"));
+              dispatch(textState(""));
             }}>
             <ProfileWrapLong>
               <PostLeft>

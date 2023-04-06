@@ -1,8 +1,11 @@
 import { React } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
+
+import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import { textState } from "../../redux/modules/headerReducer";
+
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -22,7 +25,6 @@ import {
   IntroductionWrap,
 } from "./FriendList";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { textState } from "../../redux/modules/headerReducer";
 
 function SubscriberList({ SubscribersList }) {
   // console.log(subscribeList);
@@ -52,7 +54,7 @@ function SubscriberList({ SubscribersList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              dispatch(textState("home"));
+              dispatch(textState(""));
             }}>
             <ProfileWrapLong>
               <PostLeft>
@@ -64,8 +66,8 @@ function SubscriberList({ SubscribersList }) {
               </PostLeft>
               <IntroductionWrapLong>
                 {user.introduction
-                  ? user.introduction.length > 30
-                    ? `${user.introduction.substr(0, 30)}...`
+                  ? user.introduction.length > 22
+                    ? `${user.introduction.substr(0, 22)}...`
                     : user.introduction
                   : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrapLong>

@@ -1,38 +1,34 @@
-import Cookies from "js-cookie";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarSlice";
-import format from "date-fns/format";
 import { getDay } from "date-fns";
-import { useNavigate, useParams } from "react-router-dom";
-import Loading from "./Loading";
+import format from "date-fns/format";
+import styled from "styled-components";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { textState } from "../redux/modules/headerReducer";
+import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
-import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
+import { DayCheck } from "../utils/calendar/CalendarBasic";
+import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
 import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
-import defaultProfile from "../assets/defaultImage/profile.jpg";
-import { textState } from "../redux/modules/headerReducer";
-import { DayCheck } from "../utils/calendar/CalendarBasic";
+import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
-  const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
-  const param = useParams();
   const now = format(new Date(), "yy.MM.dd");
   const day = DayCheck(getDay(new Date()));
   const nowDay = `${now} (${day})`;
 
   const { today, update } = useSelector((state) => state.calendar);
-  const { data } = useSelector((state) => state.header);
+  const { text } = useSelector((state) => state.header);
 
   // 오늘의 일정, 업데이트한 친구 가져오기
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
-    dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
-    dispatch(__getTodayUpdate(token));
+    dispatch(__getTodaySchedule({ today, userId: userInfo.userId }));
+    dispatch(__getTodayUpdate());
   }, [props.side]);
 
   const navigate = useNavigate();
@@ -56,7 +52,7 @@ export default function SidebarMyCalendar({ ...props }) {
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {data === "home" || data === undefined ? (
+          {text === "home" || text === undefined ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>
@@ -75,6 +71,10 @@ export default function SidebarMyCalendar({ ...props }) {
                 ) : (
                   today &&
                   today.map((list) => {
+                    let allDay = "";
+                    if (list.startTime === "00:00:00" && list.endTime === "00:00:00") {
+                      allDay = "종일";
+                    }
                     return (
                       <TodayScheduleBox key={list.id} onClick={() => todayClickHandler(list.id)}>
                         <IconBox>
@@ -83,11 +83,17 @@ export default function SidebarMyCalendar({ ...props }) {
                         <TodayBox>
                           <span>{list.title.length > 16 ? list.title.substr(0, 16) + "..." : list.title}</span>
                           <TodayTime>
-                            <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                            <span>{list.startTime.substr(0, 5)}</span>
-                            <span>-</span>
-                            <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                            <span>{list.endTime.substr(0, 5)}</span>
+                            {allDay === "종일" ? (
+                              <span>{allDay}</span>
+                            ) : (
+                              <>
+                                <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                                <span>{list.startTime.substr(0, 5)}</span>
+                                <span>-</span>
+                                <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                                <span>{list.endTime.substr(0, 5)}</span>
+                              </>
+                            )}
                           </TodayTime>
                         </TodayBox>
                       </TodayScheduleBox>
@@ -134,7 +140,7 @@ export default function SidebarMyCalendar({ ...props }) {
                       <div
                         onClick={() => {
                           moveUserPage(list.id);
-                          dispatch(textState("home"));
+                          dispatch(textState(""));
                         }}>
                         캘린더
                       </div>

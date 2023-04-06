@@ -2,12 +2,14 @@ import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import { textState } from "../../redux/modules/headerReducer";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
-import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { CalendarWrapper } from "../home/calendar/CalendarMain";
+
 import Loading from "../../components/Loading";
-import { textState } from "../../redux/modules/headerReducer";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적
@@ -64,12 +66,12 @@ function UserLists({ searchWord, selectedCategories }) {
   const ButtonFriend = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
       return (
-        <Button
+        <ButtonCancel
           onClick={() => {
             cancelRequestHandler(id);
           }}>
           신청취소
-        </Button>
+        </ButtonCancel>
       );
     }
     return (
@@ -85,12 +87,12 @@ function UserLists({ searchWord, selectedCategories }) {
   const ButtonSubscribe = ({ id }) => {
     if (clickedSubscribeButtonIds.includes(id)) {
       return (
-        <ButtonSub
+        <ButtonCancel
           onClick={() => {
             cancelSubscribeHandler(id);
           }}>
           구독취소
-        </ButtonSub>
+        </ButtonCancel>
       );
     }
     return (
@@ -125,7 +127,7 @@ function UserLists({ searchWord, selectedCategories }) {
             <ProfileArea
               onClick={() => {
                 navigate(`/${user.id}`);
-                dispatch(textState("home"));
+                dispatch(textState(""));
               }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />
@@ -143,10 +145,9 @@ function UserLists({ searchWord, selectedCategories }) {
               </ProfileTextFrame>
             </ProfileArea>
             <IntroductionWrap>
-              {" "}
               {user.introduction
-                ? user.introduction.length > 18
-                  ? `${user.introduction.substr(0, 18)}...`
+                ? user.introduction.length > 30
+                  ? `${user.introduction.substr(0, 30)}...`
                   : user.introduction
                 : `${user.nickName}의 캘린더입니다.`}
             </IntroductionWrap>
@@ -389,6 +390,11 @@ const ButtonSub = styled(Button)`
   color: black;
   font-weight: 600;
   font-size: 12px;
+`;
+
+const ButtonCancel = styled(Button)`
+  background-color: ${(props) => props.theme.Bg.color6};
+  color: black;
 `;
 
 export default UserLists;

@@ -32,11 +32,7 @@ export const __getTargetList = createAsyncThunk("getTargetList", async (payload,
 // 일정 추가
 export const __createNewPost = createAsyncThunk("createNewPost", async (payload, thunkAPI) => {
   try {
-    const response = await api.post(`/api/posts`, payload.newPost, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.post(`/api/posts`, payload);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -46,11 +42,7 @@ export const __createNewPost = createAsyncThunk("createNewPost", async (payload,
 // 일정 update
 export const __updatePost = createAsyncThunk("updatePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.patch(`/api/posts/${payload.postId}`, payload.updatePost, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.patch(`/api/posts/${payload.postId}`, payload.updatePost);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -60,11 +52,7 @@ export const __updatePost = createAsyncThunk("updatePost", async (payload, thunk
 // 일정 drag update
 export const __updateDragPost = createAsyncThunk("updateDragPost", async (payload, thunkAPI) => {
   try {
-    const response = await api.patch(`/api/posts/drag/${payload.postId}`, payload.updatePost, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.patch(`/api/posts/drag/${payload.postId}`, payload.updatePost);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -102,11 +90,7 @@ export const __getOtherUser = createAsyncThunk("getOtherUser", async (payload, t
 // 메인 캘린더 전체 일정 get
 export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/posts/${payload.userId}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.get(`/api/home/posts/${payload.userId}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -116,11 +100,7 @@ export const __getTotalPosts = createAsyncThunk("getTotalPosts", async (payload,
 // 오늘의 일정 get (sidebar)
 export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/today/${payload.userId}?date=${String(payload.today)}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${String(payload.today)}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -130,11 +110,7 @@ export const __getTodaySchedule = createAsyncThunk("getTodaySchedule", async (pa
 // 오늘의 일정 get (더보기 클릭시)
 export const __getDateSchedule = createAsyncThunk("getDateSchedule", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.date}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.get(`/api/home/today/${payload.userId}?date=${payload.date}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -145,11 +121,7 @@ export const __getDateSchedule = createAsyncThunk("getDateSchedule", async (payl
 export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payload, thunkAPI) => {
   try {
     // update로 수정
-    const response = await api.get(`/api/friends/update`, {
-      headers: {
-        Authorization: payload,
-      },
-    });
+    const response = await api.get(`/api/friends/update`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -160,11 +132,7 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
 export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload, thunkAPI) => {
   try {
     //console.log("getPostDetail response : ", payload);
-    const response = await api.get(`/api/posts/${payload.id}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.get(`/api/posts/${payload.id}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -176,7 +144,6 @@ export const __postImgUpload = createAsyncThunk("postImgUpload", async (payload,
   try {
     const response = await api.post(`/api/posts/images`, payload.images, {
       headers: {
-        Authorization: payload.token,
         "Content-Type": "multipart/form-data",
       },
     });
@@ -189,11 +156,7 @@ export const __postImgUpload = createAsyncThunk("postImgUpload", async (payload,
 // 타유저 캘린더 업데이트 일정
 export const __otherUserUpdatePost = createAsyncThunk("otherUserUpdatePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/post/update/${payload.userId}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.get(`/api/posts/update/${payload.userId}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -203,11 +166,7 @@ export const __otherUserUpdatePost = createAsyncThunk("otherUserUpdatePost", asy
 // 타유저 캘린더 나와 공유한 일정
 export const __otherUserSharePost = createAsyncThunk("otherUserSharePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/post/share/${payload.userId}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.get(`/api/posts/share/${payload.userId}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -217,11 +176,7 @@ export const __otherUserSharePost = createAsyncThunk("otherUserSharePost", async
 // 공유일정 수락
 export const __acceptSharePost = createAsyncThunk("acceptSharePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.put(`/api/posts/subscribes/${payload.postId}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.put(`/api/posts/subscribes/${payload.postId}`);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -230,11 +185,7 @@ export const __acceptSharePost = createAsyncThunk("acceptSharePost", async (payl
 // 공유일정 거절
 export const __rejectSharePost = createAsyncThunk("rejectSharePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.delete(`/api/posts/subscribes/${payload.postId}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.delete(`/api/posts/subscribes/${payload.postId}`);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -243,11 +194,7 @@ export const __rejectSharePost = createAsyncThunk("rejectSharePost", async (payl
 // 알림 모두 지우기
 export const __allClearNotification = createAsyncThunk("allClearNotification", async (payload, thunkAPI) => {
   try {
-    const response = await api.delete(`/api/notification/${payload.userId}`, {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
+    const response = await api.delete(`/api/notification/${payload.userId}`);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

@@ -1,16 +1,14 @@
-import { React, useState, useEffect } from "react";
+import styled from "styled-components";
+import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
-import useLogin from "../../hooks/useLogin";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
-import Header from "../../layout/Header";
+import useLogin from "../../hooks/useLogin";
 import PreviewArea from "../intro/PreviewArea";
+import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
+import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
 import { ReactComponent as PwCheck } from "../../assets/sign/pwCheck.svg";
 import { ReactComponent as Security } from "../../assets/sign/security.svg";
-import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
-import Footer from "../../layout/Footer";
 
 function JoinPage() {
   const {
@@ -28,24 +26,24 @@ function JoinPage() {
     nickName,
     handleNickNameChange,
     isNickNameMessage,
-    birthday,
-    handleBirthdayChange,
     reset,
     nicknameRegex,
   } = useLogin();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const message = useSelector((state) => state.users.users.data);
-  // const isError = useSelector((state) => state.users.isError);
-  // const isErrorMessage = useSelector((state) => state.users.isErrorMessage);
   const isCheck = useSelector((state) => state.users.isCheck);
-  // console.log("ischeck의 값-->", isCheck.statusCode);
 
+  //Select box에서 선택한 월,일 값 추적
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [birthday, setBirthday] = useState("");
+
+  //이메일 중복검사
   const emailCheckHandler = (email) => {
     if (isEmail) {
       dispatch(__emailCheck(email)).then((data) => {
-        // console.log("then에서 나오는 200-->", data.payload.statusCode);
+        console.log("then에서 나오는 200-->", data);
         if (data.payload.statusCode !== 200) {
           alert(data.payload.data);
         } else {
@@ -53,6 +51,18 @@ function JoinPage() {
         }
       });
     }
+  };
+
+  const handleMonthChange = (e) => {
+    setMonth(e.target.value);
+    setBirthday(e.target.value + day);
+  };
+
+  console.log(day, month, birthday);
+
+  const handleDayChange = (e) => {
+    setDay(e.target.value);
+    setBirthday(month + e.target.value);
   };
 
   const joinHandler = () => {
@@ -139,11 +149,24 @@ function JoinPage() {
 
               <InputWrapper>
                 <InputTitleText>생일</InputTitleText>
-                <InputFrame isBorder={birthday === "" ? "none" : true}>
-                  <InputInnerWrap>
-                    <input type="text" placeholder="예시 : 0325" value={birthday} onChange={handleBirthdayChange} />
-                  </InputInnerWrap>
-                </InputFrame>
+                <InputFrameBirthday isBorder={birthday === "" ? "none" : true}>
+                  <BirthdayWrap>
+                    <BirthdayInput onChange={handleMonthChange}>
+                      <option value="">월</option>
+                      {Array.from({ length: 12 }, (_, index) => {
+                        const monthValue = (index + 1).toString().padStart(2, "0");
+                        return <option value={monthValue}>{monthValue}</option>;
+                      })}
+                    </BirthdayInput>
+                    <BirthdayInput onChange={handleDayChange}>
+                      <option value="">일</option>
+                      {Array.from({ length: 31 }, (_, index) => {
+                        const dayValue = (index + 1).toString().padStart(2, "0");
+                        return <option value={dayValue}>{dayValue}</option>;
+                      })}
+                    </BirthdayInput>
+                  </BirthdayWrap>
+                </InputFrameBirthday>
               </InputWrapper>
             </InputArea>
 
@@ -158,7 +181,6 @@ function JoinPage() {
           </JoinBox>
         </LoginWrapper>
       </ScreenLayout>
-      <Footer />
     </PageWrapper>
   );
 }
@@ -217,6 +239,25 @@ const InputInnerWrap = styled.div`
   .joinIcon {
     margin-right: 10px;
   }
+`;
+
+const InputFrameBirthday = styled(InputFrame)`
+  border: none;
+`;
+
+const BirthdayWrap = styled(InputInnerWrap)`
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+`;
+
+const BirthdayInput = styled.select`
+  width: 220px;
+  height: 46px;
+  border: 1px solid ${(props) => props.theme.Bg.border1};
+  border-radius: 8px;
+  text-align: center;
 `;
 
 const CheckButton = styled.div`

@@ -1,19 +1,23 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Cookies from "js-cookie";
+import _ from "lodash";
+
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import SubscriberList from "./SubscriberList";
-import { __getFriendsList, __getRequestedUsersList } from "../../redux/modules/friendsSlice";
-import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
-import { AiOutlineSearch } from "react-icons/ai";
-import { BsPersonAdd } from "react-icons/bs";
-import { RxTextAlignMiddle } from "react-icons/rx";
 import ApproveRequestModal from "./ApproveRequestModal";
+
+import { __getFriendsList, __getRequestedUsersList, __getSentUsersList } from "../../redux/modules/friendsSlice";
+import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
+
 import useOutSideClick from "../../hooks/useOutsideClick";
-import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
-import _ from "lodash";
+
+import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
+import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
+import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 
 function FriendsListMain() {
   const params = useParams();
@@ -22,7 +26,9 @@ function FriendsListMain() {
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
   const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
+  // 내게 온 신청 & 내가 보낸 신청 리스트
   const RequestedUsersList = useSelector((state) => state.friends.RequestedUsersList);
+  const SentUsersList = useSelector((state) => state.friends.SentUsersList);
 
   // 친구요청 수락 모달 열고닫기 상태관리
   const [isApproveRequestModalOpen, setIsApproveRequestModalOpen] = useState(false);
@@ -55,6 +61,7 @@ function FriendsListMain() {
   // 친구수락/거절 모달에서 수락/거절 눌렀을 때 업데이트 된 목록 가져오기
   useEffect(() => {
     dispatch(__getRequestedUsersList({ token }));
+    dispatch(__getSentUsersList());
   }, [acceptStatusCode, statusCodeFriend]);
 
   // 페이지 진입 시 친구/구독 리스트를 GET
@@ -88,7 +95,6 @@ function FriendsListMain() {
   }, [searchWord, searchWordSubscribe, searchWordSubscriber, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
 
   //정렬 기준 함수
-
   const alignBasicHandler = (id) => {
     let url = `${id}?sort=name&searchword=`;
     // console.log("여기-", url);
@@ -268,17 +274,18 @@ function FriendsListMain() {
                     {searchFriendOpen && (
                       <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                     )}
-                    <SearchIcon onClick={HandleSearchFriend} />
-                    <PersonAddIcon onClick={approveRequestModalHandler} />
+                    <FriendSearch onClick={HandleSearchFriend} />
+                    <FriendAddStyle RequestedList={RequestedUsersList} onClick={approveRequestModalHandler} />
                     {isApproveRequestModalOpen && (
                       <ApproveRequestModal
                         ApproveRequestModalRef={ApproveRequestModalRef}
                         RequestedUsersList={RequestedUsersList}
+                        SentUsersList={SentUsersList}
                         setIsApproveRequestModalOpen={setIsApproveRequestModalOpen}
                       />
                     )}
                     <IconWrap>
-                      <AlignIcon onClick={handleDropdownFriend} />
+                      <Filter onClick={handleDropdownFriend} />
                       {isDropdownFriendOpen && (
                         <DropdownFrame>
                           <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -310,9 +317,9 @@ function FriendsListMain() {
                         value={searchWordSubscribe}
                         onChange={searchSubscribeHandler}></SearchBar>
                     )}
-                    <SearchIcon onClick={HandleSearchSubscribe} />
+                    <FriendSearch onClick={HandleSearchSubscribe} />
                     <IconWrap>
-                      <AlignIcon onClick={handleDropdownSubscribe} />
+                      <Filter onClick={handleDropdownSubscribe} />
                       {isDropdownSubscribeOpen && (
                         <DropdownFrame>
                           <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -344,9 +351,9 @@ function FriendsListMain() {
                         value={searchWordSubscriber}
                         onChange={searchSubscriberHandler}></SearchBar>
                     )}
-                    <SearchIcon onClick={HandleSearchSubscriber} />
+                    <FriendSearch onClick={HandleSearchSubscriber} />
                     <IconWrap>
-                      <AlignIcon onClick={handleDropdownSubscriber} />
+                      <Filter onClick={handleDropdownSubscriber} />
                       {isDropdownSubscriberOpen && (
                         <DropdownFrame>
                           <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -378,6 +385,7 @@ export const LoadingWrapper = styled.div`
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 64px - 1px);
+  /* background: pink; */
 `;
 
 export const CalendarWrapper = styled.div`
@@ -428,9 +436,10 @@ export const TopText = styled.div`
 
   width: 464px;
   height: 43px;
-  /* background-color: lightcoral; */
+
   border-bottom: 1px solid black;
   margin-top: 48px;
+  /* background-color: lightcoral; */
 `;
 
 export const TopLeft = styled.div`
@@ -470,29 +479,13 @@ export const SearchBar = styled.input`
   height: 20px;
 `;
 
-export const SearchIcon = styled(AiOutlineSearch)`
-  color: gray;
-  width: 20px;
-  height: 20px;
-  /* position: absolute; */
-`;
-
-export const PersonAddIcon = styled(BsPersonAdd)`
-  color: gray;
-  width: 20px;
-  height: 20px;
-  /* position: absolute; */
-`;
-
 export const IconWrap = styled.div`
   width: 20px;
   height: 20px;
 `;
 
-export const AlignIcon = styled(RxTextAlignMiddle)`
-  color: gray;
-  width: 20px;
-  height: 20px;
+const FriendAddStyle = styled(FriendAdd)`
+  stroke: ${(props) => (props.RequestedList.length !== 0 ? props.theme.Bg.mainColor1 : null)};
 `;
 
 export const DropdownFrame = styled.div`
