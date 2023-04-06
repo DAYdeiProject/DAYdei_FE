@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { CalendarWrapper } from "../home/calendar/CalendarMain";
-// import { WholeAreaWrapper } from "../friendslist/FriendsListMain";
 import UserLists from "./UserLists";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
@@ -14,7 +13,7 @@ function SearchUsers() {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   //유저정보 가져오기
-  const myProfile = useSelector((state) => state.users.myProfile);
+  const headerProfile = useSelector((state) => state.users.headerProfile);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -50,51 +49,61 @@ function SearchUsers() {
 
   return (
     <>
-      <CalendarWrapper>
-        <WholeAreaWrapper>
-          <HeaderText>
-            <HeaderTextMain>{myProfile.nickName}님을 위한 추천</HeaderTextMain>
-            <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
-          </HeaderText>
-          <SearchHeader>
-            <IconWrapper>
-              <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
-                스포츠
-              </Icon>
-              <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
-                교육
-              </Icon>
-              <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
-                게임
-              </Icon>
-              <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
-                경제
-              </Icon>
-              <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
-                연예
-              </Icon>
-              <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
-                OTT
-              </Icon>
-            </IconWrapper>
-            <SearchBarArea>
-              <SearchIcon>
-                <AiOutlineSearch />
-              </SearchIcon>
-              <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
-            </SearchBarArea>
-          </SearchHeader>
-          <SearchBody>
-            <UserLists searchWord={searchWord} selectedCategories={selectedCategories} />
-          </SearchBody>
-        </WholeAreaWrapper>
-      </CalendarWrapper>
+      <WholeWrapper>
+        <CalendarWrapper>
+          <WholeAreaWrapper>
+            <HeaderText>
+              <HeaderTextMain>{headerProfile.nickName}님을 위한 추천</HeaderTextMain>
+              <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
+            </HeaderText>
+            <SearchHeader>
+              <IconWrapper>
+                <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
+                  스포츠
+                </Icon>
+                <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
+                  교육
+                </Icon>
+                <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
+                  게임
+                </Icon>
+                <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
+                  경제
+                </Icon>
+                <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
+                  연예
+                </Icon>
+                <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
+                  OTT
+                </Icon>
+              </IconWrapper>
+              <SearchBarArea>
+                <SearchIcon>
+                  <AiOutlineSearch />
+                </SearchIcon>
+                <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
+              </SearchBarArea>
+            </SearchHeader>
+            <SearchBody>
+              <UserLists searchWord={searchWord} selectedCategories={selectedCategories} />
+            </SearchBody>
+          </WholeAreaWrapper>
+        </CalendarWrapper>
+      </WholeWrapper>
     </>
   );
 }
 
+export const WholeWrapper = styled.div`
+  ${(props) => props.theme.FlexCol}
+  max-width:1570px;
+  height: calc(100vh - 64px - 1px);
+  padding-left: 10px;
+  /* background: pink; */
+`;
+
 export const WholeAreaWrapper = styled.div`
-  width: 100%;
+  width: 1500px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -112,7 +121,7 @@ const HeaderText = styled.div`
 `;
 
 const HeaderTextMain = styled.div`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 28px;
   line-height: 140%;
   color: ${(props) => props.theme.Bg.color1};
@@ -136,7 +145,7 @@ const SearchHeader = styled.div`
   padding: 0px;
   gap: 200px;
 
-  width: 1478px;
+  width: 1496px;
   margin-bottom: 28px;
    /* background-color: pink; */
 `;
@@ -152,6 +161,7 @@ const IconWrapper = styled.div`
   gap: 12px;
   /* background-color: green; */
 `;
+
 const Icon = styled.button`
   display: flex;
   flex-direction: row;
@@ -207,11 +217,13 @@ const SearchBar = styled.input`
 `;
 
 const SearchBody = styled.div`
+  height: 700px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 18px;
   grid-row-gap: 20px;
   overflow: auto;
+  justify-content: center;
 
   ::-webkit-scrollbar {
     display: none;

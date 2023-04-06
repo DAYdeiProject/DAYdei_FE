@@ -24,8 +24,8 @@ const initialState = {
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
   try {
     const response = await api.post(`/api/users/signup/${email}`);
-    // console.log(response);
-    return thunkAPI.fulfillWithValue(response.data.data);
+    console.log(response.data);
+    return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);

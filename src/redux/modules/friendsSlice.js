@@ -6,6 +6,7 @@ const initialState = {
   FriendsList: [],
   FamousList: [],
   RequestedUsersList: [],
+  SentUsersList: [],
   isLoading: false,
   isError: false,
   statusCode: 0,
@@ -50,7 +51,7 @@ export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thu
 export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.delete(`/${id}`);
-    console.log("삭제요청 성공--->", response.data);
+    console.log("삭제요청--->", response);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -91,6 +92,16 @@ export const __getRequestedUsersList = createAsyncThunk("getRequestedUsersList",
       },
     });
     // console.log(response.data.data);
+    return thunkAPI.fulfillWithValue(response.data.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __getSentUsersList = createAsyncThunk("getSentUsersList", async (_, thunkAPI) => {
+  try {
+    const response = await friendsInstance.get("/list/request");
+    // console.log("내가보낸신청-->", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -181,6 +192,20 @@ export const friendsSlice = createSlice({
         state.RequestedUsersList = action.payload;
       })
       .addCase(__getRequestedUsersList.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
+
+    builder
+      .addCase(__getSentUsersList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getSentUsersList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.SentUsersList = action.payload;
+      })
+      .addCase(__getSentUsersList.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
