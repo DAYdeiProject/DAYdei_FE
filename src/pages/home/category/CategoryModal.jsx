@@ -2,11 +2,11 @@ import { React, useState } from "react";
 import styled from "styled-components";
 import ModalWrap from "../../../elements/ModalWrap";
 import Modal from "../../../elements/Modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __addCategories } from "../../../redux/modules/usersSlice";
 import FriendRecommendModal from "./FriendRecommendModal";
 
-function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked }) {
+function CategoryModal({ setIsModalVisible, setIsButtonClicked }) {
   const [showFriendRecommendModal, setShowFriendRecommendModal] = useState(false);
   const Category = ["스포츠", "교육", "연예", "게임", "OTT", "경제"];
 
@@ -14,7 +14,6 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked
   const categoryMap = { 스포츠: "SPORTS", 교육: "EDUCATION", 연예: "ENTERTAINMENT", 게임: "GAME", OTT: "OTT", 경제: "ECONOMY" };
   const updatedCategories = selectedCategories.map((category) => categoryMap[category]);
   const Categories = { category: updatedCategories };
-  // console.log(Categories);
 
   const handleCategoryClick = (category) => {
     if (selectedCategories.includes(category)) {
@@ -26,12 +25,11 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked
 
   const dispatch = useDispatch();
   const onClickSubmitHandler = () => {
-    if (updatedCategories.length !== 0) {
-      dispatch(__addCategories(Categories));
-      // setIsModalVisible(false);
-      setShowFriendRecommendModal(true);
-    } else {
+    if (updatedCategories.length === 0) {
       alert("카테고리를 1개 이상 선택해 주세요!");
+    } else {
+      dispatch(__addCategories(Categories));
+      setShowFriendRecommendModal(true);
     }
   };
 
@@ -39,6 +37,7 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked
     <>
       {showFriendRecommendModal ? (
         <FriendRecommendModal
+          showFriendRecommendModal={showFriendRecommendModal}
           setShowFriendRecommendModal={setShowFriendRecommendModal}
           setIsModalVisible={setIsModalVisible}
           setIsButtonClicked={setIsButtonClicked}
@@ -46,7 +45,7 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked
       ) : (
         <ModalWrap>
           <Modal padding="48px 38px">
-            <div ref={CategoryModalRef}>
+            <div>
               <ModalContent>
                 <UpperWrapper>
                   <TextWrapper>

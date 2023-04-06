@@ -13,7 +13,7 @@ function SearchUsers() {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   //유저정보 가져오기
-  const myProfile = useSelector((state) => state.users.myProfile);
+  const headerProfile = useSelector((state) => state.users.headerProfile);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -53,7 +53,7 @@ function SearchUsers() {
         <CalendarWrapper>
           <WholeAreaWrapper>
             <HeaderText>
-              <HeaderTextMain>{myProfile.nickName}님을 위한 추천</HeaderTextMain>
+              <HeaderTextMain>{headerProfile.nickName}님을 위한 추천</HeaderTextMain>
               <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
             </HeaderText>
             <SearchHeader>

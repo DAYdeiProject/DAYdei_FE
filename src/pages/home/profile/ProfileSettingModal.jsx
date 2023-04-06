@@ -153,6 +153,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       //   console.log("value", value);
       // }
       dispatch(__setProfile(formData)).then((data) => {
+        console.log("then", data);
         if (data.error) {
           alert("수정 실패");
         } else {

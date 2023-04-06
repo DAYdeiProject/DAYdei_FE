@@ -161,9 +161,10 @@ function JoinPage() {
                     </BirthdayInput>
                     <BirthdayInput onChange={handleDayChange}>
                       <option value="">일</option>
-                      {Array.from({ length: 31 }, (_, index) => (
-                        <option value={index + 1}>{index + 1}</option>
-                      ))}
+                      {Array.from({ length: 31 }, (_, index) => {
+                        const dayValue = (index + 1).toString().padStart(2, "0");
+                        return <option value={dayValue}>{dayValue}</option>;
+                      })}
                     </BirthdayInput>
                   </BirthdayWrap>
                 </InputFrameBirthday>

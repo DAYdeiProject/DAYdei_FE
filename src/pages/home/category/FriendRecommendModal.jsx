@@ -11,15 +11,13 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/Loading";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
-function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, setIsButtonclicked }) {
+function FriendRecommendModal({ setIsModalVisible, showFriendRecommendModal, setShowFriendRecommendModal, setIsButtonclicked }) {
   const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
   const { isLoading, FamousList } = useSelector((state) => state.friends);
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
   //구독 눌림 상태
 
   const token = Cookies.get("accessJWTToken");
-
-  // console.log(FamousList);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

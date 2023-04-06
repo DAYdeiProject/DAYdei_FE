@@ -1,5 +1,4 @@
 import { React, useState, useEffect, useRef } from "react";
-import useOutSideClick from "../../hooks/useOutsideClick";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import styled from "styled-components";
@@ -22,10 +21,6 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate(window.location.pathname, { replace: true });
-  }, [navigate]);
-
   //첫 로그인시 카테고리모달 보여주기 상태
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 오늘의 일정 postId
@@ -43,31 +38,24 @@ function HomePage() {
   const dispatch = useDispatch();
   const id = params.id;
 
+  console.log(isModalVisible);
+
   useEffect(() => {
     dispatch(__getMyProfile(id)).then((data) => {
-      const categoryList = data.payload.categoryList;
-      // console.log(data.payload.categoryList);
-      if (categoryList.length !== 0) {
-        setIsModalVisible(false);
-      } else if (categoryList.length === 0) {
+      console.log("로그인하면서 갖고오는 내 프로필 카테고리 정보", data);
+      if (data.payload.categoryList.length === 0) {
         setIsModalVisible(true);
       }
     });
-  }, [token]);
+  }, []);
 
-  // 모달 바깥 영역을 누르면 카테고리 선택 모달 닫히게 설정
-  const handleCategoryModalClose = () => {
-    setIsModalVisible(false);
-  };
-
-  const CategoryModalRef = useRef(null);
-  useOutSideClick(CategoryModalRef, handleCategoryModalClose);
+  console.log(isModalVisible);
 
   return (
     <HomePageWrapper>
       <MainWrapper>
         <Sidebar side={side} setDetailPostId={setDetailPostId} />
-        {isModalVisible && <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
+        {isModalVisible && <CategoryModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
         <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
         {/* <MButton onClick={() => setIsMessageState(!isMessageState)}></MButton> */}
       </MainWrapper>
