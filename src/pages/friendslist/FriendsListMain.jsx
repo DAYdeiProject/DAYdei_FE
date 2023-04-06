@@ -14,6 +14,9 @@ import useOutSideClick from "../../hooks/useOutsideClick";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import _ from "lodash";
+import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
+import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
+import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 
 function FriendsListMain() {
   const params = useParams();
@@ -270,8 +273,8 @@ function FriendsListMain() {
                     {searchFriendOpen && (
                       <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                     )}
-                    <SearchIcon onClick={HandleSearchFriend} />
-                    <PersonAddIcon onClick={approveRequestModalHandler} />
+                    <FriendSearch onClick={HandleSearchFriend} />
+                    <FriendAdd onClick={approveRequestModalHandler} />
                     {isApproveRequestModalOpen && (
                       <ApproveRequestModal
                         ApproveRequestModalRef={ApproveRequestModalRef}
@@ -281,7 +284,7 @@ function FriendsListMain() {
                       />
                     )}
                     <IconWrap>
-                      <AlignIcon onClick={handleDropdownFriend} />
+                      <Filter onClick={handleDropdownFriend} />
                       {isDropdownFriendOpen && (
                         <DropdownFrame>
                           <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -313,9 +316,9 @@ function FriendsListMain() {
                         value={searchWordSubscribe}
                         onChange={searchSubscribeHandler}></SearchBar>
                     )}
-                    <SearchIcon onClick={HandleSearchSubscribe} />
+                    <FriendSearch onClick={HandleSearchSubscribe} />
                     <IconWrap>
-                      <AlignIcon onClick={handleDropdownSubscribe} />
+                      <Filter onClick={handleDropdownSubscribe} />
                       {isDropdownSubscribeOpen && (
                         <DropdownFrame>
                           <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -347,9 +350,9 @@ function FriendsListMain() {
                         value={searchWordSubscriber}
                         onChange={searchSubscriberHandler}></SearchBar>
                     )}
-                    <SearchIcon onClick={HandleSearchSubscriber} />
+                    <FriendSearch onClick={HandleSearchSubscriber} />
                     <IconWrap>
-                      <AlignIcon onClick={handleDropdownSubscriber} />
+                      <Filter onClick={handleDropdownSubscriber} />
                       {isDropdownSubscriberOpen && (
                         <DropdownFrame>
                           <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -474,27 +477,7 @@ export const SearchBar = styled.input`
   height: 20px;
 `;
 
-export const SearchIcon = styled(AiOutlineSearch)`
-  color: gray;
-  width: 20px;
-  height: 20px;
-  /* position: absolute; */
-`;
-
-export const PersonAddIcon = styled(BsPersonAdd)`
-  color: gray;
-  width: 20px;
-  height: 20px;
-  /* position: absolute; */
-`;
-
 export const IconWrap = styled.div`
-  width: 20px;
-  height: 20px;
-`;
-
-export const AlignIcon = styled(RxTextAlignMiddle)`
-  color: gray;
   width: 20px;
   height: 20px;
 `;
