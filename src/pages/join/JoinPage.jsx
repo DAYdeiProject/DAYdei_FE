@@ -185,7 +185,6 @@ function JoinPage() {
           </JoinBox>
         </LoginWrapper>
       </ScreenLayout>
-      <Footer />
     </PageWrapper>
   );
 }

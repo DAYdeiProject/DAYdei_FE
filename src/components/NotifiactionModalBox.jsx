@@ -1,34 +1,30 @@
-import { React, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Cookies from "js-cookie";
-
+import { React, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { __getConnect } from "../redux/modules/connectSlice";
+import { GetUserInfo } from "../utils/cookie/userInfo";
+import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { setNotificationPostId, textState } from "../redux/modules/headerReducer";
-
-import { TimeCheck } from "../utils/calendar/CalendarBasic";
-import { GetUserInfo } from "../utils/cookie/userInfo";
-
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
 
 export default function NotifiactionModalBox({ ...props }) {
-  const token = Cookies.get("accessJWTToken");
+  const [deleteState, setDeleteState] = useState(false);
   const userInfo = GetUserInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.connect);
 
   useEffect(() => {
-    dispatch(__getConnect({ token, userId: userInfo.userId }));
-  }, [props.isNotificationOpen]);
+    dispatch(__getConnect());
+  }, [props.isNotificationOpen, deleteState]);
 
-  console.log("알림리스트 ", data);
+  // console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
-
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
+      console.log("userid-----", userId);
       navigate(`/${userId}`);
       dispatch(textState(""));
       props.setIsNotificationOpen(false);
@@ -48,8 +44,9 @@ export default function NotifiactionModalBox({ ...props }) {
 
   // 알림 모두 지우기
   const allClearClick = () => {
-    dispatch(__allClearNotification({ token })).then(() => {
+    dispatch(__allClearNotification({ userId: userInfo.userId })).then(() => {
       alert("모두 삭제되었습니다.");
+      setDeleteState(true);
       //props.setIsNotificationOpen(false);
     });
   };

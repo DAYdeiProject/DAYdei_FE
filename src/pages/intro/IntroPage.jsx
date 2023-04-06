@@ -1,23 +1,16 @@
-import { React, useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { React, useState, useEffect, useRef } from "react";
 import { __loginUser } from "../../redux/modules/usersSlice";
 import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
-
 import PreviewArea from "./PreviewArea";
-import Footer from "../../layout/Footer";
-import Header from "../../layout/Header";
-import FindPasswordModal from "./FindPasswordModal";
 import useLogin from "../../hooks/useLogin";
-
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FindPasswordModal from "./FindPasswordModal";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
-import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
 import { ReactComponent as Key } from "../../assets/sign/key.svg";
+import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -109,19 +102,18 @@ function IntroPage() {
           </LoginBox>
         </LoginWrapper>
       </ScreenLayout>
-      <Footer />
     </PageWrapper>
   );
 }
 
 export const PageWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
-  height: calc(100vh - 64px - 2px);
+  height: calc(100vh - 64px - 1px);
 `;
 
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
-  height: calc(100vh - 64px - 2px - 37px);
+  height: calc(100vh - 64px - 1px);
   overflow: hidden;
 `;
 

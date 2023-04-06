@@ -1,42 +1,33 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { BiX } from "react-icons/bi";
-import { useDispatch } from "react-redux";
-import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import { format } from "date-fns";
-import postStyle from "../../../shared/style/PostStyle";
-import ColorFromDB, { ColorList, ColorToDB, TimeList } from "../../../utils/calendar/CalendarBasic";
-import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
-import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
-import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
-import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
-import { ReactComponent as Memo } from "../../../assets/calendarIcon/memo.svg";
-import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
-import { ReactComponent as Lock } from "../../../assets/calendarIcon/lock.svg";
-import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
-import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
-import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
-import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
-import { ReactComponent as Search } from "../../../assets/searchList/search.svg";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { ko } from "date-fns/esm/locale";
 import ModalBox from "../../../elements/ModalBox";
+import ColorFromDB, { ColorList, ColorToDB, TimeList } from "../../../utils/calendar/CalendarBasic";
+import { BiX } from "react-icons/bi";
+import "react-datepicker/dist/react-datepicker.css";
+import postStyle from "../../../shared/style/PostStyle";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
+import { ReactComponent as Memo } from "../../../assets/calendarIcon/memo.svg";
+import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
+import { ReactComponent as Lock } from "../../../assets/calendarIcon/lock.svg";
+import { ReactComponent as Search } from "../../../assets/searchList/search.svg";
+import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
+import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
+import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
+import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
+import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
 
 function AddPostModal({ ...props }) {
   const time = TimeList();
   const colorList = ColorList();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    setValue,
-    resetField,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, getValues, setValue, resetField, watch, reset } = useForm();
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
@@ -377,8 +368,7 @@ function AddPostModal({ ...props }) {
     // fileList == 새 파일 이미지 리스트
     if (fileList.length !== 0) {
       // 이미지 있을때
-      dispatch(__postImgUpload({ images: imgList, token })).then((img) => {
-        console.log("img 실해", img);
+      dispatch(__postImgUpload({ images: imgList })).then((img) => {
         // 수정하기 일때
         if (props.modifyPostId) {
           if (saveView.length !== 0) {
@@ -388,7 +378,7 @@ function AddPostModal({ ...props }) {
             saveNewView.push(...img.payload);
             newPost.image = saveNewView;
 
-            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
                 alert("수정 실패하였습니다.");
                 closeClickHandler();
@@ -401,7 +391,7 @@ function AddPostModal({ ...props }) {
             });
           } else {
             newPost.image = img.payload;
-            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
                 alert("수정 실패하였습니다.");
                 closeClickHandler();
@@ -415,8 +405,7 @@ function AddPostModal({ ...props }) {
           }
         } else {
           newPost.image = img.payload;
-          dispatch(__createNewPost({ newPost, token })).then((data) => {
-            console.log("일정작성시 실패----", data);
+          dispatch(__createNewPost(newPost)).then((data) => {
             if (data.error) {
               alert("작성 실패하였습니다.");
               closeClickHandler();
@@ -436,7 +425,7 @@ function AddPostModal({ ...props }) {
         saveNewView.push(...saveView);
         newPost.image = saveNewView;
 
-        dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+        dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
           if (data.error) {
             closeClickHandler();
             return alert("수정 실패하였습니다.");
@@ -448,7 +437,7 @@ function AddPostModal({ ...props }) {
           }
         });
       } else {
-        dispatch(__createNewPost({ newPost, token })).then((data) => {
+        dispatch(__createNewPost(newPost)).then((data) => {
           if (data.error) {
             alert("작성 실패하였습니다.");
             closeClickHandler();

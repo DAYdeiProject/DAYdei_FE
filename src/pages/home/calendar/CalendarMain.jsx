@@ -1,27 +1,23 @@
-import React, { useEffect } from "react";
+import add from "date-fns/add";
+import Cookies from "js-cookie";
+import format from "date-fns/format";
+import getDate from "date-fns/getDate";
+import styled from "styled-components";
+import { getYear, getMonth } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import styled from "styled-components";
-import AddPostModal from "./AddPostModal";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import interactionPlugin from "@fullcalendar/interaction";
 import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../redux/modules/calendarSlice";
-import Cookies from "js-cookie";
-import Loading from "../../../components/Loading";
-import DayScheduleModal from "./DayScheduleModal";
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
-import ColorFromDB from "../../../utils/calendar/CalendarBasic";
-import add from "date-fns/add";
+import AddPostModal from "./AddPostModal";
 import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
-import format from "date-fns/format";
+import DayScheduleModal from "./DayScheduleModal";
 import OtherUserCalendar from "./OtherUserCalendar";
-import getDate from "date-fns/getDate";
-import { getYear, getMonth } from "date-fns";
-import defaultImg from "../../../assets/defaultImage/profile.jpg";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import ColorFromDB from "../../../utils/calendar/CalendarBasic";
 
 function CalendarMain({ ...props }) {
   // 일정 추가 모달창 open state
@@ -40,6 +36,8 @@ function CalendarMain({ ...props }) {
   const [otherCalendarPostId, setOtherCalendarPostId] = useState("");
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
+  // 하루 일정 -> 디테일 시 하루일정 다시 띄우기
+  const [againToday, setAgainToday] = useState(false);
   const [moreDate, setMoreDate] = useState("");
   // 타유저 캘린더 share 일정 state
   const [otherCalendarState, setOtherCalendarState] = useState(false);
@@ -49,13 +47,12 @@ function CalendarMain({ ...props }) {
   const [isSideOpen, setIsSideOpen] = useState(true);
 
   const dispatch = useDispatch();
-
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const userInfo = GetUserInfo();
   const location = useLocation();
 
-  const { total, isLoading, error } = useSelector((state) => state.calendar);
+  const { total } = useSelector((state) => state.calendar);
   useEffect(() => {
     if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
@@ -63,7 +60,7 @@ function CalendarMain({ ...props }) {
     } else {
       setDisabled(false);
     }
-    dispatch(__getTotalPosts({ userId: String(param.id), token }));
+    dispatch(__getTotalPosts({ userId: String(param.id) }));
   }, [isSubmit, param, location.pathname]);
 
   useEffect(() => {
@@ -161,7 +158,7 @@ function CalendarMain({ ...props }) {
         endDate: end,
       };
 
-      dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
+      dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
         props.setSide(!props.side);
       });
@@ -268,14 +265,20 @@ function CalendarMain({ ...props }) {
           otherCalendarPostId={otherCalendarPostId}
           setOtherCalendarPostId={setOtherCalendarPostId}
           setDisabled={setDisabled}
+          isTodaySchedule={isTodaySchedule}
+          setIsTodaySchedule={setIsTodaySchedule}
+          againToday={againToday}
+          setAgainToday={setAgainToday}
         />
         <DayScheduleModal
           isTodaySchedule={isTodaySchedule}
           setIsTodaySchedule={setIsTodaySchedule}
           setIsAddPost={setIsAddPost}
           moreDate={moreDate}
-          setOtherCalendarPostId={setOtherCalendarPostId}
+          setDetailPostId={props.setDetailPostId}
           isSubmit={isSubmit}
+          againToday={againToday}
+          setAgainToday={setAgainToday}
         />
       </CalendarWrapper>
       {String(userInfo.userId) === String(param.id) && (
@@ -457,7 +460,7 @@ export const CalendarWrapper = styled.div`
       margin-left: 5px;
     }
   }
-  
+
   table {
     border: none;
   }

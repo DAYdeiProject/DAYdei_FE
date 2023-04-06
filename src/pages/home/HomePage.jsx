@@ -45,7 +45,7 @@ function HomePage() {
     });
   }, []);
 
-  console.log(isModalVisible);
+  //console.log(isModalVisible);
 
   return (
     <>

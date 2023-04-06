@@ -1,12 +1,11 @@
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { __getOtherUser } from "../redux/modules/calendarSlice";
-import Loading from "./Loading";
-import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../redux/modules/subscribeSlice";
+import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/modules/friendsSlice";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 export default function SidebarOtherCalendar({ userId }) {

@@ -1,12 +1,12 @@
-import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import { MemoTitle } from "./CalendarSidebar";
 import { __hideUser } from "../../../redux/modules/subscribeSlice";
-import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
+import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
 function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit, setIsSubscribeBoxOpen }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET

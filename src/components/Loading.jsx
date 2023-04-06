@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { PulseLoader, ScaleLoader, SyncLoader, FadeLoader, BeatLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 export default function Loading({ loading }) {
   return (
