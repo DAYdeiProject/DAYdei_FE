@@ -1,5 +1,4 @@
 import { React, useState, useEffect, useRef } from "react";
-import useOutSideClick from "../../hooks/useOutsideClick";
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
 import styled from "styled-components";
@@ -19,6 +18,8 @@ const EventSource = EventSourcePolyfill;
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
   TokenCheck();
+  const navigate = useNavigate();
+  
   //첫 로그인시 카테고리모달 보여주기 상태
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 오늘의 일정 postId
@@ -32,37 +33,26 @@ function HomePage() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
-
+  
   const { myProfile, isError, isLoading } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(__getMyProfile(id)).then((data) => {
-      const categoryList = data.payload.categoryList;
-      // console.log(data.payload.categoryList);
-      if (categoryList.length !== 0) {
-        setIsModalVisible(false);
-      } else if (categoryList.length === 0) {
+      console.log("로그인하면서 갖고오는 내 프로필 카테고리 정보", data);
+      if (data.payload.categoryList.length === 0) {
         setIsModalVisible(true);
       }
     });
-  }, [token]);
+  }, []);
 
-  // 모달 바깥 영역을 누르면 카테고리 선택 모달 닫히게 설정
-  const handleCategoryModalClose = () => {
-    setIsModalVisible(false);
-  };
-
-  const CategoryModalRef = useRef(null);
-  useOutSideClick(CategoryModalRef, handleCategoryModalClose);
+  console.log(isModalVisible);
 
   return (
     <>
       {myProfile && (
         <MainWrapper>
           <Sidebar side={side} setDetailPostId={setDetailPostId} />
-          {isModalVisible && (
-            <CategoryModal CategoryModalRef={CategoryModalRef} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />
-          )}
+          {isModalVisible && <CategoryModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
           <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
         </MainWrapper>
       )}

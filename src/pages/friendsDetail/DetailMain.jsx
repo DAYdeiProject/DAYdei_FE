@@ -15,9 +15,7 @@ import {
   TopText,
   TopLeft,
   TopRight,
-  SearchIcon,
   SearchBar,
-  AlignIcon,
   ListWrap,
   DropdownFrame,
   DropdownItems,
@@ -31,6 +29,8 @@ import _ from "lodash";
 import useOutSideClick from "../../hooks/useOutsideClick";
 import LoadingInnerWrapper from "../search/UserLists";
 import Loading from "../../components/Loading";
+import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
+import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 
 function DetailMain() {
   const params = useParams();
@@ -274,9 +274,9 @@ function DetailMain() {
                       {searchFriendOpen && (
                         <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                       )}
-                      <SearchIcon onClick={HandleSearchFriend} />
+                      <FriendSearch onClick={HandleSearchFriend} />
                       <IconWrap>
-                        <AlignIcon onClick={handleDropdownFriend} />
+                        <Filter onClick={handleDropdownFriend} />
                         {isDropdownFriendOpen && (
                           <DropdownFrame>
                             <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -308,9 +308,9 @@ function DetailMain() {
                           value={searchWordSubscribe}
                           onChange={searchSubscribeHandler}></SearchBar>
                       )}
-                      <SearchIcon onClick={HandleSearchSubscribe} />
+                      <FriendSearch onClick={HandleSearchSubscribe} />
                       <IconWrap>
-                        <AlignIcon onClick={handleDropdownSubscribe} />
+                        <Filter onClick={handleDropdownSubscribe} />
                         {isDropdownSubscribeOpen && (
                           <DropdownFrame>
                             <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
@@ -343,9 +343,9 @@ function DetailMain() {
                           value={searchWordSubscriber}
                           onChange={searchSubscriberHandler}></SearchBar>
                       )}
-                      <SearchIcon onClick={HandleSearchSubscriber} />
+                      <FriendSearch onClick={HandleSearchSubscriber} />
                       <IconWrap>
-                        <AlignIcon onClick={handleDropdownSubscriber} />
+                        <Filter onClick={handleDropdownSubscriber} />
                         {isDropdownSubscriberOpen && (
                           <DropdownFrame>
                             <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>

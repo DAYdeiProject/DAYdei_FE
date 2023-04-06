@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FaTrash } from "react-icons/fa";
@@ -12,7 +12,6 @@ import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg"
 
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import SubscribeListControl from "./SubscribeListControl";
-import ProfileSettingModal from "../profile/ProfileSettingModal";
 
 export default function CalendarSidebar({ ...props }) {
   //창의 열고닫힘 상태
@@ -20,7 +19,6 @@ export default function CalendarSidebar({ ...props }) {
   const [isSubscribeBoxOpen, setIsSubscribeBoxOpen] = useState(false);
   const [isAddMemoBoxOpen, setIsAddMemoBoxOpen] = useState(true);
   const [isInputBoxOpen, setIsInputBoxOpen] = useState(false);
-  const [isEditDropDownOpen, setIsEditDropDownOpen] = useState(false);
   //메모에 적히는 제목,내용 상태
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -29,8 +27,13 @@ export default function CalendarSidebar({ ...props }) {
   const [fixedContent, setFixedContent] = useState("");
   //메모리스트 상태 추적
   const [memos, setMemos] = useState([]);
+  //hover된 메모박스 추적
+  const [hoveredMemoId, setHoveredMemoId] = useState(null);
+  //클릭된 MoreY의 id 추적
+  const [isClickedMoreYId, setIsClickedMoreYId] = useState(false);
   //수정할 메모박스 추적
   const [clickedMemoId, setClickedMemoId] = useState(null);
+  //SubscribeListControl로 전달되는 상태
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
 
   //메모 상태변경 추적
@@ -43,7 +46,6 @@ export default function CalendarSidebar({ ...props }) {
   };
 
   //수정메모 상태변경 추적
-
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -51,24 +53,24 @@ export default function CalendarSidebar({ ...props }) {
   const handleContentChange = (e) => {
     setContent(e.target.value);
   };
-
+  //메모 모달 열고닫기 함수
   const handleTodoBoxOpen = () => {
     setIsTodoBoxOpen(!isTodoBoxOpen);
     setIsSubscribeBoxOpen(false);
     setIsAddMemoBoxOpen(true);
     setIsInputBoxOpen(false);
     setClickedMemoId(null);
-    props.setIsSideOpen(!props.isSideOpen);
   };
-
-  const handleSubscribeBoxOpen = () => {
-    setIsSubscribeBoxOpen(!isSubscribeBoxOpen);
-    setIsTodoBoxOpen(false);
-  };
-
+  // 메모 모달 내 '메모 추가하기' 누르면 input박스 열림
   const handleInputBoxOpen = () => {
     setIsInputBoxOpen(!isInputBoxOpen);
     // setIsAddMemoBoxOpen(false);
+  };
+
+  //구독 가리기/보이기 모달 열고닫기 함수
+  const handleSubscribeBoxOpen = () => {
+    setIsSubscribeBoxOpen(!isSubscribeBoxOpen);
+    setIsTodoBoxOpen(false);
   };
 
   // 메모 제출버튼 클릭 시 호출되는 함수
@@ -83,8 +85,6 @@ export default function CalendarSidebar({ ...props }) {
       setIsAddMemoBoxOpen(true);
       setTitle("");
       setContent("");
-    } else if (title === "" || content === "") {
-      alert("빈칸을 채워주세요");
     } else {
       setIsInputBoxOpen(false);
       setIsAddMemoBoxOpen(true);
@@ -112,7 +112,6 @@ export default function CalendarSidebar({ ...props }) {
   }, [statusCodeMemo, updatedMemos]);
 
   //메모 삭제
-
   const deleteMemoHandler = (id) => {
     dispatch(__deleteMemo(id)).then(() => {
       dispatch(__getMemos());
@@ -128,24 +127,38 @@ export default function CalendarSidebar({ ...props }) {
     setClickedMemoId(id);
   };
 
-  //메모 수정
+  //Hover된 box의 id 기억하기
+  const findHoveredMemoHandler = (id) => {
+    setHoveredMemoId(id);
+    setIsClickedMoreYId(false);
+  };
 
+  //메모 수정-삭제 드롭다운 모달 열고닫기
+  const ClickedMoreYHandler = () => {
+    setIsClickedMoreYId(!isClickedMoreYId);
+  };
+
+  // console.log("클릭moreY-->", clickedMoreYId);
+
+  //메모 수정
   const fixMemoHandler = (id) => {
     const memo = memos.find((memo) => memo.id === id);
     const fixedMemo = { title: fixedTitle || memo.title, content: fixedContent || memo.content };
+    // if (fixedTitle !== "" && fixedContent !== "") {
     dispatch(__fixMemo({ id, fixedMemo })).then(() => {
       dispatch(__getMemos());
     });
     setClickedMemoId(null);
-  };
-
-  const EditDropdownHandler = () => {
-    setIsEditDropDownOpen(!isEditDropDownOpen);
+    setHoveredMemoId(null);
+    // }
+    // else {
+    //   alert("수정 내용을 입력해주세요!");
+    // }
   };
 
   return (
     <>
-      <WholeWrapper isOpen={props.isSideOpen}>
+      <WholeWrapper>
         <SidebarWrapper>
           <div onClick={handleTodoBoxOpen}>
             <Note />
@@ -154,70 +167,88 @@ export default function CalendarSidebar({ ...props }) {
             <Star />
           </div>
         </SidebarWrapper>
-        <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
-          <UpperArea>
-            <MemoTitle>
-              <div>내 메모 목록</div>
-              <Cancel onClick={() => setIsTodoBoxOpen(false)} />
-            </MemoTitle>
-            <GapArea />
-            {isAddMemoBoxOpen && (
-              <AddMemoBox>
-                <SmallText>내 메모</SmallText>
-                <AddBox onClick={handleInputBoxOpen}>
-                  <Memo /> 메모 추가하기
-                </AddBox>
-                {isInputBoxOpen && (
-                  <InputBox>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        submitMemoHandler();
-                      }}>
-                      <ContentWrapper>
-                        <InputBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
-                        <InputBarContent type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
-                      </ContentWrapper>
-                      <button hidden>제출</button>
-                    </form>
-                  </InputBox>
-                )}
-              </AddMemoBox>
-            )}
-          </UpperArea>
-          <UnderWrap>
-            {updatedMemos.map((memo) => (
-              <div key={memo.id}>
-                {clickedMemoId === memo.id ? (
-                  <MemoBox>
-                    <input type="text" placeholder="제목" value={fixedTitle} onChange={handleFixedTitleChange} />
-                    <input type="text" placeholder="내용" value={fixedContent} onChange={handleFixedContentChange} />
-                    <MemoBoxButtonWrapper>
-                      <FixButton onClick={() => fixMemoHandler(memo.id)}>수정</FixButton>
-                    </MemoBoxButtonWrapper>
-                  </MemoBox>
-                ) : (
-                  <MemoBox>
-                    <UpperBox>
-                      <div>{memo.title}</div>
-                      <MoreY width="16px" height="16px" onClick={EditDropdownHandler}></MoreY>
-                    </UpperBox>
-                    <UnderBox>{memo.content}</UnderBox>
-                    <MemoBoxButtonWrapper>
-                      <HiPencil onClick={() => findClickedMemoHandler(memo.id)} />
-                      <FaTrash
-                        onClick={() => {
-                          deleteMemoHandler(memo.id);
-                        }}
-                      />
-                    </MemoBoxButtonWrapper>
-                  </MemoBox>
-                )}
-              </div>
-            ))}
-          </UnderWrap>
-        </SideSpaceWrapper>
 
+        {isTodoBoxOpen && (
+          <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
+            <UpperArea>
+              <MemoTitle>
+                <div>내 메모 목록</div>
+                <Cancel onClick={() => setIsTodoBoxOpen(false)} />
+              </MemoTitle>
+              <GapArea />
+              {isAddMemoBoxOpen && (
+                <AddMemoBox>
+                  <SmallText>내 메모</SmallText>
+                  <AddBox onClick={handleInputBoxOpen}>
+                    <Memo /> 메모 추가하기
+                  </AddBox>
+                  {isInputBoxOpen && (
+                    <InputBox>
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          submitMemoHandler();
+                        }}>
+                        <ContentWrapper>
+                          <InputBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
+                          <InputBarContent type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
+                        </ContentWrapper>
+                        <button hidden>제출</button>
+                      </form>
+                    </InputBox>
+                  )}
+                </AddMemoBox>
+              )}
+            </UpperArea>
+            <UnderWrap>
+              {updatedMemos.map((memo) => (
+                <div key={memo.id}>
+                  {clickedMemoId === memo.id ? (
+                    <CorrectionBox>
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          fixMemoHandler(memo.id);
+                        }}>
+                        <ContentWrapper>
+                          <InputBar type="text" placeholder="제목을 수정해주세요" defaultValue={memo.title} onChange={handleFixedTitleChange} autoFocus />
+                          <InputBarContent type="text" placeholder="내용을 수정해주세요" defaultValue={memo.content} onChange={handleFixedContentChange} />
+                        </ContentWrapper>
+                        <button hidden>제출</button>
+                      </form>
+                    </CorrectionBox>
+                  ) : (
+                    <MemoBox onMouseEnter={() => findHoveredMemoHandler(memo.id)}>
+                      <UpperBox>
+                        <div>{memo.title}</div>
+                        {hoveredMemoId === memo.id ? (
+                          <IconWrap>
+                            <MoreY width="16px" height="16px" onClick={ClickedMoreYHandler} />
+                            {isClickedMoreYId && (
+                              <OptionsWrap>
+                                <div onClick={() => findClickedMemoHandler(memo.id)}>
+                                  <HiPencil />
+                                </div>
+                                <DivideLine>|</DivideLine>
+                                <div
+                                  onClick={() => {
+                                    deleteMemoHandler(memo.id);
+                                  }}>
+                                  <FaTrash />
+                                </div>
+                              </OptionsWrap>
+                            )}
+                          </IconWrap>
+                        ) : null}
+                      </UpperBox>
+                      <UnderBox>{memo.content}</UnderBox>
+                    </MemoBox>
+                  )}
+                </div>
+              ))}
+            </UnderWrap>
+          </SideSpaceWrapper>
+        )}
         {isSubscribeBoxOpen && (
           <SubscribeListControl
             clickedButtonIds={clickedButtonIds}
@@ -233,16 +264,19 @@ export default function CalendarSidebar({ ...props }) {
 }
 
 const WholeWrapper = styled.div`
+  right: 0;
+  position: absolute;
   display: flex;
   flex-direction: row;
   height: 100%;
-  position: ${(props) => props.isOpen && "absolute"};
-  right: -240px;
+  /* z-index: 10; */
 `;
 
 //사이드바
 const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
+  position: relative;
+  right: 0;
   display: flex;
   justify-content: flex-start;
   width: 46px;
@@ -251,11 +285,13 @@ const SidebarWrapper = styled.div`
   padding-top: 50px;
   border-left: solid 1px #121212;
   cursor: pointer;
-  /* background-color: lightgreen; */
+  background: white;
+  z-index: 1;
 `;
 
 //사이드바 아이콘 클릭 시 나오는 영역
 export const SideSpaceWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -265,13 +301,13 @@ export const SideSpaceWrapper = styled.div`
   overflow: auto;
   z-index: 10;
   flex-shrink: 0;
-  border-left: 1px solid #121212;
+  border: 1px solid black;
   gap: 18px;
-
   padding-top: 20px;
   ::-webkit-scrollbar {
     display: none;
   }
+  /* background: yellow; */
 `;
 
 //메모 모달 상단(메모 추가하기까지)
@@ -285,13 +321,11 @@ export const MemoTitle = styled.div`
   align-items: center;
   padding: 0px;
   gap: 98px;
-
   /* width: 192px; */
   height: 21px;
   font-weight: 500;
   font-size: ${(props) => props.theme.Fs.size18}
   line-height: 21px;
-
   color: ${(props) => props.theme.Bg.color1};
   /* background: pink; */
 `;
@@ -301,6 +335,7 @@ export const GapArea = styled.div`
   width: 200px;
   border-bottom: 1px solid gray;
   margin-bottom: 12px;
+  /* background: yellow; */
 `;
 
 // 내 메모 + 메모 추가하기 영역
@@ -309,7 +344,6 @@ const AddMemoBox = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-
   width: 192px;
   min-height: 54px;
   /* background: pink; */
@@ -329,7 +363,6 @@ const AddBox = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 8px;
-
   width: 192px;
   height: 28px;
   font-weight: 400;
@@ -338,14 +371,6 @@ const AddBox = styled.div`
   color: ${(props) => props.theme.Bg.mainColor5};
   :hover {
     background: #f1fbfe;
-
-    > div > svg {
-      display: block;
-    }
-  }
-
-  > div > svg {
-    display: none;
   }
 `;
 
@@ -357,7 +382,6 @@ const InputBox = styled.div`
   align-items: flex-start;
   width: 192px;
   height: 50px;
-
   background: #f1fbfe;
   border-radius: 4px;
 `;
@@ -370,7 +394,6 @@ const ContentWrapper = styled.div`
   width: 184px;
   height: 38px;
   gap: 8px;
-
   /* background: pink; */
 `;
 
@@ -411,18 +434,20 @@ const MemoBox = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 6px;
-  gap: 8px;
-
+  /* gap: 8px; */
   width: 192px;
   height: auto;
-
   border: 1px solid ${(props) => props.theme.Bg.border1};
   border-radius: 4px;
   word-break: break-word;
-
   :hover {
     background: #f1fbfe;
   }
+`;
+
+const CorrectionBox = styled(MemoBox)`
+  background: #f1fbfe;
+  padding-left: 0px;
 `;
 
 const MemoBoxButtonWrapper = styled.div`
@@ -441,22 +466,43 @@ const UpperBox = styled.div`
   flex-direction: row;
   align-items: center;
   width: 184px;
-  justify-content: space-between;
 
+  justify-content: space-between;
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
   color: ${(props) => props.theme.Bg.color1};
 `;
 
-const EditDropDown = styled.div`
+const IconWrap = styled.div`
+  position: relative;
+  /* background: yellow; */
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const OptionsWrap = styled.div`
   position: absolute;
-  width: 60px;
-  height: 40px;
-  background: skyblue;
-  z-index: 10;
-  top: 10px;
-  left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2px;
+  padding-right: 2px;
+  gap: 2px;
+  top: 16px;
+  right: 5px;
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid black;
+  background: white;
+`;
+
+const DivideLine = styled.div`
+  margin-left: 3px;
+  margin-right: 3px;
 `;
 
 const UnderBox = styled.div`\

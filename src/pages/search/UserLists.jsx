@@ -64,12 +64,12 @@ function UserLists({ searchWord, selectedCategories }) {
   const ButtonFriend = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
       return (
-        <Button
+        <ButtonCancel
           onClick={() => {
             cancelRequestHandler(id);
           }}>
           신청취소
-        </Button>
+        </ButtonCancel>
       );
     }
     return (
@@ -85,12 +85,12 @@ function UserLists({ searchWord, selectedCategories }) {
   const ButtonSubscribe = ({ id }) => {
     if (clickedSubscribeButtonIds.includes(id)) {
       return (
-        <ButtonSub
+        <ButtonCancel
           onClick={() => {
             cancelSubscribeHandler(id);
           }}>
           구독취소
-        </ButtonSub>
+        </ButtonCancel>
       );
     }
     return (
@@ -143,10 +143,9 @@ function UserLists({ searchWord, selectedCategories }) {
               </ProfileTextFrame>
             </ProfileArea>
             <IntroductionWrap>
-              {" "}
               {user.introduction
-                ? user.introduction.length > 18
-                  ? `${user.introduction.substr(0, 18)}...`
+                ? user.introduction.length > 30
+                  ? `${user.introduction.substr(0, 30)}...`
                   : user.introduction
                 : `${user.nickName}의 캘린더입니다.`}
             </IntroductionWrap>
@@ -389,6 +388,11 @@ const ButtonSub = styled(Button)`
   color: black;
   font-weight: 600;
   font-size: 12px;
+`;
+
+const ButtonCancel = styled(Button)`
+  background-color: ${(props) => props.theme.Bg.color6};
+  color: black;
 `;
 
 export default UserLists;
