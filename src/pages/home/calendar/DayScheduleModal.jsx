@@ -1,18 +1,16 @@
-import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import postStyle from "../../../shared/style/PostStyle";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import { useParams } from "react-router";
-import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
-import Loading from "../../../components/Loading";
+import React, { useEffect, useRef } from "react";
+import { getDate, getDay, getMonth } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
 import ModalBox from "../../../elements/ModalBox";
+import useOutSideClick from "../../../hooks/useOutsideClick";
+import { DayCheck } from "../../../utils/calendar/CalendarBasic";
+import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
+import ColorFromDB, { ColorDeepFromDB, DayAmPm } from "../../../utils/calendar/CalendarBasic";
+import postStyle from "../../../shared/style/PostStyle";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as CalendarIcon } from "../../../assets/calendarIcon/editCalendar.svg";
-import { format, getDate, getDay, getMonth } from "date-fns";
-import ColorFromDB, { ColorDeepFromDB, DayAmPm } from "../../../utils/calendar/CalendarBasic";
-import { DayCheck } from "../../../utils/calendar/CalendarBasic";
-import useOutSideClick from "../../../hooks/useOutsideClick";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();

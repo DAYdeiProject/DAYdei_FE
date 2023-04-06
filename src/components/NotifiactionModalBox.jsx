@@ -1,18 +1,14 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { __getConnect } from "../redux/modules/connectSlice";
-import Loading from "./Loading";
-import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
-import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { GetUserInfo } from "../utils/cookie/userInfo";
+import { useSelector, useDispatch } from "react-redux";
+import { textState } from "../redux/modules/headerReducer";
+import { __getConnect } from "../redux/modules/connectSlice";
 import { setNotificationPostId } from "../redux/modules/headerReducer";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
-import { GetUserInfo } from "../utils/cookie/userInfo";
-import { textState } from "../redux/modules/headerReducer";
+import { TimeCheck } from "../utils/calendar/CalendarBasic";
+import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
 
 export default function NotifiactionModalBox({ ...props }) {
   const [deleteState, setDeleteState] = useState(false);
@@ -27,7 +23,6 @@ export default function NotifiactionModalBox({ ...props }) {
 
   // console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
-
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
       console.log("userid-----", userId);

@@ -1,17 +1,16 @@
-import { React, useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { React, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import SubscribeListControl from "./SubscribeListControl";
+import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
+import { __addMemo, __getMemos, __deleteMemo, __fixMemo } from "../../../redux/modules/memosSlice";
 import { FaTrash } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
-import { __addMemo, __getMemos, __deleteMemo, __fixMemo } from "../../../redux/modules/memosSlice";
 import { ReactComponent as Star } from "../../../assets/defaultIcons/star.svg";
 import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
 import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as Memo } from "../../../assets/defaultIcons/memo.svg";
 import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
-
-import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
-import SubscribeListControl from "./SubscribeListControl";
 
 export default function CalendarSidebar({ ...props }) {
   //창의 열고닫힘 상태
@@ -324,7 +323,7 @@ export const MemoTitle = styled.div`
   /* width: 192px; */
   height: 21px;
   font-weight: 500;
-  font-size: ${(props) => props.theme.Fs.size18}
+  font-size: ${(props) => props.theme.Fs.size18};
   line-height: 21px;
   color: ${(props) => props.theme.Bg.color1};
   /* background: pink; */
@@ -476,7 +475,6 @@ const UpperBox = styled.div`
 
 const IconWrap = styled.div`
   position: relative;
-  /* background: yellow; */
   :hover {
     cursor: pointer;
   }
@@ -505,10 +503,10 @@ const DivideLine = styled.div`
   margin-right: 3px;
 `;
 
-const UnderBox = styled.div`\
-font-weight: normal;
-font-size:12px;
-line-height:150%;
+const UnderBox = styled.div`
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 150%;
 `;
 
 const FixButton = styled.div`

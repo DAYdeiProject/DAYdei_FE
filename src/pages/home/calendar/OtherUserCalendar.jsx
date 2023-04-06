@@ -1,16 +1,14 @@
-import Cookies from "js-cookie";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
-import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FormatTimeDot, TimeCheck } from "../../../utils/calendar/CalendarBasic";
+import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
 
 export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
-  const token = Cookies.get("accessJWTToken");
   const param = useParams();
 
   const { otherUserUpdate, otherUserShare, otherUser } = useSelector((state) => state.calendar);

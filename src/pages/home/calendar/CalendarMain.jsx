@@ -1,27 +1,23 @@
-import React, { useEffect } from "react";
+import add from "date-fns/add";
+import Cookies from "js-cookie";
+import format from "date-fns/format";
+import getDate from "date-fns/getDate";
+import styled from "styled-components";
+import { getYear, getMonth } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import styled from "styled-components";
-import AddPostModal from "./AddPostModal";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import interactionPlugin from "@fullcalendar/interaction";
 import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../redux/modules/calendarSlice";
-import Cookies from "js-cookie";
-import Loading from "../../../components/Loading";
-import DayScheduleModal from "./DayScheduleModal";
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
-import ColorFromDB from "../../../utils/calendar/CalendarBasic";
-import add from "date-fns/add";
+import AddPostModal from "./AddPostModal";
 import DetailPostModal from "./DetailPostModal";
 import CalendarSidebar from "./CalendarSidebar";
-import format from "date-fns/format";
+import DayScheduleModal from "./DayScheduleModal";
 import OtherUserCalendar from "./OtherUserCalendar";
-import getDate from "date-fns/getDate";
-import { getYear, getMonth } from "date-fns";
-import defaultImg from "../../../assets/defaultImage/profile.jpg";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import ColorFromDB from "../../../utils/calendar/CalendarBasic";
 
 function CalendarMain({ ...props }) {
   // 일정 추가 모달창 open state
@@ -51,13 +47,12 @@ function CalendarMain({ ...props }) {
   const [isSideOpen, setIsSideOpen] = useState(true);
 
   const dispatch = useDispatch();
-
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const userInfo = GetUserInfo();
   const location = useLocation();
 
-  const { total, isLoading, error } = useSelector((state) => state.calendar);
+  const { total } = useSelector((state) => state.calendar);
   useEffect(() => {
     if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황

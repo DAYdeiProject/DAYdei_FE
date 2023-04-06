@@ -1,12 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import { getDate } from "date-fns";
 import format from "date-fns/format";
-import koLocale from "date-fns/locale/ko";
+import Calendar from "react-calendar";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import "react-calendar/dist/Calendar.css";
 
 export default function SidebarMiniCalendar() {
   const { total } = useSelector((state) => state.calendar);

@@ -1,24 +1,21 @@
-import Cookies from "js-cookie";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarSlice";
-import format from "date-fns/format";
 import { getDay } from "date-fns";
-import { useNavigate, useParams } from "react-router-dom";
-import Loading from "./Loading";
+import format from "date-fns/format";
+import styled from "styled-components";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { textState } from "../redux/modules/headerReducer";
+import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
-import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
-import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
-import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
-import defaultProfile from "../assets/defaultImage/profile.jpg";
-import { textState } from "../redux/modules/headerReducer";
 import { DayCheck } from "../utils/calendar/CalendarBasic";
+import defaultProfile from "../assets/defaultImage/profile.jpg";
+import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
+import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
+import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
-  const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const now = format(new Date(), "yy.MM.dd");
   const day = DayCheck(getDay(new Date()));
