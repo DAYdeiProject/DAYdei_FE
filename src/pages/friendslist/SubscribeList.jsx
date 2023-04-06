@@ -81,8 +81,8 @@ function SubscribeList({ SubscribesList }) {
               </PostLeft>
               <IntroductionWrap>
                 {user.introduction
-                  ? user.introduction.length > 18
-                    ? `${user.introduction.substr(0, 17)}...`
+                  ? user.introduction.length > 16
+                    ? `${user.introduction.substr(0, 16)}...`
                     : user.introduction
                   : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrap>

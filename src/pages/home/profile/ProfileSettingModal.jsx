@@ -56,6 +56,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
+  const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
     if (myProfile.profileImage) {
@@ -251,13 +252,13 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                           <TextWrap>
                             <SmallTextBox>닉네임 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" defaultValue={myProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="6" />
+                              <input type="text" defaultValue={headerProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="6" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>한 줄 프로필 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" defaultValue={myProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
+                              <input type="text" defaultValue={headerProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
