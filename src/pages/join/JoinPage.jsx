@@ -44,7 +44,7 @@ function JoinPage() {
   const emailCheckHandler = (email) => {
     if (isEmail) {
       dispatch(__emailCheck(email)).then((data) => {
-        // console.log("then에서 나오는 200-->", data.payload.statusCode);
+        console.log("then에서 나오는 200-->", data);
         if (data.payload.statusCode !== 200) {
           alert(data.payload.data);
         } else {

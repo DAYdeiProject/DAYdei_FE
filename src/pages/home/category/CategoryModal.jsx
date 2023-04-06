@@ -45,7 +45,7 @@ function CategoryModal({ CategoryModalRef, setIsModalVisible, setIsButtonClicked
         />
       ) : (
         <ModalWrap>
-          <Modal>
+          <Modal padding="48px 38px">
             <div ref={CategoryModalRef}>
               <ModalContent>
                 <UpperWrapper>

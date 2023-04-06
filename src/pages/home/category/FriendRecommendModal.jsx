@@ -70,7 +70,7 @@ function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, 
   return (
     <>
       <ModalWrap>
-        <Modal>
+        <Modal padding="48px 38px">
           <ModalContent>
             <ContentWrapper>
               <TextWrapper>
@@ -93,7 +93,7 @@ function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal, 
                             ? "알 수 없는 캘린더"
                             : user.introduction === null
                             ? `${user.nickName}의 캘린더입니다.`
-                            : `${user.introduction.substr(0, 18)}...`}
+                            : `${user.introduction.substr(0, 16)}...`}
                         </UserInfoText2>
                       </UserInfoWrap>
                       <ButtonStyle backgroundColor={clickedButtonIds.includes(user.id) ? "#FBDF96" : "#FFFFFF"}>

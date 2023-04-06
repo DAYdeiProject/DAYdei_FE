@@ -20,11 +20,10 @@ Modal.defaultProps = {
 const ModalBox = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  padding: 48px 38px;
+  padding: ${(props) => props.padding};
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: ${(props) => props.padding};
 
   background: #ffffff;
   border-radius: 16px;

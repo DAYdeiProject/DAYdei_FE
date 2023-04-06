@@ -121,7 +121,7 @@ const HeaderText = styled.div`
 `;
 
 const HeaderTextMain = styled.div`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 28px;
   line-height: 140%;
   color: ${(props) => props.theme.Bg.color1};
