@@ -2,12 +2,14 @@ import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import { textState } from "../../redux/modules/headerReducer";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
-import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { CalendarWrapper } from "../home/calendar/CalendarMain";
+
 import Loading from "../../components/Loading";
-import { textState } from "../../redux/modules/headerReducer";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적

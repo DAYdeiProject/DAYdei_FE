@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Header from "./Header";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { __getMyProfile } from "../redux/modules/usersSlice";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+
+import { __getMyProfile } from "../redux/modules/usersSlice";
+
+import Header from "./Header";
 
 function Layout() {
   const { myProfile } = useSelector((state) => state.users);

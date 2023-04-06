@@ -1,9 +1,11 @@
 import { React, useState } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import { __addCategories } from "../../../redux/modules/usersSlice";
+
+import Modal from "../../../elements/Modal";
+import ModalWrap from "../../../elements/ModalWrap";
 import FriendRecommendModal from "./FriendRecommendModal";
 
 function CategoryModal({ setIsModalVisible, setIsButtonClicked }) {

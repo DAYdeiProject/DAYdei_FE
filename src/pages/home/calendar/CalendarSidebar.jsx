@@ -269,7 +269,7 @@ const WholeWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
-  /* z-index: 10; */
+  /* background-color: pink; */
 `;
 
 //사이드바

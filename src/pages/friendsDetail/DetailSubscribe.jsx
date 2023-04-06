@@ -1,9 +1,11 @@
 import { React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import defaultProfile from "../../assets/defaultImage/profile.jpg";
+
 import { textState } from "../../redux/modules/headerReducer";
 
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -20,7 +22,6 @@ import {
   NickNameWrap,
   EmailWrap,
 } from "../friendslist/FriendList";
-import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
 
 function DetailSubscribe({ SubscribesList }) {
   const navigate = useNavigate();
