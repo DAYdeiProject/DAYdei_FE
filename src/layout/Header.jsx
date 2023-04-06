@@ -139,9 +139,11 @@ function Header() {
             <NavUserConatiner>
               <IconWrapper ref={DropdownRef} className="notification">
                 {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
-                <Alert onClick={notificationClick} />
-                <Image onClick={handleDropdown}>
-                  <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                <Alert className="AlertIcon" onClick={notificationClick} />
+                <ImageContainer onClick={handleDropdown}>
+                  <ImgBox>
+                    <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                  </ImgBox>
                   {isDropdownOpen && (
                     <DropdownFrame>
                       <ContentWrapper>
@@ -166,7 +168,7 @@ function Header() {
                       </ContentWrapper>
                     </DropdownFrame>
                   )}
-                </Image>
+                </ImageContainer>
               </IconWrapper>
             </NavUserConatiner>
           </NavContainer>
@@ -258,12 +260,18 @@ const IconWrapper = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  :hover {
-    cursor: pointer;
+  .AlertIcon {
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
-const Image = styled.div`
+const ImageContainer = styled.div`
+  position: relative;
+`;
+const ImgBox = styled.div`
+  ${(props) => props.theme.FlexCol};
   ${(props) => props.theme.BoxCustom};
   margin-left: 24px;
   height: 32px;
@@ -285,9 +293,9 @@ const DropdownFrame = styled.div`
   padding: 16px 14px;
   border-radius: 8px;
 
-  position: relative;
-  top: 3px;
-  right: 200px;
+  position: absolute;
+  top: 40px;
+  right: 0px;
   z-index: 100;
   /* background-color: pink; */
 `;

@@ -19,7 +19,7 @@ function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
   TokenCheck();
   const navigate = useNavigate();
-  
+
   //첫 로그인시 카테고리모달 보여주기 상태
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 오늘의 일정 postId
@@ -33,7 +33,7 @@ function HomePage() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
-  
+
   const { myProfile, isError, isLoading } = useSelector((state) => state.users);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ function HomePage() {
     });
   }, []);
 
-  console.log(isModalVisible);
+  //console.log(isModalVisible);
 
   return (
     <>

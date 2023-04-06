@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -15,6 +15,7 @@ import { GetUserInfo } from "../utils/cookie/userInfo";
 import { textState } from "../redux/modules/headerReducer";
 
 export default function NotifiactionModalBox({ ...props }) {
+  const [deleteState, setDeleteState] = useState(false);
   const userInfo = GetUserInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,13 +23,14 @@ export default function NotifiactionModalBox({ ...props }) {
 
   useEffect(() => {
     dispatch(__getConnect());
-  }, [props.isNotificationOpen]);
+  }, [props.isNotificationOpen, deleteState]);
 
-  console.log("알림리스트 ", data);
+  // console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
 
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
+      console.log("userid-----", userId);
       navigate(`/${userId}`);
       dispatch(textState(""));
       props.setIsNotificationOpen(false);
@@ -50,6 +52,7 @@ export default function NotifiactionModalBox({ ...props }) {
   const allClearClick = () => {
     dispatch(__allClearNotification({ userId: userInfo.userId })).then(() => {
       alert("모두 삭제되었습니다.");
+      setDeleteState(true);
       //props.setIsNotificationOpen(false);
     });
   };

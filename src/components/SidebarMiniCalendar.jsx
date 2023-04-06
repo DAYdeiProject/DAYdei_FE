@@ -28,7 +28,7 @@ export default function SidebarMiniCalendar() {
   };
   return (
     <MiniWrapper>
-      <Calendar tileContent={(date) => viewList(date)} calendarType="US" formatDay={koLocale} />
+      <Calendar tileContent={(date) => viewList(date)} calendarType="US" />
     </MiniWrapper>
   );
 }
