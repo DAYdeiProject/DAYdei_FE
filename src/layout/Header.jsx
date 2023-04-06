@@ -1,18 +1,22 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams, useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
+
+import { textState } from "../redux/modules/headerReducer";
+import { __getHeaderProfile } from "../redux/modules/usersSlice";
+
 import useOutSideClick from "../hooks/useOutsideClick";
+import NotifiactionModalBox from "../components/NotifiactionModalBox";
+import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
+
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
-import { useDispatch, useSelector } from "react-redux";
-import { __getHeaderProfile } from "../redux/modules/usersSlice";
+
 import { GetUserInfo } from "../utils/cookie/userInfo";
-import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
-import NotifiactionModalBox from "../components/NotifiactionModalBox";
-import { textState } from "../redux/modules/headerReducer";
 
 function Header() {
   const navigate = useNavigate();

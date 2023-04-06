@@ -1,20 +1,16 @@
-import { React, useEffect, useRef } from "react";
-import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
-import useLogin from "../../hooks/useLogin";
-import { __loginUser } from "../../redux/modules/usersSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
-import FindPasswordModal from "./FindPasswordModal";
-import Header from "../../layout/Header";
-import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
-import { ReactComponent as Key } from "../../assets/sign/key.svg";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { React, useState, useEffect, useRef } from "react";
+import { __loginUser } from "../../redux/modules/usersSlice";
+import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import PreviewArea from "./PreviewArea";
+import useLogin from "../../hooks/useLogin";
+import FindPasswordModal from "./FindPasswordModal";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
+import { ReactComponent as Key } from "../../assets/sign/key.svg";
+import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
 
 function IntroPage() {
   const navigate = useNavigate();

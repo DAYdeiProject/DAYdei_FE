@@ -1,11 +1,13 @@
 import { React, useRef } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../elements/ModalWrap";
+import { useDispatch, useSelector } from "react-redux";
+
+import { __requestNewPassword } from "../../redux/modules/usersSlice";
+
 import Modal from "../../elements/Modal";
+import ModalWrap from "../../elements/ModalWrap";
 import useOutSideClick from "../../hooks/useOutsideClick";
 import useLogin from "../../hooks/useLogin";
-import { useDispatch, useSelector } from "react-redux";
-import { __requestNewPassword } from "../../redux/modules/usersSlice";
 
 function FindPasswordModal({ setIsFindPasswordModalOpen }) {
   const handleFindPasswordModalClose = () => {

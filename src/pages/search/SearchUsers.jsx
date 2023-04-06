@@ -1,9 +1,10 @@
 import { React, useEffect, useState } from "react";
-import styled from "styled-components";
-import { CalendarWrapper } from "../home/calendar/CalendarMain";
-import UserLists from "./UserLists";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import _ from "lodash";
+
+import UserLists from "./UserLists";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import { AiOutlineSearch } from "react-icons/ai";
 
 function SearchUsers() {
@@ -11,6 +12,12 @@ function SearchUsers() {
   const [userInfo, setUserInfo] = useState("");
   const [searchWord, setSearchWord] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  //버튼 선택여부상태
+  const [selected, setSelected] = useState(false);
+
+  const handleIconClick = () => {
+    setSelected(!selected);
+  };
 
   //유저정보 가져오기
   const headerProfile = useSelector((state) => state.users.headerProfile);
@@ -58,7 +65,13 @@ function SearchUsers() {
             </HeaderText>
             <SearchHeader>
               <IconWrapper>
-                <Icon onClick={() => handleCategoryClick("sports")} className={selectedCategories.includes("sports") ? "selected" : ""}>
+                <Icon
+                  onClick={() => {
+                    handleCategoryClick("sports");
+                    handleIconClick();
+                  }}
+                  selected={selected}
+                  className={selectedCategories.includes("sports") ? "selected" : ""}>
                   스포츠
                 </Icon>
                 <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
@@ -162,7 +175,7 @@ const IconWrapper = styled.div`
   /* background-color: green; */
 `;
 
-const Icon = styled.button`
+const Icon = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -170,7 +183,7 @@ const Icon = styled.button`
   width: 100px;
   height: 36px;
 
-  border: 1px solid ${(props) => props.theme.Bg.color1};
+  border: 1px solid black;
   border-radius: 99px;
 
   background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.color2 : props.theme.Bg.color6)};
@@ -179,6 +192,7 @@ const Icon = styled.button`
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
+
   :hover {
     cursor: pointer;
   }

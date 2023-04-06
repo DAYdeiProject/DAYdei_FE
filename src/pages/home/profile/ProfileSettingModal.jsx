@@ -1,16 +1,19 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import useOutSideClick from "../../../hooks/useOutsideClick";
-import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+
 import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
-import { GiCancel } from "react-icons/gi";
+
+import Modal from "../../../elements/Modal";
+import ModalWrap from "../../../elements/ModalWrap";
 import useLogin from "../../../hooks/useLogin";
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import useOutSideClick from "../../../hooks/useOutsideClick";
 import InfoSettingModal from "./InfoSettingModal";
 import { CategoryText } from "../../../utils/calendar/CalendarBasic";
+
+import { GiCancel } from "react-icons/gi";
+import { BsCardImage } from "react-icons/bs";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
   //프로필 파일
@@ -56,6 +59,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
+  const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
     if (myProfile.profileImage) {
@@ -251,13 +255,13 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                           <TextWrap>
                             <SmallTextBox>닉네임 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" defaultValue={myProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="6" />
+                              <input type="text" defaultValue={headerProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="6" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>한 줄 프로필 :</SmallTextBox>
                             <TextMain>
-                              <input type="text" defaultValue={myProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
+                              <input type="text" defaultValue={headerProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
                             </TextMain>
                           </TextWrap>
                           <TextWrap>

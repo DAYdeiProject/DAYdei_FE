@@ -1,15 +1,18 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../elements/ModalWrap";
-import Modal from "../../elements/Modal";
+import { useDispatch } from "react-redux";
+
 import { __getRequestedUsersList, __acceptNewFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
-import { useDispatch, useSelector } from "react-redux";
+
+import Modal from "../../elements/Modal";
+import ModalWrap from "../../elements/ModalWrap";
+
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIsApproveRequestModalOpen, SentUsersList }) {
   //보낸 친구요청 or 받은 친구요청 띄우기 상태
-  const [isReceivedRequestOpen, setIsReceivedRequestOpen] = useState(false);
-  const [isSentRequestOpen, setIsSentRequestOpen] = useState(true);
+  const [isReceivedRequestOpen, setIsReceivedRequestOpen] = useState(true);
+  const [isSentRequestOpen, setIsSentRequestOpen] = useState(false);
 
   //보낸 친구요청 오픈함수
   const SentRequestOpenHandler = () => {

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
+import { EventSourcePolyfill } from "event-source-polyfill";
+import Cookies from "js-cookie";
+
 import SidebarMyCalendar from "../components/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import Cookies from "js-cookie";
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");

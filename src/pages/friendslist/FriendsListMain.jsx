@@ -1,19 +1,20 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Cookies from "js-cookie";
+import _ from "lodash";
+
 import FriendList from "./FriendList";
 import SubscribeList from "./SubscribeList";
 import SubscriberList from "./SubscriberList";
+import ApproveRequestModal from "./ApproveRequestModal";
+
 import { __getFriendsList, __getRequestedUsersList, __getSentUsersList } from "../../redux/modules/friendsSlice";
 import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
-import { AiOutlineSearch } from "react-icons/ai";
-import { BsPersonAdd } from "react-icons/bs";
-import { RxTextAlignMiddle } from "react-icons/rx";
-import ApproveRequestModal from "./ApproveRequestModal";
+
 import useOutSideClick from "../../hooks/useOutsideClick";
-import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
-import _ from "lodash";
+
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
 import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
 import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
@@ -25,6 +26,7 @@ function FriendsListMain() {
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
   const acceptStatusCode = useSelector((state) => state.friends.acceptStatusCode);
+  // 내게 온 신청 & 내가 보낸 신청 리스트
   const RequestedUsersList = useSelector((state) => state.friends.RequestedUsersList);
   const SentUsersList = useSelector((state) => state.friends.SentUsersList);
 
@@ -93,7 +95,6 @@ function FriendsListMain() {
   }, [searchWord, searchWordSubscribe, searchWordSubscriber, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
 
   //정렬 기준 함수
-
   const alignBasicHandler = (id) => {
     let url = `${id}?sort=name&searchword=`;
     // console.log("여기-", url);
@@ -274,7 +275,7 @@ function FriendsListMain() {
                       <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                     )}
                     <FriendSearch onClick={HandleSearchFriend} />
-                    <FriendAdd onClick={approveRequestModalHandler} />
+                    <FriendAddStyle RequestedList={RequestedUsersList} onClick={approveRequestModalHandler} />
                     {isApproveRequestModalOpen && (
                       <ApproveRequestModal
                         ApproveRequestModalRef={ApproveRequestModalRef}
@@ -435,9 +436,10 @@ export const TopText = styled.div`
 
   width: 464px;
   height: 43px;
-  /* background-color: lightcoral; */
+
   border-bottom: 1px solid black;
   margin-top: 48px;
+  /* background-color: lightcoral; */
 `;
 
 export const TopLeft = styled.div`
@@ -480,6 +482,10 @@ export const SearchBar = styled.input`
 export const IconWrap = styled.div`
   width: 20px;
   height: 20px;
+`;
+
+const FriendAddStyle = styled(FriendAdd)`
+  stroke: ${(props) => (props.RequestedList.length !== 0 ? props.theme.Bg.mainColor1 : null)};
 `;
 
 export const DropdownFrame = styled.div`

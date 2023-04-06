@@ -1,17 +1,17 @@
-import { React, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect } from "react";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { EventSourcePolyfill } from "event-source-polyfill";
+
+import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
+import { __getConnect } from "../../redux/modules/connectSlice";
+import { __getMyProfile } from "../../redux/modules/usersSlice";
+
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
-import styled from "styled-components";
-import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
 import CategoryModal from "./category/CategoryModal";
-import { useDispatch, useSelector } from "react-redux";
 import TokenCheck from "../../utils/cookie/tokenCheck";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
-import { __getConnect } from "../../redux/modules/connectSlice";
-import Cookies from "js-cookie";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import { __getMyProfile } from "../../redux/modules/usersSlice";
 
 const EventSource = EventSourcePolyfill;
 

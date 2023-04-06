@@ -1,13 +1,12 @@
 import styled from "styled-components";
+import { React, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { GetUserInfo } from "../utils/cookie/userInfo";
 import { useSelector, useDispatch } from "react-redux";
-import { textState } from "../redux/modules/headerReducer";
 import { __getConnect } from "../redux/modules/connectSlice";
-import { setNotificationPostId } from "../redux/modules/headerReducer";
-import { __allClearNotification } from "../redux/modules/calendarSlice";
+import { GetUserInfo } from "../utils/cookie/userInfo";
 import { TimeCheck } from "../utils/calendar/CalendarBasic";
+import { __allClearNotification } from "../redux/modules/calendarSlice";
+import { setNotificationPostId, textState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
 
 export default function NotifiactionModalBox({ ...props }) {
