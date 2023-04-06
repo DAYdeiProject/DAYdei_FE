@@ -45,7 +45,7 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
-  //console.log("detail data==========", detail);
+  //console.log("detail postId==========", props.detailPostId);
   //console.log("notiInfo data==========", notiInfo);
 
   useEffect(() => {
@@ -111,8 +111,8 @@ export default function DetailPostModal({ ...props }) {
     data === "friend" ? setFriendToggle(false) : setImgToggle(false);
   };
 
-  // 닫기
-  const closeModal = () => {
+  // 닫기 눌렀을때 state 초기화
+  const closeSetting = () => {
     props.setIsDetailPost(false);
     props.setDetailPostId("");
     props.setOtherCalendarPostId("");
@@ -127,8 +127,20 @@ export default function DetailPostModal({ ...props }) {
     dispatch(setNotificationPostId(""));
     dispatch(textState("home"));
   };
+  // 닫기 클릭시(더보기에서 왔으면 더보기 true로)
+  const closeModal = () => {
+    if (props.againToday) {
+      props.setIsTodaySchedule(true);
+    }
+    closeSetting();
+  };
+  // 모달 바깥영역 클릭시
+  const outsideClick = () => {
+    closeSetting();
+    props.setAgainToday(false);
+  };
 
-  useOutsideClick(outside, closeModal);
+  useOutsideClick(outside, outsideClick);
 
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
@@ -136,6 +148,7 @@ export default function DetailPostModal({ ...props }) {
   };
   // 수정하기 모달창 이동
   const modifyPostHandler = (id) => {
+    console.log("수정하기--->", id);
     props.setModifyPostId(id);
     closeModal();
     props.setIsAddPost(true);

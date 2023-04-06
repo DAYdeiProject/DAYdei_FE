@@ -40,6 +40,8 @@ function CalendarMain({ ...props }) {
   const [otherCalendarPostId, setOtherCalendarPostId] = useState("");
   // 하루 일정 모달창 state
   const [isTodaySchedule, setIsTodaySchedule] = useState(false);
+  // 하루 일정 -> 디테일 시 하루일정 다시 띄우기
+  const [againToday, setAgainToday] = useState(false);
   const [moreDate, setMoreDate] = useState("");
   // 타유저 캘린더 share 일정 state
   const [otherCalendarState, setOtherCalendarState] = useState(false);
@@ -268,14 +270,20 @@ function CalendarMain({ ...props }) {
           otherCalendarPostId={otherCalendarPostId}
           setOtherCalendarPostId={setOtherCalendarPostId}
           setDisabled={setDisabled}
+          isTodaySchedule={isTodaySchedule}
+          setIsTodaySchedule={setIsTodaySchedule}
+          againToday={againToday}
+          setAgainToday={setAgainToday}
         />
         <DayScheduleModal
           isTodaySchedule={isTodaySchedule}
           setIsTodaySchedule={setIsTodaySchedule}
           setIsAddPost={setIsAddPost}
           moreDate={moreDate}
-          setOtherCalendarPostId={setOtherCalendarPostId}
+          setDetailPostId={props.setDetailPostId}
           isSubmit={isSubmit}
+          againToday={againToday}
+          setAgainToday={setAgainToday}
         />
       </CalendarWrapper>
       {String(userInfo.userId) === String(param.id) && (

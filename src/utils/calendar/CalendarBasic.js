@@ -23,6 +23,29 @@ export default function ColorFromDB(data) {
   }
 }
 
+export function ColorDeepFromDB(data) {
+  switch (data) {
+    case "RED":
+      return "#F6A89E";
+    case "YELLOW":
+      return "#FBDF96";
+    case "GREEN":
+      return "#CFF4F1";
+    case "LIGHTBLUE":
+      return "#A7EAFF";
+    case "BLUE":
+      return "#0EAFE1";
+    case "PURPLE":
+      return "#E2CCFB";
+    case "LIGHTGRAY":
+      return "#E1E7ED";
+    case "PINK":
+      return "#edd1f0";
+    default:
+      return "#adadad";
+  }
+}
+
 export function ColorToDB(data) {
   switch (data) {
     case "#F6A89E":
