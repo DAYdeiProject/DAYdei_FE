@@ -83,15 +83,15 @@ export default function DetailPostModal({ ...props }) {
 
   useEffect(() => {
     if (props.detailPostId) {
-      dispatch(__getPostDetail({ id: props.detailPostId, token }));
+      dispatch(__getPostDetail({ id: props.detailPostId }));
       props.setIsDetailPost(true);
     } else if (props.otherCalendarPostId) {
-      dispatch(__getPostDetail({ id: props.otherCalendarPostId, token }));
+      dispatch(__getPostDetail({ id: props.otherCalendarPostId }));
       props.setIsDetailPost(true);
     } else if (notiInfo) {
       setNotiContent(notiInfo.content);
       setNotiState(notiInfo.notiState);
-      dispatch(__getPostDetail({ id: notiInfo.postId, token })).then((data) => {
+      dispatch(__getPostDetail({ id: notiInfo.postId })).then((data) => {
         if (data.error) {
           if (data.payload.response.data.statusCode === 404) {
             alert("존재하지 않는 일정입니다.");
@@ -153,7 +153,7 @@ export default function DetailPostModal({ ...props }) {
 
   // 공유일정 수락
   const acceptClick = () => {
-    dispatch(__acceptSharePost({ postId: notiInfo.postId, token })).then((data) => {
+    dispatch(__acceptSharePost({ postId: notiInfo.postId })).then((data) => {
       if (data.payload.statusCode === 400) {
         alert("수락 요청이 실패하였습니다.");
       } else {
@@ -166,7 +166,7 @@ export default function DetailPostModal({ ...props }) {
   };
   // 공유일정 거절
   const rejectClick = () => {
-    dispatch(__rejectSharePost({ postId: notiInfo.postId, token })).then((data) => {
+    dispatch(__rejectSharePost({ postId: notiInfo.postId })).then((data) => {
       if (data.payload.statusCode === 400) {
         alert("거절 요청이 실패하였습니다.");
       } else {

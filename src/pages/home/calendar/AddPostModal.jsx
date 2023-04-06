@@ -377,8 +377,7 @@ function AddPostModal({ ...props }) {
     // fileList == 새 파일 이미지 리스트
     if (fileList.length !== 0) {
       // 이미지 있을때
-      dispatch(__postImgUpload({ images: imgList, token })).then((img) => {
-        console.log("img 실해", img);
+      dispatch(__postImgUpload({ images: imgList })).then((img) => {
         // 수정하기 일때
         if (props.modifyPostId) {
           if (saveView.length !== 0) {
@@ -388,7 +387,7 @@ function AddPostModal({ ...props }) {
             saveNewView.push(...img.payload);
             newPost.image = saveNewView;
 
-            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
                 alert("수정 실패하였습니다.");
                 closeClickHandler();
@@ -401,7 +400,7 @@ function AddPostModal({ ...props }) {
             });
           } else {
             newPost.image = img.payload;
-            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+            dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
                 alert("수정 실패하였습니다.");
                 closeClickHandler();
@@ -415,8 +414,7 @@ function AddPostModal({ ...props }) {
           }
         } else {
           newPost.image = img.payload;
-          dispatch(__createNewPost({ newPost, token })).then((data) => {
-            console.log("일정작성시 실패----", data);
+          dispatch(__createNewPost(newPost)).then((data) => {
             if (data.error) {
               alert("작성 실패하였습니다.");
               closeClickHandler();
@@ -436,7 +434,7 @@ function AddPostModal({ ...props }) {
         saveNewView.push(...saveView);
         newPost.image = saveNewView;
 
-        dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId), token })).then((data) => {
+        dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
           if (data.error) {
             closeClickHandler();
             return alert("수정 실패하였습니다.");
@@ -448,7 +446,7 @@ function AddPostModal({ ...props }) {
           }
         });
       } else {
-        dispatch(__createNewPost({ newPost, token })).then((data) => {
+        dispatch(__createNewPost(newPost)).then((data) => {
           if (data.error) {
             alert("작성 실패하였습니다.");
             closeClickHandler();

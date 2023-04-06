@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { getDate } from "date-fns";
 import format from "date-fns/format";
+import koLocale from "date-fns/locale/ko";
 
 export default function SidebarMiniCalendar() {
   const { total } = useSelector((state) => state.calendar);
@@ -27,7 +28,7 @@ export default function SidebarMiniCalendar() {
   };
   return (
     <MiniWrapper>
-      <Calendar tileContent={(date) => viewList(date)} calendarType="US" />
+      <Calendar tileContent={(date) => viewList(date)} calendarType="US" formatDay={koLocale} />
     </MiniWrapper>
   );
 }

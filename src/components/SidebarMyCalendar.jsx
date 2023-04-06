@@ -30,8 +30,8 @@ export default function SidebarMyCalendar({ ...props }) {
   // 오늘의 일정, 업데이트한 친구 가져오기
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
-    dispatch(__getTodaySchedule({ today, userId: userInfo.userId, token }));
-    dispatch(__getTodayUpdate(token));
+    dispatch(__getTodaySchedule({ today, userId: userInfo.userId }));
+    dispatch(__getTodayUpdate());
   }, [props.side]);
 
   const navigate = useNavigate();

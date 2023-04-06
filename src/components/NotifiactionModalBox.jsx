@@ -15,14 +15,13 @@ import { GetUserInfo } from "../utils/cookie/userInfo";
 import { textState } from "../redux/modules/headerReducer";
 
 export default function NotifiactionModalBox({ ...props }) {
-  const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.connect);
 
   useEffect(() => {
-    dispatch(__getConnect({ token, userId: userInfo.userId }));
+    dispatch(__getConnect());
   }, [props.isNotificationOpen]);
 
   console.log("알림리스트 ", data);
@@ -49,7 +48,7 @@ export default function NotifiactionModalBox({ ...props }) {
 
   // 알림 모두 지우기
   const allClearClick = () => {
-    dispatch(__allClearNotification({ token })).then(() => {
+    dispatch(__allClearNotification({ userId: userInfo.userId })).then(() => {
       alert("모두 삭제되었습니다.");
       //props.setIsNotificationOpen(false);
     });

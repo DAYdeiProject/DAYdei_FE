@@ -19,8 +19,8 @@ export default function OtherUserCalendar({ ...props }) {
   //console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {
-    dispatch(__otherUserUpdatePost({ userId: String(param.id), token }));
-    dispatch(__otherUserSharePost({ userId: String(param.id), token }));
+    dispatch(__otherUserUpdatePost({ userId: String(param.id) }));
+    dispatch(__otherUserSharePost({ userId: String(param.id) }));
   }, [param, props.otherCalendarState]);
 
   // 업데이트 된 일정

@@ -63,7 +63,7 @@ function CalendarMain({ ...props }) {
     } else {
       setDisabled(false);
     }
-    dispatch(__getTotalPosts({ userId: String(param.id), token }));
+    dispatch(__getTotalPosts({ userId: String(param.id) }));
   }, [isSubmit, param, location.pathname]);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ function CalendarMain({ ...props }) {
         endDate: end,
       };
 
-      dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId, token })).then(() => {
+      dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId })).then(() => {
         alert("일정 날짜가 수정되었습니다.");
         props.setSide(!props.side);
       });
@@ -457,7 +457,7 @@ export const CalendarWrapper = styled.div`
       margin-left: 5px;
     }
   }
-  
+
   table {
     border: none;
   }

@@ -26,7 +26,7 @@ export default function DayScheduleModal({ ...props }) {
 
   useEffect(() => {
     if (props.moreDate) {
-      dispatch(__getDateSchedule({ userId: param.id, date: props.moreDate, token }));
+      dispatch(__getDateSchedule({ userId: param.id, date: props.moreDate }));
     }
   }, [props.moreDate, props.isSubmit]);
 
