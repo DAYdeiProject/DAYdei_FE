@@ -15,7 +15,6 @@ import Header from "../../layout/Header";
 import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
 import { ReactComponent as Key } from "../../assets/sign/key.svg";
 import PreviewArea from "./PreviewArea";
-import Footer from "../../layout/Footer";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -107,19 +106,18 @@ function IntroPage() {
           </LoginBox>
         </LoginWrapper>
       </ScreenLayout>
-      <Footer />
     </PageWrapper>
   );
 }
 
 export const PageWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
-  height: calc(100vh - 64px - 2px);
+  height: calc(100vh - 64px - 1px);
 `;
 
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
-  height: calc(100vh - 64px - 2px - 37px);
+  height: calc(100vh - 64px - 1px);
   overflow: hidden;
 `;
 

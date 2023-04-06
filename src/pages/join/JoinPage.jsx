@@ -9,7 +9,6 @@ import PreviewArea from "../intro/PreviewArea";
 import { ReactComponent as PwCheck } from "../../assets/sign/pwCheck.svg";
 import { ReactComponent as Security } from "../../assets/sign/security.svg";
 import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
-import Footer from "../../layout/Footer";
 
 function JoinPage() {
   const {
@@ -182,7 +181,6 @@ function JoinPage() {
           </JoinBox>
         </LoginWrapper>
       </ScreenLayout>
-      <Footer />
     </PageWrapper>
   );
 }
