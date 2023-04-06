@@ -1,12 +1,14 @@
 import { React, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import { textState } from "../../redux/modules/headerReducer";
 import { __cancelRequest, __getFriendsList } from "../../redux/modules/friendsSlice";
 import { __friendsList } from "../../redux/modules/kakaoSlice";
+
 import { MdOutlineAddReaction } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { textState } from "../../redux/modules/headerReducer";
 
 function FriendList({ FriendsList }) {
   const navigate = useNavigate();

@@ -1,18 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { __getConnect } from "../redux/modules/connectSlice";
-import Loading from "./Loading";
-import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
-import { TimeCheck } from "../utils/calendar/CalendarBasic";
+import { React, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setNotificationPostId } from "../redux/modules/headerReducer";
+import styled from "styled-components";
+import Cookies from "js-cookie";
+
+import { __getConnect } from "../redux/modules/connectSlice";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
+import { setNotificationPostId, textState } from "../redux/modules/headerReducer";
+
+import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { GetUserInfo } from "../utils/cookie/userInfo";
-import { textState } from "../redux/modules/headerReducer";
+
+import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
 
 export default function NotifiactionModalBox({ ...props }) {
   const token = Cookies.get("accessJWTToken");

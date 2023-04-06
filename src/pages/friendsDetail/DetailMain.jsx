@@ -1,9 +1,17 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import _ from "lodash";
+
 import { __getFriendsList, __getRequestedUsersList } from "../../redux/modules/friendsSlice";
 import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
+
+import DetailFriends from "./DetailFriends";
+import DetailSubscribe from "./DetailSubscribe";
+import DetailSubscriber from "./DetailSubscriber";
+import useOutSideClick from "../../hooks/useOutsideClick";
+
 import {
-  LoadingWrapper,
   WholeWrapper,
   CalendarWrapper,
   WholeAreaWrapper,
@@ -21,12 +29,6 @@ import {
   DropdownItems,
   IconWrap,
 } from "../friendslist/FriendsListMain";
-import { useParams } from "react-router-dom";
-import DetailFriends from "./DetailFriends";
-import DetailSubscribe from "./DetailSubscribe";
-import DetailSubscriber from "./DetailSubscriber";
-import _ from "lodash";
-import useOutSideClick from "../../hooks/useOutsideClick";
 import LoadingInnerWrapper from "../search/UserLists";
 import Loading from "../../components/Loading";
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";

@@ -1,8 +1,11 @@
 import { React } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { useNavigate } from "react-router-dom";
+
+import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import { textState } from "../../redux/modules/headerReducer";
+
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -22,7 +25,6 @@ import {
   IntroductionWrap,
 } from "./FriendList";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { textState } from "../../redux/modules/headerReducer";
 
 function SubscriberList({ SubscribersList }) {
   // console.log(subscribeList);
