@@ -8,8 +8,8 @@ import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIsApproveRequestModalOpen, SentUsersList }) {
   //보낸 친구요청 or 받은 친구요청 띄우기 상태
-  const [isReceivedRequestOpen, setIsReceivedRequestOpen] = useState(false);
-  const [isSentRequestOpen, setIsSentRequestOpen] = useState(true);
+  const [isReceivedRequestOpen, setIsReceivedRequestOpen] = useState(true);
+  const [isSentRequestOpen, setIsSentRequestOpen] = useState(false);
 
   //보낸 친구요청 오픈함수
   const SentRequestOpenHandler = () => {

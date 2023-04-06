@@ -124,12 +124,15 @@ const RecommendButton = styled.div`
   justify-content: center;
   text-align: center;
 
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 140%;
 
-  color: #121212;
-  background: #d9d9d9;
+  background: #fbfeff;
+  border: 1px solid black;
+  box-shadow: 1px 1px 0px #000000;
+  border-radius: 4px;
+
   :hover {
     cursor: pointer;
   }

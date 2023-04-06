@@ -130,13 +130,14 @@ export const NoListMessageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0px;
+  margin-top: 16px;
+  width: 460px;
+  height: 308px;
 
-  width: 478px;
-  height: 372px;
-
-  background: #fbfbfb;
+  background: ${(props) => props.theme.Bg.color6};
   border-radius: 8px;
-  /* background-color: skyblue; */
+  border: 1px solid #121212;
+  box-shadow: 2px 2px 0px #000000;
 `;
 
 export const MessageBox = styled.div`
@@ -232,10 +233,13 @@ const KakaoButton = styled.div`
   /* width: 144px; */
   height: 40px;
 
-  background: #d9d9d9;
+  background: #fbfeff;
+  border: 1px solid black;
+
+  box-shadow: 1px 1px 0px #000000;
   border-radius: 4px;
 
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 140%;
 
@@ -255,10 +259,12 @@ const InviteButton = styled.div`
   /* width: 80px; */
   height: 40px;
 
-  background: #d9d9d9;
+  background: #fbfeff;
+  border: 1px solid black;
+  box-shadow: 1px 1px 0px #000000;
   border-radius: 4px;
 
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 140%;
 
