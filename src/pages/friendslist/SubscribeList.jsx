@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { textState } from "../../redux/modules/headerReducer";
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
+import { GetUserInfo } from "../../utils/cookie/userInfo";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
 import {
   NoListMessageWrapper,
   MessageBox,
@@ -25,8 +27,6 @@ import {
   IntroductionWrap,
   ButtonArea,
 } from "./FriendList";
-import defaultProfile from "../../assets/defaultImage/profile.jpg";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
 
 function SubscribeList({ SubscribesList }) {
   // console.log(subscribeList);

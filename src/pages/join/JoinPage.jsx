@@ -1,15 +1,18 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
-import useLogin from "../../hooks/useLogin";
+
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
+
+import Footer from "../../layout/Footer";
 import PreviewArea from "../intro/PreviewArea";
+import useLogin from "../../hooks/useLogin";
+
+import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
 import { ReactComponent as PwCheck } from "../../assets/sign/pwCheck.svg";
 import { ReactComponent as Security } from "../../assets/sign/security.svg";
 import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
-import Footer from "../../layout/Footer";
 
 function JoinPage() {
   const {

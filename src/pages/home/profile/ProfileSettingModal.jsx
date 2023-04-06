@@ -1,16 +1,19 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import useOutSideClick from "../../../hooks/useOutsideClick";
-import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+
 import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
-import { GiCancel } from "react-icons/gi";
+
+import Modal from "../../../elements/Modal";
+import ModalWrap from "../../../elements/ModalWrap";
 import useLogin from "../../../hooks/useLogin";
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import useOutSideClick from "../../../hooks/useOutsideClick";
 import InfoSettingModal from "./InfoSettingModal";
 import { CategoryText } from "../../../utils/calendar/CalendarBasic";
+
+import { GiCancel } from "react-icons/gi";
+import { BsCardImage } from "react-icons/bs";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
   //프로필 파일

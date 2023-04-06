@@ -6,8 +6,8 @@ import { textState } from "../../redux/modules/headerReducer";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
-import { PostBox, ProfileArea, PostLeft, PhotoFrame, TextArea, NickNameWrap, EmailWrap } from "../friendslist/FriendList";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
+import { PostBox, ProfileArea, PostLeft, PhotoFrame, TextArea, NickNameWrap, EmailWrap } from "../friendslist/FriendList";
 
 function DetailFriends({ FriendsList }) {
   const navigate = useNavigate();

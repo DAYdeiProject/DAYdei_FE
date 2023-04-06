@@ -1,9 +1,10 @@
 import { React, useEffect, useState } from "react";
-import styled from "styled-components";
-import { CalendarWrapper } from "../home/calendar/CalendarMain";
-import UserLists from "./UserLists";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import _ from "lodash";
+
+import UserLists from "./UserLists";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import { AiOutlineSearch } from "react-icons/ai";
 
 function SearchUsers() {

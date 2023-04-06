@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import ModalWrap from "../../../elements/ModalWrap";
-import Modal from "../../../elements/Modal";
-import { TextWrapper, ButtonArea } from "./CategoryModal";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import { __getFamousList } from "../../../redux/modules/friendsSlice";
 import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
+import Modal from "../../../elements/Modal";
+import ModalWrap from "../../../elements/ModalWrap";
 import Loading from "../../../components/Loading";
+
+import { TextWrapper, ButtonArea } from "./CategoryModal";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
 function FriendRecommendModal({ setIsModalVisible, showFriendRecommendModal, setShowFriendRecommendModal, setIsButtonclicked }) {

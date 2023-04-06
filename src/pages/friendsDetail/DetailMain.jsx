@@ -11,6 +11,10 @@ import DetailSubscribe from "./DetailSubscribe";
 import DetailSubscriber from "./DetailSubscriber";
 import useOutSideClick from "../../hooks/useOutsideClick";
 
+import Loading from "../../components/Loading";
+import LoadingInnerWrapper from "../search/UserLists";
+import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
+import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
 import {
   WholeWrapper,
   CalendarWrapper,
@@ -29,10 +33,6 @@ import {
   DropdownItems,
   IconWrap,
 } from "../friendslist/FriendsListMain";
-import LoadingInnerWrapper from "../search/UserLists";
-import Loading from "../../components/Loading";
-import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
-import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 
 function DetailMain() {
   const params = useParams();
