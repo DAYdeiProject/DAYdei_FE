@@ -17,9 +17,9 @@ export default function ColorFromDB(data) {
     case "LIGHTGRAY":
       return "#F2F4F6";
     case "PINK":
-      return "#ce7cc7";
+      return "#edd1f0";
     default:
-      return "#D5D5DC";
+      return "rgb(238 238 238)";
   }
 }
 

@@ -21,7 +21,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
   useEffect(() => {
     const id = params.id;
     let url = `${id}?sort=name&searchword=`;
-    console.log("검색어 없는 url-->", url);
+    //console.log("검색어 없는 url-->", url);
 
     dispatch(__getSubscribeList(url));
   }, [requestStatus]);

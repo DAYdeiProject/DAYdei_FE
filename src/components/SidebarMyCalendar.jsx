@@ -20,13 +20,12 @@ export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
-  const param = useParams();
   const now = format(new Date(), "yy.MM.dd");
   const day = DayCheck(getDay(new Date()));
   const nowDay = `${now} (${day})`;
 
   const { today, update } = useSelector((state) => state.calendar);
-  const { data } = useSelector((state) => state.header);
+  const { text } = useSelector((state) => state.header);
 
   // 오늘의 일정, 업데이트한 친구 가져오기
   useEffect(() => {
@@ -56,7 +55,7 @@ export default function SidebarMyCalendar({ ...props }) {
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {data === "home" || data === undefined ? (
+          {text === "home" || text === undefined ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>
@@ -75,6 +74,10 @@ export default function SidebarMyCalendar({ ...props }) {
                 ) : (
                   today &&
                   today.map((list) => {
+                    let allDay = "";
+                    if (list.startTime === "00:00:00" && list.endTime === "00:00:00") {
+                      allDay = "종일";
+                    }
                     return (
                       <TodayScheduleBox key={list.id} onClick={() => todayClickHandler(list.id)}>
                         <IconBox>
@@ -83,11 +86,17 @@ export default function SidebarMyCalendar({ ...props }) {
                         <TodayBox>
                           <span>{list.title.length > 16 ? list.title.substr(0, 16) + "..." : list.title}</span>
                           <TodayTime>
-                            <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                            <span>{list.startTime.substr(0, 5)}</span>
-                            <span>-</span>
-                            <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
-                            <span>{list.endTime.substr(0, 5)}</span>
+                            {allDay === "종일" ? (
+                              <span>{allDay}</span>
+                            ) : (
+                              <>
+                                <span>{list.startTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                                <span>{list.startTime.substr(0, 5)}</span>
+                                <span>-</span>
+                                <span>{list.endTime.substr(0, 2) < 13 ? "오전" : "오후"}</span>
+                                <span>{list.endTime.substr(0, 5)}</span>
+                              </>
+                            )}
                           </TodayTime>
                         </TodayBox>
                       </TodayScheduleBox>
@@ -134,7 +143,7 @@ export default function SidebarMyCalendar({ ...props }) {
                       <div
                         onClick={() => {
                           moveUserPage(list.id);
-                          dispatch(textState("home"));
+                          dispatch(textState(""));
                         }}>
                         캘린더
                       </div>

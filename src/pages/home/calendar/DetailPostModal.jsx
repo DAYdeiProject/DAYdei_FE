@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
-import Loading from "../../../components/Loading";
-import { getDay, getYear, getMonth, getDate, format } from "date-fns";
-import ColorFromDB, { DayAmPm, DayCheck } from "../../../utils/calendar/CalendarBasic";
-import Cookies from "js-cookie";
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import Cookies from "js-cookie";
+import { getDay, format } from "date-fns";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
+import { setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
+import ColorFromDB, { DayAmPm, DayCheck } from "../../../utils/calendar/CalendarBasic";
 import { ReactComponent as EditCalendar } from "../../../assets/calendarIcon/editCalendar.svg";
 import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
 import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
@@ -19,9 +19,9 @@ import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg"
 import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
 import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
-import ModalBox from "../../../elements/ModalBox";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
+import ModalBox from "../../../elements/ModalBox";
+import useOutsideClick from "../../../hooks/useOutsideClick";
 
 export default function DetailPostModal({ ...props }) {
   const [friendToggle, setFriendToggle] = useState(true);
@@ -37,6 +37,7 @@ export default function DetailPostModal({ ...props }) {
   const [notiContent, setNotiContent] = useState("");
   // 정보있는거에 따른 높이 state
   const [isHeight, setIsHeight] = useState("");
+  const outside = useRef();
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
@@ -48,8 +49,7 @@ export default function DetailPostModal({ ...props }) {
   //console.log("notiInfo data==========", notiInfo);
 
   useEffect(() => {
-    if (detail || []) {
-      //console.log("detail", detail);
+    if (detail) {
       if (detail.startDate) {
         //날짜;
         const newStart = format(new Date(detail?.startDate), "yy.MM.dd");
@@ -76,10 +76,8 @@ export default function DetailPostModal({ ...props }) {
         setIsHeight("250px");
       }
 
-      //if(detail?.writer.id)
       const color = ColorFromDB(detail.color);
       setIsColor(color);
-      //console.log("dddd", color);
     }
   }, [detail, props.isSubmit]);
 
@@ -93,8 +91,15 @@ export default function DetailPostModal({ ...props }) {
     } else if (notiInfo) {
       setNotiContent(notiInfo.content);
       setNotiState(notiInfo.notiState);
-      dispatch(__getPostDetail({ id: notiInfo.postId, token }));
-      props.setIsDetailPost(true);
+      dispatch(__getPostDetail({ id: notiInfo.postId, token })).then((data) => {
+        if (data.error) {
+          if (data.payload.response.data.statusCode === 404) {
+            alert("존재하지 않는 일정입니다.");
+          }
+        } else {
+          props.setIsDetailPost(true);
+        }
+      });
     }
   }, [props.detailPostId, props.otherCalendarPostId, notiInfo, props.isSubmit]);
 
@@ -122,6 +127,8 @@ export default function DetailPostModal({ ...props }) {
     dispatch(setNotificationPostId(""));
     dispatch(textState("home"));
   };
+
+  useOutsideClick(outside, closeModal);
 
   // dot아이콘 누르면
   const editOpenClickHandler = () => {
@@ -174,7 +181,7 @@ export default function DetailPostModal({ ...props }) {
   return (
     <>
       <ModalBox isOpen={props.isDetailPost} width={"500px"} height={isHeight}>
-        <DetailPostWrapper>
+        <DetailPostWrapper ref={outside}>
           <DetailContentWrapper>
             <HeaderWrapper>
               {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
@@ -183,11 +190,11 @@ export default function DetailPostModal({ ...props }) {
               <Dismiss className="closeIncon" onClick={closeModal} />
               {isEditOpen && String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
                 <EditBoxContainer>
-                  <EditBox onClick={() => modifyPostHandler(props.detailPostId ? props.detailPostId : props.notificationPostId.returnId)}>
+                  <EditBox onClick={() => modifyPostHandler(props.detailPostId ? props.detailPostId : notiInfo.postId)}>
                     <Edit className="pencilIcon" />
                     <span>수정하기</span>
                   </EditBox>
-                  <EditBox onClick={() => deletePostHandler(props.detailPostId ? props.detailPostId : props.notificationPostId.returnId)}>
+                  <EditBox onClick={() => deletePostHandler(props.detailPostId ? props.detailPostId : notiInfo.postId)}>
                     <Delete className="trashIcon" />
                     <span>삭제하기</span>
                   </EditBox>

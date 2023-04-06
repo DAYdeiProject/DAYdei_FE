@@ -91,43 +91,45 @@ export default function SidebarOtherCalendar({ userId }) {
 
   return (
     <>
-      <ProfileWrapper>
-        <BackImgWrapper isCover={otherUser?.backgroundImage}>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
-        <ImgWrapper>
-          <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
-        </ImgWrapper>
-        <NickNameBox>{otherUser?.nickName}</NickNameBox>
-        <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
-        <CountBox onClick={buttonText === "친구" ? ShowFriendDetailHandler : () => alert("친구만 열람 가능합니다.")}>
-          <div>
-            <span>친구 {otherUser?.friendCount}</span>
-            <span>구독 {otherUser?.subscribingCount}명</span>
-            <span>구독자 {otherUser?.subscriberCount}명</span>
-          </div>
-        </CountBox>
-        <TextareaBox>{otherUser?.introduction ? otherUser.introduction : `${otherUser.nickName}의 캘린더입니다.`}</TextareaBox>
-        <ButtonBox>
-          <div onClick={() => handleFriendButtonClick(otherUser)}>
-            {otherUser?.friendCheck === false && otherUser?.isRequestFriend === null
-              ? "친구신청"
-              : otherUser?.friendCheck === false && otherUser?.isRequestFriend === false
-              ? "친구신청 취소"
-              : otherUser?.friendCheck === false && otherUser?.isRequestFriend === true
-              ? "신청 승인"
-              : otherUser?.friendCheck === true && otherUser?.isRequestFriend === null
-              ? "친구"
-              : null}
-          </div>
-          <div onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</div>
-        </ButtonBox>
-        <TogetherWrapper>
-          {otherUser?.mutualFriendsCount !== 0 && (
+      {otherUser.id && (
+        <ProfileWrapper>
+          <BackImgWrapper isCover={otherUser?.backgroundImage}>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
+          <ImgWrapper>
+            <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
+          </ImgWrapper>
+          <NickNameBox>{otherUser?.nickName}</NickNameBox>
+          <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
+          <CountBox onClick={buttonText === "친구" ? ShowFriendDetailHandler : () => alert("친구만 열람 가능합니다.")}>
             <div>
-              <span>함께 아는 친구 {otherUser?.mutualFriendsCount}</span>
+              <span>친구 {otherUser?.friendCount}</span>
+              <span>구독 {otherUser?.subscribingCount}명</span>
+              <span>구독자 {otherUser?.subscriberCount}명</span>
             </div>
-          )}
-        </TogetherWrapper>
-      </ProfileWrapper>
+          </CountBox>
+          <TextareaBox>{otherUser?.introduction ? otherUser.introduction : `${otherUser.nickName}의 캘린더입니다.`}</TextareaBox>
+          <ButtonBox>
+            <div onClick={() => handleFriendButtonClick(otherUser)}>
+              {otherUser?.friendCheck === false && otherUser?.isRequestFriend === null
+                ? "친구신청"
+                : otherUser?.friendCheck === false && otherUser?.isRequestFriend === false
+                ? "친구신청 취소"
+                : otherUser?.friendCheck === false && otherUser?.isRequestFriend === true
+                ? "신청 승인"
+                : otherUser?.friendCheck === true && otherUser?.isRequestFriend === null
+                ? "친구 끊기"
+                : null}
+            </div>
+            <div onClick={() => handleSubscribeButtonClick(otherUser)}>{otherUser.userSubscribeCheck === false ? "구독하기" : "구독취소"}</div>
+          </ButtonBox>
+          <TogetherWrapper>
+            {otherUser?.mutualFriendsCount !== 0 && (
+              <div>
+                <span>함께 아는 친구 {otherUser?.mutualFriendsCount}</span>
+              </div>
+            )}
+          </TogetherWrapper>
+        </ProfileWrapper>
+      )}
     </>
   );
 }

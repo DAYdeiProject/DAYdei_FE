@@ -8,8 +8,10 @@ import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import Loading from "../../../components/Loading";
 import ModalBox from "../../../elements/ModalBox";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
-import { format } from "date-fns";
+import { ReactComponent as CalendarIcon } from "../../../assets/calendarIcon/editCalendar.svg";
+import { format, getDate, getDay, getMonth } from "date-fns";
 import ColorFromDB from "../../../utils/calendar/CalendarBasic";
+import { DayCheck } from "../../../utils/calendar/CalendarBasic";
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
@@ -17,7 +19,10 @@ export default function DayScheduleModal({ ...props }) {
   const param = useParams();
 
   const { todayList } = useSelector((state) => state.calendar);
-  //console.log("todayList------>", todayList);
+  console.log("todayList------>", todayList);
+  const month = getMonth(new Date(props.moreDate)) + 1;
+  const date = getDate(new Date(props.moreDate));
+  const day = DayCheck(getDay(new Date(props.moreDate)));
 
   useEffect(() => {
     if (props.moreDate) {
@@ -33,15 +38,19 @@ export default function DayScheduleModal({ ...props }) {
     props.setOtherCalendarPostId(id);
     closeModal();
   };
+
   return (
     <>
-      <ModalBox isOpen={props.isTodaySchedule} width={"500px"} height={"500px"}>
+      <ModalBox isOpen={props.isTodaySchedule} width={"460px"}>
         <TodayScheduleWrapper>
           <postStyle.HeaderWrapper>
             <Dismiss className="closeIncon" onClick={closeModal} />
           </postStyle.HeaderWrapper>
           <DateTitleWrapper>
-            <span>{props.moreDate.substr(-2)}일 일정</span>
+            <CalendarIcon />
+            <span>
+              {month}월 {date}일 ({day})
+            </span>
           </DateTitleWrapper>
           <ScheduleListWrapper>
             <ListContainer>
@@ -54,6 +63,9 @@ export default function DayScheduleModal({ ...props }) {
                   const color = ColorFromDB(list.color);
                   return (
                     <ListBox key={list.id} onClick={() => detailClick(list.id)}>
+                      <ListTitleArea isColor={color}>
+                        <span>{list.title}</span>
+                      </ListTitleArea>
                       <ListTimeArea isColor={color}>
                         <span>{newStartDate}</span>
                         <span> {newStartTime}</span>
@@ -61,9 +73,6 @@ export default function DayScheduleModal({ ...props }) {
                         <span>{newEndDate}</span>
                         <span> {newEndTime}</span>
                       </ListTimeArea>
-                      <ListTitleArea>
-                        <span>{list.title}</span>
-                      </ListTitleArea>
                     </ListBox>
                   );
                 })}

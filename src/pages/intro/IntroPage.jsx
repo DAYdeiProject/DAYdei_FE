@@ -32,7 +32,6 @@ function IntroPage() {
   useEffect(() => {
     if (token) {
       const userInfo = GetUserInfo();
-      alert("이미 로그인하셨습니다!");
       navigate(`/${userInfo.userId}`);
     }
   }, []);
@@ -44,6 +43,8 @@ function IntroPage() {
         if (data.payload.data.statusCode === 200) {
           alert("로그인 성공!");
           navigate(`/${data.payload.data.data.userId}`);
+        } else {
+          alert("로그인 실패하였습니다. 다시 로그인해주세요.");
         }
       });
     } else {
