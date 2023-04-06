@@ -5,7 +5,7 @@ import { __getMyProfile } from "../../redux/modules/usersSlice";
 // 로컬스토리지 userId 설정
 function SetUserInfo(token, id) {
   // 토큰 설정
-  const expiryDate = new Date(Date.now() + 3 * 60 * 60 * 1000);
+  const expiryDate = new Date(Date.now() + 6 * 60 * 60 * 1000);
   Cookies.set("accessJWTToken", token, { expires: expiryDate });
 
   // userId 설정

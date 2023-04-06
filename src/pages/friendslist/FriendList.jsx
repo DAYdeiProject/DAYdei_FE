@@ -94,7 +94,7 @@ function FriendList({ FriendsList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/${user.id}`);
-              dispatch(textState("home"));
+              dispatch(textState(""));
             }}>
             <ProfileWrap>
               <PostLeft>

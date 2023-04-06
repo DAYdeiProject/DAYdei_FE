@@ -189,7 +189,7 @@ export const __postImgUpload = createAsyncThunk("postImgUpload", async (payload,
 // 타유저 캘린더 업데이트 일정
 export const __otherUserUpdatePost = createAsyncThunk("otherUserUpdatePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/post/update/${payload.userId}`, {
+    const response = await api.get(`/api/posts/update/${payload.userId}`, {
       headers: {
         Authorization: payload.token,
       },
@@ -203,7 +203,7 @@ export const __otherUserUpdatePost = createAsyncThunk("otherUserUpdatePost", asy
 // 타유저 캘린더 나와 공유한 일정
 export const __otherUserSharePost = createAsyncThunk("otherUserSharePost", async (payload, thunkAPI) => {
   try {
-    const response = await api.get(`/api/post/share/${payload.userId}`, {
+    const response = await api.get(`/api/posts/share/${payload.userId}`, {
       headers: {
         Authorization: payload.token,
       },

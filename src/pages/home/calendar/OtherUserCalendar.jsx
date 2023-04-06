@@ -13,7 +13,8 @@ export default function OtherUserCalendar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
 
-  const { otherUserUpdate, otherUserShare } = useSelector((state) => state.calendar);
+  const { otherUserUpdate, otherUserShare, otherUser } = useSelector((state) => state.calendar);
+
   //console.log("otherUserUpdate : ", otherUserUpdate);
   //console.log("otherUserShare : ", otherUserShare);
 
@@ -29,70 +30,72 @@ export default function OtherUserCalendar({ ...props }) {
 
   return (
     <>
-      <OtherWrapper isOpen={props.isOtherOpen}>
-        <OtherUpdateWrapper>
-          <UpdateTitle>업데이트 된 일정</UpdateTitle>
-          <UpdateContainer>
-            {otherUserUpdate.length !== 0 ? (
-              otherUserUpdate?.map((list) => {
-                const startDate = FormatTimeDot(list.startDate);
-                const time = TimeCheck(list.modifiedAt);
-                return (
-                  <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
-                    <ImgBox>
-                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
-                    </ImgBox>
-                    <WriterBox>
-                      <span>{list.writer.name}</span>
-                      <WriterTimeBox>
-                        <span>{startDate}</span>
-                        <span>{list.startTime.substr(0, 5)} ~</span>
-                      </WriterTimeBox>
-                    </WriterBox>
-                    <TimeBox>
-                      <span>{time}</span>
-                    </TimeBox>
-                  </UpdateBox>
-                );
-              })
-            ) : (
-              <NoneScheduleBox>
-                <Note width={32} height={32} className="noneToday" />
-                <div>일주일간 업데이트 된 일정이 없습니다.</div>
-              </NoneScheduleBox>
-            )}
-          </UpdateContainer>
-        </OtherUpdateWrapper>
-        <OtherUpdateWrapper>
-          <UpdateTitle>나와 공유한 일정</UpdateTitle>
-          <ShareContainer>
-            {otherUserShare.length !== 0 ? (
-              otherUserShare?.map((list) => {
-                const time = TimeCheck(list.modifiedAt);
-                return (
-                  <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
-                    <ImgBox>
-                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
-                    </ImgBox>
-                    <WriterBox>
-                      <span>{list.writer.name}</span>
-                      <span>{list.title}</span>
-                    </WriterBox>
-                    <TimeBox>
-                      <span>{time}</span>
-                    </TimeBox>
-                  </UpdateBox>
-                );
-              })
-            ) : (
-              <NoneScheduleBox>
-                <Note width={32} height={32} className="noneToday" />
-                <div>나와 공유한 일정이 없습니다.</div>
-              </NoneScheduleBox>
-            )}
-          </ShareContainer>
-        </OtherUpdateWrapper>
-      </OtherWrapper>
+      {otherUser && (
+        <OtherWrapper isOpen={props.isOtherOpen}>
+          <OtherUpdateWrapper>
+            <UpdateTitle>업데이트 된 일정</UpdateTitle>
+            <UpdateContainer>
+              {otherUserUpdate.length !== 0 ? (
+                otherUserUpdate?.map((list) => {
+                  const startDate = FormatTimeDot(list.startDate);
+                  const time = TimeCheck(list.modifiedAt);
+                  return (
+                    <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
+                      <ImgBox>
+                        <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
+                      </ImgBox>
+                      <WriterBox>
+                        <span>{list.writer.name}</span>
+                        <WriterTimeBox>
+                          <span>{startDate}</span>
+                          <span>{list.startTime.substr(0, 5)} ~</span>
+                        </WriterTimeBox>
+                      </WriterBox>
+                      <TimeBox>
+                        <span>{time}</span>
+                      </TimeBox>
+                    </UpdateBox>
+                  );
+                })
+              ) : (
+                <NoneScheduleBox>
+                  <Note width={32} height={32} className="noneToday" />
+                  <div>일주일간 업데이트 된 일정이 없습니다.</div>
+                </NoneScheduleBox>
+              )}
+            </UpdateContainer>
+          </OtherUpdateWrapper>
+          <OtherUpdateWrapper>
+            <UpdateTitle>나와 공유한 일정</UpdateTitle>
+            <ShareContainer>
+              {otherUserShare.length !== 0 ? (
+                otherUserShare?.map((list) => {
+                  const time = TimeCheck(list.modifiedAt);
+                  return (
+                    <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
+                      <ImgBox>
+                        <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
+                      </ImgBox>
+                      <WriterBox>
+                        <span>{list.writer.name}</span>
+                        <span>{list.title}</span>
+                      </WriterBox>
+                      <TimeBox>
+                        <span>{time}</span>
+                      </TimeBox>
+                    </UpdateBox>
+                  );
+                })
+              ) : (
+                <NoneScheduleBox>
+                  <Note width={32} height={32} className="noneToday" />
+                  <div>나와 공유한 일정이 없습니다.</div>
+                </NoneScheduleBox>
+              )}
+            </ShareContainer>
+          </OtherUpdateWrapper>
+        </OtherWrapper>
+      )}
     </>
   );
 }

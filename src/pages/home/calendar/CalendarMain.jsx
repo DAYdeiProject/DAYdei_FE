@@ -7,7 +7,7 @@ import styled from "styled-components";
 import AddPostModal from "./AddPostModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../redux/modules/calendarSlice";
 import Cookies from "js-cookie";
 import Loading from "../../../components/Loading";
@@ -53,10 +53,9 @@ function CalendarMain({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const userInfo = GetUserInfo();
+  const location = useLocation();
 
   const { total, isLoading, error } = useSelector((state) => state.calendar);
-
-  //console.log("메인----------", total);
   useEffect(() => {
     if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
@@ -65,7 +64,7 @@ function CalendarMain({ ...props }) {
       setDisabled(false);
     }
     dispatch(__getTotalPosts({ userId: String(param.id), token }));
-  }, [isSubmit, param]);
+  }, [isSubmit, param, location.pathname]);
 
   useEffect(() => {
     setNewData([]);

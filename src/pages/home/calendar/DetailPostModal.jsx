@@ -105,7 +105,7 @@ export default function DetailPostModal({ ...props }) {
     }
   }, [props.detailPostId, props.otherCalendarPostId, notiInfo, props.isSubmit]);
 
-  console.log("notiInfo========>", notiInfo);
+  //console.log("notiInfo========>", notiInfo);
   // toggle
   const downDropClick = (data) => {
     data === "friend" ? setFriendToggle(true) : setImgToggle(true);

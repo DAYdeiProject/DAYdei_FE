@@ -18,3 +18,17 @@ root.render(
     </ThemeProvider>
   </Provider>
 );
+
+// <Provider store={store}>
+//   <ThemeProvider theme={theme}>
+//     <GlobalStyle />
+//     <App />
+//   </ThemeProvider>
+// </Provider>
+
+//  <Provider store={store}>
+//    <ThemeProvider theme={theme}>
+//      <GlobalStyle />
+//      <RouterProvider router={router} />
+//    </ThemeProvider>
+//  </Provider>;

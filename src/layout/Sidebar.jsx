@@ -25,6 +25,7 @@ function Sidebar({ ...props }) {
         Connection: "keep-alive",
       },
       heartbeatTimeout: 3600000,
+      withCredentials: true,
     });
 
     eventConnect.onMessage = (event) => {
@@ -56,13 +57,17 @@ function Sidebar({ ...props }) {
   // }, [isMessageState]);
 
   return (
-    <SideStyle>
+    <>
       {param.id === String(userInfo.userId) ? (
-        <SidebarMyCalendar side={props.side} detailPostId={props.detailPostId} setDetailPostId={props.setDetailPostId} />
+        <SideStyle>
+          <SidebarMyCalendar side={props.side} detailPostId={props.detailPostId} setDetailPostId={props.setDetailPostId} />
+        </SideStyle>
       ) : (
-        <SidebarOtherCalendar userId={param.id} />
+        <SideStyle>
+          <SidebarOtherCalendar userId={param.id} />
+        </SideStyle>
       )}
-    </SideStyle>
+    </>
   );
 }
 

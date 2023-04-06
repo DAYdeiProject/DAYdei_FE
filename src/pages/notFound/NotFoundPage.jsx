@@ -1,23 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Logo } from "../assets/main/logo.svg";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
+import { ReactComponent as NotFoundImg } from "../../assets/defaultIcons/notFound.svg";
+import { __getTotalPosts } from "../../redux/modules/calendarSlice";
 
 export default function NotFoundPage() {
-  const navigate = useNavigate();
-  //const { data } = useSelector((state) => state.notFound);
+  const userInfo = GetUserInfo();
+
+  const moveLoginClick = () => {
+    //navigate(-1);
+    window.location.replace(`/${userInfo.userId}`);
+  };
+
   return (
     <>
       <NotFoundWrapper>
         <LogoContainer>
-          <Logo width={200} height={50} />
-          {/* {data ? <sapn>{data}</sapn> : <span>올바르지 않는 요청입니다.</span>} */}
-          <span>올바르지 않는 요청입니다.</span>
+          <NotFoundImg />
         </LogoContainer>
         <BtnContainer>
-          <button onClick={() => navigate("-1")}>뒤로가기</button>
-          <button onClick={() => navigate("/")}>로그인</button>
+          <button onClick={moveLoginClick}>홈으로 가기</button>
         </BtnContainer>
       </NotFoundWrapper>
     </>
@@ -25,11 +27,20 @@ export default function NotFoundPage() {
 }
 
 const NotFoundWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
   ${(props) => props.theme.FlexCol}
   width: 100vw;
   height: 100vh;
   background-color: ${(props) => props.theme.Bg.memoColor};
   gap: 50px;
+  z-index: 999;
 `;
 const LogoContainer = styled.div`
   ${(props) => props.theme.FlexCol}
@@ -41,7 +52,7 @@ const LogoContainer = styled.div`
 const BtnContainer = styled.div`
   ${(props) => props.theme.FlexRow}
   gap : 20px;
-  margin-bottom: 200px;
+  margin-bottom: 50px;
   button {
     width: 150px;
     height: 45px;

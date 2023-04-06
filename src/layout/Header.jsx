@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useLocation } from "react-router";
 import Cookies from "js-cookie";
 import useOutSideClick from "../hooks/useOutsideClick";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
@@ -30,7 +30,6 @@ function Header() {
   const userId = GetUserInfo();
   // 헤더 클릭한 값 state
   const { text } = useSelector((state) => state.header);
-
   const { headerProfile } = useSelector((state) => state.users);
   //console.log(headerProfile);
 
@@ -113,11 +112,18 @@ function Header() {
 
   return (
     <>
-      <HeaderWrapper isToken={token}>
-        <LogoContainer>
-          <LogoIcon />
-        </LogoContainer>
-        {token && (
+      {!token && (
+        <HeaderWrapper isToken={token}>
+          <LogoContainer>
+            <LogoIcon />
+          </LogoContainer>
+        </HeaderWrapper>
+      )}
+      {token && (
+        <HeaderWrapper isToken={token}>
+          <LogoContainer>
+            <LogoIcon />
+          </LogoContainer>
           <NavContainer>
             <NavTabConatiner isNav={clickNav}>
               <div onClick={homeClickHandler}>
@@ -164,8 +170,9 @@ function Header() {
               </IconWrapper>
             </NavUserConatiner>
           </NavContainer>
-        )}
-      </HeaderWrapper>
+        </HeaderWrapper>
+      )}
+
       {isProfileSettingModalOpen && (
         <ProfileSettingModal
           isProfileSettingModalOpen={isProfileSettingModalOpen}

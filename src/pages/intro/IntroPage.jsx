@@ -32,7 +32,6 @@ function IntroPage() {
   useEffect(() => {
     if (token) {
       const userInfo = GetUserInfo();
-      alert("이미 로그인하셨습니다!");
       navigate(`/${userInfo.userId}`);
     }
   }, []);
