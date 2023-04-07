@@ -6,7 +6,7 @@ import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __u
 import { format } from "date-fns";
 import { ko } from "date-fns/esm/locale";
 import ModalBox from "../../../elements/ModalBox";
-import ColorFromDB, { ColorList, ColorToDB, TimeList } from "../../../utils/calendar/CalendarBasic";
+import { ColorDeepFromDB, ColorList, ColorToDB, TimeList } from "../../../utils/calendar/CalendarBasic";
 import { BiX } from "react-icons/bi";
 import "react-datepicker/dist/react-datepicker.css";
 import postStyle from "../../../shared/style/PostStyle";
@@ -28,7 +28,6 @@ function AddPostModal({ ...props }) {
   const time = TimeList();
   const colorList = ColorList();
   const { register, handleSubmit, getValues, setValue, resetField, watch, reset } = useForm();
-
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
   const [isAllDay, setIsAllDay] = useState(getValues("allDay"));
@@ -90,7 +89,7 @@ function AddPostModal({ ...props }) {
             setTargetPickId((pre) => [...pre, parseInt(newUser.id)]);
           });
         }
-        const color = ColorFromDB(data.payload.color);
+        const color = ColorDeepFromDB(data.payload.color);
         setIsColor(color);
 
         if (data.payload.location) {
@@ -179,7 +178,6 @@ function AddPostModal({ ...props }) {
 
   // 해당 친구 클릭
   const targetClick = (data) => {
-    console.log("친구클릭====", data);
     if (data.isCheck) {
       alert(`${data.nickName}님이 해당 날짜에 일정이 있습니다.`);
     } else {
@@ -352,13 +350,16 @@ function AddPostModal({ ...props }) {
       });
     }
 
+    // 컬러
+    const newColor = ColorToDB(isColor);
+
     const newPost = {
       title: data.title,
       startDate: newStart,
       endDate: newEnd,
       startTime: newStartTime,
       endTime: newEndTime,
-      color: color,
+      color: newColor,
       participant: targetPickId,
       location: data.location,
       content: data.content,
@@ -438,6 +439,7 @@ function AddPostModal({ ...props }) {
         });
       } else {
         dispatch(__createNewPost(newPost)).then((data) => {
+          console.log("이미지 없고 작성", data);
           if (data.error) {
             alert("작성 실패하였습니다.");
             closeClickHandler();

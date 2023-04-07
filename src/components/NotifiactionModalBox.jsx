@@ -20,7 +20,7 @@ export default function NotifiactionModalBox({ ...props }) {
     dispatch(__getConnect());
   }, [props.isNotificationOpen, deleteState]);
 
-  // console.log("알림리스트 ", data);
+  console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
@@ -56,7 +56,7 @@ export default function NotifiactionModalBox({ ...props }) {
       <NotificationWrapper>
         <NotiHeaderContainer>
           <div>
-            <span>읽지 않은 알림</span>
+            <span>읽지 않은 알림 </span>
             <span>{data.count}</span>
           </div>
           <AllClearBox onClick={allClearClick}>
@@ -69,7 +69,6 @@ export default function NotifiactionModalBox({ ...props }) {
               let splitContent = list.content.split("@");
               let timer = TimeCheck(list.createdAt);
               let state = "";
-              //let contentHtml = `${splitContent[0]}${splitContent[1]}`;
 
               if (splitContent[1].includes("일정 참여 요청이 도착") || splitContent[1].includes("수정")) {
                 state = "requestPost";
@@ -80,8 +79,8 @@ export default function NotifiactionModalBox({ ...props }) {
               }
 
               return (
-                <NofiMessageBox key={list.id} onClick={() => notiClickHandler(list.postId, list.userId, list.content, state, list.isRead)}>
-                  <span>구독알림</span>
+                <NofiMessageBox isRead={list.isRead} key={list.id} onClick={() => notiClickHandler(list.postId, list.userId, list.content, state, list.isRead)}>
+                  <span>{list.notificationType}</span>
                   <span>{splitContent[0]}</span>
                   <span>{splitContent[1]}</span>
                   <span>{timer}</span>
@@ -120,8 +119,6 @@ const NotificationWrapper = styled.div`
 
 const NotiHeaderContainer = styled.div`
   ${(props) => props.theme.FlexRowBetween};
-  justify-content: left;
-  gap: 5px;
   padding-top: 5px;
   padding-bottom: 15px;
   border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
@@ -139,6 +136,7 @@ const NotiHeaderContainer = styled.div`
 `;
 
 const AllClearBox = styled.div`
+  padding-right: 5px;
   span {
     font-size: 12px !important;
     color: #121212;
@@ -148,9 +146,10 @@ const AllClearBox = styled.div`
 const NofiMessageContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  gap: 12px;
+  gap: 8px;
   height: 328px;
   margin-top: 12px;
+  padding-right: 5px;
   overflow-y: auto;
 `;
 
@@ -158,9 +157,10 @@ const NofiMessageBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
   gap: 3px;
-  height: 72px;
+  height: 83px;
   padding: 10px;
   border-radius: 4px;
+  background-color: ${(props) => (props.isRead ? props.theme.Bg.color4 : props.theme.Bg.mainColor3)};
   &:hover {
     background-color: ${(props) => props.theme.Bg.hoverColor};
   }
