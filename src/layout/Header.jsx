@@ -37,7 +37,7 @@ function Header() {
   const { text } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
-  console.log("alert state=========", state);
+  //console.log("alert state=========", state);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
