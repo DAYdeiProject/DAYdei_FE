@@ -23,6 +23,8 @@ import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
 import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
+import Alert from "../../../components/Alert";
+import { alertState } from "../../../redux/modules/alertReducer";
 
 function AddPostModal({ ...props }) {
   const time = TimeList();
@@ -381,10 +383,10 @@ function AddPostModal({ ...props }) {
 
             dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
-                alert("수정 실패하였습니다.");
+                dispatch(alertState({ state: true, comment: "수정 실패하였습니다." }));
                 closeClickHandler();
               } else {
-                alert("수정되었습니다.");
+                dispatch(alertState({ state: true, comment: "수정 되었습니다." }));
                 props.setSide(!props.side);
                 props.setIsSubmit(!props.isSubmit);
                 closeClickHandler();
@@ -394,10 +396,10 @@ function AddPostModal({ ...props }) {
             newPost.image = img.payload;
             dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
-                alert("수정 실패하였습니다.");
+                dispatch(alertState({ state: true, comment: "수정 실패하였습니다." }));
                 closeClickHandler();
               } else {
-                alert("수정되었습니다.");
+                dispatch(alertState({ state: true, comment: "수정 되었습니다." }));
                 props.setSide(!props.side);
                 props.setIsSubmit(!props.isSubmit);
                 closeClickHandler();
@@ -408,10 +410,10 @@ function AddPostModal({ ...props }) {
           newPost.image = img.payload;
           dispatch(__createNewPost(newPost)).then((data) => {
             if (data.error) {
-              alert("작성 실패하였습니다.");
+              dispatch(alertState({ state: true, comment: "작성 실패하였습니다." }));
               closeClickHandler();
             } else {
-              alert("작성 완료되었습니다.");
+              dispatch(alertState({ state: true, comment: "작성 완료되었습니다." }));
               props.setSide(!props.side);
               props.setIsSubmit(!props.isSubmit);
               closeClickHandler();
@@ -429,9 +431,9 @@ function AddPostModal({ ...props }) {
         dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
           if (data.error) {
             closeClickHandler();
-            return alert("수정 실패하였습니다.");
+            dispatch(alertState({ state: true, comment: "수정 실패하였습니다." }));
           } else {
-            alert("수정되었습니다.");
+            dispatch(alertState({ state: true, comment: "수정 되었습니다." }));
             props.setSide(!props.side);
             props.setIsSubmit(!props.isSubmit);
             closeClickHandler();
@@ -441,10 +443,10 @@ function AddPostModal({ ...props }) {
         dispatch(__createNewPost(newPost)).then((data) => {
           console.log("이미지 없고 작성", data);
           if (data.error) {
-            alert("작성 실패하였습니다.");
+            dispatch(alertState({ state: true, comment: "작성 실패하였습니다." }));
             closeClickHandler();
           } else {
-            alert("작성 완료되었습니다.");
+            dispatch(alertState({ state: true, comment: "작성 완료되었습니다." }));
             props.setSide(!props.side);
             props.setIsSubmit(!props.isSubmit);
             closeClickHandler();
@@ -540,31 +542,28 @@ function AddPostModal({ ...props }) {
                 </postStyle.FriendBoxInput>
               </postStyle.InviteSearchBox>
               <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
-                {targetList?.map((list) => {
-                  const newEmail = list.email.split("@");
-                  return (
-                    <postStyle.TartgetBox
-                      key={list.id}
-                      value={list.id}
-                      onClick={() => targetClick({ id: list.id, nickName: list.nickName, isCheck: list.scheduleCheck })}>
-                      <postStyle.TargetBoxImg>
-                        <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
-                      </postStyle.TargetBoxImg>
-                      <postStyle.TargetBoxText>
-                        <span>
-                          {list.nickName} ( @{newEmail[0]} )
-                        </span>
-                        <span>
-                          {list.introduction
-                            ? list.introduction.length > 20
-                              ? `${list.introduction.substr(0, 15)}...`
-                              : list.introduction
-                            : `${list.nickName}의 캘린더입니다.`}
-                        </span>
-                      </postStyle.TargetBoxText>
-                    </postStyle.TartgetBox>
-                  );
-                })}
+                <postStyle.SerchModalBox>
+                  {targetList?.map((list) => {
+                    console.log(list);
+                    return (
+                      <postStyle.TartgetBox
+                        key={list.id}
+                        value={list.id}
+                        onClick={() => targetClick({ id: list.id, nickName: list.nickName, isCheck: list.scheduleCheck })}>
+                        <postStyle.TargetBoxImg>
+                          <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
+                        </postStyle.TargetBoxImg>
+                        <postStyle.TargetBoxText>
+                          <span>{list.nickName}</span>
+                          <postStyle.TargetBoxCheck isScheduleCheck={list.scheduleCheck}>
+                            <div></div>
+                            <span>{list.scheduleCheck ? "일정 없음" : "일정 있음"}</span>
+                          </postStyle.TargetBoxCheck>
+                        </postStyle.TargetBoxText>
+                      </postStyle.TartgetBox>
+                    );
+                  })}
+                </postStyle.SerchModalBox>
               </postStyle.SerchModalContainer>
             </postStyle.InviteSearchContainer>
           </postStyle.InviteWrapper>

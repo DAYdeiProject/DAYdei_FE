@@ -7,6 +7,7 @@ import friends from "../modules/friendsSlice";
 import connect from "../modules/connectSlice";
 import calendar from "../modules/calendarSlice";
 import subscribe from "../modules/subscribeSlice";
+import alert from "../modules/alertReducer";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     connect,
     memos,
     header,
+    alert,
   },
 });
 

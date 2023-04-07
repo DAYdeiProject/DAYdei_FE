@@ -203,16 +203,19 @@ const SerchModalContainer = styled.div`
   gap: 10px;
   min-width: 330px;
   max-width: 330px;
-  height: 200px;
-  overflow-y: auto;
-  padding: 10px 15px;
+  padding: 10px;
   border: 1px solid ${(props) => props.theme.Bg.color3};
   border-radius: 10px;
   background-color: white;
   display: ${(props) => (props.isShow ? "block" : "none")};
   z-index: 100;
 `;
-
+const SerchModalBox = styled.div`
+  width: 100%;
+  height: 210px;
+  padding-right: 5px;
+  overflow-y: auto;
+`;
 const TartgetBox = styled.div`
   ${(props) => props.theme.FlexRow}
   padding: 5px 10px;
@@ -229,6 +232,7 @@ const TargetBoxImg = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    border: 1px solid ${(props) => props.theme.Bg.color2};
   }
 `;
 
@@ -238,6 +242,23 @@ const TargetBoxText = styled.div`
   gap: 5px;
   span {
     font-size: ${(props) => props.theme.Fs.size14};
+  }
+`;
+
+const TargetBoxCheck = styled.div`
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
+  gap: 3px;
+  padding-left: 10px;
+  div {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: ${(props) => (props.isScheduleCheck ? "#DF5445" : "#58c179")};
+  }
+  span {
+    font-size: 12px;
+    margin: 0;
   }
 `;
 
@@ -401,7 +422,9 @@ const postStyle = {
   FriendBox,
   FriendBoxInput,
   SerchModalContainer,
+  SerchModalBox,
   TartgetBox,
+  TargetBoxCheck,
   TargetBoxImg,
   TargetBoxText,
   LocationWrapper,

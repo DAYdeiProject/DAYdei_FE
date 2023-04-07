@@ -13,10 +13,11 @@ import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
 
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
-import { ReactComponent as Alert } from "../assets/defaultIcons/alert.svg";
+import { ReactComponent as AlertIcon } from "../assets/defaultIcons/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import Alert from "../components/Alert";
 
 function Header() {
   const navigate = useNavigate();
@@ -35,7 +36,8 @@ function Header() {
   // 헤더 클릭한 값 state
   const { text } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
-  //console.log(headerProfile);
+  const { state } = useSelector((state) => state.alert);
+  console.log("alert state=========", state);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
@@ -143,7 +145,7 @@ function Header() {
 
             <IconWrapper ref={DropdownRef} className="notification">
               {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
-              <Alert className="AlertIcon" onClick={notificationClick} />
+              <AlertIcon className="AlertIcon" onClick={notificationClick} />
               <ImageContainer onClick={handleDropdown}>
                 <ImgBox>
                   <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
@@ -191,6 +193,8 @@ function Header() {
         setIsProfileDetail={setIsProfileDetail}
         setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
       />
+
+      {state && state.state && <Alert isComment={state.comment} />}
     </>
   );
 }
