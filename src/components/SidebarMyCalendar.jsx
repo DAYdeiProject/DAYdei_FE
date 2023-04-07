@@ -249,10 +249,12 @@ const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
   gap: 5px;
 `;
-const ListBox = styled(TodayScheduleBox)`
-  &:hover {
-    cursor: auto;
-  }
+const ListBox = styled.div`
+  ${(props) => props.theme.FlexRow};
+  justify-content: start;
+  padding: 0 10px;
+  gap: 15px;
+  border-radius: 8px;
 `;
 
 const ImgBox = styled(IconBox)`
@@ -280,7 +282,7 @@ const ButtonBox = styled.div`
     height: 34px;
     font-weight: 600;
     color: ${(props) => props.theme.Bg.color1};
-    ${(props) => props.theme.BtnClickYellow};
+    ${(props) => props.theme.BtnHoverYellow};
   }
 `;
 

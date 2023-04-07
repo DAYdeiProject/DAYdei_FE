@@ -38,7 +38,6 @@ const NotFoundWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   width: 100vw;
   height: 100vh;
-  background-color: ${(props) => props.theme.Bg.memoColor};
   gap: 50px;
   z-index: 999;
 `;

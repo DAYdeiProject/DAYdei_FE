@@ -219,7 +219,7 @@ const TartgetBox = styled.div`
   border-radius: 8px;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.theme.Bg.calendar5};
+    background-color: ${(props) => props.theme.Bg.hoverColor};
   }
 `;
 const TargetBoxImg = styled.div`

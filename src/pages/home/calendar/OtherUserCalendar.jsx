@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { DayAmPm } from "../../../utils/calendar/CalendarBasic";
 import { FormatTimeDot, TimeCheck } from "../../../utils/calendar/CalendarBasic";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
@@ -37,16 +38,17 @@ export default function OtherUserCalendar({ ...props }) {
                 otherUserUpdate?.map((list) => {
                   const startDate = FormatTimeDot(list.startDate);
                   const time = TimeCheck(list.modifiedAt);
+                  const newStartTime = DayAmPm(list.startTime);
                   return (
                     <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                       <ImgBox>
                         <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
                       </ImgBox>
                       <WriterBox>
-                        <span>{list.writer.name}</span>
+                        <span>{list.title}</span>
                         <WriterTimeBox>
                           <span>{startDate}</span>
-                          <span>{list.startTime.substr(0, 5)} ~</span>
+                          <span>{newStartTime} ~</span>
                         </WriterTimeBox>
                       </WriterBox>
                       <TimeBox>

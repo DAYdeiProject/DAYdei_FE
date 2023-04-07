@@ -221,7 +221,7 @@ function CalendarMain({ ...props }) {
           setIsOtherOpen={setIsOtherOpen}
         />
       )}
-      <CalendarWrapper disabled={disabled} isOpen={isSideOpen}>
+      <CalendarWrapper disabled={disabled} isMy={String(param.id) === String(userInfo.userId)}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -300,7 +300,7 @@ export const CalendarWrapper = styled.div`
   max-width: calc(100% - 46px);
   height: 100%;
   padding: 40px 48px 52px;
-  margin-right: 46px;
+  margin-right: ${(props) => (props.isMy ? "46px" : "0")};
   .fc {
     width: 100%;
     height: 100%;
