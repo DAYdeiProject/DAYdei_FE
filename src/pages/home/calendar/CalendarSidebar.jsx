@@ -8,9 +8,9 @@ import { FaTrash } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { ReactComponent as Star } from "../../../assets/defaultIcons/star.svg";
 import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
-import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as Memo } from "../../../assets/defaultIcons/memo.svg";
 import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
 export default function CalendarSidebar({ ...props }) {
   //창의 열고닫힘 상태

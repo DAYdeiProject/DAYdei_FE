@@ -1,8 +1,8 @@
 import add from "date-fns/add";
 import Cookies from "js-cookie";
 import format from "date-fns/format";
-import getDate from "date-fns/getDate";
 import styled from "styled-components";
+import getDate from "date-fns/getDate";
 import { getYear, getMonth } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";

@@ -18,8 +18,8 @@ import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
 import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
 import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
 import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
-import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
 import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
 import { ReactComponent as EditCalendar } from "../../../assets/calendarIcon/editCalendar.svg";
 

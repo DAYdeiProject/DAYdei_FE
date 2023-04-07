@@ -99,7 +99,7 @@ const PreviewWrapper = styled.div`
   }
   // 손가락
   .main6 {
-    top: 200px;
+    top: 225px;
     left: 380px;
     width: 400px;
   }
