@@ -8,9 +8,9 @@ import { FaTrash } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { ReactComponent as Star } from "../../../assets/defaultIcons/star.svg";
 import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
-import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as Memo } from "../../../assets/defaultIcons/memo.svg";
 import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
 export default function CalendarSidebar({ ...props }) {
   //창의 열고닫힘 상태
@@ -158,7 +158,7 @@ export default function CalendarSidebar({ ...props }) {
   return (
     <>
       <WholeWrapper>
-        <SidebarWrapper>
+        <SidebarWrapper isTodo={isTodoBoxOpen} isSub={isSubscribeBoxOpen}>
           <div onClick={handleTodoBoxOpen}>
             <Note />
           </div>
@@ -168,7 +168,7 @@ export default function CalendarSidebar({ ...props }) {
         </SidebarWrapper>
 
         {isTodoBoxOpen && (
-          <SideSpaceWrapper onClick={(e) => e.stopPropagation()}>
+          <SideSpaceWrapper onClick={(e) => e.stopPropagation()} isTodo={isTodoBoxOpen}>
             <UpperArea>
               <MemoTitle>
                 <div>내 메모 목록</div>
@@ -263,21 +263,20 @@ export default function CalendarSidebar({ ...props }) {
 }
 
 const WholeWrapper = styled.div`
-  right: 0;
-  position: absolute;
   display: flex;
   flex-direction: row;
   height: 100%;
-  /* background-color: pink; */
 `;
 
 //사이드바
 const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  position: relative;
-  right: 0;
-  display: flex;
   justify-content: flex-start;
+  //position: relative;
+
+  position: fixed;
+
+  right: ${(props) => (props.isTodo || props.isSub ? "240px" : "0")};
   width: 46px;
   height: 100%;
   gap: 30px;
@@ -290,7 +289,8 @@ const SidebarWrapper = styled.div`
 
 //사이드바 아이콘 클릭 시 나오는 영역
 export const SideSpaceWrapper = styled.div`
-  position: relative;
+  position: fixed;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

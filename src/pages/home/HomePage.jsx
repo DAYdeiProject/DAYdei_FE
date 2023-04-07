@@ -64,10 +64,7 @@ export default HomePage;
 
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
+  justify-content: left;
   height: calc(100vh - 64px - 1px);
   position: relative;
-  overflow: hidden;
-  border: 0.5px solid ${(props) => props.theme.Bg.border1};
-  border-top: none;
-  border-bottom: none;
 `;

@@ -51,7 +51,7 @@ const CalendarPostModalWrapper = styled(motion.div)`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 999;
+  z-index: 900;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@ const CalendarPostModalWrapper = styled(motion.div)`
 
 const PostModalContainer = styled(motion.div)`
   ${(props) => props.theme.BoxCustom};
-  z-index: 999;
+  z-index: 900;
   background-color: white;
   border-radius: 20px;
 `;

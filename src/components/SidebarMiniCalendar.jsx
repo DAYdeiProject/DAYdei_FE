@@ -23,9 +23,13 @@ export default function SidebarMiniCalendar() {
       );
     }
   };
+
+  const clickExit = (e) => {
+    e.preventDefault();
+  };
   return (
     <MiniWrapper>
-      <Calendar tileContent={(date) => viewList(date)} calendarType="US" />
+      <Calendar tileContent={(date) => viewList(date)} calendarType="US" onClickDay={null} onChange={null} selectRange={false} />
     </MiniWrapper>
   );
 }
@@ -43,11 +47,15 @@ const MiniWrapper = styled.div`
   .react-calendar__tile--now {
     background-color: ${(props) => props.theme.Bg.mainColor3};
     border-radius: 50%;
+    :hover {
+      background-color: ${(props) => props.theme.Bg.mainColor2};
+    }
   }
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
-    background: ${(props) => props.theme.Fs.size12};
+    background-color: ${(props) => props.theme.Bg.mainColor2};
   }
+
   // 년월
   .react-calendar__navigation {
     height: 30px;
@@ -70,20 +78,24 @@ const MiniWrapper = styled.div`
     height: 40px;
     font-size: ${(props) => props.theme.Fs.size12};
   }
-  .react-calendar__tile:hover,
-  .react-calendar__tile--active {
+  .react-calendar__tile:hover {
     border-radius: 50%;
     background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 
-  /* .react-calendar__month-view__days {
-    button {
-      height: 60px;
-    }
-  } */
+  .react-calendar__tile--active {
+    color: #121212;
+    border-radius: 50%;
+    background-color: none !important;
+  }
+
   // 토, 일
   .react-calendar__month-view__days__day--weekend {
     color: ${(props) => props.theme.Bg.color3};
+  }
+
+  .react-calendar button {
+    background-color: none;
   }
 `;
 

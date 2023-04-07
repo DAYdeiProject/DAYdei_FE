@@ -13,10 +13,11 @@ import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
 import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
 
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
-import { ReactComponent as Alert } from "../assets/defaultIcons/alert.svg";
+import { ReactComponent as AlertIcon } from "../assets/defaultIcons/alert.svg";
 import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import Alert from "../components/Alert";
 
 function Header() {
   const navigate = useNavigate();
@@ -35,7 +36,8 @@ function Header() {
   // 헤더 클릭한 값 state
   const { text } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
-  //console.log(headerProfile);
+  const { state } = useSelector((state) => state.alert);
+  //console.log("alert state=========", state);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
@@ -130,51 +132,50 @@ function Header() {
           </LogoContainer>
           <NavContainer>
             <NavTabConatiner isNav={clickNav}>
-              <div onClick={homeClickHandler}>
-                <span className="homeSpan">홈 캘린더</span>
-              </div>
-              <div onClick={friendclickHandler}>
-                <span className="friendSpan">친구/구독</span>
-              </div>
-              <div onClick={searchClickHandler}>
-                <span className="searchSpan">찾아보기</span>
-              </div>
+              <span className="homeSpan" onClick={homeClickHandler}>
+                홈 캘린더
+              </span>
+              <span className="friendSpan" onClick={friendclickHandler}>
+                친구/구독
+              </span>
+              <span className="searchSpan" onClick={searchClickHandler}>
+                찾아보기
+              </span>
             </NavTabConatiner>
-            <NavUserConatiner>
-              <IconWrapper ref={DropdownRef} className="notification">
-                {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
-                <Alert className="AlertIcon" onClick={notificationClick} />
-                <ImageContainer onClick={handleDropdown}>
-                  <ImgBox>
-                    <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
-                  </ImgBox>
-                  {isDropdownOpen && (
-                    <DropdownFrame>
-                      <ContentWrapper>
-                        <ProfileWrap onClick={moveProfileDetail}>
-                          <PhotoWrap>
-                            <ProfilePhoto src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
-                          </PhotoWrap>
-                          <IntroductionWrap>
-                            <NameWrap>{headerProfile.nickName} </NameWrap>
-                            <EmailWrap>@{headerProfile.email.split("@")[0]}</EmailWrap>
-                          </IntroductionWrap>
-                        </ProfileWrap>
-                        <GapArea></GapArea>
-                        <Options>
-                          <Button onClick={ProfileSettingModalHandler}>
-                            <div>프로필 수정</div>
-                          </Button>
-                          <Button onClick={logoutHandler}>
-                            <div>로그아웃</div>
-                          </Button>
-                        </Options>
-                      </ContentWrapper>
-                    </DropdownFrame>
-                  )}
-                </ImageContainer>
-              </IconWrapper>
-            </NavUserConatiner>
+
+            <IconWrapper ref={DropdownRef} className="notification">
+              {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
+              <AlertIcon className="AlertIcon" onClick={notificationClick} />
+              <ImageContainer onClick={handleDropdown}>
+                <ImgBox>
+                  <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                </ImgBox>
+                {isDropdownOpen && (
+                  <DropdownFrame>
+                    <ContentWrapper>
+                      <ProfileWrap onClick={moveProfileDetail}>
+                        <PhotoWrap>
+                          <ProfilePhoto src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                        </PhotoWrap>
+                        <IntroductionWrap>
+                          <NameWrap>{headerProfile.nickName} </NameWrap>
+                          <EmailWrap>@{headerProfile.email.split("@")[0]}</EmailWrap>
+                        </IntroductionWrap>
+                      </ProfileWrap>
+                      <GapArea></GapArea>
+                      <Options>
+                        <Button onClick={ProfileSettingModalHandler}>
+                          <div>프로필 수정</div>
+                        </Button>
+                        <Button onClick={logoutHandler}>
+                          <div>로그아웃</div>
+                        </Button>
+                      </Options>
+                    </ContentWrapper>
+                  </DropdownFrame>
+                )}
+              </ImageContainer>
+            </IconWrapper>
           </NavContainer>
         </HeaderWrapper>
       )}
@@ -192,6 +193,8 @@ function Header() {
         setIsProfileDetail={setIsProfileDetail}
         setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
       />
+
+      {state && state.state && <Alert isComment={state.comment} />}
     </>
   );
 }
@@ -200,10 +203,10 @@ export default Header;
 
 const HeaderWrapper = styled.header`
   ${(props) => props.theme.FlexRow}
-  width: 100%;
+  justify-content: left;
+  max-width: 100%;
   height: 64px;
   margin: 0 auto;
-  //border: 0.5px solid ${(props) => props.theme.Bg.color3};
   border-bottom: 0.5px solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
@@ -214,6 +217,7 @@ const LogoContainer = styled.section`
   justify-content: left;
   width: 0;
   min-width: 350px;
+  max-width: 350px;
   padding-left: 35px;
   span {
     text-align: left;
@@ -223,8 +227,8 @@ const LogoContainer = styled.section`
 `;
 
 const NavContainer = styled.section`
-  ${(props) => props.theme.FlexRowBetween}
-  width: 1570px;
+  ${(props) => props.theme.FlexRow}
+  height: 100%;
   padding: 34px 48px;
   span {
     ${(props) => props.theme.HeaderText};
@@ -235,8 +239,10 @@ const NavContainer = styled.section`
 const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
+  //min-width: 1250px;
+  width: 100%;
   gap: 40px;
-  div {
+  span {
     :hover {
       cursor: pointer;
     }
@@ -252,18 +258,15 @@ const NavTabConatiner = styled.div`
   }
 `;
 
-const NavUserConatiner = styled.div`
-  ${(props) => props.theme.FlexRow}
-  justify-content: right;
-  gap: 40px;
-  align-items: center;
-`;
-
 const IconWrapper = styled.div`
   position: relative;
+  ${(props) => props.theme.FlexRow}
+  justify-content: right;
+  width: 150px;
   height: 100%;
   display: flex;
-  align-items: center;
+
+  //align-items: center;
   .AlertIcon {
     :hover {
       cursor: pointer;

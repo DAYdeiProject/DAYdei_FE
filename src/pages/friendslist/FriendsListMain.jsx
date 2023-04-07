@@ -385,18 +385,19 @@ export const LoadingWrapper = styled.div`
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 64px - 1px);
-  /* background: pink; */
 `;
 
 export const CalendarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  justify-content:flex-start;
+  justify-content: flex-start;
+
   padding: 0px 48px;
   height: 100%;
 `;
 
 export const WholeAreaWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
+  justify-content: left;
   width: 100%;
 `;
 

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import _ from "lodash";
 
 import UserLists from "./UserLists";
-import { CalendarWrapper } from "../home/calendar/CalendarMain";
+import { CalendarWrapper } from "../friendslist/FriendsListMain";
 import { AiOutlineSearch } from "react-icons/ai";
 
 function SearchUsers() {
@@ -109,28 +109,23 @@ function SearchUsers() {
 
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  max-width:1570px;
   height: calc(100vh - 64px - 1px);
-  padding-left: 10px;
-  /* background: pink; */
 `;
 
 export const WholeAreaWrapper = styled.div`
-  width: 1500px;
+  ${(props) => props.theme.FlexCol}
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  /* background-color: skyblue; */
 `;
 
 const HeaderText = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
   gap: 16px;
+  margin-top: 48px;
   margin-bottom: 36px;
-  /* background-color: pink; */
 `;
 
 const HeaderTextMain = styled.div`
@@ -141,9 +136,9 @@ const HeaderTextMain = styled.div`
 `;
 
 const HeaderTextSub = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
+  width: 500px;
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
@@ -151,65 +146,46 @@ const HeaderTextSub = styled.div`
 `;
 
 const SearchHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  ${(props) => props.theme.FlexRowBetween}
   padding: 0px;
   gap: 200px;
-  width: 1496px;
   margin-bottom: 28px;
 `;
 
 const IconWrapper = styled.div`
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
   height: 100%;
-  display: flex;
-  flex-direction: row;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   padding: 0px;
   gap: 12px;
-  /* background-color: green; */
 `;
 
 const Icon = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  ${(props) => props.theme.FlexRow}
   width: 100px;
   height: 36px;
-
-  border: 1px solid black;
+  border: 1px solid #121212;
   border-radius: 99px;
-
   background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.color2 : props.theme.Bg.color6)};
   color: ${(props) => (props.className === "selected" ? props.theme.Bg.color6 : props.theme.Bg.color1)};
-
   font-weight: 400;
   font-size: 14px;
   line-height: 140%;
-
   :hover {
     cursor: pointer;
   }
 `;
 
 const SearchBarArea = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 52px 16px 24px;
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
   gap: 12px;
-
   width: 450px;
   height: 40px;
-
+  padding: 16px 24px;
   border: 1px solid #ebebeb;
   border-radius: 8px;
   margin-left: auto;
-  /* background-color: skyblue; */
 `;
 
 const SearchIcon = styled.div`
@@ -218,28 +194,28 @@ const SearchIcon = styled.div`
 `;
 
 const SearchBar = styled.input`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexRow}
+  justify-content: left;
   padding: 0px;
   gap: 8px;
-
-  width: 261px;
+  width: 300px;
   height: 20px;
 `;
 
 const SearchBody = styled.div`
+  width: 100%;
   height: 700px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 18px;
   grid-row-gap: 20px;
   overflow: auto;
-  justify-content: center;
+  justify-items: center;
 
   ::-webkit-scrollbar {
     display: none;
   }
+
   /* background-color: pink; */
 `;
 
