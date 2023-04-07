@@ -398,7 +398,6 @@ export const CalendarWrapper = styled.div`
 export const WholeAreaWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   width: 100%;
-  height: 100%;
 `;
 
 export const ListFrameBig = styled.div`
@@ -415,6 +414,7 @@ export const FrameBigWithPadding = styled(ListFrameBig)`
   align-items: center;
   border-left: 0.6px solid ${(props) => props.theme.Bg.border1};
   border-right: 0.6px solid ${(props) => props.theme.Bg.border1};
+  /* background: pink; */
 `;
 
 export const FrameBigWithMargin = styled(ListFrameBig)`
@@ -517,7 +517,8 @@ export const ListWrap = styled.div`
   align-items: flex-start;
   padding: 0px;
   width: 464px;
-  height: 862px;
+  height: 812px;
+  /* background: pink; */
 
   overflow: auto;
   ::-webkit-scrollbar {

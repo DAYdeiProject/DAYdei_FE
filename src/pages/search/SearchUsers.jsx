@@ -153,14 +153,12 @@ const HeaderTextSub = styled.div`
 const SearchHeader = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start
+  justify-content: flex-start;
   align-items: center;
   padding: 0px;
   gap: 200px;
-
   width: 1496px;
   margin-bottom: 28px;
-   /* background-color: pink; */
 `;
 
 const IconWrapper = styled.div`
