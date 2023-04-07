@@ -19,7 +19,8 @@ yarn add eventsource
 - sidebar mini-calendar
 yarn add react-calendar
 
-- test
+- 암호화
+yarn add crypto-js
 
 
 yarn add cross-env
