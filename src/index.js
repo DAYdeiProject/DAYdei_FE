@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { Provider } from "react-redux";
-import store from "./redux/config/configStore";
-import { GlobalStyle } from "./shared/style/GlobalStyle";
+import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import theme from "./shared/style/Theme";
-import { RouterProvider } from "react-router-dom";
 import router from "./shared/router/Router";
+import store from "./redux/config/configStore";
+import { GlobalStyle } from "./shared/style/GlobalStyle";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,17 +17,3 @@ root.render(
     </ThemeProvider>
   </Provider>
 );
-
-// <Provider store={store}>
-//   <ThemeProvider theme={theme}>
-//     <GlobalStyle />
-//     <App />
-//   </ThemeProvider>
-// </Provider>
-
-//  <Provider store={store}>
-//    <ThemeProvider theme={theme}>
-//      <GlobalStyle />
-//      <RouterProvider router={router} />
-//    </ThemeProvider>
-//  </Provider>;

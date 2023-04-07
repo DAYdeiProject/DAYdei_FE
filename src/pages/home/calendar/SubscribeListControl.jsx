@@ -107,6 +107,8 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
 export default SubscribeListControl;
 
 export const SideSpaceWrapper = styled.div`
+  position: fixed;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -65,6 +65,7 @@ function IntroPage() {
     <PageWrapper>
       <ScreenLayout>
         <PreviewArea />
+
         <LoginWrapper
           onSubmit={(e) => {
             e.preventDefault();
@@ -108,7 +109,6 @@ function IntroPage() {
 
 export const PageWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
-  height: calc(100vh - 64px - 1px);
 `;
 
 export const ScreenLayout = styled.div`

@@ -18,8 +18,8 @@ import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
 import { ReactComponent as MoreY } from "../../../assets/calendarIcon/moreY.svg";
 import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
 import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
-import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
+import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
 import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
 import { ReactComponent as EditCalendar } from "../../../assets/calendarIcon/editCalendar.svg";
 
@@ -337,7 +337,7 @@ export default function DetailPostModal({ ...props }) {
               </DetailContetnContainer>
             )}
           </DetailContentWrapper>
-          {detail.writer && detail?.writer.id !== userInfo.userId && (
+          {detail.writer && String(detail?.writer.id) !== String(userInfo.userId) && (
             <InviteWrapper>
               {notiInfo ? (
                 notiState === "requestPost" ? (
@@ -400,7 +400,7 @@ const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
   min-height: 150px;
-  max-height: 500px;
+  max-height: 400px;
   margin-bottom: 20px;
   padding-right: 10px;
   overflow-y: auto;

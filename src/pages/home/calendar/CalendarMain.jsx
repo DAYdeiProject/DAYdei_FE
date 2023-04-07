@@ -1,8 +1,8 @@
 import add from "date-fns/add";
 import Cookies from "js-cookie";
 import format from "date-fns/format";
-import getDate from "date-fns/getDate";
 import styled from "styled-components";
+import getDate from "date-fns/getDate";
 import { getYear, getMonth } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -221,7 +221,7 @@ function CalendarMain({ ...props }) {
           setIsOtherOpen={setIsOtherOpen}
         />
       )}
-      <CalendarWrapper disabled={disabled} isOpen={isSideOpen}>
+      <CalendarWrapper disabled={disabled} isMy={String(param.id) === String(userInfo.userId)}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -292,15 +292,15 @@ export default CalendarMain;
 
 const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
+  min-width: 1500px;
   height: 100%;
-  /* background-color: pink; */
 `;
 export const CalendarWrapper = styled.div`
   width: 100%;
+  max-width: calc(100% - 46px);
   height: 100%;
   padding: 40px 48px 52px;
-  margin-right: 46px;
-  /* background: blue; */
+  margin-right: ${(props) => (props.isMy ? "46px" : "0")};
   .fc {
     width: 100%;
     height: 100%;

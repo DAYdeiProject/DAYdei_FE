@@ -62,16 +62,16 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
-    if (myProfile.profileImage) {
-      setUpdatedProfileUrl(myProfile.profileImage);
+    if (headerProfile.profileImage) {
+      setUpdatedProfileUrl(headerProfile.profileImage);
     }
-    if (myProfile.backgroundImage) {
-      setUpdatedBackgroundUrl(myProfile.backgroundImage);
+    if (headerProfile.backgroundImage) {
+      setUpdatedBackgroundUrl(headerProfile.backgroundImage);
     }
-  }, [myProfile.profileImage, myProfile.backgroundImage]);
+  }, [headerProfile.profileImage, headerProfile.backgroundImage]);
 
   //내 프로필의 카테고리 리스트
-  const myCategory = myProfile.categoryList;
+  const myCategory = headerProfile.categoryList;
   //프로필 변경시 내 프로필 GET요청
   useEffect(() => {
     dispatch(__getMyProfile(id));
