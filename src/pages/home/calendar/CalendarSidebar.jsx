@@ -300,7 +300,7 @@ export const SideSpaceWrapper = styled.div`
   overflow: auto;
   z-index: 10;
   flex-shrink: 0;
-  border: 1px solid black;
+  border-left: 1px solid black;
   gap: 18px;
   padding-top: 20px;
   ::-webkit-scrollbar {
