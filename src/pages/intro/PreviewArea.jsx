@@ -48,10 +48,10 @@ export default function PreviewArea() {
 }
 
 const PreviewWrapper = styled.div`
-  background: ${(props) => props.theme.Bg.calendar2};
   width: 100%;
   height: 100%;
   position: relative;
+  background-color: ${(props) => props.theme.Bg.calendar2};
   .main1,
   .main2,
   .main3,
@@ -73,90 +73,91 @@ const PreviewWrapper = styled.div`
   // 31
   .main1 {
     top: 88px;
-    left: 140px;
+    right: 970px;
   }
   // 왼쪽 text
   .main2 {
     top: 180px;
-    left: 143px;
+    right: 750px;
     width: 290px;
   }
   // 오른쪽 text
   .main3 {
     top: 170px;
-    left: 710px;
+    right: 200px;
     width: 280px;
   }
   // 포스트잇
   .main4 {
     top: 400px;
-    left: 930px;
+    right: 130px;
   }
   // 그래프
   .main5 {
     top: 660px;
-    left: 230px;
+    right: 760px;
   }
   // 손가락
   .main6 {
-    top: 225px;
-    left: 380px;
+    top: 220px;
+    right: 380px;
     width: 400px;
   }
   // 눈알
   .main7 {
     top: 160px;
-    left: 700px;
+    right: 400px;
   }
   // 포스트잇 밑 돼지꼬리
   .union1 {
-    top: 570px;
-    left: 880px;
+    top: 560px;
+    right: 220px;
   }
   // 포스트잇 밑 별
   .union2 {
     top: 450px;
-    left: 866px;
+    right: 330px;
   }
   // 포스트잇 밑 하트
   .union3 {
     top: 650px;
-    left: 1015px;
+    right: 110px;
   }
   // 포스트잇 밑 큰 별
   .union4 {
-    top: 700px;
-    left: 850px;
+    top: 710px;
+    right: 250px;
   }
   // 왼쪽 별 두개
   .union5 {
     top: 660px;
-    left: 120px;
+    right: 1000px;
   }
   // 왼쪽 돼지꼬리
   .union6 {
     top: 510px;
-    left: 150px;
+    right: 910px;
   }
   // 왼쪽 하트
   .union7 {
-    top: 460px;
-    left: 255px;
+    top: 440px;
+    right: 850px;
   }
   // 왼쪽 작은 별
   .union8 {
     top: 250px;
-    left: 450px;
+    right: 720px;
   }
 `;
 
 // 메인 텍스트
 const TextContainer = styled.div`
   position: absolute;
-  top: 93px;
-  left: 260px;
+  top: 100px;
+  right: 610px;
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
+  width: auto;
   gap: 15px;
   span {
     font-size: 24px;
