@@ -489,18 +489,19 @@ const FriendAddStyle = styled(FriendAdd)`
 
 export const DropdownFrame = styled.div`
   position: relative;
-  width: 70px;
-  height: 100px;
+  width: 100px;
+  height: 140px;
   border-radius: 4px;
   background-color: white;
-  border: 1px solid ${(props) => props.theme.Bg.color2};
-
+  border: 1px solid black;
   top: calc(100% - 20px);
-  right: 50px;
+  right: 75px;
+  padding: 0px 12px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  /* background-color: pink; */
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
 `;
 
 export const DropdownItems = styled.div`
