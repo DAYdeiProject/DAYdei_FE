@@ -12,7 +12,7 @@ import DetailSubscriber from "./DetailSubscriber";
 import useOutSideClick from "../../hooks/useOutsideClick";
 
 import Loading from "../../components/Loading";
-import LoadingInnerWrapper from "../search/UserLists";
+import { LoadingInnerWrapper } from "../search/UserLists";
 import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
 import {

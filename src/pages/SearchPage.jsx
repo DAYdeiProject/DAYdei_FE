@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import SearchUsers from "./SearchUsers";
-import Sidebar from "../../layout/Sidebar";
+import SearchUsers from "../components/search/SearchUsers";
+import Sidebar from "../layout/Sidebar";
 
 export default function SearchPage() {
   return (

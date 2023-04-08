@@ -10,7 +10,7 @@ import { __getMyProfile } from "../../redux/modules/usersSlice";
 
 import Sidebar from "../../layout/Sidebar";
 import CalendarMain from "./calendar/CalendarMain";
-import CategoryModal from "./category/CategoryModal";
+import CategoryModal from "../../components/home/category/CategoryModal";
 import TokenCheck from "../../utils/cookie/tokenCheck";
 
 const EventSource = EventSourcePolyfill;

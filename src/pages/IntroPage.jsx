@@ -3,14 +3,15 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { React, useState, useEffect, useRef } from "react";
-import { __loginUser } from "../../redux/modules/usersSlice";
-import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
-import PreviewArea from "./PreviewArea";
-import useLogin from "../../hooks/useLogin";
-import FindPasswordModal from "./FindPasswordModal";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
-import { ReactComponent as Key } from "../../assets/sign/key.svg";
-import { ReactComponent as Mail } from "../../assets/sign/mail.svg";
+import { alertState } from "../redux/modules/alertReducer";
+import { __loginUser } from "../redux/modules/usersSlice";
+import { __kakaoLogin } from "../redux/modules/kakaoSlice";
+import PreviewArea from "../components/intro/PreviewArea";
+import useLogin from "../hooks/useLogin";
+import FindPasswordModal from "../components/intro/FindPasswordModal";
+import { GetUserInfo } from "../utils/cookie/userInfo";
+import { ReactComponent as Key } from "../assets/sign/key.svg";
+import { ReactComponent as Mail } from "../assets/sign/mail.svg";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ function IntroPage() {
           // alert("로그인 성공!");
           navigate(`/${data.payload.data.data.userId}`);
         } else {
-          alert("로그인 실패하였습니다. 다시 로그인해주세요.");
+          dispatch(alertState({ state: true, comment: "로그인 실패" }));
         }
       });
     } else {

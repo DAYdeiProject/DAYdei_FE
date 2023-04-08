@@ -3,14 +3,14 @@ import App from "../../App";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import HomePage from "../../pages/home/HomePage";
-import JoinPage from "../../pages/join/JoinPage";
+import JoinPage from "../../pages/JoinPage";
 import KakaoPage from "../../pages/kakao/KakaoPage";
-import IntroPage from "../../pages/intro/IntroPage";
-import SearchPage from "../../pages/search/SearchPage";
-import MyListPage from "../../pages/friendslist/MyListPage";
+import IntroPage from "../../pages/IntroPage";
+import SearchPage from "../../pages/SearchPage";
+import FriendsListPage from "../../pages/FriendsListPage";
 import NotFoundPage from "../../pages/notFound/NotFoundPage";
 import KakaoFriendsPage from "../../pages/kakao/KakaoFriendsPage";
-import FriendsDetailPage from "../../pages/friendsDetail/FriendsDetailPage";
+import FriendsDetailPage from "../../pages/FriendsDetailPage";
 
 const Router = createBrowserRouter([
   {
@@ -39,7 +39,7 @@ const Router = createBrowserRouter([
           },
           {
             path: "/mylist/:id",
-            element: <MyListPage />,
+            element: <FriendsListPage />,
           },
           {
             path: "/mylist/*",

@@ -2,16 +2,16 @@ import { React, useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { __getHeaderProfile } from "../../../redux/modules/usersSlice";
+import { __getHeaderProfile } from "../../redux/modules/usersSlice";
 
-import ModalBox from "../../../elements/ModalBox";
-import useOutSideClick from "../../../hooks/useOutsideClick";
-import Loading from "../../../components/Loading";
+import ModalBox from "../../elements/ModalBox";
+import useOutSideClick from "../../hooks/useOutsideClick";
+import Loading from "../Loading";
 
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { ReactComponent as WhiteDismiss } from "../../../assets/defaultIcons/whiteDismiss.svg";
-import { ReactComponent as WhiteMoreY } from "../../../assets/defaultIcons/whiteMoreY.svg";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { ReactComponent as WhiteDismiss } from "../../assets/defaultIcons/whiteDismiss.svg";
+import { ReactComponent as WhiteMoreY } from "../../assets/defaultIcons/whiteMoreY.svg";
 
 export default function ProfileDetailModal({ ...props }) {
   const outside = useRef();

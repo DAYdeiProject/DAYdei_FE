@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { TextWrap, TextMain, SmallTextBox, CheckMessage } from "./ProfileSettingModal";
+import { TextWrap, TextMain, TextMainPw, TextMainPwCheck, SmallTextBox, CheckMessage } from "./ProfileSettingModal";
 
 function InfoSettingModal({ ...props }) {
   //const myProfile = useSelector((state) => state.users.myProfile);
@@ -27,16 +27,16 @@ function InfoSettingModal({ ...props }) {
       </TextWrap>
       <TextWrap>
         <SmallTextBox>새 비밀번호 :</SmallTextBox>
-        <TextMain>
+        <TextMainPw isBorder={props.password === "" ? "none" : props.isPw}>
           <input type="password" value={props.password} onChange={props.handlePasswordChange} />
-        </TextMain>
+        </TextMainPw>
         <CheckMessage>{props.isPwMessage}</CheckMessage>
       </TextWrap>
       <TextWrap>
         <SmallTextBox>비밀번호 확인 :</SmallTextBox>
-        <TextMain>
+        <TextMainPwCheck isBorder={props.passwordCheck === "" ? "none" : props.password === props.passwordCheck}>
           <input type="password" value={props.passwordCheck} onChange={props.handlePasswordCheckChange} />
-        </TextMain>
+        </TextMainPwCheck>
         <CheckMessage>{props.isPwCheckMessage}</CheckMessage>
       </TextWrap>
     </>
