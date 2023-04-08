@@ -58,6 +58,8 @@ export default Layout;
 
 const CalendarWrapper = styled.section`
   ${(props) => props.theme.FlexCol}
-  width: 100vw;
+  min-width: 1920px;
+  max-width: 1920px;
+  /* width: 100vw; */
   margin: 0 auto;
 `;

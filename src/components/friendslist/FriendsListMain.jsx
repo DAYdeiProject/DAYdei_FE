@@ -14,6 +14,7 @@ import { __getFriendsList, __getRequestedUsersList, __getSentUsersList } from ".
 import { __getSubscribeList, __getSubscriberList } from "../../redux/modules/subscribeSlice";
 
 import useOutSideClick from "../../hooks/useOutsideClick";
+import useAlignFunctions from "../../hooks/useAlignFunctions";
 
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
 import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
@@ -40,10 +41,6 @@ function FriendsListMain() {
   const [searchFriendOpen, setSearchFriendOpen] = useState(false);
   const [searchSubscribeOpen, setSearchSubscribeOpen] = useState(false);
   const [searchSubscriberOpen, setSearchSubscriberOpen] = useState(false);
-  // 정렬 드롭다운모달
-  const [isDropdownFriendOpen, setIsDropdownFriendOpen] = useState(false);
-  const [isDropdownSubscribeOpen, setIsDropdownSubscribeOpen] = useState(false);
-  const [isDropdownSubscriberOpen, setIsDropdownSubscriberOpen] = useState(false);
 
   // 친구추가 아이콘 클릭하는 순간 친구신청한 유저 불러오는 GET요청 함수 dispatch
   const approveRequestModalHandler = () => {
@@ -94,61 +91,19 @@ function FriendsListMain() {
     }
   }, [searchWord, searchWordSubscribe, searchWordSubscriber, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
 
-  //정렬 기준 함수
-  const alignBasicHandler = (id) => {
-    let url = `${id}?sort=name&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
-
-  const alignSubscribeHandler = (id) => {
-    let url = `${id}?sort=famous&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
-
-  const alignNewestHandler = (id) => {
-    let url = `${id}?sort=recent&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
-  const alignOldestHandler = (id) => {
-    let url = `${id}?sort=old&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
+  //정렬 함수 import하여 사용
+  const {
+    alignBasicHandler,
+    alignNewestHandler,
+    alignOldestHandler,
+    alignSubscribeHandler,
+    isDropdownFriendOpen,
+    setIsDropdownFriendOpen,
+    isDropdownSubscribeOpen,
+    setIsDropdownSubscribeOpen,
+    isDropdownSubscriberOpen,
+    setIsDropdownSubscriberOpen,
+  } = useAlignFunctions();
 
   const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);

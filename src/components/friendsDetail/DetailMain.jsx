@@ -33,6 +33,7 @@ import {
   DropdownItems,
   IconWrap,
 } from "../friendslist/FriendsListMain";
+import useAlignFunctions from "../../hooks/useAlignFunctions";
 
 function DetailMain() {
   const params = useParams();
@@ -45,10 +46,6 @@ function DetailMain() {
   const [searchFriendOpen, setSearchFriendOpen] = useState(false);
   const [searchSubscribeOpen, setSearchSubscribeOpen] = useState(false);
   const [searchSubscriberOpen, setSearchSubscriberOpen] = useState(false);
-  // 정렬 드롭다운모달
-  const [isDropdownFriendOpen, setIsDropdownFriendOpen] = useState(false);
-  const [isDropdownSubscribeOpen, setIsDropdownSubscribeOpen] = useState(false);
-  const [isDropdownSubscriberOpen, setIsDropdownSubscriberOpen] = useState(false);
 
   // 친구의 친구 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
@@ -80,62 +77,19 @@ function DetailMain() {
     }
   }, [searchWord, searchWordSubscribe, searchWordSubscriber]);
 
-  //정렬 기준 함수
-
-  const alignBasicHandler = (id) => {
-    let url = `${id}?sort=name&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
-
-  const alignSubscribeHandler = (id) => {
-    let url = `${id}?sort=famous&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
-
-  const alignNewestHandler = (id) => {
-    let url = `${id}?sort=recent&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
-  const alignOldestHandler = (id) => {
-    let url = `${id}?sort=old&searchword=`;
-    // console.log("여기-", url);
-    if (isDropdownFriendOpen) {
-      dispatch(__getFriendsList(url));
-    }
-    if (isDropdownSubscribeOpen) {
-      dispatch(__getSubscribeList(url));
-    }
-    if (isDropdownSubscriberOpen) {
-      dispatch(__getSubscriberList(url));
-    }
-  };
+  //정렬 함수 import하여 사용
+  const {
+    alignBasicHandler,
+    alignNewestHandler,
+    alignOldestHandler,
+    alignSubscribeHandler,
+    isDropdownFriendOpen,
+    setIsDropdownFriendOpen,
+    isDropdownSubscribeOpen,
+    setIsDropdownSubscribeOpen,
+    isDropdownSubscriberOpen,
+    setIsDropdownSubscriberOpen,
+  } = useAlignFunctions();
 
   const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
   const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
