@@ -75,27 +75,6 @@ const useLogin = () => {
     }
   };
 
-  // const handleNickNameChange = (e) => {
-  //   setNickName(e.target.value);
-  //   const koreanAndEnglishOnly = /^([ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{1,6}|[a-zA-Z]{1,12})$/;
-
-  //   if (!koreanAndEnglishOnly.test(e.target.value)) {
-  //     setIsNickNameMessage("최대 6자 이내");
-  //   } else {
-  //     setIsNickNameMessage("제한 글자 수 초과");
-  //   }
-
-  //   // if (e.target.value.length <= 6) {
-  //   //   setIsNickNameMessage("최대 6자 이내");
-  //   // } else {
-  //   //   setIsNickNameMessage("제한 글자 수 초과");
-  //   // }
-
-  //   if (e.target.value === "") {
-  //     setIsNickNameMessage("");
-  //   }
-  // };
-
   function handleNickNameChange(e) {
     const inputValue = e.target.value;
     setNickName(inputValue);
@@ -145,6 +124,7 @@ const useLogin = () => {
     handleIntroductionChange,
     reset,
     nicknameRegex,
+    validateInput,
   };
 };
 

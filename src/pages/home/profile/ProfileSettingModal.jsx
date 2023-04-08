@@ -2,6 +2,7 @@ import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
+import { alertState } from "../../../redux/modules/alertReducer";
 import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
 
 import Modal from "../../../elements/Modal";
@@ -43,6 +44,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     handleNickNameChange,
     introduction,
     handleIntroductionChange,
+    nicknameRegex,
   } = useLogin();
 
   //모달 바깥쪽을 누르면 프로필 수정 모달이 닫힘
@@ -130,14 +132,16 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
     e.preventDefault();
 
     // console.log("store에서 불러온 내프로필-->", myProfile);
-    const nickNameValue = nickName || myProfile.nickName;
-    const introductionValue = introduction || myProfile.introduction;
+    const nickNameValue = nickName || headerProfile.nickName;
+    const introductionValue = introduction || headerProfile.introduction;
     let userProfileRequestDto = {};
     if (password === "") {
-      userProfileRequestDto = {
-        nickName: nickNameValue,
-        introduction: introductionValue,
-      };
+      if (nicknameRegex || nickNameValue === headerProfile.nickName) {
+        userProfileRequestDto = {
+          nickName: nickNameValue,
+          introduction: introductionValue,
+        };
+      }
     } else {
       userProfileRequestDto = {
         nickName: nickNameValue,
@@ -158,10 +162,10 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
       // }
       dispatch(__setProfile(formData)).then((data) => {
         console.log("then", data);
-        if (data.error) {
-          alert("수정 실패");
+        if (data.payload !== 200) {
+          dispatch(alertState({ state: true, comment: "프로필 수정 실패" }));
         } else {
-          alert("수정 성공");
+          dispatch(alertState({ state: true, comment: "프로필 수정 완료!" }));
           setIsProfileSettingModalOpen(false);
           setIsEditProfile(!isEditProfile);
         }
@@ -254,9 +258,9 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
                         <TextArea>
                           <TextWrap>
                             <SmallTextBox>닉네임 :</SmallTextBox>
-                            <TextMain>
-                              <input type="text" defaultValue={headerProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="6" />
-                            </TextMain>
+                            <TextMainNickname isBorder={nickName === "" ? "none" : nicknameRegex}>
+                              <input type="text" defaultValue={headerProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="8" />
+                            </TextMainNickname>
                           </TextWrap>
                           <TextWrap>
                             <SmallTextBox>한 줄 프로필 :</SmallTextBox>
@@ -371,7 +375,6 @@ const SectionBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-weight: 500;
   font-size: ${(props) => props.theme.Fs.size14};
   line-height: 16px;
@@ -385,7 +388,6 @@ const MyProfileSection = styled.div`
   flex-direction: column;
   align-items: center;
   /* background-color: skyblue; */
-
   width: 100%;
   height: 362.47px;
   gap: 30px;
@@ -424,7 +426,6 @@ const PhotoWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   img {
     object-fit: cover;
     border-radius: 50%;
@@ -466,11 +467,9 @@ const AddBackgroundButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-weight: 600;
   font-size: ${(props) => props.theme.Fs.size12};
   line-height: 14px;
-
   :hover {
     cursor: pointer;
   }
@@ -498,7 +497,6 @@ const FileNameWrap = styled.div`
 const LimitTextWrap = styled.div`
   width: 100%;
   height: 13px;
-
   font-weight: 400;
   font-size: 10.5px;
   color: #494d55;
@@ -536,13 +534,17 @@ export const TextMain = styled.div`
   align-items: center;
   justify-content: center;
   background: #ffffff;
-  border: 1px solid #afb4bf;
+  border: 1px solid ${(props) => props.theme.Bg.color3};
   border-radius: 8px;
   input[type="text"],
   input[type="password"] {
     width: 282.5px;
   }
   /* background-color: skyblue; */
+`;
+
+const TextMainNickname = styled(TextMain)`
+  border: 1px solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
 `;
 
 const CategoryWrap = styled.div`

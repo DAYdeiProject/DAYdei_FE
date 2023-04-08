@@ -3,6 +3,7 @@ import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
+import { alertState } from "../../redux/modules/alertReducer";
 import useLogin from "../../hooks/useLogin";
 import PreviewArea from "../intro/PreviewArea";
 import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
@@ -71,10 +72,10 @@ function JoinPage() {
       dispatch(__addUser(newUser)).then((data) => {
         // console.log("then 데이터-->", data.payload.statusCode);
         if (data.payload.statusCode === 200) {
-          alert("회원가입 완료!");
+          dispatch(alertState({ state: true, comment: "회원 가입 완료!" }));
           navigate("/");
         } else {
-          alert("오류 발생");
+          dispatch(alertState({ state: true, comment: "회원 가입 실패" }));
         }
       });
     }

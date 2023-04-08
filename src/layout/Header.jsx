@@ -80,13 +80,22 @@ function Header() {
   }, [headerProfile]);
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    Cookies.remove("accessJWTToken");
+    // localStorage.removeItem("userInfo");
+    // Cookies.remove("accessJWTToken");
 
-    if (!Cookies.get("accessJWTToken")) {
-      alert("로그아웃 되었습니다.");
-      navigate("/");
-      dispatch(textState("home"));
+    // if (!Cookies.get("accessJWTToken")) {
+    //   alert("로그아웃 되었습니다.");
+    //   navigate("/");
+    //   dispatch(textState("home"));
+    // }
+
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      localStorage.removeItem("userInfo");
+      Cookies.remove("accessJWTToken");
+      if (!Cookies.get("accessJWTToken")) {
+        navigate("/");
+        dispatch(textState("home"));
+      }
     }
   };
   // 알림 클릭
