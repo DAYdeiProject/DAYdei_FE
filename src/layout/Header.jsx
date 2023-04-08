@@ -9,8 +9,8 @@ import { __getHeaderProfile } from "../redux/modules/usersSlice";
 
 import useOutSideClick from "../hooks/useOutsideClick";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
-import ProfileDetailModal from "../components/profile/ProfileDetailModal";
-import ProfileSettingModal from "../components/profile/ProfileSettingModal";
+import ProfileDetailModal from "../components/home/profile/ProfileDetailModal";
+import ProfileSettingModal from "../components/home/profile/ProfileSettingModal";
 
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
 import { ReactComponent as AlertIcon } from "../assets/defaultIcons/alert.svg";

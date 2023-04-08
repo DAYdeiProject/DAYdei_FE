@@ -2,19 +2,19 @@ import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import { alertState } from "../../redux/modules/alertReducer";
-import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../redux/modules/usersSlice";
+import { alertState } from "../../../redux/modules/alertReducer";
+import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
 
-import Modal from "../../elements/Modal";
-import ModalWrap from "../../elements/ModalWrap";
-import useLogin from "../../hooks/useLogin";
-import useOutSideClick from "../../hooks/useOutsideClick";
+import Modal from "../../../elements/Modal";
+import ModalWrap from "../../../elements/ModalWrap";
+import useLogin from "../../../hooks/useLogin";
+import useOutSideClick from "../../../hooks/useOutsideClick";
 import InfoSettingModal from "./InfoSettingModal";
-import { CategoryText } from "../../utils/calendar/CalendarBasic";
+import { CategoryText } from "../../../utils/calendar/CalendarBasic";
 
 import { GiCancel } from "react-icons/gi";
 import { BsCardImage } from "react-icons/bs";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 
 function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
   //프로필 파일
