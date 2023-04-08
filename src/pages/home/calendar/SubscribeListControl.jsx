@@ -116,7 +116,7 @@ export const SideSpaceWrapper = styled.div`
   height: 100%;
   background-color: white;
   overflow: auto;
-  z-index: 10;
+  z-index: 1;
   flex-shrink: 0;
   border: 1px solid black;
   padding-top: 20px;

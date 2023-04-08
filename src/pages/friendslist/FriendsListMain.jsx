@@ -447,8 +447,6 @@ export const TopLeft = styled.div`
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-
-  color: #121212;
 `;
 
 export const TopLeftWithMargin = styled(TopLeft)`
@@ -491,25 +489,33 @@ const FriendAddStyle = styled(FriendAdd)`
 
 export const DropdownFrame = styled.div`
   position: relative;
-  width: 100px;
-  height: 140px;
+  width: 70px;
+  height: 100px;
   border-radius: 4px;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid ${(props) => props.theme.Bg.color2};
 
   top: calc(100% - 20px);
-  right: 75px;
-
-  padding: 0px 12px;
+  right: 50px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  gap: 5px;
+  /* background-color: pink; */
 `;
 
 export const DropdownItems = styled.div`
-  border-bottom: 1px solid lightgray;
+  height: 25%;
+  width: 100%;
+  display: flex;
+  padding-left: 2px;
+  align-items: center;
+
+  font-weight: 600;
+  font-size: ${(props) => props.theme.Fs.size12};
+  :hover {
+    background: ${(props) => props.theme.Bg.hoverColor};
+  }
+  /* background: pink; */
 `;
 
 export const ListWrap = styled.div`
