@@ -36,7 +36,7 @@ function IntroPage() {
       const loginUser = { email, password };
       dispatch(__loginUser(loginUser)).then((data) => {
         if (data.payload.data.statusCode === 200) {
-          alert("로그인 성공!");
+          // alert("로그인 성공!");
           navigate(`/${data.payload.data.data.userId}`);
         } else {
           alert("로그인 실패하였습니다. 다시 로그인해주세요.");

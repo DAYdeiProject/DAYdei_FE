@@ -133,11 +133,10 @@ export default function CalendarSidebar({ ...props }) {
   };
 
   //메모 수정-삭제 드롭다운 모달 열고닫기
-  const ClickedMoreYHandler = () => {
+  const ClickedMoreYHandler = (event, memoId) => {
+    event.stopPropagation();
     setIsClickedMoreYId(!isClickedMoreYId);
   };
-
-  // console.log("클릭moreY-->", clickedMoreYId);
 
   //메모 수정
   const fixMemoHandler = (id) => {
@@ -149,10 +148,6 @@ export default function CalendarSidebar({ ...props }) {
     });
     setClickedMemoId(null);
     setHoveredMemoId(null);
-    // }
-    // else {
-    //   alert("수정 내용을 입력해주세요!");
-    // }
   };
 
   return (
@@ -217,24 +212,19 @@ export default function CalendarSidebar({ ...props }) {
                       </form>
                     </CorrectionBox>
                   ) : (
-                    <MemoBox onMouseEnter={() => findHoveredMemoHandler(memo.id)}>
+                    <MemoBox onMouseEnter={() => findHoveredMemoHandler(memo.id)} onClick={() => findClickedMemoHandler(memo.id)}>
                       <UpperBox>
                         <div>{memo.title}</div>
                         {hoveredMemoId === memo.id ? (
                           <IconWrap>
-                            <MoreY width="16px" height="16px" onClick={ClickedMoreYHandler} />
+                            <MoreY width="16px" height="16px" onClick={(event) => ClickedMoreYHandler(event, memo.id)} />
                             {isClickedMoreYId && (
                               <OptionsWrap>
-                                <div onClick={() => findClickedMemoHandler(memo.id)}>
-                                  <HiPencil />
-                                </div>
-                                <DivideLine>|</DivideLine>
-                                <div
+                                <FaTrash
                                   onClick={() => {
                                     deleteMemoHandler(memo.id);
-                                  }}>
-                                  <FaTrash />
-                                </div>
+                                  }}
+                                />
                               </OptionsWrap>
                             )}
                           </IconWrap>
@@ -491,7 +481,7 @@ const OptionsWrap = styled.div`
   gap: 2px;
   top: 16px;
   right: 5px;
-  width: 50px;
+  width: 30px;
   height: 30px;
   border-radius: 5px;
   border: 1px solid black;
