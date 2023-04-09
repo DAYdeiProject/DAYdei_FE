@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { getDate, getDay, getMonth } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import ModalBox from "../../../elements/ModalBox";
+import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import { DayCheck } from "../../../utils/calendar/CalendarBasic";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
@@ -14,9 +15,10 @@ import { ReactComponent as CalendarIcon } from "../../../assets/calendarIcon/edi
 
 export default function DayScheduleModal({ ...props }) {
   const dispatch = useDispatch();
-  const param = useParams();
   const outside = useRef();
+  const userInfo = GetUserInfo();
   const { todayList } = useSelector((state) => state.calendar);
+  const { otherId } = useSelector((state) => state.usersInfo);
 
   const month = getMonth(new Date(props.moreDate)) + 1;
   const date = getDate(new Date(props.moreDate));
@@ -24,7 +26,11 @@ export default function DayScheduleModal({ ...props }) {
 
   useEffect(() => {
     if (props.moreDate) {
-      dispatch(__getDateSchedule({ userId: param.id, date: props.moreDate }));
+      if (otherId) {
+        dispatch(__getDateSchedule({ userId: otherId, date: props.moreDate }));
+      } else {
+        dispatch(__getDateSchedule({ userId: userInfo.userId, date: props.moreDate }));
+      }
     }
   }, [props.moreDate, props.isSubmit]);
 

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { textState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/usersReducer";
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
 import { GetUserInfo } from "../../utils/cookie/userInfo";
@@ -54,7 +55,7 @@ function SubscribeList({ SubscribesList }) {
           <ButtonWrap>
             <RecommendButton
               onClick={() => {
-                navigate(`/search/${userInfo.userId}`);
+                navigate(`/search`);
               }}>
               회원님을 위한 추천
             </RecommendButton>
@@ -70,8 +71,9 @@ function SubscribeList({ SubscribesList }) {
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
-              navigate(`/${user.id}`);
+              navigate(`/other`);
               dispatch(textState(""));
+              dispatch(otherIdState(user.id));
             }}>
             <ProfileWrap>
               <PostLeft>

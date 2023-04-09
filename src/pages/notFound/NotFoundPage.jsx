@@ -1,15 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
-import { ReactComponent as NotFoundImg } from "../../assets/defaultIcons/notFound.svg";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { otherIdState } from "../../redux/modules/usersReducer";
 import { __getTotalPosts } from "../../redux/modules/calendarSlice";
+import { ReactComponent as NotFoundImg } from "../../assets/defaultIcons/notFound.svg";
 
 export default function NotFoundPage() {
-  const userInfo = GetUserInfo();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const moveLoginClick = () => {
-    //navigate(-1);
-    window.location.replace(`/${userInfo.userId}`);
+    navigate(`/home`);
+    dispatch(otherIdState(""));
   };
 
   return (

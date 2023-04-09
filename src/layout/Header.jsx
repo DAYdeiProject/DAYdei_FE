@@ -18,6 +18,7 @@ import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import Alert from "../components/Alert";
+import { otherIdState } from "../redux/modules/usersReducer";
 
 function Header() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Header() {
   const { text } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
-  //console.log("alert state=========", state);
+  //console.log("header otherId=========", otherId);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
@@ -80,17 +81,8 @@ function Header() {
   }, [headerProfile]);
 
   const logoutHandler = () => {
-    // localStorage.removeItem("userInfo");
-    // Cookies.remove("accessJWTToken");
-
-    // if (!Cookies.get("accessJWTToken")) {
-    //   alert("로그아웃 되었습니다.");
-    //   navigate("/");
-    //   dispatch(textState("home"));
-    // }
-
     if (window.confirm("로그아웃 하시겠습니까?")) {
-      localStorage.removeItem("userInfo");
+      window.localStorage.clear();
       Cookies.remove("accessJWTToken");
       if (!Cookies.get("accessJWTToken")) {
         navigate("/");
@@ -107,17 +99,20 @@ function Header() {
   // 홈클릭
   const homeClickHandler = () => {
     dispatch(textState("home")); // 색깔 진하게
-    navigate(`/${userId.userId}`);
+    dispatch(otherIdState(""));
+    navigate(`/home`);
   };
   // 친구/구독
   const friendclickHandler = () => {
     dispatch(textState("friend"));
-    navigate(`/mylist/${userId.userId}`);
+    dispatch(otherIdState(""));
+    navigate(`/mylist`);
   };
   // 찾아보기
   const searchClickHandler = () => {
     dispatch(textState("search"));
-    navigate(`/search/${userId.userId}`);
+    dispatch(otherIdState(""));
+    navigate(`/search`);
   };
 
   // 프로필 디테일 이동

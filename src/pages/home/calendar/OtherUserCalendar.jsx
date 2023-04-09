@@ -10,17 +10,17 @@ import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
 
 export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
-  const param = useParams();
 
   const { otherUserUpdate, otherUserShare, otherUser } = useSelector((state) => state.calendar);
+  const { otherId } = useSelector((state) => state.usersInfo);
 
   //console.log("otherUserUpdate : ", otherUserUpdate);
   //console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {
-    dispatch(__otherUserUpdatePost({ userId: String(param.id) }));
-    dispatch(__otherUserSharePost({ userId: String(param.id) }));
-  }, [param, props.otherCalendarState]);
+    dispatch(__otherUserUpdatePost({ userId: otherId }));
+    dispatch(__otherUserSharePost({ userId: otherId }));
+  }, [otherId, props.otherCalendarState]);
 
   // 업데이트 된 일정
   const updatePostClick = (postId) => {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { textState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/usersReducer";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
@@ -126,8 +127,9 @@ function UserLists({ searchWord, selectedCategories }) {
           <ContentWrap>
             <ProfileArea
               onClick={() => {
-                navigate(`/${user.id}`);
+                navigate(`/other`);
                 dispatch(textState(""));
+                dispatch(otherIdState(user.id));
               }}>
               <ProfilePhoto>
                 <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile} />

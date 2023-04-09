@@ -28,7 +28,7 @@ function IntroPage() {
   useEffect(() => {
     if (token) {
       const userInfo = GetUserInfo();
-      navigate(`/${userInfo.userId}`);
+      navigate(`/home`);
     }
   }, []);
 
@@ -38,7 +38,7 @@ function IntroPage() {
       dispatch(__loginUser(loginUser)).then((data) => {
         if (data.payload.data.statusCode === 200) {
           // alert("로그인 성공!");
-          navigate(`/${data.payload.data.data.userId}`);
+          navigate(`/home`);
         } else {
           dispatch(alertState({ state: true, comment: "로그인 실패" }));
         }

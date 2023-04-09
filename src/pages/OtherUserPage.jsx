@@ -1,24 +1,23 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Sidebar from "../layout/Sidebar";
-import { useSelector } from "react-redux";
 import CalendarMain from "./home/calendar/CalendarMain";
-import FriendsListMain from "../components/friendslist/FriendsListMain";
 
-export default function MyListPage() {
-  const { otherId } = useSelector((state) => state.usersInfo);
+export default function OtherUserPage() {
+  // event 클릭시 postId
+  const [detailPostId, setDetailPostId] = useState("");
 
   return (
     <HomePageWrapper>
-      <Sidebar />
-      {!otherId ? <FriendsListMain /> : <CalendarMain />}
+      <Sidebar setDetailPostId={setDetailPostId} />
+      <CalendarMain detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
     </HomePageWrapper>
   );
 }
 const HomePageWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  align-items: flex-start;
   height: calc(100vh - 64px - 1px);
   position: relative;
 `;

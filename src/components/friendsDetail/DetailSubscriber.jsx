@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import { otherIdState } from "../../redux/modules/usersReducer";
 import { textState } from "../../redux/modules/headerReducer";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
@@ -63,8 +64,9 @@ function DetailSubscriberList({ SubscribersList }) {
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
-              navigate(`/${user.id}`);
+              navigate(`/other`);
               dispatch(textState(""));
+              dispatch(otherIdState(user.id));
             }}>
             <ProfileWrapLong>
               <PostLeft>

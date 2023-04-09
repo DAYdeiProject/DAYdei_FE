@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import SidebarMyCalendar from "../components/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import { useSelector } from "react-redux";
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
@@ -57,15 +58,17 @@ function Sidebar({ ...props }) {
   //   };
   // }, [isMessageState]);
 
+  const { otherId } = useSelector((state) => state.usersInfo);
+
   return (
     <>
-      {param.id === String(userInfo.userId) ? (
+      {!otherId ? (
         <SideStyle>
-          <SidebarMyCalendar side={props.side} detailPostId={props.detailPostId} setDetailPostId={props.setDetailPostId} />
+          <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
         </SideStyle>
       ) : (
         <SideStyle>
-          <SidebarOtherCalendar userId={param.id} />
+          <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
     </>

@@ -13,6 +13,7 @@ import defaultProfile from "../assets/defaultImage/profile.jpg";
 import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
 import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
 import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
+import { otherIdState } from "../redux/modules/usersReducer";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
@@ -33,7 +34,8 @@ export default function SidebarMyCalendar({ ...props }) {
 
   const navigate = useNavigate();
   const moveUserPage = (id) => {
-    navigate(`/${id}`);
+    navigate(`/other`);
+    dispatch(otherIdState(id));
   };
 
   // 닉네임 가져오기 위해..

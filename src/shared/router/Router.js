@@ -2,15 +2,16 @@ import React from "react";
 import App from "../../App";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../../layout/Layout";
-import HomePage from "../../pages/home/HomePage";
 import JoinPage from "../../pages/JoinPage";
-import KakaoPage from "../../pages/kakao/KakaoPage";
 import IntroPage from "../../pages/IntroPage";
 import SearchPage from "../../pages/SearchPage";
+import HomePage from "../../pages/home/HomePage";
+import KakaoPage from "../../pages/kakao/KakaoPage";
+import OtherUserPage from "../../pages/OtherUserPage";
 import FriendsListPage from "../../pages/FriendsListPage";
 import NotFoundPage from "../../pages/notFound/NotFoundPage";
-import KakaoFriendsPage from "../../pages/kakao/KakaoFriendsPage";
 import FriendsDetailPage from "../../pages/FriendsDetailPage";
+import KakaoFriendsPage from "../../pages/kakao/KakaoFriendsPage";
 
 const Router = createBrowserRouter([
   {
@@ -30,36 +31,24 @@ const Router = createBrowserRouter([
             element: <JoinPage />,
           },
           {
-            path: "/:id",
+            path: "/home",
             element: <HomePage />,
           },
           {
-            path: "/*",
-            element: <NotFoundPage />,
-          },
-          {
-            path: "/mylist/:id",
+            path: "/mylist",
             element: <FriendsListPage />,
           },
           {
-            path: "/mylist/*",
-            element: <NotFoundPage />,
-          },
-          {
-            path: "/search/:id",
+            path: "/search",
             element: <SearchPage />,
           },
           {
-            path: "/search/*",
-            element: <NotFoundPage />,
+            path: "/other",
+            element: <OtherUserPage />,
           },
           {
-            path: "/friendsdetail/:id",
+            path: "/friendsdetail",
             element: <FriendsDetailPage />,
-          },
-          {
-            path: "/friendsdetail/*",
-            element: <NotFoundPage />,
           },
         ],
       },

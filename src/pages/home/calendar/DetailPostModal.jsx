@@ -45,8 +45,8 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo } = useSelector((state) => state.header);
-  //console.log("detail postId==========", props.detailPostId);
-  //console.log("notiInfo data==========", notiInfo);
+  const { otherId } = useSelector((state) => state.usersInfo);
+  //console.log("detail otherId==========", otherId);
 
   useEffect(() => {
     if (detail) {
@@ -148,7 +148,6 @@ export default function DetailPostModal({ ...props }) {
   };
   // 수정하기 모달창 이동
   const modifyPostHandler = (id) => {
-    console.log("수정하기--->", id);
     props.setModifyPostId(id);
     closeModal();
     props.setIsAddPost(true);
@@ -197,11 +196,11 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper ref={outside}>
           <DetailContentWrapper>
             <HeaderWrapper>
-              {String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
+              {!otherId && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
                 <MoreY className="dotsIcon" onClick={editOpenClickHandler} />
               )}
               <Dismiss className="closeIncon" onClick={closeModal} />
-              {isEditOpen && String(userInfo.userId) === String(param.id) && detail.postSubscribeCheck === null && (
+              {isEditOpen && detail.postSubscribeCheck === null && (
                 <EditBoxContainer>
                   <EditBox onClick={() => modifyPostHandler(props.detailPostId ? props.detailPostId : notiInfo.postId)}>
                     <Edit className="pencilIcon" />
@@ -341,13 +340,13 @@ export default function DetailPostModal({ ...props }) {
             <InviteWrapper>
               {notiInfo ? (
                 notiState === "requestPost" ? (
-                  <>
+                  <button>
                     <span>{detail?.writer && detail.writer.name}님이 초대하였습니다.</span>
                     <div>
                       <button onClick={acceptClick}>수락</button>
                       <button onClick={rejectClick}>거절</button>
                     </div>
-                  </>
+                  </button>
                 ) : (
                   notiState === "acceptPost" && (
                     <span>
