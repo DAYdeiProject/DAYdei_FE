@@ -213,16 +213,6 @@ function AddPostModal({ ...props }) {
     setIsAllDay(!isAllDay);
   };
 
-  useEffect(() => {
-    if (startDate < endDate || (props.modifyPostId && watch("startTime") === watch("endTime"))) {
-      setIsAllDay(true);
-      setValue("allDay", "checked");
-    } else {
-      setIsAllDay(false);
-      setValue("allDay", "");
-    }
-  }, [endDate]);
-
   // 닫기
   const closeClickHandler = () => {
     props.setIsAddPost(false);
@@ -318,14 +308,10 @@ function AddPostModal({ ...props }) {
     }
     let newStartTime = "";
     let newEndTime = "";
-
-    if (isAllDay || data.startTime === data.endTime) {
+    if (isAllDay) {
       newStartTime = "00:00:00";
       newEndTime = "00:00:00";
     } else {
-      if (data.startTime > data.endTime) {
-        return dispatch(alertState({ state: true, comment: "종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.", max: true }));
-      }
       newStartTime = data.startTime;
       newEndTime = data.endTime;
     }
