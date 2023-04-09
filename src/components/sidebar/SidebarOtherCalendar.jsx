@@ -3,10 +3,10 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { __getOtherUser } from "../redux/modules/calendarSlice";
-import { __addSubscribe, __cancelSubscribe } from "../redux/modules/subscribeSlice";
-import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/modules/friendsSlice";
-import defaultProfile from "../assets/defaultImage/profile.jpg";
+import { __getOtherUser } from "../../redux/modules/calendarSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../../redux/modules/friendsSlice";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 export default function SidebarOtherCalendar({ otherId }) {
   const dispatch = useDispatch();

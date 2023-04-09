@@ -21,7 +21,6 @@ export const __kakaoLogin = createAsyncThunk("login/kakao", async (payload, thun
 
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
-    console.log("error : ", error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -34,15 +33,8 @@ export const __friendsList = createAsyncThunk("login/friends", async (payload, t
       },
     });
 
-    // 토큰 헤더에 넣기
-    // const token = response.headers.authorization;
-    // kakao.defaults.headers.common["Authorization"] = token;
-    // const id = response.data.data.userId;
-    // SetUserInfo(token, id);
-
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
-    console.log("error : ", error);
     return thunkAPI.rejectWithValue(error);
   }
 });

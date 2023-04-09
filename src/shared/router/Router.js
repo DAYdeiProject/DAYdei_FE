@@ -5,11 +5,11 @@ import Layout from "../../layout/Layout";
 import JoinPage from "../../pages/JoinPage";
 import IntroPage from "../../pages/IntroPage";
 import SearchPage from "../../pages/SearchPage";
-import HomePage from "../../pages/home/HomePage";
+import HomePage from "../../pages/HomePage";
 import KakaoPage from "../../pages/kakao/KakaoPage";
 import OtherUserPage from "../../pages/OtherUserPage";
 import FriendsListPage from "../../pages/FriendsListPage";
-import NotFoundPage from "../../pages/notFound/NotFoundPage";
+import NotFoundPage from "../../pages/NotFoundPage";
 import FriendsDetailPage from "../../pages/FriendsDetailPage";
 import KakaoFriendsPage from "../../pages/kakao/KakaoFriendsPage";
 

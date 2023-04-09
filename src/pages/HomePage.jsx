@@ -1,18 +1,16 @@
-import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { EventSourcePolyfill } from "event-source-polyfill";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from "react";
 
-import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
-import { __getConnect } from "../../redux/modules/connectSlice";
-import { __getMyProfile } from "../../redux/modules/usersSlice";
+import { __getConnect } from "../redux/modules/connectSlice";
+import { __getMyProfile } from "../redux/modules/usersSlice";
 
-import Sidebar from "../../layout/Sidebar";
-import CalendarMain from "./calendar/CalendarMain";
-import CategoryModal from "../../components/home/category/CategoryModal";
-import TokenCheck from "../../utils/cookie/tokenCheck";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
+import Sidebar from "../layout/Sidebar";
+import CalendarMain from "../components/home/calendar/CalendarMain";
+import CategoryModal from "../components/home/category/CategoryModal";
+import TokenCheck from "../utils/cookie/tokenCheck";
+import { GetUserInfo } from "../utils/cookie/userInfo";
 
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃

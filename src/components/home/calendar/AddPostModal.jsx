@@ -544,7 +544,7 @@ function AddPostModal({ ...props }) {
               <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
                 <postStyle.SerchModalBox>
                   {targetList?.map((list) => {
-                    console.log(list);
+                    console.log("타겟리스트======>", list);
                     return (
                       <postStyle.TartgetBox
                         key={list.id}

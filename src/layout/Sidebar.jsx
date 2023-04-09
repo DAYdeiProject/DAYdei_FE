@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import Cookies from "js-cookie";
 
-import SidebarMyCalendar from "../components/SidebarMyCalendar";
-import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
+import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
+import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import { useSelector } from "react-redux";
 

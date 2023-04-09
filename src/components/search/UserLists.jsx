@@ -9,7 +9,7 @@ import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/mo
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
 import Loading from "../../components/Loading";
-import { CalendarWrapper } from "../../pages/home/calendar/CalendarMain";
+import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function UserLists({ searchWord, selectedCategories }) {

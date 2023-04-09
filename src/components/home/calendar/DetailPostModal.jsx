@@ -125,7 +125,9 @@ export default function DetailPostModal({ ...props }) {
     setEndTime("");
     setIsColor("");
     dispatch(setNotificationPostId(""));
-    dispatch(textState("home"));
+    if (!otherId) {
+      dispatch(textState("home"));
+    }
   };
   // 닫기 클릭시(더보기에서 왔으면 더보기 true로)
   const closeModal = () => {

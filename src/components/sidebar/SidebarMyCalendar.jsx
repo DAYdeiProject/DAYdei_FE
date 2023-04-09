@@ -4,16 +4,16 @@ import styled from "styled-components";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { textState } from "../redux/modules/headerReducer";
-import { __getTodaySchedule, __getTodayUpdate } from "../redux/modules/calendarSlice";
-import { GetUserInfo } from "../utils/cookie/userInfo";
+import { textState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/usersReducer";
+import { __getTodaySchedule, __getTodayUpdate } from "../../redux/modules/calendarSlice";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
-import { DayCheck } from "../utils/calendar/CalendarBasic";
-import defaultProfile from "../assets/defaultImage/profile.jpg";
-import { ReactComponent as Smile } from "../assets/defaultIcons/smile.svg";
-import { ReactComponent as LightEmoji } from "../assets/calendarIcon/lightEmoji.svg";
-import { ReactComponent as NoneToday } from "../assets/calendarIcon/noneSchedule.svg";
-import { otherIdState } from "../redux/modules/usersReducer";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
+import { DayCheck } from "../../utils/calendar/CalendarBasic";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { ReactComponent as Smile } from "../../assets/defaultIcons/smile.svg";
+import { ReactComponent as LightEmoji } from "../../assets/calendarIcon/lightEmoji.svg";
+import { ReactComponent as NoneToday } from "../../assets/calendarIcon/noneSchedule.svg";
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();

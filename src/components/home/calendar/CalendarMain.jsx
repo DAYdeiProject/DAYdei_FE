@@ -48,7 +48,6 @@ function CalendarMain({ ...props }) {
 
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const param = useParams();
   const userInfo = GetUserInfo();
   const location = useLocation();
 
@@ -134,13 +133,12 @@ function CalendarMain({ ...props }) {
 
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
-    console.log("ddddd", e.event);
     props.setDetailPostId(e.event._def.publicId);
   };
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    if (String(userInfo.userId) === otherId && token) {
+    if (!otherId && token) {
       setPickDate(date.date);
     }
   };
@@ -421,6 +419,14 @@ export const CalendarWrapper = styled.div`
     flex-direction: row;
     font-size: ${(props) => props.theme.Fs.size14};
   }
+  .fc-daygrid-day-number {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   // 오늘날짜
   .fc,
   .fc-daygrid-day.fc-day-today {
@@ -429,10 +435,12 @@ export const CalendarWrapper = styled.div`
   .fc-day-today {
     .fc-daygrid-day-top {
       a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: #ffffff;
         font-weight: 600;
         text-decoration-color: ${(props) => props.theme.Bg.mainColor4};
-        text-decoration-thickness: 2px;
         background-color: ${(props) => props.theme.Bg.mainColor5};
         border-radius: 50%;
       }

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Sidebar from "../layout/Sidebar";
-import CalendarMain from "./home/calendar/CalendarMain";
+import CalendarMain from "../components/home/calendar/CalendarMain";
 
 export default function OtherUserPage() {
   // event 클릭시 postId

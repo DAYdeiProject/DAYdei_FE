@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Sidebar from "../layout/Sidebar";
 import { useSelector } from "react-redux";
-import CalendarMain from "./home/calendar/CalendarMain";
+import CalendarMain from "../components/home/calendar/CalendarMain";
 import FriendsListMain from "../components/friendslist/FriendsListMain";
 
 export default function MyListPage() {

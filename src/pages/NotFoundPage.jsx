@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { otherIdState } from "../../redux/modules/usersReducer";
-import { __getTotalPosts } from "../../redux/modules/calendarSlice";
-import { ReactComponent as NotFoundImg } from "../../assets/defaultIcons/notFound.svg";
+import { otherIdState } from "../redux/modules/usersReducer";
+import { __getTotalPosts } from "../redux/modules/calendarSlice";
+import { ReactComponent as NotFoundImg } from "../assets/defaultIcons/notFound.svg";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -56,18 +56,12 @@ const BtnContainer = styled.div`
   gap : 20px;
   margin-bottom: 50px;
   button {
-    width: 150px;
-    height: 45px;
+    width: 300px;
+    height: 50px;
     font-size: 16px;
+    color: #ffffff;
+    background-color: ${(props) => props.theme.Bg.color2};
     ${(props) => props.theme.BoxCustom}
     ${(props) => props.theme.BtnHoverYellow}
-  }
-  button:nth-child(2) {
-    background-color: ${(props) => props.theme.Bg.mainColor5};
-    color: #ffffff;
-    &:hover {
-      background-color: #fbdf96;
-      color: #121212;
-    }
   }
 `;
