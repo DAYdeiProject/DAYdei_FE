@@ -198,7 +198,7 @@ function Header() {
         setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
       />
 
-      {state && state.state && <Alert isComment={state.comment} />}
+      {state && state.state && <Alert isComment={state.comment} isMax={state.max} />}
     </>
   );
 }

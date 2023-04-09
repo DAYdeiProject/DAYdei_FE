@@ -23,7 +23,6 @@ import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
 import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
-import Alert from "../../../components/Alert";
 import { alertState } from "../../../redux/modules/alertReducer";
 
 function AddPostModal({ ...props }) {
@@ -146,9 +145,6 @@ function AddPostModal({ ...props }) {
     } else if (findTarget) {
       const newStart = format(startDate, "yyyy-MM-dd");
       const newEnd = format(endDate, "yyyy-MM-dd");
-      if (newStart > newEnd) {
-        return alert("종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.");
-      }
       let newStartTime = "";
       let newEndTime = "";
 
@@ -156,10 +152,6 @@ function AddPostModal({ ...props }) {
         newStartTime = "00:00:00";
         newEndTime = "00:00:00";
       } else {
-        if (watch("startTime") > watch("endTime")) {
-          resetField("participant");
-          return alert("종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.");
-        }
         newStartTime = watch("startTime");
         newEndTime = watch("endTime");
       }
@@ -180,11 +172,6 @@ function AddPostModal({ ...props }) {
 
   // 해당 친구 클릭
   const targetClick = (data) => {
-    if (data.isCheck) {
-      alert(`${data.nickName}님이 해당 날짜에 일정이 있습니다.`);
-    } else {
-      alert(`${data.nickName}님을 해당 날짜에 초대 가능합니다.`);
-    }
     if (!targetPick.some((list) => list.id === data.id)) {
       setTargetPick([...targetPick, data]);
       setTargetPickId([...targetPickId, parseInt(data.id)]);
@@ -260,7 +247,7 @@ function AddPostModal({ ...props }) {
   // 삭제
   const deleteClickHandler = () => {
     dispatch(__deletePost({ id: props.modifyPostId, token })).then(() => {
-      alert("일정이 삭제되었습니다.");
+      dispatch(alertState({ state: true, comment: "일정이 삭제되었습니다." }));
       props.setSide(!props.side);
       props.setIsSubmit(!props.isSubmit);
       closeClickHandler();
@@ -322,22 +309,22 @@ function AddPostModal({ ...props }) {
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
     if (data.title === "") {
-      return alert("제목을 입력해주세요.");
+      return dispatch(alertState({ state: true, comment: "제목을 입력해주세요." }));
     }
     const newStart = format(startDate, "yyyy-MM-dd");
     const newEnd = format(endDate, "yyyy-MM-dd");
     if (newStart > newEnd) {
-      return alert("종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.");
+      return dispatch(alertState({ state: true, comment: "종료날짜가 시작날짜보다 빠릅니다. 다시 선택해주세요.", max: true }));
     }
     let newStartTime = "";
     let newEndTime = "";
 
-    if (isAllDay) {
+    if (isAllDay || data.startTime === data.endTime) {
       newStartTime = "00:00:00";
       newEndTime = "00:00:00";
     } else {
       if (data.startTime > data.endTime) {
-        return alert("종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.");
+        return dispatch(alertState({ state: true, comment: "종료시간이 시작시간보다 빠릅니다. 다시 선택해주세요.", max: true }));
       }
       newStartTime = data.startTime;
       newEndTime = data.endTime;
@@ -345,7 +332,7 @@ function AddPostModal({ ...props }) {
 
     const imgList = new FormData();
     if (fileList.length > 3) {
-      return alert("파일첨부는 최대 3개까지 첨부가능합니다.");
+      return dispatch(alertState({ state: true, comment: "파일첨부는 최대 3개까지 첨부가능합니다." }));
     } else {
       fileList.map((img) => {
         imgList.append("images", img);
@@ -441,7 +428,6 @@ function AddPostModal({ ...props }) {
         });
       } else {
         dispatch(__createNewPost(newPost)).then((data) => {
-          console.log("이미지 없고 작성", data);
           if (data.error) {
             dispatch(alertState({ state: true, comment: "작성 실패하였습니다." }));
             closeClickHandler();
@@ -544,7 +530,6 @@ function AddPostModal({ ...props }) {
               <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
                 <postStyle.SerchModalBox>
                   {targetList?.map((list) => {
-                    console.log("타겟리스트======>", list);
                     return (
                       <postStyle.TartgetBox
                         key={list.id}
