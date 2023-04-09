@@ -131,26 +131,25 @@ export const NoListMessageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px;
-  margin-top: 16px;
-  width: 460px;
-  height: 308px;
+  margin-top: 1rem;
+  width: 28.75rem;
+  height: 19.25rem;
 
   background: ${(props) => props.theme.Bg.color6};
-  border-radius: 8px;
-  border: 1px solid #121212;
-  box-shadow: 2px 2px 0px #000000;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #121212;
+  box-shadow: 0.125rem 0.125rem 0rem #000000;
 `;
 
 export const MessageBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px;
-  gap: 24px;
+  padding: 0rem;
+  gap: 1.5rem;
 
   /* width: 240px; */
-  height: 195px;
+  height: 12.1875rem;
   /* background-color: yellow; */
 `;
 
@@ -159,53 +158,53 @@ export const ContentArea = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  gap: 24px;
+  padding: 0.625rem;
+  gap: 1.5rem;
 
-  height: 131px;
-  border-radius: 4px;
+  height: 8.1875rem;
+  border-radius: 0.25rem;
   /* background-color: lightgray; */
 `;
 
 export const IconStyle = styled(MdOutlineAddReaction)`
   color: gray;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
 `;
 
 export const TextWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  height: 47px;
+  height: 2.9375rem;
   /* background-color: gray; */
 `;
 
 export const UpperText = styled.div`
-  padding: 0px;
-  gap: 10px;
+  padding: 0rem;
+  gap: 0.625rem;
 
-  height: 19px;
+  height: 1.1875rem;
 
   font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 1rem;
+  line-height: 1.1875rem;
 
   text-align: center;
 `;
 
 export const BottomText = styled.div`
-  padding: 0px;
-  gap: 10px;
+  padding: 0rem;
+  gap: 0.625rem;
 
   /* width: 220px; */
-  height: 20px;
+  height: 1.25rem;
 
   font-weight: 400;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
   text-align: center;
 
@@ -216,11 +215,11 @@ export const ButtonWrap = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0px;
-  gap: 16px;
+  padding: 0rem;
+  gap: 1rem;
 
   width: 100%;
-  height: 40px;
+  height: 2.5rem;
   /* background-color: pink; */
 `;
 
@@ -229,20 +228,20 @@ const KakaoButton = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 14px;
-  gap: 16px;
+  padding: 0.625rem 0.875rem;
+  gap: 1rem;
 
   /* width: 144px; */
-  height: 40px;
+  height: 2.5rem;
 
   background: #fbfeff;
-  border: 1px solid black;
+  border: 0.0625rem solid black;
 
-  box-shadow: 1px 1px 0px #000000;
-  border-radius: 4px;
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
 
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
 
   :hover {
@@ -255,19 +254,19 @@ const InviteButton = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 14px;
-  gap: 16px;
+  padding: 0.625rem 0.875rem;
+  gap: 1rem;
 
   /* width: 80px; */
-  height: 40px;
+  height: 2.5rem;
 
   background: #fbfeff;
-  border: 1px solid black;
-  box-shadow: 1px 1px 0px #000000;
-  border-radius: 4px;
+  border: 0.0625rem solid black;
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
 
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
 
   :hover {
@@ -279,13 +278,13 @@ export const PostBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 15px 8px;
+  padding: 0.9375rem 0.5rem;
 
   width: 100%;
-  height: 70px;
+  height: 4.375rem;
 
   background: #ffffff;
-  border-radius: 4px;
+  border-radius: 0.25rem;
 
   flex: none;
   order: 0;
@@ -298,11 +297,11 @@ export const ProfileArea = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px;
+  padding: 0rem;
   /* gap: 16px; */
 
-  width: 404px;
-  height: 40px;
+  width: 25.25rem;
+  height: 2.5rem;
   /* background-color: yellow; */
 `;
 
@@ -310,11 +309,11 @@ export const ProfileWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px;
-  gap: 2px;
+  padding: 0rem;
+  gap: 0.125rem;
 
-  width: 370px;
-  height: 40px;
+  width: 23.125rem;
+  height: 2.5rem;
   /* background-color: pink; */
 `;
 
@@ -322,11 +321,11 @@ export const PhotoFrame = styled.img`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px;
-  gap: 13.33px;
+  padding: 0rem;
+  gap: 0.8331rem;
 
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
 `;
 
@@ -334,36 +333,36 @@ export const PostLeft = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  width: 132px;
-  height: 40px;
+  width: 8.25rem;
+  height: 2.5rem;
 `;
 
 export const TextArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
-  gap: 2px;
+  padding: 0rem;
+  gap: 0.125rem;
 
-  width: 84px;
-  height: 31px;
+  width: 5.25rem;
+  height: 1.9375rem;
 
   /* background-color: yellow; */
 `;
 
 export const NickNameWrap = styled.div`
   font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
 `;
 
 export const EmailWrap = styled.div`
   font-weight: 500;
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 0.625rem;
+  line-height: 0.75rem;
 
   color: #afb4bf;
 `;
@@ -372,15 +371,15 @@ export const IntroductionWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  width: 210px;
-  height: 20px;
+  width: 13.125rem;
+  height: 1.25rem;
   /* background-color: lightblue; */
 
   font-weight: 400;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
 
   color: #494d55;
@@ -392,21 +391,21 @@ export const ButtonArea = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 10px 10px;
+  padding: 0.625rem 0.625rem;
 
-  width: 80px;
-  height: 34px;
+  width: 5rem;
+  height: 2.125rem;
 
   background: #fbfeff;
 
-  border: 1px solid #121212;
+  border: 0.0625rem solid #121212;
 
-  box-shadow: 1px 1px 0px #000000;
-  border-radius: 4px;
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
 
   font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
 
   color: #121212;
   :hover {

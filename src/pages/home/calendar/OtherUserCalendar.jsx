@@ -103,22 +103,22 @@ export default function OtherUserCalendar({ ...props }) {
 const OtherWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  min-width: 350px;
-  max-width: 350px;
+  min-width: 21.875rem;
+  max-width: 21.875rem;
   height: 100%;
-  border-right: 1px solid #afb4bf;
+  border-right: 0.0625rem solid #afb4bf;
   //position: ${(props) => (props.isOpen ? "absolute" : "inherit")};
   //left: 28px;
   //z-index: 10;
-  padding: 30px;
+  padding: 1.875rem;
 `;
 
 const IconBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
-  margin-top: 15px;
-  margin-bottom: 5px;
-  padding-right: 30px;
+  margin-top: 0.9375rem;
+  margin-bottom: 0.3125rem;
+  padding-right: 1.875rem;
   cursor: pointer;
 `;
 
@@ -126,24 +126,24 @@ const OtherUpdateWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
   justify-content: flex-start;
-  min-height: 400px;
+  min-height: 25rem;
   //padding: 0 30px;
   //z-index: 10;
 `;
 
 const UpdateTitle = styled.span`
   width: 100%;
-  line-height: 40px;
+  line-height: 2.5rem;
   margin: 0;
-  margin-bottom: 12px;
-  padding: 0 10px;
-  border-bottom: 0.75px solid ${(props) => props.theme.Bg.color3};
+  margin-bottom: 0.75rem;
+  padding: 0 0.625rem;
+  border-bottom: 0.0469rem solid ${(props) => props.theme.Bg.color3};
   ${(props) => props.theme.SidebarTitleText};
 `;
 
 const UpdateContainer = styled.div`
   ${(props) => props.theme.FlexCol}
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;
 `;
 
 const ShareContainer = styled(UpdateContainer)`
@@ -153,8 +153,8 @@ const ShareContainer = styled(UpdateContainer)`
 const UpdateBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  padding: 5px;
-  border-radius: 10px;
+  padding: 0.3125rem;
+  border-radius: 0.625rem;
   &:hover {
     background-color: ${(props) => props.theme.Bg.hoverColor};
     cursor: pointer;
@@ -163,11 +163,11 @@ const UpdateBox = styled.div`
 
 const ImgBox = styled.div`
   img {
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
-    margin-left: 5px;
-    margin-right: 10px;
+    margin-left: 0.3125rem;
+    margin-right: 0.625rem;
   }
 `;
 
@@ -175,12 +175,12 @@ const WriterBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 5px;
+  gap: 0.3125rem;
 `;
 
 const WriterTimeBox = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 0.3125rem;
   span {
     font-size: ${(props) => props.theme.Fs.size14};
     color: ${(props) => props.theme.Fs.color2};
@@ -188,8 +188,8 @@ const WriterTimeBox = styled.div`
 `;
 
 const TimeBox = styled.div`
-  min-width: 60px;
-  margin-right: 5px;
+  min-width: 3.75rem;
+  margin-right: 0.3125rem;
   text-align: right;
   font-size: ${(props) => props.theme.Fs.size12};
 `;
@@ -197,8 +197,8 @@ const TimeBox = styled.div`
 const NoneScheduleBox = styled.div`
   ${(props) => props.theme.BoxCustom};
   ${(props) => props.theme.FlexCol}
-  height: 230px;
-  gap: 20px;
+  height: 14.375rem;
+  gap: 1.25rem;
   cursor: auto;
   div {
     font-size: ${(props) => props.theme.DescriptionText};

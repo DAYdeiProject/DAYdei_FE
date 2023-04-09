@@ -16,7 +16,7 @@ import { GiCancel } from "react-icons/gi";
 import { BsCardImage } from "react-icons/bs";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 
-function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingModalOpen, isEditProfile, setIsEditProfile }) {
+function ProfileSettingModal({ ...props }) {
   //프로필 파일
   const [profile, setProfile] = useState("");
   //업로드된 프로필 이미지 URL 상태 저장
@@ -49,7 +49,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 
   //모달 바깥쪽을 누르면 프로필 수정 모달이 닫힘
   const handleProfileSettingModalClose = () => {
-    setIsProfileSettingModalOpen(false);
+    props.setIsProfileSettingModalOpen(false);
   };
   const ProfileSettingModalRef = useRef(null);
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
@@ -77,7 +77,7 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
   //프로필 변경시 내 프로필 GET요청
   useEffect(() => {
     dispatch(__getMyProfile(id));
-  }, [profile, isEditProfile]);
+  }, [profile, props.isEditProfile]);
 
   //아이콘이 파일업로드 버튼을 대체함
   const handleProfileImageClick = () => {
@@ -168,8 +168,8 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
           dispatch(alertState({ state: true, comment: "프로필 수정 실패" }));
         } else {
           dispatch(alertState({ state: true, comment: "프로필 수정 완료!" }));
-          setIsProfileSettingModalOpen(false);
-          setIsEditProfile(!isEditProfile);
+          props.setIsProfileSettingModalOpen(false);
+          props.setIsEditProfile(!props.isEditProfile);
         }
       });
     } else {
@@ -317,8 +317,8 @@ function ProfileSettingModal({ setIsProfileSettingModalOpen, isProfileSettingMod
 export default ProfileSettingModal;
 
 const WholeAreaWrapper = styled.div`
-  width: 320px;
-  height: 548px;
+  width: 20rem;
+  height: 34.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -335,7 +335,7 @@ const ContentWrapper = styled.div`
 
 const AboveButtonArea = styled.div`
   width: 100%;
-  height: 463px;
+  height: 28.9375rem;
   display: flex;
   flex-direction: column;
   /* background-color: skyblue; */
@@ -343,28 +343,28 @@ const AboveButtonArea = styled.div`
 
 const TitleTextWrap = styled.div`
   width: 100%;
-  height: 28.77px;
+  height: 1.7981rem;
   font-size: ${(props) => props.theme.Fs.size20};
   /* background-color: pink; */
 `;
 
 const InfoArea = styled.div`
   width: 100%;
-  height: 434.2px;
+  height: 27.1375rem;
   display: flex;
   flex-direction: column;
   /* background-color: pink; */
-  gap: 25px;
+  gap: 1.5625rem;
 `;
 
 const SectionChooseBox = styled.div`
   width: 100%;
-  height: 46.75px;
+  height: 2.9219rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 0.9375rem;
   :hover {
     cursor: pointer;
   }
@@ -372,17 +372,17 @@ const SectionChooseBox = styled.div`
 `;
 
 const SectionBox = styled.div`
-  width: 143px;
-  height: 31.38px;
-  padding: 7.8px;
+  width: 8.9375rem;
+  height: 1.9612rem;
+  padding: 0.4875rem;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
   font-size: ${(props) => props.theme.Fs.size14};
-  line-height: 16px;
+  line-height: 1rem;
   color: ${(props) => props.color};
-  border-bottom: 1px solid ${(props) => props.borderBottom};
+  border-bottom: 0.0625rem solid ${(props) => props.borderBottom};
   /* background-color: pink; */
 `;
 
@@ -392,24 +392,24 @@ const MyProfileSection = styled.div`
   align-items: center;
   /* background-color: skyblue; */
   width: 100%;
-  height: 362.47px;
-  gap: 30px;
+  height: 22.6544rem;
+  gap: 1.875rem;
 `;
 
 const PhotoArea = styled.div`
-  width: 294px;
-  height: 77px;
+  width: 18.375rem;
+  height: 4.8125rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 28px;
+  gap: 1.75rem;
   /* background-color: skyblue; */
 `;
 
 const PhotoWrapSquare = styled.div`
   position: relative;
-  width: 77px;
-  height: 77px;
+  width: 4.8125rem;
+  height: 4.8125rem;
   /* background-color: red; */
 `;
 
@@ -422,8 +422,8 @@ const CancelIcon = styled(GiCancel)`
 `;
 
 const PhotoWrap = styled.div`
-  width: 77px;
-  height: 77px;
+  width: 4.8125rem;
+  height: 4.8125rem;
   background-color: lightgray;
   border-radius: 50%;
   display: flex;
@@ -436,181 +436,181 @@ const PhotoWrap = styled.div`
 `;
 
 const ProfilePhotoIcon = styled(BsCardImage)`
-  font-size: 20px;
+  font-size: 1.25rem;
   :hover {
     cursor: pointer;
   }
 `;
 
 const BackgroundImageArea = styled.div`
-  width: 189px;
-  height: 57.2px;
+  width: 11.8125rem;
+  height: 3.575rem;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   /* background-color: skyblue; */
-  gap: 12px;
+  gap: 0.75rem;
 `;
 
 const BackgroundBox = styled.div`
   width: 100%;
-  height: 32.67px;
+  height: 2.0419rem;
   display: flex;
   flex-direction: row;
-  gap: 13px;
+  gap: 0.8125rem;
   /* background-color: pink; */
 `;
 
 const AddBackgroundButton = styled.div`
-  width: 90px;
+  width: 5.625rem;
   height: 100%;
   background: #fbfeff;
-  border: 1px solid #121212;
-  border-radius: 4px;
+  border: 0.0625rem solid #121212;
+  border-radius: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
   font-size: ${(props) => props.theme.Fs.size12};
-  line-height: 14px;
+  line-height: 0.875rem;
   :hover {
     cursor: pointer;
   }
 `;
 
 const BackgroundRight = styled.div`
-  width: 86px;
+  width: 5.375rem;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   color: ${(props) => props.theme.Bg.fontColor2};
   background-color: #f2f4f6;
-  border-radius: 4px;
-  padding: 7px;
+  border-radius: 0.25rem;
+  padding: 0.4375rem;
 `;
 
 const FileNameWrap = styled.div`
   background-color: #f2f4f6;
   font-size: ${(props) => props.theme.Fs.size12};
   font-weight: 400;
-  line-height: 14px;
+  line-height: 0.875rem;
 `;
 
 const LimitTextWrap = styled.div`
   width: 100%;
-  height: 13px;
+  height: 0.8125rem;
   font-weight: 400;
-  font-size: 10.5px;
+  font-size: 0.6563rem;
   color: #494d55;
 `;
 
 const TextArea = styled.div`
   width: 100%;
-  height: 256px;
+  height: 16rem;
   /* background-color: yellow; */
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 `;
 
 export const TextWrap = styled.div`
-  height: 73px;
+  height: 4.5625rem;
   display: flex;
   flex-direction: column;
   /* background-color: pink; */
-  gap: 7.5px;
+  gap: 0.4688rem;
 `;
 
 export const SmallTextBox = styled.div`
   color: #494d55;
   font-weight: 500;
   font-size: ${(props) => props.theme.Fs.size16};
-  line-height: 18px;
+  line-height: 1.125rem;
 `;
 
 export const TextMain = styled.div`
   width: 100%;
-  height: 44px;
+  height: 2.75rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   background: #ffffff;
-  border: 1px solid ${(props) => props.theme.Bg.color3};
-  border-radius: 8px;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.color3};
+  border-radius: 0.5rem;
   input[type="text"],
   input[type="password"] {
-    width: 282.5px;
+    width: 17.6563rem;
   }
   /* background-color: skyblue; */
 `;
 
 const TextMainNickname = styled(TextMain)`
-  border: 1px solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
+  border: 0.0625rem solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
 `;
 
 export const TextMainPw = styled(TextMain)`
-  border: 1px solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
+  border: 0.0625rem solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
 `;
 
 export const TextMainPwCheck = styled(TextMain)`
-  border: 1px solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
+  border: 0.0625rem solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
 `;
 
 const CategoryWrap = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 0.3125rem;
 `;
 
 export const CheckMessage = styled.div`
-  font-size: 7px;
+  font-size: 0.4375rem;
   /* text-align: center; */
   /* background-color: yellow; */
 `;
 
 const IconStyle = styled(BsCardImage)`
-  margin-right: 5px;
-  margin-left: 5px;
+  margin-right: 0.3125rem;
+  margin-left: 0.3125rem;
 `;
 
 const BackgroundCancel = styled(GiCancel)`
-  margin-left: 5px;
+  margin-left: 0.3125rem;
 `;
 
 const GapArea = styled.div`
   width: 100%;
-  height: 44px;
+  height: 2.75rem;
   /* background-color: pink; */
 `;
 
 const ButtonArea = styled.div`
-  height: 40px;
+  height: 2.5rem;
   width: 100%;
   display: flex;
   flex-direction: row;
   /* background-color: lightgray; */
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
 `;
 
 const ButtonWrap = styled.button`
   height: 100%;
-  width: 132px;
+  width: 8.25rem;
   background-color: ${(props) => props.theme.Bg.deepColor};
-  border-radius: 4px;
+  border-radius: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #afb4bf;
   color: ${(props) => props.theme.Bg.lightColor};
-  border: 1.3px solid #121212;
-  box-shadow: 2px 2px 0px #000000;
-  border-radius: 4px;
+  border: 0.0813rem solid #121212;
+  box-shadow: 0.125rem 0.125rem 0rem #000000;
+  border-radius: 0.25rem;
   font-weight: 600;
   font-size: ${(props) => props.theme.Fs.size16};
-  line-height: 18px;
+  line-height: 1.125rem;
   :hover {
     cursor: pointer;
   }

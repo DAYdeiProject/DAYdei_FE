@@ -102,41 +102,41 @@ export default function DayScheduleModal({ ...props }) {
 }
 
 const TodayScheduleWrapper = styled.div`
-  padding: 0 30px;
-  padding-bottom: 30px;
+  padding: 0 1.875rem;
+  padding-bottom: 1.875rem;
 `;
 const ScheduleListWrapper = styled.div`
-  max-height: 450px;
-  padding-right: 8px;
+  max-height: 28.125rem;
+  padding-right: 0.5rem;
   overflow-y: auto;
 `;
 const DateTitleWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  gap: 10px;
-  height: 40px;
+  gap: 0.625rem;
+  height: 2.5rem;
   ${(props) => props.theme.SidebarTitleText};
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 const CountWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   ${(props) => props.theme.DescriptionText};
-  font-size: 14px;
-  margin: 10px 0;
-  margin-bottom: 15px;
+  font-size: 0.875rem;
+  margin: 0.625rem 0;
+  margin-bottom: 0.9375rem;
 `;
 const ListContainer = styled.div`
   ${(props) => props.theme.FlexCol}
-  gap: 8px;
+  gap: .5rem;
 `;
 const ListBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
-  gap: 8px;
-  height: 80px;
-  padding: 15px;
-  border-radius: 8px;
+  gap: 0.5rem;
+  height: 5rem;
+  padding: 0.9375rem;
+  border-radius: 0.5rem;
   background-color: ${(props) => props.isBack};
   &:hover {
     background-color: ${(props) => props.theme.Bg.color4};
@@ -147,19 +147,19 @@ const ListBox = styled.div`
 const ListTitleArea = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
-  padding: 0 10px;
+  padding: 0 0.625rem;
   ${(props) => props.theme.SidebarTitleText};
-  font-size: 18px;
+  font-size: 1.125rem;
   border-left: ${(props) => props.isColor && `4px solid ${props.isColor}`};
 `;
 
 const ListTimeArea = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
-  gap: 5px;
-  padding-left: 15px;
+  gap: 0.3125rem;
+  padding-left: 0.9375rem;
   ${(props) => props.theme.DescriptionText};
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 const TimeBox = styled.div`
@@ -167,6 +167,6 @@ const TimeBox = styled.div`
 `;
 const LocationBox = styled.div`
   width: 100%;
-  padding-left: 10px;
-  border-left: 1px solid ${(props) => props.theme.Bg.color2};
+  padding-left: 0.625rem;
+  border-left: 0.0625rem solid ${(props) => props.theme.Bg.color2};
 `;

@@ -13,8 +13,8 @@ function Modal({ height, children, padding, width }) {
 }
 
 Modal.defaultProps = {
-  width: "400px",
-  height: "414px",
+  width: "25rem",
+  height: "25.875rem",
 };
 
 const ModalBox = styled.div`
@@ -26,7 +26,7 @@ const ModalBox = styled.div`
   align-items: center;
 
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 1rem;
   /* background-color: pink; */
 `;
 

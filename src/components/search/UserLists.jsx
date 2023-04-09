@@ -175,17 +175,17 @@ const PostBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 34px 32px 22px;
-  gap: 10px;
+  padding: 2.125rem 2rem 1.375rem;
+  gap: 0.625rem;
   isolation: isolate;
 
-  width: 230px;
-  height: 296px;
+  width: 14.375rem;
+  height: 18.5rem;
 
   background: #ffffff;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   /* background-color: pink; */
-  border: 1px solid black;
+  border: 0.0625rem solid black;
   :hover {
     cursor: pointer;
   }
@@ -196,11 +196,11 @@ const ContentWrap = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px;
-  gap: 14px;
+  padding: 0rem;
+  gap: 0.875rem;
 
-  width: 220px;
-  height: 240px;
+  width: 13.75rem;
+  height: 15rem;
   /* background-color: blue; */
 `;
 
@@ -208,11 +208,11 @@ const ProfileArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  width: 126px;
-  height: 124px;
+  width: 7.875rem;
+  height: 7.75rem;
   /* background-color: orange; */
   /* margin-bottom: 10px; */
 `;
@@ -221,13 +221,13 @@ const ProfilePhoto = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px;
-  gap: 20px;
+  padding: 0rem;
+  gap: 1.25rem;
 `;
 
 const PhotoFrame = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 3.75rem;
+  height: 3.75rem;
   border-radius: 50%;
 `;
 
@@ -235,11 +235,11 @@ const ProfileTextFrame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px;
-  gap: 12px;
+  padding: 0rem;
+  gap: 0.75rem;
 
-  width: 126px;
-  height: 56px;
+  width: 7.875rem;
+  height: 3.5rem;
   /* background-color: orange; */
 `;
 
@@ -248,10 +248,10 @@ const NameArea = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px;
-  gap: 2px;
+  padding: 0rem;
+  gap: 0.125rem;
 
-  height: 35px;
+  height: 2.1875rem;
   /* background-color: yellow; */
 `;
 
@@ -260,14 +260,14 @@ const NicknameWrap = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  height: 19px;
+  height: 1.1875rem;
 
   font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 1rem;
+  line-height: 1.1875rem;
   /* background-color: lightgray; */
 `;
 
@@ -276,15 +276,15 @@ const EmailWrap = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  width: 58px;
-  height: 14px;
+  width: 3.625rem;
+  height: 0.875rem;
 
   font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
   color: #a5a5a5;
 `;
 
@@ -293,41 +293,41 @@ const InfoArea = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 0px;
-  gap: 30px;
+  padding: 0rem;
+  gap: 1.875rem;
 
-  width: 180px;
-  height: 13px;
+  width: 11.25rem;
+  height: 0.8125rem;
   /* background-color: pink; */
 `;
 
 const FriendsWrap = styled.div`
   /* width: 32px; */
-  height: 12px;
+  height: 0.75rem;
 
   font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 0.625rem;
+  line-height: 0.75rem;
   color: black;
 `;
 
 const SubscribingWrap = styled.div`
-  height: 12px;
+  height: 0.75rem;
 
   font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 0.625rem;
+  line-height: 0.75rem;
 
   color: black;
 `;
 
 const SubscribeWrap = styled.div`
   /* width: 47px; */
-  height: 12px;
+  height: 0.75rem;
 
   font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 0.625rem;
+  line-height: 0.75rem;
 
   color: black;
 `;
@@ -338,29 +338,29 @@ const IntroductionWrap = styled.div`
   align-items: center;
   text-align: center;
   /* padding: 10px 32px; */
-  gap: 10px;
+  gap: 0.625rem;
 
-  width: 185px;
-  height: 48px;
+  width: 11.5625rem;
+  height: 3rem;
 
   font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
 
   color: #626262;
 
-  border-top: 1px solid #626262;
+  border-top: 0.0625rem solid #626262;
 `;
 
 const ButtonArea = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  width: 188px;
-  height: 40px;
+  width: 11.75rem;
+  height: 2.5rem;
   /* background-color: pink; */
 `;
 
@@ -369,17 +369,17 @@ const Button = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 14px;
-  gap: 8px;
+  padding: 0.625rem 0.875rem;
+  gap: 0.5rem;
 
-  width: 90px;
-  height: 40px;
+  width: 5.625rem;
+  height: 2.5rem;
   color: #ffffff;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 0.75rem;
 
   background: ${(props) => props.theme.Bg.mainColor5};
-  border-radius: 4px;
+  border-radius: 0.25rem;
   :hover {
     cursor: pointer;
   }
@@ -389,7 +389,7 @@ const ButtonSub = styled(Button)`
   background-color: ${(props) => props.theme.Bg.mainColor2};
   color: black;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 0.75rem;
 `;
 
 const ButtonCancel = styled(Button)`

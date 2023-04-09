@@ -153,14 +153,14 @@ const PreviewWrapper = styled.div`
 // 메인 텍스트
 const TextContainer = styled.div`
   position: absolute;
-  top: 100px;
-  right: 610px;
+  top: 6.25rem;
+  right: 38.125rem;
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
   width: auto;
-  gap: 15px;
+  gap: 0.9375rem;
   span {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 `;
 const TextBold = styled.span`
