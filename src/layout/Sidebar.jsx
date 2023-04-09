@@ -75,8 +75,7 @@ function Sidebar({ ...props }) {
 export default Sidebar;
 
 const SideStyle = styled.div`
-  min-width: 350px;
-  max-width: 350px;
+  width: 21.875rem;
   height: 100%;
   border-right: 0.5px solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
