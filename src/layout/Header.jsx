@@ -248,7 +248,7 @@ const NavContainer = styled.section`
 const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  //min-width: 1250px;
+  min-width: 1250px;
   width: 100%;
   gap: 40px;
   span {
