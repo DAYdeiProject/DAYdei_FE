@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Sidebar from "../../layout/Sidebar";
-import FriendsListMain from "./FriendsListMain";
+import Sidebar from "../layout/Sidebar";
+import FriendsListMain from "../components/friendslist/FriendsListMain";
 
 export default function MyListPage() {
   return (

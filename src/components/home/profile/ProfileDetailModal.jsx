@@ -6,7 +6,7 @@ import { __getHeaderProfile } from "../../../redux/modules/usersSlice";
 
 import ModalBox from "../../../elements/ModalBox";
 import useOutSideClick from "../../../hooks/useOutsideClick";
-import Loading from "../../../components/Loading";
+import Loading from "../../Loading";
 
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";

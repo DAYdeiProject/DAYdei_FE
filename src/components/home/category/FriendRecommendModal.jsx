@@ -9,7 +9,7 @@ import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
 
 import Modal from "../../../elements/Modal";
 import ModalWrap from "../../../elements/ModalWrap";
-import Loading from "../../../components/Loading";
+import Loading from "../../Loading";
 
 import { TextWrapper, ButtonArea } from "./CategoryModal";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";

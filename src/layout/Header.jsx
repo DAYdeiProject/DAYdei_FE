@@ -9,8 +9,8 @@ import { __getHeaderProfile } from "../redux/modules/usersSlice";
 
 import useOutSideClick from "../hooks/useOutsideClick";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
-import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
-import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
+import ProfileDetailModal from "../components/home/profile/ProfileDetailModal";
+import ProfileSettingModal from "../components/home/profile/ProfileSettingModal";
 
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
 import { ReactComponent as AlertIcon } from "../assets/defaultIcons/alert.svg";
@@ -80,13 +80,22 @@ function Header() {
   }, [headerProfile]);
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    Cookies.remove("accessJWTToken");
+    // localStorage.removeItem("userInfo");
+    // Cookies.remove("accessJWTToken");
 
-    if (!Cookies.get("accessJWTToken")) {
-      alert("로그아웃 되었습니다.");
-      navigate("/");
-      dispatch(textState("home"));
+    // if (!Cookies.get("accessJWTToken")) {
+    //   alert("로그아웃 되었습니다.");
+    //   navigate("/");
+    //   dispatch(textState("home"));
+    // }
+
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      localStorage.removeItem("userInfo");
+      Cookies.remove("accessJWTToken");
+      if (!Cookies.get("accessJWTToken")) {
+        navigate("/");
+        dispatch(textState("home"));
+      }
     }
   };
   // 알림 클릭

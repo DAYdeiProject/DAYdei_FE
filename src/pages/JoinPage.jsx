@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __addUser, __emailCheck } from "../../redux/modules/usersSlice";
-import useLogin from "../../hooks/useLogin";
-import PreviewArea from "../intro/PreviewArea";
-import { PageWrapper, ScreenLayout, LoginWrapper } from "../intro/IntroPage";
-import { ReactComponent as Bcak } from "../../assets/sign/back.svg";
-import { ReactComponent as PwCheck } from "../../assets/sign/pwCheck.svg";
-import { ReactComponent as Security } from "../../assets/sign/security.svg";
+import { __addUser, __emailCheck } from "../redux/modules/usersSlice";
+import { alertState } from "../redux/modules/alertReducer";
+import useLogin from "../hooks/useLogin";
+import PreviewArea from "../components/intro/PreviewArea";
+import { PageWrapper, ScreenLayout, LoginWrapper } from "./IntroPage";
+import { ReactComponent as Bcak } from "../assets/sign/back.svg";
+import { ReactComponent as PwCheck } from "../assets/sign/pwCheck.svg";
+import { ReactComponent as Security } from "../assets/sign/security.svg";
 
 function JoinPage() {
   const {
@@ -45,9 +46,9 @@ function JoinPage() {
       dispatch(__emailCheck(email)).then((data) => {
         console.log("then에서 나오는 200-->", data);
         if (data.payload.statusCode !== 200) {
-          alert(data.payload.data);
+          dispatch(alertState({ state: true, comment: "중복된 이메일입니다" }));
         } else {
-          alert("사용 가능한 이메일입니다.");
+          dispatch(alertState({ state: true, comment: "사용 가능한 이메일입니다" }));
         }
       });
     }
@@ -71,18 +72,18 @@ function JoinPage() {
       dispatch(__addUser(newUser)).then((data) => {
         // console.log("then 데이터-->", data.payload.statusCode);
         if (data.payload.statusCode === 200) {
-          alert("회원가입 완료!");
+          dispatch(alertState({ state: true, comment: "회원 가입 완료!" }));
           navigate("/");
         } else {
-          alert("오류 발생");
+          dispatch(alertState({ state: true, comment: "회원 가입 실패" }));
         }
       });
     }
     if (isCheck.data !== "사용 가능한 이메일입니다.") {
-      alert("이메일 중복확인이 필요합니다!");
+      dispatch(alertState({ state: true, comment: "이메일 중복확인이 필요합니다" }));
     }
     if (!isEmail || isPw !== true || password !== passwordCheck) {
-      alert("양식에 맞게 작성해 주세요!");
+      dispatch(alertState({ state: true, comment: "양식에 맞게 작성해 주세요!" }));
     }
   };
 

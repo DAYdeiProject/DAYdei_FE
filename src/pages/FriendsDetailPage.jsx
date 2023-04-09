@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Sidebar from "../../layout/Sidebar";
-import DetailMain from "./DetailMain";
+import Sidebar from "../layout/Sidebar";
+import DetailMain from "../components/friendsDetail/DetailMain";
 
 export default function FriendsDetailPage() {
   return (
