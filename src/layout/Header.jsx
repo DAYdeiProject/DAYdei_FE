@@ -9,8 +9,8 @@ import { __getHeaderProfile } from "../redux/modules/usersSlice";
 
 import useOutSideClick from "../hooks/useOutsideClick";
 import NotifiactionModalBox from "../components/NotifiactionModalBox";
-import ProfileDetailModal from "../pages/home/profile/ProfileDetailModal";
-import ProfileSettingModal from "../pages/home/profile/ProfileSettingModal";
+import ProfileDetailModal from "../components/home/profile/ProfileDetailModal";
+import ProfileSettingModal from "../components/home/profile/ProfileSettingModal";
 
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
 import { ReactComponent as AlertIcon } from "../assets/defaultIcons/alert.svg";
@@ -18,6 +18,7 @@ import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import Alert from "../components/Alert";
+import { otherIdState } from "../redux/modules/usersReducer";
 
 function Header() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Header() {
   const { text } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
-  //console.log("alert state=========", state);
+  //console.log("header otherId=========", otherId);
 
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
@@ -80,13 +81,14 @@ function Header() {
   }, [headerProfile]);
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    Cookies.remove("accessJWTToken");
-
-    if (!Cookies.get("accessJWTToken")) {
-      alert("로그아웃 되었습니다.");
-      navigate("/");
-      dispatch(textState("home"));
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      window.localStorage.clear();
+      Cookies.remove("accessJWTToken");
+      if (!Cookies.get("accessJWTToken")) {
+        navigate("/");
+        dispatch(textState("home"));
+        dispatch(otherIdState(""));
+      }
     }
   };
   // 알림 클릭
@@ -98,17 +100,20 @@ function Header() {
   // 홈클릭
   const homeClickHandler = () => {
     dispatch(textState("home")); // 색깔 진하게
-    navigate(`/${userId.userId}`);
+    dispatch(otherIdState(""));
+    navigate(`/home`);
   };
   // 친구/구독
   const friendclickHandler = () => {
     dispatch(textState("friend"));
-    navigate(`/mylist/${userId.userId}`);
+    dispatch(otherIdState(""));
+    navigate(`/mylist`);
   };
   // 찾아보기
   const searchClickHandler = () => {
     dispatch(textState("search"));
-    navigate(`/search/${userId.userId}`);
+    dispatch(otherIdState(""));
+    navigate(`/search`);
   };
 
   // 프로필 디테일 이동
@@ -194,7 +199,7 @@ function Header() {
         setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
       />
 
-      {state && state.state && <Alert isComment={state.comment} />}
+      {state && state.state && <Alert isComment={state.comment} isMax={state.max} />}
     </>
   );
 }
@@ -205,9 +210,9 @@ const HeaderWrapper = styled.header`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   max-width: 100%;
-  height: 64px;
+  height: 4rem;
   margin: 0 auto;
-  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color2};
+  border-bottom: 0.0313rem solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
 `;
@@ -216,9 +221,9 @@ const LogoContainer = styled.section`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   width: 0;
-  min-width: 350px;
-  max-width: 350px;
-  padding-left: 35px;
+  min-width: 21.875rem;
+  max-width: 21.875rem;
+  padding-left: 2.1875rem;
   span {
     text-align: left;
     font-size: ${(props) => props.theme.Fs.sizeLogo};
@@ -229,7 +234,7 @@ const LogoContainer = styled.section`
 const NavContainer = styled.section`
   ${(props) => props.theme.FlexRow}
   height: 100%;
-  padding: 34px 48px;
+  padding: 2.125rem 3rem;
   span {
     ${(props) => props.theme.HeaderText};
     color: ${(props) => props.theme.Bg.fontColor3};
@@ -239,9 +244,9 @@ const NavContainer = styled.section`
 const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  //min-width: 1250px;
+  min-width: 1250px;
   width: 100%;
-  gap: 40px;
+  gap: 2.5rem;
   span {
     :hover {
       cursor: pointer;
@@ -262,7 +267,7 @@ const IconWrapper = styled.div`
   position: relative;
   ${(props) => props.theme.FlexRow}
   justify-content: right;
-  width: 150px;
+  width: 9.375rem;
   height: 100%;
   display: flex;
 
@@ -280,29 +285,29 @@ const ImageContainer = styled.div`
 const ImgBox = styled.div`
   ${(props) => props.theme.FlexCol};
   ${(props) => props.theme.BoxCustom};
-  margin-left: 24px;
-  height: 32px;
-  width: 32px;
+  margin-left: 1.5rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: 50%;
   img {
-    height: 32px;
-    width: 32px;
+    height: 2rem;
+    width: 2rem;
     border-radius: 50%;
   }
 `;
 
 const DropdownFrame = styled.div`
-  width: 240px;
-  height: 180px;
+  width: 15rem;
+  height: 11.25rem;
   background: #ffffff;
-  border: 1px solid #121212;
-  box-shadow: 0px 0px 20px rgba(78, 78, 78, 0.15), 1px 1px 0px #000000;
-  padding: 16px 14px;
-  border-radius: 8px;
+  border: 0.0625rem solid #121212;
+  box-shadow: 0rem 0rem 1.25rem rgba(78, 78, 78, 0.15), 0.0625rem 0.0625rem 0rem #000000;
+  padding: 1rem 0.875rem;
+  border-radius: 0.5rem;
 
   position: absolute;
-  top: 40px;
-  right: 0px;
+  top: 2.5rem;
+  right: 0rem;
   z-index: 100;
   /* background-color: pink; */
 `;
@@ -318,32 +323,32 @@ const ContentWrapper = styled.div`
 
 const ProfileWrap = styled.div`
   width: 100%;
-  height: 56px;
+  height: 3.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
+  gap: 0.875rem;
   /* background-color: yellow; */
 `;
 
 const GapArea = styled.div`
   width: 100%;
-  height: 6px;
+  height: 0.375rem;
   /* background-color: pink; */
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 `;
 
 const PhotoWrap = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const ProfilePhoto = styled.div`
-  height: 40px;
-  width: 40px;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 50%;
   /* background-color: lightgray; */
 
@@ -353,12 +358,12 @@ const ProfilePhoto = styled.div`
 `;
 
 const IntroductionWrap = styled.div`
-  height: 35px;
-  width: 142px;
+  height: 2.1875rem;
+  width: 8.875rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
+  gap: 0.125rem;
 `;
 
 const NameWrap = styled.div`
@@ -372,23 +377,23 @@ const EmailWrap = styled.div`
 
 const Options = styled.div`
   width: 100%;
-  height: 115px;
+  height: 7.1875rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  gap: 0.25rem;
   /* background-color: lightgray; */
   margin-bottom: -10px;
 `;
 
 const Button = styled.div`
-  height: 33px;
+  height: 2.0625rem;
   width: 100%;
   display: flex;
   align-items: center;
   font-size: ${(props) => props.theme.Fs.size14};
   font-weight: 800;
-  padding-left: 8px;
+  padding-left: 0.5rem;
   /* background-color: pink; */
   :hover {
     cursor: pointer;
@@ -397,14 +402,14 @@ const Button = styled.div`
 
 const MessageBox = styled.div`
   position: absolute;
-  bottom: 0px;
+  bottom: 0rem;
   z-index: 500;
   right: 0;
-  width: 300px;
-  height: 150px;
+  width: 18.75rem;
+  height: 9.375rem;
   background-color: #ffffff;
-  border: 1px solid black;
-  padding: 20px;
+  border: 0.0625rem solid black;
+  padding: 1.25rem;
   transform: ${(props) => !props.isMessage && "transLateY(100%)"};
   transition: transform 0.5s;
 `;

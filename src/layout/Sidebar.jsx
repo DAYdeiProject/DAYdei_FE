@@ -4,9 +4,10 @@ import styled from "styled-components";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import Cookies from "js-cookie";
 
-import SidebarMyCalendar from "../components/SidebarMyCalendar";
-import SidebarOtherCalendar from "../components/SidebarOtherCalendar";
+import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
+import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import { useSelector } from "react-redux";
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
@@ -57,15 +58,17 @@ function Sidebar({ ...props }) {
   //   };
   // }, [isMessageState]);
 
+  const { otherId } = useSelector((state) => state.usersInfo);
+
   return (
     <>
-      {param.id === String(userInfo.userId) ? (
+      {!otherId ? (
         <SideStyle>
-          <SidebarMyCalendar side={props.side} detailPostId={props.detailPostId} setDetailPostId={props.setDetailPostId} />
+          <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
         </SideStyle>
       ) : (
         <SideStyle>
-          <SidebarOtherCalendar userId={param.id} />
+          <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
     </>
@@ -75,10 +78,10 @@ function Sidebar({ ...props }) {
 export default Sidebar;
 
 const SideStyle = styled.div`
-  min-width: 350px;
-  max-width: 350px;
+  min-width: 21.875rem;
+  max-width: 21.875rem;
   height: 100%;
-  border-right: 0.5px solid ${(props) => props.theme.Bg.color1};
+  border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
   position: relative;
 `;

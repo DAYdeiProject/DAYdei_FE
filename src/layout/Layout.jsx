@@ -15,32 +15,32 @@ function Layout() {
   const token = Cookies.get("accessJWTToken");
   const navigate = useNavigate();
 
-  const errorPage = async () => {
-    try {
-      const res = await axios.get(`${process.env.REACT_APP_DAYDEI_URL}/api/home/profile/${param.id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
+  // const errorPage = async () => {
+  //   try {
+  //     const res = await axios.get(`${process.env.REACT_APP_DAYDEI_URL}/api/home/profile/${param.id}`, {
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     });
 
-      if (res.data.statusCode === 400) {
-        navigate(`/notfound`);
-      }
-    } catch (error) {
-      if (error.response.data.statusCode === 404) {
-        navigate(`/notfound`);
-      }
-    }
-  };
-  const location = useLocation();
-  const isLoginPage = location.pathname === "/";
-  const isJoinPage = location.pathname === "/join";
+  //     if (res.data.statusCode === 400) {
+  //       navigate(`/notfound`);
+  //     }
+  //   } catch (error) {
+  //     if (error.response.data.statusCode === 404) {
+  //       navigate(`/notfound`);
+  //     }
+  //   }
+  // };
+  // const location = useLocation();
+  // const isLoginPage = location.pathname === "/";
+  // const isJoinPage = location.pathname === "/join";
 
-  useEffect(() => {
-    if (!isLoginPage && !isJoinPage && param.id) {
-      errorPage();
-    }
-  }, [param, isLoginPage, isJoinPage]);
+  // useEffect(() => {
+  //   if (!isLoginPage && !isJoinPage && param.id) {
+  //     errorPage();
+  //   }
+  // }, [param, isLoginPage, isJoinPage]);
 
   return (
     <>
@@ -58,6 +58,9 @@ export default Layout;
 
 const CalendarWrapper = styled.section`
   ${(props) => props.theme.FlexCol}
-  width: 100vw;
+  min-width: 120rem;
+  max-width: 120rem;
+  /* width: 100vw; */
+  /* width: 1530px; */
   margin: 0 auto;
 `;

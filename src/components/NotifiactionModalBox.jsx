@@ -8,6 +8,7 @@ import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { setNotificationPostId, textState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
+import { otherIdState } from "../redux/modules/usersReducer";
 
 export default function NotifiactionModalBox({ ...props }) {
   const [deleteState, setDeleteState] = useState(false);
@@ -24,9 +25,10 @@ export default function NotifiactionModalBox({ ...props }) {
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
-      console.log("userid-----", userId);
-      navigate(`/${userId}`);
+      //console.log("userid-----", userId);
+      navigate(`/other`);
       dispatch(textState(""));
+      dispatch(otherIdState(userId));
       props.setIsNotificationOpen(false);
     } else if (userId === null) {
       const notiInfo = {
@@ -35,7 +37,8 @@ export default function NotifiactionModalBox({ ...props }) {
         notiState,
         isRead,
       };
-      navigate(`/${userInfo.userId}`);
+      //navigate(`/home`);
+
       dispatch(textState(""));
       dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);
@@ -101,16 +104,16 @@ export default function NotifiactionModalBox({ ...props }) {
 
 const NotificationWrapper = styled.div`
   position: absolute;
-  top: 40px;
-  right: 45px;
+  top: 2.5rem;
+  right: 2.8125rem;
   z-index: 50;
-  width: 334px;
-  min-height: 210px;
-  max-height: 419px;
-  padding: 16px 14px 40px 14px;
-  border: solid 1.4px #121212;
-  box-shadow: 1px 1px 0 0 #000;
-  border-radius: 8px;
+  width: 20.875rem;
+  min-height: 13.125rem;
+  max-height: 26.1875rem;
+  padding: 1rem 0.875rem 2.5rem 0.875rem;
+  border: solid 0.0875rem #121212;
+  box-shadow: 0.0625rem 0.0625rem 0 0 #000;
+  border-radius: 0.5rem;
   background-color: #ffffff;
   span {
     font-weight: normal;
@@ -119,26 +122,26 @@ const NotificationWrapper = styled.div`
 
 const NotiHeaderContainer = styled.div`
   ${(props) => props.theme.FlexRowBetween};
-  padding-top: 5px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  padding-top: 0.3125rem;
+  padding-bottom: 0.9375rem;
+  border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   span:nth-child(1) {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
-    padding-left: 5px;
+    padding-left: 0.3125rem;
     color: #121212;
   }
   span:nth-child(2) {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     color: ${(props) => props.theme.Bg.mainColor5};
   }
 `;
 
 const AllClearBox = styled.div`
-  padding-right: 5px;
+  padding-right: 0.3125rem;
   span {
-    font-size: 12px !important;
+    font-size: 0.75rem !important;
     color: #121212;
   }
 `;
@@ -146,39 +149,39 @@ const AllClearBox = styled.div`
 const NofiMessageContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  gap: 8px;
-  height: 328px;
-  margin-top: 12px;
-  padding-right: 5px;
+  gap: 0.5rem;
+  height: 20.5rem;
+  margin-top: 0.75rem;
+  padding-right: 0.3125rem;
   overflow-y: auto;
 `;
 
 const NofiMessageBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
-  gap: 3px;
-  height: 83px;
-  padding: 10px;
-  border-radius: 4px;
+  gap: 0.1875rem;
+  height: 5.1875rem;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
   background-color: ${(props) => (props.isRead ? props.theme.Bg.color4 : props.theme.Bg.mainColor3)};
   &:hover {
     background-color: ${(props) => props.theme.Bg.hoverColor};
   }
   span:nth-child(1) {
-    font-size: 10px;
+    font-size: 0.625rem;
     color: ${(props) => props.theme.Bg.mainColor5};
   }
   span:nth-child(2) {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
     color: #121212;
   }
   span:nth-child(3) {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #121212;
   }
   span:nth-child(4) {
-    font-size: 10px;
+    font-size: 0.625rem;
     color: ${(props) => props.theme.Bg.color2};
   }
 `;

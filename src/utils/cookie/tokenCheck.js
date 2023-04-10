@@ -13,9 +13,8 @@ function TokenCheck() {
 
   useEffect(() => {
     if (!isLoginPage && !isJoinPage && !getToken) {
-      localStorage.removeItem("userInfo");
+      window.localStorage.clear();
       alert("유저 정보가 유효하지 않습니다. 로그인 해주세요");
-      //navigate("/");
       window.location.replace(`/`);
     }
   }, [isLoginPage, isJoinPage, getToken]);

@@ -63,7 +63,7 @@ const PostModalContainer = styled(motion.div)`
   ${(props) => props.theme.BoxCustom};
   z-index: 900;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 `;
 
 const PostContent = styled.div`
