@@ -76,7 +76,9 @@ function Sidebar({ ...props }) {
                 <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
               </SideStyle>
               <SideStyleShort isSideStyleOpen={isSideStyleOpen}>
-                <Left onClick={openSideStyleHandler} />
+                <IconWrapper>
+                  <Left onClick={openSideStyleHandler} />
+                </IconWrapper>
               </SideStyleShort>
             </WholeWrapper>
           ) : (
@@ -85,13 +87,17 @@ function Sidebar({ ...props }) {
                 <SidebarOtherCalendar otherId={otherId} />
               </SideStyle>
               <SideStyleShort>
-                <Left onClick={openSideStyleHandler} />
+                <IconWrapper>
+                  <Left onClick={openSideStyleHandler} />
+                </IconWrapper>
               </SideStyleShort>
             </WholeWrapper>
           )
         ) : (
           <SideStyleShort>
-            <Right onClick={openSideStyleHandler} />
+            <IconWrapper>
+              <Right onClick={openSideStyleHandler} />
+            </IconWrapper>
           </SideStyleShort>
         )
       ) : !otherId ? (
@@ -135,10 +141,6 @@ const SideStyle = styled.div`
 
 const SideStyleShort = styled.div`
   display: flex;
-  /* flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto; */
   height: 100%;
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
@@ -149,16 +151,18 @@ const SideStyleShort = styled.div`
   position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")};
   z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
 
-  /* & > div {
-    width: 100%;
-  } */
-
   @media screen and (max-width: 1440px) {
     display: block;
   }
 
   @media screen and (min-width: 1441px) {
     display: none;
+  }
+`;
+
+const IconWrapper = styled.div`
+  svg:hover {
+    cursor: pointer;
   }
 `;
 
