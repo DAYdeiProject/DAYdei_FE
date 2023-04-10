@@ -16,7 +16,6 @@ import SseMessageBox from "../components/SseMessageBox";
 import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
 
-
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -60,7 +59,6 @@ function Sidebar({ ...props }) {
     return () => eventConnect.close();
   }, []);
 
-  const { otherId } = useSelector((state) => state.usersInfo);
   //스크린 크기 1440 미만임을 감지
   const isShortScreen = useMediaQuery({ maxWidth: 1440 });
   const [isSideStyleOpen, setIsSideStyleOpen] = useState(false);
@@ -70,7 +68,6 @@ function Sidebar({ ...props }) {
   };
 
   //console.log(isSideStyleOpen);
-
 
   return (
     <>
@@ -109,7 +106,7 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
-      {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />}
+      {/* {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />} */}
     </>
   );
 }
