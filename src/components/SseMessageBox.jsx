@@ -45,11 +45,11 @@ const MessageWrapper = styled.div`
   z-index: 500;
   ${(props) => props.theme.FlexCol};
   justify-content: space-between;
-  width: 250px;
-  height: 130px;
-  padding: 15px;
-  border: 1px solid ${(props) => props.theme.Bg.color3};
-  border-radius: 8px 8px 0 0;
+  width: 15.625rem;
+  height: 8.125rem;
+  padding: 0.9375rem;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.color3};
+  border-radius: 0.5rem 0.5rem 0 0;
   background-color: #ffffff;
 
   ${(props) =>
@@ -82,9 +82,9 @@ const MessageBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 0.5rem;
   span {
-    font-size: 18px;
+    font-size: 1rem;
   }
   span:nth-child(1) {
     font-weight: 600;
@@ -94,6 +94,6 @@ const LogoBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-end;
   .logoIcon {
-    width: 70px;
+    width: 4.375rem;
   }
 `;
