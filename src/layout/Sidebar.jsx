@@ -20,17 +20,17 @@ function Sidebar({ ...props }) {
   let eventConnect = "";
   useEffect(() => {
     console.log("sse--------");
-    eventConnect = new EventSourcePolyfill(`https://sparta-daln.shop/api/connect`, {
+    eventConnect = new EventSourcePolyfill(`https://sparta-daln.shop/api/subscribe`, {
       headers: {
         Authorization: token,
-        "Content-Type": "text/event-stream",
-        Connection: "keep-alive",
+        //"Content-Type": "text/event-stream",
+        //Connection: "keep-alive",
       },
-      heartbeatTimeout: 3600000,
-      withCredentials: true,
+      heartbeatTimeout: 60000,
+      //withCredentials: true,
     });
 
-    eventConnect.onMessage = (event) => {
+    eventConnect.onmessage = (event) => {
       console.log("connect event ==> ", event.data);
       //const result = JSON.parse(event.data);
       //console.log("result json ==> ", result);
