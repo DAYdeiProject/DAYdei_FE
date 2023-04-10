@@ -293,13 +293,25 @@ const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   min-width: 93.75rem;
   height: 100%;
+  /* background-color: pink; */
+
+  @media screen and (max-width: 90rem) {
+    width: 85rem;
+  }
 `;
 export const CalendarWrapper = styled.div`
   width: 100%;
   max-width: calc(100% - 2.875rem);
   height: 100%;
   padding: 2.5rem 3rem 3.25rem;
-  margin-right: ${(props) => (props.isMy ? "46px" : "0")};
+  margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
+  background: pink;
+
+  @media screen and (max-width: 90rem) {
+    max-width: calc(100%-2.1563rem);
+    margin-right: ${(props) => (props.isMy ? "2.1563rem" : "0")};
+    padding: 1.875rem 2.25rem 2.4375rem;
+  }
 
   .fc {
     width: 100%;
