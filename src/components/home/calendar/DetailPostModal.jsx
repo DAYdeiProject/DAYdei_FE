@@ -9,7 +9,7 @@ import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import { alertState } from "../../../redux/modules/alertReducer";
 import ColorFromDB, { DayAmPm, DayCheck } from "../../../utils/calendar/CalendarBasic";
-import { setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
+import { otherIdState, setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
 import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
@@ -125,7 +125,9 @@ export default function DetailPostModal({ ...props }) {
     setEndTime("");
     setIsColor("");
     dispatch(setNotificationPostId(""));
-    if (!otherId) {
+    if (otherId) {
+      dispatch(otherIdState(otherId));
+    } else {
       dispatch(textState("home"));
     }
   };

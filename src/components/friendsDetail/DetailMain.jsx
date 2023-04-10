@@ -47,7 +47,7 @@ function DetailMain() {
   const [searchSubscribeOpen, setSearchSubscribeOpen] = useState(false);
   const [searchSubscriberOpen, setSearchSubscriberOpen] = useState(false);
 
-  const { otherId } = useSelector((state) => state.usersInfo);
+  const { otherId } = useSelector((state) => state.header);
 
   // 친구의 친구 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {

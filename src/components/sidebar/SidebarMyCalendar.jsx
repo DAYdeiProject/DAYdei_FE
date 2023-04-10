@@ -141,7 +141,6 @@ export default function SidebarMyCalendar({ ...props }) {
                       <div
                         onClick={() => {
                           moveUserPage(list.id);
-                          dispatch(textState(""));
                         }}>
                         캘린더
                       </div>

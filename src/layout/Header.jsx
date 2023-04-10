@@ -39,7 +39,8 @@ function Header() {
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
 
-  console.log("header=====", notiState);
+  //console.log("header=====", notiState);
+  //console.log("header text=====", text);
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
     setClickNav(text);
@@ -100,20 +101,20 @@ function Header() {
 
   // 홈클릭
   const homeClickHandler = () => {
-    dispatch(textState("home")); // 색깔 진하게
     dispatch(otherIdState(""));
+    dispatch(textState("home")); // 색깔 진하게
     navigate(`/home`);
   };
   // 친구/구독
   const friendclickHandler = () => {
-    dispatch(textState("friend"));
     dispatch(otherIdState(""));
+    dispatch(textState("friend"));
     navigate(`/mylist`);
   };
   // 찾아보기
   const searchClickHandler = () => {
-    dispatch(textState("search"));
     dispatch(otherIdState(""));
+    dispatch(textState("search"));
     navigate(`/search`);
   };
 

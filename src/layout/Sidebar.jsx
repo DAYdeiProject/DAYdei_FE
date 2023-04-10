@@ -9,7 +9,7 @@ import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { newNotificationState } from "../redux/modules/headerReducer";
+import { newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
 import SseMessageBox from "../components/SseMessageBox";
 
 function Sidebar({ ...props }) {
@@ -20,7 +20,8 @@ function Sidebar({ ...props }) {
   const dispatch = useDispatch();
 
   // 다른 유저캘린더 갔을때
-  const { otherId, notiState } = useSelector((state) => state.header);
+  const { otherId, notiState, text } = useSelector((state) => state.header);
+  //console.log("사이드바 otherId==>", otherId);
   //const { notiState } = useSelector((state) => state.header);
 
   // SSE 알림
@@ -39,6 +40,11 @@ function Sidebar({ ...props }) {
       if (!event.data.includes("EventStream")) {
         const result = JSON.parse(event.data);
         dispatch(newNotificationState({ newState: true, message: result.content }));
+        if (text !== "home") {
+          dispatch(textState(text));
+        } else if (otherId) {
+          dispatch(otherIdState(otherId));
+        }
         setSseState(true);
         console.log("sse message==>", result);
 

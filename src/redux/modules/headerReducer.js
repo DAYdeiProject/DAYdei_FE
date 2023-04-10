@@ -1,7 +1,7 @@
 const TEXT_STATE = "header/TEXT_STATE";
 const NOTI_POSTID = "header/NOTI_POSTID";
 const NOTI_STATE = "header/NOTI_STATE";
-const OTHER_USER_ID = "userInfo/OTHER_USER_ID";
+const OTHER_USER_ID = "header/OTHER_USER_ID";
 
 // 헤더 텍스트 상태
 export const textState = (payload) => {
@@ -43,6 +43,7 @@ const headerReducer = (state = initialState, action) => {
   switch (action.type) {
     case TEXT_STATE:
       return {
+        ...state,
         text: action.payload,
       };
     case NOTI_POSTID:
