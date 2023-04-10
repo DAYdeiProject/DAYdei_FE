@@ -63,4 +63,10 @@ const CalendarWrapper = styled.section`
   /* width: 100vw; */
   /* width: 1530px; */
   margin: 0 auto;
+  /* background: pink; */
+
+  @media screen and (max-width: 1440px) {
+    min-width: 90rem;
+    max-width: 90rem;
+  }
 `;

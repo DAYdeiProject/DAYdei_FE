@@ -215,6 +215,12 @@ const HeaderWrapper = styled.header`
   border-bottom: 0.0313rem solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
+
+  @media screen and (max-width: 1440px) {
+    margin-left: 0rem;
+    width: 90rem;
+    /* background: pink; */
+  }
 `;
 
 const LogoContainer = styled.section`
@@ -228,6 +234,12 @@ const LogoContainer = styled.section`
     text-align: left;
     font-size: ${(props) => props.theme.Fs.sizeLogo};
     text-align: center;
+  }
+  /* background-color: skyblue; */
+
+  @media screen and (max-width: 1440px) {
+    max-width: 16.4063rem;
+    min-width: 16.4063rem;
   }
 `;
 
@@ -244,7 +256,7 @@ const NavContainer = styled.section`
 const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  min-width: 1250px;
+  min-width: 78.125rem;
   width: 100%;
   gap: 2.5rem;
   span {
@@ -261,6 +273,14 @@ const NavTabConatiner = styled.div`
   .searchSpan {
     color: ${(props) => props.isNav === "search" && props.theme.Bg.fontBlack};
   }
+
+  /* background-color: pink; */
+
+  @media screen and (max-width: 1440px) {
+    min-width: 58.5938rem;
+    width: 100%;
+    gap: 1.875rem;
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -276,6 +296,9 @@ const IconWrapper = styled.div`
     :hover {
       cursor: pointer;
     }
+  }
+  @media screen and (max-width: 1440px) {
+    width: 7.0313rem;
   }
 `;
 
