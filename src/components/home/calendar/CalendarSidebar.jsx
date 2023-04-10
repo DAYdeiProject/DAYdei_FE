@@ -275,6 +275,10 @@ const SidebarWrapper = styled.div`
   cursor: pointer;
   background: white;
   z-index: 1;
+
+  @media screen and (max-width: 1440px) {
+    position: absolute;
+  }
 `;
 
 //사이드바 아이콘 클릭 시 나오는 영역
@@ -297,6 +301,11 @@ export const SideSpaceWrapper = styled.div`
     display: none;
   }
   /* background: yellow; */
+
+  @media screen and (max-width: 1440px) {
+    position: absolute;
+    right: 0;
+  }
 `;
 
 //메모 모달 상단(메모 추가하기까지)
