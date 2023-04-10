@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "react-responsive";
-
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import { newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
 import SseMessageBox from "../components/SseMessageBox";
 import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
-
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
@@ -60,7 +56,6 @@ function Sidebar({ ...props }) {
     return () => eventConnect.close();
   }, []);
 
-  const { otherId } = useSelector((state) => state.usersInfo);
   //스크린 크기 1440 미만임을 감지
   const isShortScreen = useMediaQuery({ maxWidth: 1440 });
   const [isSideStyleOpen, setIsSideStyleOpen] = useState(false);
@@ -70,7 +65,6 @@ function Sidebar({ ...props }) {
   };
 
   //console.log(isSideStyleOpen);
-
 
   return (
     <>
