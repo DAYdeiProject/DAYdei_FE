@@ -143,26 +143,26 @@ const ProfileWrapper = styled.div`
 const BackImgWrapper = styled.div`
   background-color: ${(props) => (props.isCover ? "#ffffff" : props.theme.Bg.mainColor3)};
   width: 100%;
-  height: 370px;
+  height: 23.125rem;
   border: none;
   background-size: cover;
   img {
     width: 100%;
-    height: 370px;
+    height: 23.125rem;
     border: none;
   }
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
-  top: 300px;
+  top: 18.75rem;
   //z-index: 0;
   ${(props) => props.theme.FlexCol}
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   img {
     ${(props) => props.theme.BoxCustom};
-    width: 130px;
-    height: 130px;
+    width: 8.125rem;
+    height: 8.125rem;
     border-radius: 50%;
     background: fixed;
     cursor: auto;
@@ -170,30 +170,30 @@ const ImgWrapper = styled.div`
 `;
 
 const NickNameBox = styled.span`
-  padding-top: 85px;
-  margin-bottom: 10px;
-  font-size: 24px;
+  padding-top: 5.3125rem;
+  margin-bottom: 0.625rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: ${(props) => props.theme.Bg.color1};
 `;
 
 const EmailBox = styled.span`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   ${(props) => props.theme.DescriptionText};
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 const CountBox = styled.div`
   ${(props) => props.theme.FlexCol}
-  padding: 0 40px;
-  margin-bottom: 20px;
-  font-size: 16px;
+  padding: 0 2.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
   color: ${(props) => props.theme.Bg.color1};
   div {
     ${(props) => props.theme.FlexRowBetween}
-    padding: 0 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+    padding: 0 1.25rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   }
   :hover {
     cursor: pointer;
@@ -201,26 +201,26 @@ const CountBox = styled.div`
 `;
 const TextareaBox = styled.div`
   width: 100%;
-  height: 100px;
+  height: 6.25rem;
   text-align: center;
-  padding: 5px 80px;
+  padding: 0.3125rem 5rem;
   ${(props) => props.theme.DescriptionText};
-  font-size: 14px;
+  font-size: 0.875rem;
   white-space: pre-wrap;
 `;
 
 const ButtonBox = styled.div`
   ${(props) => props.theme.FlexRow}
   display: flex;
-  gap: 10px;
-  margin: 0 40px;
-  margin-top: 20px;
-  font-size: 14px;
+  gap: 0.625rem;
+  margin: 0 2.5rem;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
   div {
     ${(props) => props.theme.FlexCol}
     ${(props) => props.theme.ButtonMedium};
-    width: 130px;
-    height: 48px;
+    width: 8.125rem;
+    height: 3rem;
     color: ${(props) => props.theme.Bg.color1};
   }
   div:nth-child(1) {
@@ -234,14 +234,14 @@ const ButtonBox = styled.div`
 
 const TogetherWrapper = styled.div`
   width: 100%;
-  padding: 0 40px;
-  margin-top: 20px;
+  padding: 0 2.5rem;
+  margin-top: 1.25rem;
   ${(props) => props.theme.DescriptionText};
   div {
     ${(props) => props.theme.FlexCol};
     background-color: ${(props) => props.theme.Bg.color4};
     width: 100%;
-    height: 20px;
-    border-radius: 4px;
+    height: 1.25rem;
+    border-radius: 0.25rem;
   }
 `;

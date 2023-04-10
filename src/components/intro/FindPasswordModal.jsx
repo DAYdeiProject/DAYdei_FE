@@ -72,7 +72,7 @@ const WholeAreaWrapper = styled.div`
 
 const TopTextWrap = styled.div`
   font-size: ${(props) => props.theme.Fs.xLargeText};
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
 `;
 
 const InputWrapper = styled.div`
@@ -80,7 +80,7 @@ const InputWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   /* background-color: pink; */
-  gap: 25px;
+  gap: 1.5625rem;
   /* border: 1px solid black; */
 `;
 
@@ -88,16 +88,16 @@ const InputWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 16px 240px 16px 24px;
-  gap: 12px;
+  padding: 1rem 15rem 1rem 1.5rem;
+  gap: 0.75rem;
 
-  width: 370px;
-  height: 52px;
+  width: 23.125rem;
+  height: 3.25rem;
 
   background: #ffffff;
 
-  border: 1px solid ${(props) => props.theme.Bg.middleColor};
-  border-radius: 4px;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.middleColor};
+  border-radius: 0.25rem;
 
   flex: none;
   order: 0;
@@ -105,10 +105,10 @@ const InputWrap = styled.div`
 `;
 
 const ButtonArea = styled.div`
-  margin-top: 50px;
-  border-radius: 4px;
-  width: 185px;
-  height: 52px;
+  margin-top: 3.125rem;
+  border-radius: 0.25rem;
+  width: 11.5625rem;
+  height: 3.25rem;
   display: flex;
   align-items: center;
   justify-content: center;

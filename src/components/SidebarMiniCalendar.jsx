@@ -36,10 +36,10 @@ export default function SidebarMiniCalendar() {
 
 const MiniWrapper = styled.div`
   width: 100%;
-  margin-bottom: 47px;
+  margin-bottom: 2.9375rem;
   .react-calendar {
     border: none;
-    height: 300px;
+    height: 18.75rem;
     background: ${(props) => props.theme.Bg.color5};
   }
 
@@ -58,7 +58,7 @@ const MiniWrapper = styled.div`
 
   // 년월
   .react-calendar__navigation {
-    height: 30px;
+    height: 1.875rem;
   }
   .react-calendar__navigation__label > span {
     // background: #eede99;
@@ -74,8 +74,8 @@ const MiniWrapper = styled.div`
 
   // 날짜
   .react-calendar__tile {
-    width: 20px;
-    height: 40px;
+    width: 1.25rem;
+    height: 2.5rem;
     font-size: ${(props) => props.theme.Fs.size12};
   }
   .react-calendar__tile:hover {
@@ -101,10 +101,10 @@ const MiniWrapper = styled.div`
 
 const CheckPost = styled.div`
   ${(props) => props.theme.FlexCol}
-  padding-top: 5px;
+  padding-top: .3125rem;
   div {
-    height: 6px;
-    width: 6px;
+    height: 0.375rem;
+    width: 0.375rem;
     border-radius: 50%;
     background-color: ${(props) => props.theme.Bg.mainColor5};
   }

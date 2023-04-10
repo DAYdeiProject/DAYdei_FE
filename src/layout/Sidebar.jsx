@@ -75,9 +75,10 @@ function Sidebar({ ...props }) {
 export default Sidebar;
 
 const SideStyle = styled.div`
-  width: 21.875rem;
+  min-width: 21.875rem;
+  max-width: 21.875rem;
   height: 100%;
-  border-right: 0.5px solid ${(props) => props.theme.Bg.color1};
+  border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
   position: relative;
 `;

@@ -109,7 +109,7 @@ function SearchUsers() {
 
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  height: calc(100vh - 64px - 1px);
+  height: calc(100vh - 4rem - .0625rem);
 `;
 
 export const WholeAreaWrapper = styled.div`
@@ -123,14 +123,14 @@ export const WholeAreaWrapper = styled.div`
 const HeaderText = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  gap: 16px;
-  margin-top: 48px;
-  margin-bottom: 36px;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-bottom: 2.25rem;
 `;
 
 const HeaderTextMain = styled.div`
   font-weight: 600;
-  font-size: 28px;
+  font-size: 1.75rem;
   line-height: 140%;
   color: ${(props) => props.theme.Bg.color1};
 `;
@@ -138,38 +138,38 @@ const HeaderTextMain = styled.div`
 const HeaderTextSub = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  width: 500px;
+  width: 31.25rem;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 1.125rem;
+  line-height: 1.3125rem;
   color: ${(props) => props.theme.Bg.color1};
 `;
 
 const SearchHeader = styled.div`
   ${(props) => props.theme.FlexRowBetween}
   padding: 0px;
-  gap: 200px;
-  margin-bottom: 28px;
+  gap: 12.5rem;
+  margin-bottom: 1.75rem;
 `;
 
 const IconWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   height: 100%;
-  padding: 0px;
-  gap: 12px;
+  padding: 0rem;
+  gap: 0.75rem;
 `;
 
 const Icon = styled.div`
   ${(props) => props.theme.FlexRow}
-  width: 100px;
-  height: 36px;
-  border: 1px solid #121212;
-  border-radius: 99px;
+  width: 6.25rem;
+  height: 2.25rem;
+  border: 0.0625rem solid #121212;
+  border-radius: 6.1875rem;
   background-color: ${(props) => (props.className === "selected" ? props.theme.Bg.color2 : props.theme.Bg.color6)};
   color: ${(props) => (props.className === "selected" ? props.theme.Bg.color6 : props.theme.Bg.color1)};
   font-weight: 400;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
   :hover {
     cursor: pointer;
@@ -179,36 +179,36 @@ const Icon = styled.div`
 const SearchBarArea = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  gap: 12px;
-  width: 450px;
-  height: 40px;
-  padding: 16px 24px;
-  border: 1px solid #ebebeb;
-  border-radius: 8px;
+  gap: 0.75rem;
+  width: 28.125rem;
+  height: 2.5rem;
+  padding: 1rem 1.5rem;
+  border: 0.0625rem solid #ebebeb;
+  border-radius: 0.5rem;
   margin-left: auto;
 `;
 
 const SearchIcon = styled.div`
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 `;
 
 const SearchBar = styled.input`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  padding: 0px;
-  gap: 8px;
-  width: 300px;
-  height: 20px;
+  padding: 0rem;
+  gap: 0.5rem;
+  width: 18.75rem;
+  height: 1.25rem;
 `;
 
 const SearchBody = styled.div`
   width: 100%;
-  height: 700px;
+  height: 43.75rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-column-gap: 18px;
-  grid-row-gap: 20px;
+  grid-column-gap: 1.125rem;
+  grid-row-gap: 1.25rem;
   overflow: auto;
   justify-items: center;
 

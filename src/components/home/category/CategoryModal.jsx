@@ -80,49 +80,49 @@ function CategoryModal({ setIsModalVisible, setIsButtonClicked }) {
 }
 
 export const ModalContent = styled.div`
-  width: 320px;
-  height: 318px;
+  width: 20rem;
+  height: 19.875rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* background-color: pink; */
-  gap: 44px;
+  gap: 2.75rem;
 `;
 
 export const UpperWrapper = styled.div`
-  width: 311px;
-  height: 232px;
+  width: 19.4375rem;
+  height: 14.5rem;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 2rem;
 `;
 
 export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px;
-  gap: 8px;
+  padding: 0rem;
+  gap: 0.5rem;
 
-  width: 311px;
-  height: 66px;
+  width: 19.4375rem;
+  height: 4.125rem;
 `;
 
 const TextUpper = styled.div`
   display: flex;
   font-size: ${(props) => props.theme.Fs.size20};
   font-weight: 500;
-  line-height: 24px;
+  line-height: 1.5rem;
 `;
 
 const BoldedText = styled(TextUpper)`
   font-weight: 700;
-  margin-left: 5px;
+  margin-left: 0.3125rem;
 `;
 
 const TextBottom = styled.div`
-  width: 250px;
-  height: 34px;
+  width: 15.625rem;
+  height: 2.125rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,9 +138,9 @@ const OptionsWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  gap: 16px;
-  width: 180px;
-  height: 134px;
+  gap: 1rem;
+  width: 11.25rem;
+  height: 8.375rem;
   /* background-color: yellow; */
 `;
 
@@ -149,10 +149,10 @@ const CategoryOption = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 86px;
-  height: 34px;
+  width: 5.375rem;
+  height: 2.125rem;
   border: 1px solid black;
-  border-radius: 99px;
+  border-radius: 6.1875rem;
   :hover {
     cursor: pointer;
   }
@@ -166,7 +166,7 @@ const CategoryText = styled.div`
 
 export const ButtonArea = styled.div`
   width: 100%;
-  height: 42px;
+  height: 2.625rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -178,16 +178,16 @@ export const ButtonBottom = styled.button`
   justify-content: center;
   align-items: center;
 
-  width: 170px;
-  height: 42px;
+  width: 10.625rem;
+  height: 2.625rem;
   font-size: ${(props) => props.theme.Fs.tag};
   color: ${(props) => props.theme.Bg.lightColor};
   background: #494d55;
 
-  border: 1.4px solid #121212;
+  border: 0.0875rem solid #121212;
 
-  box-shadow: 2px 2px 0px #000000;
-  border-radius: 4px;
+  box-shadow: 0.125rem 0.125rem 0rem #000000;
+  border-radius: 0.25rem;
   :hover {
     cursor: pointer;
   }

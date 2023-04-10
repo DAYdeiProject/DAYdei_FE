@@ -266,12 +266,12 @@ const SidebarWrapper = styled.div`
 
   //position: absolute;
 
-  right: ${(props) => (props.isTodo || props.isSub ? "240px" : "0")};
-  width: 46px;
+  right: ${(props) => (props.isTodo || props.isSub ? "15rem" : "0")};
+  width: 2.875rem;
   height: 100%;
-  gap: 30px;
-  padding-top: 50px;
-  border-left: solid 1px #121212;
+  gap: 1.875rem;
+  padding-top: 3.125rem;
+  border-left: solid 0.0625rem #121212;
   cursor: pointer;
   background: white;
   z-index: 1;
@@ -284,15 +284,15 @@ export const SideSpaceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 240px;
+  width: 15rem;
   height: 100%;
   background-color: white;
   overflow: auto;
   z-index: 10;
   flex-shrink: 0;
-  border-left: 1px solid black;
-  gap: 18px;
-  padding-top: 20px;
+  border-left: 0.0625rem solid black;
+  gap: 1.125rem;
+  padding-top: 1.25rem;
   ::-webkit-scrollbar {
     display: none;
   }
@@ -308,22 +308,22 @@ export const MemoTitle = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 0px;
-  gap: 98px;
+  padding: 0rem;
+  gap: 6.125rem;
   /* width: 192px; */
-  height: 21px;
+  height: 1.3125rem;
   font-weight: 500;
   font-size: ${(props) => props.theme.Fs.size18};
-  line-height: 21px;
+  line-height: 1.3125rem;
   color: ${(props) => props.theme.Bg.color1};
   /* background: pink; */
 `;
 
 export const GapArea = styled.div`
-  height: 12px;
-  width: 200px;
-  border-bottom: 1px solid gray;
-  margin-bottom: 12px;
+  height: 0.75rem;
+  width: 12.5rem;
+  border-bottom: 0.0625rem solid gray;
+  margin-bottom: 0.75rem;
   /* background: yellow; */
 `;
 
@@ -332,17 +332,17 @@ const AddMemoBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-  width: 192px;
-  min-height: 54px;
+  gap: 0.75rem;
+  width: 12rem;
+  min-height: 3.375rem;
   /* background: pink; */
 `;
 
 // 내 메모
 const SmallText = styled.div`
   font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
   color: ${(props) => props.theme.Bg.color3};
 `;
 
@@ -351,11 +351,11 @@ const AddBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
-  width: 192px;
-  height: 28px;
+  gap: 0.5rem;
+  width: 12rem;
+  height: 1.75rem;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
   color: ${(props) => props.theme.Bg.mainColor5};
   :hover {
@@ -369,10 +369,10 @@ const InputBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 192px;
-  height: 50px;
+  width: 12rem;
+  height: 3.125rem;
   background: #f1fbfe;
-  border-radius: 4px;
+  border-radius: 0.25rem;
 `;
 
 // 입력창 내부
@@ -380,9 +380,9 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 184px;
-  height: 38px;
-  gap: 8px;
+  width: 11.5rem;
+  height: 2.375rem;
+  gap: 0.5rem;
   /* background: pink; */
 `;
 
@@ -391,15 +391,15 @@ const InputBar = styled.input`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0px 4px;
+  padding: 0rem 0.25rem;
   background: #f1fbfe;
-  height: 14px;
+  height: 0.875rem;
   ::placeholder {
     color: ${(props) => props.theme.Bg.color3};
   }
   font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
   color: ${(props) => props.theme.Bg.color1};
 `;
 
@@ -413,7 +413,7 @@ const InputBarContent = styled(InputBar)`
 const UnderWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 `;
 
 //입력완료한 메모박스
@@ -422,12 +422,12 @@ const MemoBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 6px;
+  padding: 0.375rem;
   /* gap: 8px; */
-  width: 192px;
+  width: 12rem;
   height: auto;
-  border: 1px solid ${(props) => props.theme.Bg.border1};
-  border-radius: 4px;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.border1};
+  border-radius: 0.25rem;
   word-break: break-word;
   :hover {
     background: #f1fbfe;
@@ -436,17 +436,17 @@ const MemoBox = styled.div`
 
 const CorrectionBox = styled(MemoBox)`
   background: #f1fbfe;
-  padding-left: 0px;
+  padding-left: 0rem;
 `;
 
 const MemoBoxButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: right;
-  padding-right: 5px;
+  padding-right: 0.3125rem;
   width: 100%;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 0.625rem;
+  margin-top: 0.625rem;
   background: pink;
 `;
 
@@ -454,7 +454,7 @@ const UpperBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 184px;
+  width: 11.5rem;
 
   justify-content: space-between;
   font-weight: 500;
@@ -476,33 +476,28 @@ const OptionsWrap = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-left: 2px;
-  padding-right: 2px;
-  gap: 2px;
-  top: 16px;
-  right: 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  border: 1px solid black;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+  gap: 0.125rem;
+  top: 1rem;
+  right: 0.3125rem;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 0.3125rem;
+  border: 0.0625rem solid black;
   background: white;
-`;
-
-const DivideLine = styled.div`
-  margin-left: 3px;
-  margin-right: 3px;
 `;
 
 const UnderBox = styled.div`
   font-weight: normal;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 150%;
 `;
 
 const FixButton = styled.div`
-  width: 50px;
+  width: 3.125rem;
   background-color: lightgray;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   text-align: center;
-  padding: 3px;
+  padding: 0.1875rem;
 `;

@@ -14,7 +14,7 @@ import Loading from "../../Loading";
 import { TextWrapper, ButtonArea } from "./CategoryModal";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 
-function FriendRecommendModal({ setIsModalVisible, showFriendRecommendModal, setShowFriendRecommendModal, setIsButtonclicked }) {
+function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal }) {
   const [userInfo, setUserInfo] = useState({ userId: "", nickName: "" });
   const { isLoading, FamousList } = useSelector((state) => state.friends);
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
@@ -122,8 +122,8 @@ function FriendRecommendModal({ setIsModalVisible, showFriendRecommendModal, set
 }
 
 const ModalContent = styled.div`
-  width: 320px;
-  height: 318px;
+  width: 20rem;
+  height: 19.875rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,12 +133,12 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 1.125rem;
 
-  width: 311px;
-  height: 250px;
+  width: 19.4375rem;
+  height: 15.625rem;
   /* background-color: pink; */
-  margin-bottom: 26px;
+  margin-bottom: 1.625rem;
 `;
 
 const ModalHeader = styled.div`
@@ -149,7 +149,7 @@ const ModalHeader = styled.div`
 
 const SubText = styled.div`
   font-weight: 500;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 140%;
   text-align: center;
   color: #afb4bf;
@@ -160,10 +160,10 @@ const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 0.5rem;
 
-  width: 280px;
-  height: 166px;
+  width: 17.5rem;
+  height: 10.375rem;
   /* background-color: yellow; */
 `;
 
@@ -172,8 +172,8 @@ const PostWrap = styled.div`
   flex-direction: row;
   align-items: center;
 
-  width: 280px;
-  height: 50px;
+  width: 17.5rem;
+  height: 3.125rem;
   /* background-color: pink; */
   :hover {
     cursor: pointer;
@@ -181,22 +181,22 @@ const PostWrap = styled.div`
 `;
 
 const PhotoFrame = styled.div`
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 `;
 
 const UserInfoWrap = styled.div`
   /* width: 124px; */
-  height: 33px;
+  height: 2.0625rem;
 
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.125rem;
   /* background-color: skyblue; */
 `;
 
@@ -205,8 +205,8 @@ const UserInfoText1 = styled.div`
   flex-direction: row;
   align-items: center;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
 `;
 
 const UserInfoText2 = styled.div`
@@ -214,8 +214,8 @@ const UserInfoText2 = styled.div`
   flex-direction: row;
   align-items: center;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
 
   color: #afb4bf;
 `;
@@ -224,19 +224,19 @@ const ButtonStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 10px;
+  padding: 0.625rem 0.625rem;
 
-  width: 66px;
-  height: 34px;
+  width: 4.125rem;
+  height: 2.125rem;
 
-  border: 1px solid #121212;
+  border: 0.0625rem solid #121212;
 
-  box-shadow: 1px 1px 0px #000000;
-  border-radius: 4px;
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
 
   font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
   margin-left: auto;
   background-color: ${(props) => props.backgroundColor};
 `;
@@ -247,16 +247,16 @@ export const ButtonBottom = styled.button`
   justify-content: center;
   align-items: center;
 
-  width: 170px;
-  height: 42px;
+  width: 10.625rem;
+  height: 2.625rem;
   font-size: ${(props) => props.theme.Fs.tag};
   color: ${(props) => props.theme.Bg.lightColor};
   background: ${(props) => props.theme.Bg.mainColor5};
 
-  border: 1.4px solid #121212;
+  border: 0.0875rem solid #121212;
 
-  box-shadow: 2px 2px 0px #000000;
-  border-radius: 4px;
+  box-shadow: 0.125rem 0.125rem 0rem #000000;
+  border-radius: 0.25rem;
   :hover {
     cursor: pointer;
   }

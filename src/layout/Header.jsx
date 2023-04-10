@@ -214,9 +214,9 @@ const HeaderWrapper = styled.header`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   max-width: 100%;
-  height: 64px;
+  height: 4rem;
   margin: 0 auto;
-  border-bottom: 0.5px solid ${(props) => props.theme.Bg.color2};
+  border-bottom: 0.0313rem solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
 `;
@@ -225,9 +225,9 @@ const LogoContainer = styled.section`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   width: 0;
-  min-width: 350px;
-  max-width: 350px;
-  padding-left: 35px;
+  min-width: 21.875rem;
+  max-width: 21.875rem;
+  padding-left: 2.1875rem;
   span {
     text-align: left;
     font-size: ${(props) => props.theme.Fs.sizeLogo};
@@ -238,7 +238,7 @@ const LogoContainer = styled.section`
 const NavContainer = styled.section`
   ${(props) => props.theme.FlexRow}
   height: 100%;
-  padding: 34px 48px;
+  padding: 2.125rem 3rem;
   span {
     ${(props) => props.theme.HeaderText};
     color: ${(props) => props.theme.Bg.fontColor3};
@@ -250,7 +250,7 @@ const NavTabConatiner = styled.div`
   justify-content: left;
   min-width: 1250px;
   width: 100%;
-  gap: 40px;
+  gap: 2.5rem;
   span {
     :hover {
       cursor: pointer;
@@ -271,7 +271,7 @@ const IconWrapper = styled.div`
   position: relative;
   ${(props) => props.theme.FlexRow}
   justify-content: right;
-  width: 150px;
+  width: 9.375rem;
   height: 100%;
   display: flex;
 
@@ -289,29 +289,29 @@ const ImageContainer = styled.div`
 const ImgBox = styled.div`
   ${(props) => props.theme.FlexCol};
   ${(props) => props.theme.BoxCustom};
-  margin-left: 24px;
-  height: 32px;
-  width: 32px;
+  margin-left: 1.5rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: 50%;
   img {
-    height: 32px;
-    width: 32px;
+    height: 2rem;
+    width: 2rem;
     border-radius: 50%;
   }
 `;
 
 const DropdownFrame = styled.div`
-  width: 240px;
-  height: 180px;
+  width: 15rem;
+  height: 11.25rem;
   background: #ffffff;
-  border: 1px solid #121212;
-  box-shadow: 0px 0px 20px rgba(78, 78, 78, 0.15), 1px 1px 0px #000000;
-  padding: 16px 14px;
-  border-radius: 8px;
+  border: 0.0625rem solid #121212;
+  box-shadow: 0rem 0rem 1.25rem rgba(78, 78, 78, 0.15), 0.0625rem 0.0625rem 0rem #000000;
+  padding: 1rem 0.875rem;
+  border-radius: 0.5rem;
 
   position: absolute;
-  top: 40px;
-  right: 0px;
+  top: 2.5rem;
+  right: 0rem;
   z-index: 100;
   /* background-color: pink; */
 `;
@@ -327,32 +327,32 @@ const ContentWrapper = styled.div`
 
 const ProfileWrap = styled.div`
   width: 100%;
-  height: 56px;
+  height: 3.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
+  gap: 0.875rem;
   /* background-color: yellow; */
 `;
 
 const GapArea = styled.div`
   width: 100%;
-  height: 6px;
+  height: 0.375rem;
   /* background-color: pink; */
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 `;
 
 const PhotoWrap = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const ProfilePhoto = styled.div`
-  height: 40px;
-  width: 40px;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 50%;
   /* background-color: lightgray; */
 
@@ -362,12 +362,12 @@ const ProfilePhoto = styled.div`
 `;
 
 const IntroductionWrap = styled.div`
-  height: 35px;
-  width: 142px;
+  height: 2.1875rem;
+  width: 8.875rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
+  gap: 0.125rem;
 `;
 
 const NameWrap = styled.div`
@@ -381,23 +381,23 @@ const EmailWrap = styled.div`
 
 const Options = styled.div`
   width: 100%;
-  height: 115px;
+  height: 7.1875rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  gap: 0.25rem;
   /* background-color: lightgray; */
   margin-bottom: -10px;
 `;
 
 const Button = styled.div`
-  height: 33px;
+  height: 2.0625rem;
   width: 100%;
   display: flex;
   align-items: center;
   font-size: ${(props) => props.theme.Fs.size14};
   font-weight: 800;
-  padding-left: 8px;
+  padding-left: 0.5rem;
   /* background-color: pink; */
   :hover {
     cursor: pointer;
@@ -406,14 +406,14 @@ const Button = styled.div`
 
 const MessageBox = styled.div`
   position: absolute;
-  bottom: 0px;
+  bottom: 0rem;
   z-index: 500;
   right: 0;
-  width: 300px;
-  height: 150px;
+  width: 18.75rem;
+  height: 9.375rem;
   background-color: #ffffff;
-  border: 1px solid black;
-  padding: 20px;
+  border: 0.0625rem solid black;
+  padding: 1.25rem;
   transform: ${(props) => !props.isMessage && "transLateY(100%)"};
   transition: transform 0.5s;
 `;
