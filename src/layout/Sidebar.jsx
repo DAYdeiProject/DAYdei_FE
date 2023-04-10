@@ -103,7 +103,7 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
-      {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />}
+      {/* {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />} */}
     </>
   );
 }
