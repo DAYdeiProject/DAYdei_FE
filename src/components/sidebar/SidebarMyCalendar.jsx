@@ -4,8 +4,7 @@ import styled from "styled-components";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { textState } from "../../redux/modules/headerReducer";
-import { otherIdState } from "../../redux/modules/usersReducer";
+import { textState, otherIdState } from "../../redux/modules/headerReducer";
 import { __getTodaySchedule, __getTodayUpdate } from "../../redux/modules/calendarSlice";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
@@ -142,7 +141,6 @@ export default function SidebarMyCalendar({ ...props }) {
                       <div
                         onClick={() => {
                           moveUserPage(list.id);
-                          dispatch(textState(""));
                         }}>
                         캘린더
                       </div>
