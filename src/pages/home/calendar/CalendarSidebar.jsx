@@ -262,9 +262,9 @@ const WholeWrapper = styled.div`
 const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  //position: relative;
+  position: relative;
 
-  position: fixed;
+  //position: absolute;
 
   right: ${(props) => (props.isTodo || props.isSub ? "15rem" : "0")};
   width: 2.875rem;
@@ -279,7 +279,7 @@ const SidebarWrapper = styled.div`
 
 //사이드바 아이콘 클릭 시 나오는 영역
 export const SideSpaceWrapper = styled.div`
-  position: fixed;
+  position: absolute;
   right: 0;
   display: flex;
   flex-direction: column;

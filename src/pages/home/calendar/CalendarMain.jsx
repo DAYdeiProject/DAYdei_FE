@@ -301,6 +301,7 @@ export const CalendarWrapper = styled.div`
   height: 100%;
   padding: 2.5rem 3rem 3.25rem;
   margin-right: ${(props) => (props.isMy ? "46px" : "0")};
+
   .fc {
     width: 100%;
     height: 100%;
