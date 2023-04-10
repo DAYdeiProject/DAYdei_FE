@@ -159,14 +159,14 @@ export default function SidebarMyCalendar({ ...props }) {
 }
 
 const SidebarWrapper = styled.div`
-  padding: 0 35px;
-  padding-top: 48px;
+  padding: 0 2.1875rem;
+  padding-top: 3rem;
   background: ${(props) => props.theme.Bg.color5};
 `;
 
 const NickNameContainer = styled.section`
   ${(props) => props.theme.FlexCol};
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
 `;
 
 const NickNameTitle = styled.section`
@@ -177,14 +177,14 @@ const NickNameTitle = styled.section`
 
 const SideTitle = styled(NickNameTitle)`
   ${(props) => props.theme.FlexRowBetween};
-  margin-bottom: 20px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color1};
-  padding: 0 2.5px;
+  margin-bottom: 1.25rem;
+  border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color1};
+  padding: 0 0.1563rem;
   // 오늘의 일정 / 업데이트한 친구 text
   span:nth-child(1) {
     ${(props) => props.theme.SidebarTitleText};
-    line-height: 35px;
-    margin-bottom: 5.5px;
+    line-height: 2.1875rem;
+    margin-bottom: 0.3438rem;
   }
   // 날짜 / 갯수
   span:nth-child(2) {
@@ -195,23 +195,23 @@ const SideTitle = styled(NickNameTitle)`
 
 const TodayScheduleContainer = styled.section`
   ${(props) => props.theme.FlexCol};
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
 `;
 
 const TodayScheduleWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  gap: 3px;
-  height: 255px;
-  margin-bottom: 30px;
+  gap: 0.1875rem;
+  height: 15.9375rem;
+  margin-bottom: 1.875rem;
   overflow-y: auto;
 `;
 const TodayScheduleBox = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: start;
-  padding: 0 10px;
-  gap: 15px;
-  border-radius: 8px;
+  padding: 0 0.625rem;
+  gap: 0.9375rem;
+  border-radius: 0.5rem;
   &:hover {
     background-color: ${(props) => props.theme.Bg.hoverColor};
     cursor: pointer;
@@ -221,12 +221,12 @@ const TodayScheduleBox = styled.div`
 const IconBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 10%;
-  height: 50px;
+  height: 3.125rem;
 `;
 const TodayBox = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
-  gap: 3px;
+  gap: 0.1875rem;
   width: 100%;
   height: 100%;
   span {
@@ -235,7 +235,7 @@ const TodayBox = styled.div`
 `;
 const TodayTime = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 0.3125rem;
   span {
     ${(props) => props.theme.DescriptionText};
     font-weight: normal;
@@ -249,20 +249,20 @@ const FriendsListContainer = styled(TodayScheduleContainer)`
 `;
 const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
-  gap: 5px;
+  gap: 0.3125rem;
 `;
 const ListBox = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: start;
-  padding: 0 10px;
-  gap: 15px;
-  border-radius: 8px;
+  padding: 0 0.625rem;
+  gap: 0.9375rem;
+  border-radius: 0.5rem;
 `;
 
 const ImgBox = styled(IconBox)`
   img {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
   }
 `;
@@ -280,8 +280,8 @@ const ButtonBox = styled.div`
   div {
     ${(props) => props.theme.ButtonSmall};
     ${(props) => props.theme.FlexCol};
-    width: 66px;
-    height: 34px;
+    width: 4.125rem;
+    height: 2.125rem;
     font-weight: 600;
     color: ${(props) => props.theme.Bg.color1};
     ${(props) => props.theme.BtnHoverYellow};
@@ -292,9 +292,9 @@ const ButtonBox = styled.div`
 const NoneSchedule = styled.div`
   ${(props) => props.theme.FlexCol};
   ${(props) => props.theme.BoxCustom}
-  gap: 12px;
-  width: 275px;
-  height: 200px;
+  gap: .75rem;
+  width: 17.1875rem;
+  height: 12.5rem;
   background-color: white;
   cursor: auto;
   span {
@@ -303,6 +303,6 @@ const NoneSchedule = styled.div`
   p {
     ${(props) => props.theme.DescriptionText};
     text-align: center;
-    line-height: 18px;
+    line-height: 1.125rem;
   }
 `;

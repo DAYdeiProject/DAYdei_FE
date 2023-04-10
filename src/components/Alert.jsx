@@ -29,15 +29,15 @@ export default function Alert({ ...props }) {
 
 const AlertWrapper = styled.div`
   position: fixed;
-  bottom: 50px;
+  bottom: 3.125rem;
   z-index: 999;
   ${(props) => props.theme.FlexCol}
-  width: ${(props) => (props.isMax ? "450px" : "350px")};
-  height: 35px;
+  width: ${(props) => (props.isMax ? "28.125rem" : "21.875rem")};
+  height: 2.1875rem;
   color: #ffffff;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background-color: ${(props) => props.theme.Bg.color2};
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.438);
+  box-shadow: 0rem 0rem 0.5rem 0rem rgba(0, 0, 0, 0.438);
 
   /* animation */
   animation-name: slideUp;

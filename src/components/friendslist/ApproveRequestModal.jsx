@@ -9,7 +9,7 @@ import ModalWrap from "../../elements/ModalWrap";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
-function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIsApproveRequestModalOpen, SentUsersList }) {
+function ApproveRequestModal({ ...props }) {
   //보낸 친구요청 or 받은 친구요청 띄우기 상태
   const [isReceivedRequestOpen, setIsReceivedRequestOpen] = useState(true);
   const [isSentRequestOpen, setIsSentRequestOpen] = useState(false);
@@ -26,7 +26,7 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
   };
 
   const HandleModalClose = () => {
-    setIsApproveRequestModalOpen(false);
+    props.setIsApproveRequestModalOpen(false);
   };
 
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
     <>
       <ModalWrap>
         <Modal padding="42px 0px" width="370px" height="400px">
-          <ModalContent ref={ApproveRequestModalRef}>
+          <ModalContent ref={props.ApproveRequestModalRef}>
             <UpperBox>
               <ModalHeader>친구신청</ModalHeader>
               <OptionsWrap>
@@ -57,7 +57,7 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
             </UpperBox>
             {isReceivedRequestOpen ? (
               <ModalContentWrap>
-                {RequestedUsersList.map((user) => (
+                {props.RequestedUsersList.map((user) => (
                   <>
                     <PostWrap>
                       <UserInfoWrap>
@@ -87,7 +87,7 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
               </ModalContentWrap>
             ) : (
               <ModalContentWrap>
-                {SentUsersList.map((user) => (
+                {props.SentUsersList.map((user) => (
                   <>
                     <PostWrap>
                       <UserInfoWrap>
@@ -118,12 +118,12 @@ function ApproveRequestModal({ ApproveRequestModalRef, RequestedUsersList, setIs
 }
 
 const ModalContent = styled.div`
-  height: 316px;
-  width: 326px;
+  height: 19.75rem;
+  width: 20.375rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
+  gap: 1.625rem;
   /* background-color: pink; */
 `;
 
@@ -131,19 +131,18 @@ const UpperBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 26px;
+  gap: 1.625rem;
 
   width: 100%;
-  height: 80px;
+  height: 5rem;
   /* background: lightgray; */
 `;
 
 const ModalHeader = styled.div`
- 
-font-weight: 600;
-font-size: ${(props) => props.theme.Fs.size20}
-line-height: 23px;
-text-align: center;
+  font-weight: 600;
+  font-size: ${(props) => props.theme.Fs.size20};
+  line-height: 1.4375rem;
+  text-align: center;
 `;
 
 const OptionsWrap = styled.div`
@@ -154,7 +153,7 @@ const OptionsWrap = styled.div`
   padding: 0px;
 
   width: 100%;
-  height: 31px;
+  height: 1.9375rem;
   /* background: yellow; */
 `;
 
@@ -179,23 +178,23 @@ const OptionBoxReceived = styled(OptionBox)`
 `;
 
 const ModalContentWrap = styled.div`
-  min-height: 220px;
+  min-height: 13.75rem;
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: auto;
-  gap: 20px;
-  margin-bottom: 12px;
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
   ::-webkit-scrollbar {
     display: none;
   }
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
   /* background: lightgray; ; */
 `;
 
 const PostWrap = styled.div`
   width: 100%;
-  height: 40px;
+  height: 2.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -207,23 +206,23 @@ const UserInfoWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   /* background-color: gray; */
 `;
 
 const PhotoFrame = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
 `;
 
 const ProfileWrap = styled.div`
-  height: 31px;
+  height: 1.9375rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 2px;
+  gap: 0.125rem;
 `;
 
 const NicknameWrap = styled.div`
@@ -233,7 +232,7 @@ const NicknameWrap = styled.div`
 
 const EmailWrap = styled.div`
   font-weight: 500;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: ${(props) => props.theme.Bg.fontColor3};
 `;
 
@@ -241,13 +240,13 @@ const ButtonsWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 34px;
-  gap: 8px;
+  height: 2.125rem;
+  gap: 0.5rem;
 `;
 
 const Button = styled.div`
-  height: 34px;
-  border: 1px solid ${(props) => props.theme.Bg.color1};
+  height: 2.125rem;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.color1};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -255,17 +254,17 @@ const Button = styled.div`
 
   font-size: ${(props) => props.theme.Fs.size12};
   font-weight: 600;
-  line-height: 14px;
+  line-height: 0.875rem;
 `;
 
 const ButtonAccept = styled(Button)`
-  width: 40px;
+  width: 2.5rem;
   background-color: ${(props) => props.theme.Bg.mainColor5};
   color: white;
 `;
 
 const ButtonRefuse = styled(Button)`
-  width: 60px;
+  width: 3.75rem;
   background-color: ${(props) => props.theme.Bg.color6};
 `;
 

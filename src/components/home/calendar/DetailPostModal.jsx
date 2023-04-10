@@ -374,7 +374,7 @@ const DetailPostWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   section {
-    border-top: 1px solid ${(props) => props.theme.Bg.color3};
+    border-top: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   }
   section:nth-child(1) {
     border-top: none;
@@ -382,15 +382,15 @@ const DetailPostWrapper = styled.div`
 `;
 
 const DetailContentWrapper = styled.div`
-  padding: 0px 30px;
+  padding: 0px 1.875rem;
 `;
 
 const HeaderWrapper = styled.section`
   ${(props) => props.theme.FlexRow}
-  gap : 8px;
+  gap : .5rem;
   justify-content: right;
-  margin-top: 25px;
-  margin-bottom: 10px;
+  margin-top: 1.5625rem;
+  margin-bottom: 0.625rem;
   border-top: none !important;
   position: relative;
   .dotsIcon,
@@ -401,22 +401,22 @@ const HeaderWrapper = styled.section`
 const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
-  min-height: 150px;
-  max-height: 400px;
-  margin-bottom: 20px;
-  padding-right: 10px;
+  min-height: 9.375rem;
+  max-height: 25rem;
+  margin-bottom: 1.25rem;
+  padding-right: 0.625rem;
   overflow-y: auto;
 `;
 
 const EditBoxContainer = styled.div`
   position: absolute;
-  top: 30px;
-  right: -90px;
+  top: 1.875rem;
+  right: -5.625rem;
   ${(props) => props.theme.FlexCol};
-  gap: 8px;
-  width: 140px;
-  height: 90px;
-  padding: 10px 5px;
+  gap: 0.5rem;
+  width: 8.75rem;
+  height: 5.625rem;
+  padding: 0.625rem 0.3125rem;
   ${(props) => props.theme.BoxCustom};
   background-color: #ffffff;
 `;
@@ -424,10 +424,10 @@ const EditBoxContainer = styled.div`
 const EditBox = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
-  gap: 10px;
+  gap: 0.625rem;
   height: 100%;
-  padding: 0 10px;
-  border-radius: 4px;
+  padding: 0 0.625rem;
+  border-radius: 0.25rem;
   ${(props) => props.theme.BtnClickYellow};
   ${(props) => props.theme.BtnHoverYellow};
   cursor: pointer;
@@ -435,22 +435,22 @@ const EditBox = styled.div`
 const DetailContetnContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: space-between;
-  padding: 0 10px;
-  padding-bottom: 10px;
+  padding: 0 0.625rem;
+  padding-bottom: 0.625rem;
 `;
 
 const TitleWrapper = styled.section`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
-  gap: 8px;
+  gap: 0.5rem;
   ${(props) => props.theme.ContentTitleText};
-  font-size: 24px;
-  padding-bottom: 20px;
-  margin-bottom: 15px;
+  font-size: 1.5rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 0.9375rem;
   border-top: none !important;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   span {
-    padding-left: 10px;
+    padding-left: 0.625rem;
     border-left: ${(props) => props.pickColor && `4px solid` + props.pickColor};
   }
 `;
@@ -458,28 +458,28 @@ const TitleWrapper = styled.section`
 const TitleTimeContainer = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  padding-left: 10px;
-  gap: 5px;
+  padding-left: 0.625rem;
+  gap: 0.3125rem;
   span {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: ${(props) => props.theme.Bg.color2};
     border-left: none;
     padding: 0;
   }
   div {
     ${(props) => props.theme.FlexRow}
-    width: 15px;
+    width: .9375rem;
   }
 `;
 
 const FriendWrapper = styled.section`
   ${(props) => props.theme.FlexCol}
-  padding: 20px 0;
+  padding: 1.25rem 0;
 `;
 const LocationWrapper = styled(FriendWrapper)`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
-  gap: 30px;
+  gap: 1.875rem;
 `;
 
 const LocationContentBox = styled.div`
@@ -488,8 +488,8 @@ const LocationContentBox = styled.div`
   align-items: flex-start;
 `;
 const TextArea = styled.div`
-  width: 360px;
-  padding: 0 10px;
+  width: 22.5rem;
+  padding: 0 0.625rem;
   white-space: pre-wrap;
 `;
 
@@ -502,8 +502,8 @@ const ScopeWidthWrapper = styled.div`
 `;
 const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRowBetween}
-  padding: 20px 0;
-  border-top: 1px solid ${(props) => props.theme.Bg.color3};
+  padding: 1.25rem 0;
+  border-top: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 `;
 const ScopeContainer = styled.div`
   ${(props) => props.theme.FlexRow}
@@ -512,7 +512,7 @@ const ScopeContainer = styled.div`
 
 const IconBox = styled.div`
   ${(props) => props.theme.FlexCol}
-  width: 50px;
+  width: 3.125rem;
 `;
 
 const ToggleContainer = styled.div`
@@ -529,9 +529,9 @@ const ToggieIconBox = styled.div``;
 const InviteWrapper = styled.div`
   background-color: #f2f4f6;
   ${(props) => props.theme.FlexRowBetween}
-  height: 50px;
-  padding: 0 40px;
-  border-radius: 0 0 20px 20px;
+  height: 3.125rem;
+  padding: 0 2.5rem;
+  border-radius: 0 0 1.25rem 1.25rem;
   button {
     border: none;
     background-color: transparent;
@@ -553,28 +553,28 @@ const DropBox = styled.div`
 
 const FriendDropBox = styled.div`
   width: 100%;
-  margin-top: 10px;
-  padding-left: 50px;
+  margin-top: 0.625rem;
+  padding-left: 3.125rem;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 `;
 
 const WriterBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  gap: 10px;
+  gap: 0.625rem;
   img {
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     border-radius: 50%;
   }
   span {
     font-size: ${(props) => props.theme.Fs.size14};
   }
   div {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     border-radius: 50%;
     background-color: ${(props) => props.theme.Bg.mainColor5};
   }
@@ -582,11 +582,11 @@ const WriterBox = styled.div`
 
 const ImgDropBox = styled.div`
   width: 100%;
-  margin: 10px 0;
-  margin-top: 20px;
+  margin: 0.625rem 0;
+  margin-top: 1.25rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
+  gap: 0.3125rem;
 `;
 
 const ImgFile = styled.div`

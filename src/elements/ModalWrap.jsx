@@ -13,7 +13,7 @@ const ModalWrap = ({ children }) => {
 const ModalOverlay = styled.div`
   position: fixed;
   z-index: 10;
-  inset: 0px;
+  inset: 0rem;
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);

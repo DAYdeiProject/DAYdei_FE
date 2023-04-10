@@ -108,34 +108,34 @@ const ButtonWrap = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 0px;
-  gap: 16px;
+  padding: 0rem;
+  gap: 1rem;
 
   width: 100%;
-  height: 40px;
+  height: 2.5rem;
 `;
 
 const RecommendButton = styled.div`
   display: flex;
-  padding: 0px;
-  gap: 16px;
-  border-radius: 4px;
+  padding: 0rem;
+  gap: 1rem;
+  border-radius: 0.25rem;
 
   /* width: 132px; */
   height: 100%;
-  padding: 10px 14px;
+  padding: 0.625rem 0.875rem;
   align-items: center;
   justify-content: center;
   text-align: center;
 
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 140%;
 
   background: #fbfeff;
-  border: 1px solid black;
-  box-shadow: 1px 1px 0px #000000;
-  border-radius: 4px;
+  border: 0.0625rem solid black;
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
 
   :hover {
     cursor: pointer;

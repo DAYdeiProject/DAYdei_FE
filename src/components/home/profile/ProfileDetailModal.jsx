@@ -77,8 +77,8 @@ const ProfileDetailWrapper = styled.div`
 
 const IconContainer = styled.div`
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 0.9375rem;
+  right: 0.9375rem;
   z-index: 10;
   cursor: pointer;
   .moreIcon {
@@ -89,24 +89,24 @@ const IconContainer = styled.div`
 
 const ProfileBackground = styled.div`
   width: 100%;
-  height: 289px;
+  height: 18.0625rem;
   background-color: ${(props) => props.theme.Bg.mainColor3};
-  border-radius: 20px 20px 0 0;
+  border-radius: 1.25rem 1.25rem 0 0;
   img {
     width: 100%;
-    height: 289px;
-    border-radius: 20px 20px 0 0;
+    height: 18.0625rem;
+    border-radius: 1.25rem 1.25rem 0 0;
   }
 `;
 
 const ProfileImageBox = styled.div`
   position: absolute;
-  top: 225px;
-  left: 122px;
+  top: 14.0625rem;
+  left: 7.625rem;
   img {
     ${(props) => props.theme.BoxCustom};
-    width: 124px;
-    height: 124px;
+    width: 7.75rem;
+    height: 7.75rem;
     border-radius: 50%;
     cursor: auto;
   }
@@ -114,41 +114,41 @@ const ProfileImageBox = styled.div`
 
 const ProfileNickNameBox = styled.div`
   ${(props) => props.theme.FlexCol};
-  margin-top: 80px;
-  gap: 5px;
+  margin-top: 5rem;
+  gap: 0.3125rem;
   span:nth-child(1) {
-    font-size: 25px;
+    font-size: 1.5625rem;
     color: #121212;
   }
   span:nth-child(2) {
-    font-size: 18px;
+    font-size: 1.125rem;
     color: #afb4bf;
   }
 `;
 
 const ProfileCount = styled.div`
   ${(props) => props.theme.FlexCol};
-  padding: 0 60px;
-  font-size: 15px;
+  padding: 0 3.75rem;
+  font-size: 0.9375rem;
   color: #121212;
 `;
 
 const ProfileBox = styled.div`
   ${(props) => props.theme.FlexRowBetween};
-  padding: 20px;
-  border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  padding: 1.25rem;
+  border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 `;
 
 const ProfileIntro = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  margin: 25px 0;
-  padding: 0 70px;
-  font-size: 15px;
-  height: 90px;
+  margin: 1.5625rem 0;
+  padding: 0 4.375rem;
+  font-size: 0.9375rem;
+  height: 5.625rem;
   p {
     text-align: center;
     color: #494d55;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 `;

@@ -19,13 +19,13 @@ const HomePageWrapper = styled.div`
 `;
 const MainWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
-  height: calc(100vh - 64px - 1px);
-  min-width: 1350px;
-  max-width: 1920px;
+  height: calc(100vh - 4rem - .0625rem);
+  min-width: 84.375rem;
+  max-width: 120rem;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  border: 0.5px solid ${(props) => props.theme.Bg.border1};
+  border: 0.0313rem solid ${(props) => props.theme.Bg.border1};
   border-top: none;
   border-bottom: none;
 `;

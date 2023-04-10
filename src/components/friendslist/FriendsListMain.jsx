@@ -335,20 +335,20 @@ function FriendsListMain() {
 }
 
 export const LoadingWrapper = styled.div`
-  width: 1570px;
+  width: 98.125rem;
   height: 100%;
 `;
 
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  height: calc(100vh - 64px - 1px);
+  height: calc(100vh - 4rem - .0625rem);
 `;
 
 export const CalendarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
 
-  padding: 0px 48px;
+  padding: 0rem 3rem;
   height: 100%;
 `;
 
@@ -370,8 +370,8 @@ export const ListFrameBig = styled.div`
 export const FrameBigWithPadding = styled(ListFrameBig)`
   flex: 1.05;
   align-items: center;
-  border-left: 0.6px solid ${(props) => props.theme.Bg.border1};
-  border-right: 0.6px solid ${(props) => props.theme.Bg.border1};
+  border-left: 0.0375rem solid ${(props) => props.theme.Bg.border1};
+  border-right: 0.0375rem solid ${(props) => props.theme.Bg.border1};
   /* background: pink; */
 `;
 
@@ -390,24 +390,24 @@ export const TopText = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
+  padding: 0rem;
 
-  width: 464px;
-  height: 43px;
+  width: 29rem;
+  height: 2.6875rem;
 
-  border-bottom: 1px solid black;
-  margin-top: 48px;
+  border-bottom: 0.0625rem solid black;
+  margin-top: 3rem;
   /* background-color: lightcoral; */
 `;
 
 export const TopLeft = styled.div`
   font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 1rem;
+  line-height: 1.1875rem;
 `;
 
 export const TopLeftWithMargin = styled(TopLeft)`
-  margin-left: 10px;
+  margin-left: 0.625rem;
 `;
 
 export const TopRight = styled.div`
@@ -415,8 +415,8 @@ export const TopRight = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 4px;
-  gap: 8px;
+  padding-right: 0.25rem;
+  gap: 0.5rem;
   /* position: absolute; */
 
   :hover {
@@ -428,16 +428,16 @@ export const SearchBar = styled.input`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 15px;
-  border: 1px solid gray;
-  border-radius: 4px;
-  width: 230px;
-  height: 20px;
+  padding: 0.9375rem;
+  border: 0.0625rem solid gray;
+  border-radius: 0.25rem;
+  width: 14.375rem;
+  height: 1.25rem;
 `;
 
 export const IconWrap = styled.div`
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 `;
 
 const FriendAddStyle = styled(FriendAdd)`
@@ -446,26 +446,26 @@ const FriendAddStyle = styled(FriendAdd)`
 
 export const DropdownFrame = styled.div`
   position: relative;
-  width: 100px;
-  height: 140px;
-  border-radius: 4px;
+  width: 6.25rem;
+  height: 8.75rem;
+  border-radius: 0.25rem;
   background-color: white;
-  border: 1px solid black;
-  top: calc(100% - 20px);
-  right: 75px;
-  padding: 0px 12px;
+  border: 0.0625rem solid black;
+  top: calc(100% - 1.25rem);
+  right: 4.6875rem;
+  padding: 0rem 0.75rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0px;
+  gap: 0rem;
 `;
 
 export const DropdownItems = styled.div`
   height: 25%;
   width: 100%;
   display: flex;
-  padding-left: 2px;
+  padding-left: 0.125rem;
   align-items: center;
 
   font-weight: 600;
@@ -480,9 +480,9 @@ export const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
-  width: 464px;
-  height: 812px;
+  padding: 0rem;
+  width: 29rem;
+  height: 50.75rem;
   /* background: pink; */
 
   overflow: auto;

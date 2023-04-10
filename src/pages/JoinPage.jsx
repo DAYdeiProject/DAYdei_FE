@@ -188,14 +188,14 @@ function JoinPage() {
 
 const JoinBox = styled.div`
   ${(props) => props.theme.FlexCol};
-  width: 386px;
+  width: 24.125rem;
 `;
 const BackPage = styled.div`
   ${(props) => props.theme.FlexRow};
-  gap: 8px;
+  gap: 0.5rem;
   justify-content: left;
-  margin-top: 32px;
-  padding-left: 32px;
+  margin-top: 2rem;
+  padding-left: 2rem;
   cursor: pointer;
   span {
     font-size: 14px;
@@ -203,15 +203,15 @@ const BackPage = styled.div`
 `;
 const JoinText = styled.div`
   ${(props) => props.theme.FlexCol};
-  margin-top: 70px;
-  margin-bottom: 24px;
-  font-size: 24px;
+  margin-top: 4.375rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 `;
 
 const InputArea = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 `;
 
 const InputWrapper = styled.div`
@@ -221,24 +221,24 @@ const InputWrapper = styled.div`
 `;
 
 const InputTitleText = styled.div`
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
 `;
 
 const InputFrame = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 100%;
-  height: 46px;
-  border: 1px solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
-  border-radius: 8px;
-  margin-bottom: 4px;
+  height: 2.875rem;
+  border: 0.0625rem solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
+  border-radius: 0.5rem;
+  margin-bottom: 0.25rem;
 `;
 
 const InputInnerWrap = styled.div`
   ${(props) => props.theme.FlexRowBetween};
-  padding: 8px 10px 8px 18px;
+  padding: 0.5rem 0.625rem 0.5rem 1.125rem;
   .joinIcon {
-    margin-right: 10px;
+    margin-right: 0.625rem;
   }
 `;
 
@@ -247,44 +247,44 @@ const InputFrameBirthday = styled(InputFrame)`
 `;
 
 const BirthdayWrap = styled(InputInnerWrap)`
-  padding: 0px;
+  padding: 0rem;
   display: flex;
   flex-direction: row;
-  gap: 14px;
+  gap: 0.875rem;
 `;
 
 const BirthdayInput = styled.select`
-  width: 220px;
-  height: 46px;
-  border: 1px solid ${(props) => props.theme.Bg.border1};
-  border-radius: 8px;
+  width: 13.75rem;
+  height: 2.875rem;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.border1};
+  border-radius: 0.5rem;
   text-align: center;
 `;
 
 const CheckButton = styled.div`
   ${(props) => props.theme.FlexCol};
-  width: 50px;
-  height: 28px;
-  font-size: 10px;
+  width: 3.125rem;
+  height: 1.75rem;
+  font-size: 0.625rem;
   background: #f2f4f6;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   :hover {
     cursor: pointer;
   }
 `;
 
 const MessageWrapper = styled.div`
-  font-size: 10px;
-  line-height: 15px;
-  margin-bottom: 14px;
+  font-size: 0.625rem;
+  line-height: 0.9375rem;
+  margin-bottom: 0.875rem;
   color: ${(props) => (props.isTrue ? "#58c179" : "#DF5445")};
 `;
 
 const SignUpButtton = styled.button`
   width: 100%;
-  height: 48px;
+  height: 3rem;
   ${(props) => props.theme.ButtonLarge}
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   background: ${(props) => (props.disabled ? props.theme.Bg.mainColor4 : props.theme.Bg.mainColor5)};
   color: ${(props) => (props.disabled ? props.theme.Bg.color1 : "#ffffff")};
@@ -294,9 +294,9 @@ const SignUpButtton = styled.button`
 
 const BottomText = styled.div`
   ${(props) => props.theme.FlexRow};
-  gap: 16px;
-  margin-top: 24px;
-  font-size: 14px;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
 `;
 
 export default JoinPage;

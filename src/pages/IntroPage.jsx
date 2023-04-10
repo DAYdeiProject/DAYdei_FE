@@ -114,64 +114,64 @@ export const PageWrapper = styled.div`
 
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
-  height: calc(100vh - 64px - 1px);
+  height: calc(100vh - 4rem - 0.0625rem);
   overflow: hidden;
 `;
 
 export const LoginWrapper = styled.form`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  min-width: 720px;
-  max-width: 720px;
+  min-width: 45rem;
+  max-width: 45rem;
   height: 100%;
 `;
 
 export const LoginBox = styled.div`
   ${(props) => props.theme.FlexCol};
-  width: 370px;
+  width: 23.125rem;
 `;
 
 const TitleText = styled.div`
   ${(props) => props.theme.FlexCol};
-  height: 80px;
-  margin-top: 210px;
-  margin-bottom: 30px;
+  height: 5rem;
+  margin-top: 13.125rem;
+  margin-bottom: 1.875rem;
   span {
-    font-size: 30px;
+    font-size: 1.875rem;
     font-weight: 600;
   }
 `;
 
 const StInput = styled.div`
   ${(props) => props.theme.FlexCol};
-  gap: 16px;
+  gap: 1rem;
 `;
 
 export const InputWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
-  gap: 12px;
-  height: 46px;
-  padding: 16px 52px 16px 24px;
+  gap: 0.75rem;
+  height: 2.875rem;
+  padding: 1rem 3.25rem 1rem 1.5rem;
   background: #ffffff;
-  border: 1px solid #121212;
-  border-radius: 8px;
+  border: 0.0625rem solid #121212;
+  border-radius: 0.5rem;
 `;
 
 export const LoginButtton = styled.button`
   width: 100%;
-  height: 48px;
-  margin-top: 18px;
+  height: 3rem;
+  margin-top: 1.125rem;
   ${(props) => props.theme.ButtonLarge}
   background: ${(props) => props.theme.Bg.mainColor5};
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
 `;
 
 const GapArea = styled.div`
-  margin: 18px 0;
+  margin: 1.125rem 0;
   span {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: ${(props) => props.theme.Bg.color2};
   }
 `;
@@ -184,9 +184,9 @@ const KakaoLogin = styled(LoginButtton)`
 
 const BottomText = styled.div`
   ${(props) => props.theme.FlexRowBetween};
-  margin-top: 18px;
+  margin-top: 1.125rem;
   color: ${(props) => props.theme.Bg.color1};
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 const JoinText = styled.div`
