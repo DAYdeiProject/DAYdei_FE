@@ -2,12 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import memos from "../modules/memosSlice";
 import users from "../modules/usersSlice";
 import kakao from "../modules/kakaoSlice";
+import alert from "../modules/alertReducer";
 import header from "../modules/headerReducer";
 import friends from "../modules/friendsSlice";
 import connect from "../modules/connectSlice";
 import calendar from "../modules/calendarSlice";
+import usersInfo from "../modules/usersReducer";
 import subscribe from "../modules/subscribeSlice";
-import alert from "../modules/alertReducer";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     memos,
     header,
     alert,
+    usersInfo,
   },
 });
 

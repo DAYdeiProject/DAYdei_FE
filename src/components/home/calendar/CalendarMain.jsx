@@ -48,20 +48,22 @@ function CalendarMain({ ...props }) {
 
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const param = useParams();
   const userInfo = GetUserInfo();
   const location = useLocation();
 
   const { total } = useSelector((state) => state.calendar);
+  const { otherId } = useSelector((state) => state.usersInfo);
+
   useEffect(() => {
-    if (String(userInfo.userId) !== param.id) {
+    if (otherId) {
       // 타유저 캘린더에 간 상황
       setDisabled(true);
+      dispatch(__getTotalPosts({ userId: otherId }));
     } else {
       setDisabled(false);
+      dispatch(__getTotalPosts({ userId: userInfo.userId }));
     }
-    dispatch(__getTotalPosts({ userId: String(param.id) }));
-  }, [isSubmit, param, location.pathname]);
+  }, [isSubmit, otherId, location.pathname]);
 
   useEffect(() => {
     setNewData([]);
@@ -75,7 +77,7 @@ function CalendarMain({ ...props }) {
         let endtDate = "";
         let isEdit = "";
 
-        if (data.color === "GRAY" || String(userInfo.userId) !== param.id) {
+        if (data.color === "GRAY" || String(userInfo.userId) !== otherId) {
           isEdit = false;
         } else {
           isEdit = true;
@@ -136,7 +138,7 @@ function CalendarMain({ ...props }) {
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    if (String(userInfo.userId) === param.id && token) {
+    if (!otherId && token) {
       setPickDate(date.date);
     }
   };
@@ -198,7 +200,7 @@ function CalendarMain({ ...props }) {
       const { event } = eventInfo;
       return (
         <>
-          {event.extendedProps.imageUrl !== null && event.allDay && String(param.id) === String(userInfo.userId) ? (
+          {event.extendedProps.imageUrl !== null && event.allDay ? (
             <img src={event.extendedProps.imageUrl} alt={event.title} />
           ) : (
             !event.allDay && <AlldayColor isEventColor={event.backgroundColor}></AlldayColor>
@@ -211,8 +213,7 @@ function CalendarMain({ ...props }) {
 
   return (
     <CalendarSidebarWrapper>
-      {/* {isLoading && <Loading />} */}
-      {userInfo && String(userInfo.userId) !== param.id && (
+      {userInfo && otherId && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
@@ -221,7 +222,7 @@ function CalendarMain({ ...props }) {
           setIsOtherOpen={setIsOtherOpen}
         />
       )}
-      <CalendarWrapper disabled={disabled} isMy={String(param.id) === String(userInfo.userId)}>
+      <CalendarWrapper disabled={disabled}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -281,9 +282,7 @@ function CalendarMain({ ...props }) {
           setAgainToday={setAgainToday}
         />
       </CalendarWrapper>
-      {String(userInfo.userId) === String(param.id) && (
-        <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />
-      )}
+      {!otherId && <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />}
     </CalendarSidebarWrapper>
   );
 }
@@ -421,6 +420,14 @@ export const CalendarWrapper = styled.div`
     flex-direction: row;
     font-size: ${(props) => props.theme.Fs.size14};
   }
+  .fc-daygrid-day-number {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   // 오늘날짜
   .fc,
   .fc-daygrid-day.fc-day-today {
@@ -429,10 +436,12 @@ export const CalendarWrapper = styled.div`
   .fc-day-today {
     .fc-daygrid-day-top {
       a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: #ffffff;
         font-weight: 600;
         text-decoration-color: ${(props) => props.theme.Bg.mainColor4};
-        text-decoration-thickness: 0.125rem;
         background-color: ${(props) => props.theme.Bg.mainColor5};
         border-radius: 50%;
       }

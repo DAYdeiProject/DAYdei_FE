@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { textState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/usersReducer";
 import { __cancelRequest, __getFriendsList } from "../../redux/modules/friendsSlice";
 import { __friendsList } from "../../redux/modules/kakaoSlice";
 
@@ -95,8 +96,9 @@ function FriendList({ FriendsList }) {
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
-              navigate(`/${user.id}`);
+              navigate(`/other`);
               dispatch(textState(""));
+              dispatch(otherIdState(user.id));
             }}>
             <ProfileWrap>
               <PostLeft>

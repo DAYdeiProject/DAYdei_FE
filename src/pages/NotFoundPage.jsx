@@ -1,15 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { GetUserInfo } from "../../utils/cookie/userInfo";
-import { ReactComponent as NotFoundImg } from "../../assets/defaultIcons/notFound.svg";
-import { __getTotalPosts } from "../../redux/modules/calendarSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { otherIdState } from "../redux/modules/usersReducer";
+import { __getTotalPosts } from "../redux/modules/calendarSlice";
+import { ReactComponent as NotFoundImg } from "../assets/defaultIcons/notFound.svg";
 
 export default function NotFoundPage() {
-  const userInfo = GetUserInfo();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const moveLoginClick = () => {
-    //navigate(-1);
-    window.location.replace(`/${userInfo.userId}`);
+    navigate(`/home`);
+    dispatch(otherIdState(""));
   };
 
   return (
@@ -56,15 +59,9 @@ const BtnContainer = styled.div`
     width: 9.375rem;
     height: 2.8125rem;
     font-size: 1rem;
+    color: #ffffff;
+    background-color: ${(props) => props.theme.Bg.color2};
     ${(props) => props.theme.BoxCustom}
     ${(props) => props.theme.BtnHoverYellow}
-  }
-  button:nth-child(2) {
-    background-color: ${(props) => props.theme.Bg.mainColor5};
-    color: #ffffff;
-    &:hover {
-      background-color: #fbdf96;
-      color: #121212;
-    }
   }
 `;

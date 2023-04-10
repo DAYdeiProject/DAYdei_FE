@@ -24,9 +24,6 @@ export default function SidebarMiniCalendar() {
     }
   };
 
-  const clickExit = (e) => {
-    e.preventDefault();
-  };
   return (
     <MiniWrapper>
       <Calendar tileContent={(date) => viewList(date)} calendarType="US" onClickDay={null} onChange={null} selectRange={false} />

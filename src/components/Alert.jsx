@@ -20,7 +20,7 @@ export default function Alert({ ...props }) {
 
   return (
     <>
-      <AlertWrapper visible={visible}>
+      <AlertWrapper visible={visible} isMax={props.isMax}>
         <div>{props.isComment}</div>
       </AlertWrapper>
     </>
@@ -32,7 +32,7 @@ const AlertWrapper = styled.div`
   bottom: 3.125rem;
   z-index: 999;
   ${(props) => props.theme.FlexCol}
-  width: 21.875rem;
+  width: ${(props) => (props.isMax ? "28.125rem" : "21.875rem")};
   height: 2.1875rem;
   color: #ffffff;
   border-radius: 0.25rem;

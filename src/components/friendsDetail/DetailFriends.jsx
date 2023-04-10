@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { textState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/usersReducer";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
@@ -18,8 +19,9 @@ function DetailFriends({ FriendsList }) {
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
-              navigate(`/${user.id}`);
+              navigate(`/other`);
               dispatch(textState(""));
+              dispatch(otherIdState(user.id));
             }}>
             <ProfileWrapLong>
               <PostLeft>

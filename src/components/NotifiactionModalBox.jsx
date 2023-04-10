@@ -8,6 +8,7 @@ import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { setNotificationPostId, textState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
+import { otherIdState } from "../redux/modules/usersReducer";
 
 export default function NotifiactionModalBox({ ...props }) {
   const [deleteState, setDeleteState] = useState(false);
@@ -24,9 +25,10 @@ export default function NotifiactionModalBox({ ...props }) {
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
-      console.log("userid-----", userId);
-      navigate(`/${userId}`);
+      //console.log("userid-----", userId);
+      navigate(`/other`);
       dispatch(textState(""));
+      dispatch(otherIdState(userId));
       props.setIsNotificationOpen(false);
     } else if (userId === null) {
       const notiInfo = {
@@ -35,7 +37,8 @@ export default function NotifiactionModalBox({ ...props }) {
         notiState,
         isRead,
       };
-      navigate(`/${userInfo.userId}`);
+      //navigate(`/home`);
+
       dispatch(textState(""));
       dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);

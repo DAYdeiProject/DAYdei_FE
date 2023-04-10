@@ -3,12 +3,12 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { __getOtherUser } from "../redux/modules/calendarSlice";
-import { __addSubscribe, __cancelSubscribe } from "../redux/modules/subscribeSlice";
-import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../redux/modules/friendsSlice";
-import defaultProfile from "../assets/defaultImage/profile.jpg";
+import { __getOtherUser } from "../../redux/modules/calendarSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
+import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../../redux/modules/friendsSlice";
+import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
-export default function SidebarOtherCalendar({ userId }) {
+export default function SidebarOtherCalendar({ otherId }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -23,8 +23,8 @@ export default function SidebarOtherCalendar({ userId }) {
   const { otherUser } = useSelector((state) => state.calendar);
 
   useEffect(() => {
-    dispatch(__getOtherUser({ userId: param.id, token }));
-  }, [userId, statusCodeFriend, statusCodeSubscribe, acceptStatusCode]);
+    dispatch(__getOtherUser({ userId: otherId, token }));
+  }, [otherId, statusCodeFriend, statusCodeSubscribe, acceptStatusCode]);
 
   // 친구신청요청, 요청 취소
   const requestHandler = (id) => {
@@ -85,7 +85,7 @@ export default function SidebarOtherCalendar({ userId }) {
   }, [otherUser]);
 
   const ShowFriendDetailHandler = () => {
-    navigate(`/friendsdetail/${userId}`);
+    navigate(`/friendsdetail`);
   };
 
   return (

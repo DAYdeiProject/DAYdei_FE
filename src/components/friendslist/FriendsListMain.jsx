@@ -19,10 +19,12 @@ import useAlignFunctions from "../../hooks/useAlignFunctions";
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
 import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
 import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 
 function FriendsListMain() {
-  const params = useParams();
+  //const params = useParams();
   const dispatch = useDispatch();
+  const usersInfo = GetUserInfo();
   const token = Cookies.get("accessJWTToken");
   const statusCodeFriend = useSelector((state) => state.friends.statusCode);
   const statusCodeSubscribe = useSelector((state) => state.subscribe.statusCode);
@@ -63,7 +65,7 @@ function FriendsListMain() {
 
   // 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
-    const id = params.id;
+    const id = usersInfo.userId;
     if (searchWord === "") {
       let url = `${id}?sort=name&searchword=`;
       console.log("검색어 없는 url-->", url);
@@ -243,10 +245,10 @@ function FriendsListMain() {
                       <Filter onClick={handleDropdownFriend} />
                       {isDropdownFriendOpen && (
                         <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                          <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
+                          <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
+                          <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
+                          <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
                         </DropdownFrame>
                       )}
                     </IconWrap>
@@ -277,10 +279,10 @@ function FriendsListMain() {
                       <Filter onClick={handleDropdownSubscribe} />
                       {isDropdownSubscribeOpen && (
                         <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                          <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
+                          <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
+                          <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
+                          <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
                         </DropdownFrame>
                       )}
                     </IconWrap>
@@ -311,10 +313,10 @@ function FriendsListMain() {
                       <Filter onClick={handleDropdownSubscriber} />
                       {isDropdownSubscriberOpen && (
                         <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(params.id)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(params.id)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(params.id)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(params.id)}>오래된순</DropdownItems>
+                          <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
+                          <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
+                          <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
+                          <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
                         </DropdownFrame>
                       )}
                     </IconWrap>
