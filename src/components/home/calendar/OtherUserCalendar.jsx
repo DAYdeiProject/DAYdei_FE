@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DayAmPm } from "../../../utils/calendar/CalendarBasic";
 import { FormatTimeDot, TimeCheck } from "../../../utils/calendar/CalendarBasic";
@@ -12,7 +11,7 @@ export default function OtherUserCalendar({ ...props }) {
   const dispatch = useDispatch();
 
   const { otherUserUpdate, otherUserShare, otherUser } = useSelector((state) => state.calendar);
-  const { otherId } = useSelector((state) => state.usersInfo);
+  const { otherId } = useSelector((state) => state.header);
 
   //console.log("otherUserUpdate : ", otherUserUpdate);
   //console.log("otherUserShare : ", otherUserShare);

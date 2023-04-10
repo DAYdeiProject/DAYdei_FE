@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { otherIdState } from "../redux/modules/usersReducer";
+import { otherIdState } from "../redux/modules/headerReducer";
 import { __getTotalPosts } from "../redux/modules/calendarSlice";
 import { ReactComponent as NotFoundImg } from "../assets/defaultIcons/notFound.svg";
 

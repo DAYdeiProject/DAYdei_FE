@@ -254,7 +254,7 @@ const TargetBoxCheck = styled.div`
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background-color: ${(props) => (!props.isScheduleCheck ? "#DF5445" : "#58c179")};
+    background-color: ${(props) => (!props.isScheduleCheck ? props.theme.Bg.redColor : props.theme.Bg.greenColor)};
   }
   span {
     font-size: 12px;

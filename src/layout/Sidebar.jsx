@@ -9,57 +9,56 @@ import { useMediaQuery } from "react-responsive";
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
+import SseMessageBox from "../components/SseMessageBox";
 import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
+
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const userInfo = GetUserInfo();
+  const [sseState, setSseState] = useState(false);
+  const dispatch = useDispatch();
+
+  // 다른 유저캘린더 갔을때
+  const { otherId, notiState, text } = useSelector((state) => state.header);
+  //console.log("사이드바 otherId==>", otherId);
+  //const { notiState } = useSelector((state) => state.header);
 
   // SSE 알림
-  //  "Content-Type": "text/event-stream",
-  //     Connection: "keep-alive",
   let eventConnect = "";
+  let message = "";
   useEffect(() => {
-    console.log("sse--------");
     eventConnect = new EventSourcePolyfill(`https://sparta-daln.shop/api/subscribe`, {
       headers: {
         Authorization: token,
-        //"Content-Type": "text/event-stream",
-        //Connection: "keep-alive",
       },
-      heartbeatTimeout: 60000,
-      //withCredentials: true,
+      heartbeatTimeout: 3600000,
+      withCredentials: true,
     });
 
     eventConnect.onmessage = (event) => {
-      console.log("connect event ==> ", event.data);
-      //const result = JSON.parse(event.data);
-      //console.log("result json ==> ", result);
-      //const data = checkJSON !== "EventStream" && JSON.parse(event.data);
+      if (!event.data.includes("EventStream")) {
+        const result = JSON.parse(event.data);
+        dispatch(newNotificationState({ newState: true, message: result.content }));
+        if (text !== "home") {
+          dispatch(textState(text));
+        } else if (otherId) {
+          dispatch(otherIdState(otherId));
+        }
+        setSseState(true);
+        console.log("sse message==>", result);
 
-      // if (!result.includes("EventStream")) {
-      //   console.log("message===> ", result.content);
-      //   //setSseData(result);
-      //   //setIsMessageState(true);
-      // }
+        //message = result.content.split("@");
+        //console.log("split message", message);
+      }
     };
     return () => eventConnect.close();
   }, []);
-
-  // 실시간 알림창
-  // useEffect(() => {
-  //   let timer;
-  //   if (isMessageState) {
-  //     timer = setTimeout(() => {
-  //       setIsMessageState(false);
-  //     }, 3000); // 4초 후 모달이 자동으로 닫힘
-  //   }
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [isMessageState]);
 
   const { otherId } = useSelector((state) => state.usersInfo);
   //스크린 크기 1440 미만임을 감지
@@ -70,7 +69,8 @@ function Sidebar({ ...props }) {
     setIsSideStyleOpen(!isSideStyleOpen);
   };
 
-  console.log(isSideStyleOpen);
+  //console.log(isSideStyleOpen);
+
 
   return (
     <>
@@ -109,6 +109,7 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
+      {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />}
     </>
   );
 }
@@ -166,3 +167,16 @@ const SideStyleShort = styled.div`
     display: none;
   }
 `;
+
+// 실시간 알림창
+// useEffect(() => {
+//   let timer;
+//   if (isMessageState) {
+//     timer = setTimeout(() => {
+//       setIsMessageState(false);
+//     }, 3000); // 4초 후 모달이 자동으로 닫힘
+//   }
+//   return () => {
+//     clearTimeout(timer);
+//   };
+// }, [isMessageState]);
