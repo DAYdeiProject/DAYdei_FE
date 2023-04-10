@@ -59,7 +59,7 @@ function ApproveRequestModal({ ...props }) {
               <ModalContentWrap>
                 {props.RequestedUsersList.map((user) => (
                   <>
-                    <PostWrap>
+                    <PostWrap key={user.id}>
                       <UserInfoWrap>
                         <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                         <ProfileWrap>
@@ -89,7 +89,7 @@ function ApproveRequestModal({ ...props }) {
               <ModalContentWrap>
                 {props.SentUsersList.map((user) => (
                   <>
-                    <PostWrap>
+                    <PostWrap key={user.id}>
                       <UserInfoWrap>
                         <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                         <ProfileWrap>

@@ -145,7 +145,7 @@ const SideStyleShort = styled.div`
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
 
-  width: 34px;
+  width: 2.125rem;
   text-align: center;
   left: ${(props) => (props.isSideStyleOpen ? "21.875rem" : "0rem")};
   position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")};

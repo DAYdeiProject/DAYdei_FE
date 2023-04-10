@@ -345,7 +345,8 @@ export const WholeWrapper = styled.div`
   /* background: pink; */
 
   @media screen and (max-width: 1440px) {
-    width: 90rem;
+    width: 87.5rem;
+    /* background: pink; */
   }
 `;
 
@@ -357,7 +358,7 @@ export const CalendarWrapper = styled.div`
   height: 100%;
 
   @media screen and (max-width: 1440px) {
-    padding: 0rem 2.25rem;
+    padding: 0rem 1.25rem;
     /* background: skyblue; */
   }
 `;

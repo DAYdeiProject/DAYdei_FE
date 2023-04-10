@@ -69,5 +69,4 @@ const CalendarWrapper = styled.section`
     min-width: 90rem;
     max-width: 90rem;
   }
-
 `;
