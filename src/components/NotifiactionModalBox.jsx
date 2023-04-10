@@ -24,7 +24,6 @@ export default function NotifiactionModalBox({ ...props }) {
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
-      //console.log("userid-----", userId);
       navigate(`/other`);
       dispatch(textState(""));
       dispatch(otherIdState(userId));
@@ -103,7 +102,7 @@ export default function NotifiactionModalBox({ ...props }) {
 
 const NotificationWrapper = styled.div`
   position: absolute;
-  top: 1.875rem;
+  top: 1.5625rem;
   right: 2.8125rem;
   z-index: 50;
   width: 20.875rem;

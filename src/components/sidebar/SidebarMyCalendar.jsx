@@ -35,6 +35,7 @@ export default function SidebarMyCalendar({ ...props }) {
   const moveUserPage = (id) => {
     navigate(`/other`);
     dispatch(otherIdState(id));
+    dispatch(textState(""));
   };
 
   // 닉네임 가져오기 위해..

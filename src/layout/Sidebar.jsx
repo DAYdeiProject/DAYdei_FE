@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { EventSourcePolyfill } from "event-source-polyfill";
@@ -7,27 +6,20 @@ import Cookies from "js-cookie";
 import { useMediaQuery } from "react-responsive";
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
-import { GetUserInfo } from "../utils/cookie/userInfo";
-import { newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
+import { liveNotiState, newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
 import SseMessageBox from "../components/SseMessageBox";
 import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
-  const param = useParams();
-  const userInfo = GetUserInfo();
-  const [sseState, setSseState] = useState(false);
   const dispatch = useDispatch();
 
   // 다른 유저캘린더 갔을때
-  const { otherId, notiState, text } = useSelector((state) => state.header);
-  //console.log("사이드바 otherId==>", otherId);
-  //const { notiState } = useSelector((state) => state.header);
+  const { otherId, text } = useSelector((state) => state.header);
 
   // SSE 알림
   let eventConnect = "";
-  let message = "";
   useEffect(() => {
     eventConnect = new EventSourcePolyfill(`https://sparta-daln.shop/api/subscribe`, {
       headers: {
@@ -41,16 +33,12 @@ function Sidebar({ ...props }) {
       if (!event.data.includes("EventStream")) {
         const result = JSON.parse(event.data);
         dispatch(newNotificationState({ newState: true, message: result.content }));
+        dispatch(liveNotiState(true));
         if (text !== "home") {
           dispatch(textState(text));
         } else if (otherId) {
           dispatch(otherIdState(otherId));
         }
-        setSseState(true);
-        console.log("sse message==>", result);
-
-        //message = result.content.split("@");
-        //console.log("split message", message);
       }
     };
     return () => eventConnect.close();
@@ -63,8 +51,6 @@ function Sidebar({ ...props }) {
   const openSideStyleHandler = () => {
     setIsSideStyleOpen(!isSideStyleOpen);
   };
-
-  //console.log(isSideStyleOpen);
 
   return (
     <>
@@ -103,7 +89,7 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
-      {/* {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />} */}
+      <SseMessageBox />
     </>
   );
 }
