@@ -32,7 +32,7 @@ function FriendList({ FriendsList }) {
     script.src = "https://developers.kakao.com/sdk/js/kakao.js";
     script.async = true;
     document.body.appendChild(script);
-    return () => document.bodyNaNpxoveChild(script);
+    return () => document.body.removeChild(script);
   }, []);
 
   const sendKakao = () => {
