@@ -296,7 +296,8 @@ const CalendarSidebarWrapper = styled.div`
   /* background-color: pink; */
 
   @media screen and (max-width: 90rem) {
-    width: 85rem;
+    width: 0;
+    min-width: 85rem;
   }
 `;
 export const CalendarWrapper = styled.div`
@@ -305,10 +306,10 @@ export const CalendarWrapper = styled.div`
   height: 100%;
   padding: 2.5rem 3rem 3.25rem;
   margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
-  background: pink;
+  /* background: pink; */
 
   @media screen and (max-width: 90rem) {
-    max-width: calc(100%-2.1563rem);
+    max-width: 85rem;
     margin-right: ${(props) => (props.isMy ? "2.1563rem" : "0")};
     padding: 1.875rem 2.25rem 2.4375rem;
   }
