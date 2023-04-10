@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ModalBox from "../../../elements/ModalBox";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import useOutsideClick from "../../../hooks/useOutsideClick";
+import { alertState } from "../../../redux/modules/alertReducer";
 import ColorFromDB, { DayAmPm, DayCheck } from "../../../utils/calendar/CalendarBasic";
 import { setNotificationPostId, textState } from "../../../redux/modules/headerReducer";
 import { __getPostDetail, __deletePost, __acceptSharePost, __rejectSharePost } from "../../../redux/modules/calendarSlice";
@@ -94,7 +95,7 @@ export default function DetailPostModal({ ...props }) {
       dispatch(__getPostDetail({ id: notiInfo.postId })).then((data) => {
         if (data.error) {
           if (data.payload.response.data.statusCode === 404) {
-            alert("존재하지 않는 일정입니다.");
+            dispatch(alertState({ state: true, comment: "존자하지 않는 일정입니다." }));
           }
         } else {
           props.setIsDetailPost(true);
@@ -157,7 +158,7 @@ export default function DetailPostModal({ ...props }) {
   // 삭제
   const deletePostHandler = (id) => {
     dispatch(__deletePost({ id, token })).then(() => {
-      alert("일정이 삭제되었습니다.");
+      dispatch(alertState({ state: true, comment: "일정이 삭제되었습니다." }));
       props.setIsDetailPost(false);
       props.setSide(!props.side);
       props.setIsSubmit(!props.isSubmit);
@@ -169,9 +170,9 @@ export default function DetailPostModal({ ...props }) {
   const acceptClick = () => {
     dispatch(__acceptSharePost({ postId: notiInfo.postId })).then((data) => {
       if (data.payload.statusCode === 400) {
-        alert("수락 요청이 실패하였습니다.");
+        dispatch(alertState({ state: true, comment: "수락 요청이 실패하였습니다." }));
       } else {
-        alert("일정을 수락하였습니다.");
+        dispatch(alertState({ state: true, comment: "일정을 수락하였습니다." }));
         props.setOtherCalendarState(true);
         props.setIsSubmit(!props.isSubmit);
         closeModal();
@@ -182,9 +183,9 @@ export default function DetailPostModal({ ...props }) {
   const rejectClick = () => {
     dispatch(__rejectSharePost({ postId: notiInfo.postId })).then((data) => {
       if (data.payload.statusCode === 400) {
-        alert("거절 요청이 실패하였습니다.");
+        dispatch(alertState({ state: true, comment: "거절 요청이 실패하였습니다." }));
       } else {
-        alert("일정을 거절하였습니다.");
+        dispatch(alertState({ state: true, comment: "일정을 거절하였습니다." }));
         props.setOtherCalendarState(true);
         props.setIsSubmit(!props.isSubmit);
         closeModal();
@@ -342,13 +343,13 @@ export default function DetailPostModal({ ...props }) {
             <InviteWrapper>
               {notiInfo ? (
                 notiState === "requestPost" ? (
-                  <button>
+                  <div>
                     <span>{detail?.writer && detail.writer.name}님이 초대하였습니다.</span>
                     <div>
                       <button onClick={acceptClick}>수락</button>
                       <button onClick={rejectClick}>거절</button>
                     </div>
-                  </button>
+                  </div>
                 ) : (
                   notiState === "acceptPost" && (
                     <span>

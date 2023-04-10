@@ -15,7 +15,7 @@ export default function ColorFromDB(data) {
     case "PURPLE":
       return "#EFECFF";
     case "LIGHTGRAY":
-      return "#F2F4F6";
+      return "#e6ecd8ec";
     case "PINK":
       return "#edd1f0";
     default:
@@ -38,7 +38,7 @@ export function ColorDeepFromDB(data) {
     case "PURPLE":
       return "#E2CCFB";
     case "LIGHTGRAY":
-      return "#E1E7ED";
+      return "#a8b393";
     case "PINK":
       return "#edd1f0";
     default:
@@ -66,7 +66,7 @@ export function ColorToDB(data) {
 }
 
 export function ColorList() {
-  const colorList = ["#F6A89E", "#FBDF96", "#CFF4F1", "#A7EAFF", "#0EAFE1", "#E2CCFB", "#E1E7ED"];
+  const colorList = ["#F6A89E", "#FBDF96", "#CFF4F1", "#A7EAFF", "#0EAFE1", "#E2CCFB", "#c5d1af"];
   return colorList;
 }
 export function TimeList() {

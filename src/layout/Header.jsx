@@ -87,6 +87,7 @@ function Header() {
       if (!Cookies.get("accessJWTToken")) {
         navigate("/");
         dispatch(textState("home"));
+        dispatch(otherIdState(""));
       }
     }
   };

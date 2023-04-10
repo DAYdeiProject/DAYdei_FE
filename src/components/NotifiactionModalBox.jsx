@@ -37,7 +37,8 @@ export default function NotifiactionModalBox({ ...props }) {
         notiState,
         isRead,
       };
-      navigate(`/home`);
+      //navigate(`/home`);
+
       dispatch(textState(""));
       dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);
