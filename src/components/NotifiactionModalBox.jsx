@@ -6,9 +6,8 @@ import { __getConnect } from "../redux/modules/connectSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
-import { setNotificationPostId, textState } from "../redux/modules/headerReducer";
+import { setNotificationPostId, textState, otherIdState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
-import { otherIdState } from "../redux/modules/usersReducer";
 
 export default function NotifiactionModalBox({ ...props }) {
   const [deleteState, setDeleteState] = useState(false);
@@ -104,7 +103,7 @@ export default function NotifiactionModalBox({ ...props }) {
 
 const NotificationWrapper = styled.div`
   position: absolute;
-  top: 2.5rem;
+  top: 1.875rem;
   right: 2.8125rem;
   z-index: 50;
   width: 20.875rem;

@@ -6,7 +6,7 @@ import CalendarMain from "../components/home/calendar/CalendarMain";
 import FriendsListMain from "../components/friendslist/FriendsListMain";
 
 export default function MyListPage() {
-  const { otherId } = useSelector((state) => state.usersInfo);
+  const { otherId } = useSelector((state) => state.header);
 
   return (
     <HomePageWrapper>

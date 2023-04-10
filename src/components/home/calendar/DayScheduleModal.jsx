@@ -18,7 +18,7 @@ export default function DayScheduleModal({ ...props }) {
   const outside = useRef();
   const userInfo = GetUserInfo();
   const { todayList } = useSelector((state) => state.calendar);
-  const { otherId } = useSelector((state) => state.usersInfo);
+  const { otherId } = useSelector((state) => state.header);
 
   const month = getMonth(new Date(props.moreDate)) + 1;
   const date = getDate(new Date(props.moreDate));

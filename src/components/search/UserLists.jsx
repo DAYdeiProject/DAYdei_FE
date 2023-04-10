@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { textState } from "../../redux/modules/headerReducer";
-import { otherIdState } from "../../redux/modules/usersReducer";
+import { textState, otherIdState } from "../../redux/modules/headerReducer";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 

@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
-import { otherIdState } from "../../redux/modules/usersReducer";
-import { textState } from "../../redux/modules/headerReducer";
+import { textState, otherIdState } from "../../redux/modules/headerReducer";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";

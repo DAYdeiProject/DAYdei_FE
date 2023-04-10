@@ -45,8 +45,7 @@ export default function DetailPostModal({ ...props }) {
   const param = useParams();
 
   const { detail } = useSelector((state) => state.calendar);
-  const { notiInfo } = useSelector((state) => state.header);
-  const { otherId } = useSelector((state) => state.usersInfo);
+  const { notiInfo, otherId } = useSelector((state) => state.header);
   //console.log("detail otherId==========", otherId);
 
   useEffect(() => {

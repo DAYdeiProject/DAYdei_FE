@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 
-import { textState } from "../redux/modules/headerReducer";
+import { textState, otherIdState, newNotificationState } from "../redux/modules/headerReducer";
 import { __getHeaderProfile } from "../redux/modules/usersSlice";
 
 import useOutSideClick from "../hooks/useOutsideClick";
@@ -18,7 +18,7 @@ import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import Alert from "../components/Alert";
-import { otherIdState } from "../redux/modules/usersReducer";
+import SseMessageBox from "../components/SseMessageBox";
 
 function Header() {
   const navigate = useNavigate();
@@ -35,11 +35,11 @@ function Header() {
   const dispatch = useDispatch();
   const userId = GetUserInfo();
   // 헤더 클릭한 값 state
-  const { text } = useSelector((state) => state.header);
+  const { text, notiState } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
-  //console.log("header otherId=========", otherId);
 
+  console.log("header=====", notiState);
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
     setClickNav(text);
@@ -91,10 +91,11 @@ function Header() {
       }
     }
   };
-  // 알림 클릭
+  // 알림 아이콘 클릭
   const notificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setIsDropdownOpen(false);
+    dispatch(newNotificationState({}));
   };
 
   // 홈클릭
@@ -150,7 +151,10 @@ function Header() {
 
             <IconWrapper ref={DropdownRef} className="notification">
               {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
-              <AlertIcon className="AlertIcon" onClick={notificationClick} />
+              <AlertContainer>
+                <AlertIcon className="AlertIcon" onClick={notificationClick} />
+                {notiState && <NewAlertIcon isNew={notiState.newState}></NewAlertIcon>}
+              </AlertContainer>
               <ImageContainer onClick={handleDropdown}>
                 <ImgBox>
                   <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
@@ -200,6 +204,7 @@ function Header() {
       />
 
       {state && state.state && <Alert isComment={state.comment} isMax={state.max} />}
+      {/* {token && notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />} */}
     </>
   );
 }
@@ -237,14 +242,14 @@ const NavContainer = styled.section`
   padding: 2.125rem 3rem;
   span {
     ${(props) => props.theme.HeaderText};
-    color: ${(props) => props.theme.Bg.fontColor3};
+    color: ${(props) => props.theme.Bg.color3};
   }
 `;
 
 const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  min-width: 1250px;
+  min-width: 78.125rem;
   width: 100%;
   gap: 2.5rem;
   span {
@@ -253,13 +258,13 @@ const NavTabConatiner = styled.div`
     }
   }
   .homeSpan {
-    color: ${(props) => props.isNav === "home" && props.theme.Bg.fontBlack};
+    color: ${(props) => props.isNav === "home" && props.theme.Bg.color1};
   }
   .friendSpan {
-    color: ${(props) => props.isNav === "friend" && props.theme.Bg.fontBlack};
+    color: ${(props) => props.isNav === "friend" && props.theme.Bg.color1};
   }
   .searchSpan {
-    color: ${(props) => props.isNav === "search" && props.theme.Bg.fontBlack};
+    color: ${(props) => props.isNav === "search" && props.theme.Bg.color1};
   }
 `;
 
@@ -270,13 +275,28 @@ const IconWrapper = styled.div`
   width: 9.375rem;
   height: 100%;
   display: flex;
+`;
 
-  //align-items: center;
+const AlertContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
   .AlertIcon {
     :hover {
       cursor: pointer;
     }
   }
+`;
+
+const NewAlertIcon = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: ${(props) => (props.isNew ? "block" : "none")};
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.Bg.redColor};
 `;
 
 const ImageContainer = styled.div`
@@ -398,18 +418,4 @@ const Button = styled.div`
   :hover {
     cursor: pointer;
   }
-`;
-
-const MessageBox = styled.div`
-  position: absolute;
-  bottom: 0rem;
-  z-index: 500;
-  right: 0;
-  width: 18.75rem;
-  height: 9.375rem;
-  background-color: #ffffff;
-  border: 0.0625rem solid black;
-  padding: 1.25rem;
-  transform: ${(props) => !props.isMessage && "transLateY(100%)"};
-  transition: transform 0.5s;
 `;

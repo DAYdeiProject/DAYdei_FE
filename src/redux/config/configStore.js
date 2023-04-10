@@ -7,7 +7,6 @@ import header from "../modules/headerReducer";
 import friends from "../modules/friendsSlice";
 import connect from "../modules/connectSlice";
 import calendar from "../modules/calendarSlice";
-import usersInfo from "../modules/usersReducer";
 import subscribe from "../modules/subscribeSlice";
 
 const store = configureStore({
@@ -21,7 +20,6 @@ const store = configureStore({
     memos,
     header,
     alert,
-    usersInfo,
   },
 });
 

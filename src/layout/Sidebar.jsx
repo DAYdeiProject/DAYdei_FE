@@ -7,58 +7,47 @@ import Cookies from "js-cookie";
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { GetUserInfo } from "../utils/cookie/userInfo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { newNotificationState } from "../redux/modules/headerReducer";
+import SseMessageBox from "../components/SseMessageBox";
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
   const userInfo = GetUserInfo();
+  const [sseState, setSseState] = useState(false);
+  const dispatch = useDispatch();
+
+  // 다른 유저캘린더 갔을때
+  const { otherId, notiState } = useSelector((state) => state.header);
+  //const { notiState } = useSelector((state) => state.header);
 
   // SSE 알림
-  //  "Content-Type": "text/event-stream",
-  //     Connection: "keep-alive",
   let eventConnect = "";
+  let message = "";
   useEffect(() => {
-    console.log("sse--------");
     eventConnect = new EventSourcePolyfill(`https://sparta-daln.shop/api/subscribe`, {
       headers: {
         Authorization: token,
-        //"Content-Type": "text/event-stream",
-        //Connection: "keep-alive",
       },
-      heartbeatTimeout: 60000,
-      //withCredentials: true,
+      heartbeatTimeout: 3600000,
+      withCredentials: true,
     });
 
     eventConnect.onmessage = (event) => {
-      console.log("connect event ==> ", event.data);
-      //const result = JSON.parse(event.data);
-      //console.log("result json ==> ", result);
-      //const data = checkJSON !== "EventStream" && JSON.parse(event.data);
+      if (!event.data.includes("EventStream")) {
+        const result = JSON.parse(event.data);
+        dispatch(newNotificationState({ newState: true, message: result.content }));
+        setSseState(true);
+        console.log("sse message==>", result);
 
-      // if (!result.includes("EventStream")) {
-      //   console.log("message===> ", result.content);
-      //   //setSseData(result);
-      //   //setIsMessageState(true);
-      // }
+        //message = result.content.split("@");
+        //console.log("split message", message);
+      }
     };
     return () => eventConnect.close();
   }, []);
-
-  // 실시간 알림창
-  // useEffect(() => {
-  //   let timer;
-  //   if (isMessageState) {
-  //     timer = setTimeout(() => {
-  //       setIsMessageState(false);
-  //     }, 3000); // 4초 후 모달이 자동으로 닫힘
-  //   }
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [isMessageState]);
-
-  const { otherId } = useSelector((state) => state.usersInfo);
 
   return (
     <>
@@ -71,6 +60,7 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
+      {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />}
     </>
   );
 }
@@ -85,3 +75,16 @@ const SideStyle = styled.div`
   background: ${(props) => props.theme.Bg.color5};
   position: relative;
 `;
+
+// 실시간 알림창
+// useEffect(() => {
+//   let timer;
+//   if (isMessageState) {
+//     timer = setTimeout(() => {
+//       setIsMessageState(false);
+//     }, 3000); // 4초 후 모달이 자동으로 닫힘
+//   }
+//   return () => {
+//     clearTimeout(timer);
+//   };
+// }, [isMessageState]);

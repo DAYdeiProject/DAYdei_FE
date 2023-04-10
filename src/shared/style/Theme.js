@@ -1,21 +1,6 @@
 import { css } from "styled-components";
 
 const Bg = {
-  mainColor: "#E7E7E7", // 헤더
-  lightColor: "#F5F5F5", // sidebar
-  middleColor: "#BABABA", // 버튼 연한색
-  deepColor: "#626262", // 버튼 진한색
-  errorColor: "#DF5445", // 에러
-  successColor: "#4FB400", // success
-  border1: "#afb4bf", // main border
-  border2: "#ebebeb", // 정보 없을때 나오는 div border
-  button1: "#f2f4f6", // 버튼
-  fontBlack: "#121212", // title
-  color1: "#494d55", // header nav font + desc
-  fontColor2: "#626262", // 친구/구독 리스트 한줄 소개
-  fontColor3: "#afb4bf", // 날짜 + email(리스트 중 닉네임 밑에)
-
-  //---------------------------------------------------
   color1: "#121212",
   color2: "#494D55",
   color3: "#AFB4BF",
@@ -41,19 +26,11 @@ const Bg = {
 
   hoverColor: "#eef9f7",
   memoColor: "#f1fbfe",
+  redColor: "#DF5445",
+  greenColor: "#58c179",
 };
 
 const Fs = {
-  xLargeText: "30px", // 회원가입, 로그인 text
-  largeText: "28px", // logo , calendar 년월
-  mediumText: "24px", // header nav , 친구추천 page
-  title: "20px", // sidebar title
-  tag: "18px", // 카테고리 tag
-  day: "16px", // 달력 요일  , 버튼 text , 로그인 input text
-  smallText: "14px", // 작은글씨
-  xsmallText: "12px", // 더 작은글씨
-
-  // --------------------------------------------------
   sizeLogo: "30px",
   size28: "28px",
   size24: "24px",
