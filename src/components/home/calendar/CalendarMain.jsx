@@ -297,7 +297,8 @@ const CalendarSidebarWrapper = styled.div`
 
   @media screen and (max-width: 90rem) {
     width: 0;
-    min-width: 85rem;
+    min-width: 87.5rem;
+    /* background-color: pink; */
   }
 `;
 export const CalendarWrapper = styled.div`

@@ -114,6 +114,8 @@ export const WholeWrapper = styled.div`
 
   @media screen and (max-width: 1440px) {
     width: 87.5rem;
+    /* background-color: pink; */
+    margin-left: 2.5rem;
   }
 `;
 

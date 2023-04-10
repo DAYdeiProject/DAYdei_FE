@@ -69,30 +69,21 @@ function Sidebar({ ...props }) {
   return (
     <>
       {isShortScreen ? (
-        isSideStyleOpen ? (
-          !otherId ? (
-            <WholeWrapper>
-              <SideStyle isShort={isShortScreen}>
-                <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
-              </SideStyle>
-              <SideStyleShort isSideStyleOpen={isSideStyleOpen}>
-                <IconWrapper>
-                  <Left onClick={openSideStyleHandler} />
-                </IconWrapper>
-              </SideStyleShort>
-            </WholeWrapper>
-          ) : (
-            <WholeWrapper>
-              <SideStyle>
-                <SidebarOtherCalendar otherId={otherId} />
-              </SideStyle>
-              <SideStyleShort>
-                <IconWrapper>
-                  <Left onClick={openSideStyleHandler} />
-                </IconWrapper>
-              </SideStyleShort>
-            </WholeWrapper>
-          )
+        otherId && window.location.pathname === "/other" ? (
+          <SideStyle>
+            <SidebarOtherCalendar otherId={otherId} setIsSideStyleOpen={setIsSideStyleOpen} />
+          </SideStyle>
+        ) : isSideStyleOpen ? (
+          <WholeWrapper>
+            <SideStyle isShort={isShortScreen}>
+              <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
+            </SideStyle>
+            <SideStyleShort isSideStyleOpen={isSideStyleOpen}>
+              <IconWrapper>
+                <Left onClick={openSideStyleHandler} />
+              </IconWrapper>
+            </SideStyleShort>
+          </WholeWrapper>
         ) : (
           <SideStyleShort>
             <IconWrapper>
@@ -148,7 +139,8 @@ const SideStyleShort = styled.div`
   width: 2.125rem;
   text-align: center;
   left: ${(props) => (props.isSideStyleOpen ? "21.875rem" : "0rem")};
-  position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")};
+  /* position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")}; */
+  position: absolute;
   z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
 
   @media screen and (max-width: 1440px) {
