@@ -225,7 +225,7 @@ const HeaderWrapper = styled.header`
   @media screen and (max-width: 1440px) {
     margin-left: 0rem;
     width: 90rem;
-    /* background: pink; */
+    /* background: skyblue; */
   }
 `;
 

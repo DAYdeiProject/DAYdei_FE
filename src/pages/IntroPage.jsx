@@ -110,6 +110,10 @@ function IntroPage() {
 
 export const PageWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
+
+  @media screen and (max-width: 90rem) {
+    width: 90rem;
+  }
 `;
 
 export const ScreenLayout = styled.div`
@@ -124,6 +128,12 @@ export const LoginWrapper = styled.form`
   min-width: 45rem;
   max-width: 45rem;
   height: 100%;
+
+  @media screen and (max-width: 90rem) {
+    max-width: 28.875rem;
+    min-width: 28.875rem;
+    /* background-color: pink; */
+  }
 `;
 
 export const LoginBox = styled.div`

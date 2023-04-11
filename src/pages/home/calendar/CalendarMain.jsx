@@ -48,22 +48,20 @@ function CalendarMain({ ...props }) {
 
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
+  const param = useParams();
   const userInfo = GetUserInfo();
   const location = useLocation();
 
   const { total } = useSelector((state) => state.calendar);
-  const { otherId } = useSelector((state) => state.header);
-
   useEffect(() => {
-    if (otherId) {
+    if (String(userInfo.userId) !== param.id) {
       // 타유저 캘린더에 간 상황
       setDisabled(true);
-      dispatch(__getTotalPosts({ userId: otherId }));
     } else {
       setDisabled(false);
-      dispatch(__getTotalPosts({ userId: userInfo.userId }));
     }
-  }, [isSubmit, otherId, location.pathname]);
+    dispatch(__getTotalPosts({ userId: String(param.id) }));
+  }, [isSubmit, param, location.pathname]);
 
   useEffect(() => {
     setNewData([]);
@@ -77,7 +75,7 @@ function CalendarMain({ ...props }) {
         let endtDate = "";
         let isEdit = "";
 
-        if (data.color === "GRAY" || String(userInfo.userId) !== otherId) {
+        if (data.color === "GRAY" || String(userInfo.userId) !== param.id) {
           isEdit = false;
         } else {
           isEdit = true;
@@ -138,7 +136,7 @@ function CalendarMain({ ...props }) {
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    if (!otherId && token) {
+    if (String(userInfo.userId) === param.id && token) {
       setPickDate(date.date);
     }
   };
@@ -200,7 +198,7 @@ function CalendarMain({ ...props }) {
       const { event } = eventInfo;
       return (
         <>
-          {event.extendedProps.imageUrl !== null && event.allDay ? (
+          {event.extendedProps.imageUrl !== null && event.allDay && String(param.id) === String(userInfo.userId) ? (
             <img src={event.extendedProps.imageUrl} alt={event.title} />
           ) : (
             !event.allDay && <AlldayColor isEventColor={event.backgroundColor}></AlldayColor>
@@ -213,7 +211,8 @@ function CalendarMain({ ...props }) {
 
   return (
     <CalendarSidebarWrapper>
-      {userInfo && otherId && (
+      {/* {isLoading && <Loading />} */}
+      {userInfo && String(userInfo.userId) !== param.id && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
@@ -222,7 +221,7 @@ function CalendarMain({ ...props }) {
           setIsOtherOpen={setIsOtherOpen}
         />
       )}
-      <CalendarWrapper disabled={disabled}>
+      <CalendarWrapper disabled={disabled} isMy={String(param.id) === String(userInfo.userId)}>
         <FullCalendar
           {...setting}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -282,7 +281,9 @@ function CalendarMain({ ...props }) {
           setAgainToday={setAgainToday}
         />
       </CalendarWrapper>
-      {!otherId && <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />}
+      {String(userInfo.userId) === String(param.id) && (
+        <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />
+      )}
     </CalendarSidebarWrapper>
   );
 }
@@ -293,32 +294,17 @@ const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   min-width: 93.75rem;
   height: 100%;
-  /* background-color: pink; */
-
-  @media screen and (max-width: 90rem) {
-    width: 0;
-    min-width: 87.5rem;
-    /* background-color: pink; */
-  }
 `;
 export const CalendarWrapper = styled.div`
   width: 100%;
   max-width: calc(100% - 2.875rem);
   height: 100%;
   padding: 2.5rem 3rem 3.25rem;
-  margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
-  /* background: pink; */
-
-  @media screen and (max-width: 90rem) {
-    max-width: 85rem;
-    margin-right: ${(props) => (props.isMy ? "2.1563rem" : "0")};
-    padding: 1.875rem 2.25rem 2.4375rem;
-  }
-
+  margin-right: ${(props) => (props.isMy ? "46px" : "0")};
   .fc {
     width: 100%;
     height: 100%;
-    color: #121212;
+    color: ${(props) => props.theme.Bg.fontBlack};
   }
   // 달력 헤더 영역
   .fc-toolbar {
@@ -338,7 +324,7 @@ export const CalendarWrapper = styled.div`
   // 버튼 초기화
   .fc .fc-button-primary:disabled {
     background-color: white;
-    color: #121212;
+    color: black;
     border: none;
     margin: 0;
     &:active {
@@ -422,7 +408,7 @@ export const CalendarWrapper = styled.div`
   }
   .fc-daygrid,
   .fc-timegrid {
-    border: 0.0313rem solid ${(props) => props.theme.Bg.color3};
+    border: 0.0313rem solid ${(props) => props.theme.Bg.border1};
     border-radius: 0.25rem;
   }
   // date 각 한칸
@@ -434,14 +420,6 @@ export const CalendarWrapper = styled.div`
     flex-direction: row;
     font-size: ${(props) => props.theme.Fs.size14};
   }
-  .fc-daygrid-day-number {
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   // 오늘날짜
   .fc,
   .fc-daygrid-day.fc-day-today {
@@ -450,12 +428,10 @@ export const CalendarWrapper = styled.div`
   .fc-day-today {
     .fc-daygrid-day-top {
       a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         color: #ffffff;
         font-weight: 600;
         text-decoration-color: ${(props) => props.theme.Bg.mainColor4};
+        text-decoration-thickness: 0.125rem;
         background-color: ${(props) => props.theme.Bg.mainColor5};
         border-radius: 50%;
       }
@@ -466,7 +442,7 @@ export const CalendarWrapper = styled.div`
     border: none;
   }
   .fc-theme-standard td {
-    border-top: 0.0313rem solid ${(props) => props.theme.Bg.color3};
+    border-top: 0.0313rem solid ${(props) => props.theme.Bg.border1};
   }
   // event
   .fc-event-main {
@@ -492,7 +468,7 @@ export const CalendarWrapper = styled.div`
   th {
     line-height: 1.875rem;
     border: none;
-    border-right: 0.0313rem solid ${(props) => props.theme.Bg.color3};
+    border-right: 0.0313rem solid ${(props) => props.theme.Bg.border1};
     background: ${(props) => props.theme.Bg.color5};
     border-radius: 0.25rem;
     font-size: ${(props) => props.theme.Fs.size16};
@@ -503,7 +479,7 @@ export const CalendarWrapper = styled.div`
   // 가로
   tr {
     border: none;
-    border-bottom: 0.0313rem solid ${(props) => props.theme.Bg.color3};
+    border-bottom: 0.0313rem solid ${(props) => props.theme.Bg.border1};
   }
   tr:last-child {
     border-bottom: none;
@@ -511,7 +487,7 @@ export const CalendarWrapper = styled.div`
   // 세로
   td {
     border: none;
-    border-right: 0.0313rem solid ${(props) => props.theme.Bg.color3};
+    border-right: 0.0313rem solid ${(props) => props.theme.Bg.border1};
   }
   td:last-child {
     border-right: none;
@@ -524,7 +500,7 @@ export const CalendarWrapper = styled.div`
   }
   // 더보기 글씨체
   .fc-more-link {
-    font-size: ${(props) => props.theme.Fs.size12};
+    font-size: ${(props) => props.theme.Fs.smallText};
   }
   .fc-direction-ltr .fc-timegrid-slot-label-frame {
     text-align: center;
