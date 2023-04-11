@@ -15,23 +15,18 @@ import { GetUserInfo } from "../utils/cookie/userInfo";
 function HomePage() {
   // 토큰 있는지 체크 -> 없을시 로그아웃
   TokenCheck();
-  const navigate = useNavigate();
-
   //첫 로그인시 카테고리모달 보여주기 상태
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 오늘의 일정 postId
   const [detailPostId, setDetailPostId] = useState("");
   //추천 캘린더 > 시작하기 버튼 눌림 상태
   const [isButtonClicked, setIsButtonClicked] = useState(false);
-
   const [side, setSide] = useState(false);
-
-  //const params = useParams();
   const dispatch = useDispatch();
   const userInfo = GetUserInfo();
+
   useEffect(() => {
     dispatch(__getMyProfile(userInfo.userId)).then((data) => {
-      console.log("로그인하면서 갖고오는 내 프로필 카테고리 정보", data);
       if (data.payload.categoryList.length === 0) {
         setIsModalVisible(true);
       }

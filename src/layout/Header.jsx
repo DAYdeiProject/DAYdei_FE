@@ -20,7 +20,6 @@ import { GetUserInfo } from "../utils/cookie/userInfo";
 import Alert from "../components/Alert";
 
 function Header() {
-  const navigate = useNavigate();
   // 알림창 오픈여부
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,9 +30,10 @@ function Header() {
   const [isProfileDetail, setIsProfileDetail] = useState(false);
   const token = Cookies.get("accessJWTToken");
   const [clickNav, setClickNav] = useState("");
-  const location = useLocation();
-  const dispatch = useDispatch();
   const userId = GetUserInfo();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // 헤더 클릭한 값 state
   const { text, notiState } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
@@ -143,7 +143,7 @@ function Header() {
       {!token && (
         <HeaderWrapper isToken={token}>
           <LogoContainer>
-            <LogoIcon />
+            <LogoIcon className="introIcon" />
           </LogoContainer>
         </HeaderWrapper>
       )}
@@ -220,7 +220,6 @@ function Header() {
       />
 
       {state && state.state && <Alert isComment={state.comment} isMax={state.max} />}
-      {/* {token && notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />} */}
     </>
   );
 }
@@ -236,12 +235,6 @@ const HeaderWrapper = styled.header`
   border-bottom: 0.0313rem solid ${(props) => props.theme.Bg.color2};
   border-top: none;
   justify-content: ${(props) => !props.isToken && "left"};
-
-  @media screen and (max-width: 1440px) {
-    margin-left: 0rem;
-    width: 90rem;
-    /* background: skyblue; */
-  }
 `;
 
 const LogoContainer = styled.section`
@@ -251,19 +244,11 @@ const LogoContainer = styled.section`
   min-width: 21.875rem;
   max-width: 21.875rem;
   padding-left: 2.1875rem;
-  span {
-    text-align: left;
-    font-size: ${(props) => props.theme.Fs.sizeLogo};
-    text-align: center;
-  }
   .homeIcon {
     cursor: pointer;
   }
-  /* background-color: skyblue; */
-
   @media screen and (max-width: 1440px) {
-    max-width: 16.4063rem;
-    min-width: 16.4063rem;
+    min-width: 8.7rem;
   }
 `;
 
@@ -280,10 +265,10 @@ const NavContainer = styled.section`
 const NavTabConatiner = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  min-width: 78.125rem;
-  width: 100%;
+  min-width: 250px;
   gap: 2.5rem;
   span {
+    font-size: ${(props) => props.theme.Fs.size20};
     :hover {
       cursor: pointer;
     }
@@ -298,12 +283,8 @@ const NavTabConatiner = styled.div`
     color: ${(props) => props.isNav === "search" && props.theme.Bg.color1};
   }
 
-  /* background-color: pink; */
-
   @media screen and (max-width: 1440px) {
-    min-width: 58.5938rem;
-    width: 100%;
-    gap: 1.875rem;
+    padding-left: 50px;
   }
 `;
 
@@ -313,7 +294,6 @@ const IconWrapper = styled.div`
   justify-content: right;
   width: 9.375rem;
   height: 100%;
-  display: flex;
 `;
 
 const AlertContainer = styled.div`
@@ -325,15 +305,12 @@ const AlertContainer = styled.div`
       cursor: pointer;
     }
   }
-  @media screen and (max-width: 1440px) {
-    width: 7.0313rem;
-  }
 `;
 
 const NewAlertIcon = styled.div`
   position: absolute;
   top: 0;
-  right: 0;
+  right: 0.0625rem;
   display: ${(props) => (props.isNew ? "block" : "none")};
   width: 0.625rem;
   height: 0.625rem;
@@ -371,7 +348,6 @@ const DropdownFrame = styled.div`
   top: 2.5rem;
   right: 0rem;
   z-index: 100;
-  /* background-color: pink; */
 `;
 
 const ContentWrapper = styled.div`
@@ -379,8 +355,6 @@ const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-
-  /* background-color: pink; */
 `;
 
 const ProfileWrap = styled.div`
@@ -390,13 +364,11 @@ const ProfileWrap = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.875rem;
-  /* background-color: yellow; */
 `;
 
 const GapArea = styled.div`
   width: 100%;
   height: 0.375rem;
-  /* background-color: pink; */
   border-bottom: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 `;
 
@@ -412,8 +384,6 @@ const ProfilePhoto = styled.div`
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 50%;
-  /* background-color: lightgray; */
-
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
@@ -444,7 +414,6 @@ const Options = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 0.25rem;
-  /* background-color: lightgray; */
   margin-bottom: -10px;
 `;
 
@@ -456,7 +425,6 @@ const Button = styled.div`
   font-size: ${(props) => props.theme.Fs.size14};
   font-weight: 800;
   padding-left: 0.5rem;
-  /* background-color: pink; */
   :hover {
     cursor: pointer;
   }

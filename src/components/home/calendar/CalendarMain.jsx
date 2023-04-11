@@ -226,19 +226,21 @@ function CalendarMain({ ...props }) {
         />
       )}
       <CalendarWrapper disabled={disabled}>
-        <FullCalendar
-          {...setting}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          locale="ko"
-          dayMaxEventRows={true}
-          displayEventTime={false}
-          initialView="dayGridMonth"
-          moreLinkText="더보기"
-          moreLinkClick={handleMoreLinkClick}
-          eventClick={handlerEventClick}
-          dateClick={handlerDateClick}
-          eventDrop={handlerEventDrop}
-        />
+        <CalendarContainer>
+          <FullCalendar
+            {...setting}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            locale="ko"
+            dayMaxEventRows={true}
+            displayEventTime={false}
+            initialView="dayGridMonth"
+            moreLinkText="더보기"
+            moreLinkClick={handleMoreLinkClick}
+            eventClick={handlerEventClick}
+            dateClick={handlerDateClick}
+            eventDrop={handlerEventDrop}
+          />
+        </CalendarContainer>
         <AddPostModal
           isAddPost={isAddPost}
           setIsAddPost={setIsAddPost}
@@ -290,30 +292,25 @@ export default CalendarMain;
 
 const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
-  min-width: 93.75rem;
+  //min-width: 93.75rem;
   height: 100%;
-  /* background-color: pink; */
+`;
 
-  @media screen and (max-width: 90rem) {
-    width: 0;
-    min-width: 87.5rem;
-    /* background-color: pink; */
+export const CalendarWrapper = styled.div`
+  ${(props) => props.theme.FlexCol};
+  width: 100%;
+  height: 100%;
+  //margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
+  padding: 20px 0;
+  @media screen and (max-width: 1440px) {
+    padding: 20px;
   }
 `;
-export const CalendarWrapper = styled.div`
-  width: 100%;
-  max-width: calc(100% - 2.875rem);
+
+const CalendarContainer = styled.div`
+  ${(props) => props.theme.FlexCol};
   height: 100%;
-  padding: 2.5rem 3rem 3.25rem;
-  margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
-  /* background: pink; */
-
-  @media screen and (max-width: 90rem) {
-    max-width: 85rem;
-    margin-right: ${(props) => (props.isMy ? "2.1563rem" : "0")};
-    padding: 1.875rem 2.25rem 2.4375rem;
-  }
-
+  padding: 20px 50px;
   .fc {
     width: 100%;
     height: 100%;

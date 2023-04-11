@@ -132,17 +132,16 @@ export const NoListMessageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
   width: 28.75rem;
   height: 19.25rem;
-
   background: ${(props) => props.theme.Bg.color6};
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
 
-  @media screen and (max-width: 90rem) {
-    width: 25.5rem;
+  @media screen and (max-width: 1440px) {
+    width: 26rem;
+    height: 16.875rem;
   }
 `;
 
@@ -152,10 +151,7 @@ export const MessageBox = styled.div`
   align-items: center;
   padding: 0rem;
   gap: 1.5rem;
-
-  /* width: 240px; */
   height: 12.1875rem;
-  /* background-color: yellow; */
 `;
 
 export const ContentArea = styled.div`
@@ -165,10 +161,8 @@ export const ContentArea = styled.div`
   align-items: center;
   padding: 0.625rem;
   gap: 1.5rem;
-
   height: 8.1875rem;
   border-radius: 0.25rem;
-  /* background-color: lightgray; */
 `;
 
 export const IconStyle = styled(MdOutlineAddReaction)`
@@ -183,17 +177,13 @@ export const TextWrap = styled.div`
   align-items: center;
   padding: 0rem;
   gap: 0.5rem;
-
   height: 2.9375rem;
-  /* background-color: gray; */
 `;
 
 export const UpperText = styled.div`
   padding: 0rem;
   gap: 0.625rem;
-
   height: 1.1875rem;
-
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.1875rem;
@@ -204,16 +194,12 @@ export const UpperText = styled.div`
 export const BottomText = styled.div`
   padding: 0rem;
   gap: 0.625rem;
-
-  /* width: 220px; */
   height: 1.25rem;
 
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 140%;
   text-align: center;
-
-  color: #626262;
 `;
 
 export const ButtonWrap = styled.div`
@@ -225,7 +211,6 @@ export const ButtonWrap = styled.div`
 
   width: 100%;
   height: 2.5rem;
-  /* background-color: pink; */
 `;
 
 const KakaoButton = styled.div`
@@ -235,12 +220,9 @@ const KakaoButton = styled.div`
   align-items: center;
   padding: 0.625rem 0.875rem;
   gap: 1rem;
-
-  /* width: 144px; */
   height: 2.5rem;
-
-  background: #fbfeff;
-  border: 0.0625rem solid black;
+  background: #ffffff;
+  border: 0.0625rem solid #121212;
 
   box-shadow: 0.0625rem 0.0625rem 0rem #000000;
   border-radius: 0.25rem;
@@ -251,6 +233,7 @@ const KakaoButton = styled.div`
 
   :hover {
     cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 `;
 
@@ -261,12 +244,10 @@ const InviteButton = styled.div`
   align-items: center;
   padding: 0.625rem 0.875rem;
   gap: 1rem;
-
-  /* width: 80px; */
   height: 2.5rem;
 
-  background: #fbfeff;
-  border: 0.0625rem solid black;
+  background: #ffffff;
+  border: 0.0625rem solid #121212;
   box-shadow: 0.0625rem 0.0625rem 0rem #000000;
   border-radius: 0.25rem;
 
@@ -276,30 +257,23 @@ const InviteButton = styled.div`
 
   :hover {
     cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 `;
 
 export const PostBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  ${(props) => props.theme.FlexRowBetween};
   padding: 15px 8px;
-
   width: 100%;
-  height: 4.375rem;
-
-  background: #ffffff;
   border-radius: 0.25rem;
 
-  /* flex: none; */
   order: 0;
-  /* flex-grow: 0; */
   :hover {
     cursor: pointer;
   }
 
-  @media screen and (max-width: 90rem) {
-    padding: 0.7031rem 0.375rem;
+  @media screen and (max-width: 1440px) {
+    padding: 10px 15px;
     width: 100%;
   }
 `;
@@ -309,8 +283,6 @@ export const ProfileArea = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0rem;
-  /* gap: 16px; */
-
   width: 25.25rem;
   height: 2.5rem;
 
@@ -376,8 +348,6 @@ export const TextArea = styled.div`
 
   width: 5.25rem;
   height: 1.9375rem;
-
-  /* background-color: yellow; */
 `;
 
 export const NickNameWrap = styled.div`
@@ -390,8 +360,7 @@ export const EmailWrap = styled.div`
   font-weight: 500;
   font-size: 0.625rem;
   line-height: 0.75rem;
-
-  color: #afb4bf;
+  color: ${(props) => props.theme.Bg.color2};
 `;
 
 export const IntroductionWrap = styled.div`
@@ -402,19 +371,14 @@ export const IntroductionWrap = styled.div`
   gap: 0.5rem;
 
   width: 13.125rem;
-  height: 1.25rem;
-  /* background-color: lightblue; */
 
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 140%;
 
-  color: #494d55;
-
   @media screen and (max-width: 1440px) {
     width: 13rem;
     text-overflow: hidden;
-    /* background-color: pink; */
   }
 `;
 
@@ -425,26 +389,21 @@ export const ButtonArea = styled.div`
   align-items: center;
   text-align: center;
   padding: 0.625rem 0.625rem;
-
   width: 5rem;
   height: 2.125rem;
-
-  background: #fbfeff;
-
+  background: #ffffff;
   border: 0.0625rem solid #121212;
-
   box-shadow: 0.0625rem 0.0625rem 0rem #000000;
   border-radius: 0.25rem;
 
   font-weight: 600;
   font-size: 0.75rem;
   line-height: 0.875rem;
-
   color: #121212;
   :hover {
     cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
   }
-  /* background-color: pink; */
 
   @media screen and (max-width: 1440px) {
     width: 3.75rem;

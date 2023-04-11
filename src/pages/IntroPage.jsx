@@ -63,58 +63,50 @@ function IntroPage() {
   };
 
   return (
-    <PageWrapper>
-      <ScreenLayout>
-        <PreviewArea />
+    <ScreenLayout>
+      <PreviewArea />
 
-        <LoginWrapper
-          onSubmit={(e) => {
-            e.preventDefault();
-            loginHandler();
-          }}>
-          <LoginBox>
-            <TitleText>
-              <span>Daydei</span>
-              <span>공유하는 일상의 시작</span>
-            </TitleText>
-            <StInput>
-              <InputWrapper>
-                <Mail />
-                <input type="text" placeholder="이메일 주소" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
-              </InputWrapper>
-              <InputWrapper>
-                <Key />
-                <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
-              </InputWrapper>
-            </StInput>
-            <LoginButtton>로그인하기</LoginButtton>
-            <GapArea>
-              <span>또는</span>
-            </GapArea>
-            <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
-            <BottomText>
-              <JoinText>
-                <Link to="/join">회원가입</Link>
-              </JoinText>
-              <FindPassword onClick={FindPasswordModalOpenHandler}>
-                <div>비밀번호 찾기</div>
-              </FindPassword>
-              {isFindPasswordModalOpen && <FindPasswordModal setIsFindPasswordModalOpen={setIsFindPasswordModalOpen} />}
-            </BottomText>
-          </LoginBox>
-        </LoginWrapper>
-      </ScreenLayout>
-    </PageWrapper>
+      <LoginWrapper
+        onSubmit={(e) => {
+          e.preventDefault();
+          loginHandler();
+        }}>
+        <LoginBox>
+          <TitleText>
+            <span>Daydei</span>
+            <span>공유하는 일상의 시작</span>
+          </TitleText>
+          <StInput>
+            <InputWrapper>
+              <Mail />
+              <input type="text" placeholder="이메일 주소" value={email} onChange={handleEmailChange} autoFocus ref={emailRef} />
+            </InputWrapper>
+            <InputWrapper>
+              <Key />
+              <input type="password" placeholder="비밀번호" value={password} onChange={handlePasswordChange} />
+            </InputWrapper>
+          </StInput>
+          <LoginButtton>로그인하기</LoginButtton>
+          <GapArea>
+            <span>또는</span>
+          </GapArea>
+          <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
+          <BottomText>
+            <JoinText>
+              <Link to="/join">회원가입</Link>
+            </JoinText>
+            <FindPassword onClick={FindPasswordModalOpenHandler}>
+              <div>비밀번호 찾기</div>
+            </FindPassword>
+            {isFindPasswordModalOpen && <FindPasswordModal setIsFindPasswordModalOpen={setIsFindPasswordModalOpen} />}
+          </BottomText>
+        </LoginBox>
+      </LoginWrapper>
+    </ScreenLayout>
   );
 }
 
-export const PageWrapper = styled.div`
-  ${(props) => props.theme.FlexCol};
-
-  @media screen and (max-width: 90rem) {
-    width: 90rem;
-  }
-`;
+export const PageWrapper = styled.div``;
 
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
@@ -125,20 +117,18 @@ export const ScreenLayout = styled.div`
 export const LoginWrapper = styled.form`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  min-width: 45rem;
-  max-width: 45rem;
+  flex: 1.4;
   height: 100%;
-
-  @media screen and (max-width: 90rem) {
-    max-width: 28.875rem;
-    min-width: 28.875rem;
-    /* background-color: pink; */
-  }
 `;
 
 export const LoginBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 23.125rem;
+
+  @media screen and (max-width: 1440px) {
+    max-width: 70%;
+    min-width: 70%;
+  }
 `;
 
 const TitleText = styled.div`
@@ -149,6 +139,10 @@ const TitleText = styled.div`
   span {
     font-size: 1.875rem;
     font-weight: 600;
+  }
+
+  @media screen and (max-width: 1440px) {
+    margin-top: 12rem;
   }
 `;
 

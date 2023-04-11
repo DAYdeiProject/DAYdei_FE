@@ -119,7 +119,6 @@ const RecommendButton = styled.div`
   gap: 1rem;
   border-radius: 0.25rem;
 
-  /* width: 132px; */
   height: 100%;
   padding: 0.625rem 0.875rem;
   align-items: center;

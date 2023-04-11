@@ -48,7 +48,8 @@ export default function PreviewArea() {
 }
 
 const PreviewWrapper = styled.div`
-  width: 100%;
+  display: flex;
+  flex: 3;
   height: 100%;
   position: relative;
   background-color: ${(props) => props.theme.Bg.calendar2};
@@ -75,10 +76,10 @@ const PreviewWrapper = styled.div`
     top: 88px;
     right: 970px;
 
-    @media screen and (max-width: 90rem) {
+    @media screen and (max-width: 1440px) {
       top: 60px;
-      right: 807.5px;
-      width: 86px;
+      right: 800px;
+      width: 60px;
     }
   }
   // 왼쪽 text
@@ -87,9 +88,9 @@ const PreviewWrapper = styled.div`
     right: 750px;
     width: 290px;
 
-    @media screen and (max-width: 90rem) {
-      top: 135px;
-      right: 622.5px;
+    @media screen and (max-width: 1440px) {
+      top: 120px;
+      right: 650px;
       width: 250px;
     }
   }
@@ -99,10 +100,10 @@ const PreviewWrapper = styled.div`
     right: 200px;
     width: 280px;
 
-    @media screen and (max-width: 90rem) {
+    @media screen and (max-width: 1440px) {
       top: 155px;
-      right: 250px;
-      width: 250px;
+      right: 120px;
+      width: 230px;
     }
   }
   // 포스트잇
@@ -110,8 +111,8 @@ const PreviewWrapper = styled.div`
     top: 400px;
     right: 130px;
 
-    @media screen and (max-width: 90rem) {
-      top: 300px;
+    @media screen and (max-width: 1440px) {
+      top: 320px;
       right: 97.5px;
       width: 100px;
     }
@@ -121,8 +122,8 @@ const PreviewWrapper = styled.div`
     top: 660px;
     right: 760px;
 
-    @media screen and (max-width: 90rem) {
-      top: 675px;
+    @media screen and (max-width: 1440px) {
+      top: 520px;
       right: 670px;
       width: 120px;
     }
@@ -131,12 +132,12 @@ const PreviewWrapper = styled.div`
   .main6 {
     top: 220px;
     right: 380px;
-    width: 400px;
+    width: 500px;
 
-    @media screen and (max-width: 90rem) {
-      top: 210px;
-      right: 275px;
-      width: 400px;
+    @media screen and (max-width: 1440px) {
+      top: 10px;
+      right: 260px;
+      width: 450px;
     }
   }
   // 눈알
@@ -144,9 +145,9 @@ const PreviewWrapper = styled.div`
     top: 160px;
     right: 400px;
 
-    @media screen and (max-width: 90rem) {
+    @media screen and (max-width: 1440px) {
       top: 152px;
-      right: 425px;
+      right: 280px;
     }
   }
   // 포스트잇 밑 돼지꼬리
@@ -154,10 +155,10 @@ const PreviewWrapper = styled.div`
     top: 560px;
     right: 220px;
 
-    @media screen and (max-width: 90rem) {
-      top: 540px;
-      right: 100px;
-      width: 80px;
+    @media screen and (max-width: 1440px) {
+      top: 450px;
+      right: 180px;
+      width: 70px;
     }
   }
   // 포스트잇 밑 별
@@ -165,9 +166,9 @@ const PreviewWrapper = styled.div`
     top: 450px;
     right: 330px;
 
-    @media screen and (max-width: 90rem) {
-      top: 507.5px;
-      right: 247.5px;
+    @media screen and (max-width: 1440px) {
+      top: 340px;
+      right: 260px;
     }
   }
   // 포스트잇 밑 하트
@@ -175,9 +176,9 @@ const PreviewWrapper = styled.div`
     top: 650px;
     right: 110px;
 
-    @media screen and (max-width: 90rem) {
-      top: 630px;
-      right: 44px;
+    @media screen and (max-width: 1440px) {
+      top: 550px;
+      right: 60px;
     }
   }
   // 포스트잇 밑 큰 별
@@ -185,8 +186,8 @@ const PreviewWrapper = styled.div`
     top: 710px;
     right: 250px;
 
-    @media screen and (max-width: 90rem) {
-      top: 730px;
+    @media screen and (max-width: 1440px) {
+      top: 580px;
       right: 187.5px;
       width: 60px;
       height: 60px;
@@ -197,9 +198,9 @@ const PreviewWrapper = styled.div`
     top: 660px;
     right: 1000px;
 
-    @media screen and (max-width: 90rem) {
+    @media screen and (max-width: 1440px) {
       top: 600px;
-      right: 850px;
+      right: 860px;
     }
   }
   // 왼쪽 돼지꼬리
@@ -207,9 +208,9 @@ const PreviewWrapper = styled.div`
     top: 510px;
     right: 910px;
 
-    @media screen and (max-width: 90rem) {
-      top: 435px;
-      right: 795px;
+    @media screen and (max-width: 1440px) {
+      top: 400px;
+      right: 810px;
     }
   }
   // 왼쪽 하트
@@ -217,9 +218,9 @@ const PreviewWrapper = styled.div`
     top: 440px;
     right: 850px;
 
-    @media screen and (max-width: 90rem) {
-      top: 380px;
-      right: 760px;
+    @media screen and (max-width: 1440px) {
+      top: 360px;
+      right: 700px;
     }
   }
   // 오른쪽 작은 별
@@ -227,14 +228,10 @@ const PreviewWrapper = styled.div`
     top: 250px;
     right: 720px;
 
-    @media screen and (max-width: 90rem) {
-      top: 87.5px;
-      right: 180px;
+    @media screen and (max-width: 1440px) {
+      top: 200px;
+      right: 580px;
     }
-  }
-
-  @media screen and (max-width: 90rem) {
-    width: 977px;
   }
 `;
 
@@ -252,8 +249,12 @@ const TextContainer = styled.div`
   }
 
   @media screen and (max-width: 90rem) {
-    top: 70px;
-    right: 450px;
+    top: 80px;
+    right: 520px;
+    gap: 0.625rem;
+    span {
+      font-size: 1.3rem;
+    }
   }
 `;
 const TextBold = styled.span`

@@ -8,7 +8,6 @@ import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/mo
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
 import Loading from "../../components/Loading";
-import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function UserLists({ searchWord, selectedCategories }) {
@@ -110,11 +109,7 @@ function UserLists({ searchWord, selectedCategories }) {
   if (isLoading) {
     return (
       <>
-        <CalendarWrapper>
-          <LoadingInnerWrapper>
-            <Loading />
-          </LoadingInnerWrapper>
-        </CalendarWrapper>
+        <Loading />
       </>
     );
   }
@@ -162,14 +157,6 @@ function UserLists({ searchWord, selectedCategories }) {
   );
 }
 
-export const LoadingInnerWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const PostBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -184,15 +171,9 @@ const PostBox = styled.div`
 
   background: #ffffff;
   border-radius: 0.5rem;
-  /* background-color: pink; */
-  border: 0.0625rem solid black;
-  :hover {
-    cursor: pointer;
-  }
+  border: 0.0625rem solid #121212;
 
-  @media screen and (max-width: 90rem) {
-    width: 13rem;
-  }
+  ${(props) => props.theme.BoxCustom};
 `;
 
 const ContentWrap = styled.div`
@@ -205,7 +186,6 @@ const ContentWrap = styled.div`
 
   width: 13.75rem;
   height: 15rem;
-  /* background-color: blue; */
 `;
 
 const ProfileArea = styled.div`
@@ -217,8 +197,6 @@ const ProfileArea = styled.div`
 
   width: 7.875rem;
   height: 7.75rem;
-  /* background-color: orange; */
-  /* margin-bottom: 10px; */
 `;
 
 const ProfilePhoto = styled.div`
@@ -244,7 +222,6 @@ const ProfileTextFrame = styled.div`
 
   width: 7.875rem;
   height: 3.5rem;
-  /* background-color: orange; */
 `;
 
 const NameArea = styled.div`
@@ -256,7 +233,6 @@ const NameArea = styled.div`
   gap: 0.125rem;
 
   height: 2.1875rem;
-  /* background-color: yellow; */
 `;
 
 const NicknameWrap = styled.div`
@@ -272,7 +248,6 @@ const NicknameWrap = styled.div`
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.1875rem;
-  /* background-color: lightgray; */
 `;
 
 const EmailWrap = styled.div`
@@ -289,7 +264,7 @@ const EmailWrap = styled.div`
   font-weight: 500;
   font-size: 0.75rem;
   line-height: 0.875rem;
-  color: #a5a5a5;
+  color: ${(props) => props.theme.Bg.color3};
 `;
 
 const InfoArea = styled.div`
@@ -302,17 +277,15 @@ const InfoArea = styled.div`
 
   width: 11.25rem;
   height: 0.8125rem;
-  /* background-color: pink; */
 `;
 
 const FriendsWrap = styled.div`
-  /* width: 32px; */
   height: 0.75rem;
 
   font-weight: 400;
   font-size: 0.625rem;
   line-height: 0.75rem;
-  color: black;
+  color: #121212;
 `;
 
 const SubscribingWrap = styled.div`
@@ -322,11 +295,10 @@ const SubscribingWrap = styled.div`
   font-size: 0.625rem;
   line-height: 0.75rem;
 
-  color: black;
+  color: #121212;
 `;
 
 const SubscribeWrap = styled.div`
-  /* width: 47px; */
   height: 0.75rem;
 
   font-weight: 400;
@@ -339,23 +311,18 @@ const IntroductionWrap = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* padding: 10px 32px; */
   gap: 0.625rem;
 
-  width: 11.5625rem;
+  width: 80%;
   height: 3rem;
 
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 0.875rem;
 
-  color: #626262;
-
-  border-top: 0.0625rem solid #626262;
-
-  @media screen and (max-width: 90rem) {
-    width: 8.6719rem;
-  }
+  padding: 10px 20px;
+  color: ${(props) => props.theme.Bg.color2};
+  border-top: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 `;
 
 const ButtonArea = styled.div`
@@ -367,7 +334,6 @@ const ButtonArea = styled.div`
 
   width: 11.75rem;
   height: 2.5rem;
-  /* background-color: pink; */
 
   @media screen and (max-width: 90rem) {
     width: 8.8125rem;
@@ -386,10 +352,10 @@ const Button = styled.button`
   width: 5.625rem;
   height: 2.5rem;
   color: #ffffff;
-  font-weight: 600;
   font-size: 0.75rem;
 
   background: ${(props) => props.theme.Bg.mainColor5};
+  border: 1.5px solid ${(props) => props.theme.Bg.color1};
   border-radius: 0.25rem;
   :hover {
     cursor: pointer;
@@ -405,14 +371,13 @@ const Button = styled.button`
 
 const ButtonSub = styled(Button)`
   background-color: ${(props) => props.theme.Bg.mainColor2};
-  color: black;
-  font-weight: 600;
+  color: #121212;
   font-size: 0.75rem;
 `;
 
 const ButtonCancel = styled(Button)`
   background-color: ${(props) => props.theme.Bg.color6};
-  color: black;
+  color: #121212;
 `;
 
 export default UserLists;

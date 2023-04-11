@@ -31,14 +31,14 @@ const Bg = {
 };
 
 const Fs = {
-  sizeLogo: "30px",
-  size28: "28px",
-  size24: "24px",
-  size20: "20px",
-  size18: "18px",
-  size16: "16px",
-  size14: "14px",
-  size12: "12px",
+  sizeLogo: "1.875rem",
+  size28: " 1.75rem",
+  size24: "1.5rem",
+  size20: "1.25rem",
+  size18: "1.125rem",
+  size16: "1rem",
+  size14: "0.875rem",
+  size12: "0.75rem",
 };
 
 const FlexRow = css`
