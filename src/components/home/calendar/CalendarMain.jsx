@@ -131,6 +131,7 @@ function CalendarMain({ ...props }) {
 
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
+    //console.log("=============>", e.event);
     props.setDetailPostId(e.event._def.publicId);
   };
 
@@ -141,7 +142,7 @@ function CalendarMain({ ...props }) {
     }
   };
 
-  // event drop
+  // event drag-drop
   const handlerEventDrop = (info) => {
     if (token) {
       const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
@@ -206,6 +207,14 @@ function CalendarMain({ ...props }) {
           {event.title.length > 11 ? <span>{event.title.substr(0, 10)}...</span> : <span>{event.title}</span>}
         </>
       );
+    },
+    eventAllow: function (dropInfo, draggedEvent) {
+      // 드래그 대상 이벤트가 'event1'인 경우 드래그 허용
+      if (draggedEvent.id === "event1") {
+        return true;
+      } else {
+        return false;
+      }
     },
   };
 
