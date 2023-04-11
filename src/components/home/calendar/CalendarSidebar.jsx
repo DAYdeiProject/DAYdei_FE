@@ -167,7 +167,9 @@ export default function CalendarSidebar({ ...props }) {
             <UpperArea>
               <MemoTitle>
                 <div>내 메모 목록</div>
-                <Cancel onClick={() => setIsTodoBoxOpen(false)} />
+                <CancelIconWrap>
+                  <Cancel onClick={() => setIsTodoBoxOpen(false)} />
+                </CancelIconWrap>
               </MemoTitle>
               <GapArea />
               {isAddMemoBoxOpen && (
@@ -326,6 +328,12 @@ export const MemoTitle = styled.div`
   line-height: 1.3125rem;
   color: ${(props) => props.theme.Bg.color1};
   /* background: pink; */
+`;
+
+export const CancelIconWrap = styled.div`
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const GapArea = styled.div`

@@ -8,6 +8,7 @@ import { __hideUser } from "../../../redux/modules/subscribeSlice";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
+import { CancelIconWrap } from "./CalendarSidebar";
 
 function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit, setIsSubscribeBoxOpen }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
@@ -75,7 +76,9 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
       <SideSpaceWrapper>
         <MemoTitle>
           <div>구독 캘린더</div>
-          <Cancel onClick={() => setIsSubscribeBoxOpen(false)} />
+          <CancelIconWrap>
+            <Cancel onClick={() => setIsSubscribeBoxOpen(false)} />
+          </CancelIconWrap>
         </MemoTitle>
         <GapArea />
         <ContentWrap>
