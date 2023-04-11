@@ -49,9 +49,9 @@ function FriendList({ FriendsList }) {
         content: {
           title: "DayDei",
           description: "공유하는 일상의 시작 ",
-          imageUrl: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+          imageUrl: "https://user-images.githubusercontent.com/86552492/231071966-79737d9a-a953-40b5-8ac9-61eba3852ccc.png",
           imageWidth: 600,
-          imageHeight: 315,
+          imageHeight: 500,
           link: {
             mobileWebUrl: "http://localhost:3000",
             androidExecutionParams: "test",

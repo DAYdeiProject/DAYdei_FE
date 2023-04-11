@@ -8,7 +8,7 @@ import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribe
 import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../../redux/modules/friendsSlice";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
-export default function SidebarOtherCalendar({ otherId, setIsSideStyleOpen }) {
+export default function SidebarOtherCalendar({ otherId }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const param = useParams();
@@ -86,7 +86,6 @@ export default function SidebarOtherCalendar({ otherId, setIsSideStyleOpen }) {
 
   const ShowFriendDetailHandler = () => {
     navigate(`/friendsdetail`);
-    setIsSideStyleOpen(false);
   };
 
   return (
