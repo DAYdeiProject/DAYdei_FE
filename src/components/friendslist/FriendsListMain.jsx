@@ -1,6 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 import _ from "lodash";
@@ -232,7 +231,7 @@ function FriendsListMain() {
                       <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
                     )}
                     <FriendSearch onClick={HandleSearchFriend} />
-                    <FriendAddStyle RequestedList={RequestedUsersList} onClick={approveRequestModalHandler} />
+                    <FriendAddStyle requestedlist={RequestedUsersList} onClick={approveRequestModalHandler} />
                     {isApproveRequestModalOpen && (
                       <ApproveRequestModal
                         ApproveRequestModalRef={ApproveRequestModalRef}
@@ -486,7 +485,7 @@ export const IconWrap = styled.div`
 `;
 
 const FriendAddStyle = styled(FriendAdd)`
-  stroke: ${(props) => (props.RequestedList.length !== 0 ? props.theme.Bg.mainColor1 : null)};
+  stroke: ${(props) => (props.requestedlist.length !== 0 ? props.theme.Bg.mainColor1 : null)};
 `;
 
 export const DropdownFrame = styled.div`
