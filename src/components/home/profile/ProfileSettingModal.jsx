@@ -65,7 +65,7 @@ function ProfileSettingModal({ ...props }) {
   const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
-    console.log("프로필세팅모달", headerProfile);
+    // console.log("프로필세팅모달", headerProfile);
     if (headerProfile.profileImage) {
       // console.log("처음 모달열었을 때 프로필 있는지", headerProfile.profileImage);
       setUpdatedProfileUrl(headerProfile.profileImage);
@@ -292,7 +292,7 @@ function ProfileSettingModal({ ...props }) {
                                 {myCategory.length !== 0
                                   ? myCategory.map((item) => {
                                       let newCategory = CategoryText(item);
-                                      return <span>{newCategory}</span>;
+                                      return <span key={item}>{newCategory}</span>;
                                     })
                                   : "선택한 카테고리가 없습니다."}
                               </CategoryWrap>
@@ -633,6 +633,7 @@ const ButtonWrap = styled.button`
   font-weight: 600;
   font-size: ${(props) => props.theme.Fs.size16};
   line-height: 1.125rem;
+
   :hover {
     cursor: pointer;
   }
@@ -640,4 +641,5 @@ const ButtonWrap = styled.button`
 
 const ButtonSubmit = styled(ButtonWrap)`
   background: #0eafe1;
+  color: ${(props) => props.theme.Bg.color6};
 `;

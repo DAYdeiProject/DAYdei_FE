@@ -38,7 +38,6 @@ function Header() {
   const { text, notiState } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
-  console.log("헤더쪽", headerProfile);
 
   // url에 따른 header 변화
   let url = location.pathname.substr(1);
