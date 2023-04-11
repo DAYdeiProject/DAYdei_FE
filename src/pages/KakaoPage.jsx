@@ -1,8 +1,8 @@
 import React from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { __kakaoLogin } from "../../redux/modules/kakaoSlice";
+import { __kakaoLogin } from "../redux/modules/kakaoSlice";
 
 function KakaoPage() {
   const dispatch = useDispatch();
