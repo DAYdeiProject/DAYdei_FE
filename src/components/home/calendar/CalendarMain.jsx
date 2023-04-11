@@ -259,8 +259,6 @@ function CalendarMain({ ...props }) {
           setIsSubmit={setIsSubmit}
           side={props.side}
           setSide={props.setSide}
-          notificationPostId={props.notificationPostId}
-          setNotificationPostId={props.setNotificationPostId}
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
           otherCalendarPostId={otherCalendarPostId}

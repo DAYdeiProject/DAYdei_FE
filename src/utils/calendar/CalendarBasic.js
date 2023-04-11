@@ -170,3 +170,28 @@ export function FormatTimeDot(data) {
 
   return date;
 }
+
+// 이미지 크기 제한
+export function MaxSizeFile(img) {
+  // 1장당 10MB , 3장 20MB
+  const maxSize = 10 * 1024 * 1024; // 10MB
+
+  // 개별 사이즈
+  for (let item of img) {
+    if (Number(item.size) > maxSize) {
+      console.log(item.size);
+      return false;
+    }
+  }
+
+  let totalSize = 0;
+  for (let item of img) {
+    totalSize += Number(item.size);
+  }
+
+  if (maxSize * 2 < totalSize) {
+    return false;
+  } else {
+    return true;
+  }
+}

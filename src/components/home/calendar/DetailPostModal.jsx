@@ -46,7 +46,7 @@ export default function DetailPostModal({ ...props }) {
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo, otherId } = useSelector((state) => state.header);
-  //console.log("detail otherId==========", otherId);
+  //console.log("detail otherId==========", notiInfo);
 
   useEffect(() => {
     if (detail) {
@@ -94,7 +94,7 @@ export default function DetailPostModal({ ...props }) {
       dispatch(__getPostDetail({ id: notiInfo.postId })).then((data) => {
         if (data.error) {
           if (data.payload.response.data.statusCode === 404) {
-            dispatch(alertState({ state: true, comment: "존자하지 않는 일정입니다." }));
+            dispatch(alertState({ state: true, comment: "존재하지 않는 일정입니다." }));
           }
         } else {
           props.setIsDetailPost(true);
