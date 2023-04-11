@@ -125,6 +125,10 @@ export const SideSpaceWrapper = styled.div`
     display: none;
   }
   /* background: blue; */
+  @media screen and (max-width: 1440px) {
+    position: absolute;
+    right: 0;
+  }
 `;
 
 export const GapArea = styled.div`
