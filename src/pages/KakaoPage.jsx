@@ -12,7 +12,9 @@ function KakaoPage() {
 
   useEffect(() => {
     dispatch(__kakaoLogin(code)).then((data) => {
-      navi(`/${data.payload.userId}`);
+      if (data.payload.userId) {
+        navi(`/home`);
+      }
     });
   });
 
