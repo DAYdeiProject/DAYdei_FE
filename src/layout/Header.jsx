@@ -132,6 +132,12 @@ function Header() {
     setIsProfileDetail(!isProfileDetail);
   };
 
+  // 로고 클릭시 home 이동
+  const moveHomePage = () => {
+    navigate("/home");
+    dispatch(otherIdState(""));
+  };
+
   return (
     <>
       {!token && (
@@ -143,8 +149,8 @@ function Header() {
       )}
       {token && (
         <HeaderWrapper isToken={token}>
-          <LogoContainer>
-            <LogoIcon />
+          <LogoContainer onClick={moveHomePage}>
+            <LogoIcon className="homeIcon" />
           </LogoContainer>
           <NavContainer>
             <NavTabConatiner isNav={clickNav}>
@@ -249,6 +255,9 @@ const LogoContainer = styled.section`
     text-align: left;
     font-size: ${(props) => props.theme.Fs.sizeLogo};
     text-align: center;
+  }
+  .homeIcon {
+    cursor: pointer;
   }
   /* background-color: skyblue; */
 
