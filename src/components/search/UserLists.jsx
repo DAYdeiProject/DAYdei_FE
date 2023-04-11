@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
@@ -127,7 +127,6 @@ function UserLists({ searchWord, selectedCategories }) {
             <ProfileArea
               onClick={() => {
                 navigate(`/other`);
-                dispatch(textState(""));
                 dispatch(otherIdState(user.id));
               }}>
               <ProfilePhoto>

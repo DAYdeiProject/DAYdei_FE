@@ -6,7 +6,7 @@ import { __getConnect } from "../redux/modules/connectSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
-import { setNotificationPostId, textState, otherIdState } from "../redux/modules/headerReducer";
+import { setNotificationPostId, otherIdState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
 import { debounce } from "lodash";
 
@@ -17,7 +17,7 @@ export default function NotifiactionModalBox({ ...props }) {
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.connect);
   const { text } = useSelector((state) => state.header);
-  console.log(text);
+  //console.log(text);
 
   useEffect(() => {
     dispatch(__getConnect());
@@ -28,7 +28,6 @@ export default function NotifiactionModalBox({ ...props }) {
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
       navigate(`/other`);
-      dispatch(textState(""));
       dispatch(otherIdState(userId));
       props.setIsNotificationOpen(false);
     } else if (userId === null) {
@@ -39,10 +38,8 @@ export default function NotifiactionModalBox({ ...props }) {
         notiState,
         isRead,
       };
-      navigate(`/${text}`);
-
+      //navigate(`/${text}`);
       dispatch(setNotificationPostId(notiInfo));
-      dispatch(textState(""));
       props.setIsNotificationOpen(false);
     }
   };
