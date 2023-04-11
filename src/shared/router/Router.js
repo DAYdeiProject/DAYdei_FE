@@ -3,15 +3,15 @@ import App from "../../App";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import JoinPage from "../../pages/JoinPage";
+import HomePage from "../../pages/HomePage";
+import KakaoPage from "../../pages/KakaoPage";
 import IntroPage from "../../pages/IntroPage";
 import SearchPage from "../../pages/SearchPage";
-import HomePage from "../../pages/HomePage";
-import KakaoPage from "../../pages/kakao/KakaoPage";
+import NotFoundPage from "../../pages/NotFoundPage";
 import OtherUserPage from "../../pages/OtherUserPage";
 import FriendsListPage from "../../pages/FriendsListPage";
-import NotFoundPage from "../../pages/NotFoundPage";
+import KakaoFriendsPage from "../../pages/KakaoFriendsPage";
 import FriendsDetailPage from "../../pages/FriendsDetailPage";
-import KakaoFriendsPage from "../../pages/kakao/KakaoFriendsPage";
 
 const Router = createBrowserRouter([
   {

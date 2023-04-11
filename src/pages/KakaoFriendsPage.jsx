@@ -1,8 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { __friendsList } from "../../redux/modules/kakaoSlice";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { __friendsList } from "../redux/modules/kakaoSlice";
 
 function KakaoFriendsPage() {
   const dispatch = useDispatch();
