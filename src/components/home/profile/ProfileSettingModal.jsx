@@ -15,6 +15,7 @@ import { CategoryText } from "../../../utils/calendar/CalendarBasic";
 import { GiCancel } from "react-icons/gi";
 import { BsCardImage } from "react-icons/bs";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
 function ProfileSettingModal({ ...props }) {
   //프로필 파일
@@ -64,10 +65,13 @@ function ProfileSettingModal({ ...props }) {
   const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
+    console.log("프로필세팅모달", headerProfile);
     if (headerProfile.profileImage) {
+      // console.log("처음 모달열었을 때 프로필 있는지", headerProfile.profileImage);
       setUpdatedProfileUrl(headerProfile.profileImage);
     }
     if (headerProfile.backgroundImage) {
+      // console.log("처음 모달열었을 때 배경 있는지", headerProfile.profileImage);
       setUpdatedBackgroundUrl(headerProfile.backgroundImage);
     }
   }, [headerProfile.profileImage, headerProfile.backgroundImage]);
@@ -97,7 +101,11 @@ function ProfileSettingModal({ ...props }) {
     }
     setProfile(file);
     setProfileImageUrl(URL.createObjectURL(file));
+
+    // console.log("파일상태", file, "프로필 상태", profile);
   };
+
+  // console.log("프로필 상태", profile);
 
   useEffect(() => {
     setBackgroundImageName(background ? background.name : "");
@@ -116,24 +124,30 @@ function ProfileSettingModal({ ...props }) {
     }
   };
 
-  const deleteImageHandler = () => {
+  const deleteImageHandler = (e) => {
     setProfile("");
     setProfileImageUrl("");
     setUpdatedProfileUrl("");
   };
 
+  // console.log("그냥", updatedBackgroundUrl);
+
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
     setUpdatedBackgroundUrl("");
+    // console.log("삭제 후", updatedBackgroundUrl);
   };
 
   //제출 버튼 클릭 시 호출되는 함수
+  // console.log("제출버튼클릭전", "프-->", profile, "배-->", background);
   const profileChangeHandler = (e) => {
+    // console.log("제출버튼클릭직후", profile, background);
     e.preventDefault();
 
     // console.log("store에서 불러온 내프로필-->", myProfile);
     const nickNameValue = nickName || headerProfile.nickName;
     const introductionValue = introduction || headerProfile.introduction;
+
     let userProfileRequestDto = {};
     if (password === "") {
       if (nicknameRegex || nickNameValue === headerProfile.nickName) {
@@ -158,10 +172,11 @@ function ProfileSettingModal({ ...props }) {
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile.length !== 0 || background.length !== 0 || introductionValue !== "") {
+    if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile !== "" || background !== "" || introductionValue !== "") {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
+      console.log("디스패치 위-->", profile, background);
       dispatch(__setProfile(formData)).then((data) => {
         console.log("then", data);
         if (data.payload !== 200) {
@@ -413,9 +428,11 @@ const PhotoWrapSquare = styled.div`
   /* background-color: red; */
 `;
 
-const CancelIcon = styled(GiCancel)`
+const CancelIcon = styled(Cancel)`
   position: absolute;
-  right: 0;
+  width: 12px;
+  height: 12px;
+  right: -7px;
   :hover {
     cursor: pointer;
   }
@@ -575,8 +592,13 @@ const IconStyle = styled(BsCardImage)`
   margin-left: 0.3125rem;
 `;
 
-const BackgroundCancel = styled(GiCancel)`
+const BackgroundCancel = styled(Cancel)`
+  width: 12px;
+  height: 12px;
   margin-left: 0.3125rem;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const GapArea = styled.div`
