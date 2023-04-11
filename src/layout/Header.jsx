@@ -305,6 +305,10 @@ const IconWrapper = styled.div`
   width: 9.375rem;
   height: 100%;
   display: flex;
+  /* background-color: pink; */
+  @media screen and (max-width: 1440px) {
+    max-width: 4rem;
+  }
 `;
 
 const AlertContainer = styled.div`
