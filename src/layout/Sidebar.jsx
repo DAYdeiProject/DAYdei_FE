@@ -71,7 +71,7 @@ function Sidebar({ ...props }) {
       {isShortScreen ? (
         otherId && window.location.pathname === "/other" ? (
           <SideStyle>
-            <SidebarOtherCalendar otherId={otherId} setIsSideStyleOpen={setIsSideStyleOpen} />
+            <SidebarOtherCalendar otherId={otherId} />
           </SideStyle>
         ) : isSideStyleOpen ? (
           <WholeWrapper>
@@ -132,6 +132,8 @@ const SideStyle = styled.div`
 
 const SideStyleShort = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
@@ -144,18 +146,20 @@ const SideStyleShort = styled.div`
   z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
 
   @media screen and (max-width: 1440px) {
-    display: block;
+    /* display: block; */
   }
 
   @media screen and (min-width: 1441px) {
     display: none;
   }
+  /* background-color: skyblue; */
 `;
 
 const IconWrapper = styled.div`
   svg:hover {
     cursor: pointer;
   }
+  /* background-color: pink; */
 `;
 
 // 실시간 알림창
