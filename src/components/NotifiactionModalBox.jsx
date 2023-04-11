@@ -6,7 +6,7 @@ import { __getConnect } from "../redux/modules/connectSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
-import { setNotificationPostId, textState, otherIdState } from "../redux/modules/headerReducer";
+import { setNotificationPostId, otherIdState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
 import { debounce } from "lodash";
 
@@ -28,7 +28,6 @@ export default function NotifiactionModalBox({ ...props }) {
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
       navigate(`/other`);
-      dispatch(textState(""));
       dispatch(otherIdState(userId));
       props.setIsNotificationOpen(false);
     } else if (userId === null) {
@@ -42,7 +41,6 @@ export default function NotifiactionModalBox({ ...props }) {
       navigate(`/${text}`);
 
       dispatch(setNotificationPostId(notiInfo));
-      dispatch(textState(""));
       props.setIsNotificationOpen(false);
     }
   };

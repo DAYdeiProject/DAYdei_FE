@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
 import { GetUserInfo } from "../../utils/cookie/userInfo";
@@ -71,7 +71,6 @@ function SubscribeList({ SubscribesList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/other`);
-              dispatch(textState(""));
               dispatch(otherIdState(user.id));
             }}>
             <ProfileWrap>

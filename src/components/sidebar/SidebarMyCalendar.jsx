@@ -4,7 +4,7 @@ import styled from "styled-components";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 import { __getTodaySchedule, __getTodayUpdate } from "../../redux/modules/calendarSlice";
 import SidebarMiniCalendar from "./SidebarMiniCalendar";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
@@ -35,7 +35,6 @@ export default function SidebarMyCalendar({ ...props }) {
   const moveUserPage = (id) => {
     navigate(`/other`);
     dispatch(otherIdState(id));
-    dispatch(textState(""));
   };
 
   // 닉네임 가져오기 위해..
