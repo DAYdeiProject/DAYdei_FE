@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
+import { otherIdState } from "../../redux/modules/headerReducer";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
@@ -12,15 +13,21 @@ import { PostBox, ProfileArea, PostLeft, PhotoFrame, TextArea, NickNameWrap, Ema
 function DetailFriends({ FriendsList }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userInfo = GetUserInfo();
+
   return (
     <>
       {FriendsList?.map((user) => (
         <PostBox key={user.id}>
           <ProfileArea
             onClick={() => {
-              navigate(`/other`);
-              dispatch(textState(""));
-              dispatch(otherIdState(user.id));
+              if (String(user.id) === String(userInfo.userId)) {
+                navigate("/home");
+                dispatch(otherIdState(""));
+              } else {
+                navigate(`/other`);
+                dispatch(otherIdState(user.id));
+              }
             }}>
             <ProfileWrapLong>
               <PostLeft>

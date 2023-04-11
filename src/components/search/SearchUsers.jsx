@@ -110,6 +110,13 @@ function SearchUsers() {
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 4rem - .0625rem);
+  /* background: pink; */
+
+  @media screen and (max-width: 1440px) {
+    width: 87.5rem;
+    /* background-color: pink; */
+    margin-left: 2.5rem;
+  }
 `;
 
 export const WholeAreaWrapper = styled.div`
@@ -118,6 +125,10 @@ export const WholeAreaWrapper = styled.div`
   justify-content: flex-start;
   width: 100%;
   height: 100%;
+
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+  }
 `;
 
 const HeaderText = styled.div`
@@ -216,7 +227,12 @@ const SearchBody = styled.div`
     display: none;
   }
 
-  /* background-color: pink; */
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+    height: 37.5rem;
+    grid-column-gap: 0.8438rem;
+    grid-row-gap: 0.9375rem;
+  }
 `;
 
 export default SearchUsers;

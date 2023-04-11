@@ -1,6 +1,7 @@
 const TEXT_STATE = "header/TEXT_STATE";
 const NOTI_POSTID = "header/NOTI_POSTID";
 const NOTI_STATE = "header/NOTI_STATE";
+const LIVE_NOTI_STATE = "header/LIVE_NOTI_STATE";
 const OTHER_USER_ID = "header/OTHER_USER_ID";
 
 // 헤더 텍스트 상태
@@ -24,6 +25,14 @@ export const newNotificationState = (payload) => {
     payload: payload,
   };
 };
+// 실시간 알림 state
+export const liveNotiState = (payload) => {
+  return {
+    type: LIVE_NOTI_STATE,
+    payload: payload,
+  };
+};
+
 // 다른유저 id
 export const otherIdState = (payload) => {
   return {
@@ -36,6 +45,7 @@ const initialState = {
   text: "home",
   notiInfo: "",
   notiState: {},
+  liveState: "",
   otherId: "",
 };
 
@@ -48,14 +58,22 @@ const headerReducer = (state = initialState, action) => {
       };
     case NOTI_POSTID:
       return {
+        ...state,
         notiInfo: action.payload,
       };
     case NOTI_STATE:
       return {
+        ...state,
         notiState: action.payload,
+      };
+    case LIVE_NOTI_STATE:
+      return {
+        ...state,
+        liveState: action.payload,
       };
     case OTHER_USER_ID:
       return {
+        ...state,
         otherId: action.payload,
       };
     default:

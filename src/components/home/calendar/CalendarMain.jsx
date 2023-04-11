@@ -3,11 +3,11 @@ import Cookies from "js-cookie";
 import format from "date-fns/format";
 import styled from "styled-components";
 import getDate from "date-fns/getDate";
+import { useLocation } from "react-router";
 import { getYear, getMonth } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import interactionPlugin from "@fullcalendar/interaction";
 import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../redux/modules/calendarSlice";
@@ -22,8 +22,6 @@ import ColorFromDB from "../../../utils/calendar/CalendarBasic";
 function CalendarMain({ ...props }) {
   // 일정 추가 모달창 open state
   const [isAddPost, setIsAddPost] = useState(false);
-  // 일정 detail 모달창 open state
-  const [isDetailPost, setIsDetailPost] = useState(false);
   // 수정하기 state
   const [isSubmit, setIsSubmit] = useState(false);
   // 일정 추가 버튼 여부(로그인한 유저 캘린더 / 타 유저 캘린더)
@@ -133,6 +131,7 @@ function CalendarMain({ ...props }) {
 
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
+    //console.log("=============>", e.event);
     props.setDetailPostId(e.event._def.publicId);
   };
 
@@ -143,7 +142,7 @@ function CalendarMain({ ...props }) {
     }
   };
 
-  // event drop
+  // event drag-drop
   const handlerEventDrop = (info) => {
     if (token) {
       const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
@@ -209,6 +208,14 @@ function CalendarMain({ ...props }) {
         </>
       );
     },
+    eventAllow: function (dropInfo, draggedEvent) {
+      // 드래그 대상 이벤트가 'event1'인 경우 드래그 허용
+      if (draggedEvent.id === "event1") {
+        return true;
+      } else {
+        return false;
+      }
+    },
   };
 
   return (
@@ -249,8 +256,6 @@ function CalendarMain({ ...props }) {
           setModifyPostId={setModifyPostId}
         />
         <DetailPostModal
-          isDetailPost={isDetailPost}
-          setIsDetailPost={setIsDetailPost}
           detailPostId={props.detailPostId}
           setDetailPostId={props.setDetailPostId}
           setModifyPostId={setModifyPostId}
@@ -259,8 +264,6 @@ function CalendarMain({ ...props }) {
           setIsSubmit={setIsSubmit}
           side={props.side}
           setSide={props.setSide}
-          notificationPostId={props.notificationPostId}
-          setNotificationPostId={props.setNotificationPostId}
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
           otherCalendarPostId={otherCalendarPostId}
@@ -297,7 +300,8 @@ const CalendarSidebarWrapper = styled.div`
 
   @media screen and (max-width: 90rem) {
     width: 0;
-    min-width: 85rem;
+    min-width: 87.5rem;
+    /* background-color: pink; */
   }
 `;
 export const CalendarWrapper = styled.div`

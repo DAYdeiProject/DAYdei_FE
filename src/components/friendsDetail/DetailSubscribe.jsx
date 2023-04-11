@@ -2,7 +2,7 @@ import { React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 import { ProfileWrapLong, IntroductionWrapLong } from "../friendslist/SubscriberList";
@@ -52,7 +52,6 @@ function DetailSubscribe({ SubscribesList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/other`);
-              dispatch(textState(""));
               dispatch(otherIdState(user.id));
             }}>
             <ProfileWrapLong>

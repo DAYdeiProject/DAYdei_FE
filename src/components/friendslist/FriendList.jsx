@@ -1,9 +1,10 @@
 import { React, useEffect } from "react";
+import { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 import { __cancelRequest, __getFriendsList } from "../../redux/modules/friendsSlice";
 import { __friendsList } from "../../redux/modules/kakaoSlice";
 
@@ -48,9 +49,9 @@ function FriendList({ FriendsList }) {
         content: {
           title: "DayDei",
           description: "공유하는 일상의 시작 ",
-          imageUrl: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+          imageUrl: "https://user-images.githubusercontent.com/86552492/231071966-79737d9a-a953-40b5-8ac9-61eba3852ccc.png",
           imageWidth: 600,
-          imageHeight: 315,
+          imageHeight: 500,
           link: {
             mobileWebUrl: "http://localhost:3000",
             androidExecutionParams: "test",
@@ -96,7 +97,6 @@ function FriendList({ FriendsList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/other`);
-              dispatch(textState(""));
               dispatch(otherIdState(user.id));
             }}>
             <ProfileWrap>
@@ -140,6 +140,10 @@ export const NoListMessageWrapper = styled.div`
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
+
+  @media screen and (max-width: 90rem) {
+    width: 25.5rem;
+  }
 `;
 
 export const MessageBox = styled.div`
@@ -279,7 +283,7 @@ export const PostBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0.9375rem 0.5rem;
+  padding: 15px 8px;
 
   width: 100%;
   height: 4.375rem;
@@ -287,13 +291,19 @@ export const PostBox = styled.div`
   background: #ffffff;
   border-radius: 0.25rem;
 
-  flex: none;
+  /* flex: none; */
   order: 0;
-  flex-grow: 0;
+  /* flex-grow: 0; */
   :hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 90rem) {
+    padding: 0.7031rem 0.375rem;
+    width: 100%;
+  }
 `;
+
 export const ProfileArea = styled.div`
   display: flex;
   flex-direction: row;
@@ -303,7 +313,10 @@ export const ProfileArea = styled.div`
 
   width: 25.25rem;
   height: 2.5rem;
-  /* background-color: yellow; */
+
+  @media screen and (max-width: 1440px) {
+    width: 21rem;
+  }
 `;
 
 export const ProfileWrap = styled.div`
@@ -315,19 +328,27 @@ export const ProfileWrap = styled.div`
 
   width: 23.125rem;
   height: 2.5rem;
-  /* background-color: pink; */
+
+  @media screen and (max-width: 1440px) {
+    width: 20rem;
+    gap: 0.625rem;
+  }
 `;
 
 export const PhotoFrame = styled.img`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0rem;
-  gap: 0.8331rem;
 
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
+
+  @media screen and (max-width: 1440px) {
+    width: 1.875rem;
+    height: 1.875rem;
+    border-radius: 50%;
+  }
 `;
 
 export const PostLeft = styled.div`
@@ -339,6 +360,11 @@ export const PostLeft = styled.div`
 
   width: 8.25rem;
   height: 2.5rem;
+
+  @media screen and (max-width: 1440px) {
+    width: 7rem;
+    gap: 0.375rem;
+  }
 `;
 
 export const TextArea = styled.div`
@@ -384,6 +410,12 @@ export const IntroductionWrap = styled.div`
   line-height: 140%;
 
   color: #494d55;
+
+  @media screen and (max-width: 1440px) {
+    width: 13rem;
+    text-overflow: hidden;
+    /* background-color: pink; */
+  }
 `;
 
 export const ButtonArea = styled.div`
@@ -413,6 +445,11 @@ export const ButtonArea = styled.div`
     cursor: pointer;
   }
   /* background-color: pink; */
+
+  @media screen and (max-width: 1440px) {
+    width: 3.75rem;
+    padding: 0.4rem 0.4rem;
+  }
 `;
 
 export default FriendList;

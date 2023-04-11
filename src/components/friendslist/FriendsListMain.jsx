@@ -68,7 +68,7 @@ function FriendsListMain() {
     const id = usersInfo.userId;
     if (searchWord === "") {
       let url = `${id}?sort=name&searchword=`;
-      console.log("검색어 없는 url-->", url);
+      // console.log("검색어 없는 url-->", url);
       dispatch(__getFriendsList(url));
       dispatch(__getSubscribeList(url));
       dispatch(__getSubscriberList(url));
@@ -107,9 +107,9 @@ function FriendsListMain() {
     setIsDropdownSubscriberOpen,
   } = useAlignFunctions();
 
-  const { FriendsList, isLoadingFriends } = useSelector((state) => state.friends);
-  const { SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  const { SubscribersList, isLoadingSubscriber } = useSelector((state) => state.subscribe);
+  const FriendsList = useSelector((state) => state.friends.FriendsList);
+  const SubscribesList = useSelector((state) => state.subscribe.SubscribesList);
+  const SubscribersList = useSelector((state) => state.subscribe.SubscribersList);
 
   //입력된 값 기반으로 검색 결과 도출
   useEffect(() => {
@@ -342,20 +342,33 @@ export const LoadingWrapper = styled.div`
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 4rem - .0625rem);
+  /* background: pink; */
+
+  @media screen and (max-width: 1440px) {
+    width: 87.5rem;
+    /* background: pink; */
+    margin-left: 2.5rem;
+  }
 `;
 
 export const CalendarWrapper = styled.div`
-  ${(props) => props.theme.FlexCol}
+  ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
 
   padding: 0rem 3rem;
   height: 100%;
+
+  @media screen and (max-width: 1440px) {
+    padding: 0rem 1.25rem;
+    /* background: skyblue; */
+  }
 `;
 
 export const WholeAreaWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   width: 100%;
+  /* background: pink; */
 `;
 
 export const ListFrameBig = styled.div`
@@ -365,6 +378,10 @@ export const ListFrameBig = styled.div`
 
   height: 100%;
   flex: 1;
+  /* background: pink; */
+  @media screen and (max-width: 1440px) {
+    width: 28.1875rem;
+  }
 `;
 
 export const FrameBigWithPadding = styled(ListFrameBig)`
@@ -373,16 +390,31 @@ export const FrameBigWithPadding = styled(ListFrameBig)`
   border-left: 0.0375rem solid ${(props) => props.theme.Bg.border1};
   border-right: 0.0375rem solid ${(props) => props.theme.Bg.border1};
   /* background: pink; */
+
+  @media screen and (max-width: 1440px) {
+    width: 28.1875rem;
+  }
+  /* background: pink; */
 `;
 
 export const FrameBigWithMargin = styled(ListFrameBig)`
   align-items: flex-end;
+
+  @media screen and (max-width: 1440px) {
+    width: 28.1875rem;
+  }
 `;
 
 export const ListFrame = styled.div``;
 
 export const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
+
+  /* background: skyblue; */
+
+  @media screen and (max-width: 1440px) {
+    width: 26.875rem;
+  }
 `;
 
 export const TopText = styled.div`
@@ -390,7 +422,6 @@ export const TopText = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem;
 
   width: 29rem;
   height: 2.6875rem;
@@ -398,6 +429,11 @@ export const TopText = styled.div`
   border-bottom: 0.0625rem solid black;
   margin-top: 3rem;
   /* background-color: lightcoral; */
+
+  @media screen and (max-width: 90rem) {
+    width: 26rem;
+    margin-top: 2.25rem;
+  }
 `;
 
 export const TopLeft = styled.div`
@@ -422,6 +458,11 @@ export const TopRight = styled.div`
   :hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 1440px) {
+    padding-right: 0.1875rem;
+    gap: 0.375rem;
+  }
 `;
 
 export const SearchBar = styled.input`
@@ -433,6 +474,10 @@ export const SearchBar = styled.input`
   border-radius: 0.25rem;
   width: 14.375rem;
   height: 1.25rem;
+
+  @media screen and (max-width: 1440px) {
+    width: 12rem;
+  }
 `;
 
 export const IconWrap = styled.div`
@@ -488,6 +533,10 @@ export const ListWrap = styled.div`
   overflow: auto;
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  @media screen and (max-width: 1440px) {
+    width: 26rem;
   }
 `;
 

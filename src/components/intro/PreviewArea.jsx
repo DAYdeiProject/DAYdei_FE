@@ -24,7 +24,7 @@ export default function PreviewArea() {
             <TextBold>일상을 계획</TextBold>하는 즐거움으로
           </span>
           <span>
-            하루를 더 <TextBold>효율적으로</TextBold>관리해보세요!
+            하루를 더 <TextBold>효율적으로</TextBold> 관리해보세요!
           </span>
         </TextContainer>
         <Main1 className="main1" />
@@ -74,79 +74,167 @@ const PreviewWrapper = styled.div`
   .main1 {
     top: 88px;
     right: 970px;
+
+    @media screen and (max-width: 90rem) {
+      top: 60px;
+      right: 807.5px;
+      width: 86px;
+    }
   }
   // 왼쪽 text
   .main2 {
     top: 180px;
     right: 750px;
     width: 290px;
+
+    @media screen and (max-width: 90rem) {
+      top: 135px;
+      right: 622.5px;
+      width: 250px;
+    }
   }
   // 오른쪽 text
   .main3 {
     top: 170px;
     right: 200px;
     width: 280px;
+
+    @media screen and (max-width: 90rem) {
+      top: 155px;
+      right: 250px;
+      width: 250px;
+    }
   }
   // 포스트잇
   .main4 {
     top: 400px;
     right: 130px;
+
+    @media screen and (max-width: 90rem) {
+      top: 300px;
+      right: 97.5px;
+      width: 100px;
+    }
   }
   // 그래프
   .main5 {
     top: 660px;
     right: 760px;
+
+    @media screen and (max-width: 90rem) {
+      top: 675px;
+      right: 670px;
+      width: 120px;
+    }
   }
   // 손가락
   .main6 {
     top: 220px;
     right: 380px;
     width: 400px;
+
+    @media screen and (max-width: 90rem) {
+      top: 210px;
+      right: 275px;
+      width: 400px;
+    }
   }
   // 눈알
   .main7 {
     top: 160px;
     right: 400px;
+
+    @media screen and (max-width: 90rem) {
+      top: 152px;
+      right: 425px;
+    }
   }
   // 포스트잇 밑 돼지꼬리
   .union1 {
     top: 560px;
     right: 220px;
+
+    @media screen and (max-width: 90rem) {
+      top: 540px;
+      right: 100px;
+      width: 80px;
+    }
   }
   // 포스트잇 밑 별
   .union2 {
     top: 450px;
     right: 330px;
+
+    @media screen and (max-width: 90rem) {
+      top: 507.5px;
+      right: 247.5px;
+    }
   }
   // 포스트잇 밑 하트
   .union3 {
     top: 650px;
     right: 110px;
+
+    @media screen and (max-width: 90rem) {
+      top: 630px;
+      right: 44px;
+    }
   }
   // 포스트잇 밑 큰 별
   .union4 {
     top: 710px;
     right: 250px;
+
+    @media screen and (max-width: 90rem) {
+      top: 730px;
+      right: 187.5px;
+      width: 60px;
+      height: 60px;
+    }
   }
   // 왼쪽 별 두개
   .union5 {
     top: 660px;
     right: 1000px;
+
+    @media screen and (max-width: 90rem) {
+      top: 600px;
+      right: 850px;
+    }
   }
   // 왼쪽 돼지꼬리
   .union6 {
     top: 510px;
     right: 910px;
+
+    @media screen and (max-width: 90rem) {
+      top: 435px;
+      right: 795px;
+    }
   }
   // 왼쪽 하트
   .union7 {
     top: 440px;
     right: 850px;
+
+    @media screen and (max-width: 90rem) {
+      top: 380px;
+      right: 760px;
+    }
   }
-  // 왼쪽 작은 별
+  // 오른쪽 작은 별
   .union8 {
     top: 250px;
     right: 720px;
+
+    @media screen and (max-width: 90rem) {
+      top: 87.5px;
+      right: 180px;
+    }
+  }
+
+  @media screen and (max-width: 90rem) {
+    width: 977px;
   }
 `;
 
@@ -161,6 +249,11 @@ const TextContainer = styled.div`
   gap: 0.9375rem;
   span {
     font-size: 1.5rem;
+  }
+
+  @media screen and (max-width: 90rem) {
+    top: 70px;
+    right: 450px;
   }
 `;
 const TextBold = styled.span`

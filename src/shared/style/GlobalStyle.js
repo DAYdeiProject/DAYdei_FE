@@ -77,7 +77,7 @@ export const GlobalStyle = createGlobalStyle`
       overflow: overlay;
       width : 100vw;
       height: 100vh;
-
+      user-select: none; // 글자 드래그 막기
     }
     ::-webkit-scrollbar {
       width: 5px;

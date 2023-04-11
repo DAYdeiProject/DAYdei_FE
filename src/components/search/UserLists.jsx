@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 import { __getRecommend, __requestFriend, __cancelRequest } from "../../redux/modules/friendsSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 
@@ -127,7 +127,6 @@ function UserLists({ searchWord, selectedCategories }) {
             <ProfileArea
               onClick={() => {
                 navigate(`/other`);
-                dispatch(textState(""));
                 dispatch(otherIdState(user.id));
               }}>
               <ProfilePhoto>
@@ -189,6 +188,10 @@ const PostBox = styled.div`
   border: 0.0625rem solid black;
   :hover {
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 90rem) {
+    width: 13rem;
   }
 `;
 
@@ -329,8 +332,6 @@ const SubscribeWrap = styled.div`
   font-weight: 400;
   font-size: 0.625rem;
   line-height: 0.75rem;
-
-  color: black;
 `;
 
 const IntroductionWrap = styled.div`
@@ -351,6 +352,10 @@ const IntroductionWrap = styled.div`
   color: #626262;
 
   border-top: 0.0625rem solid #626262;
+
+  @media screen and (max-width: 90rem) {
+    width: 8.6719rem;
+  }
 `;
 
 const ButtonArea = styled.div`
@@ -363,6 +368,11 @@ const ButtonArea = styled.div`
   width: 11.75rem;
   height: 2.5rem;
   /* background-color: pink; */
+
+  @media screen and (max-width: 90rem) {
+    width: 8.8125rem;
+    height: 1.875rem;
+  }
 `;
 
 const Button = styled.button`
@@ -383,6 +393,13 @@ const Button = styled.button`
   border-radius: 0.25rem;
   :hover {
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 90rem) {
+    width: 4.2188rem;
+    height: 1.875rem;
+    padding: 0.4688rem 0.6563rem;
+    font-size: 0.5625rem;
   }
 `;
 

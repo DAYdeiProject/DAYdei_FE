@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { EventSourcePolyfill } from "event-source-polyfill";
@@ -7,27 +6,20 @@ import Cookies from "js-cookie";
 import { useMediaQuery } from "react-responsive";
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
-import { GetUserInfo } from "../utils/cookie/userInfo";
-import { newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
+import { liveNotiState, newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
 import SseMessageBox from "../components/SseMessageBox";
 import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
 
 function Sidebar({ ...props }) {
   const token = Cookies.get("accessJWTToken");
-  const param = useParams();
-  const userInfo = GetUserInfo();
-  const [sseState, setSseState] = useState(false);
   const dispatch = useDispatch();
 
   // 다른 유저캘린더 갔을때
-  const { otherId, notiState, text } = useSelector((state) => state.header);
-  //console.log("사이드바 otherId==>", otherId);
-  //const { notiState } = useSelector((state) => state.header);
+  const { otherId, text } = useSelector((state) => state.header);
 
   // SSE 알림
   let eventConnect = "";
-  let message = "";
   useEffect(() => {
     eventConnect = new EventSourcePolyfill(`https://sparta-daln.shop/api/subscribe`, {
       headers: {
@@ -41,16 +33,12 @@ function Sidebar({ ...props }) {
       if (!event.data.includes("EventStream")) {
         const result = JSON.parse(event.data);
         dispatch(newNotificationState({ newState: true, message: result.content }));
+        dispatch(liveNotiState(true));
         if (text !== "home") {
           dispatch(textState(text));
         } else if (otherId) {
           dispatch(otherIdState(otherId));
         }
-        setSseState(true);
-        console.log("sse message==>", result);
-
-        //message = result.content.split("@");
-        //console.log("split message", message);
       }
     };
     return () => eventConnect.close();
@@ -64,34 +52,29 @@ function Sidebar({ ...props }) {
     setIsSideStyleOpen(!isSideStyleOpen);
   };
 
-  //console.log(isSideStyleOpen);
-
   return (
     <>
       {isShortScreen ? (
-        isSideStyleOpen ? (
-          !otherId ? (
-            <WholeWrapper>
-              <SideStyle isShort={isShortScreen}>
-                <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
-              </SideStyle>
-              <SideStyleShort isSideStyleOpen={isSideStyleOpen}>
+        otherId && window.location.pathname === "/other" ? (
+          <SideStyle>
+            <SidebarOtherCalendar otherId={otherId} />
+          </SideStyle>
+        ) : isSideStyleOpen ? (
+          <WholeWrapper>
+            <SideStyle isShort={isShortScreen}>
+              <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
+            </SideStyle>
+            <SideStyleShort isSideStyleOpen={isSideStyleOpen}>
+              <IconWrapper>
                 <Left onClick={openSideStyleHandler} />
-              </SideStyleShort>
-            </WholeWrapper>
-          ) : (
-            <WholeWrapper>
-              <SideStyle>
-                <SidebarOtherCalendar otherId={otherId} />
-              </SideStyle>
-              <SideStyleShort>
-                <Left onClick={openSideStyleHandler} />
-              </SideStyleShort>
-            </WholeWrapper>
-          )
+              </IconWrapper>
+            </SideStyleShort>
+          </WholeWrapper>
         ) : (
           <SideStyleShort>
-            <Right onClick={openSideStyleHandler} />
+            <IconWrapper>
+              <Right onClick={openSideStyleHandler} />
+            </IconWrapper>
           </SideStyleShort>
         )
       ) : !otherId ? (
@@ -103,7 +86,7 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideStyle>
       )}
-      {/* {notiState && <SseMessageBox isState={notiState.state} isMessage={notiState.message} />} */}
+      <SseMessageBox />
     </>
   );
 }
@@ -135,31 +118,34 @@ const SideStyle = styled.div`
 
 const SideStyleShort = styled.div`
   display: flex;
-  /* flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto; */
   height: 100%;
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
 
-  width: 34px;
+  width: 2.125rem;
   text-align: center;
   left: ${(props) => (props.isSideStyleOpen ? "21.875rem" : "0rem")};
-  position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")};
+  /* position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")}; */
+  position: absolute;
   z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
 
-  /* & > div {
-    width: 100%;
-  } */
-
   @media screen and (max-width: 1440px) {
-    display: block;
+    /* display: block; */
   }
 
   @media screen and (min-width: 1441px) {
     display: none;
   }
+  /* background-color: skyblue; */
+`;
+
+const IconWrapper = styled.div`
+  svg:hover {
+    cursor: pointer;
+  }
+  /* background-color: pink; */
 `;
 
 // 실시간 알림창

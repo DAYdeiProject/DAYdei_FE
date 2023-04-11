@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
-import { textState, otherIdState } from "../../redux/modules/headerReducer";
+import { otherIdState } from "../../redux/modules/headerReducer";
 
 import {
   NoListMessageWrapper,
@@ -54,7 +54,6 @@ function SubscriberList({ SubscribersList }) {
           <ProfileArea
             onClick={() => {
               navigate(`/other`);
-              dispatch(textState(""));
               dispatch(otherIdState(user.id));
             }}>
             <ProfileWrapLong>

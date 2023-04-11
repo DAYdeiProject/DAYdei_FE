@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import Cookies from "js-cookie";
 
 import { textState, otherIdState, newNotificationState } from "../redux/modules/headerReducer";
@@ -18,7 +18,6 @@ import defaultProfile from "../assets/defaultImage/profile.jpg";
 
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import Alert from "../components/Alert";
-import SseMessageBox from "../components/SseMessageBox";
 
 function Header() {
   const navigate = useNavigate();
@@ -32,6 +31,7 @@ function Header() {
   const [isProfileDetail, setIsProfileDetail] = useState(false);
   const token = Cookies.get("accessJWTToken");
   const [clickNav, setClickNav] = useState("");
+  const location = useLocation();
   const dispatch = useDispatch();
   const userId = GetUserInfo();
   // 헤더 클릭한 값 state
@@ -39,8 +39,20 @@ function Header() {
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
 
-  //console.log("header=====", notiState);
-  //console.log("header text=====", text);
+  // url에 따른 header 변화
+  let url = location.pathname.substr(1);
+  useEffect(() => {
+    if (url === "home") {
+      dispatch(textState("home"));
+    } else if (url === "mylist") {
+      dispatch(textState("friend"));
+    } else if (url === "search") {
+      dispatch(textState("search"));
+    } else {
+      dispatch(textState(""));
+    }
+  }, [url]);
+
   // 헤더 프로필 이미지 가져오기
   useEffect(() => {
     setClickNav(text);
@@ -101,20 +113,17 @@ function Header() {
 
   // 홈클릭
   const homeClickHandler = () => {
-    dispatch(otherIdState(""));
-    dispatch(textState("home")); // 색깔 진하게
+    dispatch(otherIdState("")); // 색깔 진하게
     navigate(`/home`);
   };
   // 친구/구독
   const friendclickHandler = () => {
     dispatch(otherIdState(""));
-    dispatch(textState("friend"));
     navigate(`/mylist`);
   };
   // 찾아보기
   const searchClickHandler = () => {
     dispatch(otherIdState(""));
-    dispatch(textState("search"));
     navigate(`/search`);
   };
 
@@ -225,7 +234,7 @@ const HeaderWrapper = styled.header`
   @media screen and (max-width: 1440px) {
     margin-left: 0rem;
     width: 90rem;
-    /* background: pink; */
+    /* background: skyblue; */
   }
 `;
 
