@@ -10,6 +10,7 @@ import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribe
 import Loading from "../../components/Loading";
 import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { debounce } from "lodash";
 
 function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적
@@ -43,32 +44,36 @@ function UserLists({ searchWord, selectedCategories }) {
     }
   }, [selectedCategories, searchWord]);
 
-  const requestHandler = (id) => {
+  //친구신청 디바운스
+  const debounceRequestHandler = debounce((id) => {
     dispatch(__requestFriend(id));
     setClickedButtonIds((prev) => [...prev, id]);
-  };
+  }, 300);
 
-  const cancelRequestHandler = (id) => {
+  //친구신청 취소 디바운스
+  const debounceCancelRequestHandler = debounce((id) => {
     dispatch(__cancelRequest(id));
     setClickedButtonIds((prev) => prev.filter((prevId) => prevId !== id));
-  };
+  }, 300);
 
-  const subscribeHandler = (id) => {
+  //구독 디바운스
+  const debounceSubscribeHandler = debounce((id) => {
     dispatch(__addSubscribe(id));
     setClickedSubscribeButtonIds((prev) => [...prev, id]);
-  };
+  }, 300);
 
-  const cancelSubscribeHandler = (id) => {
+  //구독 취소 디바운스
+  const debounceCancelSubscribeHandler = debounce((id) => {
     dispatch(__cancelSubscribe(id));
     setClickedSubscribeButtonIds((prev) => prev.filter((prevId) => prevId !== id));
-  };
+  }, 300);
 
   const ButtonFriend = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
       return (
         <ButtonCancel
           onClick={() => {
-            cancelRequestHandler(id);
+            debounceCancelRequestHandler(id);
           }}>
           신청취소
         </ButtonCancel>
@@ -77,7 +82,7 @@ function UserLists({ searchWord, selectedCategories }) {
     return (
       <Button
         onClick={() => {
-          requestHandler(id);
+          debounceRequestHandler(id);
         }}>
         친구신청
       </Button>
@@ -89,7 +94,7 @@ function UserLists({ searchWord, selectedCategories }) {
       return (
         <ButtonCancel
           onClick={() => {
-            cancelSubscribeHandler(id);
+            debounceCancelSubscribeHandler(id);
           }}>
           구독취소
         </ButtonCancel>
@@ -98,7 +103,7 @@ function UserLists({ searchWord, selectedCategories }) {
     return (
       <ButtonSub
         onClick={() => {
-          subscribeHandler(id);
+          debounceSubscribeHandler(id);
         }}>
         구독하기
       </ButtonSub>
