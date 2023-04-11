@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import { format } from "date-fns";
+import { debounce } from "lodash";
 import { ko } from "date-fns/esm/locale";
 import ModalBox from "../../../elements/ModalBox";
-import { ColorDeepFromDB, ColorList, ColorToDB, TimeList } from "../../../utils/calendar/CalendarBasic";
+import { ColorDeepFromDB, ColorList, ColorToDB, MaxSizeFile, TimeList } from "../../../utils/calendar/CalendarBasic";
 import { BiX } from "react-icons/bi";
 import "react-datepicker/dist/react-datepicker.css";
 import postStyle from "../../../shared/style/PostStyle";
@@ -51,6 +52,8 @@ function AddPostModal({ ...props }) {
   const [fileImg, setFileImg] = useState([]);
   // 저장되어있던 이미지
   const [saveView, setSaveView] = useState([]);
+  // button type
+  const [btnType, setBtnType] = useState("button");
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const outside = useRef();
@@ -116,16 +119,10 @@ function AddPostModal({ ...props }) {
   }, [props.pickDate]);
 
   // 친구 검색어 입력시 debounce 처리
-  // custom debounce
-  const debounce = (callback, delay) => {
-    let timerId = null;
-    return (...args) => {
-      if (timerId) clearTimeout(timerId);
-      timerId = setTimeout(() => {
-        callback(...args);
-      }, delay);
-    };
-  };
+  // const handleSearchText = useCallback(
+  //   useDebounce((text) => setFindTarget(text), 200),
+  //   []
+  // );
 
   const handleSearchText = useCallback(
     debounce((text) => setFindTarget(text), 200),
@@ -253,7 +250,15 @@ function AddPostModal({ ...props }) {
 
   const imgUploadHandler = (e) => {
     const img = Array.from(e.target.files);
+
+    // size 확인
+    const imgResult = MaxSizeFile(img);
+    if (!imgResult) {
+      return dispatch(alertState({ state: true, comment: "1장당 10MB, 총 크기는 20MB만 가능합니다. 다시 선택해주세요.", max: true }));
+    }
+
     setFileList((pre) => [...pre, ...img]);
+
     // 파일 이름 뿌려주기 위해서
     img.forEach((list) => {
       let newName = list.name.split(".")[0];
@@ -298,6 +303,10 @@ function AddPostModal({ ...props }) {
 
   // 저장 버튼 눌렀을때
   const addPost = (data) => {
+    debounceSubmitHandler(data);
+  };
+  // 디바운싱
+  const debounceSubmitHandler = debounce((data) => {
     if (data.title === "") {
       return dispatch(alertState({ state: true, comment: "제목을 입력해주세요." }));
     }
@@ -315,7 +324,6 @@ function AddPostModal({ ...props }) {
       newStartTime = data.startTime;
       newEndTime = data.endTime;
     }
-
     const imgList = new FormData();
     if (fileList.length > 3) {
       return dispatch(alertState({ state: true, comment: "파일첨부는 최대 3개까지 첨부가능합니다." }));
@@ -324,10 +332,8 @@ function AddPostModal({ ...props }) {
         imgList.append("images", img);
       });
     }
-
     // 컬러
     const newColor = ColorToDB(isColor);
-
     const newPost = {
       title: data.title,
       startDate: newStart,
@@ -340,7 +346,6 @@ function AddPostModal({ ...props }) {
       content: data.content,
       scope: data.scope,
     };
-
     // fileList == 새 파일 이미지 리스트
     if (fileList.length !== 0) {
       // 이미지 있을때
@@ -353,7 +358,6 @@ function AddPostModal({ ...props }) {
             saveNewView.push(...saveView);
             saveNewView.push(...img.payload);
             newPost.image = saveNewView;
-
             dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
               if (data.error) {
                 dispatch(alertState({ state: true, comment: "수정 실패하였습니다." }));
@@ -400,7 +404,6 @@ function AddPostModal({ ...props }) {
         let saveNewView = [];
         saveNewView.push(...saveView);
         newPost.image = saveNewView;
-
         dispatch(__updatePost({ updatePost: newPost, postId: String(props.modifyPostId) })).then((data) => {
           if (data.error) {
             closeClickHandler();
@@ -426,7 +429,7 @@ function AddPostModal({ ...props }) {
         });
       }
     }
-  };
+  }, 300);
 
   return (
     <ModalBox isOpen={props.isAddPost} width={"500px"} height={"640px"}>

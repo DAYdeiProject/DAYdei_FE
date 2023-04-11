@@ -26,6 +26,7 @@
     "framer-motion": "^10.2.4",
     "jquery": "^3.6.4",
     "js-cookie": "^3.0.1",
+    "lodash": "^4.17.21",
     "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",

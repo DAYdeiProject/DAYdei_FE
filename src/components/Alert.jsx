@@ -28,31 +28,28 @@ export default function Alert({ ...props }) {
 }
 
 const AlertWrapper = styled.div`
+  ${(props) => props.theme.FlexCol}
   position: fixed;
   bottom: 3.125rem;
+  left: 0;
+  right: 0;
   z-index: 999;
-  ${(props) => props.theme.FlexCol}
-  width: ${(props) => (props.isMax ? "28.125rem" : "21.875rem")};
-  height: 2.1875rem;
-  color: #ffffff;
-  border-radius: 0.25rem;
-  background-color: ${(props) => props.theme.Bg.color2};
-  box-shadow: 0rem 0rem 0.5rem 0rem rgba(0, 0, 0, 0.438);
+  div {
+    width: ${(props) => (props.isMax ? "28.125rem" : "21.875rem")};
+    line-height: 2.1875rem;
+    text-align: center;
+    color: #ffffff;
+    margin: 0 auto;
+    border-radius: 0.25rem;
+    background-color: ${(props) => props.theme.Bg.color2};
+    box-shadow: 0rem 0rem 0.5rem 0rem rgba(0, 0, 0, 0.438);
+  }
 
   /* animation */
   animation-name: slideUp;
   animation-duration: 0.3s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
-
-  /* ${(props) =>
-    props.visible
-      ? css`
-          animation: slideUp 0.1s ease-out forwards;
-        `
-      : css`
-          animation: slideDown 0.3s ease-in forwards;
-        `} */
 
   @keyframes slideUp {
     from {

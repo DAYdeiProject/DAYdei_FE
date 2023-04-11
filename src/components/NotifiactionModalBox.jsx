@@ -8,6 +8,7 @@ import { TimeCheck } from "../utils/calendar/CalendarBasic";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { setNotificationPostId, textState, otherIdState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
+import { debounce } from "lodash";
 
 export default function NotifiactionModalBox({ ...props }) {
   const [deleteState, setDeleteState] = useState(false);
@@ -15,6 +16,8 @@ export default function NotifiactionModalBox({ ...props }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.connect);
+  const { text } = useSelector((state) => state.header);
+  console.log(text);
 
   useEffect(() => {
     dispatch(__getConnect());
@@ -29,28 +32,35 @@ export default function NotifiactionModalBox({ ...props }) {
       dispatch(otherIdState(userId));
       props.setIsNotificationOpen(false);
     } else if (userId === null) {
+      // post
       const notiInfo = {
         postId,
         content,
         notiState,
         isRead,
       };
-      //navigate(`/home`);
+      navigate(`/${text}`);
 
-      dispatch(textState(""));
       dispatch(setNotificationPostId(notiInfo));
+      dispatch(textState(""));
       props.setIsNotificationOpen(false);
     }
   };
 
   // 알림 모두 지우기
   const allClearClick = () => {
+    if (data.notificationDtos.length !== 0) {
+      debounceHandler();
+    }
+  };
+
+  const debounceHandler = debounce(() => {
     dispatch(__allClearNotification({ userId: userInfo.userId })).then(() => {
       alert("모두 삭제되었습니다.");
       setDeleteState(true);
       //props.setIsNotificationOpen(false);
     });
-  };
+  }, 300);
 
   return (
     <>
@@ -138,6 +148,7 @@ const NotiHeaderContainer = styled.div`
 
 const AllClearBox = styled.div`
   padding-right: 0.3125rem;
+  cursor: pointer;
   span {
     font-size: 0.75rem !important;
     color: #121212;
