@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Sidebar from "../layout/Sidebar";
-import { useSelector } from "react-redux";
-import CalendarMain from "../components/home/calendar/CalendarMain";
 import FriendsListMain from "../components/friendslist/FriendsListMain";
+import DetailPostModal from "../components/home/calendar/DetailPostModal";
 
 export default function MyListPage() {
-  const { otherId } = useSelector((state) => state.header);
-
   return (
     <HomePageWrapper>
       <Sidebar />
-      {!otherId ? <FriendsListMain /> : <CalendarMain />}
+      <FriendsListMain />
+      <DetailPostModal />
     </HomePageWrapper>
   );
 }

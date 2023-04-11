@@ -25,6 +25,7 @@ import { ReactComponent as Location } from "../../../assets/calendarIcon/locatio
 import { ReactComponent as EditCalendar } from "../../../assets/calendarIcon/editCalendar.svg";
 
 export default function DetailPostModal({ ...props }) {
+  const [isDetailPost, setIsDetailPost] = useState(false);
   const [friendToggle, setFriendToggle] = useState(true);
   const [imgToggle, setImgToggle] = useState(true);
   const [nowStart, setStart] = useState("");
@@ -84,10 +85,12 @@ export default function DetailPostModal({ ...props }) {
   useEffect(() => {
     if (props.detailPostId) {
       dispatch(__getPostDetail({ id: props.detailPostId }));
-      props.setIsDetailPost(true);
+      //props.setIsDetailPost(true);
+      setIsDetailPost(true);
     } else if (props.otherCalendarPostId) {
       dispatch(__getPostDetail({ id: props.otherCalendarPostId }));
-      props.setIsDetailPost(true);
+      //props.setIsDetailPost(true);
+      setIsDetailPost(true);
     } else if (notiInfo) {
       setNotiContent(notiInfo.content);
       setNotiState(notiInfo.notiState);
@@ -97,7 +100,8 @@ export default function DetailPostModal({ ...props }) {
             dispatch(alertState({ state: true, comment: "존재하지 않는 일정입니다." }));
           }
         } else {
-          props.setIsDetailPost(true);
+          //props.setIsDetailPost(true);
+          setIsDetailPost(true);
         }
       });
     }
@@ -113,9 +117,13 @@ export default function DetailPostModal({ ...props }) {
 
   // 닫기 눌렀을때 state 초기화
   const closeSetting = () => {
-    props.setIsDetailPost(false);
-    props.setDetailPostId("");
-    props.setOtherCalendarPostId("");
+    if (props.setDetailPostId) {
+      props.setDetailPostId("");
+    }
+    if (props.setOtherCalendarPostId) {
+      props.setOtherCalendarPostId("");
+    }
+    setIsDetailPost(false);
     setIsEditOpen(false);
     setFriendToggle(true);
     setImgToggle(true);
@@ -139,7 +147,9 @@ export default function DetailPostModal({ ...props }) {
   // 모달 바깥영역 클릭시
   const outsideClick = () => {
     closeSetting();
-    props.setAgainToday(false);
+    if (props.againToday) {
+      props.setAgainToday(false);
+    }
   };
 
   useOutsideClick(outside, outsideClick);
@@ -158,7 +168,7 @@ export default function DetailPostModal({ ...props }) {
   const deletePostHandler = (id) => {
     dispatch(__deletePost({ id, token })).then(() => {
       dispatch(alertState({ state: true, comment: "일정이 삭제되었습니다." }));
-      props.setIsDetailPost(false);
+      setIsDetailPost(false);
       props.setSide(!props.side);
       props.setIsSubmit(!props.isSubmit);
       closeModal();
@@ -194,7 +204,7 @@ export default function DetailPostModal({ ...props }) {
 
   return (
     <>
-      <ModalBox isOpen={props.isDetailPost} width={"500px"} height={isHeight}>
+      <ModalBox isOpen={isDetailPost} width={"500px"} height={isHeight}>
         <DetailPostWrapper ref={outside}>
           <DetailContentWrapper>
             <HeaderWrapper>

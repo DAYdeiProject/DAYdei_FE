@@ -17,7 +17,7 @@ export default function NotifiactionModalBox({ ...props }) {
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.connect);
   const { text } = useSelector((state) => state.header);
-  console.log(text);
+  //console.log(text);
 
   useEffect(() => {
     dispatch(__getConnect());
@@ -38,8 +38,7 @@ export default function NotifiactionModalBox({ ...props }) {
         notiState,
         isRead,
       };
-      navigate(`/${text}`);
-
+      //navigate(`/${text}`);
       dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);
     }

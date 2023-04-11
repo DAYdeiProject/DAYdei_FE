@@ -3,15 +3,13 @@ import styled from "styled-components";
 import SearchUsers from "../components/search/SearchUsers";
 import Sidebar from "../layout/Sidebar";
 import DetailPostModal from "../components/home/calendar/DetailPostModal";
-import { useSelector } from "react-redux";
 
 export default function SearchPage() {
-  const { notiInfo } = useSelector((state) => state.header);
   return (
     <HomePageWrapper>
       <Sidebar />
       <SearchUsers />
-      {notiInfo && <DetailPostModal />}
+      <DetailPostModal />
     </HomePageWrapper>
   );
 }
