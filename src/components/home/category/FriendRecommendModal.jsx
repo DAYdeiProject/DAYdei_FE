@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { debounce } from "lodash";
 
 import { __getFamousList } from "../../../redux/modules/friendsSlice";
-import { __addSubscribe } from "../../../redux/modules/subscribeSlice";
+import { __addSubscribe, __cancelSubscribe } from "../../../redux/modules/subscribeSlice";
 
 import Modal from "../../../elements/Modal";
 import ModalWrap from "../../../elements/ModalWrap";
@@ -34,20 +35,33 @@ function FriendRecommendModal({ setIsModalVisible, setShowFriendRecommendModal }
     }
   }, [dispatch]);
 
-  //구독하기 POST요청함수 Dispatch
-  const addSubscribeHandler = (id) => {
+  //구독 디바운스
+  const debounceSubscribeHandler = debounce((id) => {
     dispatch(__addSubscribe(id));
     setClickedButtonIds((prev) => [...prev, id]);
-  };
+  }, 300);
+
+  //구독 취소 디바운스
+  const debounceCancelSubscribeHandler = debounce((id) => {
+    dispatch(__cancelSubscribe(id));
+    setClickedButtonIds((prev) => prev.filter((prevId) => prevId !== id));
+  }, 300);
 
   const Button = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
-      return <div>구독중</div>;
+      return (
+        <div
+          onClick={() => {
+            debounceCancelSubscribeHandler(id);
+          }}>
+          구독취소
+        </div>
+      );
     }
     return (
       <div
         onClick={() => {
-          addSubscribeHandler(id);
+          debounceSubscribeHandler(id);
         }}>
         구독하기
       </div>
@@ -254,6 +268,7 @@ export const ButtonBottom = styled.button`
   background: ${(props) => props.theme.Bg.mainColor5};
 
   border: 0.0875rem solid #121212;
+  color: ${(props) => props.theme.Bg.color6};
 
   box-shadow: 0.125rem 0.125rem 0rem #000000;
   border-radius: 0.25rem;

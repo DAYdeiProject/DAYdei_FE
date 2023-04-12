@@ -31,7 +31,7 @@ function HomePage() {
   const userInfo = GetUserInfo();
   useEffect(() => {
     dispatch(__getMyProfile(userInfo.userId)).then((data) => {
-      console.log("로그인하면서 갖고오는 내 프로필 카테고리 정보", data);
+      // console.log("로그인하면서 갖고오는 내 프로필 카테고리 정보", data);
       if (data.payload.categoryList.length === 0) {
         setIsModalVisible(true);
       }

@@ -183,6 +183,7 @@ export const ButtonBottom = styled.button`
   font-size: ${(props) => props.theme.Fs.tag};
   color: ${(props) => props.theme.Bg.lightColor};
   background: #494d55;
+  color: ${(props) => props.theme.Bg.color6};
 
   border: 0.0875rem solid #121212;
 

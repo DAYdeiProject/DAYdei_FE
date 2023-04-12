@@ -15,6 +15,7 @@ import { CategoryText } from "../../../utils/calendar/CalendarBasic";
 import { GiCancel } from "react-icons/gi";
 import { BsCardImage } from "react-icons/bs";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
+import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 
 function ProfileSettingModal({ ...props }) {
   //프로필 파일
@@ -31,6 +32,9 @@ function ProfileSettingModal({ ...props }) {
   const [updatedBackgroundUrl, setUpdatedBackgroundUrl] = useState("");
   //모달에서 현재 위치한 탭 상태
   const [isProfileSectionOpen, setIsProfileSectionOpen] = useState(true);
+  //기존에 있던 사진을 지움
+  const [deleteProfile, setDeleteProfile] = useState(false);
+  const [deleteBackground, setDeleteBackground] = useState(false);
 
   const {
     password,
@@ -64,10 +68,13 @@ function ProfileSettingModal({ ...props }) {
   const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
+    // console.log("프로필세팅모달", headerProfile);
     if (headerProfile.profileImage) {
+      // console.log("처음 모달열었을 때 프로필 있는지", headerProfile.profileImage);
       setUpdatedProfileUrl(headerProfile.profileImage);
     }
     if (headerProfile.backgroundImage) {
+      // console.log("처음 모달열었을 때 배경 있는지", headerProfile.profileImage);
       setUpdatedBackgroundUrl(headerProfile.backgroundImage);
     }
   }, [headerProfile.profileImage, headerProfile.backgroundImage]);
@@ -97,12 +104,16 @@ function ProfileSettingModal({ ...props }) {
     }
     setProfile(file);
     setProfileImageUrl(URL.createObjectURL(file));
+    if (file && file.size <= 10 * 1024 * 1024) {
+      setDeleteProfile(false);
+    }
   };
 
   useEffect(() => {
     setBackgroundImageName(background ? background.name : "");
   }, [background]);
 
+  //업로드한 배경 이미지 정보 저장
   const backgroundImageHandler = (e) => {
     const file = e.target.files[0];
     if (file && file.size > 10 * 1024 * 1024) {
@@ -114,32 +125,40 @@ function ProfileSettingModal({ ...props }) {
       setBackground(file);
       setBackgroundImageName(URL.createObjectURL(file));
     }
+
+    if (file && file.size <= 10 * 1024 * 1024) {
+      setDeleteBackground(false);
+    }
   };
 
-  const deleteImageHandler = () => {
+  const deleteImageHandler = (e) => {
     setProfile("");
     setProfileImageUrl("");
     setUpdatedProfileUrl("");
+    setDeleteProfile(true);
   };
 
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
     setUpdatedBackgroundUrl("");
+    setDeleteBackground(true);
   };
 
   //제출 버튼 클릭 시 호출되는 함수
+
   const profileChangeHandler = (e) => {
     e.preventDefault();
-
-    // console.log("store에서 불러온 내프로필-->", myProfile);
     const nickNameValue = nickName || headerProfile.nickName;
     const introductionValue = introduction || headerProfile.introduction;
+
     let userProfileRequestDto = {};
     if (password === "") {
       if (nicknameRegex || nickNameValue === headerProfile.nickName) {
         userProfileRequestDto = {
           nickName: nickNameValue,
           introduction: introductionValue,
+          deleteProfile,
+          deleteBackground,
         };
       }
     } else {
@@ -149,6 +168,8 @@ function ProfileSettingModal({ ...props }) {
           introduction: introductionValue,
           newPassword: password,
           newPasswordConfirm: passwordCheck,
+          deleteProfile,
+          deleteBackground,
         };
       }
     }
@@ -158,10 +179,11 @@ function ProfileSettingModal({ ...props }) {
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
-    if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile.length !== 0 || background.length !== 0 || introductionValue !== "") {
+    if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile !== "" || background !== "" || introductionValue !== "") {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
+      console.log("디스패치 위-->", profile, background);
       dispatch(__setProfile(formData)).then((data) => {
         console.log("then", data);
         if (data.payload !== 200) {
@@ -277,7 +299,7 @@ function ProfileSettingModal({ ...props }) {
                                 {myCategory.length !== 0
                                   ? myCategory.map((item) => {
                                       let newCategory = CategoryText(item);
-                                      return <span>{newCategory}</span>;
+                                      return <span key={item}>{newCategory}</span>;
                                     })
                                   : "선택한 카테고리가 없습니다."}
                               </CategoryWrap>
@@ -413,9 +435,11 @@ const PhotoWrapSquare = styled.div`
   /* background-color: red; */
 `;
 
-const CancelIcon = styled(GiCancel)`
+const CancelIcon = styled(Cancel)`
   position: absolute;
-  right: 0;
+  width: 12px;
+  height: 12px;
+  right: -7px;
   :hover {
     cursor: pointer;
   }
@@ -575,8 +599,13 @@ const IconStyle = styled(BsCardImage)`
   margin-left: 0.3125rem;
 `;
 
-const BackgroundCancel = styled(GiCancel)`
+const BackgroundCancel = styled(Cancel)`
+  width: 12px;
+  height: 12px;
   margin-left: 0.3125rem;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const GapArea = styled.div`
@@ -611,6 +640,7 @@ const ButtonWrap = styled.button`
   font-weight: 600;
   font-size: ${(props) => props.theme.Fs.size16};
   line-height: 1.125rem;
+
   :hover {
     cursor: pointer;
   }
@@ -618,4 +648,5 @@ const ButtonWrap = styled.button`
 
 const ButtonSubmit = styled(ButtonWrap)`
   background: #0eafe1;
+  color: ${(props) => props.theme.Bg.color6};
 `;

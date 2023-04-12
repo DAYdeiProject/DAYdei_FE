@@ -60,7 +60,7 @@ function ApproveRequestModal({ ...props }) {
                 {props.RequestedUsersList.map((user) => (
                   <>
                     <PostWrap key={user.id}>
-                      <UserInfoWrap>
+                      <UserInfoWrap key={user.id}>
                         <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                         <ProfileWrap>
                           <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
@@ -90,7 +90,7 @@ function ApproveRequestModal({ ...props }) {
                 {props.SentUsersList.map((user) => (
                   <>
                     <PostWrap key={user.id}>
-                      <UserInfoWrap>
+                      <UserInfoWrap key={user.id}>
                         <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
                         <ProfileWrap>
                           <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>

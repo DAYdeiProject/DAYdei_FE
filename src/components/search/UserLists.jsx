@@ -10,6 +10,7 @@ import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribe
 import Loading from "../../components/Loading";
 import { CalendarWrapper } from "../home/calendar/CalendarMain";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { debounce } from "lodash";
 
 function UserLists({ searchWord, selectedCategories }) {
   //클릭된 친구신청 버튼 추적
@@ -43,32 +44,36 @@ function UserLists({ searchWord, selectedCategories }) {
     }
   }, [selectedCategories, searchWord]);
 
-  const requestHandler = (id) => {
+  //친구신청 디바운스
+  const debounceRequestHandler = debounce((id) => {
     dispatch(__requestFriend(id));
     setClickedButtonIds((prev) => [...prev, id]);
-  };
+  }, 300);
 
-  const cancelRequestHandler = (id) => {
+  //친구신청 취소 디바운스
+  const debounceCancelRequestHandler = debounce((id) => {
     dispatch(__cancelRequest(id));
     setClickedButtonIds((prev) => prev.filter((prevId) => prevId !== id));
-  };
+  }, 300);
 
-  const subscribeHandler = (id) => {
+  //구독 디바운스
+  const debounceSubscribeHandler = debounce((id) => {
     dispatch(__addSubscribe(id));
     setClickedSubscribeButtonIds((prev) => [...prev, id]);
-  };
+  }, 300);
 
-  const cancelSubscribeHandler = (id) => {
+  //구독 취소 디바운스
+  const debounceCancelSubscribeHandler = debounce((id) => {
     dispatch(__cancelSubscribe(id));
     setClickedSubscribeButtonIds((prev) => prev.filter((prevId) => prevId !== id));
-  };
+  }, 300);
 
   const ButtonFriend = ({ id }) => {
     if (clickedButtonIds.includes(id)) {
       return (
         <ButtonCancel
           onClick={() => {
-            cancelRequestHandler(id);
+            debounceCancelRequestHandler(id);
           }}>
           신청취소
         </ButtonCancel>
@@ -77,7 +82,7 @@ function UserLists({ searchWord, selectedCategories }) {
     return (
       <Button
         onClick={() => {
-          requestHandler(id);
+          debounceRequestHandler(id);
         }}>
         친구신청
       </Button>
@@ -89,7 +94,7 @@ function UserLists({ searchWord, selectedCategories }) {
       return (
         <ButtonCancel
           onClick={() => {
-            cancelSubscribeHandler(id);
+            debounceCancelSubscribeHandler(id);
           }}>
           구독취소
         </ButtonCancel>
@@ -98,7 +103,7 @@ function UserLists({ searchWord, selectedCategories }) {
     return (
       <ButtonSub
         onClick={() => {
-          subscribeHandler(id);
+          debounceSubscribeHandler(id);
         }}>
         구독하기
       </ButtonSub>
@@ -144,18 +149,21 @@ function UserLists({ searchWord, selectedCategories }) {
                 </InfoArea>
               </ProfileTextFrame>
             </ProfileArea>
-            <IntroductionWrap>
-              {user.introduction
-                ? user.introduction.length > 30
-                  ? `${user.introduction.substr(0, 30)}...`
-                  : user.introduction
-                : `${user.nickName}의 캘린더입니다.`}
-            </IntroductionWrap>
-            <ButtonArea>
-              <ButtonFriend id={user.id} />
-              <ButtonSubscribe id={user.id} />
-            </ButtonArea>
+            <MiddleBox>
+              <IntroductionWrap>
+                {user.introduction
+                  ? user.introduction.length > 30
+                    ? `${user.introduction.substr(0, 30)}...`
+                    : user.introduction
+                  : `${user.nickName}의 캘린더입니다.`}
+              </IntroductionWrap>
+              {user.mutualFriendsCount ? <MutualFriendsBox>함께 아는 친구 : {user.mutualFriendsCount}</MutualFriendsBox> : null}
+            </MiddleBox>
           </ContentWrap>
+          <ButtonArea>
+            <ButtonFriend id={user.id} />
+            <ButtonSubscribe id={user.id} />
+          </ButtonArea>
         </PostBox>
       ))}
     </>
@@ -180,7 +188,7 @@ const PostBox = styled.div`
   isolation: isolate;
 
   width: 14.375rem;
-  height: 18.5rem;
+  height: 296px;
 
   background: #ffffff;
   border-radius: 0.5rem;
@@ -198,14 +206,14 @@ const PostBox = styled.div`
 const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 0rem;
   gap: 0.875rem;
 
   width: 13.75rem;
-  height: 15rem;
-  /* background-color: blue; */
+  height: 100%;
+
+  /* background-color: skyblue; */
 `;
 
 const ProfileArea = styled.div`
@@ -215,10 +223,10 @@ const ProfileArea = styled.div`
   padding: 0rem;
   gap: 0.5rem;
 
-  width: 7.875rem;
-  height: 7.75rem;
+  width: 80%;
+  height: 124px;
+
   /* background-color: orange; */
-  /* margin-bottom: 10px; */
 `;
 
 const ProfilePhoto = styled.div`
@@ -227,6 +235,8 @@ const ProfilePhoto = styled.div`
   align-items: flex-start;
   padding: 0rem;
   gap: 1.25rem;
+
+  /* background-color: lightgray; */
 `;
 
 const PhotoFrame = styled.img`
@@ -244,7 +254,8 @@ const ProfileTextFrame = styled.div`
 
   width: 7.875rem;
   height: 3.5rem;
-  /* background-color: orange; */
+
+  /* background-color: yellow; */
 `;
 
 const NameArea = styled.div`
@@ -256,7 +267,7 @@ const NameArea = styled.div`
   gap: 0.125rem;
 
   height: 2.1875rem;
-  /* background-color: yellow; */
+  /* background-color: blue; */
 `;
 
 const NicknameWrap = styled.div`
@@ -312,7 +323,6 @@ const FriendsWrap = styled.div`
   font-weight: 400;
   font-size: 0.625rem;
   line-height: 0.75rem;
-  color: black;
 `;
 
 const SubscribingWrap = styled.div`
@@ -321,8 +331,6 @@ const SubscribingWrap = styled.div`
   font-weight: 400;
   font-size: 0.625rem;
   line-height: 0.75rem;
-
-  color: black;
 `;
 
 const SubscribeWrap = styled.div`
@@ -334,16 +342,29 @@ const SubscribeWrap = styled.div`
   line-height: 0.75rem;
 `;
 
+const MiddleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  height: 63px;
+  border-top: 0.0625rem solid #626262;
+  /* background: skyblue; */
+  @media screen and (max-width: 90rem) {
+    gap: 2px;
+    /* background-color: pink; */
+  }
+`;
+
 const IntroductionWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* padding: 10px 32px; */
-  gap: 0.625rem;
 
   width: 11.5625rem;
-  height: 3rem;
 
   font-weight: 400;
   font-size: 0.75rem;
@@ -351,10 +372,30 @@ const IntroductionWrap = styled.div`
 
   color: #626262;
 
-  border-top: 0.0625rem solid #626262;
-
   @media screen and (max-width: 90rem) {
     width: 8.6719rem;
+    margin-top: 0.3125rem;
+  }
+`;
+
+const MutualFriendsBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 1rem;
+
+  width: 8.25rem;
+  height: 20px;
+
+  font-size: 0.625rem;
+  font-weight: 25rem;
+  color: ${(props) => props.theme.Bg.color2};
+  background: #f2f4f6;
+  margin-bottom: -10px;
+
+  @media screen and (max-width: 90rem) {
+    height: 15px;
+    font-size: 10px;
   }
 `;
 
@@ -373,6 +414,8 @@ const ButtonArea = styled.div`
     width: 8.8125rem;
     height: 1.875rem;
   }
+
+  /* background: pink; */
 `;
 
 const Button = styled.button`
