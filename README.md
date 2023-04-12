@@ -1,8 +1,7 @@
 ## DAYDEI
 
-항해 12기 A반 4조 최종프로젝트 <br/> 
-2023.03.10 - 2023.04.21 
-DAYDEI Front-End Repository
+DAYDEI Front-End Repository (2023.03.10 - 2023.04.21) <br/> 
+항해 12기 A반 4조 최종프로젝트 
 
 ### 팀원 
 
