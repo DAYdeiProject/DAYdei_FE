@@ -292,7 +292,6 @@ export default CalendarMain;
 
 const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
-  //min-width: 93.75rem;
   height: 100%;
 `;
 
@@ -300,10 +299,9 @@ export const CalendarWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 100%;
   height: 100%;
-  //margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
   padding: 20px 0;
   @media screen and (max-width: 1440px) {
-    padding: 20px;
+    padding-right: 30px;
   }
 `;
 

@@ -340,10 +340,6 @@ export const WholeWrapper = styled.div`
 export const WholeAreaWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
   padding: 0 3rem;
-
-  @media screen and (max-width: 1440px) {
-    margin-left: 2.125rem;
-  }
 `;
 
 export const ListFrameBig = styled.div`
