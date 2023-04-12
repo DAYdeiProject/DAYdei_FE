@@ -36,7 +36,7 @@ export const __getSubscriberList = createAsyncThunk("getSubscriberList", async (
 export const __addSubscribe = createAsyncThunk("addSubscribe", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.post(`/${id}`);
-    console.log(response.data);
+    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -48,7 +48,7 @@ export const __addSubscribe = createAsyncThunk("addSubscribe", async (id, thunkA
 export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.delete(`/${id}`);
-    console.log(response.data);
+    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -60,7 +60,7 @@ export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, 
 export const __hideUser = createAsyncThunk("hideUser", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.put(`/show/${id}`);
-    console.log("put요청 리스펀스", response.data.statusCode);
+    // console.log("put요청 리스펀스", response.data.statusCode);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     console.log(error);

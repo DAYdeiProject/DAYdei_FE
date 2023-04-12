@@ -5,7 +5,6 @@ import SubscribeListControl from "./SubscribeListControl";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import { __addMemo, __getMemos, __deleteMemo, __fixMemo } from "../../../redux/modules/memosSlice";
 import { FaTrash } from "react-icons/fa";
-import { HiPencil } from "react-icons/hi";
 import { ReactComponent as Star } from "../../../assets/defaultIcons/star.svg";
 import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
 import { ReactComponent as Memo } from "../../../assets/defaultIcons/memo.svg";
@@ -178,6 +177,17 @@ export default function CalendarSidebar({ ...props }) {
                   <AddBox onClick={handleInputBoxOpen}>
                     <Memo /> 메모 추가하기
                   </AddBox>
+                  {updatedMemos.length === 0 && !isInputBoxOpen && (
+                    <>
+                      <NoMemoSignBox>
+                        <MemoIconWrap />
+                        <NoMemoText>
+                          <p>작성한 메모가 없습니다.</p>
+                          <p>새로운 메모를 작성해 보세요!</p>
+                        </NoMemoText>
+                      </NoMemoSignBox>
+                    </>
+                  )}
                   {isInputBoxOpen && (
                     <InputBox>
                       <form
@@ -377,6 +387,41 @@ const AddBox = styled.div`
   color: ${(props) => props.theme.Bg.mainColor5};
   :hover {
     background: #f1fbfe;
+  }
+`;
+
+//메모 없을 때 알려주는 박스
+const NoMemoSignBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 0.4rem;
+`;
+
+// 메모 없음 아이콘 확대
+const MemoIconWrap = styled(Memo)`
+  width: 8rem;
+  height: 8rem;
+  filter: brightness(0) invert(80%);
+`;
+
+//메모 없음 텍스트
+
+const NoMemoText = styled.div`
+  font-size: ${(props) => props.theme.Fs.size16};
+  font-weight: 500;
+  color: ${(props) => props.theme.Bg.color3};
+  text-align: center;
+
+  p:nth-child(1) {
+    font-size: ${(props) => props.theme.Fs.size16};
+    margin-bottom: 0.3rem;
+  }
+
+  p:nth-child(2) {
+    font-size: ${(props) => props.theme.Fs.size12};
   }
 `;
 

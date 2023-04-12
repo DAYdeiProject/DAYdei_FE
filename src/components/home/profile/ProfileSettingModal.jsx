@@ -32,6 +32,9 @@ function ProfileSettingModal({ ...props }) {
   const [updatedBackgroundUrl, setUpdatedBackgroundUrl] = useState("");
   //모달에서 현재 위치한 탭 상태
   const [isProfileSectionOpen, setIsProfileSectionOpen] = useState(true);
+  //기존에 있던 사진을 지움
+  const [deleteProfile, setDeleteProfile] = useState(false);
+  const [deleteBackground, setDeleteBackground] = useState(false);
 
   const {
     password,
@@ -101,16 +104,16 @@ function ProfileSettingModal({ ...props }) {
     }
     setProfile(file);
     setProfileImageUrl(URL.createObjectURL(file));
-
-    // console.log("파일상태", file, "프로필 상태", profile);
+    if (file && file.size <= 10 * 1024 * 1024) {
+      setDeleteProfile(false);
+    }
   };
-
-  // console.log("프로필 상태", profile);
 
   useEffect(() => {
     setBackgroundImageName(background ? background.name : "");
   }, [background]);
 
+  //업로드한 배경 이미지 정보 저장
   const backgroundImageHandler = (e) => {
     const file = e.target.files[0];
     if (file && file.size > 10 * 1024 * 1024) {
@@ -122,12 +125,17 @@ function ProfileSettingModal({ ...props }) {
       setBackground(file);
       setBackgroundImageName(URL.createObjectURL(file));
     }
+
+    if (file && file.size <= 10 * 1024 * 1024) {
+      setDeleteBackground(false);
+    }
   };
 
   const deleteImageHandler = (e) => {
     setProfile("");
     setProfileImageUrl("");
     setUpdatedProfileUrl("");
+    setDeleteProfile(true);
   };
 
   // console.log("그냥", updatedBackgroundUrl);
@@ -135,16 +143,14 @@ function ProfileSettingModal({ ...props }) {
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
     setUpdatedBackgroundUrl("");
+    setDeleteBackground(true);
     // console.log("삭제 후", updatedBackgroundUrl);
   };
 
   //제출 버튼 클릭 시 호출되는 함수
-  // console.log("제출버튼클릭전", "프-->", profile, "배-->", background);
-  const profileChangeHandler = (e) => {
-    // console.log("제출버튼클릭직후", profile, background);
-    e.preventDefault();
 
-    // console.log("store에서 불러온 내프로필-->", myProfile);
+  const profileChangeHandler = (e) => {
+    e.preventDefault();
     const nickNameValue = nickName || headerProfile.nickName;
     const introductionValue = introduction || headerProfile.introduction;
 
@@ -154,6 +160,8 @@ function ProfileSettingModal({ ...props }) {
         userProfileRequestDto = {
           nickName: nickNameValue,
           introduction: introductionValue,
+          deleteProfile,
+          deleteBackground,
         };
       }
     } else {
@@ -163,6 +171,8 @@ function ProfileSettingModal({ ...props }) {
           introduction: introductionValue,
           newPassword: password,
           newPasswordConfirm: passwordCheck,
+          deleteProfile,
+          deleteBackground,
         };
       }
     }
