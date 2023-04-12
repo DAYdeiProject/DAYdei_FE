@@ -4,10 +4,10 @@
 
 ### 팀원 
 
-|팀원|포지션|팀원구분|
-|------|---|---|
-|정다정|FE|프론트엔드 팀장|
-|김준형|FE|프론트엔드 팀원|
+|이름|포지션|팀원구분|Github|
+|------|---|---|--------|
+|정다정|FE|프론트엔드 팀장|https://github.com/daaaj|
+|김준형|FE|프론트엔드 팀원|https://github.com/juninkorea95|
 
 ## 목차
 
@@ -55,8 +55,6 @@ https://daydei.life
 <div><h1>📚 STACKS</h1></div>
 
 <div> 
-  
-  
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
@@ -65,23 +63,18 @@ https://daydei.life
   <img src="https://img.shields.io/badge/Axios-5a2f88?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
   <br>
-  
- 
 </div>
 
-## 4. 사용한 라이브러리
+## 4. 구현기능
 
-라이브러리 목록...
+구현기능 내용...
+
 
 ## 5. API Table
 
 API Table 내용...
 
-## 6. 구현기능
-
-구현기능 내용...
-
-## 7. 깃 컨벤션
+## 6. 깃 컨벤션
 
 Cancel changes
 -   `feat` : 새로운 기능 추가
