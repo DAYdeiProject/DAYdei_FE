@@ -73,7 +73,7 @@ export const subscribeSlice = createSlice({
   initialState,
   reducers: {
     "subscribe/updateClickedButtonIds": (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.clickedButtonIds.push(action.payload);
     },
   },
