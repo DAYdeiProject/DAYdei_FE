@@ -321,10 +321,6 @@ const AlertContainer = styled.div`
       cursor: pointer;
     }
   }
-  // pointer-events: ${(props) => (props.isDisable ? "none" : "auto")};
-  /* &:disabled {
-    ${(props) => (props.isDisable ? "disabled" : "none")}
-  } */
 `;
 
 const NewAlertIcon = styled.div`
@@ -384,6 +380,10 @@ const ProfileWrap = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.875rem;
+  cursor: pointer;
+  :hover {
+    background-color: ${(props) => props.theme.Bg.hoverColor};
+  }
 `;
 
 const GapArea = styled.div`
@@ -447,5 +447,6 @@ const Button = styled.div`
   padding-left: 0.5rem;
   :hover {
     cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.hoverColor};
   }
 `;

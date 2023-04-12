@@ -118,12 +118,6 @@ function AddPostModal({ ...props }) {
     }
   }, [props.pickDate]);
 
-  // 친구 검색어 입력시 debounce 처리
-  // const handleSearchText = useCallback(
-  //   useDebounce((text) => setFindTarget(text), 200),
-  //   []
-  // );
-
   const handleSearchText = useCallback(
     debounce((text) => setFindTarget(text), 200),
     []

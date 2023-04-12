@@ -139,8 +139,8 @@ export const NoListMessageWrapper = styled.div`
   border: 0.0625rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
 
-  @media screen and (max-width: 1440px) {
-    width: 26rem;
+  @media screen and (max-width: 1880px) {
+    width: 23rem;
     height: 16.875rem;
   }
 `;
@@ -380,6 +380,10 @@ export const IntroductionWrap = styled.div`
     width: 13rem;
     text-overflow: hidden;
   }
+
+  @media screen and (max-width: 1880px) {
+    width: 10rem;
+  }
 `;
 
 export const ButtonArea = styled.div`
@@ -405,6 +409,10 @@ export const ButtonArea = styled.div`
     background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 
+  @media screen and (max-width: 1880px) {
+    width: 60px;
+    padding: 0;
+  }
   @media screen and (max-width: 1440px) {
     width: 3.75rem;
     padding: 0.4rem 0.4rem;

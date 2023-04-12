@@ -17,6 +17,6 @@ const HomePageWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
   align-items: flex-start;
-  height: calc(100vh - 4rem - 0.0625rem);
   position: relative;
+  height: 100%;
 `;

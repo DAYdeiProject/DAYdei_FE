@@ -144,6 +144,30 @@ const TitleText = styled.div`
   @media screen and (max-width: 1440px) {
     margin-top: 12rem;
   }
+
+  @media screen and (max-height: 1032.22px) {
+    margin-top: 16rem;
+  }
+  @media screen and (max-height: 929px) {
+    margin-top: 14rem;
+  }
+  @media screen and (max-height: 844.55px) {
+    margin-top: 12.5rem;
+  }
+  @media screen and (max-height: 743.2px) {
+    margin-top: 9rem;
+    span {
+      font-size: 1.7rem;
+      font-weight: 600;
+    }
+  }
+  @media screen and (max-height: 619.33px) {
+    margin-top: 8rem;
+    span {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+  }
 `;
 
 const StInput = styled.div`
@@ -160,6 +184,10 @@ export const InputWrapper = styled.div`
   background: #ffffff;
   border: 0.0625rem solid #121212;
   border-radius: 0.5rem;
+
+  @media screen and (max-height: 619.33px) {
+    height: 2.7rem;
+  }
 `;
 
 export const LoginButtton = styled.button`
@@ -170,6 +198,13 @@ export const LoginButtton = styled.button`
   background: ${(props) => props.theme.Bg.mainColor5};
   font-size: 1rem;
   font-weight: 600;
+
+  @media screen and (max-height: 743.2px) {
+    font-size: 0.9rem;
+  }
+  @media screen and (max-height: 619.33px) {
+    height: 2.8rem;
+  }
 `;
 
 const GapArea = styled.div`
