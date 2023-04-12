@@ -1,6 +1,8 @@
-## Git - Commit Message Convention
+##DAYDEI
 
--   `feat` : 새로운 기능 추가
+## Git - Commit Message Convention
+Cancel changes
+-   `feat` : 새로운 기능 추가
 -   `fix` : 버그 수정
 -   `docs` : 문서 수정
 -   `style` : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
