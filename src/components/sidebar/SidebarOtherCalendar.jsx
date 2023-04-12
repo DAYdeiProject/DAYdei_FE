@@ -168,6 +168,10 @@ const ImgWrapper = styled.div`
     background: fixed;
     cursor: auto;
   }
+
+  @media screen and (max-width: 90rem) {
+    top: 14.0625rem;
+  }
 `;
 
 const NickNameBox = styled.span`

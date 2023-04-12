@@ -138,13 +138,10 @@ function ProfileSettingModal({ ...props }) {
     setDeleteProfile(true);
   };
 
-  // console.log("그냥", updatedBackgroundUrl);
-
   const deleteBackGroundHandler = () => {
     setBackgroundImageName("");
     setUpdatedBackgroundUrl("");
     setDeleteBackground(true);
-    // console.log("삭제 후", updatedBackgroundUrl);
   };
 
   //제출 버튼 클릭 시 호출되는 함수
