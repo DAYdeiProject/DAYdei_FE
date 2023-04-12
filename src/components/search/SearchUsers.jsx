@@ -211,6 +211,7 @@ const SearchBody = styled.div`
   width: 100%;
   height: 43.75rem;
   padding: 0 3px;
+  padding-bottom: 5px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 1.125rem;
