@@ -67,14 +67,13 @@ https://daydei.life
 
 ## 4. SA 및 API 명세
 
+
+## 5. 구현기능
+
 <p align = "center">
  <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="400" height = "300" />
  <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" width="400" height = "300"/> 
 </p>
-
-## 5. API Table
-
-API Table 내용...
 
 ## 6. 깃 컨벤션
 
