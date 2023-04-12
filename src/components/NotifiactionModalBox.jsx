@@ -1,14 +1,15 @@
+import { debounce } from "lodash";
 import styled from "styled-components";
-import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { React, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { __getConnect } from "../redux/modules/connectSlice";
 import { GetUserInfo } from "../utils/cookie/userInfo";
+import { alertState } from "../redux/modules/alertReducer";
 import { TimeCheck } from "../utils/calendar/CalendarBasic";
+import { __getConnect } from "../redux/modules/connectSlice";
 import { __allClearNotification } from "../redux/modules/calendarSlice";
 import { setNotificationPostId, otherIdState } from "../redux/modules/headerReducer";
 import { ReactComponent as Alert } from "../assets/defaultIcons/alert2.svg";
-import { debounce } from "lodash";
 
 export default function NotifiactionModalBox({ ...props }) {
   const [deleteState, setDeleteState] = useState(false);
@@ -16,14 +17,11 @@ export default function NotifiactionModalBox({ ...props }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.connect);
-  const { text } = useSelector((state) => state.header);
-  //console.log(text);
 
   useEffect(() => {
     dispatch(__getConnect());
   }, [props.isNotificationOpen, deleteState]);
 
-  console.log("알림리스트 ", data);
   // 알림에 data.notificationDtos.isRead : true/false 로 안읽은 알림이 있는지 체크
   const notiClickHandler = (postId, userId, content, notiState, isRead) => {
     if (postId === null) {
@@ -38,7 +36,6 @@ export default function NotifiactionModalBox({ ...props }) {
         notiState,
         isRead,
       };
-      //navigate(`/${text}`);
       dispatch(setNotificationPostId(notiInfo));
       props.setIsNotificationOpen(false);
     }
@@ -53,7 +50,7 @@ export default function NotifiactionModalBox({ ...props }) {
 
   const debounceHandler = debounce(() => {
     dispatch(__allClearNotification({ userId: userInfo.userId })).then(() => {
-      alert("모두 삭제되었습니다.");
+      dispatch(alertState({ state: true, comment: "모두 삭제되었습니다." }));
       setDeleteState(true);
     });
   }, 300);
