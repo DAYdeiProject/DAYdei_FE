@@ -12,7 +12,6 @@ import defaultProfile from "../../assets/defaultImage/profile.jpg";
 export default function SidebarOtherCalendar({ otherId }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const param = useParams();
   //친구 관계, 구독상태에 따라 변하는 버튼 텍스트의 상태
   const [buttonText, setButtonText] = useState("");
   const [subscribeButtontext, setSubscribeButtonText] = useState("");
@@ -147,19 +146,32 @@ const BackImgWrapper = styled.div`
   height: 23.125rem;
   border: none;
   background-size: cover;
+
+  @media screen and (max-width: 1440px) {
+    height: 22rem;
+  }
+
   img {
     width: 100%;
     height: 23.125rem;
     border: none;
+
+    @media screen and (max-width: 1440px) {
+      height: 22rem;
+    }
   }
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
   top: 18.75rem;
-  //z-index: 0;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 1.25rem;
+
+  @media screen and (max-width: 1440px) {
+    top: 18rem;
+  }
+
   img {
     ${(props) => props.theme.BoxCustom};
     width: 8.125rem;
@@ -167,10 +179,11 @@ const ImgWrapper = styled.div`
     border-radius: 50%;
     background: fixed;
     cursor: auto;
-  }
 
-  @media screen and (max-width: 90rem) {
-    top: 14.0625rem;
+    @media screen and (max-width: 1440px) {
+      width: 7.5rem;
+      height: 7.5rem;
+    }
   }
 `;
 
@@ -212,6 +225,10 @@ const TextareaBox = styled.div`
   ${(props) => props.theme.DescriptionText};
   font-size: 0.875rem;
   white-space: pre-wrap;
+
+  @media screen and (max-width: 1440px) {
+    height: 4.5rem;
+  }
 `;
 
 const ButtonBox = styled.div`

@@ -34,9 +34,13 @@ export default function SidebarMiniCalendar() {
 const MiniWrapper = styled.div`
   width: 100%;
   margin-bottom: 2.9375rem;
+
+  @media screen and (max-width: 1440px) {
+    height: 240px;
+  }
+
   .react-calendar {
     border: none;
-    height: 18.75rem;
     background: ${(props) => props.theme.Bg.color5};
   }
 
@@ -56,9 +60,16 @@ const MiniWrapper = styled.div`
   // 년월
   .react-calendar__navigation {
     height: 1.875rem;
+
+    @media screen and (max-width: 1440px) {
+      height: 1.2rem;
+    }
   }
+
   .react-calendar__navigation__label > span {
-    // background: #eede99;
+    @media screen and (max-width: 1440px) {
+      font-size: 0.87rem;
+    }
   }
   // 요일
   .react-calendar__month-view__weekdays {
@@ -67,6 +78,9 @@ const MiniWrapper = styled.div`
       /*월,화,수... 글자 부분*/
       text-decoration: none;
     }
+    @media screen and (max-width: 1440px) {
+      height: 1.4rem;
+    }
   }
 
   // 날짜
@@ -74,6 +88,10 @@ const MiniWrapper = styled.div`
     width: 1.25rem;
     height: 2.5rem;
     font-size: ${(props) => props.theme.Fs.size12};
+
+    @media screen and (max-width: 1440px) {
+      font-size: 0.625rem;
+    }
   }
   .react-calendar__tile:hover {
     border-radius: 50%;
@@ -98,12 +116,22 @@ const MiniWrapper = styled.div`
 
 const CheckPost = styled.div`
   ${(props) => props.theme.FlexCol}
-  padding-top: .3125rem;
+  padding-top: 0.3125rem;
+
+  @media screen and (max-width: 1440px) {
+    padding-top: 0;
+  }
+
   div {
     height: 0.375rem;
     width: 0.375rem;
     border-radius: 50%;
     background-color: ${(props) => props.theme.Bg.mainColor5};
+
+    @media screen and (max-width: 1440px) {
+      height: 0.25rem;
+      width: 0.25rem;
+    }
   }
 `;
 const NoneCheckPost = styled(CheckPost)`

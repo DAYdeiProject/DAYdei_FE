@@ -41,8 +41,6 @@ function CalendarMain({ ...props }) {
   const [moreDate, setMoreDate] = useState("");
   // 타유저 캘린더 share 일정 state
   const [otherCalendarState, setOtherCalendarState] = useState(false);
-  // 타유저  캘린더 share 일정 open state
-  const [isOtherOpen, setIsOtherOpen] = useState(false);
   // memo side open 여부
   const [isSideOpen, setIsSideOpen] = useState(true);
 
@@ -215,18 +213,16 @@ function CalendarMain({ ...props }) {
   };
 
   return (
-    <CalendarSidebarWrapper>
+    <CalendarSidebarWrapper disabled={disabled}>
       {userInfo && otherId && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
           setOtherCalendarPostId={setOtherCalendarPostId}
-          isOtherOpen={isOtherOpen}
-          setIsOtherOpen={setIsOtherOpen}
         />
       )}
       <CalendarWrapper disabled={disabled}>
-        <CalendarContainer>
+        <CalendarContainer disabled={disabled}>
           <FullCalendar
             {...setting}
             plugins={[dayGridPlugin, interactionPlugin]}
@@ -292,18 +288,23 @@ export default CalendarMain;
 
 const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
-  //min-width: 93.75rem;
   height: 100%;
+
+  @media screen and (max-width: 1440px) {
+    justify-content: ${(props) => props.disabled && "right"};
+  }
 `;
 
 export const CalendarWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 100%;
   height: 100%;
-  //margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
   padding: 20px 0;
+
   @media screen and (max-width: 1440px) {
-    padding: 20px;
+    max-width: ${(props) => props.disabled && "1110px"};
+    padding-right: ${(props) => (props.disabled ? "20px" : "30px")};
+    padding-left: 25px;
   }
 `;
 
@@ -311,6 +312,10 @@ const CalendarContainer = styled.div`
   ${(props) => props.theme.FlexCol};
   height: 100%;
   padding: 20px 50px;
+
+  @media screen and (max-width: 1440px) {
+    padding: ${(props) => props.disabled && "20px 30px"};
+  }
   .fc {
     width: 100%;
     height: 100%;

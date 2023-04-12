@@ -109,8 +109,6 @@ function UserLists({ searchWord, selectedCategories }) {
     );
   };
 
-  // console.log(RecommendList);
-
   if (isLoading) {
     return (
       <>
@@ -174,14 +172,18 @@ const PostBox = styled.div`
   gap: 0.625rem;
   isolation: isolate;
 
-  width: 14.375rem;
-  height: 296px;
+  width: 230px;
+  height: 315px;
 
   background: #ffffff;
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
 
   ${(props) => props.theme.BoxCustom};
+  @media screen and (max-width: 1440px) {
+    width: 210px;
+    height: 270px;
+  }
 `;
 
 const ContentWrap = styled.div`
@@ -190,10 +192,8 @@ const ContentWrap = styled.div`
   align-items: center;
   padding: 0rem;
   gap: 0.875rem;
-
   width: 13.75rem;
-  height: 15rem;
-
+  height: 18rem;
 `;
 
 const ProfileArea = styled.div`
@@ -202,10 +202,9 @@ const ProfileArea = styled.div`
   align-items: center;
   padding: 0rem;
   gap: 0.5rem;
-  
+
   width: 7.875rem;
   height: 7.75rem;
-
 `;
 
 const ProfilePhoto = styled.div`
@@ -214,8 +213,6 @@ const ProfilePhoto = styled.div`
   align-items: flex-start;
   padding: 0rem;
   gap: 1.25rem;
-
-  /* background-color: lightgray; */
 `;
 
 const PhotoFrame = styled.img`
@@ -298,7 +295,6 @@ const FriendsWrap = styled.div`
   line-height: 0.75rem;
 
   color: #121212;
-
 `;
 
 const SubscribingWrap = styled.div`
@@ -324,14 +320,14 @@ const MiddleBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-
+  gap: 8px;
   height: 63px;
-  border-top: 0.0625rem solid #626262;
-  /* background: skyblue; */
-  @media screen and (max-width: 90rem) {
+  padding-top: 10px;
+  border-top: 0.0625rem solid ${(props) => props.theme.Bg.color3};
+
+  @media screen and (max-width: 1440px) {
+    padding-top: 0;
     gap: 2px;
-    /* background-color: pink; */
   }
 `;
 
@@ -342,18 +338,14 @@ const IntroductionWrap = styled.div`
   text-align: center;
   gap: 0.625rem;
 
-  width: 80%;
+  width: 170px;
   height: 3rem;
-
-
+  padding: 5px;
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 0.875rem;
 
-  padding: 10px 20px;
   color: ${(props) => props.theme.Bg.color2};
-  border-top: 0.0625rem solid ${(props) => props.theme.Bg.color3};
-
 `;
 
 const MutualFriendsBox = styled.div`
@@ -369,7 +361,6 @@ const MutualFriendsBox = styled.div`
   font-weight: 25rem;
   color: ${(props) => props.theme.Bg.color2};
   background: #f2f4f6;
-  margin-bottom: -10px;
 
   @media screen and (max-width: 90rem) {
     height: 15px;
@@ -378,21 +369,9 @@ const MutualFriendsBox = styled.div`
 `;
 
 const ButtonArea = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexRow}
   padding: 0rem;
   gap: 0.5rem;
-
-  width: 11.75rem;
-  height: 2.5rem;
-
-  @media screen and (max-width: 90rem) {
-    width: 8.8125rem;
-    height: 1.875rem;
-  }
-
-  /* background: pink; */
 `;
 
 const Button = styled.button`
@@ -403,7 +382,7 @@ const Button = styled.button`
   padding: 0.625rem 0.875rem;
   gap: 0.5rem;
 
-  width: 5.625rem;
+  width: 80px;
   height: 2.5rem;
   color: #ffffff;
   font-size: 0.75rem;
@@ -415,10 +394,10 @@ const Button = styled.button`
     cursor: pointer;
   }
 
-  @media screen and (max-width: 90rem) {
-    width: 4.2188rem;
-    height: 1.875rem;
-    padding: 0.4688rem 0.6563rem;
+  @media screen and (max-width: 1440px) {
+    width: 80px;
+    height: 30px;
+    padding: 7.5008px 5px;
     font-size: 0.5625rem;
   }
 `;

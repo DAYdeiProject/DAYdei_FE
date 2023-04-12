@@ -107,10 +107,9 @@ function SearchUsers() {
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 4rem - .0625rem);
-  padding: 0 50px;
-
+  padding: 0 40px;
   @media screen and (max-width: 1440px) {
-    margin-left: 2.125rem;
+    margin-left: 25px;
   }
 `;
 

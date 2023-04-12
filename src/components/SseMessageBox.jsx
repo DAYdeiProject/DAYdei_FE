@@ -6,28 +6,27 @@ import { ReactComponent as Logo } from "../assets/main/logo.svg";
 
 export default function SseMessageBox() {
   const dispatch = useDispatch();
-  const { notiState, liveState } = useSelector((state) => state.header);
+  const { notiComment, liveState } = useSelector((state) => state.header);
 
   useEffect(() => {
     if (liveState) {
       let timer;
       timer = setTimeout(() => {
         dispatch(liveNotiState(false));
-      }, 3000);
-
+      }, 2000);
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [notiState]);
+  }, [notiComment]);
 
   return (
     <>
       {liveState && (
         <MessageWrapper isState={liveState}>
           <MessageBox>
-            <span>{notiState && notiState?.message.split("@")[0]}</span>
-            <span>{notiState && notiState?.message.split("@")[1]}</span>
+            <span>{notiComment?.message.split("@")[0]}</span>
+            <span>{notiComment?.message.split("@")[1]}</span>
           </MessageBox>
           <LogoBox>
             <Logo className="logoIcon" />
@@ -55,7 +54,7 @@ const MessageWrapper = styled.div`
   ${(props) =>
     props.isState
       ? css`
-          animation: slideUp 0.1s ease-out forwards;
+          animation: slideUp 0.3s ease-out forwards;
         `
       : css`
           animation: slideDown 0.3s ease-in forwards;
