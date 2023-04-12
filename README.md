@@ -75,12 +75,12 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 ## 5. 구현기능
 
 <div align = "center">
-  <div>### 1. 로그인 및 회원 가입</div>
-  <br/>
+  <div style ="margin-bottom: 20px;">### 1. 로그인 및 회원 가입</div>
+ 
  <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="400" height = "300" />
  <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" width="400" height = "300"/> 
   <div>### 2. 홈 화면</div> 
-  <br/>
+  
   <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png"/> 
 </div>
 
