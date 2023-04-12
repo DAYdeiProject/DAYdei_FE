@@ -9,6 +9,7 @@ import IntroPage from "../../pages/IntroPage";
 import SearchPage from "../../pages/SearchPage";
 import NotFoundPage from "../../pages/NotFoundPage";
 import OtherUserPage from "../../pages/OtherUserPage";
+import KakaoErrorPage from "../../pages/KakaoErrorPage";
 import FriendsListPage from "../../pages/FriendsListPage";
 import KakaoFriendsPage from "../../pages/KakaoFriendsPage";
 import FriendsDetailPage from "../../pages/FriendsDetailPage";
@@ -61,6 +62,10 @@ const Router = createBrowserRouter([
   {
     path: "/friends",
     element: <KakaoFriendsPage />,
+  },
+  {
+    path: "/kakaoerror",
+    element: <KakaoErrorPage />,
   },
 ]);
 
