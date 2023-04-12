@@ -27,7 +27,7 @@ export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunk
 export const __requestFriend = createAsyncThunk("requestFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.post(`/${id}`);
-    // console.log(response.data);
+    console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);

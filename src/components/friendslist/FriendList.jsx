@@ -53,7 +53,7 @@ function FriendList({ FriendsList }) {
           imageWidth: 600,
           imageHeight: 500,
           link: {
-            mobileWebUrl: "http://localhost:3000",
+            mobileWebUrl: "https://daydei.life",
             androidExecutionParams: "test",
           },
         },
@@ -61,8 +61,8 @@ function FriendList({ FriendsList }) {
           {
             title: "DayDei 방문하기",
             link: {
-              mobileWebUrl: "http://localhost:3000",
-              webUrl: "http://localhost:3000",
+              mobileWebUrl: "https://daydei.life",
+              webUrl: "https://daydei.life",
             },
           },
         ],

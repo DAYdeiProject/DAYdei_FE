@@ -1,6 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Cookies from "js-cookie";
 import _ from "lodash";

@@ -223,7 +223,7 @@ const PreviewWrapper = styled.div`
       right: 700px;
     }
   }
-  // 오른쪽 작은 별
+  // 왼쪽 작은 별
   .union8 {
     top: 250px;
     right: 720px;
