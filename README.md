@@ -63,6 +63,8 @@ https://daydei.life
   <img src="https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white">
   <img src="https://img.shields.io/badge/Axios-5a2f88?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+  <img src="https://img.shields.io/badge/react--router--dom-CA4245?style=for-the-badge&logo=react-router-dom&logoColor=white"> 
+
   <br>
 </div>
 
