@@ -1,7 +1,8 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { otherIdState } from "../../redux/modules/headerReducer";
@@ -31,6 +32,21 @@ function SubscriberList({ SubscribersList }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [number, setNumber] = useState(0);
+  const width1880 = useMediaQuery({ maxWidth: 1880 });
+  const width1440 = useMediaQuery({ maxWidth: 1440 });
+
+  useEffect(() => {
+    if (width1440) {
+      setNumber(22);
+    } else if (width1880) {
+      setNumber(15);
+    } else {
+      setNumber(22);
+    }
+  }, [width1880]);
+
+  console.log("---->", number, width1440, width1880);
   if (SubscribersList?.length === 0) {
     return (
       <NoListMessageWrapper>
@@ -66,8 +82,8 @@ function SubscriberList({ SubscribersList }) {
               </PostLeft>
               <IntroductionWrapLong>
                 {user.introduction
-                  ? user.introduction.length > 22
-                    ? `${user.introduction.substr(0, 22)}...`
+                  ? user.introduction.length > number
+                    ? `${user.introduction.substr(0, number)}...`
                     : user.introduction
                   : `${user.nickName}의 캘린더입니다.`}
               </IntroductionWrapLong>
@@ -83,8 +99,22 @@ export default SubscriberList;
 
 export const ProfileWrapLong = styled(ProfileWrap)`
   width: 26.25rem;
+
+  @media screen and (max-width: 1880px) {
+    width: 23rem;
+  }
+  @media screen and (max-width: 1440px) {
+    width: 26.25rem;
+  }
 `;
 
 export const IntroductionWrapLong = styled(IntroductionWrap)`
   width: 17.5rem;
+
+  @media screen and (max-width: 1880px) {
+    max-width: 16rem;
+  }
+  @media screen and (max-width: 1440px) {
+    width: 17.5rem;
+  }
 `;

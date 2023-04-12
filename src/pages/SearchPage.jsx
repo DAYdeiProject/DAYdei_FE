@@ -16,6 +16,7 @@ export default function SearchPage() {
 const HomePageWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  height: calc(100vh - 4rem - 0.0625rem);
+  align-items: flex-start;
   position: relative;
+  height: 100%;
 `;
