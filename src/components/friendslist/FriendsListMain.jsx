@@ -69,7 +69,7 @@ function FriendsListMain() {
     const id = usersInfo.userId;
     if (searchWord === "") {
       let url = `${id}?sort=name&searchword=`;
-      // console.log("검색어 없는 url-->", url);
+
       dispatch(__getFriendsList(url));
       dispatch(__getSubscribeList(url));
       dispatch(__getSubscriberList(url));
@@ -77,19 +77,19 @@ function FriendsListMain() {
 
     if (searchWord !== "") {
       let url = `${id}?sort=name&searchword=${searchWord}`;
-      // console.log("검색어가 들어간 url -->", url);
+
       dispatch(__getFriendsList(url));
     }
 
     if (searchWordSubscribe !== "") {
       let url = `${id}?sort=name&searchword=${searchWordSubscribe}`;
-      // console.log("검색어가 들어간 url -->", url);
+
       dispatch(__getSubscribeList(url));
     }
 
     if (searchWordSubscriber !== "") {
       let url = `${id}?sort=name&searchword=${searchWordSubscriber}`;
-      // console.log("검색어가 들어간 url -->", url);
+
       dispatch(__getSubscriberList(url));
     }
   }, [searchWord, searchWordSubscribe, searchWordSubscriber, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);

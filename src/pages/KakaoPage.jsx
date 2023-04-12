@@ -14,6 +14,8 @@ function KakaoPage() {
     dispatch(__kakaoLogin(code)).then((data) => {
       if (data.payload.userId) {
         navi(`/home`);
+      } else {
+        navi("/kakaoerror");
       }
     });
   });

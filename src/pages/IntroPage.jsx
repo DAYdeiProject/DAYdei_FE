@@ -12,6 +12,8 @@ import FindPasswordModal from "../components/intro/FindPasswordModal";
 import { GetUserInfo } from "../utils/cookie/userInfo";
 import { ReactComponent as Key } from "../assets/sign/key.svg";
 import { ReactComponent as Mail } from "../assets/sign/mail.svg";
+import KakaoAlertModal from "../components/KakaoAlertModal";
+import { truncate } from "lodash";
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -22,7 +24,8 @@ function IntroPage() {
   const [isFindPasswordModalOpen, setIsFindPasswordModalOpen] = useState(false);
 
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
-  //const isLogin = useSelector((state) => state.users.isLogin);
+  //카카오 경고 모달
+  const [isKakaoModalOpen, setIsKakaoModalOpen] = useState(false);
 
   const token = Cookies.get("accessJWTToken");
   useEffect(() => {
@@ -44,19 +47,25 @@ function IntroPage() {
         }
       });
     } else {
-      if (isKakao === false) {
-        alert("이메일과 비밀번호를 입력해 주세요!");
-      }
+      // if (isKakao === false) {
+      //   alert("이메일과 비밀번호를 입력해 주세요!");
+      // }
     }
   };
 
-  const URI = "https://daydei.life/kakao";
-  const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
-
-  const kakaologinClick = () => {
-    setIsKakao(true);
-    window.location.href = KAKAO;
+  const kakaoAlertHandler = () => {
+    setIsKakaoModalOpen(true);
   };
+
+  // const URI = "http://localhost:3000/kakao";
+  // // const URI = "https://daydei.life/kakao";
+  // const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
+
+  // const kakaologinClick = () => {
+  //   setIsKakaoModalOpen(false)
+  //   setIsKakao(true);
+  //   window.location.href = KAKAO;
+  // };
 
   const FindPasswordModalOpenHandler = () => {
     setIsFindPasswordModalOpen(true);
@@ -90,7 +99,8 @@ function IntroPage() {
           <GapArea>
             <span>또는</span>
           </GapArea>
-          <KakaoLogin onClick={kakaologinClick}>카카오톡으로 로그인</KakaoLogin>
+          <KakaoLogin onClick={kakaoAlertHandler}>카카오톡으로 로그인</KakaoLogin>
+          {isKakaoModalOpen && <KakaoAlertModal setIsKakao={setIsKakao} setIsKakaoModalOpen={setIsKakaoModalOpen} />}
           <BottomText>
             <JoinText>
               <Link to="/join">회원가입</Link>
