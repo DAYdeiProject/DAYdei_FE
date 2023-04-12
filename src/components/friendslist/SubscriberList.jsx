@@ -86,19 +86,5 @@ export const ProfileWrapLong = styled(ProfileWrap)`
 `;
 
 export const IntroductionWrapLong = styled(IntroductionWrap)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0rem;
-  gap: 0.5rem;
-
   width: 17.5rem;
-  height: 1.25rem;
-  /* background-color: lightblue; */
-
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 140%;
-
-  color: #494d55;
 `;

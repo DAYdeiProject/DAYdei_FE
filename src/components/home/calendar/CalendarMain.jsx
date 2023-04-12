@@ -10,6 +10,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import interactionPlugin from "@fullcalendar/interaction";
+import { alertState } from "../../../redux/modules/alertReducer";
 import { __getTotalPosts, __getPostDetail, __updateDragPost } from "../../../redux/modules/calendarSlice";
 import AddPostModal from "./AddPostModal";
 import DetailPostModal from "./DetailPostModal";
@@ -18,6 +19,7 @@ import DayScheduleModal from "./DayScheduleModal";
 import OtherUserCalendar from "./OtherUserCalendar";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import ColorFromDB from "../../../utils/calendar/CalendarBasic";
+import defaultImg from "../../../assets/defaultImage/profile.jpg";
 
 function CalendarMain({ ...props }) {
   // 일정 추가 모달창 open state
@@ -75,7 +77,7 @@ function CalendarMain({ ...props }) {
         let endtDate = "";
         let isEdit = "";
 
-        if (data.color === "GRAY" || String(userInfo.userId) !== otherId) {
+        if (data.color === "GRAY" || otherId) {
           isEdit = false;
         } else {
           isEdit = true;
@@ -131,7 +133,6 @@ function CalendarMain({ ...props }) {
 
   // 일정detail 클릭시
   const handlerEventClick = (e) => {
-    //console.log("=============>", e.event);
     props.setDetailPostId(e.event._def.publicId);
   };
 
@@ -144,29 +145,28 @@ function CalendarMain({ ...props }) {
 
   // event drag-drop
   const handlerEventDrop = (info) => {
-    if (token) {
-      const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
-      const endDate = format(new Date(info.event._instance.range.end), "yyyy-MM-dd");
-      let end = "";
-      if (startDate === endDate) {
-        end = endDate;
-      } else {
-        end = format(add(new Date(info.event._instance.range.end), { days: -1 }), "yyyy-MM-dd");
-      }
-
-      const newPost = {
-        startDate,
-        endDate: end,
-      };
-
-      dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId })).then(() => {
-        alert("일정 날짜가 수정되었습니다.");
-        props.setSide(!props.side);
-      });
+    const startDate = format(new Date(info.event._instance.range.start), "yyyy-MM-dd");
+    const endDate = format(new Date(info.event._instance.range.end), "yyyy-MM-dd");
+    let end = "";
+    if (startDate === endDate) {
+      end = endDate;
+    } else {
+      end = format(add(new Date(info.event._instance.range.end), { days: -1 }), "yyyy-MM-dd");
     }
+
+    const newPost = {
+      startDate,
+      endDate: end,
+    };
+
+    dispatch(__updateDragPost({ updatePost: newPost, postId: info.event._def.publicId })).then(() => {
+      dispatch(alertState({ state: true, comment: "일정 날짜가 수정되었습니다." }));
+      props.setSide(!props.side);
+    });
   };
 
   const setting = {
+    selectable: true,
     headerToolbar: {
       left: "today",
       center: "prevYear prev title next nextYear",
@@ -199,22 +199,18 @@ function CalendarMain({ ...props }) {
       const { event } = eventInfo;
       return (
         <>
-          {event.extendedProps.imageUrl !== null && event.allDay ? (
-            <img src={event.extendedProps.imageUrl} alt={event.title} />
+          {event.allDay ? (
+            event.extendedProps.imageUrl === null ? (
+              <img src={defaultImg} alt={event.title} />
+            ) : (
+              <img src={event.extendedProps.imageUrl} alt={event.title} />
+            )
           ) : (
             !event.allDay && <AlldayColor isEventColor={event.backgroundColor}></AlldayColor>
           )}
           {event.title.length > 11 ? <span>{event.title.substr(0, 10)}...</span> : <span>{event.title}</span>}
         </>
       );
-    },
-    eventAllow: function (dropInfo, draggedEvent) {
-      // 드래그 대상 이벤트가 'event1'인 경우 드래그 허용
-      if (draggedEvent.id === "event1") {
-        return true;
-      } else {
-        return false;
-      }
     },
   };
 
@@ -230,19 +226,21 @@ function CalendarMain({ ...props }) {
         />
       )}
       <CalendarWrapper disabled={disabled}>
-        <FullCalendar
-          {...setting}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          locale="ko"
-          dayMaxEventRows={true}
-          displayEventTime={false}
-          initialView="dayGridMonth"
-          moreLinkText="더보기"
-          moreLinkClick={handleMoreLinkClick}
-          eventClick={handlerEventClick}
-          dateClick={handlerDateClick}
-          eventDrop={handlerEventDrop}
-        />
+        <CalendarContainer>
+          <FullCalendar
+            {...setting}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            locale="ko"
+            dayMaxEventRows={true}
+            displayEventTime={false}
+            initialView="dayGridMonth"
+            moreLinkText="더보기"
+            moreLinkClick={handleMoreLinkClick}
+            eventClick={handlerEventClick}
+            dateClick={handlerDateClick}
+            eventDrop={handlerEventDrop}
+          />
+        </CalendarContainer>
         <AddPostModal
           isAddPost={isAddPost}
           setIsAddPost={setIsAddPost}
@@ -294,30 +292,25 @@ export default CalendarMain;
 
 const CalendarSidebarWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
-  min-width: 93.75rem;
+  //min-width: 93.75rem;
   height: 100%;
-  /* background-color: pink; */
+`;
 
-  @media screen and (max-width: 90rem) {
-    width: 0;
-    min-width: 87.5rem;
-    /* background-color: pink; */
+export const CalendarWrapper = styled.div`
+  ${(props) => props.theme.FlexCol};
+  width: 100%;
+  height: 100%;
+  //margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
+  padding: 20px 0;
+  @media screen and (max-width: 1440px) {
+    padding: 20px;
   }
 `;
-export const CalendarWrapper = styled.div`
-  width: 100%;
-  max-width: calc(100% - 2.875rem);
+
+const CalendarContainer = styled.div`
+  ${(props) => props.theme.FlexCol};
   height: 100%;
-  padding: 2.5rem 3rem 3.25rem;
-  margin-right: ${(props) => (props.isMy ? "2.875rem" : "0")};
-  /* background: pink; */
-
-  @media screen and (max-width: 90rem) {
-    max-width: 85rem;
-    margin-right: ${(props) => (props.isMy ? "2.1563rem" : "0")};
-    padding: 1.875rem 2.25rem 2.4375rem;
-  }
-
+  padding: 20px 50px;
   .fc {
     width: 100%;
     height: 100%;

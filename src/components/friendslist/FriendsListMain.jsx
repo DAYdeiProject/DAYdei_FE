@@ -16,12 +16,12 @@ import useOutSideClick from "../../hooks/useOutsideClick";
 import useAlignFunctions from "../../hooks/useAlignFunctions";
 
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
+import { ReactComponent as FillFriendAdd } from "../../assets/friendList/fillFriendAdd.svg";
 import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
 import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
 
 function FriendsListMain() {
-  //const params = useParams();
   const dispatch = useDispatch();
   const usersInfo = GetUserInfo();
   const token = Cookies.get("accessJWTToken");
@@ -219,165 +219,140 @@ function FriendsListMain() {
 
   return (
     <WholeWrapper>
-      <CalendarWrapper>
-        <WholeAreaWrapper>
-          <ListFrameBig>
-            <ListFrame>
-              <ContentWrapper>
-                <TopText>
-                  <TopLeft>친구 {FriendsList.length}</TopLeft>
-                  <TopRight ref={DropdownFriendRef}>
-                    {searchFriendOpen && (
-                      <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
+      <WholeAreaWrapper>
+        <ListFrameBig>
+          <ListFrame>
+            <ContentWrapper>
+              <TopText>
+                <TopLeft>친구 {FriendsList.length}</TopLeft>
+                <TopRight ref={DropdownFriendRef}>
+                  {searchFriendOpen && (
+                    <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
+                  )}
+                  <FriendSearch onClick={HandleSearchFriend} />
+                  {RequestedUsersList && RequestedUsersList.length !== 0 ? (
+                    <FillFriendAdd onClick={approveRequestModalHandler} />
+                  ) : (
+                    <FriendAdd onClick={approveRequestModalHandler} />
+                  )}
+                  {isApproveRequestModalOpen && (
+                    <ApproveRequestModal
+                      ApproveRequestModalRef={ApproveRequestModalRef}
+                      RequestedUsersList={RequestedUsersList}
+                      SentUsersList={SentUsersList}
+                      setIsApproveRequestModalOpen={setIsApproveRequestModalOpen}
+                    />
+                  )}
+                  <IconWrap>
+                    <Filter onClick={handleDropdownFriend} />
+                    {isDropdownFriendOpen && (
+                      <DropdownFrame>
+                        <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
+                        <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
+                        <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
+                        <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
+                      </DropdownFrame>
                     )}
-                    <FriendSearch onClick={HandleSearchFriend} />
-                    <FriendAddStyle requestedlist={RequestedUsersList} onClick={approveRequestModalHandler} />
-                    {isApproveRequestModalOpen && (
-                      <ApproveRequestModal
-                        ApproveRequestModalRef={ApproveRequestModalRef}
-                        RequestedUsersList={RequestedUsersList}
-                        SentUsersList={SentUsersList}
-                        setIsApproveRequestModalOpen={setIsApproveRequestModalOpen}
-                      />
-                    )}
-                    <IconWrap>
-                      <Filter onClick={handleDropdownFriend} />
-                      {isDropdownFriendOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
-                        </DropdownFrame>
-                      )}
-                    </IconWrap>
-                  </TopRight>
-                </TopText>
-                <ListWrap>
-                  <FriendList FriendsList={FriendsList} />
-                </ListWrap>
-              </ContentWrapper>
-            </ListFrame>
-          </ListFrameBig>
+                  </IconWrap>
+                </TopRight>
+              </TopText>
+              <ListWrap>
+                <FriendList FriendsList={FriendsList} />
+              </ListWrap>
+            </ContentWrapper>
+          </ListFrame>
+        </ListFrameBig>
 
-          <FrameBigWithPadding>
-            <ListFrame>
-              <ContentWrapper>
-                <TopText>
-                  <TopLeft>구독 {SubscribesList.length} </TopLeft>
-                  <TopRight ref={DropdownSubscribeRef}>
-                    {searchSubscribeOpen && (
-                      <SearchBar
-                        type="text"
-                        placeholder="ID, 닉네임으로 검색해보세요"
-                        value={searchWordSubscribe}
-                        onChange={searchSubscribeHandler}></SearchBar>
+        <FrameBigWithPadding>
+          <ListFrame>
+            <ContentWrapper>
+              <TopText>
+                <TopLeft>구독 {SubscribesList.length} </TopLeft>
+                <TopRight ref={DropdownSubscribeRef}>
+                  {searchSubscribeOpen && (
+                    <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWordSubscribe} onChange={searchSubscribeHandler}></SearchBar>
+                  )}
+                  <FriendSearch onClick={HandleSearchSubscribe} />
+                  <IconWrap>
+                    <Filter onClick={handleDropdownSubscribe} />
+                    {isDropdownSubscribeOpen && (
+                      <DropdownFrame>
+                        <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
+                        <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
+                        <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
+                        <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
+                      </DropdownFrame>
                     )}
-                    <FriendSearch onClick={HandleSearchSubscribe} />
-                    <IconWrap>
-                      <Filter onClick={handleDropdownSubscribe} />
-                      {isDropdownSubscribeOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
-                        </DropdownFrame>
-                      )}
-                    </IconWrap>
-                  </TopRight>
-                </TopText>
-                <ListWrap>
-                  <SubscribeList SubscribesList={SubscribesList} />
-                </ListWrap>
-              </ContentWrapper>
-            </ListFrame>
-          </FrameBigWithPadding>
+                  </IconWrap>
+                </TopRight>
+              </TopText>
+              <ListWrap>
+                <SubscribeList SubscribesList={SubscribesList} />
+              </ListWrap>
+            </ContentWrapper>
+          </ListFrame>
+        </FrameBigWithPadding>
 
-          <FrameBigWithMargin>
-            <ListFrame>
-              <ContentWrapper>
-                <TopText>
-                  <TopLeft>구독자 {SubscribersList.length} </TopLeft>
-                  <TopRight ref={DropdownSubscriberRef}>
-                    {searchSubscriberOpen && (
-                      <SearchBar
-                        type="text"
-                        placeholder="ID, 닉네임으로 검색해보세요"
-                        value={searchWordSubscriber}
-                        onChange={searchSubscriberHandler}></SearchBar>
+        <FrameBigWithMargin>
+          <ListFrame>
+            <ContentWrapper>
+              <TopText>
+                <TopLeft>구독자 {SubscribersList.length} </TopLeft>
+                <TopRight ref={DropdownSubscriberRef}>
+                  {searchSubscriberOpen && (
+                    <SearchBar
+                      type="text"
+                      placeholder="ID, 닉네임으로 검색해보세요"
+                      value={searchWordSubscriber}
+                      onChange={searchSubscriberHandler}></SearchBar>
+                  )}
+                  <FriendSearch onClick={HandleSearchSubscriber} />
+                  <IconWrap>
+                    <Filter onClick={handleDropdownSubscriber} />
+                    {isDropdownSubscriberOpen && (
+                      <DropdownFrame>
+                        <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
+                        <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
+                        <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
+                        <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
+                      </DropdownFrame>
                     )}
-                    <FriendSearch onClick={HandleSearchSubscriber} />
-                    <IconWrap>
-                      <Filter onClick={handleDropdownSubscriber} />
-                      {isDropdownSubscriberOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
-                        </DropdownFrame>
-                      )}
-                    </IconWrap>
-                  </TopRight>
-                </TopText>
-                <ListWrap>
-                  <SubscriberList SubscribersList={SubscribersList} />
-                </ListWrap>
-              </ContentWrapper>
-            </ListFrame>
-          </FrameBigWithMargin>
-        </WholeAreaWrapper>
-      </CalendarWrapper>
+                  </IconWrap>
+                </TopRight>
+              </TopText>
+              <ListWrap>
+                <SubscriberList SubscribersList={SubscribersList} />
+              </ListWrap>
+            </ContentWrapper>
+          </ListFrame>
+        </FrameBigWithMargin>
+      </WholeAreaWrapper>
     </WholeWrapper>
   );
 }
 
-export const LoadingWrapper = styled.div`
-  width: 98.125rem;
-  height: 100%;
-`;
-
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  height: calc(100vh - 4rem - .0625rem);
-  /* background: pink; */
-
-  @media screen and (max-width: 1440px) {
-    width: 87.5rem;
-    /* background: pink; */
-    margin-left: 2.5rem;
-  }
-`;
-
-export const CalendarWrapper = styled.div`
-  ${(props) => props.theme.FlexCol};
+  height: calc(100vh - 4rem - 0.0625rem);
   justify-content: flex-start;
-
-  padding: 0rem 3rem;
-  height: 100%;
-
-  @media screen and (max-width: 1440px) {
-    padding: 0rem 1.25rem;
-    /* background: skyblue; */
-  }
 `;
 
 export const WholeAreaWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
-  justify-content: left;
-  width: 100%;
-  /* background: pink; */
+  padding: 0 3rem;
+
+  @media screen and (max-width: 1440px) {
+    margin-left: 2.125rem;
+  }
 `;
 
 export const ListFrameBig = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   align-items: flex-start;
-
   height: 100%;
   flex: 1;
-  /* background: pink; */
+
   @media screen and (max-width: 1440px) {
     width: 28.1875rem;
   }
@@ -388,12 +363,10 @@ export const FrameBigWithPadding = styled(ListFrameBig)`
   align-items: center;
   border-left: 0.0375rem solid ${(props) => props.theme.Bg.border1};
   border-right: 0.0375rem solid ${(props) => props.theme.Bg.border1};
-  /* background: pink; */
 
   @media screen and (max-width: 1440px) {
     width: 28.1875rem;
   }
-  /* background: pink; */
 `;
 
 export const FrameBigWithMargin = styled(ListFrameBig)`
@@ -409,10 +382,8 @@ export const ListFrame = styled.div``;
 export const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
 
-  /* background: skyblue; */
-
   @media screen and (max-width: 1440px) {
-    width: 26.875rem;
+    width: 430px;
   }
 `;
 
@@ -425,12 +396,11 @@ export const TopText = styled.div`
   width: 29rem;
   height: 2.6875rem;
 
-  border-bottom: 0.0625rem solid black;
+  border-bottom: 0.0625rem solid #121212;
   margin-top: 3rem;
-  /* background-color: lightcoral; */
 
-  @media screen and (max-width: 90rem) {
-    width: 26rem;
+  @media screen and (max-width: 1440px) {
+    width: 29rem;
     margin-top: 2.25rem;
   }
 `;
@@ -452,8 +422,6 @@ export const TopRight = styled.div`
   align-items: center;
   padding-right: 0.25rem;
   gap: 0.5rem;
-  /* position: absolute; */
-
   :hover {
     cursor: pointer;
   }
@@ -469,7 +437,7 @@ export const SearchBar = styled.input`
   flex-direction: row;
   align-items: flex-start;
   padding: 0.9375rem;
-  border: 0.0625rem solid gray;
+  border: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   border-radius: 0.25rem;
   width: 14.375rem;
   height: 1.25rem;
@@ -484,17 +452,13 @@ export const IconWrap = styled.div`
   height: 1.25rem;
 `;
 
-const FriendAddStyle = styled(FriendAdd)`
-  stroke: ${(props) => (props.requestedlist.length !== 0 ? props.theme.Bg.mainColor1 : null)};
-`;
-
 export const DropdownFrame = styled.div`
   position: relative;
   width: 6.25rem;
   height: 8.75rem;
   border-radius: 0.25rem;
   background-color: white;
-  border: 0.0625rem solid black;
+  border: 0.0625rem solid #121212;
   top: calc(100% - 1.25rem);
   right: 4.6875rem;
   padding: 0rem 0.75rem;
@@ -517,25 +481,22 @@ export const DropdownItems = styled.div`
   :hover {
     background: ${(props) => props.theme.Bg.hoverColor};
   }
-  /* background: pink; */
 `;
 
 export const ListWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexCol};
+  justify-content: flex-start;
   padding: 0rem;
   width: 29rem;
   height: 50.75rem;
-  /* background: pink; */
-
+  margin-top: 1rem;
   overflow: auto;
   ::-webkit-scrollbar {
     display: none;
   }
 
   @media screen and (max-width: 1440px) {
-    width: 26rem;
+    width: 29rem;
   }
 `;
 

@@ -117,19 +117,21 @@ const SideStyle = styled.div`
 `;
 
 const SideStyleShort = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: skyblue;
+  ${(props) => props.theme.FlexCol}
   height: 100%;
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
 
   width: 2.125rem;
-  text-align: center;
-  left: ${(props) => (props.isSideStyleOpen ? "21.875rem" : "0rem")};
+  // text-align: center;
+  //left: ${(props) => (props.isSideStyleOpen ? "21.875rem" : "0rem")};
   /* position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")}; */
-  position: absolute;
-  z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
+  //position: fixed;
+  //z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
+  z-index: 50;
+  transform: ${({ isSideStyleOpen }) => (isSideStyleOpen ? "translateX(100%)" : "none")};
+  transition: transform 0.3s ease-in-out;
 
   @media screen and (max-width: 1440px) {
     /* display: block; */
@@ -138,7 +140,6 @@ const SideStyleShort = styled.div`
   @media screen and (min-width: 1441px) {
     display: none;
   }
-  /* background-color: skyblue; */
 `;
 
 const IconWrapper = styled.div`

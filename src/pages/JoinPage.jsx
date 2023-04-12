@@ -88,107 +88,110 @@ function JoinPage() {
   };
 
   return (
-    <PageWrapper>
-      <ScreenLayout>
-        <PreviewArea />
-        <LoginWrapper
-          onSubmit={(e) => {
-            e.preventDefault();
+    <ScreenLayout>
+      <PreviewArea />
+      <LoginWrapper
+        onSubmit={(e) => {
+          e.preventDefault();
 
-            joinHandler();
-          }}>
-          <BackPage onClick={() => navigate("/")}>
-            <Bcak />
-            <span>뒤로가기</span>
-          </BackPage>
-          <JoinBox>
-            <JoinText>회원가입</JoinText>
-            <InputArea>
-              <InputWrapper>
-                <InputTitleText>이메일</InputTitleText>
-                <InputFrame isBorder={email === "" ? "none" : isEmail}>
-                  <InputInnerWrap>
-                    <input type="text" value={email} onChange={handleEmailChange} />
-                    <CheckButton onClick={() => emailCheckHandler(email)}>중복확인</CheckButton>
-                  </InputInnerWrap>
-                </InputFrame>
-                <MessageWrapper isTrue={isEmail}>{isEmailMessage}</MessageWrapper>
-              </InputWrapper>
+          joinHandler();
+        }}>
+        <BackPage onClick={() => navigate("/")}>
+          <Bcak />
+          <span>뒤로가기</span>
+        </BackPage>
+        <JoinBox>
+          <JoinText>회원가입</JoinText>
+          <InputArea>
+            <InputWrapper>
+              <InputTitleText>이메일</InputTitleText>
+              <InputFrame isBorder={email === "" ? "none" : isEmail}>
+                <InputInnerWrap>
+                  <input type="text" value={email} onChange={handleEmailChange} />
+                  <CheckButton onClick={() => emailCheckHandler(email)}>중복확인</CheckButton>
+                </InputInnerWrap>
+              </InputFrame>
+              <MessageWrapper isTrue={isEmail}>{isEmailMessage}</MessageWrapper>
+            </InputWrapper>
 
-              <InputWrapper>
-                <InputTitleText>비밀번호</InputTitleText>
-                <InputFrame isBorder={password === "" ? "none" : isPw}>
-                  <InputInnerWrap>
-                    <input type="password" value={password} onChange={handlePasswordChange} />
-                    {isPw ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
-                  </InputInnerWrap>
-                </InputFrame>
-                <MessageWrapper isTrue={isPw}>{isPwMessage}</MessageWrapper>
-              </InputWrapper>
+            <InputWrapper>
+              <InputTitleText>비밀번호</InputTitleText>
+              <InputFrame isBorder={password === "" ? "none" : isPw}>
+                <InputInnerWrap>
+                  <input type="password" value={password} onChange={handlePasswordChange} />
+                  {isPw ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
+                </InputInnerWrap>
+              </InputFrame>
+              <MessageWrapper isTrue={isPw}>{isPwMessage}</MessageWrapper>
+            </InputWrapper>
 
-              <InputWrapper>
-                <InputTitleText>비밀번호 확인</InputTitleText>
-                <InputFrame isBorder={passwordCheck === "" ? "none" : password === passwordCheck}>
-                  <InputInnerWrap>
-                    <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
-                    {passwordCheck !== "" && password === passwordCheck ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
-                  </InputInnerWrap>
-                </InputFrame>
-                <MessageWrapper isTrue={passwordCheck !== "" && password === passwordCheck}>{isPwCheckMessage}</MessageWrapper>
-              </InputWrapper>
+            <InputWrapper>
+              <InputTitleText>비밀번호 확인</InputTitleText>
+              <InputFrame isBorder={passwordCheck === "" ? "none" : password === passwordCheck}>
+                <InputInnerWrap>
+                  <input type="password" value={passwordCheck} onChange={handlePasswordCheckChange} />
+                  {passwordCheck !== "" && password === passwordCheck ? <PwCheck className="joinIcon" /> : <Security className="joinIcon" />}
+                </InputInnerWrap>
+              </InputFrame>
+              <MessageWrapper isTrue={passwordCheck !== "" && password === passwordCheck}>{isPwCheckMessage}</MessageWrapper>
+            </InputWrapper>
 
-              <InputWrapper>
-                <InputTitleText>닉네임</InputTitleText>
-                <InputFrame isBorder={nickName === "" ? "none" : nicknameRegex}>
-                  <InputInnerWrap>
-                    <input type="text" value={nickName} onChange={handleNickNameChange} maxLength="8" />
-                    {nicknameRegex && <PwCheck className="joinIcon" />}
-                  </InputInnerWrap>
-                </InputFrame>
-                <MessageWrapper isTrue={nicknameRegex}>{isNickNameMessage}</MessageWrapper>
-              </InputWrapper>
+            <InputWrapper>
+              <InputTitleText>닉네임</InputTitleText>
+              <InputFrame isBorder={nickName === "" ? "none" : nicknameRegex}>
+                <InputInnerWrap>
+                  <input type="text" value={nickName} onChange={handleNickNameChange} maxLength="8" />
+                  {nicknameRegex && <PwCheck className="joinIcon" />}
+                </InputInnerWrap>
+              </InputFrame>
+              <MessageWrapper isTrue={nicknameRegex}>{isNickNameMessage}</MessageWrapper>
+            </InputWrapper>
 
-              <InputWrapper>
-                <InputTitleText>생일</InputTitleText>
-                <InputFrameBirthday isBorder={birthday === "" ? "none" : true}>
-                  <BirthdayWrap>
-                    <BirthdayInput onChange={handleMonthChange}>
-                      <option value="">월</option>
-                      {Array.from({ length: 12 }, (_, index) => {
-                        const monthValue = (index + 1).toString().padStart(2, "0");
-                        return <option value={monthValue}>{monthValue}</option>;
-                      })}
-                    </BirthdayInput>
-                    <BirthdayInput onChange={handleDayChange}>
-                      <option value="">일</option>
-                      {Array.from({ length: 31 }, (_, index) => {
-                        const dayValue = (index + 1).toString().padStart(2, "0");
-                        return <option value={dayValue}>{dayValue}</option>;
-                      })}
-                    </BirthdayInput>
-                  </BirthdayWrap>
-                </InputFrameBirthday>
-              </InputWrapper>
-            </InputArea>
+            <InputWrapper>
+              <InputTitleText>생일</InputTitleText>
+              <InputFrameBirthday isBorder={birthday === "" ? "none" : true}>
+                <BirthdayWrap>
+                  <BirthdayInput onChange={handleMonthChange}>
+                    <option value="">월</option>
+                    {Array.from({ length: 12 }, (_, index) => {
+                      const monthValue = (index + 1).toString().padStart(2, "0");
+                      return <option value={monthValue}>{monthValue}</option>;
+                    })}
+                  </BirthdayInput>
+                  <BirthdayInput onChange={handleDayChange}>
+                    <option value="">일</option>
+                    {Array.from({ length: 31 }, (_, index) => {
+                      const dayValue = (index + 1).toString().padStart(2, "0");
+                      return <option value={dayValue}>{dayValue}</option>;
+                    })}
+                  </BirthdayInput>
+                </BirthdayWrap>
+              </InputFrameBirthday>
+            </InputWrapper>
+          </InputArea>
 
-            <SignUpButtton disabled={!nicknameRegex}>가입하기</SignUpButtton>
+          <SignUpButtton disabled={!nicknameRegex}>가입하기</SignUpButtton>
 
-            <BottomText>
-              <div>이미 가입된 계정이 있나요?</div>
-              <div>
-                <Link to="/">로그인하기</Link>
-              </div>
-            </BottomText>
-          </JoinBox>
-        </LoginWrapper>
-      </ScreenLayout>
-    </PageWrapper>
+          <BottomText>
+            <div>이미 가입된 계정이 있나요?</div>
+            <div>
+              <Link to="/">로그인하기</Link>
+            </div>
+          </BottomText>
+        </JoinBox>
+      </LoginWrapper>
+    </ScreenLayout>
   );
 }
 
 const JoinBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 24.125rem;
+
+  @media screen and (max-width: 1440px) {
+    max-width: 70%;
+    min-width: 70%;
+  }
 `;
 const BackPage = styled.div`
   ${(props) => props.theme.FlexRow};
@@ -198,7 +201,11 @@ const BackPage = styled.div`
   padding-left: 2rem;
   cursor: pointer;
   span {
-    font-size: 14px;
+    font-size: 0.875rem;
+  }
+
+  @media screen and (max-width: 1440px) {
+    padding-left: 2.5rem;
   }
 `;
 const JoinText = styled.div`
@@ -256,7 +263,7 @@ const BirthdayWrap = styled(InputInnerWrap)`
 const BirthdayInput = styled.select`
   width: 13.75rem;
   height: 2.875rem;
-  border: 0.0625rem solid ${(props) => props.theme.Bg.border1};
+  border: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   border-radius: 0.5rem;
   text-align: center;
 `;
@@ -277,7 +284,7 @@ const MessageWrapper = styled.div`
   font-size: 0.625rem;
   line-height: 0.9375rem;
   margin-bottom: 0.875rem;
-  color: ${(props) => (props.isTrue ? "#58c179" : "#DF5445")};
+  color: ${(props) => (props.isTrue ? props.theme.Bg.greenColor : props.theme.Bg.redColor)};
 `;
 
 const SignUpButtton = styled.button`
