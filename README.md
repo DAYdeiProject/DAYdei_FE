@@ -67,8 +67,10 @@ https://daydei.life
 
 ## 4. 구현기능
 
+<p align = "center">
 ![로그인 화면](https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png)
 ![2  회원가입 화면](https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png)
+</p>
 
 ## 5. API Table
 
