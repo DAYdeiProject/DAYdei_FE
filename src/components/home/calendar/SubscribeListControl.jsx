@@ -111,7 +111,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
 export default SubscribeListControl;
 
 export const SideSpaceWrapper = styled.div`
-  position: fixed;
+  position: absolute;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -136,7 +136,7 @@ export const SideSpaceWrapper = styled.div`
 
 export const GapArea = styled.div`
   height: 0.75rem;
-  width: 12rem;
+  width: 13rem;
   border-bottom: 0.0625rem solid gray;
   margin-bottom: 0.75rem;
   /* background: yellow; */

@@ -337,7 +337,7 @@ export const MemoTitle = styled.div`
   font-size: ${(props) => props.theme.Fs.size18};
   line-height: 1.3125rem;
   color: ${(props) => props.theme.Bg.color1};
-  /* background: pink; */
+  margin-bottom: 10px;
 `;
 
 export const CancelIconWrap = styled.div`
