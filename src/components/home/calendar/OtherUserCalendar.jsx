@@ -1,20 +1,22 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { DayAmPm } from "../../../utils/calendar/CalendarBasic";
 import { FormatTimeDot, TimeCheck } from "../../../utils/calendar/CalendarBasic";
 import { __otherUserSharePost, __otherUserUpdatePost } from "../../../redux/modules/calendarSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { ReactComponent as Note } from "../../../assets/defaultIcons/note.svg";
+import { ReactComponent as Left } from "../../../assets/defaultIcons/left.svg";
+import { ReactComponent as Right } from "../../../assets/defaultIcons/right.svg";
 
 export default function OtherUserCalendar({ ...props }) {
+  const [isOpenSide, setIsOpenSide] = useState(false);
+  const isShortScreen = useMediaQuery({ maxWidth: 1440 });
   const dispatch = useDispatch();
 
-  const { otherUserUpdate, otherUserShare, otherUser } = useSelector((state) => state.calendar);
+  const { otherUserUpdate, otherUserShare } = useSelector((state) => state.calendar);
   const { otherId } = useSelector((state) => state.header);
-
-  //console.log("otherUserUpdate : ", otherUserUpdate);
-  //console.log("otherUserShare : ", otherUserShare);
 
   useEffect(() => {
     dispatch(__otherUserUpdatePost({ userId: otherId }));
@@ -26,74 +28,80 @@ export default function OtherUserCalendar({ ...props }) {
     props.setOtherCalendarPostId(postId);
   };
 
+  const openClickHandler = () => {
+    setIsOpenSide(!isOpenSide);
+  };
   return (
     <>
-      {otherUser && (
-        <OtherWrapper isOpen={props.isOtherOpen}>
-          <OtherUpdateWrapper>
-            <UpdateTitle>업데이트 된 일정</UpdateTitle>
-            <UpdateContainer>
-              {otherUserUpdate.length !== 0 ? (
-                otherUserUpdate?.map((list) => {
-                  const startDate = FormatTimeDot(list.startDate);
-                  const time = TimeCheck(list.modifiedAt);
-                  const newStartTime = DayAmPm(list.startTime);
-                  return (
-                    <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
-                      <ImgBox>
-                        <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
-                      </ImgBox>
-                      <WriterBox>
-                        <span>{list.title}</span>
-                        <WriterTimeBox>
-                          <span>{startDate}</span>
-                          <span>{newStartTime} ~</span>
-                        </WriterTimeBox>
-                      </WriterBox>
-                      <TimeBox>
-                        <span>{time}</span>
-                      </TimeBox>
-                    </UpdateBox>
-                  );
-                })
-              ) : (
-                <NoneScheduleBox>
-                  <Note width={32} height={32} className="noneToday" />
-                  <div>일주일간 업데이트 된 일정이 없습니다.</div>
-                </NoneScheduleBox>
-              )}
-            </UpdateContainer>
-          </OtherUpdateWrapper>
-          <OtherUpdateWrapper>
-            <UpdateTitle>나와 공유한 일정</UpdateTitle>
-            <ShareContainer>
-              {otherUserShare.length !== 0 ? (
-                otherUserShare?.map((list) => {
-                  const time = TimeCheck(list.modifiedAt);
-                  return (
-                    <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
-                      <ImgBox>
-                        <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
-                      </ImgBox>
-                      <WriterBox>
-                        <span>{list.writer.name}</span>
-                        <span>{list.title}</span>
-                      </WriterBox>
-                      <TimeBox>
-                        <span>{time}</span>
-                      </TimeBox>
-                    </UpdateBox>
-                  );
-                })
-              ) : (
-                <NoneScheduleBox>
-                  <Note width={32} height={32} className="noneToday" />
-                  <div>나와 공유한 일정이 없습니다.</div>
-                </NoneScheduleBox>
-              )}
-            </ShareContainer>
-          </OtherUpdateWrapper>
-        </OtherWrapper>
+      <OtherWrapper isOpen={isShortScreen && isOpenSide}>
+        <OtherUpdateWrapper>
+          <UpdateTitle>업데이트 된 일정</UpdateTitle>
+          <UpdateContainer>
+            {otherUserUpdate.length !== 0 ? (
+              otherUserUpdate?.map((list) => {
+                const startDate = FormatTimeDot(list.startDate);
+                const time = TimeCheck(list.modifiedAt);
+                const newStartTime = DayAmPm(list.startTime);
+                return (
+                  <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
+                    <ImgBox>
+                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
+                    </ImgBox>
+                    <WriterBox>
+                      <span>{list.title}</span>
+                      <WriterTimeBox>
+                        <span>{startDate}</span>
+                        <span>{newStartTime} ~</span>
+                      </WriterTimeBox>
+                    </WriterBox>
+                    <TimeBox>
+                      <span>{time}</span>
+                    </TimeBox>
+                  </UpdateBox>
+                );
+              })
+            ) : (
+              <NoneScheduleBox>
+                <Note width={32} height={32} className="noneToday" />
+                <div>일주일간 업데이트 된 일정이 없습니다.</div>
+              </NoneScheduleBox>
+            )}
+          </UpdateContainer>
+        </OtherUpdateWrapper>
+        <OtherUpdateWrapper>
+          <UpdateTitle>나와 공유한 일정</UpdateTitle>
+          <ShareContainer>
+            {otherUserShare.length !== 0 ? (
+              otherUserShare?.map((list) => {
+                const time = TimeCheck(list.modifiedAt);
+                return (
+                  <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
+                    <ImgBox>
+                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
+                    </ImgBox>
+                    <WriterBox>
+                      <span>{list.writer.name}</span>
+                      <span>{list.title}</span>
+                    </WriterBox>
+                    <TimeBox>
+                      <span>{time}</span>
+                    </TimeBox>
+                  </UpdateBox>
+                );
+              })
+            ) : (
+              <NoneScheduleBox>
+                <Note width={32} height={32} className="noneToday" />
+                <div>나와 공유한 일정이 없습니다.</div>
+              </NoneScheduleBox>
+            )}
+          </ShareContainer>
+        </OtherUpdateWrapper>
+      </OtherWrapper>
+      {isShortScreen && (
+        <ScreenWrapper onClick={openClickHandler} isOpen={isOpenSide}>
+          {isOpenSide ? <Left /> : <Right />}
+        </ScreenWrapper>
       )}
     </>
   );
@@ -105,10 +113,12 @@ const OtherWrapper = styled.div`
   min-width: 21.875rem;
   max-width: 21.875rem;
   height: 100%;
-  border-right: 0.0625rem solid #afb4bf;
-  //position: ${(props) => (props.isOpen ? "absolute" : "inherit")};
-  //left: 28px;
-  //z-index: 10;
+  border-right: 0.0625rem solid ${(props) => props.theme.Bg.color3};
+
+  position: ${(props) => props.isOpen && "absolute"};
+  background-color: #ffffff;
+  left: 305px;
+  z-index: 2;
   padding: 1.875rem;
 `;
 
@@ -126,8 +136,10 @@ const OtherUpdateWrapper = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   min-height: 25rem;
-  //padding: 0 30px;
-  //z-index: 10;
+
+  @media screen and (max-width: 1440px) {
+    min-height: 330px;
+  }
 `;
 
 const UpdateTitle = styled.span`
@@ -142,7 +154,14 @@ const UpdateTitle = styled.span`
 
 const UpdateContainer = styled.div`
   ${(props) => props.theme.FlexCol}
+  justify-content: flex-start;
+  height: 300px;
+  overflow-y: auto;
   padding-bottom: 1.25rem;
+
+  @media screen and (max-width: 1440px) {
+    height: 240px;
+  }
 `;
 
 const ShareContainer = styled(UpdateContainer)`
@@ -202,4 +221,18 @@ const NoneScheduleBox = styled.div`
   div {
     font-size: ${(props) => props.theme.DescriptionText};
   }
+`;
+
+// 1440 일때
+const ScreenWrapper = styled.div`
+  ${(props) => props.theme.FlexCol}
+  width: 2.125rem;
+  height: 100%;
+  border-right: 1px solid ${(props) => props.theme.Bg.color2};
+  border-left: 1px solid ${(props) => props.theme.Bg.color3};
+  background-color: ${(props) => props.theme.Bg.color5};
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: ${(props) => (props.isOpen ? "610px" : "306px")};
 `;

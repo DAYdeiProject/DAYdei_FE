@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { EventSourcePolyfill } from "event-source-polyfill";
 import Cookies from "js-cookie";
+import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState, useRef } from "react";
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { liveNotiState, newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
+import useOutsideClick from "../hooks/useOutsideClick";
+import SseMessageBox from "../components/SseMessageBox";
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
-import { liveNotiState, newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
-import SseMessageBox from "../components/SseMessageBox";
-import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
+import { ReactComponent as Right } from "../assets/defaultIcons/right.svg";
 
 function Sidebar({ ...props }) {
+  const outside = useRef();
   const token = Cookies.get("accessJWTToken");
   const dispatch = useDispatch();
 
@@ -52,28 +54,36 @@ function Sidebar({ ...props }) {
     setIsSideStyleOpen(!isSideStyleOpen);
   };
 
+  // 1440 일때 사이드 바깥영역 클릭시 닫히게
+  const closeSide = () => {
+    if (isShortScreen) {
+      setIsSideStyleOpen(false);
+    }
+  };
+  useOutsideClick(outside, closeSide);
+
   return (
     <>
       {isShortScreen ? (
         otherId && window.location.pathname === "/other" ? (
-          <SideStyle>
+          <SideOtherStyle>
             <SidebarOtherCalendar otherId={otherId} />
-          </SideStyle>
+          </SideOtherStyle>
         ) : isSideStyleOpen ? (
-          <WholeWrapper>
+          <WholeWrapper ref={outside}>
             <SideStyle isShort={isShortScreen}>
               <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
             </SideStyle>
-            <SideStyleShort isSideStyleOpen={isSideStyleOpen}>
+            <SideStyleShort isSideStyleOpen={isSideStyleOpen} onClick={openSideStyleHandler}>
               <IconWrapper>
-                <Left onClick={openSideStyleHandler} />
+                <Left />
               </IconWrapper>
             </SideStyleShort>
           </WholeWrapper>
         ) : (
-          <SideStyleShort>
+          <SideStyleShort onClick={openSideStyleHandler}>
             <IconWrapper>
-              <Right onClick={openSideStyleHandler} />
+              <Right />
             </IconWrapper>
           </SideStyleShort>
         )
@@ -82,9 +92,9 @@ function Sidebar({ ...props }) {
           <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
         </SideStyle>
       ) : (
-        <SideStyle>
+        <SideOtherStyle>
           <SidebarOtherCalendar otherId={otherId} />
-        </SideStyle>
+        </SideOtherStyle>
       )}
       <SseMessageBox />
     </>
@@ -101,63 +111,49 @@ const WholeWrapper = styled.div`
 `;
 
 const SideStyle = styled.div`
+  // 사이드
   min-width: 21.875rem;
   max-width: 21.875rem;
   height: 100%;
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
-  position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")};
 
   @media screen and (max-width: 1440px) {
     position: absolute;
     z-index: 2;
   }
+`;
 
-  /* z-index: ${(props) => (props.isShort ? 10 : 0)}; */
+const SideOtherStyle = styled.div`
+  // 사이드
+  min-width: 21.875rem;
+  max-width: 21.875rem;
+  height: 100%;
+  border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
+  @media screen and (max-width: 1440px) {
+    position: absolute;
+    z-index: 5;
+  }
 `;
 
 const SideStyleShort = styled.div`
-  background-color: skyblue;
+  //미니 왼쪽
   ${(props) => props.theme.FlexCol}
-  height: 100%;
-  border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
-  background: ${(props) => props.theme.Bg.color5};
-
   width: 2.125rem;
-  // text-align: center;
-  //left: ${(props) => (props.isSideStyleOpen ? "21.875rem" : "0rem")};
-  /* position: ${(props) => (props.isSideStyleOpen ? "absolute" : "relative")}; */
-  //position: fixed;
-  //z-index: ${(props) => (props.isSideStyleOpen ? 2 : 0)};
+  height: 100%;
+  border-right: 1px solid ${(props) => props.theme.Bg.color2};
+  border-left: ${(props) => props.isSideStyleOpen && `1px solid ${props.theme.Bg.color2}`};
+  background: ${(props) => props.theme.Bg.color5};
+  position: absolute;
   z-index: 50;
-  transform: ${({ isSideStyleOpen }) => (isSideStyleOpen ? "translateX(100%)" : "none")};
-  transition: transform 0.3s ease-in-out;
+  left: ${(props) => (props.isSideStyleOpen ? "270px" : "0rem")};
 
   @media screen and (max-width: 1440px) {
-    /* display: block; */
+    transform: ${(props) => (props.isSideStyleOpen ? "translateX(100%)" : "translateX(0)")};
   }
-
-  @media screen and (min-width: 1441px) {
-    display: none;
-  }
-`;
-
-const IconWrapper = styled.div`
-  svg:hover {
+  :hover {
     cursor: pointer;
   }
-  /* background-color: pink; */
 `;
 
-// 실시간 알림창
-// useEffect(() => {
-//   let timer;
-//   if (isMessageState) {
-//     timer = setTimeout(() => {
-//       setIsMessageState(false);
-//     }, 3000); // 4초 후 모달이 자동으로 닫힘
-//   }
-//   return () => {
-//     clearTimeout(timer);
-//   };
-// }, [isMessageState]);
+const IconWrapper = styled.div``;

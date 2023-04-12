@@ -160,6 +160,11 @@ const SidebarWrapper = styled.div`
   padding: 0 2.1875rem;
   padding-top: 3rem;
   background: ${(props) => props.theme.Bg.color5};
+
+  @media screen and (max-width: 1440px) {
+    padding: 0 2rem;
+    padding-top: 3rem;
+  }
 `;
 
 const NickNameContainer = styled.section`
@@ -203,6 +208,10 @@ const TodayScheduleWrapper = styled.div`
   height: 15.9375rem;
   margin-bottom: 1.875rem;
   overflow-y: auto;
+
+  @media screen and (max-width: 1440px) {
+    height: 14rem;
+  }
 `;
 const TodayScheduleBox = styled.div`
   ${(props) => props.theme.FlexRow};
