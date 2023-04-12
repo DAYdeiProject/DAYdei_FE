@@ -36,7 +36,7 @@ export const __addMemo = createAsyncThunk("addMemo", async (memo, thunkAPI) => {
 export const __deleteMemo = createAsyncThunk("deleteMemo", async (id, thunkAPI) => {
   try {
     const response = await memosInstance.delete(`/${id}`);
-    console.log("삭제요청 리스펀스 -->", response.data.statusCode);
+
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     console.log(error);
@@ -48,7 +48,7 @@ export const __deleteMemo = createAsyncThunk("deleteMemo", async (id, thunkAPI) 
 export const __fixMemo = createAsyncThunk("deleteMemo", async (payload, thunkAPI) => {
   try {
     const response = await memosInstance.patch(`/${payload.id}`, payload.fixedMemo);
-    console.log("수정요청 리스펀스 -->", response.data.statusCode);
+
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     console.log(error);
