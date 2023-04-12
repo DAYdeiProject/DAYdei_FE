@@ -55,7 +55,6 @@ export default function NotifiactionModalBox({ ...props }) {
     dispatch(__allClearNotification({ userId: userInfo.userId })).then(() => {
       alert("모두 삭제되었습니다.");
       setDeleteState(true);
-      //props.setIsNotificationOpen(false);
     });
   }, 300);
 

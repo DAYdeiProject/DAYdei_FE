@@ -28,6 +28,8 @@ function Header() {
   const [isEditProfile, setIsEditProfile] = useState(false);
   // 프로필 디테일 오픈여부
   const [isProfileDetail, setIsProfileDetail] = useState(false);
+  // 알림왔을때 아이콘 바로 클릭 못하게..
+  const [isDisable, setIsDisable] = useState(false);
   const token = Cookies.get("accessJWTToken");
   const [clickNav, setClickNav] = useState("");
   const userId = GetUserInfo();
@@ -35,7 +37,7 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // 헤더 클릭한 값 state
-  const { text, notiState } = useSelector((state) => state.header);
+  const { text, notiState, liveState } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
 
@@ -104,11 +106,25 @@ function Header() {
       }
     }
   };
+
+  useEffect(() => {
+    if (liveState) {
+      setIsDisable(true);
+      let timer;
+      timer = setTimeout(() => {
+        setIsDisable(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, []);
+
   // 알림 아이콘 클릭
   const notificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setIsDropdownOpen(false);
-    dispatch(newNotificationState({}));
+    dispatch(newNotificationState(false));
   };
 
   // 홈클릭
@@ -169,7 +185,7 @@ function Header() {
               {isNotificationOpen && <NotifiactionModalBox isNotificationOpen={isNotificationOpen} setIsNotificationOpen={setIsNotificationOpen} />}
               <AlertContainer>
                 <AlertIcon className="AlertIcon" onClick={notificationClick} />
-                {notiState && <NewAlertIcon isNew={notiState.newState}></NewAlertIcon>}
+                {notiState && <NewAlertIcon isNew={notiState}></NewAlertIcon>}
               </AlertContainer>
               <ImageContainer onClick={handleDropdown}>
                 <ImgBox>
@@ -305,6 +321,10 @@ const AlertContainer = styled.div`
       cursor: pointer;
     }
   }
+  // pointer-events: ${(props) => (props.isDisable ? "none" : "auto")};
+  /* &:disabled {
+    ${(props) => (props.isDisable ? "disabled" : "none")}
+  } */
 `;
 
 const NewAlertIcon = styled.div`

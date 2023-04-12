@@ -1,6 +1,7 @@
 const TEXT_STATE = "header/TEXT_STATE";
 const NOTI_POSTID = "header/NOTI_POSTID";
 const NOTI_STATE = "header/NOTI_STATE";
+const NOTI_COMMENT = "header/NOTI_COMMENT";
 const LIVE_NOTI_STATE = "header/LIVE_NOTI_STATE";
 const OTHER_USER_ID = "header/OTHER_USER_ID";
 
@@ -25,6 +26,13 @@ export const newNotificationState = (payload) => {
     payload: payload,
   };
 };
+// 알림 코멘트
+export const newNotificationComment = (payload) => {
+  return {
+    type: NOTI_COMMENT,
+    payload: payload,
+  };
+};
 // 실시간 알림 state
 export const liveNotiState = (payload) => {
   return {
@@ -44,7 +52,8 @@ export const otherIdState = (payload) => {
 const initialState = {
   text: "home",
   notiInfo: "",
-  notiState: {},
+  notiState: "",
+  notiComment: {},
   liveState: "",
   otherId: "",
 };
@@ -65,6 +74,11 @@ const headerReducer = (state = initialState, action) => {
       return {
         ...state,
         notiState: action.payload,
+      };
+    case NOTI_COMMENT:
+      return {
+        ...state,
+        notiComment: action.payload,
       };
     case LIVE_NOTI_STATE:
       return {
