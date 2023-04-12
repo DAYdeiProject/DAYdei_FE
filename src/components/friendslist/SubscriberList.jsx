@@ -46,7 +46,6 @@ function SubscriberList({ SubscribersList }) {
     }
   }, [width1880]);
 
-  console.log("---->", number, width1440, width1880);
   if (SubscribersList?.length === 0) {
     return (
       <NoListMessageWrapper>

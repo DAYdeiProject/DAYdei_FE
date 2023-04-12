@@ -222,15 +222,16 @@ const SearchBody = styled.div`
     display: none;
   }
 
+  @media screen and (max-width: 1770px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
   @media screen and (max-width: 1440px) {
     width: 100%;
     height: 37.5rem;
     grid-column-gap: 0.8438rem;
     grid-row-gap: 0.9375rem;
-  }
-
-  @media screen and (max-width: 1770px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 `;
 
