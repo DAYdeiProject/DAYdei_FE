@@ -165,11 +165,17 @@ const SidebarWrapper = styled.div`
     padding: 0 2rem;
     padding-top: 3rem;
   }
+  @media screen and (max-height: 743.2px) {
+    padding-top: 2rem;
+  }
 `;
 
 const NickNameContainer = styled.section`
   ${(props) => props.theme.FlexCol};
   margin-bottom: 2.5rem;
+  @media screen and (max-height: 743.2px) {
+    margin-bottom: 1.9rem;
+  }
 `;
 
 const NickNameTitle = styled.section`
@@ -205,12 +211,21 @@ const TodayScheduleWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   gap: 0.1875rem;
-  height: 15.9375rem;
+  height: 20rem;
   margin-bottom: 1.875rem;
   overflow-y: auto;
 
   @media screen and (max-width: 1440px) {
     height: 14rem;
+  }
+  @media screen and (max-height: 929px) {
+    height: 17rem;
+  }
+  @media screen and (max-height: 844.55px) {
+    height: 14rem;
+  }
+  @media screen and (max-height: 743.2px) {
+    height: 12rem;
   }
 `;
 const TodayScheduleBox = styled.div`

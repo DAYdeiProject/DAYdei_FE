@@ -38,6 +38,9 @@ const MiniWrapper = styled.div`
   @media screen and (max-width: 1440px) {
     height: 240px;
   }
+  @media screen and (max-height: 844.55px) {
+    height: 236px;
+  }
 
   .react-calendar {
     border: none;
@@ -64,6 +67,12 @@ const MiniWrapper = styled.div`
     @media screen and (max-width: 1440px) {
       height: 1.2rem;
     }
+    @media screen and (max-height: 929px) {
+      height: 1rem;
+    }
+    @media screen and (max-height: 844.55px) {
+      height: 0.8rem;
+    }
   }
 
   .react-calendar__navigation__label > span {
@@ -81,6 +90,12 @@ const MiniWrapper = styled.div`
     @media screen and (max-width: 1440px) {
       height: 1.4rem;
     }
+    @media screen and (max-height: 929px) {
+      height: 1.3rem;
+    }
+    @media screen and (max-height: 844.55px) {
+      height: 1.3rem;
+    }
   }
 
   // 날짜
@@ -91,6 +106,14 @@ const MiniWrapper = styled.div`
 
     @media screen and (max-width: 1440px) {
       font-size: 0.625rem;
+    }
+    @media screen and (max-height: 844.55px) {
+      font-size: 0.5rem;
+    }
+    @media screen and (max-height: 743.2px) {
+      font-size: 0.5rem;
+      width: 1rem;
+      height: 2.3rem;
     }
   }
   .react-calendar__tile:hover {
@@ -129,6 +152,10 @@ const CheckPost = styled.div`
     background-color: ${(props) => props.theme.Bg.mainColor5};
 
     @media screen and (max-width: 1440px) {
+      height: 0.25rem;
+      width: 0.25rem;
+    }
+    @media screen and (max-height: 743.2px) {
       height: 0.25rem;
       width: 0.25rem;
     }

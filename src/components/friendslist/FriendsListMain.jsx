@@ -380,9 +380,9 @@ export const ListFrame = styled.div``;
 
 export const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
-
+  background-color: pink;
   @media screen and (max-width: 1440px) {
-    width: 430px;
+    min-width: 430px;
   }
 `;
 
