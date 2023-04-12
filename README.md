@@ -67,6 +67,7 @@ https://daydei.life
 
 ## 4. SA 및 API 명세
 
+https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
 ## 5. 구현기능
 
