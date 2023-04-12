@@ -1,5 +1,7 @@
 ## DAYDEI
 
+항해 12기 A반 4조 최종프로젝트 2023.03.10 - 2023.04.21 DAYDEI FE REPO
+
 ## Git - Commit Message Convention
 Cancel changes
 -   `feat` : 새로운 기능 추가
