@@ -4,7 +4,6 @@ import styled from "styled-components";
 import _ from "lodash";
 
 import UserLists from "./UserLists";
-import { CalendarWrapper } from "../friendslist/FriendsListMain";
 import { AiOutlineSearch } from "react-icons/ai";
 
 function SearchUsers() {
@@ -57,51 +56,49 @@ function SearchUsers() {
   return (
     <>
       <WholeWrapper>
-        <CalendarWrapper>
-          <WholeAreaWrapper>
-            <HeaderText>
-              <HeaderTextMain>{headerProfile.nickName}님을 위한 추천</HeaderTextMain>
-              <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
-            </HeaderText>
-            <SearchHeader>
-              <IconWrapper>
-                <Icon
-                  onClick={() => {
-                    handleCategoryClick("sports");
-                    handleIconClick();
-                  }}
-                  selected={selected}
-                  className={selectedCategories.includes("sports") ? "selected" : ""}>
-                  스포츠
-                </Icon>
-                <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
-                  교육
-                </Icon>
-                <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
-                  게임
-                </Icon>
-                <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
-                  경제
-                </Icon>
-                <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
-                  연예
-                </Icon>
-                <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
-                  OTT
-                </Icon>
-              </IconWrapper>
-              <SearchBarArea>
-                <SearchIcon>
-                  <AiOutlineSearch />
-                </SearchIcon>
-                <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
-              </SearchBarArea>
-            </SearchHeader>
-            <SearchBody>
-              <UserLists searchWord={searchWord} selectedCategories={selectedCategories} />
-            </SearchBody>
-          </WholeAreaWrapper>
-        </CalendarWrapper>
+        <WholeAreaWrapper>
+          <HeaderText>
+            <HeaderTextMain>{headerProfile.nickName}님을 위한 추천</HeaderTextMain>
+            <HeaderTextSub>회원님의 관심사에 따라 새로운 사람을 추천드려요</HeaderTextSub>
+          </HeaderText>
+          <SearchHeader>
+            <IconWrapper>
+              <Icon
+                onClick={() => {
+                  handleCategoryClick("sports");
+                  handleIconClick();
+                }}
+                selected={selected}
+                className={selectedCategories.includes("sports") ? "selected" : ""}>
+                스포츠
+              </Icon>
+              <Icon onClick={() => handleCategoryClick("education")} className={selectedCategories.includes("education") ? "selected" : ""}>
+                교육
+              </Icon>
+              <Icon onClick={() => handleCategoryClick("game")} className={selectedCategories.includes("game") ? "selected" : ""}>
+                게임
+              </Icon>
+              <Icon onClick={() => handleCategoryClick("economy")} className={selectedCategories.includes("economy") ? "selected" : ""}>
+                경제
+              </Icon>
+              <Icon onClick={() => handleCategoryClick("entertainment")} className={selectedCategories.includes("entertainment") ? "selected" : ""}>
+                연예
+              </Icon>
+              <Icon onClick={() => handleCategoryClick("ott")} className={selectedCategories.includes("ott") ? "selected" : ""}>
+                OTT
+              </Icon>
+            </IconWrapper>
+            <SearchBarArea>
+              <SearchIcon>
+                <AiOutlineSearch />
+              </SearchIcon>
+              <SearchBar type="text" placeholder="ID, 닉네임으로 검색해보세요" value={searchWord} onChange={searchHandler}></SearchBar>
+            </SearchBarArea>
+          </SearchHeader>
+          <SearchBody>
+            <UserLists searchWord={searchWord} selectedCategories={selectedCategories} />
+          </SearchBody>
+        </WholeAreaWrapper>
       </WholeWrapper>
     </>
   );
@@ -110,12 +107,9 @@ function SearchUsers() {
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   height: calc(100vh - 4rem - .0625rem);
-  /* background: pink; */
-
+  padding: 0 40px;
   @media screen and (max-width: 1440px) {
-    width: 87.5rem;
-    /* background-color: pink; */
-    margin-left: 2.5rem;
+    margin-left: 25px;
   }
 `;
 
@@ -216,6 +210,7 @@ const SearchBar = styled.input`
 const SearchBody = styled.div`
   width: 100%;
   height: 43.75rem;
+  padding: 0 3px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 1.125rem;

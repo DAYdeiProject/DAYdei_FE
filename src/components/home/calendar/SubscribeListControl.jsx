@@ -8,6 +8,7 @@ import { __hideUser } from "../../../redux/modules/subscribeSlice";
 import { __getSubscribeList } from "../../../redux/modules/subscribeSlice";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
+import { CancelIconWrap } from "./CalendarSidebar";
 
 function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit, setIsSubmit, setIsSubscribeBoxOpen }) {
   // 구독 목록 박스 열었을 때 내가 구독하는 유저 목록 GET
@@ -17,7 +18,7 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
 
   //useSelector로 구독하는 유저 정보 가져오기
   const { statusCodeHide, SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  console.log(SubscribesList);
+  // console.log(SubscribesList);
 
   useEffect(() => {
     const id = userInfo.userId;
@@ -68,14 +69,16 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
       </ButtonStyle>
     );
   };
-  console.log(clickedButtonIds);
+  // console.log(clickedButtonIds);
 
   return (
     <>
       <SideSpaceWrapper>
         <MemoTitle>
           <div>구독 캘린더</div>
-          <Cancel onClick={() => setIsSubscribeBoxOpen(false)} />
+          <CancelIconWrap>
+            <Cancel onClick={() => setIsSubscribeBoxOpen(false)} />
+          </CancelIconWrap>
         </MemoTitle>
         <GapArea />
         <ContentWrap>
@@ -125,6 +128,10 @@ export const SideSpaceWrapper = styled.div`
     display: none;
   }
   /* background: blue; */
+  @media screen and (max-width: 1440px) {
+    position: absolute;
+    right: 0;
+  }
 `;
 
 export const GapArea = styled.div`

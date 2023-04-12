@@ -16,8 +16,10 @@ function SetUserInfo(token, id) {
   };
 
   // userId 암호화
-  const encryptUser = encrypt(userInfo);
-  localStorage.setItem(secretKey, encryptUser);
+  if (id) {
+    const encryptUser = encrypt(userInfo);
+    localStorage.setItem(secretKey, encryptUser);
+  }
 
   return null;
 }
@@ -28,12 +30,14 @@ export function GetUserInfo() {
   const secretKey = `${process.env.REACT_APP_LOCAL_SECRETKEY}`;
   const localUserInfo = localStorage.getItem(secretKey);
 
-  try {
-    const result = decrypt(localUserInfo);
-    return result;
-  } catch (error) {
-    console.error("로컬 저장소 데이터 복호화 중 오류가 발생했습니다. : ", error);
-    return null;
+  if (localUserInfo) {
+    try {
+      const result = decrypt(localUserInfo);
+      return result;
+    } catch (error) {
+      console.error("로컬 저장소 데이터 복호화 중 오류가 발생했습니다. : ", error);
+      return null;
+    }
   }
 }
 

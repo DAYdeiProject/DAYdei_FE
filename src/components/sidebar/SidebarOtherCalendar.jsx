@@ -3,6 +3,7 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { debounce } from "lodash";
 import { __getOtherUser } from "../../redux/modules/calendarSlice";
 import { __addSubscribe, __cancelSubscribe } from "../../redux/modules/subscribeSlice";
 import { __requestFriend, __cancelRequest, __acceptNewFriend } from "../../redux/modules/friendsSlice";
@@ -11,7 +12,6 @@ import defaultProfile from "../../assets/defaultImage/profile.jpg";
 export default function SidebarOtherCalendar({ otherId }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
-  const param = useParams();
   //친구 관계, 구독상태에 따라 변하는 버튼 텍스트의 상태
   const [buttonText, setButtonText] = useState("");
   const [subscribeButtontext, setSubscribeButtonText] = useState("");
@@ -27,22 +27,22 @@ export default function SidebarOtherCalendar({ otherId }) {
   }, [otherId, statusCodeFriend, statusCodeSubscribe, acceptStatusCode]);
 
   // 친구신청요청, 요청 취소
-  const requestHandler = (id) => {
+  const debounceRequestHandler = debounce((id) => {
     dispatch(__requestFriend(id));
-  };
+  }, 300);
 
-  const cancelRequestHandler = (id) => {
+  const debounceCancelRequestHandler = debounce((id) => {
     dispatch(__cancelRequest(id));
-  };
+  }, 300);
 
   //구독하기, 구독취소
-  const subscribeHandler = (id) => {
+  const debounceSubscribeHandler = debounce((id) => {
     dispatch(__addSubscribe(id));
-  };
+  }, 300);
 
-  const cancelSubscribeHandler = (id) => {
+  const debounceCancelSubscribeHandler = debounce((id) => {
     dispatch(__cancelSubscribe(id));
-  };
+  }, 300);
 
   //친구 신청 승인
   const ApproveRequestHandler = (id) => {
@@ -52,9 +52,9 @@ export default function SidebarOtherCalendar({ otherId }) {
   //친구 버튼을 눌렀을 때 호출되는 함수 (현재 친구관계를 추적하여 그에 맞는 요청을 보낸다)
   const handleFriendButtonClick = async (user) => {
     if (user.friendCheck === false && user.isRequestFriend === null) {
-      requestHandler(user.id);
+      debounceRequestHandler(user.id);
     } else if ((user.friendCheck === false && user.isRequestFriend === false) || (user.friendCheck === true && user.isRequestFriend === null)) {
-      cancelRequestHandler(user.id);
+      debounceCancelRequestHandler(user.id);
     } else if (user.friendCheck === false && user.isRequestFriend === true) {
       ApproveRequestHandler(user.id);
     }
@@ -63,9 +63,9 @@ export default function SidebarOtherCalendar({ otherId }) {
   //구독 버튼을 눌렀을 때 호출되는 함수 (현재 구독상태를 추적하여 그에 맞는 요청을 보낸다)
   const handleSubscribeButtonClick = async (user) => {
     if (user.userSubscribeCheck === false) {
-      subscribeHandler(user.id);
+      debounceSubscribeHandler(user.id);
     } else {
-      cancelSubscribeHandler(user.id);
+      debounceCancelSubscribeHandler(user.id);
     }
   };
 
@@ -146,19 +146,32 @@ const BackImgWrapper = styled.div`
   height: 23.125rem;
   border: none;
   background-size: cover;
+
+  @media screen and (max-width: 1440px) {
+    height: 22rem;
+  }
+
   img {
     width: 100%;
     height: 23.125rem;
     border: none;
+
+    @media screen and (max-width: 1440px) {
+      height: 22rem;
+    }
   }
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
   top: 18.75rem;
-  //z-index: 0;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 1.25rem;
+
+  @media screen and (max-width: 1440px) {
+    top: 18rem;
+  }
+
   img {
     ${(props) => props.theme.BoxCustom};
     width: 8.125rem;
@@ -166,6 +179,11 @@ const ImgWrapper = styled.div`
     border-radius: 50%;
     background: fixed;
     cursor: auto;
+
+    @media screen and (max-width: 1440px) {
+      width: 7.5rem;
+      height: 7.5rem;
+    }
   }
 `;
 
@@ -207,6 +225,10 @@ const TextareaBox = styled.div`
   ${(props) => props.theme.DescriptionText};
   font-size: 0.875rem;
   white-space: pre-wrap;
+
+  @media screen and (max-width: 1440px) {
+    height: 4.5rem;
+  }
 `;
 
 const ButtonBox = styled.div`

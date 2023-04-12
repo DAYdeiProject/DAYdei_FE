@@ -71,13 +71,27 @@ export const GlobalStyle = createGlobalStyle`
     * {
       box-sizing: border-box;
       font-family: 'Pretendard-Regular';
+      
     }
-    //반드시 overflow: overlay해야 -webkit-scrollbar-track 투명도를 설정할 수 있다.
+    html {
+      font-size: 16px;
+    }
+     @media screen and (max-width: 1920px) {
+        html {
+          font-size: 16px;
+        }
+      }
+       @media screen and (max-width: 1440px) {
+        html {
+          font-size: 14px;
+        }
+      }
     body {
+      font-size: 1rem;
       overflow: overlay;
       width : 100vw;
       height: 100vh;
-      user-select: none; // 글자 드래그 막기
+      user-select: none; // 글자 드래그 막기 
     }
     ::-webkit-scrollbar {
       width: 5px;
