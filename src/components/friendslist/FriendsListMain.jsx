@@ -380,8 +380,16 @@ export const ListFrame = styled.div``;
 
 export const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
+
   @media screen and (max-width: 1440px) {
     min-width: 430px;
+  }
+
+  @media screen and (max-width: 1880px) {
+    width: 460px;
+  }
+  @media screen and (max-width: 1780px) {
+    width: 440px;
   }
 `;
 
@@ -400,6 +408,9 @@ export const TopText = styled.div`
   @media screen and (max-width: 1440px) {
     width: 29rem;
     margin-top: 2.25rem;
+  }
+  @media screen and (max-width: 1880px) {
+    width: 420px;
   }
 `;
 
@@ -485,16 +496,34 @@ export const ListWrap = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   padding: 0rem;
-  width: 29rem;
+  //width: 29rem;
+  width: 100%;
   height: 50.75rem;
   margin-top: 1rem;
   overflow: auto;
+
   ::-webkit-scrollbar {
     display: none;
   }
 
   @media screen and (max-width: 1440px) {
     width: 29rem;
+  }
+
+  @media screen and (max-height: 1032.22px) {
+    height: 850px;
+  }
+  @media screen and (max-height: 929px) {
+    height: 750px;
+  }
+  @media screen and (max-height: 844.55px) {
+    height: 670px;
+  }
+  @media screen and (max-height: 743.2px) {
+    height: 570px;
+  }
+  @media screen and (max-height: 619.33px) {
+    height: 470px;
   }
 `;
 

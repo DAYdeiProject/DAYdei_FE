@@ -136,6 +136,7 @@ const RecommendButton = styled.div`
 
   :hover {
     cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 `;
 

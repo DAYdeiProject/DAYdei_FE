@@ -212,7 +212,7 @@ const SearchBody = styled.div`
   height: 43.75rem;
   padding: 0 3px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 1.125rem;
   grid-row-gap: 1.25rem;
   overflow: auto;
@@ -227,6 +227,10 @@ const SearchBody = styled.div`
     height: 37.5rem;
     grid-column-gap: 0.8438rem;
     grid-row-gap: 0.9375rem;
+  }
+
+  @media screen and (max-width: 1770px) {
+    grid-template-columns: repeat(5, 1fr);
   }
 `;
 

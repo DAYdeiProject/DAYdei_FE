@@ -327,4 +327,17 @@ const NoneSchedule = styled.div`
     text-align: center;
     line-height: 1.125rem;
   }
+
+  @media screen and (max-width: 1440px) {
+    height: 14rem;
+  }
+  @media screen and (max-height: 929px) {
+    height: 12rem;
+  }
+  @media screen and (max-height: 844.55px) {
+    height: 11rem;
+  }
+  @media screen and (max-height: 743.2px) {
+    height: 10rem;
+  }
 `;
