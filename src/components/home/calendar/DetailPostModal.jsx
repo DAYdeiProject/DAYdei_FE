@@ -43,11 +43,9 @@ export default function DetailPostModal({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
-  const param = useParams();
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo, otherId } = useSelector((state) => state.header);
-  //console.log("detail otherId==========", notiInfo);
 
   useEffect(() => {
     if (detail) {
@@ -100,7 +98,6 @@ export default function DetailPostModal({ ...props }) {
             dispatch(alertState({ state: true, comment: "존재하지 않는 일정입니다." }));
           }
         } else {
-          //props.setIsDetailPost(true);
           setIsDetailPost(true);
         }
       });
@@ -163,6 +160,8 @@ export default function DetailPostModal({ ...props }) {
     props.setModifyPostId(id);
     closeModal();
     props.setIsAddPost(true);
+    props.setAgainToday(false);
+    props.setIsTodaySchedule(false);
   };
   // 삭제
   const deletePostHandler = (id) => {
