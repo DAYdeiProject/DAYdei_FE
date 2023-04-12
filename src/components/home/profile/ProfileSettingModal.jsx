@@ -5,17 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { alertState } from "../../../redux/modules/alertReducer";
 import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
 
-import Modal from "../../../elements/Modal";
-import ModalWrap from "../../../elements/ModalWrap";
 import useLogin from "../../../hooks/useLogin";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import InfoSettingModal from "./InfoSettingModal";
 import { CategoryText } from "../../../utils/calendar/CalendarBasic";
 
-import { GiCancel } from "react-icons/gi";
 import { BsCardImage } from "react-icons/bs";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
+import ModalBox from "../../../elements/ModalBox";
 
 function ProfileSettingModal({ ...props }) {
   //프로필 파일
@@ -210,128 +208,126 @@ function ProfileSettingModal({ ...props }) {
 
   return (
     <>
-      <ModalWrap>
-        <Modal width="370px" height="648px" padding="50px 0px 0px 0px;">
-          <WholeAreaWrapper ref={ProfileSettingModalRef}>
-            <ContentWrapper>
-              <form onSubmit={profileChangeHandler}>
-                <AboveButtonArea>
-                  <TitleTextWrap>기본정보</TitleTextWrap>
-                  <InfoArea>
-                    <SectionChooseBox>
-                      <SectionBox
-                        onClick={handleProfileModalSection}
-                        color={isProfileSectionOpen ? "black" : "#AFB4BF"}
-                        borderBottom={isProfileSectionOpen ? "#000000" : "white"}>
-                        나의 프로필
-                      </SectionBox>
-                      <SectionBox
-                        onClick={handleInfoModalSection}
-                        color={!isProfileSectionOpen ? "black" : "#AFB4BF"}
-                        borderBottom={!isProfileSectionOpen ? "#000000" : "white"}>
-                        개인정보 설정
-                      </SectionBox>
-                    </SectionChooseBox>
-                    {isProfileSectionOpen ? (
-                      <MyProfileSection>
-                        <PhotoArea>
-                          <PhotoWrapSquare>
+      <ModalBox width="370px" height="648px" isOpen={props.isProfileSettingModalOpen}>
+        <WholeAreaWrapper ref={ProfileSettingModalRef}>
+          <ContentWrapper>
+            <form onSubmit={profileChangeHandler}>
+              <AboveButtonArea>
+                <TitleTextWrap>기본정보</TitleTextWrap>
+                <InfoArea>
+                  <SectionChooseBox>
+                    <SectionBox
+                      onClick={handleProfileModalSection}
+                      color={isProfileSectionOpen ? "black" : "#AFB4BF"}
+                      borderBottom={isProfileSectionOpen ? "#000000" : "white"}>
+                      나의 프로필
+                    </SectionBox>
+                    <SectionBox
+                      onClick={handleInfoModalSection}
+                      color={!isProfileSectionOpen ? "black" : "#AFB4BF"}
+                      borderBottom={!isProfileSectionOpen ? "#000000" : "white"}>
+                      개인정보 설정
+                    </SectionBox>
+                  </SectionChooseBox>
+                  {isProfileSectionOpen ? (
+                    <MyProfileSection>
+                      <PhotoArea>
+                        <PhotoWrapSquare>
+                          {updatedProfileUrl ? (
+                            <CancelIcon onClick={deleteImageHandler} />
+                          ) : profileImageUrl ? (
+                            <CancelIcon onClick={deleteImageHandler} />
+                          ) : null}
+                          <PhotoWrap>
                             {updatedProfileUrl ? (
-                              <CancelIcon onClick={deleteImageHandler} />
+                              <img src={updatedProfileUrl} alt="profile" width="100%" height="100%" />
                             ) : profileImageUrl ? (
-                              <CancelIcon onClick={deleteImageHandler} />
-                            ) : null}
-                            <PhotoWrap>
-                              {updatedProfileUrl ? (
-                                <img src={updatedProfileUrl} alt="profile" width="100%" height="100%" />
-                              ) : profileImageUrl ? (
-                                <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
-                              ) : (
-                                <ProfilePhotoIcon onClick={handleProfileImageClick} />
-                              )}
-                              <input id="profileInput" name="profileImage" type="file" key={new Date()} hidden onChange={(e) => profileImageHandler(e)} />
-                            </PhotoWrap>
-                          </PhotoWrapSquare>
-                          <BackgroundImageArea>
-                            <BackgroundBox>
-                              <AddBackgroundButton>
-                                <input
-                                  id="backgroundInput"
-                                  name="backgroundImage"
-                                  type="file"
-                                  key={new Date()}
-                                  hidden
-                                  onChange={(e) => backgroundImageHandler(e)}
-                                />
-                                <span onClick={handleBackgroundButtonClick}>배경 사진</span>
-                              </AddBackgroundButton>
-                              <BackgroundRight>
-                                {updatedBackgroundUrl ? (
-                                  <FileNameWrap>{updatedBackgroundUrl.substring(0, 6)}..</FileNameWrap>
-                                ) : backgroundImageName ? (
-                                  <FileNameWrap>{backgroundImageName.substring(0, 6)}..</FileNameWrap>
-                                ) : myProfile.backgroundImage && background.length !== 0 ? (
-                                  <FileNameWrap>{backgroundImageName}</FileNameWrap>
-                                ) : null}
-                                {updatedBackgroundUrl || backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
-                              </BackgroundRight>
-                            </BackgroundBox>
-                            <LimitTextWrap>10MB 이내의 이미지 파일을 업로드 해주세요.</LimitTextWrap>
-                          </BackgroundImageArea>
-                        </PhotoArea>
-                        <TextArea>
-                          <TextWrap>
-                            <SmallTextBox>닉네임 :</SmallTextBox>
-                            <TextMainNickname isBorder={nickName === "" ? "none" : nicknameRegex}>
-                              <input type="text" defaultValue={headerProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="8" />
-                            </TextMainNickname>
-                          </TextWrap>
-                          <TextWrap>
-                            <SmallTextBox>한 줄 프로필 :</SmallTextBox>
-                            <TextMain>
-                              <input type="text" defaultValue={headerProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
-                            </TextMain>
-                          </TextWrap>
-                          <TextWrap>
-                            <SmallTextBox>관심 카테고리 :</SmallTextBox>
-                            <TextMain>
-                              <CategoryWrap>
-                                {myCategory.length !== 0
-                                  ? myCategory.map((item) => {
-                                      let newCategory = CategoryText(item);
-                                      return <span key={item}>{newCategory}</span>;
-                                    })
-                                  : "선택한 카테고리가 없습니다."}
-                              </CategoryWrap>
-                            </TextMain>
-                          </TextWrap>
-                        </TextArea>
-                      </MyProfileSection>
-                    ) : (
-                      <InfoSettingModal
-                        isPw={isPw}
-                        password={password}
-                        handlePasswordChange={handlePasswordChange}
-                        isPwMessage={isPwMessage}
-                        passwordCheck={passwordCheck}
-                        handlePasswordCheckChange={handlePasswordCheckChange}
-                        isPwCheckMessage={isPwCheckMessage}
-                      />
-                    )}
-                  </InfoArea>
-                </AboveButtonArea>
-                <GapArea></GapArea>
-                <ButtonArea>
-                  <ButtonWrap type="button" onClick={handleProfileSettingModalClose}>
-                    취소
-                  </ButtonWrap>
-                  <ButtonSubmit>저장하기</ButtonSubmit>
-                </ButtonArea>
-              </form>
-            </ContentWrapper>
-          </WholeAreaWrapper>
-        </Modal>
-      </ModalWrap>
+                              <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
+                            ) : (
+                              <ProfilePhotoIcon onClick={handleProfileImageClick} />
+                            )}
+                            <input id="profileInput" name="profileImage" type="file" key={new Date()} hidden onChange={(e) => profileImageHandler(e)} />
+                          </PhotoWrap>
+                        </PhotoWrapSquare>
+                        <BackgroundImageArea>
+                          <BackgroundBox>
+                            <AddBackgroundButton>
+                              <input
+                                id="backgroundInput"
+                                name="backgroundImage"
+                                type="file"
+                                key={new Date()}
+                                hidden
+                                onChange={(e) => backgroundImageHandler(e)}
+                              />
+                              <span onClick={handleBackgroundButtonClick}>배경 사진</span>
+                            </AddBackgroundButton>
+                            <BackgroundRight>
+                              {updatedBackgroundUrl ? (
+                                <FileNameWrap>{updatedBackgroundUrl.substring(0, 6)}..</FileNameWrap>
+                              ) : backgroundImageName ? (
+                                <FileNameWrap>{backgroundImageName.substring(0, 6)}..</FileNameWrap>
+                              ) : myProfile.backgroundImage && background.length !== 0 ? (
+                                <FileNameWrap>{backgroundImageName}</FileNameWrap>
+                              ) : null}
+                              {updatedBackgroundUrl || backgroundImageName ? <BackgroundCancel onClick={deleteBackGroundHandler} /> : null}
+                            </BackgroundRight>
+                          </BackgroundBox>
+                          <LimitTextWrap>10MB 이내의 이미지 파일을 업로드 해주세요.</LimitTextWrap>
+                        </BackgroundImageArea>
+                      </PhotoArea>
+                      <TextArea>
+                        <TextWrap>
+                          <SmallTextBox>닉네임 :</SmallTextBox>
+                          <TextMainNickname isBorder={nickName === "" ? "none" : nicknameRegex}>
+                            <input type="text" defaultValue={headerProfile.nickName} onChange={handleNickNameChange} autoFocus maxLength="8" />
+                          </TextMainNickname>
+                        </TextWrap>
+                        <TextWrap>
+                          <SmallTextBox>한 줄 프로필 :</SmallTextBox>
+                          <TextMain>
+                            <input type="text" defaultValue={headerProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
+                          </TextMain>
+                        </TextWrap>
+                        <TextWrap>
+                          <SmallTextBox>관심 카테고리 :</SmallTextBox>
+                          <TextMain>
+                            <CategoryWrap>
+                              {myCategory.length !== 0
+                                ? myCategory.map((item) => {
+                                    let newCategory = CategoryText(item);
+                                    return <span key={item}>{newCategory}</span>;
+                                  })
+                                : "선택한 카테고리가 없습니다."}
+                            </CategoryWrap>
+                          </TextMain>
+                        </TextWrap>
+                      </TextArea>
+                    </MyProfileSection>
+                  ) : (
+                    <InfoSettingModal
+                      isPw={isPw}
+                      password={password}
+                      handlePasswordChange={handlePasswordChange}
+                      isPwMessage={isPwMessage}
+                      passwordCheck={passwordCheck}
+                      handlePasswordCheckChange={handlePasswordCheckChange}
+                      isPwCheckMessage={isPwCheckMessage}
+                    />
+                  )}
+                </InfoArea>
+              </AboveButtonArea>
+              <GapArea></GapArea>
+              <ButtonArea>
+                <ButtonWrap type="button" onClick={handleProfileSettingModalClose}>
+                  취소
+                </ButtonWrap>
+                <ButtonSubmit>저장하기</ButtonSubmit>
+              </ButtonArea>
+            </form>
+          </ContentWrapper>
+        </WholeAreaWrapper>
+      </ModalBox>
     </>
   );
 }
@@ -339,12 +335,11 @@ function ProfileSettingModal({ ...props }) {
 export default ProfileSettingModal;
 
 const WholeAreaWrapper = styled.div`
-  width: 20rem;
   height: 34.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: pink; */
+  padding: 50px 30px;
 `;
 
 const ContentWrapper = styled.div`

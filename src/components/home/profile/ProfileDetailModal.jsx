@@ -1,4 +1,4 @@
-import { React, useRef } from "react";
+import { React, useRef, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -14,11 +14,16 @@ import { ReactComponent as WhiteDismiss } from "../../../assets/defaultIcons/whi
 import { ReactComponent as WhiteMoreY } from "../../../assets/defaultIcons/whiteMoreY.svg";
 
 export default function ProfileDetailModal({ ...props }) {
+  const [editOpen, setEditOpen] = useState(false);
   const outside = useRef();
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
   // 수정하기 이동
   const editProfileClick = () => {
+    setEditOpen(!editOpen);
+  };
+
+  const moveEditClick = () => {
     props.setIsProfileDetail(false);
     props.setIsProfileSettingModalOpen(true);
   };
@@ -26,17 +31,10 @@ export default function ProfileDetailModal({ ...props }) {
   // 모달창 닫기
   const closeModal = () => {
     props.setIsProfileDetail(false);
+    setEditOpen(false);
   };
 
   useOutSideClick(outside, closeModal);
-
-  //모달 바깥쪽을 누르면 프로필 수정 모달이 닫힘
-
-  // const handleProfileSettingModalClose = () => {
-  //   setIsProfileSettingModalOpen(false);
-  // };
-  // const ProfileSettingModalRef = useRef(null);
-  // useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
 
   return (
     <>
@@ -45,6 +43,9 @@ export default function ProfileDetailModal({ ...props }) {
           <IconContainer>
             <WhiteMoreY onClick={editProfileClick} className="moreIcon" />
             <WhiteDismiss onClick={closeModal} />
+            <ProfileEditBox isOpen={editOpen}>
+              <span onClick={moveEditClick}>수정하기</span>
+            </ProfileEditBox>
           </IconContainer>
           <ProfileBackground>{headerProfile && headerProfile?.backgroundImage && <img src={headerProfile.backgroundImage} />}</ProfileBackground>
           <ProfileImageBox>
@@ -81,10 +82,31 @@ const IconContainer = styled.div`
   right: 0.9375rem;
   z-index: 10;
   cursor: pointer;
+  display: flex;
+  gap: 10px;
   .moreIcon {
     fill: white !important;
     visibility: visibility !important;
   }
+`;
+
+const ProfileEditBox = styled.div`
+  position: absolute;
+  top: 30px;
+  ${(props) => props.theme.BoxCustom};
+  ${(props) => props.theme.BtnHoverYellow};
+  ${(props) => props.theme.FlexCol};
+  width: 100px;
+  height: 50px;
+  font-size: 17px;
+  background-color: #ffffff;
+  span {
+    margin-left: 15px;
+    line-height: 50px;
+    text-align: center;
+  }
+
+  display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
 
 const ProfileBackground = styled.div`

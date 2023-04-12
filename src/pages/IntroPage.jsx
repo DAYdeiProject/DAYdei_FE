@@ -111,6 +111,7 @@ export const PageWrapper = styled.div``;
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
   height: calc(100vh - 4rem - 0.0625rem);
+  overflow: hidden;
 `;
 
 export const LoginWrapper = styled.form`

@@ -16,6 +16,7 @@ export default function PreviewArea() {
 const ImgWarpper = styled.div`
   img {
     width: 100%;
+    height: calc(100vh - 4rem - 0.0625rem);
     border: none;
     @media screen and (max-height: 1032.22px) {
       height: 1032.22px;
@@ -38,4 +39,5 @@ const PreviewWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   background-color: ${(props) => props.theme.Bg.calendar2};
   overflow: hidden;
+  width: 70%;
 `;
