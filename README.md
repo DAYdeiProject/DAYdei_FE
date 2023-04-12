@@ -14,8 +14,8 @@
 - [1. 프로젝트 소개](#1-프로젝트-소개)
 - [2. 프로젝트 주소](#2-프로젝트-주소)
 - [3. 기술스택](#3-기술스택)
-- [4. 구현기능](#4-구현기능)
-- [5. API Table](#5-api-table)
+- [4. SA 및 API 명세](#4-SA-및-API-명세)
+- [5. 구현기능](#5-구현기능)
 - [6. 깃 컨벤션](#6-깃-컨벤션)
 
 ## 1. 프로젝트 소개
@@ -65,7 +65,7 @@ https://daydei.life
   <br>
 </div>
 
-## 4. 구현기능
+## 4. SA 및 API 명세
 
 <p align = "center">
  <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="400" height = "300" />
