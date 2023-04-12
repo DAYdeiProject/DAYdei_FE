@@ -1,4 +1,4 @@
-##DAYDEI
+## DAYDEI
 
 ## Git - Commit Message Convention
 Cancel changes
