@@ -16,7 +16,7 @@ const initialState = {
 export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/recommend/${url}`);
-    // console.log("slice getrecommend -------> ", response);
+
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -27,7 +27,7 @@ export const __getRecommend = createAsyncThunk("getRecommend", async (url, thunk
 export const __requestFriend = createAsyncThunk("requestFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.post(`/${id}`);
-    console.log(response.data);
+
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -39,7 +39,7 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
 export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.put(`/${id}`);
-    console.log(response.data);
+
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -51,7 +51,7 @@ export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thu
 export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.delete(`/${id}`);
-    console.log("삭제요청--->", response);
+
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -63,7 +63,7 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
 export const __getFriendsList = createAsyncThunk("getFriendsList", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/list/${url}`);
-    // console.log("getFriendList -------> ", response.data.data);
+
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -77,7 +77,7 @@ export const __getFamousList = createAsyncThunk("getFamousList", async (payload,
         Authorization: payload.token,
       },
     });
-    console.log("인기 계정 가져오기 -->", response.data.data);
+
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -91,7 +91,7 @@ export const __getRequestedUsersList = createAsyncThunk("getRequestedUsersList",
         Authorization: payload.token,
       },
     });
-    // console.log(response.data.data);
+
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -101,7 +101,7 @@ export const __getRequestedUsersList = createAsyncThunk("getRequestedUsersList",
 export const __getSentUsersList = createAsyncThunk("getSentUsersList", async (_, thunkAPI) => {
   try {
     const response = await friendsInstance.get("/list/request");
-    // console.log("내가보낸신청-->", response.data.data);
+
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

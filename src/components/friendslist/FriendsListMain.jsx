@@ -31,6 +31,8 @@ function FriendsListMain() {
   // 내게 온 신청 & 내가 보낸 신청 리스트
   const RequestedUsersList = useSelector((state) => state.friends.RequestedUsersList);
   const SentUsersList = useSelector((state) => state.friends.SentUsersList);
+  //헤더 알림 상태
+  const { text, notiState } = useSelector((state) => state.header);
 
   // 친구요청 수락 모달 열고닫기 상태관리
   const [isApproveRequestModalOpen, setIsApproveRequestModalOpen] = useState(false);
@@ -60,7 +62,7 @@ function FriendsListMain() {
   useEffect(() => {
     dispatch(__getRequestedUsersList({ token }));
     dispatch(__getSentUsersList());
-  }, [acceptStatusCode, statusCodeFriend]);
+  }, [acceptStatusCode, statusCodeFriend, notiState]);
 
   // 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
