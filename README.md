@@ -17,6 +17,7 @@
 - [4. 사용한 라이브러리](#사용한-라이브러리)
 - [5. API Table](#api-table)
 - [6. 구현기능](#구현기능)
+- [7. Git - Commit Message Convention](#깃-컨벤션)
 
 ## 1. 프로젝트 소개
 
@@ -66,7 +67,8 @@ API Table 내용...
 
 구현기능 내용...
 
-## Git - Commit Message Convention
+## 7. 깃 컨벤션
+
 Cancel changes
 -   `feat` : 새로운 기능 추가
 -   `fix` : 버그 수정
