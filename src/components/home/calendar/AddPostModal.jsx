@@ -525,7 +525,7 @@ function AddPostModal({ ...props }) {
                           <span>{list.nickName}</span>
                           <postStyle.TargetBoxCheck isScheduleCheck={list.scheduleCheck}>
                             <div></div>
-                            <span>{list.scheduleCheck ? "일정 없음" : "일정 있음"}</span>
+                            <span>{list.scheduleCheck ? "일정 있음" : "일정 없음"}</span>
                           </postStyle.TargetBoxCheck>
                         </postStyle.TargetBoxText>
                       </postStyle.TartgetBox>
