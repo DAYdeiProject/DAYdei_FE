@@ -85,7 +85,13 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
   <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png"/> 
 
-  </div>
+ ### 2. 홈 화면
+
+ <img src="https://user-images.githubusercontent.com/122579951/231653675-0ab97a23-a80e-4bc1-b479-704727c98304.png"/> 
+ <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png"/> 
+
+
+</div>
 
 
 ## 6. 깃 컨벤션
