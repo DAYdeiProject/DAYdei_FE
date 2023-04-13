@@ -127,10 +127,15 @@ function FriendList({ FriendsList }) {
           </ButtonArea>
         </PostBox>
       ))}
-      {headerProfile && headerProfile.kakaoId !== null && (
+      {headerProfile && headerProfile.kakaoId !== null ? (
         <ListKakaoWrap>
           <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+          <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
         </ListKakaoWrap>
+      ) : (
+        <VisitKakaoWrap>
+          <div onClick={sendKakao}>친구 초대</div>
+        </VisitKakaoWrap>
       )}
     </>
   );
@@ -224,6 +229,35 @@ export const ButtonWrap = styled.div`
 const ListKakaoWrap = styled.div`
   ${(props) => props.theme.FlexCol};
   margin: 20px 0;
+`;
+
+const VisitKakaoWrap = styled.div`
+  ${(props) => props.theme.FlexCol};
+  div {
+    ${(props) => props.theme.FlexCol};
+    width: 100px;
+    height: 40px;
+    background: #ffffff;
+    border: 0.0625rem solid #121212;
+    box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+    border-radius: 0.25rem;
+
+    margin: 20px 0;
+
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 140%;
+
+    :hover {
+      cursor: pointer;
+      background-color: ${(props) => props.theme.Bg.mainColor2};
+    }
+
+    @media screen and (max-width: 1440px) {
+      height: 30px;
+      width: 80px;
+    }
+  }
 `;
 
 const KakaoButton = styled.div`
