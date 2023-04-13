@@ -13,7 +13,7 @@ export default function SseMessageBox() {
       let timer;
       timer = setTimeout(() => {
         dispatch(liveNotiState(false));
-      }, 2000);
+      }, 4000);
       return () => {
         clearTimeout(timer);
       };
