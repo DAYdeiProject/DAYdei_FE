@@ -64,6 +64,7 @@ const WholeWrap = styled.div`
   height: 37.5rem;
   border-radius: 1rem;
   padding: 0rem 1rem;
+  /* background-color: pink; */
 `;
 
 const ImageWrapper = styled.div`
@@ -83,9 +84,11 @@ const InnerBox = styled.div`
   align-items: center;
   /* justify-content: center; */
   background-color: ${(props) => props.theme.Bg.mainColor3};
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   /* border-left: 1px solid black; */
 
-  width: 15.625rem;
+  width: 17.3rem;
   height: 37.5rem;
   gap: 3rem;
 `;
@@ -132,7 +135,7 @@ const ButtonWrap = styled.div`
 `;
 
 const Button = styled.div`
-  width: 100%;
+  width: 90%;
   height: 25%;
 
   display: flex;
