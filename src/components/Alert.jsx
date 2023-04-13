@@ -9,7 +9,7 @@ export default function Alert({ ...props }) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(alertState({ state: false }));
+      dispatch(alertState({ state: false, comment: "" }));
       setVisible(false);
     }, 3000); //
 
