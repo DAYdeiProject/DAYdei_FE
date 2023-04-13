@@ -1,6 +1,5 @@
 import { React, useEffect } from "react";
-import { css } from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -14,6 +13,10 @@ import defaultProfile from "../../assets/defaultImage/profile.jpg";
 function FriendList({ FriendsList }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const headerProfile = useSelector((state) => state.users.headerProfile);
+
+  console.log(headerProfile);
 
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
@@ -124,9 +127,11 @@ function FriendList({ FriendsList }) {
           </ButtonArea>
         </PostBox>
       ))}
-      <ListKakaoWrap>
-        <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
-      </ListKakaoWrap>
+      {headerProfile && headerProfile.kakaoId !== null && (
+        <ListKakaoWrap>
+          <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+        </ListKakaoWrap>
+      )}
     </>
   );
 }
