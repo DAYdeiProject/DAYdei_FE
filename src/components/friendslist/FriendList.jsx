@@ -16,7 +16,7 @@ function FriendList({ FriendsList }) {
 
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
-  console.log(headerProfile);
+  //console.log(headerProfile);
 
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
