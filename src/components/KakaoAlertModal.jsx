@@ -64,18 +64,16 @@ const WholeWrap = styled.div`
   height: 37.5rem;
   border-radius: 1rem;
   padding: 0rem 1rem;
-
-  /* background-color: pink; */
 `;
 
 const ImageWrapper = styled.div`
   /* background-color: pink; */
 
   img {
-    margin-top: 2rem;
+    margin-top: 20px;
     border-radius: 1rem;
     width: 320px;
-    height: 520px;
+    height: 550px;
   }
 `;
 
