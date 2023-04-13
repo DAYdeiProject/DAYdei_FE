@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import styled from "styled-components";
 import { getDay, format } from "date-fns";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useState } from "react";
 import ModalBox from "../../../elements/ModalBox";
@@ -43,9 +43,11 @@ export default function DetailPostModal({ ...props }) {
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
+  const location = useLocation();
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo, otherId } = useSelector((state) => state.header);
+  let url = location.pathname.substr(1);
 
   useEffect(() => {
     if (detail) {
@@ -181,9 +183,13 @@ export default function DetailPostModal({ ...props }) {
         dispatch(alertState({ state: true, comment: "수락 요청이 실패하였습니다." }));
       } else {
         dispatch(alertState({ state: true, comment: "일정을 수락하였습니다." }));
-        props.setOtherCalendarState(true);
-        props.setIsSubmit(!props.isSubmit);
         closeModal();
+        if (url === "home" || url === "other") {
+          props.setIsSubmit(!props.isSubmit);
+        }
+        if (otherId) {
+          props.setOtherCalendarState(true);
+        }
       }
     });
   };
@@ -194,9 +200,13 @@ export default function DetailPostModal({ ...props }) {
         dispatch(alertState({ state: true, comment: "거절 요청이 실패하였습니다." }));
       } else {
         dispatch(alertState({ state: true, comment: "일정을 거절하였습니다." }));
-        props.setOtherCalendarState(true);
-        props.setIsSubmit(!props.isSubmit);
         closeModal();
+        if (url === "home" || url === "other") {
+          props.setIsSubmit(!props.isSubmit);
+        }
+        if (otherId) {
+          props.setOtherCalendarState(true);
+        }
       }
     });
   };
@@ -351,13 +361,13 @@ export default function DetailPostModal({ ...props }) {
             <InviteWrapper>
               {notiInfo ? (
                 notiState === "requestPost" ? (
-                  <div>
+                  <InviteContainer>
                     <span>{detail?.writer && detail.writer.name}님이 초대하였습니다.</span>
                     <div>
                       <button onClick={acceptClick}>수락</button>
                       <button onClick={rejectClick}>거절</button>
                     </div>
-                  </div>
+                  </InviteContainer>
                 ) : (
                   notiState === "acceptPost" && (
                     <span>
@@ -540,6 +550,10 @@ const InviteWrapper = styled.div`
   height: 3.125rem;
   padding: 0 2.5rem;
   border-radius: 0 0 1.25rem 1.25rem;
+`;
+
+const InviteContainer = styled.div`
+  ${(props) => props.theme.FlexRowBetween};
   button {
     border: none;
     background-color: transparent;

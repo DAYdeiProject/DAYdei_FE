@@ -6,7 +6,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { liveNotiState, newNotificationComment, newNotificationState, otherIdState, textState } from "../redux/modules/headerReducer";
 import useOutsideClick from "../hooks/useOutsideClick";
-import SseMessageBox from "../components/SseMessageBox";
 import SidebarMyCalendar from "../components/sidebar/SidebarMyCalendar";
 import SidebarOtherCalendar from "../components/sidebar/SidebarOtherCalendar";
 import { ReactComponent as Left } from "../assets/defaultIcons/left.svg";
@@ -35,7 +34,6 @@ function Sidebar({ ...props }) {
       if (!event.data.includes("EventStream")) {
         const result = JSON.parse(event.data);
 
-        console.log(result);
         dispatch(newNotificationState(true));
         dispatch(newNotificationComment({ message: result.content }));
         dispatch(liveNotiState(true));
@@ -99,7 +97,6 @@ function Sidebar({ ...props }) {
           <SidebarOtherCalendar otherId={otherId} />
         </SideOtherStyle>
       )}
-      <SseMessageBox />
     </>
   );
 }

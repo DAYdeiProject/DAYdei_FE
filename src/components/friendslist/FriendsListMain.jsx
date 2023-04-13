@@ -498,8 +498,7 @@ export const ListWrap = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   padding: 0rem;
-  //width: 29rem;
-  width: 100%;
+  max-width: 29rem;
   height: 50.75rem;
   margin-top: 1rem;
   overflow: auto;

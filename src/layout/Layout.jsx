@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { __getMyProfile } from "../redux/modules/usersSlice";
 import Header from "./Header";
+import SseMessageBox from "../components/SseMessageBox";
 
 function Layout() {
   return (
@@ -12,6 +13,7 @@ function Layout() {
           <Header />
           <Outlet />
         </MainWarpper>
+        <SseMessageBox />
       </Wrapper>
     </>
   );
