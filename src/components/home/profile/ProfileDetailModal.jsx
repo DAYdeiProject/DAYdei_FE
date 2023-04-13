@@ -119,6 +119,13 @@ const ProfileBackground = styled.div`
     height: 18.0625rem;
     border-radius: 1.25rem 1.25rem 0 0;
   }
+
+  @media screen and (max-width: 1440px) {
+    height: 300px;
+    img {
+      height: 300px;
+    }
+  }
 `;
 
 const ProfileImageBox = styled.div`
@@ -131,6 +138,11 @@ const ProfileImageBox = styled.div`
     height: 7.75rem;
     border-radius: 50%;
     cursor: auto;
+  }
+
+  @media screen and (max-width: 1440px) {
+    top: 240px;
+    left: 130px;
   }
 `;
 

@@ -35,7 +35,6 @@ function Sidebar({ ...props }) {
       if (!event.data.includes("EventStream")) {
         const result = JSON.parse(event.data);
 
-        console.log(result);
         dispatch(newNotificationState(true));
         dispatch(newNotificationComment({ message: result.content }));
         dispatch(liveNotiState(true));
