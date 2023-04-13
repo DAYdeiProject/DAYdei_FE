@@ -53,6 +53,7 @@ function ProfileSettingModal({ ...props }) {
   //모달 바깥쪽을 누르면 프로필 수정 모달이 닫힘
   const handleProfileSettingModalClose = () => {
     props.setIsProfileSettingModalOpen(false);
+    props.setIsProfileEditOpen(false);
   };
   const ProfileSettingModalRef = useRef(null);
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
