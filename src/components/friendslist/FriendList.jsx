@@ -227,8 +227,9 @@ export const ButtonWrap = styled.div`
 `;
 
 const ListKakaoWrap = styled.div`
-  ${(props) => props.theme.FlexCol};
+  ${(props) => props.theme.FlexRow};
   margin: 20px 0;
+  gap: 15px;
 `;
 
 const VisitKakaoWrap = styled.div`
