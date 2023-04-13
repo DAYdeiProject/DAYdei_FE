@@ -24,6 +24,7 @@ function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
+  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   // 프로필 수정시 최신정보 가져오기
   const [isEditProfile, setIsEditProfile] = useState(false);
   // 프로필 디테일 오픈여부
@@ -196,12 +197,16 @@ function Header() {
           setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
           isEditProfile={isEditProfile}
           setIsEditProfile={setIsEditProfile}
+          isProfileEditOpen={isProfileEditOpen}
+          setIsProfileEditOpen={setIsProfileEditOpen}
         />
       )}
       <ProfileDetailModal
         isProfileDetail={isProfileDetail}
         setIsProfileDetail={setIsProfileDetail}
         setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
+        isProfileEditOpen={isProfileEditOpen}
+        setIsProfileEditOpen={setIsProfileEditOpen}
       />
 
       {state && state.state && <Alert isComment={state.comment} isMax={state.max} />}
