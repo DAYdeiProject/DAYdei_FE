@@ -124,6 +124,9 @@ function FriendList({ FriendsList }) {
           </ButtonArea>
         </PostBox>
       ))}
+      <ListKakaoWrap>
+        <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+      </ListKakaoWrap>
     </>
   );
 }
@@ -211,6 +214,11 @@ export const ButtonWrap = styled.div`
 
   width: 100%;
   height: 2.5rem;
+`;
+
+const ListKakaoWrap = styled.div`
+  ${(props) => props.theme.FlexCol};
+  margin: 20px 0;
 `;
 
 const KakaoButton = styled.div`
