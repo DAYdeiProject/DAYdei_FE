@@ -1,6 +1,7 @@
 import { React, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 import { alertState } from "../../../redux/modules/alertReducer";
 import { __getMyProfile, __postProfileImgUpload, __setProfile } from "../../../redux/modules/usersSlice";
@@ -206,10 +207,13 @@ function ProfileSettingModal({ ...props }) {
     setIsProfileSectionOpen(false);
   };
 
+  //1440px 미만 스크린 감지
+  const isShortScreen = useMediaQuery({ maxWidth: 1440 });
+
   return (
     <>
-      <ModalBox width="370px" height="648px" isOpen={props.isProfileSettingModalOpen}>
-        <WholeAreaWrapper ref={ProfileSettingModalRef}>
+      <ModalBoxStyle width="370px" height="648px" isOpen={props.isProfileSettingModalOpen} isShort={isShortScreen}>
+        <WholeAreaWrapper isShort={isShortScreen} ref={ProfileSettingModalRef}>
           <ContentWrapper>
             <form onSubmit={profileChangeHandler}>
               <AboveButtonArea>
@@ -327,12 +331,17 @@ function ProfileSettingModal({ ...props }) {
             </form>
           </ContentWrapper>
         </WholeAreaWrapper>
-      </ModalBox>
+      </ModalBoxStyle>
     </>
   );
 }
 
 export default ProfileSettingModal;
+
+const ModalBoxStyle = styled(ModalBox)`
+  height: ${(props) => (props.isShort ? "600px" : "648px")};
+  background-color: pink;
+`;
 
 const WholeAreaWrapper = styled.div`
   height: 34.25rem;
@@ -340,6 +349,12 @@ const WholeAreaWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 50px 30px;
+  /* background-color: skyblue; */
+
+  height: ${(props) => (props.isShort ? "26rem" : "34.25rem")};
+  @media screen and (max-width: 1440px) {
+    padding: 65px 30px;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -347,6 +362,9 @@ const ContentWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  /* @media screen and (max-width: 1440px) {
+    margin-top: 4rem;
+  } */
   /* background-color: blue; */
 `;
 
@@ -356,6 +374,9 @@ const AboveButtonArea = styled.div`
   display: flex;
   flex-direction: column;
   /* background-color: skyblue; */
+  /* @media screen and (max-width: 1440px) {
+    height: 21.7rem;
+  } */
 `;
 
 const TitleTextWrap = styled.div`
@@ -531,6 +552,9 @@ const TextArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.125rem;
+  @media screen and (max-width: 1440px) {
+    gap: 2rem;
+  }
 `;
 
 export const TextWrap = styled.div`
@@ -607,6 +631,9 @@ const GapArea = styled.div`
   width: 100%;
   height: 2.75rem;
   /* background-color: pink; */
+  @media screen and (max-width: 1440px) {
+    height: 4.5rem;
+  }
 `;
 
 const ButtonArea = styled.div`

@@ -2,7 +2,7 @@ import { getDay } from "date-fns";
 import format from "date-fns/format";
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { otherIdState } from "../../redux/modules/headerReducer";
 import { __getTodaySchedule, __getTodayUpdate } from "../../redux/modules/calendarSlice";
@@ -16,13 +16,16 @@ import { ReactComponent as NoneToday } from "../../assets/calendarIcon/noneSched
 
 export default function SidebarMyCalendar({ ...props }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const userInfo = GetUserInfo();
   const now = format(new Date(), "yy.MM.dd");
   const day = DayCheck(getDay(new Date()));
   const nowDay = `${now} (${day})`;
 
   const { today, update } = useSelector((state) => state.calendar);
-  const { text } = useSelector((state) => state.header);
+
+  // url에 따른 header 변화
+  let url = location.pathname.substr(1);
 
   // 오늘의 일정, 업데이트한 친구 가져오기
   useEffect(() => {
@@ -53,7 +56,7 @@ export default function SidebarMyCalendar({ ...props }) {
         </NickNameContainer>
 
         <TodayScheduleContainer>
-          {text === "home" || text === undefined ? (
+          {url === "home" || url === undefined ? (
             <>
               <SideTitle>
                 <span>오늘의 일정</span>

@@ -28,37 +28,19 @@ function Header() {
   const [isEditProfile, setIsEditProfile] = useState(false);
   // 프로필 디테일 오픈여부
   const [isProfileDetail, setIsProfileDetail] = useState(false);
-  // 알림왔을때 아이콘 바로 클릭 못하게..
-  const [isDisable, setIsDisable] = useState(false);
+
   const token = Cookies.get("accessJWTToken");
-  const [clickNav, setClickNav] = useState("");
   const userId = GetUserInfo();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // 헤더 클릭한 값 state
-  const { text, notiState, liveState } = useSelector((state) => state.header);
+  const { notiState } = useSelector((state) => state.header);
   const { headerProfile } = useSelector((state) => state.users);
   const { state } = useSelector((state) => state.alert);
 
   // url에 따른 header 변화
   let url = location.pathname.substr(1);
-  useEffect(() => {
-    if (url === "home") {
-      dispatch(textState("home"));
-    } else if (url === "mylist") {
-      dispatch(textState("friend"));
-    } else if (url === "search") {
-      dispatch(textState("search"));
-    } else {
-      dispatch(textState(""));
-    }
-  }, [url]);
-
-  // 헤더 프로필 이미지 가져오기
-  useEffect(() => {
-    setClickNav(text);
-  }, [clickNav, text]);
 
   useEffect(() => {
     // 프로필 수정시에도 get요청 다시하기
@@ -106,19 +88,6 @@ function Header() {
       }
     }
   };
-
-  useEffect(() => {
-    if (liveState) {
-      setIsDisable(true);
-      let timer;
-      timer = setTimeout(() => {
-        setIsDisable(false);
-      }, 2000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, []);
 
   // 알림 아이콘 클릭
   const notificationClick = () => {
@@ -169,7 +138,7 @@ function Header() {
             <LogoIcon className="homeIcon" />
           </LogoContainer>
           <NavContainer>
-            <NavTabConatiner isNav={clickNav}>
+            <NavTabConatiner isNav={url}>
               <span className="homeSpan" onClick={homeClickHandler}>
                 홈 캘린더
               </span>
@@ -293,7 +262,7 @@ const NavTabConatiner = styled.div`
     color: ${(props) => props.isNav === "home" && props.theme.Bg.color1};
   }
   .friendSpan {
-    color: ${(props) => props.isNav === "friend" && props.theme.Bg.color1};
+    color: ${(props) => props.isNav === "mylist" && props.theme.Bg.color1};
   }
   .searchSpan {
     color: ${(props) => props.isNav === "search" && props.theme.Bg.color1};
