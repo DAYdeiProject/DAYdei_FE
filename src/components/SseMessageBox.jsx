@@ -18,7 +18,7 @@ export default function SseMessageBox() {
         clearTimeout(timer);
       };
     }
-  }, [notiComment]);
+  }, [liveState]);
 
   return (
     <>
