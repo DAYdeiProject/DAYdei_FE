@@ -110,8 +110,18 @@ export const WholeWrapper = styled.div`
   max-height: calc(100vh - 4rem - 0.0625rem);
 
   padding: 0 40px;
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1890px) {
+    padding: 0 30px;
+  }
+  @media screen and (max-width: 1518px) {
+    padding: 0 40px;
     margin-left: 25px;
+  }
+  @media screen and (max-width: 1290px) {
+    padding-left: 30px;
+  }
+  @media screen and (max-width: 1040px) {
+    padding-left: 20px;
   }
 `;
 
@@ -122,7 +132,16 @@ export const WholeAreaWrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1878px) {
+    width: 1380px;
+  }
+  @media screen and (max-width: 1780px) {
+    width: 1280px;
+  }
+  @media screen and (max-width: 1680px) {
+    width: 1100px;
+  }
+  @media screen and (max-width: 1518px) {
     width: 100%;
   }
 `;
@@ -155,8 +174,14 @@ const HeaderTextSub = styled.div`
 const SearchHeader = styled.div`
   ${(props) => props.theme.FlexRowBetween}
   padding: 0px;
-  gap: 12.5rem;
   margin-bottom: 1.75rem;
+
+  @media screen and (max-width: 1152px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 1111.5px) {
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -181,6 +206,16 @@ const Icon = styled.div`
   :hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 1680px) {
+    width: 80px;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 6.25rem;
+  }
+  @media screen and (max-width: 11550px) {
+    width: 80px;
+  }
 `;
 
 const SearchBarArea = styled.div`
@@ -192,7 +227,16 @@ const SearchBarArea = styled.div`
   padding: 1rem 1.5rem;
   border: 0.0625rem solid #ebebeb;
   border-radius: 0.5rem;
-  margin-left: auto;
+
+  @media screen and (max-width: 1680px) {
+    width: 350px;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 28.125rem;
+  }
+  @media screen and (max-width: 1155px) {
+    width: 350px;
+  }
 `;
 
 const SearchIcon = styled.div`
@@ -225,51 +269,27 @@ const SearchBody = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-  background-color: #f0e6b0;
 
-  @media screen and (max-width: 1770px) {
+  @media screen and (max-width: 1878px) {
     grid-template-columns: repeat(5, 1fr);
   }
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1680px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media screen and (max-width: 1518px) {
     width: 100%;
     grid-column-gap: 0.8438rem;
     grid-row-gap: 0.9375rem;
     grid-template-columns: repeat(6, 1fr);
   }
-  /* 
-  @media screen and (max-height: 1083px) {
-    background-color: #8686ac;
-    max-height: 820px;
+  @media screen and (max-width: 1415px) {
+    grid-template-columns: repeat(5, 1fr);
   }
-  @media screen and (max-height: 1000px) {
-    background-color: #b0b477;
-    max-height: 780px;
+  @media screen and (max-width: 1225px) {
+    grid-template-columns: repeat(4, 1fr);
   }
-  @media screen and (max-height: 954px) {
-    background-color: #b8e0b2;
-    max-height: 720px;
-  }
-  @media screen and (max-height: 894px) {
-    background-color: #516968;
-    max-height: 670px;
-  }
-  @media screen and (max-height: 843px) {
-    background-color: #b2e0de;
-    max-height: 620px;
-  }
-  @media screen and (max-height: 792px) {
-    background-color: #79a8a6;
-    max-height: 570px;
-  }
-  @media screen and (max-height: 744px) {
-    background-color: #d1b2e0;
-    max-height: 520px;
-  }
-  @media screen and (max-height: 694px) {
-    background-color: #705f79;
-    max-height: 450px;
-  } */
 `;
 
 export default SearchUsers;
