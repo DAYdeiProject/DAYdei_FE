@@ -1,11 +1,11 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { otherIdState } from "../../redux/modules/headerReducer";
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
-
+import { useMediaQuery } from "react-responsive";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 import {
@@ -40,6 +40,27 @@ function SubscribeList({ SubscribesList }) {
     dispatch(__cancelSubscribe(id));
   };
 
+  const [number, setNumber] = useState(0);
+  const width1820 = useMediaQuery({ maxWidth: 1820 });
+  const width1720 = useMediaQuery({ maxWidth: 1720 });
+  const width1640 = useMediaQuery({ maxWidth: 1640 });
+  const width1518 = useMediaQuery({ maxWidth: 1518 });
+  const width1280 = useMediaQuery({ maxWidth: 1280 });
+
+  useEffect(() => {
+    if (width1820 && !width1720 && !width1640 && !width1518) {
+      setNumber(13);
+    } else if (width1820 && width1720 && !width1640 && !width1518) {
+      setNumber(9);
+    } else if (width1820 && width1720 && width1640 && !width1518) {
+      setNumber(7);
+    } else if (width1820 && width1720 && width1640 && width1518) {
+      setNumber(16);
+    } else {
+      setNumber(16);
+    }
+  }, [width1820, width1720, width1640, width1518]);
+
   if (SubscribesList?.length === 0) {
     return (
       <NoListMessageWrapper>
@@ -66,38 +87,49 @@ function SubscribeList({ SubscribesList }) {
 
   return (
     <>
-      {SubscribesList?.map((user) => (
-        <PostBox key={user.id}>
-          <ProfileArea
-            onClick={() => {
-              navigate(`/other`);
-              dispatch(otherIdState(user.id));
-            }}>
-            <ProfileWrap>
-              <PostLeft>
-                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                <TextArea>
-                  <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"}</NickNameWrap>
-                  <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-                </TextArea>
-              </PostLeft>
-              <IntroductionWrap>
-                {user.introduction
-                  ? user.introduction.length > 16
-                    ? `${user.introduction.substr(0, 16)}...`
-                    : user.introduction
-                  : `${user.nickName}의 캘린더입니다.`}
-              </IntroductionWrap>
-            </ProfileWrap>
-          </ProfileArea>
-          <ButtonArea
-            onClick={() => {
-              cancelSubscribeHandler(user.id);
-            }}>
-            {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
-          </ButtonArea>
-        </PostBox>
-      ))}
+      {SubscribesList?.map((user) => {
+        const defualtIntro = `${user.nickName}의 캘린더입니다.`;
+        let newDefault = "";
+
+        if (defualtIntro.length > number) {
+          newDefault = defualtIntro.substr(0, number) + "...";
+        } else {
+          newDefault = defualtIntro;
+        }
+
+        return (
+          <PostBox key={user.id}>
+            <ProfileArea
+              onClick={() => {
+                navigate(`/other`);
+                dispatch(otherIdState(user.id));
+              }}>
+              <ProfileWrap>
+                <PostLeft>
+                  <PhotoFrame>
+                    <img src={user.profileImage ? user.profileImage : defaultProfile} />
+                  </PhotoFrame>
+                  <TextArea>
+                    <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"}</NickNameWrap>
+                    <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+                  </TextArea>
+                </PostLeft>
+                {!width1280 && (
+                  <IntroductionWrap>
+                    {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
+                  </IntroductionWrap>
+                )}
+              </ProfileWrap>
+            </ProfileArea>
+            <ButtonArea
+              onClick={() => {
+                cancelSubscribeHandler(user.id);
+              }}>
+              {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
+            </ButtonArea>
+          </PostBox>
+        );
+      })}
     </>
   );
 }

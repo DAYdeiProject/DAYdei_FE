@@ -106,7 +106,9 @@ function SearchUsers() {
 
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  height: calc(100vh - 4rem - .0625rem);
+  height: calc(1080px - 4rem - 0.0625rem);
+  max-height: calc(100vh - 4rem - 0.0625rem);
+
   padding: 0 40px;
   @media screen and (max-width: 1440px) {
     margin-left: 25px;
@@ -209,9 +211,10 @@ const SearchBar = styled.input`
 
 const SearchBody = styled.div`
   width: 100%;
-  height: 43.75rem;
+  //max-height: 770px;
+  height: 100%;
   padding: 0 3px;
-  padding-bottom: 5px;
+  padding-bottom: 50px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 1.125rem;
@@ -222,6 +225,7 @@ const SearchBody = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  background-color: #f0e6b0;
 
   @media screen and (max-width: 1770px) {
     grid-template-columns: repeat(5, 1fr);
@@ -229,11 +233,43 @@ const SearchBody = styled.div`
 
   @media screen and (max-width: 1440px) {
     width: 100%;
-    height: 37.5rem;
     grid-column-gap: 0.8438rem;
     grid-row-gap: 0.9375rem;
     grid-template-columns: repeat(6, 1fr);
   }
+  /* 
+  @media screen and (max-height: 1083px) {
+    background-color: #8686ac;
+    max-height: 820px;
+  }
+  @media screen and (max-height: 1000px) {
+    background-color: #b0b477;
+    max-height: 780px;
+  }
+  @media screen and (max-height: 954px) {
+    background-color: #b8e0b2;
+    max-height: 720px;
+  }
+  @media screen and (max-height: 894px) {
+    background-color: #516968;
+    max-height: 670px;
+  }
+  @media screen and (max-height: 843px) {
+    background-color: #b2e0de;
+    max-height: 620px;
+  }
+  @media screen and (max-height: 792px) {
+    background-color: #79a8a6;
+    max-height: 570px;
+  }
+  @media screen and (max-height: 744px) {
+    background-color: #d1b2e0;
+    max-height: 520px;
+  }
+  @media screen and (max-height: 694px) {
+    background-color: #705f79;
+    max-height: 450px;
+  } */
 `;
 
 export default SearchUsers;

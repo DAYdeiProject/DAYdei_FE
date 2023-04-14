@@ -143,7 +143,7 @@ export function CategoryText(data) {
     case "GAME":
       return "게임";
     default:
-      return "스포츠";
+      return "경제";
   }
 }
 

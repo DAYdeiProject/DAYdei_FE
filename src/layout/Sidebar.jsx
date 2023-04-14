@@ -48,7 +48,7 @@ function Sidebar({ ...props }) {
   }, []);
 
   //스크린 크기 1440 미만임을 감지
-  const isShortScreen = useMediaQuery({ maxWidth: 1440 });
+  const isShortScreen = useMediaQuery({ maxWidth: 1518 });
   const [isSideStyleOpen, setIsSideStyleOpen] = useState(false);
   // > 아이콘 누르면 사이드바 열리게끔
   const openSideStyleHandler = () => {

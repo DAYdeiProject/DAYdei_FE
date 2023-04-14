@@ -37,8 +37,4 @@ const MainWarpper = styled.div`
   max-height: 1080px;
   margin: 0 auto;
   overflow: hidden;
-
-  @media screen and (max-width: 1440px) {
-    height: 900px;
-  }
 `;
