@@ -161,23 +161,26 @@ export default function SidebarMyCalendar({ ...props }) {
 
 const SidebarWrapper = styled.div`
   padding: 0 2.1875rem;
-  padding-top: 3rem;
   background: ${(props) => props.theme.Bg.color5};
-
-  @media screen and (max-width: 1440px) {
-    padding: 0 2rem;
-    padding-top: 3rem;
-  }
-  @media screen and (max-height: 743.2px) {
-    padding-top: 2rem;
-  }
+  height: 100%;
+  //background-color: lightgoldenrodyellow;
 `;
 
 const NickNameContainer = styled.section`
   ${(props) => props.theme.FlexCol};
+  margin-top: 3rem;
   margin-bottom: 2.5rem;
-  @media screen and (max-height: 743.2px) {
-    margin-bottom: 1.9rem;
+
+  //background-color: #ade6cb;
+
+  @media screen and (max-height: 1003px) {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  @media screen and (max-height: 975px) {
+    //margin-top: 20px;
+    //margin-bottom: 20px;
   }
 `;
 
@@ -207,30 +210,52 @@ const SideTitle = styled(NickNameTitle)`
 
 const TodayScheduleContainer = styled.section`
   ${(props) => props.theme.FlexCol};
+  justify-content: flex-start;
   padding-bottom: 0.625rem;
+  //height: 80%;
+  //background-color: lightblue;
 `;
 
 const TodayScheduleWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   gap: 0.1875rem;
-  height: 20rem;
+  height: 350px;
   margin-bottom: 1.875rem;
   overflow-y: auto;
 
-  @media screen and (max-width: 1440px) {
-    height: 14rem;
+  @media screen and (max-height: 1065px) {
+    height: 320px;
   }
-  @media screen and (max-height: 929px) {
-    height: 17rem;
+  @media screen and (max-height: 1003px) {
+    margin-bottom: 25px;
   }
-  @media screen and (max-height: 844.55px) {
-    height: 14rem;
+  @media screen and (max-height: 975px) {
+    margin-bottom: 15px;
   }
-  @media screen and (max-height: 743.2px) {
-    height: 12rem;
+  @media screen and (max-height: 936px) {
+    margin-bottom: 10px;
+  }
+  @media screen and (max-height: 930px) {
+    height: 300px;
+  }
+  @media screen and (max-height: 892px) {
+    height: 280px;
+  }
+  @media screen and (max-height: 846px) {
+    height: 260px;
+  }
+  @media screen and (max-height: 800px) {
+    height: 240px;
+  }
+  @media screen and (max-height: 765px) {
+    height: 220px;
+  }
+  @media screen and (max-height: 725px) {
+    height: 200px;
   }
 `;
+
 const TodayScheduleBox = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: start;
@@ -257,6 +282,12 @@ const TodayBox = styled.div`
   span {
     ${(props) => props.theme.ContentTitleText};
   }
+
+  @media screen and (max-height: 846px) {
+    span {
+      font-size: 0.8125rem;
+    }
+  }
 `;
 const TodayTime = styled.div`
   display: flex;
@@ -264,6 +295,12 @@ const TodayTime = styled.div`
   span {
     ${(props) => props.theme.DescriptionText};
     font-weight: normal;
+  }
+
+  @media screen and (max-height: 846px) {
+    span {
+      font-size: 0.6875rem;
+    }
   }
 `;
 
@@ -274,7 +311,7 @@ const FriendsListContainer = styled(TodayScheduleContainer)`
 `;
 const FriendsListBox = styled.div`
   ${(props) => props.theme.FlexCol};
-  gap: 0.3125rem;
+  gap: 0.1875rem;
 `;
 const ListBox = styled.div`
   ${(props) => props.theme.FlexRow};
@@ -297,6 +334,12 @@ const InfoBox = styled(TodayBox)`
     ${(props) => props.theme.DescriptionText};
     font-weight: normal;
   }
+
+  @media screen and (max-height: 846px) {
+    span:nth-child(2) {
+      font-size: 0.6875rem;
+    }
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -310,6 +353,12 @@ const ButtonBox = styled.div`
     font-weight: 600;
     color: ${(props) => props.theme.Bg.color1};
     ${(props) => props.theme.BtnHoverYellow};
+
+    @media screen and (max-height: 846px) {
+      width: 55px;
+      height: 30px;
+      font-size: 0.75rem;
+    }
   }
 `;
 
@@ -329,18 +378,5 @@ const NoneSchedule = styled.div`
     ${(props) => props.theme.DescriptionText};
     text-align: center;
     line-height: 1.125rem;
-  }
-
-  @media screen and (max-width: 1440px) {
-    height: 14rem;
-  }
-  @media screen and (max-height: 929px) {
-    height: 12rem;
-  }
-  @media screen and (max-height: 844.55px) {
-    height: 11rem;
-  }
-  @media screen and (max-height: 743.2px) {
-    height: 10rem;
   }
 `;
