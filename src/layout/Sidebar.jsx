@@ -128,8 +128,7 @@ const SideOtherStyle = styled.div`
   // 사이드
   min-width: 21.875rem;
   max-width: 21.875rem;
-  height: 100%;
-  border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
+  height: calc(1080px - 4rem - 0.0625rem);
 
   @media screen and (max-width: 1518px) {
     position: absolute;
@@ -149,7 +148,6 @@ const IconWrapper = styled.div`
   border-right: 1px solid ${(props) => props.theme.Bg.color2};
   border-left: ${(props) => props.isSideStyleOpen && `1px solid ${props.theme.Bg.color2}`};
   background: ${(props) => props.theme.Bg.color5};
-  background-color: #3c849c;
 
   position: absolute;
   z-index: 50;

@@ -163,7 +163,6 @@ const SidebarWrapper = styled.div`
   padding: 0 2.1875rem;
   background: ${(props) => props.theme.Bg.color5};
   height: 100%;
-  //background-color: lightgoldenrodyellow;
 `;
 
 const NickNameContainer = styled.section`
@@ -171,16 +170,9 @@ const NickNameContainer = styled.section`
   margin-top: 3rem;
   margin-bottom: 2.5rem;
 
-  //background-color: #ade6cb;
-
   @media screen and (max-height: 1003px) {
     margin-top: 30px;
     margin-bottom: 30px;
-  }
-
-  @media screen and (max-height: 975px) {
-    //margin-top: 20px;
-    //margin-bottom: 20px;
   }
 `;
 
@@ -212,8 +204,6 @@ const TodayScheduleContainer = styled.section`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
   padding-bottom: 0.625rem;
-  //height: 80%;
-  //background-color: lightblue;
 `;
 
 const TodayScheduleWrapper = styled.div`

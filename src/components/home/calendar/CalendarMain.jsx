@@ -43,6 +43,8 @@ function CalendarMain({ ...props }) {
   const [otherCalendarState, setOtherCalendarState] = useState(false);
   // memo side open 여부
   const [isSideOpen, setIsSideOpen] = useState(true);
+  // othercalendar 1518 size 일때
+  const [isOtherShort, setIsOtherShort] = useState(false);
 
   const dispatch = useDispatch();
   const token = Cookies.get("accessJWTToken");
@@ -219,9 +221,11 @@ function CalendarMain({ ...props }) {
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
           setOtherCalendarPostId={setOtherCalendarPostId}
+          isOtherShort={isOtherShort}
+          setIsOtherShort={setIsOtherShort}
         />
       )}
-      <CalendarWrapper disabled={disabled}>
+      <CalendarWrapper disabled={disabled} isOtherShort={isOtherShort}>
         <CalendarContainer disabled={disabled}>
           <FullCalendar
             {...setting}
@@ -287,7 +291,6 @@ function CalendarMain({ ...props }) {
 export default CalendarMain;
 
 const CalendarSidebarWrapper = styled.div`
-  background-color: #477272;
   ${(props) => props.theme.FlexRow};
   height: calc(1080px - 4rem - 0.0625rem);
 
@@ -301,20 +304,19 @@ export const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: 20px 0;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   @media screen and (max-width: 1518px) {
     // disabled == otherCalendar 갔을때
-    max-width: ${(props) => props.disabled && "1110px"};
     padding-right: ${(props) => (props.disabled ? "20px" : "20px")};
     padding-left: 50px;
-
-    justify-content: flex-start;
-    align-items: flex-start;
     padding-bottom: 30px;
+    margin-left: ${(props) => props.isOtherShort && "21.875rem"};
   }
 
   @media screen and (max-width: 1440px) {
-    padding-left: 20px;
+    padding-left: ${(props) => (props.disabled ? "40px" : "20px")};
   }
 `;
 
