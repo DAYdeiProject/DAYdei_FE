@@ -59,8 +59,6 @@ function JoinPage() {
     setBirthday(e.target.value + day);
   };
 
-  console.log(day, month, birthday);
-
   const handleDayChange = (e) => {
     setDay(e.target.value);
     setBirthday(month + e.target.value);

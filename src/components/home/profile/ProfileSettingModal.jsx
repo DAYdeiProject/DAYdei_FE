@@ -182,7 +182,7 @@ function ProfileSettingModal({ ...props }) {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
-      console.log("디스패치 위-->", profile, background);
+      // console.log("디스패치 위-->", profile, background);
       dispatch(__setProfile(formData)).then((data) => {
         console.log("then", data);
         if (data.payload !== 200) {
