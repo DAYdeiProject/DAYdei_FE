@@ -32,17 +32,16 @@ function SubscriberList({ SubscribersList }) {
   const width1720 = useMediaQuery({ maxWidth: 1720 });
   const width1640 = useMediaQuery({ maxWidth: 1640 });
   const width1518 = useMediaQuery({ maxWidth: 1518 });
-  const width1280 = useMediaQuery({ maxWidth: 1280 });
 
   useEffect(() => {
     if (width1820 && !width1720 && !width1640 && !width1518) {
-      setNumber(15);
+      setNumber(19);
     } else if (width1820 && width1720 && !width1640 && !width1518) {
-      setNumber(13);
+      setNumber(16);
     } else if (width1820 && width1720 && width1640 && !width1518) {
-      setNumber(10);
+      setNumber(13);
     } else if (width1820 && width1720 && width1640 && width1518) {
-      setNumber(7);
+      setNumber(10);
     } else {
       setNumber(22);
     }
@@ -66,45 +65,52 @@ function SubscriberList({ SubscribersList }) {
 
   return (
     <>
-      {SubscribersList?.map((user) => (
-        <PostBox key={user.id}>
-          <ProfileArea
-            onClick={() => {
-              navigate(`/other`);
-              dispatch(otherIdState(user.id));
-            }}>
-            <ProfileImgNickname>
-              <PhotoFrame>
-                <img src={user.profileImage ? user.profileImage : defaultProfile} />
-              </PhotoFrame>
-              <ProfileNicknameContainer>
-                <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
-                <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-              </ProfileNicknameContainer>
-            </ProfileImgNickname>
-            <IntroContainer>
-              {user.introduction
-                ? user.introduction.length > number
-                  ? `${user.introduction.substr(0, number)}...`
-                  : user.introduction
-                : `${user.nickName}의 캘린더입니다.`}
-            </IntroContainer>
-          </ProfileArea>
-        </PostBox>
-      ))}
+      {SubscribersList?.map((user) => {
+        const defualtIntro = `${user.nickName}의 캘린더입니다.`;
+        let newDefault = "";
+
+        if (defualtIntro.length > number) {
+          newDefault = defualtIntro.substr(0, number) + "...";
+        } else {
+          newDefault = defualtIntro;
+        }
+
+        return (
+          <PostBox key={user.id}>
+            <ProfileArea
+              onClick={() => {
+                navigate(`/other`);
+                dispatch(otherIdState(user.id));
+              }}>
+              <ProfileImgNickname>
+                <PhotoFrame>
+                  <img src={user.profileImage ? user.profileImage : defaultProfile} />
+                </PhotoFrame>
+                <ProfileNicknameContainer>
+                  <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
+                  <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+                </ProfileNicknameContainer>
+              </ProfileImgNickname>
+              <IntroContainer>
+                {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
+              </IntroContainer>
+            </ProfileArea>
+          </PostBox>
+        );
+      })}
     </>
   );
 }
 
 export default SubscriberList;
 
-const ProfileArea = styled.div`
+export const ProfileArea = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   gap: 5px;
 `;
 
-const ProfileImgNickname = styled.div`
+export const ProfileImgNickname = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   gap: 5px;
@@ -116,24 +122,15 @@ const ProfileImgNickname = styled.div`
     width: 70%;
   }
 `;
-
-const ProfileNicknameContainer = styled.div`
+// friendsDetail-> DetailFriends / DetailSubscribe / DetailSubscriber
+export const ProfileNicknameContainer = styled.div`
   ${(props) => props.theme.FlexCol};
   align-items: flex-start;
   width: 100%;
 `;
 
-const IntroContainer = styled.div`
+export const IntroContainer = styled.div`
   width: 100%;
   font-weight: 400;
   font-size: 0.875rem;
-`;
-
-export const ProfileWrapLong = styled.div`
-  width: 100%;
-`;
-
-export const IntroductionWrapLong = styled.div`
-  width: 100%;
-  background-color: #8a4444;
 `;

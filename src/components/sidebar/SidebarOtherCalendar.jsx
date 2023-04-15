@@ -138,6 +138,7 @@ const ProfileWrapper = styled.div`
   justify-content: flex-start;
   background-color: #ffffff;
   height: 100%;
+  border-right: 0.0625rem solid ${(props) => props.theme.Bg.color2};
 `;
 
 const BackImgWrapper = styled.div`

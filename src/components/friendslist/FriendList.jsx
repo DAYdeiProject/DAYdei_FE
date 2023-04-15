@@ -24,17 +24,20 @@ function FriendList({ FriendsList }) {
   const width1720 = useMediaQuery({ maxWidth: 1720 });
   const width1640 = useMediaQuery({ maxWidth: 1640 });
   const width1518 = useMediaQuery({ maxWidth: 1518 });
+  const width1374 = useMediaQuery({ maxWidth: 1374 });
   const width1280 = useMediaQuery({ maxWidth: 1280 });
 
   useEffect(() => {
-    if (width1820 && !width1720 && !width1640 && !width1518) {
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1374) {
       setNumber(13);
-    } else if (width1820 && width1720 && !width1640 && !width1518) {
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1374) {
       setNumber(9);
-    } else if (width1820 && width1720 && width1640 && !width1518) {
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1374) {
       setNumber(7);
-    } else if (width1820 && width1720 && width1640 && width1518) {
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1374) {
       setNumber(16);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1374) {
+      setNumber(9);
     } else {
       setNumber(16);
     }
@@ -175,15 +178,14 @@ function FriendList({ FriendsList }) {
 }
 
 export const NoListMessageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${(props) => props.theme.FlexCol}
   width: 28.75rem;
   height: 19.25rem;
   background: ${(props) => props.theme.Bg.color6};
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
+  background-color: lightblue;
 
   @media screen and (max-width: 1880px) {
     width: 23rem;
@@ -355,9 +357,6 @@ export const PostBox = styled.div`
   @media screen and (max-width: 1518px) {
     padding: 10px 15px;
     width: 100%;
-  }
-  @media screen and (max-width: 1280px) {
-    //width: 80%;
   }
 `;
 

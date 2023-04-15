@@ -114,7 +114,7 @@ const OtherWrapper = styled.div`
   min-width: 21.875rem;
   max-width: 21.875rem;
   height: 100%;
-  border-left: 0.0625rem solid ${(props) => props.theme.Bg.color3};
+  //border-left: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   border-right: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 
   position: ${(props) => props.isOpen && "absolute"};
@@ -276,7 +276,7 @@ const ScreenWrapper = styled.div`
     position: absolute;
     z-index: 2;
     top: 0;
-    left: ${(props) => (props.isOpen ? "610px" : "306px")};
+    left: ${(props) => (props.isOpen ? "610px" : "305px")};
 
     @media screen and (max-height: 1080px) {
       height: calc(101vh - 4rem - 0.0625rem);
