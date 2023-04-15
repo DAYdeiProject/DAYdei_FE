@@ -291,7 +291,12 @@ function ProfileSettingModal({ ...props }) {
                         <TextWrap>
                           <SmallTextBox>한 줄 프로필 :</SmallTextBox>
                           <TextMain>
-                            <input type="text" defaultValue={headerProfile.introduction} onChange={handleIntroductionChange} maxLength="30" />
+                            <input
+                              type="text"
+                              defaultValue={headerProfile.introduction ? headerProfile.introduction : `${headerProfile.nickName}의 캘린더입니다.`}
+                              onChange={handleIntroductionChange}
+                              maxLength="30"
+                            />
                           </TextMain>
                         </TextWrap>
                         <TextWrap>
