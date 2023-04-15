@@ -83,7 +83,7 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
    
   ### 2. 홈 화면
 
-  <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png"/> 
+  <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png"/ width="900"> 
 
  ### 3. 일정 작성/수정
 
@@ -92,12 +92,12 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
  
   ### 4. 친구/구독 페이지
 
- <img src="https://user-images.githubusercontent.com/122579951/232203324-9cdc7950-f674-42db-a1d3-c60366b916e6.png"> 
+ <img src="https://user-images.githubusercontent.com/122579951/232203324-9cdc7950-f674-42db-a1d3-c60366b916e6.png" width="900"> 
 ![친구-구독 페이지]()
 
  ### 5. 찾아보기 페이지 
  
-  <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png"> 
+  <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png" width="900"> 
 
 </div>
 
