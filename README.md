@@ -94,26 +94,41 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   
  <p><strong>- 구현 기능</strong></p>
   
-  * 일정 작성 ( 제목 / 일시 / 일정 표시 색 / 초대 유저 (태그 가능) / 장소 및 상세 / 사진(3장까지 첨부) / 공개여부로 구성
-  * 작성한 일정 드래그하여 일정 날짜 변경 가능 
-  * 일정 만들 때 친구 태그 가능
-  * 일정에 사진 첨부 가능 (3장)
-  * 작성하는 일정은 모두 공개여부 설정 가능 (전체공개 & 스크랩 허용 / 전체공개 / 친구공개 / 나만보기)
-
+  * 헤더 : 로고 / 네비게이션 바 (홈, 친구/구독, 찾아보기 탭으로 구성) / 알림 / 프로필 아이콘
+  * 왼쪽 사이드바 (Me) : 오늘의 일정 / 업데이트한 친구 
+  * 왼쪽 사이드바 (Others) : 유저 프로필 / 업데이트 된 일정 / 나와 공유한 일정
+  * 메인 캘린더
+  * 오른쪽 사이드바 : 메모 / 구독 캘린더 숨기기 or 표시하기
+  
   <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png" width="900"/> 
   
   ### 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
+  
+  * 친구 신청 / 구독한 유저에 대한 정보를 알림으로 받을 수 있음
+  * 캘린더에 표시된 하루 일정이 4개 이상일 때, 더보기를 눌러 전체 일정 확인 가능
+  * 개별 일정 클릭 시, 상세 정보 확인 가능 
   
   <img src = "https://user-images.githubusercontent.com/122579951/232204191-6559d60c-bf14-4368-ac5c-e03d0cdd87c3.png" width ="250" height = "350"/>
   <img src = "https://user-images.githubusercontent.com/122579951/232204232-4ecb7634-1b14-446f-b3d5-f94302a1961f.png" width ="250" height = "350"/>
   <img src = "https://user-images.githubusercontent.com/122579951/232204247-1211f1fa-ae7d-4628-b259-051c4efaf53f.png" width ="250" height = "350"/>
 
-  ### 홈 캘린더 > 메모장 / 구독하는 캘린더 숨김 or 표시 
+  ### 홈 캘린더 > 오른쪽 사이드바 > 메모장 / 구독하는 캘린더 숨김 or 표시 
+  
+  * 간단한 메모 작성 가능
+  * 내가 구독하는 계정의 일정 숨기기 / 표시하기 선택 가능 
   
    <img src = "https://user-images.githubusercontent.com/122579951/232204949-5f3ec0e2-2fc7-4ca9-9023-b9c23fe3f8b3.png" width ="450" height = "300"/>
    <img src = "https://user-images.githubusercontent.com/122579951/232204962-2a71d5e4-af09-4555-8bab-ebd924f5d16c.png" width ="450" height = "300"/>
 
  ### 3. 일정 작성/수정
+  
+   <p><strong>- 구현 기능</strong></p>
+  
+  * 일정 작성 ( 제목 / 일시 / 일정 표시 색 / 초대 유저 (태그 가능) / 장소 및 상세 / 사진(3장까지 첨부) / 공개여부로 구성
+  * 작성한 일정 드래그하여 일정 날짜 변경 가능 
+  * 일정 만들 때 친구 태그 가능
+  * 일정에 사진 첨부 가능 (3장)
+  * 작성하는 일정은 모두 공개여부 설정 가능 (전체공개 & 스크랩 허용 / 전체공개 / 친구공개 / 나만보기)
 
  <img src="https://user-images.githubusercontent.com/122579951/231653675-0ab97a23-a80e-4bc1-b479-704727c98304.png" width="400" height="550"/> 
  <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png" width="400" height="550"/> 
