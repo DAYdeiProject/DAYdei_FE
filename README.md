@@ -74,7 +74,7 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
 ## 5. 구현기능
 
-<div align="center">
+<div align="left">
  
   <h3> 1. 로그인 및 회원 가입 </h3>
   
@@ -128,12 +128,6 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png" width="900"> 
 
 </div>
-
-<style>
-.text-left {
-  text-align: left;
-}
-</style>
 
 
 ## 6. 깃 컨벤션
