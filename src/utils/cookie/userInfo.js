@@ -35,7 +35,6 @@ export function GetUserInfo() {
       const result = decrypt(localUserInfo);
       return result;
     } catch (error) {
-      console.error("로컬 저장소 데이터 복호화 중 오류가 발생했습니다. : ", error);
       return null;
     }
   }

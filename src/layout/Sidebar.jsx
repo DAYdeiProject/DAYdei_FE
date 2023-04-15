@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState, useRef } from "react";
@@ -15,6 +16,7 @@ function Sidebar({ ...props }) {
   const outside = useRef();
   const token = Cookies.get("accessJWTToken");
   const dispatch = useDispatch();
+  const location = useLocation();
 
   // 다른 유저캘린더 갔을때
   const { otherId, text } = useSelector((state) => state.header);
@@ -65,7 +67,7 @@ function Sidebar({ ...props }) {
   return (
     <>
       {isShortScreen ? (
-        otherId && window.location.pathname === "/other" ? (
+        location.pathname === "/other" || location.pathname === "/friendsdetail" ? (
           <SideOtherStyle>
             <SidebarOtherCalendar otherId={otherId} />
           </SideOtherStyle>
@@ -87,7 +89,7 @@ function Sidebar({ ...props }) {
             </IconWrapper>
           </SideStyleShort>
         )
-      ) : !otherId ? (
+      ) : location.pathname !== "/other" && location.pathname !== "/friendsdetail" ? (
         <SideStyle>
           <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
         </SideStyle>
