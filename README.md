@@ -78,8 +78,8 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
  
   <h3> 1. 로그인 및 회원 가입 </h3>
     
-  <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="400" height="300" />
-  <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" width="400" height="300"/> 
+  <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="450" height="300" />
+  <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" width="450" height="300"/> 
    
   ### 2. 홈 화면
 
@@ -87,8 +87,8 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
  ### 3. 일정 작성/수정
 
- <img src="https://user-images.githubusercontent.com/122579951/231653675-0ab97a23-a80e-4bc1-b479-704727c98304.png" width="400" height="500"/> 
- <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png" width="400" height="500"/> 
+ <img src="https://user-images.githubusercontent.com/122579951/231653675-0ab97a23-a80e-4bc1-b479-704727c98304.png" width="450" height="500"/> 
+ <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png" width="450" height="500"/> 
  
   ### 4. 친구/구독 페이지
 
