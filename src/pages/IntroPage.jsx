@@ -61,16 +61,6 @@ function IntroPage() {
     setIsKakaoModalOpen(true);
   };
 
-  // const URI = "http://localhost:3000/kakao";
-  // // const URI = "https://daydei.life/kakao";
-  // const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
-
-  // const kakaologinClick = () => {
-  //   setIsKakaoModalOpen(false)
-  //   setIsKakao(true);
-  //   window.location.href = KAKAO;
-  // };
-
   const FindPasswordModalOpenHandler = () => {
     setIsFindPasswordModalOpen(true);
   };
@@ -120,67 +110,31 @@ function IntroPage() {
   );
 }
 
-export const PageWrapper = styled.div``;
-
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
-  height: calc(100vh - 4rem - 0.0625rem);
+  height: calc(1080px - 4rem - 0.0625rem);
   overflow: hidden;
 `;
 
 export const LoginWrapper = styled.form`
   ${(props) => props.theme.FlexCol};
-  justify-content: flex-start;
   flex: 1.4;
   height: 100%;
+  padding: 20px;
 `;
 
 export const LoginBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 23.125rem;
-
-  @media screen and (max-width: 1440px) {
-    max-width: 70%;
-    min-width: 70%;
-  }
 `;
 
 const TitleText = styled.div`
   ${(props) => props.theme.FlexCol};
   height: 5rem;
-  margin-top: 13.125rem;
-  margin-bottom: 1.875rem;
+  margin-bottom: 30px;
   span {
     font-size: 1.875rem;
     font-weight: 600;
-  }
-
-  @media screen and (max-width: 1440px) {
-    margin-top: 12rem;
-  }
-
-  @media screen and (max-height: 1032.22px) {
-    margin-top: 16rem;
-  }
-  @media screen and (max-height: 929px) {
-    margin-top: 14rem;
-  }
-  @media screen and (max-height: 844.55px) {
-    margin-top: 12.5rem;
-  }
-  @media screen and (max-height: 743.2px) {
-    margin-top: 9rem;
-    span {
-      font-size: 1.7rem;
-      font-weight: 600;
-    }
-  }
-  @media screen and (max-height: 619.33px) {
-    margin-top: 8rem;
-    span {
-      font-size: 1.6rem;
-      font-weight: 600;
-    }
   }
 `;
 
@@ -212,13 +166,6 @@ export const LoginButtton = styled.button`
   background: ${(props) => props.theme.Bg.mainColor5};
   font-size: 1rem;
   font-weight: 600;
-
-  @media screen and (max-height: 743.2px) {
-    font-size: 0.9rem;
-  }
-  @media screen and (max-height: 619.33px) {
-    height: 2.8rem;
-  }
 `;
 
 const GapArea = styled.div`

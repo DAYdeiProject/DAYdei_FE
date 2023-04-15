@@ -185,56 +185,23 @@ function JoinPage() {
 const JoinBox = styled.div`
   ${(props) => props.theme.FlexCol};
   width: 24.125rem;
-
-  @media screen and (max-width: 1440px) {
-    max-width: 70%;
-    min-width: 70%;
-  }
 `;
 const BackPage = styled.div`
   ${(props) => props.theme.FlexRow};
   gap: 0.5rem;
   justify-content: left;
-  margin-top: 2rem;
+  margin-top: 25px;
   padding-left: 2rem;
   cursor: pointer;
   span {
     font-size: 0.875rem;
   }
-
-  @media screen and (max-width: 1440px) {
-    padding-left: 2.5rem;
-  }
-
-  @media screen and (max-height: 1032.22px) {
-    margin-top: 4rem;
-  }
-  @media screen and (max-height: 743.2px) {
-    margin-top: 2rem;
-  }
 `;
 const JoinText = styled.div`
   ${(props) => props.theme.FlexCol};
-  margin-top: 4.375rem;
+  margin-top: 40px;
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
-
-  @media screen and (max-height: 1032.22px) {
-    margin-top: 7rem;
-  }
-  @media screen and (max-height: 929px) {
-    margin-top: 5rem;
-  }
-  @media screen and (max-height: 844.55px) {
-    margin-top: 2.5rem;
-  }
-  @media screen and (max-height: 743.2px) {
-    margin-top: 1.5rem;
-    font-size: 1.3rem;
-  }
-  @media screen and (max-height: 619.33px) {
-    margin-top: 1rem;
-  }
 `;
 
 const InputArea = styled.div`
@@ -252,10 +219,6 @@ const InputWrapper = styled.div`
 const InputTitleText = styled.div`
   font-size: 1rem;
   margin-bottom: 0.25rem;
-
-  @media screen and (max-height: 743.2px) {
-    font-size: 0.9rem;
-  }
 `;
 
 const InputFrame = styled.div`
@@ -265,10 +228,6 @@ const InputFrame = styled.div`
   border: 0.0625rem solid ${(props) => (props.isBorder === "none" ? props.theme.Bg.color3 : props.isBorder ? "#58c179" : "#DF5445")};
   border-radius: 0.5rem;
   margin-bottom: 0.25rem;
-
-  @media screen and (max-height: 743.2px) {
-    height: 2.5rem;
-  }
 `;
 
 export const InputInnerWrap = styled.div`
@@ -296,10 +255,6 @@ export const BirthdayInput = styled.select`
   border: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   border-radius: 0.5rem;
   text-align: center;
-
-  @media screen and (max-height: 743.2px) {
-    height: 2.5rem;
-  }
 `;
 
 const CheckButton = styled.div`
@@ -327,15 +282,10 @@ const SignUpButtton = styled.button`
   ${(props) => props.theme.ButtonLarge}
   font-size: 1rem;
   font-weight: 600;
-  background: ${(props) => (props.disabled ? props.theme.Bg.mainColor4 : props.theme.Bg.mainColor5)};
+  background: ${(props) => (props.disabled ? props.theme.Bg.color4 : props.theme.Bg.mainColor5)};
   color: ${(props) => (props.disabled ? props.theme.Bg.color1 : "#ffffff")};
   // 아예 버튼 클릭 막기
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
-
-  @media screen and (max-height: 743.2px) {
-    height: 2.5rem;
-    font-size: 0.9rem;
-  }
 `;
 
 const BottomText = styled.div`

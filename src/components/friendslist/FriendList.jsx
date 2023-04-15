@@ -452,6 +452,8 @@ export const NickNameWrap = styled.div`
   font-size: 0.875rem;
   line-height: 1.0625rem;
 
+  min-width: 85px;
+
   @media screen and (max-width: 1640px) {
     font-size: 0.78rem;
   }
