@@ -89,7 +89,15 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
  <img src="https://user-images.githubusercontent.com/122579951/231653675-0ab97a23-a80e-4bc1-b479-704727c98304.png" width="400" height="500"/> 
  <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png" width="400" height="500"/> 
+ 
+  ### 4. 친구/구독 페이지
 
+ <img src="https://user-images.githubusercontent.com/122579951/232203324-9cdc7950-f674-42db-a1d3-c60366b916e6.png"> 
+![친구-구독 페이지]()
+
+ ### 5. 찾아보기 페이지 
+ 
+  <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png"> 
 
 </div>
 
