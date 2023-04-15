@@ -118,6 +118,13 @@ function AddPostModal({ ...props }) {
     }
   }, [props.pickDate]);
 
+  // 엔터키 submit 제출 막기
+  const enterKyeHandler = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   // 친구 초대태그하기
   const handleSearchText = useCallback(
     debounce((text) => setFindTarget(text), 200),
@@ -133,6 +140,14 @@ function AddPostModal({ ...props }) {
     if (findTarget === "") {
       setTargetToggle(false);
     } else if (findTarget) {
+      // @ 붙여서 검색할때
+      let newWord = "";
+      if (findTarget.substr(0, 1) === "@" && findTarget.length > 1) {
+        newWord = findTarget.substr(1);
+      } else {
+        newWord = findTarget;
+      }
+
       const newStart = format(startDate, "yyyy-MM-dd");
       const newEnd = format(endDate, "yyyy-MM-dd");
       let newStartTime = "";
@@ -147,7 +162,7 @@ function AddPostModal({ ...props }) {
       }
 
       const targetData = {
-        searchWord: findTarget,
+        searchWord: newWord,
         startDate: newStart,
         endDate: newEnd,
         startTime: newStartTime,
@@ -250,8 +265,12 @@ function AddPostModal({ ...props }) {
       return dispatch(alertState({ state: true, comment: "1장당 10MB, 총 크기는 20MB만 가능합니다. 다시 선택해주세요.", max: true }));
     }
 
-    setFileList((pre) => [...pre, ...img]);
+    // 3장 제한
+    if (img.length + fileList.length + saveView.length > 3) {
+      return dispatch(alertState({ state: true, comment: "사진첨부는 최대 3장만 가능합니다." }));
+    }
 
+    setFileList((pre) => [...pre, ...img]);
     // 파일 이름 뿌려주기 위해서
     img.forEach((list) => {
       let newName = list.name.split(".")[0];
@@ -317,14 +336,13 @@ function AddPostModal({ ...props }) {
       newStartTime = data.startTime;
       newEndTime = data.endTime;
     }
+
+    // 사진
     const imgList = new FormData();
-    if (fileList.length > 3) {
-      return dispatch(alertState({ state: true, comment: "파일첨부는 최대 3개까지 첨부가능합니다." }));
-    } else {
-      fileList.map((img) => {
-        imgList.append("images", img);
-      });
-    }
+    fileList.map((img) => {
+      imgList.append("images", img);
+    });
+
     // 컬러
     const newColor = ColorToDB(isColor);
     const newPost = {
@@ -426,7 +444,7 @@ function AddPostModal({ ...props }) {
 
   return (
     <ModalBox isOpen={props.isAddPost} width={"500px"} height={"640px"}>
-      <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)}>
+      <postStyle.AddPostWrapper onSubmit={handleSubmit(addPost)} onKeyDown={enterKyeHandler}>
         <postStyle.HeaderWrapper>
           {props.modifyPostId && <Delete width={22} height={22} onClick={deleteClickHandler} className="deleteIcon" />}
           <Dismiss className="closeIcon" onClick={closeClickHandler} />
@@ -511,25 +529,29 @@ function AddPostModal({ ...props }) {
               </postStyle.InviteSearchBox>
               <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
                 <postStyle.SerchModalBox>
-                  {targetList?.map((list) => {
-                    return (
-                      <postStyle.TartgetBox
-                        key={list.id}
-                        value={list.id}
-                        onClick={() => targetClick({ id: list.id, nickName: list.nickName, isCheck: list.scheduleCheck })}>
-                        <postStyle.TargetBoxImg>
-                          <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
-                        </postStyle.TargetBoxImg>
-                        <postStyle.TargetBoxText>
-                          <span>{list.nickName}</span>
-                          <postStyle.TargetBoxCheck isScheduleCheck={list.scheduleCheck}>
-                            <div></div>
-                            <span>{list.scheduleCheck ? "일정 있음" : "일정 없음"}</span>
-                          </postStyle.TargetBoxCheck>
-                        </postStyle.TargetBoxText>
-                      </postStyle.TartgetBox>
-                    );
-                  })}
+                  {targetList.length === 0 ? (
+                    <postStyle.NoneTargetBox>해당되는 친구가 없습니다.</postStyle.NoneTargetBox>
+                  ) : (
+                    targetList?.map((list) => {
+                      return (
+                        <postStyle.TartgetBox
+                          key={list.id}
+                          value={list.id}
+                          onClick={() => targetClick({ id: list.id, nickName: list.nickName, isCheck: list.scheduleCheck })}>
+                          <postStyle.TargetBoxImg>
+                            <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
+                          </postStyle.TargetBoxImg>
+                          <postStyle.TargetBoxText>
+                            <span>{list.nickName}</span>
+                            <postStyle.TargetBoxCheck isScheduleCheck={list.scheduleCheck}>
+                              <div></div>
+                              <span>{list.scheduleCheck ? "일정 있음" : "일정 없음"}</span>
+                            </postStyle.TargetBoxCheck>
+                          </postStyle.TargetBoxText>
+                        </postStyle.TartgetBox>
+                      );
+                    })
+                  )}
                 </postStyle.SerchModalBox>
               </postStyle.SerchModalContainer>
             </postStyle.InviteSearchContainer>

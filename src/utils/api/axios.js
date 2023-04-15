@@ -19,7 +19,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// console.log(token);
 export const friendsInstance = axios.create({
   baseURL: `${process.env.REACT_APP_DAYDEI_URL}/api/friends`,
   headers: {

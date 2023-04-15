@@ -217,6 +217,10 @@ const SerchModalBox = styled.div`
   padding-right: 5px;
   overflow-y: auto;
 `;
+const NoneTargetBox = styled.div`
+  padding: 10px;
+`;
+
 const TartgetBox = styled.div`
   ${(props) => props.theme.FlexRow}
   padding: 5px 10px;
@@ -268,10 +272,10 @@ const LocationWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-bottom: 20px;
   border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
-  cursor: pointer;
 `;
 const LocationContainer = styled(InviteWrapper)`
   justify-content: left;
+  cursor: pointer;
 `;
 
 const ToggleContainer = styled.div`
@@ -329,6 +333,7 @@ const ImgUploadBox = styled.div`
   height: 30px;
 `;
 const ImgLabel = styled.label`
+  cursor: pointer;
   input {
     display: none;
   }
@@ -341,6 +346,7 @@ const ImgUploadButton = styled.div`
   margin-left: 8px;
   text-align: center;
   color: #121212;
+  ${(props) => props.theme.BtnHoverYellow};
 `;
 const ImgUploadListBox = styled(InviteSearchBox)`
   width: 100%;
@@ -443,6 +449,7 @@ const postStyle = {
   FriendBoxInput,
   SerchModalContainer,
   SerchModalBox,
+  NoneTargetBox,
   TartgetBox,
   TargetBoxCheck,
   TargetBoxImg,

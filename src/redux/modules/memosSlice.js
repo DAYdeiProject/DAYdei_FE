@@ -14,7 +14,6 @@ const initialState = {
 export const __getMemos = createAsyncThunk("getMemos", async (_, thunkAPI) => {
   try {
     const response = await memosInstance.get(`/`);
-    // console.log("get요청 리스펀스 -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

@@ -23,7 +23,6 @@ import {
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function SubscriberList({ SubscribersList }) {
-  // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
