@@ -78,14 +78,15 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
  
   <h3> 1. 로그인 및 회원 가입 </h3>
   
-  <div style = "text-align: left">
+ <div class = "text-left">
     <p><strong>구현 기능</strong></p>
-    <ul>
-      <li>일반 로그인 / 카카오톡 로그인</li>
-  <li>회원가입</li>
-      <li>비밀번호 찾기(가입 이메일로 임시 비밀번호 발급)</li>
-    </ul>
+      <ul>
+        <li>일반 로그인 / 카카오톡 로그인</li>
+        <li>회원가입</li>
+        <li>비밀번호 찾기(가입 이메일로 임시 비밀번호 발급)</li>
+      </ul>
   </div>
+  
   <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="450" height="300" />
   <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" width="450" height="300"/> 
    
@@ -127,6 +128,12 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png" width="900"> 
 
 </div>
+
+<style>
+.text-left {
+  text-align: left;
+}
+</style>
 
 
 ## 6. 깃 컨벤션
