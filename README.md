@@ -81,9 +81,18 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png" width="450" height="300" />
   <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" width="450" height="300"/> 
    
-  ### 2. 홈 화면
+  ### 2. 홈 캘린더 화면
 
   <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png" width="900"/> 
+  
+  ### 2. 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
+  
+  <img src = "https://user-images.githubusercontent.com/122579951/232204191-6559d60c-bf14-4368-ac5c-e03d0cdd87c3.png" width ="300" height = "300"/>
+  <img src = "https://user-images.githubusercontent.com/122579951/232204232-4ecb7634-1b14-446f-b3d5-f94302a1961f.png" width ="300" height = "300"/>
+  <img src = "https://user-images.githubusercontent.com/122579951/232204247-1211f1fa-ae7d-4628-b259-051c4efaf53f.png" width ="300" height = "300"/>
+<!-- ![알림 모달](https://user-images.githubusercontent.com/122579951/232204191-6559d60c-bf14-4368-ac5c-e03d0cdd87c3.png) -->
+<!-- ![일정 더보기](https://user-images.githubusercontent.com/122579951/232204232-4ecb7634-1b14-446f-b3d5-f94302a1961f.png)
+![개별 일정 상세보기](https://user-images.githubusercontent.com/122579951/232204247-1211f1fa-ae7d-4628-b259-051c4efaf53f.png) -->
 
  ### 3. 일정 작성/수정
 
