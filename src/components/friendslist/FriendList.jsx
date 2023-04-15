@@ -1,7 +1,8 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
 
 import { otherIdState } from "../../redux/modules/headerReducer";
 import { __cancelRequest, __getFriendsList } from "../../redux/modules/friendsSlice";
@@ -16,7 +17,29 @@ function FriendList({ FriendsList }) {
 
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
-  //console.log(headerProfile);
+  const [number, setNumber] = useState(0);
+  const width1820 = useMediaQuery({ maxWidth: 1820 });
+  const width1720 = useMediaQuery({ maxWidth: 1720 });
+  const width1640 = useMediaQuery({ maxWidth: 1640 });
+  const width1518 = useMediaQuery({ maxWidth: 1518 });
+  const width1374 = useMediaQuery({ maxWidth: 1374 });
+  const width1280 = useMediaQuery({ maxWidth: 1280 });
+
+  useEffect(() => {
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1374) {
+      setNumber(13);
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1374) {
+      setNumber(9);
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1374) {
+      setNumber(7);
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1374) {
+      setNumber(16);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1374) {
+      setNumber(9);
+    } else {
+      setNumber(16);
+    }
+  }, [width1820, width1720, width1640, width1518]);
 
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
@@ -84,10 +107,16 @@ function FriendList({ FriendsList }) {
               <BottomText>친구와 연결하여 캘린더를 공유해보세요.</BottomText>
             </TextWrap>
           </ContentArea>
-          <ButtonWrap>
-            <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
-            <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
-          </ButtonWrap>
+          {headerProfile && headerProfile.kakaoId === null ? (
+            <ButtonOneWrap>
+              <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
+            </ButtonOneWrap>
+          ) : (
+            <ButtonWrap>
+              <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+              <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
+            </ButtonWrap>
+          )}
         </MessageBox>
       </NoListMessageWrapper>
     );
@@ -95,66 +124,95 @@ function FriendList({ FriendsList }) {
 
   return (
     <>
-      {FriendsList?.map((user) => (
-        <PostBox key={user.id}>
-          <ProfileArea
-            onClick={() => {
-              navigate(`/other`);
-              dispatch(otherIdState(user.id));
-            }}>
-            <ProfileWrap>
-              <PostLeft>
-                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                <TextArea>
-                  <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
-                  <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-                </TextArea>
-              </PostLeft>
-              <IntroductionWrap>
-                {user.introduction
-                  ? user.introduction.length > 16
-                    ? `${user.introduction.substr(0, 16)}...`
-                    : user.introduction
-                  : `${user.nickName}의 캘린더입니다.`}
-              </IntroductionWrap>
-            </ProfileWrap>
-          </ProfileArea>
-          <ButtonArea
-            onClick={() => {
-              deleteFriendHandler(user.id);
-            }}>
-            {user.friendCheck === true ? "친구삭제" : "친구신청"}
-          </ButtonArea>
-        </PostBox>
-      ))}
-      {headerProfile && headerProfile.kakaoId !== null ? (
+      {FriendsList?.map((user) => {
+        const defualtIntro = `${user.nickName}의 캘린더입니다.`;
+        let newDefault = "";
+
+        if (defualtIntro.length > number) {
+          newDefault = defualtIntro.substr(0, number) + "...";
+        } else {
+          newDefault = defualtIntro;
+        }
+
+        return (
+          <PostBox key={user.id}>
+            <ProfileArea
+              onClick={() => {
+                navigate(`/other`);
+                dispatch(otherIdState(user.id));
+              }}>
+              <ProfileWrap>
+                <PostLeft>
+                  <PhotoFrame>
+                    <img src={user.profileImage ? user.profileImage : defaultProfile} />
+                  </PhotoFrame>
+                  <TextArea>
+                    <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
+                    <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
+                  </TextArea>
+                </PostLeft>
+                {!width1280 && (
+                  <IntroductionWrap>
+                    {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
+                  </IntroductionWrap>
+                )}
+              </ProfileWrap>
+            </ProfileArea>
+            <ButtonArea
+              onClick={() => {
+                deleteFriendHandler(user.id);
+              }}>
+              {user.friendCheck === true ? "친구삭제" : "친구신청"}
+            </ButtonArea>
+          </PostBox>
+        );
+      })}
+      {headerProfile && headerProfile.kakaoId === null ? (
+        <VisitKakaoWrap>
+          <div onClick={sendKakao}>친구 초대</div>
+        </VisitKakaoWrap>
+      ) : (
         <ListKakaoWrap>
           <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
           <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
         </ListKakaoWrap>
-      ) : (
-        <VisitKakaoWrap>
-          <div onClick={sendKakao}>친구 초대</div>
-        </VisitKakaoWrap>
       )}
     </>
   );
 }
 
 export const NoListMessageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${(props) => props.theme.FlexCol}
   width: 28.75rem;
   height: 19.25rem;
   background: ${(props) => props.theme.Bg.color6};
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
+  padding-bottom: 15px;
 
   @media screen and (max-width: 1880px) {
     width: 23rem;
     height: 16.875rem;
+  }
+  @media screen and (max-width: 1640px) {
+    width: 20.625rem;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 28.75rem;
+  }
+  @media screen and (max-width: 1380px) {
+    width: 25rem;
+  }
+  @media screen and (max-width: 1280px) {
+    width: 20rem;
+  }
+  @media screen and (max-width: 1012px) {
+    width: 18rem;
+  }
+  @media screen and (max-width: 980px) {
+    width: 16rem;
+    height: 15rem;
   }
 `;
 
@@ -218,18 +276,23 @@ export const BottomText = styled.div`
 export const ButtonWrap = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  padding: 0rem;
-  gap: 1rem;
+  padding: 0 5px;
+  gap: 10px;
 
   width: 100%;
   height: 2.5rem;
 `;
 
+const ButtonOneWrap = styled.div`
+  ${(props) => props.theme.FlexRow};
+`;
+
 const ListKakaoWrap = styled.div`
   ${(props) => props.theme.FlexRow};
   margin: 20px 0;
-  gap: 15px;
+  gap: 10px;
 `;
 
 const VisitKakaoWrap = styled.div`
@@ -254,7 +317,7 @@ const VisitKakaoWrap = styled.div`
       background-color: ${(props) => props.theme.Bg.mainColor2};
     }
 
-    @media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1518px) {
       height: 30px;
       width: 80px;
     }
@@ -262,16 +325,36 @@ const VisitKakaoWrap = styled.div`
 `;
 
 const KakaoButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0.625rem 0.875rem;
-  gap: 1rem;
+  ${(props) => props.theme.FlexCol}
+  width: 160px;
   height: 2.5rem;
   background: #ffffff;
   border: 0.0625rem solid #121212;
 
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
+
+  font-weight: 500;
+  font-size: 0.875rem;
+
+  :hover {
+    cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
+  }
+
+  @media screen and (max-width: 1280px) {
+    width: 120px;
+    height: 30px;
+    font-size: 12px;
+  }
+`;
+
+const InviteButton = styled.div`
+  ${(props) => props.theme.FlexCol}
+  height: 2.5rem;
+  width: 100px;
+  background: #ffffff;
+  border: 0.0625rem solid #121212;
   box-shadow: 0.0625rem 0.0625rem 0rem #000000;
   border-radius: 0.25rem;
 
@@ -283,36 +366,16 @@ const KakaoButton = styled.div`
     cursor: pointer;
     background-color: ${(props) => props.theme.Bg.mainColor2};
   }
-`;
-
-const InviteButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0.625rem 0.875rem;
-  gap: 1rem;
-  height: 2.5rem;
-
-  background: #ffffff;
-  border: 0.0625rem solid #121212;
-  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
-  border-radius: 0.25rem;
-
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 140%;
-
-  :hover {
-    cursor: pointer;
-    background-color: ${(props) => props.theme.Bg.mainColor2};
+  @media screen and (max-width: 1280px) {
+    width: 60px;
+    height: 30px;
+    font-size: 12px;
   }
 `;
 
 export const PostBox = styled.div`
   ${(props) => props.theme.FlexRowBetween};
   padding: 15px 8px;
-  width: 100%;
   border-radius: 0.25rem;
 
   order: 0;
@@ -320,78 +383,64 @@ export const PostBox = styled.div`
     cursor: pointer;
   }
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     padding: 10px 15px;
     width: 100%;
   }
 `;
 
 export const ProfileArea = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
   padding: 0rem;
-  width: 25.25rem;
+  width: 80%;
   height: 2.5rem;
-
-  @media screen and (max-width: 1440px) {
-    width: 21rem;
-  }
 `;
 
 export const ProfileWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
+
   padding: 0rem;
-  gap: 0.125rem;
-
-  width: 23.125rem;
-  height: 2.5rem;
-
-  @media screen and (max-width: 1440px) {
-    width: 20rem;
-    gap: 0.625rem;
-  }
-`;
-
-export const PhotoFrame = styled.img`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-
-  @media screen and (max-width: 1440px) {
-    width: 1.875rem;
-    height: 1.875rem;
-    border-radius: 50%;
-  }
+  gap: 0.3125rem;
 `;
 
 export const PostLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0rem;
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
   gap: 0.5rem;
-
-  width: 8.25rem;
+  width: 45%;
   height: 2.5rem;
 
-  @media screen and (max-width: 1440px) {
-    width: 7rem;
-    gap: 0.375rem;
+  @media screen and (max-width: 1280px) {
+    width: 100%;
+  }
+`;
+
+export const PhotoFrame = styled.div`
+  ${(props) => props.theme.FlexCol};
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: solid 1px #121212;
+    box-shadow: 1px 1px 0 0 #000;
+
+    @media screen and (max-width: 1570px) {
+      width: 35px;
+      height: 35px;
+    }
   }
 `;
 
 export const TextArea = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${(props) => props.theme.FlexCol};
   align-items: flex-start;
-  padding: 0rem;
+
   gap: 0.125rem;
 
   width: 5.25rem;
@@ -402,6 +451,13 @@ export const NickNameWrap = styled.div`
   font-weight: 600;
   font-size: 0.875rem;
   line-height: 1.0625rem;
+
+  @media screen and (max-width: 1640px) {
+    font-size: 0.78rem;
+  }
+  @media screen and (max-width: 1518px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const EmailWrap = styled.div`
@@ -412,38 +468,25 @@ export const EmailWrap = styled.div`
 `;
 
 export const IntroductionWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
   padding: 0rem;
   gap: 0.5rem;
 
-  width: 13.125rem;
+  width: 100%;
 
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 140%;
-
-  @media screen and (max-width: 1440px) {
-    width: 13rem;
-    text-overflow: hidden;
-  }
-
-  @media screen and (max-width: 1880px) {
-    width: 10rem;
-  }
 `;
 
 export const ButtonArea = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0.625rem 0.625rem;
+  ${(props) => props.theme.FlexRow};
+
   width: 5rem;
   height: 2.125rem;
   background: #ffffff;
+
   border: 0.0625rem solid #121212;
   box-shadow: 0.0625rem 0.0625rem 0rem #000000;
   border-radius: 0.25rem;
@@ -457,13 +500,18 @@ export const ButtonArea = styled.div`
     background-color: ${(props) => props.theme.Bg.mainColor2};
   }
 
-  @media screen and (max-width: 1880px) {
-    width: 60px;
-    padding: 0;
+  @media screen and (max-width: 1890px) {
+    width: 4rem;
   }
-  @media screen and (max-width: 1440px) {
-    width: 3.75rem;
-    padding: 0.4rem 0.4rem;
+  @media screen and (max-width: 1640px) {
+    width: 3.4rem;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 5rem;
+  }
+  @media screen and (max-width: 980px) {
+    width: 3rem;
+    font-size: 9px;
   }
 `;
 

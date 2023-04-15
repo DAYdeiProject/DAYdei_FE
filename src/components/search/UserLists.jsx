@@ -164,25 +164,46 @@ function UserLists({ searchWord, selectedCategories }) {
 }
 
 const PostBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2.125rem 2rem 1.375rem;
+  ${(props) => props.theme.FlexCol}
+  //padding: 2.125rem 2rem 1.375rem;
   gap: 0.625rem;
   isolation: isolate;
 
   width: 230px;
-  height: 315px;
+  height: 310px;
 
   background: #ffffff;
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
 
   ${(props) => props.theme.BoxCustom};
-  @media screen and (max-width: 1440px) {
+
+  @media screen and (max-width: 1878px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 1780px) {
+    width: 230px;
+  }
+  @media screen and (max-width: 1680px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 1518px) {
     width: 210px;
-    height: 270px;
+  }
+  @media screen and (max-width: 1415px) {
+    width: 230px;
+  }
+  @media screen and (max-width: 1290px) {
+    width: 210px;
+  }
+  @media screen and (max-width: 1225px) {
+    width: 230px;
+  }
+  @media screen and (max-width: 1040px) {
+    width: 210px;
+  }
+  @media screen and (max-width: 950px) {
+    width: 220px;
   }
 `;
 
@@ -192,8 +213,7 @@ const ContentWrap = styled.div`
   align-items: center;
   padding: 0rem;
   gap: 0.875rem;
-  width: 13.75rem;
-  height: 18rem;
+  width: 220px;
 `;
 
 const ProfileArea = styled.div`
@@ -325,10 +345,10 @@ const MiddleBox = styled.div`
   padding-top: 10px;
   border-top: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 
-  @media screen and (max-width: 1440px) {
+  /* @media screen and (max-width: 1440px) {
     padding-top: 0;
     gap: 2px;
-  }
+  } */
 `;
 
 const IntroductionWrap = styled.div`
@@ -362,16 +382,17 @@ const MutualFriendsBox = styled.div`
   color: ${(props) => props.theme.Bg.color2};
   background: #f2f4f6;
 
-  @media screen and (max-width: 90rem) {
+  /* @media screen and (max-width: 90rem) {
     height: 15px;
     font-size: 10px;
-  }
+  } */
 `;
 
 const ButtonArea = styled.div`
   ${(props) => props.theme.FlexRow}
   padding: 0rem;
   gap: 0.5rem;
+  margin-top: 10px;
 `;
 
 const Button = styled.button`
@@ -383,7 +404,7 @@ const Button = styled.button`
   gap: 0.5rem;
 
   width: 80px;
-  height: 2.5rem;
+  height: 40px;
   color: #ffffff;
   font-size: 0.75rem;
 
@@ -394,12 +415,12 @@ const Button = styled.button`
     cursor: pointer;
   }
 
-  @media screen and (max-width: 1440px) {
+  /* @media screen and (max-width: 1440px) {
     width: 80px;
     height: 30px;
     padding: 7.5008px 5px;
     font-size: 0.5625rem;
-  }
+  } */
 `;
 
 const ButtonSub = styled(Button)`

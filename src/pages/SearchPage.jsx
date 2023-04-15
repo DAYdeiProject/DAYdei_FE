@@ -18,5 +18,5 @@ const HomePageWrapper = styled.div`
   justify-content: left;
   align-items: flex-start;
   position: relative;
-  height: 100%;
+  height: calc(1080px - 4rem - 0.0625rem);
 `;

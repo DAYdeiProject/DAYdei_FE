@@ -25,7 +25,7 @@ export const __getMemos = createAsyncThunk("getMemos", async (_, thunkAPI) => {
 export const __addMemo = createAsyncThunk("addMemo", async (memo, thunkAPI) => {
   try {
     const response = await memosInstance.post("/", memo);
-    // console.log("post요청 리스펀스--", response.data);
+    console.log("post요청 리스펀스--", response.data);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.data);

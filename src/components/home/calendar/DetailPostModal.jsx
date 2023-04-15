@@ -408,7 +408,7 @@ const HeaderWrapper = styled.section`
   gap : .5rem;
   justify-content: right;
   margin-top: 1.5625rem;
-  margin-bottom: 0.625rem;
+  margin-bottom: 20px;
   border-top: none !important;
   position: relative;
   .dotsIcon,

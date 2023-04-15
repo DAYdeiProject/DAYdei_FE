@@ -16,14 +16,9 @@ import {
   UpperText,
   BottomText,
   PostBox,
-  ProfileArea,
-  ProfileWrap,
   PhotoFrame,
-  PostLeft,
-  TextArea,
   NickNameWrap,
   EmailWrap,
-  IntroductionWrap,
 } from "./FriendList";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
@@ -33,18 +28,33 @@ function SubscriberList({ SubscribersList }) {
   const navigate = useNavigate();
 
   const [number, setNumber] = useState(0);
-  const width1880 = useMediaQuery({ maxWidth: 1880 });
-  const width1440 = useMediaQuery({ maxWidth: 1440 });
+  const width1820 = useMediaQuery({ maxWidth: 1820 });
+  const width1720 = useMediaQuery({ maxWidth: 1720 });
+  const width1640 = useMediaQuery({ maxWidth: 1640 });
+  const width1518 = useMediaQuery({ maxWidth: 1518 });
+  const width1370 = useMediaQuery({ maxWidth: 1370 });
+  const width1120 = useMediaQuery({ maxWidth: 1120 });
+  const width980 = useMediaQuery({ maxWidth: 980 });
 
   useEffect(() => {
-    if (width1440) {
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+      setNumber(19);
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+      setNumber(16);
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+      setNumber(13);
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1370 && !width1120 && !width980) {
       setNumber(22);
-    } else if (width1880) {
-      setNumber(15);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && !width1120 && !width980) {
+      setNumber(16);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1120 && !width980) {
+      setNumber(13);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1120 && width980) {
+      setNumber(7);
     } else {
       setNumber(22);
     }
-  }, [width1880]);
+  }, [width1820, width1720, width1640, width1518, width1370, width1120, width980]);
 
   if (SubscribersList?.length === 0) {
     return (
@@ -64,56 +74,76 @@ function SubscriberList({ SubscribersList }) {
 
   return (
     <>
-      {SubscribersList?.map((user) => (
-        <PostBox key={user.id}>
-          <ProfileArea
-            onClick={() => {
-              navigate(`/other`);
-              dispatch(otherIdState(user.id));
-            }}>
-            <ProfileWrapLong>
-              <PostLeft>
-                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                <TextArea>
+      {SubscribersList?.map((user) => {
+        const defualtIntro = `${user.nickName}의 캘린더입니다.`;
+        let newDefault = "";
+
+        if (defualtIntro.length > number) {
+          newDefault = defualtIntro.substr(0, number) + "...";
+        } else {
+          newDefault = defualtIntro;
+        }
+
+        return (
+          <PostBox key={user.id}>
+            <ProfileArea
+              onClick={() => {
+                navigate(`/other`);
+                dispatch(otherIdState(user.id));
+              }}>
+              <ProfileImgNickname>
+                <PhotoFrame>
+                  <img src={user.profileImage ? user.profileImage : defaultProfile} />
+                </PhotoFrame>
+                <ProfileNicknameContainer>
                   <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>
                   <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
-                </TextArea>
-              </PostLeft>
-              <IntroductionWrapLong>
-                {user.introduction
-                  ? user.introduction.length > number
-                    ? `${user.introduction.substr(0, number)}...`
-                    : user.introduction
-                  : `${user.nickName}의 캘린더입니다.`}
-              </IntroductionWrapLong>
-            </ProfileWrapLong>
-          </ProfileArea>
-        </PostBox>
-      ))}
+                </ProfileNicknameContainer>
+              </ProfileImgNickname>
+              <IntroContainer>
+                {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
+              </IntroContainer>
+            </ProfileArea>
+          </PostBox>
+        );
+      })}
     </>
   );
 }
 
 export default SubscriberList;
 
-export const ProfileWrapLong = styled(ProfileWrap)`
-  width: 26.25rem;
+export const ProfileArea = styled.div`
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
+  gap: 5px;
 
-  @media screen and (max-width: 1880px) {
-    width: 23rem;
-  }
-  @media screen and (max-width: 1440px) {
-    width: 26.25rem;
+  @media screen and (max-width: 1518px) {
+    height: 35px;
   }
 `;
 
-export const IntroductionWrapLong = styled(IntroductionWrap)`
-  width: 17.5rem;
+export const ProfileImgNickname = styled.div`
+  ${(props) => props.theme.FlexRow};
+  justify-content: left;
+  gap: 5px;
+  width: 50%;
+  @media screen and (max-width: 1280px) {
+    width: 60%;
+  }
+  @media screen and (max-width: 1115px) {
+    width: 70%;
+  }
+`;
+// friendsDetail-> DetailFriends / DetailSubscribe / DetailSubscriber
+export const ProfileNicknameContainer = styled.div`
+  ${(props) => props.theme.FlexCol};
+  align-items: flex-start;
+  width: 70px;
+`;
 
-  @media screen and (max-width: 1880px) {
-    max-width: 16rem;
-  }
-  @media screen and (max-width: 1440px) {
-    width: 17.5rem;
-  }
+export const IntroContainer = styled.div`
+  width: 100%;
+  font-weight: 400;
+  font-size: 0.875rem;
 `;
