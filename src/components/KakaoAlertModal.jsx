@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 function KakaoAlertModal({ setIsKakaoModalOpen, setIsKakao }) {
   const navigate = useNavigate();
 
-  const URI = "http://localhost:3000/kakao";
-  // const URI = "https://daydei.life/kakao";
+  //const URI = "http://localhost:3000/kakao";
+  const URI = "https://daydei.life/kakao";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
 
   const kakaologinClick = () => {

@@ -1,4 +1,4 @@
-import { React, useRef, useState } from "react";
+import { React, useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -6,21 +6,18 @@ import { __getHeaderProfile } from "../../../redux/modules/usersSlice";
 
 import ModalBox from "../../../elements/ModalBox";
 import useOutSideClick from "../../../hooks/useOutsideClick";
-import Loading from "../../Loading";
-
-import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
 import { ReactComponent as WhiteDismiss } from "../../../assets/defaultIcons/whiteDismiss.svg";
 import { ReactComponent as WhiteMoreY } from "../../../assets/defaultIcons/whiteMoreY.svg";
+import { ReactComponent as Edit } from "../../../assets/calendarIcon/edit.svg";
 
 export default function ProfileDetailModal({ ...props }) {
-  const [editOpen, setEditOpen] = useState(false);
   const outside = useRef();
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
   // 수정하기 이동
   const editProfileClick = () => {
-    setEditOpen(!editOpen);
+    props.setIsProfileEditOpen(!props.isProfileEditOpen);
   };
 
   const moveEditClick = () => {
@@ -31,7 +28,7 @@ export default function ProfileDetailModal({ ...props }) {
   // 모달창 닫기
   const closeModal = () => {
     props.setIsProfileDetail(false);
-    setEditOpen(false);
+    props.setIsProfileEditOpen(false);
   };
 
   useOutSideClick(outside, closeModal);
@@ -43,9 +40,12 @@ export default function ProfileDetailModal({ ...props }) {
           <IconContainer>
             <WhiteMoreY onClick={editProfileClick} className="moreIcon" />
             <WhiteDismiss onClick={closeModal} />
-            <ProfileEditBox isOpen={editOpen}>
-              <span onClick={moveEditClick}>수정하기</span>
-            </ProfileEditBox>
+            {props.isProfileEditOpen && (
+              <ProfileEditBox>
+                <Edit />
+                <span onClick={moveEditClick}>수정하기</span>
+              </ProfileEditBox>
+            )}
           </IconContainer>
           <ProfileBackground>{headerProfile && headerProfile?.backgroundImage && <img src={headerProfile.backgroundImage} />}</ProfileBackground>
           <ProfileImageBox>
@@ -95,18 +95,16 @@ const ProfileEditBox = styled.div`
   top: 30px;
   ${(props) => props.theme.BoxCustom};
   ${(props) => props.theme.BtnHoverYellow};
-  ${(props) => props.theme.FlexCol};
+  ${(props) => props.theme.FlexRow};
   width: 100px;
-  height: 50px;
-  font-size: 17px;
+  height: 40px;
+  font-size: 15px;
   background-color: #ffffff;
   span {
-    margin-left: 15px;
-    line-height: 50px;
+    margin-left: 5px;
+    line-height: 40px;
     text-align: center;
   }
-
-  display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
 
 const ProfileBackground = styled.div`
@@ -118,6 +116,13 @@ const ProfileBackground = styled.div`
     width: 100%;
     height: 18.0625rem;
     border-radius: 1.25rem 1.25rem 0 0;
+  }
+
+  @media screen and (max-width: 1440px) {
+    height: 300px;
+    img {
+      height: 300px;
+    }
   }
 `;
 
@@ -131,6 +136,11 @@ const ProfileImageBox = styled.div`
     height: 7.75rem;
     border-radius: 50%;
     cursor: auto;
+  }
+
+  @media screen and (max-width: 1440px) {
+    top: 240px;
+    left: 130px;
   }
 `;
 
