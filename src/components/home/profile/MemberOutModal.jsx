@@ -37,9 +37,9 @@ function MemberOutModal({ ...props }) {
 
   return (
     <>
-      <ModalBox isOpen={props.isMemberOutModalOpen} width="300px" height="150px">
+      <ModalBox isOpen={props.isMemberOutModalOpen} width="310px" height="180px">
         <ModalInnerWrap>
-          DAYDEI를 탈퇴하시겠습니까?
+          <p>DAYDEI를 탈퇴하시겠습니까?</p>
           <InputWrap>
             <input type="text" placeholder="이메일의 @앞부분까지 작성" value={userKey} onChange={onChangeUserKeyHandler} />
           </InputWrap>
@@ -64,7 +64,10 @@ const ModalInnerWrap = styled.div`
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  /* background-color: skyblue; */
+
+  p:nth-child(1) {
+    font-size: 18px;
+  }
 `;
 
 const InputWrap = styled.div`

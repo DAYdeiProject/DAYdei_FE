@@ -20,6 +20,7 @@ const initialState = {
   statusCodeProfile: 0,
   headerProfile: "",
   statusCodeDelete: 0,
+  isDeleted: false,
 };
 
 export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, thunkAPI) => {
@@ -49,13 +50,13 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
     const isLogin = response.data.data.isLogin;
     const categoryList = response.data.data.categoryList;
     const nickName = response.data.data.nickName;
+    const isDeleted = response.data.data.isDeleted;
 
     // 쿠키 시간 설정
     api.defaults.headers.common["Authorization"] = Token;
     const id = response.data.data.userId;
     SetUserInfo(Token, id);
-
-    return { token: Token, isLogin, categoryList, nickName, data: response.data };
+    return { token: Token, isLogin, categoryList, nickName, isDeleted, data: response.data };
   } catch (error) {
     alert(error.response.data.data);
   }
@@ -123,7 +124,7 @@ export const __getHeaderProfile = createAsyncThunk("getHeaderProfile", async (id
 export const __memberOut = createAsyncThunk("memberOut", async (user, thunkAPI) => {
   try {
     const response = await api.put("/api/users/delete", user);
-    console.log("삭제되었나?-->", response);
+    // console.log("삭제되었나?-->", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     console.log(error);
@@ -174,6 +175,7 @@ export const usersSlice = createSlice({
         state.categoryList = action.payload.categoryList;
         state.nickName = action.payload.nickName;
         state.data = action.payload.data;
+        state.isDeleted = action.payload.isDeleted;
       })
       .addCase(__loginUser.rejected, (state, action) => {
         state.message = action.error.message;

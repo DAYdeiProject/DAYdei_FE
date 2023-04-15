@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { React, useState, useEffect, useRef } from "react";
 import { alertState } from "../redux/modules/alertReducer";
 import { __loginUser } from "../redux/modules/usersSlice";
@@ -26,6 +26,8 @@ function IntroPage() {
   const { email, handleEmailChange, password, handlePasswordChange, reset } = useLogin();
   //카카오 경고 모달
   const [isKakaoModalOpen, setIsKakaoModalOpen] = useState(false);
+  //셀렉터로 탈퇴여부 점검
+  const isDeleted = useSelector((state) => state.users.isDeleted);
 
   const token = Cookies.get("accessJWTToken");
   useEffect(() => {
@@ -36,7 +38,9 @@ function IntroPage() {
   }, []);
 
   const loginHandler = () => {
-    if (email !== "" && password !== "") {
+    if (isDeleted) {
+      dispatch(alertState({ state: true, comment: "탈퇴한 회원입니다." }));
+    } else if (email !== "" && password !== "") {
       const loginUser = { email, password };
       dispatch(__loginUser(loginUser)).then((data) => {
         if (data.payload.data.statusCode === 200) {

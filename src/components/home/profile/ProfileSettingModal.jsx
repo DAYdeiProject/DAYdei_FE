@@ -337,7 +337,7 @@ function ProfileSettingModal({ ...props }) {
                 <ButtonSubmit>저장하기</ButtonSubmit>
               </ButtonArea>
               <MemberOutWrap>
-                <div onClick={handleMemberOutModal}>회원 탈퇴하기</div>
+                {!isProfileSectionOpen && <div onClick={handleMemberOutModal}>회원 탈퇴하기</div>}
                 {isMemberOutModalOpen && (
                   <MemberOutModal
                     isMemberOutModalOpen={isMemberOutModalOpen}
