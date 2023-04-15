@@ -18,6 +18,6 @@ export default function OtherUserPage() {
 const HomePageWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
-  height: calc(100vh - 4rem - 0.0625rem);
+  height: calc(1080px - 4rem - 0.0625rem);
   position: relative;
 `;

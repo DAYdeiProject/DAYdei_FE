@@ -138,61 +138,102 @@ const ProfileWrapper = styled.div`
   justify-content: flex-start;
   background-color: #ffffff;
   height: 100%;
+  border-right: 0.0625rem solid ${(props) => props.theme.Bg.color2};
 `;
 
 const BackImgWrapper = styled.div`
   background-color: ${(props) => (props.isCover ? "#ffffff" : props.theme.Bg.mainColor3)};
   width: 100%;
-  height: 23.125rem;
+  height: 430px;
   border: none;
   background-size: cover;
 
-  @media screen and (max-width: 1440px) {
-    height: 22rem;
+  @media screen and (max-height: 970px) {
+    height: 350px;
+  }
+  @media screen and (max-height: 860px) {
+    height: 320px;
+  }
+  @media screen and (max-height: 772px) {
+    height: 280px;
   }
 
   img {
     width: 100%;
-    height: 23.125rem;
+    height: 430px;
     border: none;
 
-    @media screen and (max-width: 1440px) {
-      height: 22rem;
+    @media screen and (max-height: 970px) {
+      height: 350px;
+    }
+    @media screen and (max-height: 860px) {
+      height: 320px;
+    }
+    @media screen and (max-height: 772px) {
+      height: 280px;
     }
   }
 `;
 
 const ImgWrapper = styled.div`
   position: absolute;
-  top: 18.75rem;
+  top: 360px;
   ${(props) => props.theme.FlexCol}
   margin-bottom: 1.25rem;
 
-  @media screen and (max-width: 1440px) {
-    top: 18rem;
+  @media screen and (max-height: 970px) {
+    top: 275px;
+  }
+  @media screen and (max-height: 885px) {
+    top: 282px;
+  }
+  @media screen and (max-height: 860px) {
+    top: 258px;
+  }
+  @media screen and (max-height: 772px) {
+    top: 222px;
   }
 
   img {
     ${(props) => props.theme.BoxCustom};
-    width: 8.125rem;
-    height: 8.125rem;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     background: fixed;
     cursor: auto;
 
-    @media screen and (max-width: 1440px) {
-      width: 7.5rem;
-      height: 7.5rem;
+    @media screen and (max-height: 885px) {
+      width: 125px;
+      height: 125px;
+    }
+    @media screen and (max-height: 860px) {
+      width: 115px;
+      height: 115px;
+    }
+    @media screen and (max-height: 772px) {
+      width: 105px;
+      height: 105px;
     }
   }
 `;
 
 const NickNameBox = styled.span`
-  padding-top: 5.3125rem;
+  padding-top: 110px;
   margin-bottom: 0.625rem;
   font-size: 1.5rem;
   font-weight: 600;
   color: ${(props) => props.theme.Bg.color1};
+
+  @media screen and (max-height: 885px) {
+    padding-top: 85px;
+  }
+  @media screen and (max-height: 860px) {
+    padding-top: 70px;
+    font-size: 1.4rem;
+  }
+  @media screen and (max-height: 772px) {
+    padding-top: 65px;
+  }
 `;
 
 const EmailBox = styled.span`
@@ -203,7 +244,7 @@ const EmailBox = styled.span`
 
 const CountBox = styled.div`
   ${(props) => props.theme.FlexCol}
-  padding: 0 2.5rem;
+  padding: 0 2rem;
   margin-bottom: 1.25rem;
   font-size: 1rem;
   color: ${(props) => props.theme.Bg.color1};
@@ -216,6 +257,10 @@ const CountBox = styled.div`
   :hover {
     cursor: pointer;
   }
+
+  @media screen and (max-height: 772px) {
+    margin-bottom: 10px;
+  }
 `;
 const TextareaBox = styled.div`
   width: 100%;
@@ -226,8 +271,11 @@ const TextareaBox = styled.div`
   font-size: 0.875rem;
   white-space: pre-wrap;
 
-  @media screen and (max-width: 1440px) {
-    height: 4.5rem;
+  @media screen and (max-height: 860px) {
+    height: 70px;
+  }
+  @media screen and (max-height: 772px) {
+    height: 55px;
   }
 `;
 
@@ -238,12 +286,23 @@ const ButtonBox = styled.div`
   margin: 0 2.5rem;
   margin-top: 1.25rem;
   font-size: 0.875rem;
+
+  @media screen and (max-height: 772px) {
+    margin-top: 10px;
+  }
   div {
     ${(props) => props.theme.FlexCol}
     ${(props) => props.theme.ButtonMedium};
     width: 8.125rem;
     height: 3rem;
     color: ${(props) => props.theme.Bg.color1};
+
+    @media screen and (max-height: 860px) {
+      height: 42px;
+    }
+    @media screen and (max-height: 772px) {
+      height: 38px;
+    }
   }
   div:nth-child(1) {
     background-color: ${(props) => props.theme.Bg.mainColor5};
@@ -263,7 +322,7 @@ const TogetherWrapper = styled.div`
     ${(props) => props.theme.FlexCol};
     background-color: ${(props) => props.theme.Bg.color4};
     width: 100%;
-    height: 1.25rem;
+    height: 1.5rem;
     border-radius: 0.25rem;
   }
 `;

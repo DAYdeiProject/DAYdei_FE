@@ -237,7 +237,7 @@ const LogoContainer = styled.section`
   .homeIcon {
     cursor: pointer;
   }
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     min-width: 8.7rem;
   }
 `;
@@ -273,7 +273,7 @@ const NavTabConatiner = styled.div`
     color: ${(props) => props.isNav === "search" && props.theme.Bg.color1};
   }
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     padding-left: 50px;
   }
 `;

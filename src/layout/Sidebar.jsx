@@ -46,15 +46,15 @@ function Sidebar({ ...props }) {
     return () => eventConnect.close();
   }, []);
 
-  //스크린 크기 1440 미만임을 감지
-  const isShortScreen = useMediaQuery({ maxWidth: 1440 });
+  //스크린 크기 1518 미만임을 감지
+  const isShortScreen = useMediaQuery({ maxWidth: 1518 });
   const [isSideStyleOpen, setIsSideStyleOpen] = useState(false);
   // > 아이콘 누르면 사이드바 열리게끔
   const openSideStyleHandler = () => {
     setIsSideStyleOpen(!isSideStyleOpen);
   };
 
-  // 1440 일때 사이드 바깥영역 클릭시 닫히게
+  // 1518 일때 사이드 바깥영역 클릭시 닫히게
   const closeSide = () => {
     if (isShortScreen) {
       setIsSideStyleOpen(false);
@@ -74,8 +74,8 @@ function Sidebar({ ...props }) {
             <SideStyle isShort={isShortScreen}>
               <SidebarMyCalendar side={props.side} setDetailPostId={props.setDetailPostId} />
             </SideStyle>
-            <SideStyleShort isSideStyleOpen={isSideStyleOpen} onClick={openSideStyleHandler}>
-              <IconWrapper>
+            <SideStyleShort onClick={openSideStyleHandler}>
+              <IconWrapper isSideStyleOpen={isSideStyleOpen}>
                 <Left />
               </IconWrapper>
             </SideStyleShort>
@@ -104,8 +104,7 @@ export default Sidebar;
 
 const WholeWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  height: 100%;
+  height: calc(1080px - 4rem - 0.0625rem);
   position: absolute;
 `;
 
@@ -113,11 +112,12 @@ const SideStyle = styled.div`
   // 사이드
   min-width: 21.875rem;
   max-width: 21.875rem;
-  height: 100%;
+  height: calc(1080px - 4rem - 0.0625rem);
+
   border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
   background: ${(props) => props.theme.Bg.color5};
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     position: absolute;
     z-index: 2;
   }
@@ -127,9 +127,9 @@ const SideOtherStyle = styled.div`
   // 사이드
   min-width: 21.875rem;
   max-width: 21.875rem;
-  height: 100%;
-  border-right: 0.0313rem solid ${(props) => props.theme.Bg.color1};
-  @media screen and (max-width: 1440px) {
+  height: calc(1080px - 4rem - 0.0625rem);
+
+  @media screen and (max-width: 1518px) {
     position: absolute;
     z-index: 5;
   }
@@ -137,22 +137,26 @@ const SideOtherStyle = styled.div`
 
 const SideStyleShort = styled.div`
   //미니 왼쪽
+  height: calc(1080px - 4rem - 0.0625rem);
+`;
+
+const IconWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   width: 2.125rem;
-  height: 100%;
+  height: calc(1080px - 4rem - 0.0625rem);
   border-right: 1px solid ${(props) => props.theme.Bg.color2};
   border-left: ${(props) => props.isSideStyleOpen && `1px solid ${props.theme.Bg.color2}`};
   background: ${(props) => props.theme.Bg.color5};
+
   position: absolute;
   z-index: 50;
   left: ${(props) => (props.isSideStyleOpen ? "270px" : "0rem")};
+  transform: ${(props) => (props.isSideStyleOpen ? "translateX(100%)" : "translateX(0)")};
 
-  @media screen and (max-width: 1440px) {
-    transform: ${(props) => (props.isSideStyleOpen ? "translateX(100%)" : "translateX(0)")};
+  @media screen and (max-height: 1080px) {
+    height: calc(101vh - 4rem - 0.0625rem);
   }
   :hover {
     cursor: pointer;
   }
 `;
-
-const IconWrapper = styled.div``;

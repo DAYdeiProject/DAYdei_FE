@@ -14,7 +14,7 @@ const HeaderWrapper = styled.section`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
   margin-top: 25px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   .deleteIcon {
     margin-right: 10px;
     cursor: pointer;
@@ -25,7 +25,6 @@ const HeaderWrapper = styled.section`
 `;
 
 const BodyWrapper = styled.section`
-  // background-color: lavender;
   max-height: 420px;
   margin-top: 25px;
   padding: 0 10px;
@@ -36,11 +35,7 @@ const BodyWrapper = styled.section`
   gap: 25px;
 `;
 
-const BodyContainer = styled.div`
-  /* ${(props) => props.theme.FlexCol}
-  align-items: flex-start;
-  gap: 25px; */
-`;
+const BodyContainer = styled.div``;
 
 // 타이틀 text
 const TextSpan = styled.div`
@@ -78,6 +73,9 @@ const DaysAllCheckContainer = styled(DaysIconBox)`
   justify-content: left;
   width: 80px;
   align-items: flex-start;
+  input {
+    cursor: pointer;
+  }
   span {
     margin: 0;
     font-size: ${(props) => props.theme.Fs.size14};
@@ -98,6 +96,7 @@ const StartDateContainer = styled.div`
     margin-right: 115px;
     border: none;
     font-size: ${(props) => props.theme.Fs.size16};
+    cursor: pointer;
   }
 `;
 const CustomDatePicker = styled(DatePicker)`
@@ -125,7 +124,8 @@ const ColorBox = styled.div`
   background-color: ${(props) => props.value};
   border-radius: 50%;
   margin-right: 20px;
-  border: ${(props) => (props.isClick ? "2px solid #121212" : "0.5px solid #121212")};
+  border: ${(props) => (props.isClick ? "3px solid #353535" : "0.5px solid #353535")};
+  cursor: pointer;
 `;
 
 // 초대하기 영역
@@ -188,8 +188,9 @@ const FriendBox = styled.div`
 `;
 const FriendBoxInput = styled.div`
   ${(props) => props.theme.FlexRow}
-  width: 0;
+  width: 100%;
   min-width: 200px;
+
   input {
     font-size: 12px;
     width: 100%;
@@ -267,6 +268,7 @@ const LocationWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-bottom: 20px;
   border-bottom: 1px solid ${(props) => props.theme.Bg.color3};
+  cursor: pointer;
 `;
 const LocationContainer = styled(InviteWrapper)`
   justify-content: left;
@@ -311,7 +313,16 @@ const WriteContentBox = styled(WriteLocationBox)`
 
 // 이미지 업로드 영역
 const ImgWrapper = styled(LocationWrapper)``;
-const ImgContainer = styled(LocationContainer)``;
+const ImgContainer = styled(LocationContainer)`
+  ${(props) => props.theme.FlexRowBetween}
+  justify-content: space-around;
+`;
+
+const ToggleImgContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 10%;
+`;
 const ImgUploadBox = styled.div`
   ${(props) => props.theme.FlexRow}
   justify-content: left;
@@ -369,6 +380,14 @@ const PreviewBox = styled.div`
   }
 `;
 
+const ImgComment = styled.div`
+  ${(props) => props.theme.FlexCol};
+  align-items: flex-start;
+  span {
+    font-size: 12px;
+  }
+`;
+
 // 공개범위 영역
 const ScopeWrapper = styled.div`
   ${(props) => props.theme.FlexRow}
@@ -383,6 +402,7 @@ const SelectContainer = styled(ScopeWrapper)`
     height: 21px;
     border: none;
     font-size: ${(props) => props.theme.Fs.size14};
+    cursor: pointer;
   }
 `;
 
@@ -436,6 +456,7 @@ const postStyle = {
   WriteContentBox,
   ImgWrapper,
   ImgContainer,
+  ToggleImgContainer,
   ImgUploadBox,
   ImgLabel,
   ImgUploadButton,
@@ -444,6 +465,7 @@ const postStyle = {
   ModifyImgUploadBox,
   PreviewContainer,
   PreviewBox,
+  ImgComment,
   ScopeWrapper,
   SelectContainer,
   SubmitButtonWrapper,
