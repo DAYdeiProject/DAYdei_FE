@@ -217,6 +217,10 @@ const SerchModalBox = styled.div`
   padding-right: 5px;
   overflow-y: auto;
 `;
+const NoneTargetBox = styled.div`
+  padding: 10px;
+`;
+
 const TartgetBox = styled.div`
   ${(props) => props.theme.FlexRow}
   padding: 5px 10px;
@@ -445,6 +449,7 @@ const postStyle = {
   FriendBoxInput,
   SerchModalContainer,
   SerchModalBox,
+  NoneTargetBox,
   TartgetBox,
   TargetBoxCheck,
   TargetBoxImg,
