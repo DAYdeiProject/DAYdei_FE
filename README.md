@@ -79,7 +79,7 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   <h3> 1. 로그인 및 회원 가입 </h3>
   
  <div class = "text-left">
-    <p><strong>구현 기능</strong></p>
+    <p><strong>- 구현 기능</strong></p>
       <ul>
         <li>일반 로그인 / 카카오톡 로그인</li>
         <li>회원가입</li>
