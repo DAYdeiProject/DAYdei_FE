@@ -27,7 +27,7 @@ function IntroPage() {
   //카카오 경고 모달
   const [isKakaoModalOpen, setIsKakaoModalOpen] = useState(false);
   //셀렉터로 탈퇴여부 점검
-  const isDeleted = useSelector((state) => state.users.isDeleted);
+  // const isDeleted = useSelector((state) => state.users.isDeleted);
 
   const token = Cookies.get("accessJWTToken");
   useEffect(() => {
@@ -38,12 +38,13 @@ function IntroPage() {
   }, []);
 
   const loginHandler = () => {
-    if (isDeleted) {
-      dispatch(alertState({ state: true, comment: "탈퇴한 회원입니다." }));
-    } else if (email !== "" && password !== "") {
+    if (email !== "" && password !== "") {
       const loginUser = { email, password };
       dispatch(__loginUser(loginUser)).then((data) => {
-        if (data.payload.data.statusCode === 200) {
+        console.log(data);
+        if (data.payload.isDeleted) {
+          dispatch(alertState({ state: true, comment: "탈퇴한 회원입니다." }));
+        } else if (data.payload.data.statusCode === 200) {
           // alert("로그인 성공!");
           navigate(`/home`);
         } else {
