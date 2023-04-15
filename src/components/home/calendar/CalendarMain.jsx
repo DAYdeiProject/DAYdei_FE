@@ -55,7 +55,7 @@ function CalendarMain({ ...props }) {
   const { otherId } = useSelector((state) => state.header);
 
   useEffect(() => {
-    if (otherId) {
+    if (location.pathname === "/other") {
       // 타유저 캘린더에 간 상황
       setDisabled(true);
       dispatch(__getTotalPosts({ userId: otherId }));
@@ -216,7 +216,7 @@ function CalendarMain({ ...props }) {
 
   return (
     <CalendarSidebarWrapper disabled={disabled}>
-      {userInfo && otherId && (
+      {userInfo && location.pathname === "/other" && (
         <OtherUserCalendar
           otherCalendarState={otherCalendarState}
           setOtherCalendarState={setOtherCalendarState}
@@ -283,7 +283,9 @@ function CalendarMain({ ...props }) {
           setAgainToday={setAgainToday}
         />
       </CalendarWrapper>
-      {!otherId && <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />}
+      {location.pathname !== "/other" && location.pathname !== "/friendsdetail" && (
+        <CalendarSidebar isSideOpen={isSideOpen} setIsSideOpen={setIsSideOpen} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />
+      )}
     </CalendarSidebarWrapper>
   );
 }

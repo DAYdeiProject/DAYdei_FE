@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DayAmPm } from "../../../utils/calendar/CalendarBasic";
 import { FormatTimeDot, TimeCheck } from "../../../utils/calendar/CalendarBasic";
@@ -11,7 +11,6 @@ import { ReactComponent as Left } from "../../../assets/defaultIcons/left.svg";
 import { ReactComponent as Right } from "../../../assets/defaultIcons/right.svg";
 
 export default function OtherUserCalendar({ ...props }) {
-  //const [isOpenSide, setIsOpenSide] = useState(false);
   const isShortScreen = useMediaQuery({ maxWidth: 1518 });
   const dispatch = useDispatch();
 

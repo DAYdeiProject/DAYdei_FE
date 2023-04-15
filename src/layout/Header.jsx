@@ -1,8 +1,8 @@
-import { React, useState, useEffect, useRef } from "react";
+import Cookies from "js-cookie";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
-import Cookies from "js-cookie";
+import { React, useState, useEffect, useRef } from "react";
 
 import { textState, otherIdState, newNotificationState } from "../redux/modules/headerReducer";
 import { __getHeaderProfile } from "../redux/modules/usersSlice";
@@ -29,7 +29,6 @@ function Header() {
   const [isEditProfile, setIsEditProfile] = useState(false);
   // 프로필 디테일 오픈여부
   const [isProfileDetail, setIsProfileDetail] = useState(false);
-
   const token = Cookies.get("accessJWTToken");
   const userId = GetUserInfo();
   const location = useLocation();
@@ -99,17 +98,14 @@ function Header() {
 
   // 홈클릭
   const homeClickHandler = () => {
-    dispatch(otherIdState("")); // 색깔 진하게
     navigate(`/home`);
   };
   // 친구/구독
   const friendclickHandler = () => {
-    dispatch(otherIdState(""));
     navigate(`/mylist`);
   };
   // 찾아보기
   const searchClickHandler = () => {
-    dispatch(otherIdState(""));
     navigate(`/search`);
   };
 
@@ -121,7 +117,6 @@ function Header() {
   // 로고 클릭시 home 이동
   const moveHomePage = () => {
     navigate("/home");
-    dispatch(otherIdState(""));
   };
 
   return (
