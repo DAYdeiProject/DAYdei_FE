@@ -168,6 +168,7 @@ const NofiMessageBox = styled.div`
   background-color: ${(props) => (props.isRead ? props.theme.Bg.color4 : props.theme.Bg.mainColor3)};
   &:hover {
     background-color: ${(props) => props.theme.Bg.hoverColor};
+    cursor: pointer;
   }
   span:nth-child(1) {
     font-size: 0.625rem;
