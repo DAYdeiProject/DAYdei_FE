@@ -37,10 +37,6 @@ function IntroPage() {
     }
   }, []);
 
-  // if (isDeleted) {
-  //   dispatch(alertState({ state: true, comment: "탈퇴한 회원입니다." }));
-  // } else
-
   const loginHandler = () => {
     if (email !== "" && password !== "") {
       const loginUser = { email, password };
