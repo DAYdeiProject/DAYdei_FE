@@ -29,7 +29,6 @@ export const __emailCheck = createAsyncThunk("login/emailCheck", async (email, t
 
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -65,10 +64,8 @@ export const __loginUser = createAsyncThunk("login/login", async (loginUser) => 
 export const __addCategories = createAsyncThunk("login/addCategories", async (Categories, thunkAPI) => {
   try {
     const response = await api.post("/api/users/categories", Categories);
-
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error.response.data.data);
   }
 });
@@ -76,10 +73,8 @@ export const __addCategories = createAsyncThunk("login/addCategories", async (Ca
 export const __requestNewPassword = createAsyncThunk("requestNewPassord", async (userInfo, thunkAPI) => {
   try {
     const response = await api.post("/api/users/reset/password", userInfo);
-    // console.log("이메일, 생일정보 post함-->", response.data.statusCode);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error.response.data.data);
   }
 });
@@ -87,26 +82,21 @@ export const __requestNewPassword = createAsyncThunk("requestNewPassord", async 
 export const __getMyProfile = createAsyncThunk("getMyProfile", async (id, thunkAPI) => {
   try {
     const response = await api.get(`/api/home/profile/${id}`);
-    // console.log("profile get요청 리스펀스 콘솔-->", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
 
 export const __setProfile = createAsyncThunk("setProfile", async (formData, thunkAPI) => {
   try {
-    // console.log(formData);
     const response = await api.patch(`/api/users/profile`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    // console.log("profile 수정 put요청 리스펀스-->", response.data);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -116,7 +106,6 @@ export const __getHeaderProfile = createAsyncThunk("getHeaderProfile", async (id
     const response = await api.get(`/api/home/profile/${id}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -124,10 +113,8 @@ export const __getHeaderProfile = createAsyncThunk("getHeaderProfile", async (id
 export const __memberOut = createAsyncThunk("memberOut", async (user, thunkAPI) => {
   try {
     const response = await api.put("/api/users/delete", user);
-    // console.log("삭제되었나?-->", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });

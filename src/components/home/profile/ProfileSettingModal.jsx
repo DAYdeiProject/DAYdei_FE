@@ -71,13 +71,10 @@ function ProfileSettingModal({ ...props }) {
   const headerProfile = useSelector((state) => state.users.headerProfile);
   //myProfile에 프사/배사가 있다면 state에 저장
   useEffect(() => {
-    // console.log("프로필세팅모달", headerProfile);
     if (headerProfile.profileImage) {
-      // console.log("처음 모달열었을 때 프로필 있는지", headerProfile.profileImage);
       setUpdatedProfileUrl(headerProfile.profileImage);
     }
     if (headerProfile.backgroundImage) {
-      // console.log("처음 모달열었을 때 배경 있는지", headerProfile.profileImage);
       setUpdatedBackgroundUrl(headerProfile.backgroundImage);
     }
   }, [headerProfile.profileImage, headerProfile.backgroundImage]);
@@ -183,11 +180,7 @@ function ProfileSettingModal({ ...props }) {
     formData.append("backgroundImage", background); // 파일 데이터
 
     if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile !== "" || background !== "" || introductionValue !== "") {
-      // for (let value of formData.values()) {
-      //   console.log("value", value);
-      // }
       dispatch(__setProfile(formData)).then((data) => {
-        console.log("then", data);
         if (data.payload !== 200) {
           dispatch(alertState({ state: true, comment: "프로필 수정 실패" }));
         } else {
@@ -216,7 +209,6 @@ function ProfileSettingModal({ ...props }) {
   //회원탈퇴 모달 오픈함수
   const handleMemberOutModal = () => {
     setIsMemberOutModalOpen(true);
-    console.log(props.isProfileSettingModalOpen);
   };
 
   return (
