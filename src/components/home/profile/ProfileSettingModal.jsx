@@ -15,6 +15,7 @@ import { BsCardImage } from "react-icons/bs";
 import { GetUserInfo } from "../../../utils/cookie/userInfo";
 import { ReactComponent as Cancel } from "../../../assets/defaultIcons/dismiss.svg";
 import ModalBox from "../../../elements/ModalBox";
+import MemberOutModal from "./MemberOutModal";
 
 function ProfileSettingModal({ ...props }) {
   //프로필 파일
@@ -34,6 +35,8 @@ function ProfileSettingModal({ ...props }) {
   //기존에 있던 사진을 지움
   const [deleteProfile, setDeleteProfile] = useState(false);
   const [deleteBackground, setDeleteBackground] = useState(false);
+  //탈퇴모달 오픈여부
+  const [isMemberOutModalOpen, setIsMemberOutModalOpen] = useState(false);
 
   const {
     password,
@@ -182,7 +185,6 @@ function ProfileSettingModal({ ...props }) {
       // for (let value of formData.values()) {
       //   console.log("value", value);
       // }
-      // console.log("디스패치 위-->", profile, background);
       dispatch(__setProfile(formData)).then((data) => {
         console.log("then", data);
         if (data.payload !== 200) {
@@ -209,6 +211,12 @@ function ProfileSettingModal({ ...props }) {
 
   //1440px 미만 스크린 감지
   const isShortScreen = useMediaQuery({ maxWidth: 1440 });
+
+  //회원탈퇴 모달 오픈함수
+  const handleMemberOutModal = () => {
+    setIsMemberOutModalOpen(true);
+    console.log(props.isProfileSettingModalOpen);
+  };
 
   return (
     <>
@@ -328,6 +336,17 @@ function ProfileSettingModal({ ...props }) {
                 </ButtonWrap>
                 <ButtonSubmit>저장하기</ButtonSubmit>
               </ButtonArea>
+              <MemberOutWrap>
+                <div onClick={handleMemberOutModal}>회원 탈퇴하기</div>
+                {isMemberOutModalOpen && (
+                  <MemberOutModal
+                    isMemberOutModalOpen={isMemberOutModalOpen}
+                    setIsMemberOutModalOpen={setIsMemberOutModalOpen}
+                    isProfileSettingModalOpen={props.isProfileSettingModalOpen}
+                    setIsProfileSettingModalOpen={props.setIsProfileSettingModalOpen}
+                  />
+                )}
+              </MemberOutWrap>
             </form>
           </ContentWrapper>
         </WholeAreaWrapper>
@@ -671,4 +690,19 @@ const ButtonWrap = styled.button`
 const ButtonSubmit = styled(ButtonWrap)`
   background: #0eafe1;
   color: ${(props) => props.theme.Bg.color6};
+`;
+
+const MemberOutWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: ${(props) => props.theme.Fs.size12};
+  color: ${(props) => props.theme.Bg.mainColor1};
+
+  div:nth-child(1) {
+    :hover {
+      cursor: pointer;
+    }
+  }
 `;
