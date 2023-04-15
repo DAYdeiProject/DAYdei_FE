@@ -134,11 +134,21 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
  <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png" width="400" height="550"/> 
  
   ### 4. 친구/구독 페이지
+  
+    <p><strong>- 구현 기능</strong></p>
+  
+  * 친구, 구독 캘린더, 나를 구독하는 유저 리스트
+  * 리스트 별로 기준에 따라 정렬 가능 (기본, 최신순, 오래된순, 구독자 많은 순)
+  * 리스트 별로 유저 검색 가능
 
  <img src="https://user-images.githubusercontent.com/122579951/232203324-9cdc7950-f674-42db-a1d3-c60366b916e6.png" width="900"> 
 
 
  ### 5. 찾아보기 페이지 
+  
+  * 카테고리별로 유저 찾아보기 가능 
+  * 유저 검색 가능 
+  * 친구신청 / 구독하기 및 취소 가능 
  
   <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png" width="900"> 
 
