@@ -359,6 +359,9 @@ export const WholeAreaWrapper = styled.div`
   @media screen and (max-width: 980px) {
     padding: 0 1rem;
   }
+  @media screen and (max-width: 872px) {
+    padding-left: 20px;
+  }
 `;
 
 export const ListFrameBig = styled.div`
@@ -367,6 +370,7 @@ export const ListFrameBig = styled.div`
   align-items: flex-start;
   height: 100%;
   flex: 1;
+
   @media screen and (max-width: 1518px) {
     width: 28.1875rem;
   }
@@ -435,6 +439,12 @@ export const ContentWrapper = styled.div`
   @media screen and (max-width: 1110px) {
     width: 290px;
   }
+  @media screen and (max-width: 980px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 230px;
+  }
 `;
 
 export const TopText = styled.div`
@@ -478,6 +488,12 @@ export const TopText = styled.div`
   @media screen and (max-width: 1110px) {
     width: 290px;
   }
+  @media screen and (max-width: 980px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 230px;
+  }
 `;
 
 export const TopLeft = styled.div`
@@ -519,6 +535,16 @@ export const SearchBar = styled.input`
 
   @media screen and (max-width: 1518px) {
     width: 12rem;
+  }
+  @media screen and (max-width: 1110px) {
+    width: 150px;
+    font-size: 12px;
+  }
+  @media screen and (max-width: 980px) {
+    width: 120px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 90px;
   }
 `;
 
@@ -597,6 +623,12 @@ export const ListWrap = styled.div`
   }
   @media screen and (max-width: 1110px) {
     width: 290px;
+  }
+  @media screen and (max-width: 980px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 230px;
   }
 `;
 

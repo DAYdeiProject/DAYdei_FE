@@ -146,20 +146,10 @@ const ButtonWrap = styled.div`
 `;
 
 const RecommendButton = styled.div`
-  display: flex;
-  padding: 0rem;
-  gap: 1rem;
-  border-radius: 0.25rem;
-
-  height: 100%;
-  padding: 0.625rem 0.875rem;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  ${(props) => props.theme.FlexCol}
 
   font-weight: 500;
   font-size: 0.875rem;
-  line-height: 140%;
 
   background: #fbfeff;
   border: 0.0625rem solid black;
@@ -169,6 +159,12 @@ const RecommendButton = styled.div`
   :hover {
     cursor: pointer;
     background-color: ${(props) => props.theme.Bg.mainColor2};
+  }
+
+  @media screen and (max-width: 1280px) {
+    width: 120px;
+    height: 30px;
+    font-size: 12px;
   }
 `;
 

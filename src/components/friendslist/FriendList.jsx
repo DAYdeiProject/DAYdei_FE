@@ -17,8 +17,6 @@ function FriendList({ FriendsList }) {
 
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
-  //console.log(headerProfile);
-
   const [number, setNumber] = useState(0);
   const width1820 = useMediaQuery({ maxWidth: 1820 });
   const width1720 = useMediaQuery({ maxWidth: 1720 });
@@ -109,10 +107,16 @@ function FriendList({ FriendsList }) {
               <BottomText>친구와 연결하여 캘린더를 공유해보세요.</BottomText>
             </TextWrap>
           </ContentArea>
-          <ButtonWrap>
-            <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
-            <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
-          </ButtonWrap>
+          {headerProfile && headerProfile.kakaoId === null ? (
+            <ButtonOneWrap>
+              <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
+            </ButtonOneWrap>
+          ) : (
+            <ButtonWrap>
+              <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+              <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
+            </ButtonWrap>
+          )}
         </MessageBox>
       </NoListMessageWrapper>
     );
@@ -163,15 +167,15 @@ function FriendList({ FriendsList }) {
           </PostBox>
         );
       })}
-      {headerProfile && headerProfile.kakaoId !== null ? (
+      {headerProfile && headerProfile.kakaoId === null ? (
+        <VisitKakaoWrap>
+          <div onClick={sendKakao}>친구 초대</div>
+        </VisitKakaoWrap>
+      ) : (
         <ListKakaoWrap>
           <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
           <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
         </ListKakaoWrap>
-      ) : (
-        <VisitKakaoWrap>
-          <div onClick={sendKakao}>친구 초대</div>
-        </VisitKakaoWrap>
       )}
     </>
   );
@@ -194,7 +198,6 @@ export const NoListMessageWrapper = styled.div`
   @media screen and (max-width: 1640px) {
     width: 20.625rem;
   }
-
   @media screen and (max-width: 1518px) {
     width: 28.75rem;
   }
@@ -204,8 +207,12 @@ export const NoListMessageWrapper = styled.div`
   @media screen and (max-width: 1280px) {
     width: 20rem;
   }
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1012px) {
     width: 18rem;
+  }
+  @media screen and (max-width: 980px) {
+    width: 16rem;
+    height: 15rem;
   }
 `;
 
@@ -269,18 +276,23 @@ export const BottomText = styled.div`
 export const ButtonWrap = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  padding: 0rem;
-  gap: 1rem;
+  padding: 0 5px;
+  gap: 10px;
 
   width: 100%;
   height: 2.5rem;
 `;
 
+const ButtonOneWrap = styled.div`
+  ${(props) => props.theme.FlexRow};
+`;
+
 const ListKakaoWrap = styled.div`
   ${(props) => props.theme.FlexRow};
   margin: 20px 0;
-  gap: 15px;
+  gap: 10px;
 `;
 
 const VisitKakaoWrap = styled.div`
@@ -313,16 +325,36 @@ const VisitKakaoWrap = styled.div`
 `;
 
 const KakaoButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0.625rem 0.875rem;
-  gap: 1rem;
+  ${(props) => props.theme.FlexCol}
+  width: 160px;
   height: 2.5rem;
   background: #ffffff;
   border: 0.0625rem solid #121212;
 
+  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
+  border-radius: 0.25rem;
+
+  font-weight: 500;
+  font-size: 0.875rem;
+
+  :hover {
+    cursor: pointer;
+    background-color: ${(props) => props.theme.Bg.mainColor2};
+  }
+
+  @media screen and (max-width: 1280px) {
+    width: 120px;
+    height: 30px;
+    font-size: 12px;
+  }
+`;
+
+const InviteButton = styled.div`
+  ${(props) => props.theme.FlexCol}
+  height: 2.5rem;
+  width: 100px;
+  background: #ffffff;
+  border: 0.0625rem solid #121212;
   box-shadow: 0.0625rem 0.0625rem 0rem #000000;
   border-radius: 0.25rem;
 
@@ -334,29 +366,10 @@ const KakaoButton = styled.div`
     cursor: pointer;
     background-color: ${(props) => props.theme.Bg.mainColor2};
   }
-`;
-
-const InviteButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0.625rem 0.875rem;
-  gap: 1rem;
-  height: 2.5rem;
-
-  background: #ffffff;
-  border: 0.0625rem solid #121212;
-  box-shadow: 0.0625rem 0.0625rem 0rem #000000;
-  border-radius: 0.25rem;
-
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 140%;
-
-  :hover {
-    cursor: pointer;
-    background-color: ${(props) => props.theme.Bg.mainColor2};
+  @media screen and (max-width: 1280px) {
+    width: 60px;
+    height: 30px;
+    font-size: 12px;
   }
 `;
 
@@ -445,9 +458,6 @@ export const NickNameWrap = styled.div`
   @media screen and (max-width: 1518px) {
     font-size: 0.875rem;
   }
-  @media screen and (max-width: 1518px) {
-    font-size: 0.875rem;
-  }
 `;
 
 export const EmailWrap = styled.div`
@@ -498,6 +508,10 @@ export const ButtonArea = styled.div`
   }
   @media screen and (max-width: 1518px) {
     width: 5rem;
+  }
+  @media screen and (max-width: 980px) {
+    width: 3rem;
+    font-size: 9px;
   }
 `;
 

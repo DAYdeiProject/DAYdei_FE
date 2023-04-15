@@ -212,6 +212,7 @@ const TodayScheduleWrapper = styled.div`
   gap: 0.1875rem;
   height: 350px;
   margin-bottom: 1.875rem;
+  padding-bottom: 15px;
   overflow-y: auto;
 
   @media screen and (max-height: 1065px) {
@@ -316,6 +317,8 @@ const ImgBox = styled(IconBox)`
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
+    border: solid 1px #121212;
+    box-shadow: 1px 1px 0 0 #000;
   }
 `;
 

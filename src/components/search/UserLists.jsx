@@ -202,6 +202,9 @@ const PostBox = styled.div`
   @media screen and (max-width: 1040px) {
     width: 210px;
   }
+  @media screen and (max-width: 950px) {
+    width: 220px;
+  }
 `;
 
 const ContentWrap = styled.div`

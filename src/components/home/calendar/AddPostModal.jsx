@@ -118,17 +118,16 @@ function AddPostModal({ ...props }) {
     }
   }, [props.pickDate]);
 
+  // 친구 초대태그하기
   const handleSearchText = useCallback(
     debounce((text) => setFindTarget(text), 200),
     []
   );
-
   // useForm watch 이용해서 input 값 가져오기
   useEffect(() => {
     handleSearchText(watch("participant"));
   }, [watch("participant")]);
-
-  // 친구 초대태그하기
+  // 친구 입력값 요청보내기
   useEffect(() => {
     // findTarget 에 값이 있다면 입력을 멈춘것
     if (findTarget === "") {
@@ -140,8 +139,8 @@ function AddPostModal({ ...props }) {
       let newEndTime = "";
 
       if (isAllDay) {
-        newStartTime = "00:00:00";
-        newEndTime = "00:00:00";
+        newStartTime = "00:00";
+        newEndTime = "00:00";
       } else {
         newStartTime = watch("startTime");
         newEndTime = watch("endTime");
@@ -434,7 +433,7 @@ function AddPostModal({ ...props }) {
         </postStyle.HeaderWrapper>
 
         <postStyle.TitleWrapper>
-          <input {...register("title")} placeholder="일정 제목 추가" />
+          <input {...register("title")} placeholder="일정 제목 추가" maxLength={18} />
         </postStyle.TitleWrapper>
 
         <postStyle.BodyWrapper>
@@ -545,7 +544,7 @@ function AddPostModal({ ...props }) {
               <postStyle.ToggleContainer>{isShowLocation ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
             </postStyle.LocationContainer>
             <postStyle.WriteLocationBox isShow={isShowLocation}>
-              <input type="text" {...register("location")} />
+              <input type="text" {...register("location")} maxLength={22} />
             </postStyle.WriteLocationBox>
           </postStyle.LocationWrapper>
 
@@ -570,7 +569,10 @@ function AddPostModal({ ...props }) {
               <postStyle.TextSpan>
                 <span>사진</span>
               </postStyle.TextSpan>
-              <postStyle.ToggleContainer>{isShowImg ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleContainer>
+              <postStyle.ImgComment>
+                <span>❗사진첨부는 최대 3장만 가능합니다.❗</span>
+              </postStyle.ImgComment>
+              <postStyle.ToggleImgContainer>{isShowImg ? <Up className="showToggle" /> : <Down className="showToggle" />}</postStyle.ToggleImgContainer>
             </postStyle.ImgContainer>
             <postStyle.ModifyImgUploadBox isShow={isShowImg}>
               <postStyle.ImgUploadBox>

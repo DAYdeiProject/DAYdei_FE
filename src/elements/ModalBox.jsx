@@ -67,7 +67,7 @@ const PostModalContainer = styled(motion.div)`
 `;
 
 const PostContent = styled.div`
-  width: ${(props) => props.isWidth && props.isWidth};
+  max-width: ${(props) => props.isWidth && props.isWidth};
   height: ${(props) => props.isHeight && props.isHeight};
   cursor: auto;
 `;

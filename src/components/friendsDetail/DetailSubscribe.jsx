@@ -31,20 +31,29 @@ function DetailSubscribe({ SubscribesList }) {
   const width1720 = useMediaQuery({ maxWidth: 1720 });
   const width1640 = useMediaQuery({ maxWidth: 1640 });
   const width1518 = useMediaQuery({ maxWidth: 1518 });
+  const width1370 = useMediaQuery({ maxWidth: 1370 });
+  const width1120 = useMediaQuery({ maxWidth: 1120 });
+  const width980 = useMediaQuery({ maxWidth: 980 });
 
   useEffect(() => {
-    if (width1820 && !width1720 && !width1640 && !width1518) {
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1370 && !width1120 && !width980) {
       setNumber(19);
-    } else if (width1820 && width1720 && !width1640 && !width1518) {
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1370 && !width1120 && !width980) {
       setNumber(16);
-    } else if (width1820 && width1720 && width1640 && !width1518) {
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+      setNumber(13);
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1370 && !width1120 && !width980) {
       setNumber(22);
-    } else if (width1820 && width1720 && width1640 && width1518) {
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && !width1120 && !width980) {
       setNumber(16);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1120 && !width980) {
+      setNumber(13);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1120 && width980) {
+      setNumber(7);
     } else {
       setNumber(22);
     }
-  }, [width1820, width1720, width1640, width1518]);
+  }, [width1820, width1720, width1640, width1518, width1370, width1120, width980]);
 
   if (SubscribesList?.length === 0) {
     return (

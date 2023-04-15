@@ -159,6 +159,11 @@ const HeaderTextMain = styled.div`
   font-size: 1.75rem;
   line-height: 140%;
   color: ${(props) => props.theme.Bg.color1};
+  min-width: 280px;
+  @media screen and (max-width: 810px) {
+    font-size: 23px;
+    min-width: 260px;
+  }
 `;
 
 const HeaderTextSub = styled.div`
@@ -216,6 +221,9 @@ const Icon = styled.div`
   @media screen and (max-width: 11550px) {
     width: 80px;
   }
+  @media screen and (max-width: 950px) {
+    width: 60px;
+  }
 `;
 
 const SearchBarArea = styled.div`
@@ -236,6 +244,9 @@ const SearchBarArea = styled.div`
   }
   @media screen and (max-width: 1155px) {
     width: 350px;
+  }
+  @media screen and (max-width: 950px) {
+    width: 260px;
   }
 `;
 
@@ -289,6 +300,9 @@ const SearchBody = styled.div`
   }
   @media screen and (max-width: 1225px) {
     grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width: 950px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
