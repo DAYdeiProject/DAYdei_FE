@@ -309,14 +309,14 @@ export const CalendarWrapper = styled.div`
 
   @media screen and (max-width: 1518px) {
     // disabled == otherCalendar 갔을때
-    padding-right: ${(props) => (props.disabled ? "20px" : "20px")};
+    padding-right: ${(props) => (props.disabled ? "40px" : "15px")};
     padding-left: 50px;
     padding-bottom: 30px;
     margin-left: ${(props) => props.isOtherShort && "21.875rem"};
   }
 
   @media screen and (max-width: 1440px) {
-    padding-left: ${(props) => (props.disabled ? "40px" : "20px")};
+    padding-left: 40px;
   }
 `;
 
@@ -326,10 +326,10 @@ const CalendarContainer = styled.div`
   padding: 20px 50px;
 
   @media screen and (max-width: 1518px) {
-    padding: ${(props) => (props.disabled ? "20px 30px" : "20px 20px")};
+    padding: ${(props) => (props.disabled ? "0px" : "20px")};
   }
   @media screen and (max-width: 1440px) {
-    padding: ${(props) => (props.disabled ? "20px 30px" : "20px 50px")};
+    padding: 20px;
   }
 
   @media screen and (max-height: 1080px) {
