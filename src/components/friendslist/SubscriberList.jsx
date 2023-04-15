@@ -127,7 +127,7 @@ export const ProfileImgNickname = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   gap: 5px;
-  width: 50%;
+  width: 180px;
   @media screen and (max-width: 1280px) {
     width: 60%;
   }
