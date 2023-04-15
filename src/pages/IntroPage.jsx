@@ -110,8 +110,6 @@ function IntroPage() {
   );
 }
 
-export const PageWrapper = styled.div``;
-
 export const ScreenLayout = styled.div`
   ${(props) => props.theme.FlexRow};
   height: calc(1080px - 4rem - 0.0625rem);
@@ -133,6 +131,7 @@ export const LoginBox = styled.div`
 const TitleText = styled.div`
   ${(props) => props.theme.FlexCol};
   height: 5rem;
+  margin-bottom: 30px;
   span {
     font-size: 1.875rem;
     font-weight: 600;
