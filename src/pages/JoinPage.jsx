@@ -39,6 +39,7 @@ function JoinPage() {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [emailTrue, setEmailTrue] = useState("");
 
   //이메일 중복검사
   const emailCheckHandler = (email) => {
@@ -48,6 +49,7 @@ function JoinPage() {
           dispatch(alertState({ state: true, comment: "중복된 이메일입니다" }));
         } else {
           dispatch(alertState({ state: true, comment: "사용 가능한 이메일입니다" }));
+          setEmailTrue(email);
         }
       });
     }
@@ -64,7 +66,7 @@ function JoinPage() {
   };
 
   const joinHandler = () => {
-    if (isEmail === true && isPw === true && password === passwordCheck && isCheck.statusCode === 200) {
+    if (email === emailTrue && isEmail === true && isPw === true && password === passwordCheck && isCheck.statusCode === 200) {
       const newUser = { email, password, passwordCheck, nickName, birthday };
       dispatch(__addUser(newUser)).then((data) => {
         if (data.payload.statusCode === 200) {
@@ -80,6 +82,9 @@ function JoinPage() {
     }
     if (!isEmail || isPw !== true || password !== passwordCheck) {
       dispatch(alertState({ state: true, comment: "양식에 맞게 작성해 주세요!" }));
+    }
+    if (email !== emailTrue) {
+      dispatch(alertState({ state: true, comment: "이메일 중복확인이 필요합니다" }));
     }
   };
 
