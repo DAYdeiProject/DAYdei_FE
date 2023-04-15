@@ -85,14 +85,16 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
   <img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png" width="900"/> 
   
-  ### 2. 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
+  ### 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
   
   <img src = "https://user-images.githubusercontent.com/122579951/232204191-6559d60c-bf14-4368-ac5c-e03d0cdd87c3.png" width ="300" height = "300"/>
   <img src = "https://user-images.githubusercontent.com/122579951/232204232-4ecb7634-1b14-446f-b3d5-f94302a1961f.png" width ="300" height = "300"/>
   <img src = "https://user-images.githubusercontent.com/122579951/232204247-1211f1fa-ae7d-4628-b259-051c4efaf53f.png" width ="300" height = "300"/>
-<!-- ![알림 모달](https://user-images.githubusercontent.com/122579951/232204191-6559d60c-bf14-4368-ac5c-e03d0cdd87c3.png) -->
-<!-- ![일정 더보기](https://user-images.githubusercontent.com/122579951/232204232-4ecb7634-1b14-446f-b3d5-f94302a1961f.png)
-![개별 일정 상세보기](https://user-images.githubusercontent.com/122579951/232204247-1211f1fa-ae7d-4628-b259-051c4efaf53f.png) -->
+
+  ### 홈 캘린더 > 메모장 / 구독하는 캘린더 숨김 or 표시 
+  
+   <img src = "https://user-images.githubusercontent.com/122579951/232204949-5f3ec0e2-2fc7-4ca9-9023-b9c23fe3f8b3.png" width ="450" height = "300"/>
+   <img src = "https://user-images.githubusercontent.com/122579951/232204962-2a71d5e4-af09-4555-8bab-ebd924f5d16c.png" width ="450" height = "300"/>
 
  ### 3. 일정 작성/수정
 
