@@ -250,8 +250,12 @@ function AddPostModal({ ...props }) {
       return dispatch(alertState({ state: true, comment: "1장당 10MB, 총 크기는 20MB만 가능합니다. 다시 선택해주세요.", max: true }));
     }
 
-    setFileList((pre) => [...pre, ...img]);
+    // 3장 제한
+    if (img.length + fileList.length + saveView.length > 3) {
+      return dispatch(alertState({ state: true, comment: "사진첨부는 최대 3장만 가능합니다." }));
+    }
 
+    setFileList((pre) => [...pre, ...img]);
     // 파일 이름 뿌려주기 위해서
     img.forEach((list) => {
       let newName = list.name.split(".")[0];
@@ -317,14 +321,13 @@ function AddPostModal({ ...props }) {
       newStartTime = data.startTime;
       newEndTime = data.endTime;
     }
+
+    // 사진
     const imgList = new FormData();
-    if (fileList.length > 3) {
-      return dispatch(alertState({ state: true, comment: "파일첨부는 최대 3개까지 첨부가능합니다." }));
-    } else {
-      fileList.map((img) => {
-        imgList.append("images", img);
-      });
-    }
+    fileList.map((img) => {
+      imgList.append("images", img);
+    });
+
     // 컬러
     const newColor = ColorToDB(isColor);
     const newPost = {
