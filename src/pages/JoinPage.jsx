@@ -44,7 +44,7 @@ function JoinPage() {
   const emailCheckHandler = (email) => {
     if (isEmail) {
       dispatch(__emailCheck(email)).then((data) => {
-        console.log("then에서 나오는 200-->", data);
+        // console.log("then에서 나오는 200-->", data);
         if (data.payload.statusCode !== 200) {
           dispatch(alertState({ state: true, comment: "중복된 이메일입니다" }));
         } else {
@@ -58,8 +58,6 @@ function JoinPage() {
     setMonth(e.target.value);
     setBirthday(e.target.value + day);
   };
-
-  console.log(day, month, birthday);
 
   const handleDayChange = (e) => {
     setDay(e.target.value);
@@ -273,7 +271,7 @@ const InputFrame = styled.div`
   }
 `;
 
-const InputInnerWrap = styled.div`
+export const InputInnerWrap = styled.div`
   ${(props) => props.theme.FlexRowBetween};
   padding: 0.5rem 0.625rem 0.5rem 1.125rem;
   .joinIcon {
@@ -285,14 +283,14 @@ const InputFrameBirthday = styled(InputFrame)`
   border: none;
 `;
 
-const BirthdayWrap = styled(InputInnerWrap)`
+export const BirthdayWrap = styled(InputInnerWrap)`
   padding: 0rem;
   display: flex;
   flex-direction: row;
   gap: 0.875rem;
 `;
 
-const BirthdayInput = styled.select`
+export const BirthdayInput = styled.select`
   width: 13.75rem;
   height: 2.875rem;
   border: 0.0625rem solid ${(props) => props.theme.Bg.color3};

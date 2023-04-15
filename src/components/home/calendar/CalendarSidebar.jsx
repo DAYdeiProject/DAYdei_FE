@@ -34,23 +34,34 @@ export default function CalendarSidebar({ ...props }) {
   //SubscribeListControl로 전달되는 상태
   const [clickedButtonIds, setClickedButtonIds] = useState([]);
 
-  //메모 상태변경 추적
-  const handleFixedTitleChange = (e) => {
-    setFixedTitle(e.target.value);
-  };
-
-  const handleFixedContentChange = (e) => {
-    setFixedContent(e.target.value);
-  };
-
   //수정메모 상태변경 추적
   const handleTitleChange = (e) => {
+    autoResizeTextArea(e.target);
     setTitle(e.target.value);
   };
 
   const handleContentChange = (e) => {
+    autoResizeTextArea(e.target);
     setContent(e.target.value);
   };
+
+  //텍스트 길이에 따라 textarea 높이 조절
+  function autoResizeTextArea(element) {
+    element.style.height = "auto";
+    element.style.height = element.scrollHeight + "px";
+  }
+
+  //메모 상태변경 추적
+  const handleFixedTitleChange = (e) => {
+    autoResizeTextArea(e.target);
+    setFixedTitle(e.target.value);
+  };
+
+  const handleFixedContentChange = (e) => {
+    autoResizeTextArea(e.target);
+    setFixedContent(e.target.value);
+  };
+
   //메모 모달 열고닫기 함수
   const handleTodoBoxOpen = () => {
     setIsTodoBoxOpen(!isTodoBoxOpen);
@@ -75,19 +86,27 @@ export default function CalendarSidebar({ ...props }) {
   const dispatch = useDispatch();
   const submitMemoHandler = () => {
     const memo = { title, content };
-    if (title !== "" && content !== "") {
-      dispatch(__addMemo(memo)).then(() => {
-        dispatch(__getMemos());
-      });
-      setIsInputBoxOpen(false);
-      setIsAddMemoBoxOpen(true);
-      setTitle("");
-      setContent("");
+    if ((title === "" && content !== "") || (title !== "" && content === "")) {
+      alert("제목과 내용 모두 입력해주세요!");
     } else {
-      setIsInputBoxOpen(false);
-      setIsAddMemoBoxOpen(true);
-      setTitle("");
-      setContent("");
+      if (title !== "" || content !== "") {
+        if (title.length <= 10) {
+          dispatch(__addMemo(memo)).then(() => {
+            dispatch(__getMemos());
+          });
+          setIsInputBoxOpen(false);
+          setIsAddMemoBoxOpen(true);
+          setTitle("");
+          setContent("");
+        } else {
+          alert("제목은 10자 이내로 입력해 주세요!");
+        }
+      } else {
+        setIsInputBoxOpen(false);
+        setIsAddMemoBoxOpen(true);
+        setTitle("");
+        setContent("");
+      }
     }
   };
 
@@ -95,8 +114,6 @@ export default function CalendarSidebar({ ...props }) {
   const statusCodeMemo = useSelector((state) => state.memos.statusCode);
   const statusCodeDelete = useSelector((state) => state.memos.statusCodeDelete);
   const updatedMemos = useSelector((state) => state.memos.updatedMemos);
-
-  // console.log("셀렉터로 불러온 updatedMemos -->", updatedMemos);
 
   //메모 박스 열렸을 때 메모 정보 GET
   useEffect(() => {
@@ -111,9 +128,11 @@ export default function CalendarSidebar({ ...props }) {
 
   //메모 삭제
   const deleteMemoHandler = (id) => {
-    dispatch(__deleteMemo(id)).then(() => {
-      dispatch(__getMemos());
-    });
+    if (window.confirm("메모를 삭제하시겠습니까?")) {
+      dispatch(__deleteMemo(id)).then(() => {
+        dispatch(__getMemos());
+      });
+    }
   };
 
   //수정할 메모박스찾기 함수
@@ -141,12 +160,15 @@ export default function CalendarSidebar({ ...props }) {
   const fixMemoHandler = (id) => {
     const memo = memos.find((memo) => memo.id === id);
     const fixedMemo = { title: fixedTitle || memo.title, content: fixedContent || memo.content };
-    // if (fixedTitle !== "" && fixedContent !== "") {
-    dispatch(__fixMemo({ id, fixedMemo })).then(() => {
-      dispatch(__getMemos());
-    });
-    setClickedMemoId(null);
-    setHoveredMemoId(null);
+    if (fixedTitle.length <= 10) {
+      dispatch(__fixMemo({ id, fixedMemo })).then(() => {
+        dispatch(__getMemos());
+      });
+      setClickedMemoId(null);
+      setHoveredMemoId(null);
+    } else {
+      alert("제목은 10자 이내로 작성해 주세요!");
+    }
   };
 
   return (
@@ -196,10 +218,10 @@ export default function CalendarSidebar({ ...props }) {
                           submitMemoHandler();
                         }}>
                         <ContentWrapper>
-                          <InputBar type="text" placeholder="제목을 입력해주세요" value={title} onChange={handleTitleChange} autoFocus />
-                          <InputBarContent type="text" placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} />
+                          <InputBar placeholder="제목" value={title} onChange={handleTitleChange} autoFocus rows={1} />
+                          <InputBarContent placeholder="내용을 입력해주세요" value={content} onChange={handleContentChange} rows={1} />
                         </ContentWrapper>
-                        <button hidden>제출</button>
+                        <MemoSubmit>완료</MemoSubmit>
                       </form>
                     </InputBox>
                   )}
@@ -210,33 +232,32 @@ export default function CalendarSidebar({ ...props }) {
               {updatedMemos.map((memo) => (
                 <div key={memo.id}>
                   {clickedMemoId === memo.id ? (
-                    <CorrectionBox>
+                    <InputBox>
                       <form
                         onSubmit={(e) => {
                           e.preventDefault();
                           fixMemoHandler(memo.id);
                         }}>
                         <ContentWrapper>
-                          <InputBar type="text" placeholder="제목을 수정해주세요" defaultValue={memo.title} onChange={handleFixedTitleChange} autoFocus />
-                          <InputBarContent type="text" placeholder="내용을 수정해주세요" defaultValue={memo.content} onChange={handleFixedContentChange} />
+                          <InputBar placeholder="제목 수정" defaultValue={memo.title} onChange={handleFixedTitleChange} autoFocus rows={1} />
+                          <InputBarContent placeholder="내용을 수정해주세요" defaultValue={memo.content} onChange={handleFixedContentChange} rows={1} />
                         </ContentWrapper>
-                        <button hidden>제출</button>
+                        <MemoSubmit>수정</MemoSubmit>
                       </form>
-                    </CorrectionBox>
+                    </InputBox>
                   ) : (
                     <MemoBox onMouseEnter={() => findHoveredMemoHandler(memo.id)} onClick={() => findClickedMemoHandler(memo.id)}>
                       <UpperBox>
-                        <div>{memo.title}</div>
+                        <TitleBox>{memo.title}</TitleBox>
                         {hoveredMemoId === memo.id ? (
                           <IconWrap>
                             <MoreY width="16px" height="16px" onClick={(event) => ClickedMoreYHandler(event, memo.id)} />
                             {isClickedMoreYId && (
-                              <OptionsWrap>
-                                <FaTrash
-                                  onClick={() => {
-                                    deleteMemoHandler(memo.id);
-                                  }}
-                                />
+                              <OptionsWrap
+                                onClick={() => {
+                                  deleteMemoHandler(memo.id);
+                                }}>
+                                <FaTrash />
                               </OptionsWrap>
                             )}
                           </IconWrap>
@@ -373,7 +394,7 @@ const SmallText = styled.div`
   color: ${(props) => props.theme.Bg.color3};
 `;
 
-// 메모 추가하기
+// 메모 추가하기 글씨 박스
 const AddBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -400,7 +421,7 @@ const NoMemoSignBox = styled.div`
   gap: 0.4rem;
 `;
 
-// 메모 없음 아이콘 확대
+// 메모 없음 아이콘 큰사이즈
 const MemoIconWrap = styled(Memo)`
   width: 8rem;
   height: 8rem;
@@ -408,7 +429,6 @@ const MemoIconWrap = styled(Memo)`
 `;
 
 //메모 없음 텍스트
-
 const NoMemoText = styled.div`
   font-size: ${(props) => props.theme.Fs.size16};
   font-weight: 500;
@@ -432,7 +452,7 @@ const InputBox = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 12rem;
-  height: 3.125rem;
+  /* height: auto; */
   background: #f1fbfe;
   border-radius: 0.25rem;
 `;
@@ -442,39 +462,71 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 11.5rem;
-  height: 2.375rem;
   gap: 0.5rem;
+  width: 12rem;
+  height: auto;
   /* background: pink; */
 `;
 
 // 입력창 input에 대한 상세 style
-const InputBar = styled.input`
+const InputBar = styled.textarea`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   padding: 0rem 0.25rem;
   background: #f1fbfe;
-  height: 0.875rem;
+  min-height: 1rem;
+
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  margin-bottom: 10px;
+  height: auto;
+  overflow: hidden;
+  resize: none;
   ::placeholder {
     color: ${(props) => props.theme.Bg.color3};
+    font-size: ${(props) => props.theme.Fs.size16};
   }
-  font-weight: 500;
-  font-size: 0.75rem;
-  line-height: 0.875rem;
-  color: ${(props) => props.theme.Bg.color1};
 `;
 
 const InputBarContent = styled(InputBar)`
   font-weight: 400;
-  line-height: 150%;
   color: ${(props) => props.theme.Bg.color2};
+  min-height: 1rem;
+
+  font-weight: 500;
+  font-size: 14px;
+  ::placeholder {
+    font-size: ${(props) => props.theme.Fs.size12};
+  }
+`;
+
+const MemoSubmit = styled.button`
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: ${(props) => props.theme.Fs.size12};
+  color: ${(props) => props.theme.Bg.color1};
+  background-color: ${(props) => props.theme.Bg.mainColor3};
+  margin-left: auto;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  :hover {
+    color: ${(props) => props.theme.Bg.color6};
+    background-color: ${(props) => props.theme.Bg.mainColor5};
+    cursor: pointer;
+  }
 `;
 
 //입력완료한 메모박스가 쌓이는 하단 영역
 const UnderWrap = styled.div`
   display: flex;
   flex-direction: column;
+  height: auto;
   gap: 0.75rem;
 `;
 
@@ -498,7 +550,9 @@ const MemoBox = styled.div`
 
 const CorrectionBox = styled(MemoBox)`
   background: #f1fbfe;
-  padding-left: 0rem;
+  height: auto;
+  overflow: hidden;
+  resize: none;
 `;
 
 const MemoBoxButtonWrapper = styled.div`
@@ -525,6 +579,11 @@ const UpperBox = styled.div`
   color: ${(props) => props.theme.Bg.color1};
 `;
 
+const TitleBox = styled.div`
+  font-size: ${(props) => props.theme.Fs.size16};
+  margin-bottom: 10px;
+`;
+
 const IconWrap = styled.div`
   position: relative;
   :hover {
@@ -538,16 +597,19 @@ const OptionsWrap = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
   gap: 0.125rem;
   top: 1rem;
   right: 0.3125rem;
-  width: 1.875rem;
+  width: 2.4rem;
   height: 1.875rem;
   border-radius: 0.3125rem;
   border: 0.0625rem solid black;
   background: white;
+  :hover {
+    background-color: ${(props) => props.theme.Bg.color3};
+  }
 `;
 
 const UnderBox = styled.div`
