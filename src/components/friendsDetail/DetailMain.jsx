@@ -52,7 +52,7 @@ function DetailMain() {
     const id = otherId;
     if (searchWord === "") {
       let url = `${id}?sort=name&searchword=`;
-      console.log("검색어 없는 url-->", url);
+      //console.log("검색어 없는 url-->", url);
       dispatch(__getFriendsList(url));
       dispatch(__getSubscribeList(url));
       dispatch(__getSubscriberList(url));

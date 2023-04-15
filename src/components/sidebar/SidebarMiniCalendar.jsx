@@ -35,7 +35,7 @@ const MiniWrapper = styled.div`
   width: 100%;
   margin-bottom: 2.9375rem;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     height: 240px;
   }
   @media screen and (max-height: 844.55px) {
@@ -64,8 +64,9 @@ const MiniWrapper = styled.div`
   .react-calendar__navigation {
     height: 1.875rem;
 
-    @media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1518px) {
       height: 1.2rem;
+      width: 250px;
     }
     @media screen and (max-height: 929px) {
       height: 1rem;
@@ -76,8 +77,8 @@ const MiniWrapper = styled.div`
   }
 
   .react-calendar__navigation__label > span {
-    @media screen and (max-width: 1440px) {
-      font-size: 0.87rem;
+    @media screen and (max-width: 1518px) {
+      font-size: 0.8rem;
     }
   }
   // 요일
@@ -87,7 +88,7 @@ const MiniWrapper = styled.div`
       /*월,화,수... 글자 부분*/
       text-decoration: none;
     }
-    @media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1518px) {
       height: 1.4rem;
     }
     @media screen and (max-height: 929px) {
@@ -104,7 +105,7 @@ const MiniWrapper = styled.div`
     height: 2.5rem;
     font-size: ${(props) => props.theme.Fs.size12};
 
-    @media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1518px) {
       font-size: 0.625rem;
     }
     @media screen and (max-height: 844.55px) {
@@ -141,7 +142,7 @@ const CheckPost = styled.div`
   ${(props) => props.theme.FlexCol}
   padding-top: 0.3125rem;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     padding-top: 0;
   }
 
@@ -151,7 +152,7 @@ const CheckPost = styled.div`
     border-radius: 50%;
     background-color: ${(props) => props.theme.Bg.mainColor5};
 
-    @media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1518px) {
       height: 0.25rem;
       width: 0.25rem;
     }

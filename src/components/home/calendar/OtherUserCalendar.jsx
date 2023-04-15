@@ -11,8 +11,8 @@ import { ReactComponent as Left } from "../../../assets/defaultIcons/left.svg";
 import { ReactComponent as Right } from "../../../assets/defaultIcons/right.svg";
 
 export default function OtherUserCalendar({ ...props }) {
-  const [isOpenSide, setIsOpenSide] = useState(false);
-  const isShortScreen = useMediaQuery({ maxWidth: 1440 });
+  //const [isOpenSide, setIsOpenSide] = useState(false);
+  const isShortScreen = useMediaQuery({ maxWidth: 1518 });
   const dispatch = useDispatch();
 
   const { otherUserUpdate, otherUserShare } = useSelector((state) => state.calendar);
@@ -29,11 +29,12 @@ export default function OtherUserCalendar({ ...props }) {
   };
 
   const openClickHandler = () => {
-    setIsOpenSide(!isOpenSide);
+    props.setIsOtherShort(!props.isOtherShort);
+    //setIsOpenSide(!isOpenSide);
   };
   return (
     <>
-      <OtherWrapper isOpen={isShortScreen && isOpenSide}>
+      <OtherWrapper isOpen={isShortScreen && props.isOtherShort}>
         <OtherUpdateWrapper>
           <UpdateTitle>업데이트 된 일정</UpdateTitle>
           <UpdateContainer>
@@ -99,8 +100,8 @@ export default function OtherUserCalendar({ ...props }) {
         </OtherUpdateWrapper>
       </OtherWrapper>
       {isShortScreen && (
-        <ScreenWrapper onClick={openClickHandler} isOpen={isOpenSide}>
-          {isOpenSide ? <Left /> : <Right />}
+        <ScreenWrapper onClick={openClickHandler} isOpen={props.isOtherShort}>
+          <div>{props.isOtherShort ? <Left /> : <Right />}</div>
         </ScreenWrapper>
       )}
     </>
@@ -113,32 +114,51 @@ const OtherWrapper = styled.div`
   min-width: 21.875rem;
   max-width: 21.875rem;
   height: 100%;
+  //border-left: 0.0625rem solid ${(props) => props.theme.Bg.color3};
   border-right: 0.0625rem solid ${(props) => props.theme.Bg.color3};
 
   position: ${(props) => props.isOpen && "absolute"};
   background-color: #ffffff;
-  left: 305px;
+
+  left: 306px;
   z-index: 2;
   padding: 1.875rem;
-`;
 
-const IconBox = styled.div`
-  ${(props) => props.theme.FlexRow}
-  justify-content: right;
-  margin-top: 0.9375rem;
-  margin-bottom: 0.3125rem;
-  padding-right: 1.875rem;
-  cursor: pointer;
+  @media screen and (max-width: 1518px) {
+    border-right: none;
+  }
 `;
 
 const OtherUpdateWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   align-items: flex-start;
   justify-content: flex-start;
-  min-height: 25rem;
+  height: 100%;
 
-  @media screen and (max-width: 1440px) {
-    min-height: 330px;
+  @media screen and (max-height: 1015px) {
+    height: 450px;
+  }
+  @media screen and (max-height: 950px) {
+    height: 430px;
+  }
+  @media screen and (max-height: 895px) {
+    height: 400px;
+  }
+  @media screen and (max-height: 835px) {
+    height: 370px;
+  }
+  @media screen and (max-height: 810px) {
+    height: 360px;
+  }
+  @media screen and (max-height: 777px) {
+    height: 340px;
+  }
+  @media screen and (max-height: 730px) {
+    height: 310px;
+  }
+
+  @media screen and (max-height: 696px) {
+    height: 295px;
   }
 `;
 
@@ -155,12 +175,27 @@ const UpdateTitle = styled.span`
 const UpdateContainer = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
-  height: 300px;
+  height: 370px;
   overflow-y: auto;
   padding-bottom: 1.25rem;
 
-  @media screen and (max-width: 1440px) {
-    height: 240px;
+  @media screen and (max-height: 988px) {
+    height: 330px;
+  }
+  @media screen and (max-height: 930px) {
+    height: 300px;
+  }
+  @media screen and (max-height: 865px) {
+    height: 270px;
+  }
+  @media screen and (max-height: 800px) {
+    height: 250px;
+  }
+  @media screen and (max-height: 755px) {
+    height: 220px;
+  }
+  @media screen and (max-height: 696px) {
+    height: 200px;
   }
 `;
 
@@ -215,7 +250,9 @@ const TimeBox = styled.div`
 const NoneScheduleBox = styled.div`
   ${(props) => props.theme.BoxCustom};
   ${(props) => props.theme.FlexCol}
-  height: 14.375rem;
+  width: 16.25rem;
+  height: 12.5rem;
+  margin-top: 10px;
   gap: 1.25rem;
   cursor: auto;
   div {
@@ -223,16 +260,26 @@ const NoneScheduleBox = styled.div`
   }
 `;
 
-// 1440 일때
+// 1518 일때
 const ScreenWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   width: 2.125rem;
-  height: 100%;
-  border-right: 1px solid ${(props) => props.theme.Bg.color2};
-  border-left: 1px solid ${(props) => props.theme.Bg.color3};
-  background-color: ${(props) => props.theme.Bg.color5};
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: ${(props) => (props.isOpen ? "610px" : "306px")};
+  height: calc(1080px - 4rem - 0.0625rem);
+
+  div {
+    ${(props) => props.theme.FlexCol}
+    width: 2.125rem;
+    height: 100%;
+    border-right: 1px solid ${(props) => props.theme.Bg.color2};
+    border-left: 1px solid ${(props) => props.theme.Bg.color3};
+    background-color: ${(props) => props.theme.Bg.color5};
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: ${(props) => (props.isOpen ? "610px" : "305px")};
+
+    @media screen and (max-height: 1080px) {
+      height: calc(101vh - 4rem - 0.0625rem);
+    }
+  }
 `;

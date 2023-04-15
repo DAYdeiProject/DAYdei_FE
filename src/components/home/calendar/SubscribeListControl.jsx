@@ -18,12 +18,10 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
 
   //useSelector로 구독하는 유저 정보 가져오기
   const { statusCodeHide, SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  // console.log(SubscribesList);
 
   useEffect(() => {
     const id = userInfo.userId;
     let url = `${id}?sort=name&searchword=`;
-    //console.log("검색어 없는 url-->", url);
 
     dispatch(__getSubscribeList(url));
   }, [requestStatus]);
@@ -69,7 +67,6 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
       </ButtonStyle>
     );
   };
-  // console.log(clickedButtonIds);
 
   return (
     <>
@@ -84,23 +81,27 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
         <ContentWrap>
           <MembersArea>
             <SmallTitleWrap>구독 캘린더</SmallTitleWrap>
-            {SubscribesList.filter((user) => user.isVisible).map((user) => (
-              <BoxWrap key={user.id}>
-                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                <div>{user.nickName ? user.nickName : "이름 없음"}</div>
-                <Button id={user.id} isVisible={user.isVisible} />
-              </BoxWrap>
-            ))}
+            <SubListContainer>
+              {SubscribesList.filter((user) => user.isVisible).map((user) => (
+                <BoxWrap key={user.id}>
+                  <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                  <div>{user.nickName ? user.nickName : "이름 없음"}</div>
+                  <Button id={user.id} isVisible={user.isVisible} />
+                </BoxWrap>
+              ))}
+            </SubListContainer>
           </MembersArea>
           <MembersArea>
-            <SmallTitleWrap>숨김 캘린더</SmallTitleWrap>
-            {SubscribesList.filter((user) => user.isVisible === false).map((user) => (
-              <BoxWrap key={user.id}>
-                <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                <div>{user.nickName ? user.nickName : "이름 없음"}</div>
-                <Button id={user.id} isVisible={user.isVisible} />
-              </BoxWrap>
-            ))}
+            <HideTitleWrap>숨김 캘린더</HideTitleWrap>
+            <SubListContainer>
+              {SubscribesList.filter((user) => user.isVisible === false).map((user) => (
+                <BoxWrap key={user.id}>
+                  <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                  <div>{user.nickName ? user.nickName : "이름 없음"}</div>
+                  <Button id={user.id} isVisible={user.isVisible} />
+                </BoxWrap>
+              ))}
+            </SubListContainer>
           </MembersArea>
         </ContentWrap>
       </SideSpaceWrapper>
@@ -117,17 +118,18 @@ export const SideSpaceWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 15rem;
-  height: 100%;
+  height: calc(1080px - 4rem - 0.0625rem);
   background-color: white;
-  overflow: auto;
+
   z-index: 1;
   flex-shrink: 0;
-  border-left: 0.0625rem solid black;
-  padding-top: 1.25rem;
+  border-left: 0.0625rem solid ${(props) => props.theme.Bg.color2};
+  padding: 1.25rem 0;
+
   ::-webkit-scrollbar {
     display: none;
   }
-  /* background: blue; */
+
   @media screen and (max-width: 1440px) {
     position: absolute;
     right: 0;
@@ -139,7 +141,6 @@ export const GapArea = styled.div`
   width: 13rem;
   border-bottom: 0.0625rem solid gray;
   margin-bottom: 0.75rem;
-  /* background: yellow; */
 `;
 
 const ContentWrap = styled.div`
@@ -153,6 +154,38 @@ const MembersArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+
+  height: 445px;
+  @media screen and (max-height: 1064px) {
+    height: 430px;
+  }
+  @media screen and (max-height: 1022px) {
+    height: 400px;
+  }
+  @media screen and (max-height: 960px) {
+    height: 380px;
+  }
+  @media screen and (max-height: 922px) {
+    height: 360px;
+  }
+  @media screen and (max-height: 882px) {
+    height: 340px;
+  }
+  @media screen and (max-height: 840px) {
+    height: 320px;
+  }
+  @media screen and (max-height: 800px) {
+    height: 300px;
+  }
+  @media screen and (max-height: 762px) {
+    height: 280px;
+  }
+  @media screen and (max-height: 722px) {
+    height: 260px;
+  }
+  @media screen and (max-height: 700px) {
+    height: 240px;
+  }
 `;
 
 const SmallTitleWrap = styled.div`
@@ -162,7 +195,20 @@ const SmallTitleWrap = styled.div`
   font-weight: 400;
   font-size: ${(props) => props.theme.Fs.size12};
   line-height: 0.875rem;
-  color: ${(props) => props.theme.Bg.fontColor3};
+  color: ${(props) => props.theme.Bg.color2};
+`;
+
+const HideTitleWrap = styled(SmallTitleWrap)`
+  border-top: 1px solid ${(props) => props.theme.Bg.color3};
+  padding-top: 15px;
+  padding-bottom: 10px;
+`;
+
+const SubListContainer = styled.div`
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BoxWrap = styled.div`
@@ -175,7 +221,6 @@ const BoxWrap = styled.div`
   font-size: ${(props) => props.theme.Fs.size14};
   font-weight: 600;
   line-height: 1.0625rem;
-  /* background-color: yellow; */
 `;
 
 export const PhotoFrame = styled.img`

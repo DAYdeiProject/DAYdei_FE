@@ -106,10 +106,22 @@ function SearchUsers() {
 
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  height: calc(100vh - 4rem - .0625rem);
+  height: calc(1080px - 4rem - 0.0625rem);
+  max-height: calc(100vh - 4rem - 0.0625rem);
+
   padding: 0 40px;
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1890px) {
+    padding: 0 30px;
+  }
+  @media screen and (max-width: 1518px) {
+    padding: 0 40px;
     margin-left: 25px;
+  }
+  @media screen and (max-width: 1290px) {
+    padding-left: 30px;
+  }
+  @media screen and (max-width: 1040px) {
+    padding-left: 20px;
   }
 `;
 
@@ -120,7 +132,16 @@ export const WholeAreaWrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1878px) {
+    width: 1380px;
+  }
+  @media screen and (max-width: 1780px) {
+    width: 1280px;
+  }
+  @media screen and (max-width: 1680px) {
+    width: 1100px;
+  }
+  @media screen and (max-width: 1518px) {
     width: 100%;
   }
 `;
@@ -138,6 +159,11 @@ const HeaderTextMain = styled.div`
   font-size: 1.75rem;
   line-height: 140%;
   color: ${(props) => props.theme.Bg.color1};
+  min-width: 280px;
+  @media screen and (max-width: 810px) {
+    font-size: 23px;
+    min-width: 260px;
+  }
 `;
 
 const HeaderTextSub = styled.div`
@@ -153,8 +179,14 @@ const HeaderTextSub = styled.div`
 const SearchHeader = styled.div`
   ${(props) => props.theme.FlexRowBetween}
   padding: 0px;
-  gap: 12.5rem;
   margin-bottom: 1.75rem;
+
+  @media screen and (max-width: 1152px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 1111.5px) {
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -179,6 +211,19 @@ const Icon = styled.div`
   :hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 1680px) {
+    width: 80px;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 6.25rem;
+  }
+  @media screen and (max-width: 11550px) {
+    width: 80px;
+  }
+  @media screen and (max-width: 950px) {
+    width: 60px;
+  }
 `;
 
 const SearchBarArea = styled.div`
@@ -190,7 +235,19 @@ const SearchBarArea = styled.div`
   padding: 1rem 1.5rem;
   border: 0.0625rem solid #ebebeb;
   border-radius: 0.5rem;
-  margin-left: auto;
+
+  @media screen and (max-width: 1680px) {
+    width: 350px;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 28.125rem;
+  }
+  @media screen and (max-width: 1155px) {
+    width: 350px;
+  }
+  @media screen and (max-width: 950px) {
+    width: 260px;
+  }
 `;
 
 const SearchIcon = styled.div`
@@ -209,9 +266,10 @@ const SearchBar = styled.input`
 
 const SearchBody = styled.div`
   width: 100%;
-  height: 43.75rem;
+  //max-height: 770px;
+  height: 100%;
   padding: 0 3px;
-  padding-bottom: 5px;
+  padding-bottom: 50px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 1.125rem;
@@ -223,16 +281,28 @@ const SearchBody = styled.div`
     display: none;
   }
 
-  @media screen and (max-width: 1770px) {
+  @media screen and (max-width: 1878px) {
     grid-template-columns: repeat(5, 1fr);
   }
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1680px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media screen and (max-width: 1518px) {
     width: 100%;
-    height: 37.5rem;
     grid-column-gap: 0.8438rem;
     grid-row-gap: 0.9375rem;
     grid-template-columns: repeat(6, 1fr);
+  }
+  @media screen and (max-width: 1415px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  @media screen and (max-width: 1225px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width: 950px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 

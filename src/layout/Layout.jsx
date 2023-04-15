@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { __getMyProfile } from "../redux/modules/usersSlice";
 import Header from "./Header";
+import SseMessageBox from "../components/SseMessageBox";
 
 function Layout() {
   return (
@@ -12,6 +13,7 @@ function Layout() {
           <Header />
           <Outlet />
         </MainWarpper>
+        <SseMessageBox />
       </Wrapper>
     </>
   );
@@ -35,8 +37,4 @@ const MainWarpper = styled.div`
   max-height: 1080px;
   margin: 0 auto;
   overflow: hidden;
-
-  @media screen and (max-width: 1440px) {
-    height: 900px;
-  }
 `;

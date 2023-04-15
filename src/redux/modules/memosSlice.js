@@ -14,7 +14,6 @@ const initialState = {
 export const __getMemos = createAsyncThunk("getMemos", async (_, thunkAPI) => {
   try {
     const response = await memosInstance.get(`/`);
-    // console.log("get요청 리스펀스 -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -25,7 +24,7 @@ export const __getMemos = createAsyncThunk("getMemos", async (_, thunkAPI) => {
 export const __addMemo = createAsyncThunk("addMemo", async (memo, thunkAPI) => {
   try {
     const response = await memosInstance.post("/", memo);
-    console.log("post요청 리스펀스--", response.data);
+
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.data);
@@ -39,7 +38,6 @@ export const __deleteMemo = createAsyncThunk("deleteMemo", async (id, thunkAPI) 
 
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -51,7 +49,6 @@ export const __fixMemo = createAsyncThunk("deleteMemo", async (payload, thunkAPI
 
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });

@@ -30,7 +30,6 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
 
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -42,7 +41,6 @@ export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thu
 
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -54,7 +52,6 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
 
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });

@@ -335,15 +335,32 @@ function FriendsListMain() {
 
 export const WholeWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
-  height: calc(100vh - 4rem - 0.0625rem);
+  height: calc(1080px - 4rem - 0.0625rem);
   justify-content: flex-start;
 `;
 
 export const WholeAreaWrapper = styled.div`
   ${(props) => props.theme.FlexRow};
+  height: 100%;
   padding: 0 3rem;
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1640px) {
+    padding: 0 2rem;
+  }
+  @media screen and (max-width: 1570px) {
+    padding: 0 1rem;
+  }
+  @media screen and (max-width: 1518px) {
     margin-left: 25px;
+    padding: 0 3rem;
+  }
+  @media screen and (max-width: 1110px) {
+    padding: 0 2rem;
+  }
+  @media screen and (max-width: 980px) {
+    padding: 0 1rem;
+  }
+  @media screen and (max-width: 872px) {
+    padding-left: 20px;
   }
 `;
 
@@ -354,8 +371,11 @@ export const ListFrameBig = styled.div`
   height: 100%;
   flex: 1;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     width: 28.1875rem;
+  }
+  @media screen and (max-width: 1280px) {
+    align-items: center;
   }
 `;
 
@@ -365,7 +385,7 @@ export const FrameBigWithPadding = styled(ListFrameBig)`
   border-left: 0.0375rem solid ${(props) => props.theme.Bg.border1};
   border-right: 0.0375rem solid ${(props) => props.theme.Bg.border1};
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     width: 28.1875rem;
   }
 `;
@@ -373,25 +393,57 @@ export const FrameBigWithPadding = styled(ListFrameBig)`
 export const FrameBigWithMargin = styled(ListFrameBig)`
   align-items: flex-end;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     width: 28.1875rem;
+  }
+  @media screen and (max-width: 1280px) {
+    align-items: center;
   }
 `;
 
-export const ListFrame = styled.div``;
+export const ListFrame = styled.div`
+  height: 100%;
+`;
 
 export const ContentWrapper = styled.div`
   ${(props) => props.theme.FlexCol};
+  height: 100%;
 
-  @media screen and (max-width: 1440px) {
-    min-width: 430px;
-  }
+  // 창 최소로 줄였을때..
+  max-height: calc(100vh - 4rem - 0.0625rem);
 
-  @media screen and (max-width: 1880px) {
-    width: 460px;
-  }
-  @media screen and (max-width: 1780px) {
+  @media screen and (max-width: 1890px) {
     width: 440px;
+  }
+  @media screen and (max-width: 1820px) {
+    width: 410px;
+  }
+  @media screen and (max-width: 1720px) {
+    width: 380px;
+  }
+  @media screen and (max-width: 1640px) {
+    width: 360px;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 430px;
+  }
+  @media screen and (max-width: 1440px) {
+    width: 410px;
+  }
+  @media screen and (max-width: 1370px) {
+    width: 380px;
+  }
+  @media screen and (max-width: 1280px) {
+    width: 320px;
+  }
+  @media screen and (max-width: 1110px) {
+    width: 290px;
+  }
+  @media screen and (max-width: 980px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 230px;
   }
 `;
 
@@ -402,17 +454,45 @@ export const TopText = styled.div`
   align-items: center;
 
   width: 29rem;
-  height: 2.6875rem;
+  min-height: 2.6875rem;
 
   border-bottom: 0.0625rem solid #121212;
   margin-top: 3rem;
 
-  @media screen and (max-width: 1440px) {
-    width: 29rem;
+  @media screen and (max-width: 1890px) {
+    width: 440px;
+  }
+  @media screen and (max-width: 1820px) {
+    width: 410px;
+  }
+  @media screen and (max-width: 1720px) {
+    width: 380px;
+  }
+  @media screen and (max-width: 1640px) {
+    width: 360px;
+  }
+
+  @media screen and (max-width: 1518px) {
+    width: 430px;
     margin-top: 2.25rem;
   }
-  @media screen and (max-width: 1880px) {
-    width: 420px;
+  @media screen and (max-width: 1440px) {
+    width: 410px;
+  }
+  @media screen and (max-width: 1370px) {
+    width: 380px;
+  }
+  @media screen and (max-width: 1280px) {
+    width: 320px;
+  }
+  @media screen and (max-width: 1110px) {
+    width: 290px;
+  }
+  @media screen and (max-width: 980px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 230px;
   }
 `;
 
@@ -437,7 +517,7 @@ export const TopRight = styled.div`
     cursor: pointer;
   }
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     padding-right: 0.1875rem;
     gap: 0.375rem;
   }
@@ -453,8 +533,18 @@ export const SearchBar = styled.input`
   width: 14.375rem;
   height: 1.25rem;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1518px) {
     width: 12rem;
+  }
+  @media screen and (max-width: 1110px) {
+    width: 150px;
+    font-size: 12px;
+  }
+  @media screen and (max-width: 980px) {
+    width: 120px;
+  }
+  @media screen and (max-width: 872px) {
+    width: 90px;
   }
 `;
 
@@ -497,35 +587,48 @@ export const DropdownItems = styled.div`
 export const ListWrap = styled.div`
   ${(props) => props.theme.FlexCol};
   justify-content: flex-start;
-  padding: 0rem;
-  //width: 29rem;
-  width: 100%;
-  height: 50.75rem;
-  margin-top: 1rem;
-  overflow: auto;
 
+  width: 29rem;
+  height: 100%;
+  margin-top: 1rem;
+  padding-bottom: 20px;
+  overflow: auto;
   ::-webkit-scrollbar {
     display: none;
   }
 
+  @media screen and (max-width: 1890px) {
+    width: 440px;
+  }
+  @media screen and (max-width: 1820px) {
+    width: 410px;
+  }
+  @media screen and (max-width: 1720px) {
+    width: 380px;
+  }
+  @media screen and (max-width: 1640px) {
+    width: 360px;
+  }
+  @media screen and (max-width: 1518px) {
+    width: 430px;
+  }
   @media screen and (max-width: 1440px) {
-    width: 29rem;
+    width: 410px;
   }
-
-  @media screen and (max-height: 1032.22px) {
-    height: 850px;
+  @media screen and (max-width: 1370px) {
+    width: 380px;
   }
-  @media screen and (max-height: 929px) {
-    height: 750px;
+  @media screen and (max-width: 1280px) {
+    width: 320px;
   }
-  @media screen and (max-height: 844.55px) {
-    height: 670px;
+  @media screen and (max-width: 1110px) {
+    width: 290px;
   }
-  @media screen and (max-height: 743.2px) {
-    height: 570px;
+  @media screen and (max-width: 980px) {
+    width: 250px;
   }
-  @media screen and (max-height: 619.33px) {
-    height: 470px;
+  @media screen and (max-width: 872px) {
+    width: 230px;
   }
 `;
 

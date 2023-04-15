@@ -14,7 +14,6 @@ const useAlignFunctions = () => {
   //기본 순 정렬
   const alignBasicHandler = (id) => {
     let url = `${id}?sort=name&searchword=`;
-    // console.log("여기-", url);
     if (isDropdownFriendOpen) {
       dispatch(__getFriendsList(url));
     }
@@ -29,7 +28,6 @@ const useAlignFunctions = () => {
   // 구독자 많은 순 정렬
   const alignSubscribeHandler = (id) => {
     let url = `${id}?sort=famous&searchword=`;
-    // console.log("여기-", url);
     if (isDropdownFriendOpen) {
       dispatch(__getFriendsList(url));
     }
@@ -44,7 +42,6 @@ const useAlignFunctions = () => {
   // 최근 친구가 된 순으로 정렬
   const alignNewestHandler = (id) => {
     let url = `${id}?sort=recent&searchword=`;
-    // console.log("여기-", url);
     if (isDropdownFriendOpen) {
       dispatch(__getFriendsList(url));
     }
@@ -59,7 +56,6 @@ const useAlignFunctions = () => {
   // 오래 전 친구 맺은 순으로 정렬
   const alignOldestHandler = (id) => {
     let url = `${id}?sort=old&searchword=`;
-    // console.log("여기-", url);
     if (isDropdownFriendOpen) {
       dispatch(__getFriendsList(url));
     }

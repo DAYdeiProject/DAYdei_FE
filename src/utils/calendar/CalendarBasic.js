@@ -143,7 +143,7 @@ export function CategoryText(data) {
     case "GAME":
       return "게임";
     default:
-      return "스포츠";
+      return "경제";
   }
 }
 
@@ -179,7 +179,6 @@ export function MaxSizeFile(img) {
   // 개별 사이즈
   for (let item of img) {
     if (Number(item.size) > maxSize) {
-      // console.log(item.size);
       return false;
     }
   }

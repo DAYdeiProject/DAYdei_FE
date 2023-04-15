@@ -210,6 +210,7 @@ export default function CalendarSidebar({ ...props }) {
                       </NoMemoSignBox>
                     </>
                   )}
+
                   {isInputBoxOpen && (
                     <InputBox>
                       <form
@@ -288,7 +289,7 @@ export default function CalendarSidebar({ ...props }) {
 const WholeWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: calc(1080px - 4rem - 0.0625rem);
 `;
 
 //사이드바
@@ -296,9 +297,6 @@ const SidebarWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
   justify-content: flex-start;
   position: relative;
-
-  //position: absolute;
-
   right: ${(props) => (props.isTodo || props.isSub ? "15rem" : "0")};
   width: 2.875rem;
   height: 100%;
@@ -308,36 +306,31 @@ const SidebarWrapper = styled.div`
   cursor: pointer;
   background: white;
   z-index: 1;
-
-  @media screen and (max-width: 1440px) {
-    position: absolute;
-  }
 `;
 
 //사이드바 아이콘 클릭 시 나오는 영역
 export const SideSpaceWrapper = styled.div`
   position: absolute;
   right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${(props) => props.theme.FlexCol}
+  justify-content: flex-start;
+
   width: 15rem;
   height: 100%;
   background-color: white;
-  overflow: auto;
+
   z-index: 10;
   flex-shrink: 0;
   border-left: 0.0625rem solid black;
   gap: 1.125rem;
   padding-top: 1.25rem;
+
   ::-webkit-scrollbar {
     display: none;
   }
-  /* background: yellow; */
 
-  @media screen and (max-width: 1440px) {
-    position: absolute;
-    right: 0;
+  @media screen and (max-height: 1080px) {
+    height: calc(100vh - 4rem - 0.0625rem);
   }
 `;
 
@@ -372,7 +365,6 @@ export const GapArea = styled.div`
   width: 12.5rem;
   border-bottom: 0.0625rem solid gray;
   margin-bottom: 0.75rem;
-  /* background: yellow; */
 `;
 
 // 내 메모 + 메모 추가하기 영역
@@ -383,7 +375,6 @@ const AddMemoBox = styled.div`
   gap: 0.75rem;
   width: 12rem;
   min-height: 3.375rem;
-  /* background: pink; */
 `;
 
 // 내 메모
@@ -452,7 +443,6 @@ const InputBox = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 12rem;
-  /* height: auto; */
   background: #f1fbfe;
   border-radius: 0.25rem;
 `;
@@ -465,7 +455,6 @@ const ContentWrapper = styled.div`
   gap: 0.5rem;
   width: 12rem;
   height: auto;
-  /* background: pink; */
 `;
 
 // 입력창 input에 대한 상세 style
@@ -526,8 +515,16 @@ const MemoSubmit = styled.button`
 const UnderWrap = styled.div`
   display: flex;
   flex-direction: column;
-  height: auto;
+
+  height: 100%;
+  padding-bottom: 30px;
   gap: 0.75rem;
+
+  overflow: auto;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 //입력완료한 메모박스
@@ -546,24 +543,6 @@ const MemoBox = styled.div`
   :hover {
     background: #f1fbfe;
   }
-`;
-
-const CorrectionBox = styled(MemoBox)`
-  background: #f1fbfe;
-  height: auto;
-  overflow: hidden;
-  resize: none;
-`;
-
-const MemoBoxButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  padding-right: 0.3125rem;
-  width: 100%;
-  gap: 0.625rem;
-  margin-top: 0.625rem;
-  background: pink;
 `;
 
 const UpperBox = styled.div`
@@ -616,12 +595,4 @@ const UnderBox = styled.div`
   font-weight: normal;
   font-size: 0.75rem;
   line-height: 150%;
-`;
-
-const FixButton = styled.div`
-  width: 3.125rem;
-  background-color: lightgray;
-  border-radius: 0.25rem;
-  text-align: center;
-  padding: 0.1875rem;
 `;

@@ -131,7 +131,6 @@ export const __getTodayUpdate = createAsyncThunk("getTodayUpdate", async (payloa
 // 상세 일정 get
 export const __getPostDetail = createAsyncThunk("getPostDetail", async (payload, thunkAPI) => {
   try {
-    //console.log("getPostDetail response : ", payload);
     const response = await api.get(`/api/posts/${payload.id}`);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {

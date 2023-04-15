@@ -40,7 +40,6 @@ function FindPasswordModal({ setIsFindPasswordModalOpen }) {
     }
     const userInfo = { email, birthday };
     dispatch(__requestNewPassword(userInfo)).then((data) => {
-      // console.log(data);
       if (data.payload === 200) {
         alert("입력하신 이메일로 새 비밀번호를 발급해 드렸습니다.");
         setIsFindPasswordModalOpen(false);

@@ -81,7 +81,7 @@ export const GlobalStyle = createGlobalStyle`
           font-size: 16px;
         }
       }
-       @media screen and (max-width: 1440px) {
+       @media screen and (max-width: 1518px) {
         html {
           font-size: 14px;
         }
