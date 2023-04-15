@@ -64,7 +64,6 @@ function Sidebar({ ...props }) {
   };
   useOutsideClick(outside, closeSide);
 
-  console.log("sidebar location-->", location.pathname);
   return (
     <>
       {isShortScreen ? (

@@ -41,7 +41,6 @@ function IntroPage() {
     if (email !== "" && password !== "") {
       const loginUser = { email, password };
       dispatch(__loginUser(loginUser)).then((data) => {
-        console.log(data);
         if (data.payload.isDeleted) {
           dispatch(alertState({ state: true, comment: "탈퇴한 회원입니다." }));
         } else if (data.payload.data.statusCode === 200) {
