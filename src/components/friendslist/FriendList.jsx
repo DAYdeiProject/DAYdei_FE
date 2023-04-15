@@ -62,7 +62,6 @@ function FriendList({ FriendsList }) {
   }, []);
 
   const sendKakao = () => {
-    console.log(window.Kakao);
     if (window.Kakao) {
       const kakao = window.Kakao;
 

@@ -18,12 +18,10 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
 
   //useSelector로 구독하는 유저 정보 가져오기
   const { statusCodeHide, SubscribesList, isLoadingSubscribe } = useSelector((state) => state.subscribe);
-  // console.log(SubscribesList);
 
   useEffect(() => {
     const id = userInfo.userId;
     let url = `${id}?sort=name&searchword=`;
-    //console.log("검색어 없는 url-->", url);
 
     dispatch(__getSubscribeList(url));
   }, [requestStatus]);
@@ -69,7 +67,6 @@ function SubscribeListControl({ clickedButtonIds, setClickedButtonIds, isSubmit,
       </ButtonStyle>
     );
   };
-  // console.log(clickedButtonIds);
 
   return (
     <>

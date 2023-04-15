@@ -29,12 +29,9 @@ import {
 } from "./FriendList";
 
 function SubscribeList({ SubscribesList }) {
-  // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = GetUserInfo();
-  // const SubscribeList = useSelector((state) => state.subscribe.SubscribeList);
-  // console.log("자식에서 찍은 구독-->", SubscribesList);
 
   const cancelSubscribeHandler = (id) => {
     dispatch(__cancelSubscribe(id));

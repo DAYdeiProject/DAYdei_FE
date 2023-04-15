@@ -44,7 +44,6 @@ function JoinPage() {
   const emailCheckHandler = (email) => {
     if (isEmail) {
       dispatch(__emailCheck(email)).then((data) => {
-        // console.log("then에서 나오는 200-->", data);
         if (data.payload.statusCode !== 200) {
           dispatch(alertState({ state: true, comment: "중복된 이메일입니다" }));
         } else {
@@ -68,7 +67,6 @@ function JoinPage() {
     if (isEmail === true && isPw === true && password === passwordCheck && isCheck.statusCode === 200) {
       const newUser = { email, password, passwordCheck, nickName, birthday };
       dispatch(__addUser(newUser)).then((data) => {
-        // console.log("then 데이터-->", data.payload.statusCode);
         if (data.payload.statusCode === 200) {
           dispatch(alertState({ state: true, comment: "회원 가입 완료!" }));
           navigate("/");

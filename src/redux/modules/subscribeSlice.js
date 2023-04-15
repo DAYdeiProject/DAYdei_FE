@@ -14,7 +14,6 @@ const initialState = {
 export const __getSubscribeList = createAsyncThunk("getSubscribeList", async (url, thunkAPI) => {
   try {
     const response = await subscribeInstance.get(`/list/${url}`);
-    // console.log("내가 구독 List -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -25,7 +24,6 @@ export const __getSubscribeList = createAsyncThunk("getSubscribeList", async (ur
 export const __getSubscriberList = createAsyncThunk("getSubscriberList", async (url, thunkAPI) => {
   try {
     const response = await subscribeInstance.get(`/followers/${url}`);
-    // console.log("나를 구독 List -------> ", response.data.data);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -36,10 +34,8 @@ export const __getSubscriberList = createAsyncThunk("getSubscriberList", async (
 export const __addSubscribe = createAsyncThunk("addSubscribe", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.post(`/${id}`);
-    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -48,10 +44,8 @@ export const __addSubscribe = createAsyncThunk("addSubscribe", async (id, thunkA
 export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.delete(`/${id}`);
-    // console.log(response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -60,10 +54,8 @@ export const __cancelSubscribe = createAsyncThunk("cancelSubscribe", async (id, 
 export const __hideUser = createAsyncThunk("hideUser", async (id, thunkAPI) => {
   try {
     const response = await subscribeInstance.put(`/show/${id}`);
-    // console.log("put요청 리스펀스", response.data.statusCode);
     return thunkAPI.fulfillWithValue(response.data.statusCode);
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -73,7 +65,6 @@ export const subscribeSlice = createSlice({
   initialState,
   reducers: {
     "subscribe/updateClickedButtonIds": (state, action) => {
-      // console.log(action.payload);
       state.clickedButtonIds.push(action.payload);
     },
   },

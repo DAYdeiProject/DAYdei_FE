@@ -22,7 +22,6 @@ import {
 } from "../friendslist/FriendList";
 
 function DetailSubscriberList({ SubscribersList }) {
-  // console.log(subscribeList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
