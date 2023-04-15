@@ -185,11 +185,27 @@ export const NoListMessageWrapper = styled.div`
   border-radius: 0.5rem;
   border: 0.0625rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
-  background-color: lightblue;
+  padding-bottom: 15px;
 
   @media screen and (max-width: 1880px) {
     width: 23rem;
     height: 16.875rem;
+  }
+  @media screen and (max-width: 1640px) {
+    width: 20.625rem;
+  }
+
+  @media screen and (max-width: 1518px) {
+    width: 28.75rem;
+  }
+  @media screen and (max-width: 1380px) {
+    width: 25rem;
+  }
+  @media screen and (max-width: 1280px) {
+    width: 20rem;
+  }
+  @media screen and (max-width: 980px) {
+    width: 18rem;
   }
 `;
 
@@ -398,6 +414,8 @@ export const PhotoFrame = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    border: solid 1px #121212;
+    box-shadow: 1px 1px 0 0 #000;
 
     @media screen and (max-width: 1570px) {
       width: 35px;
