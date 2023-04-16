@@ -132,9 +132,9 @@ export default function DetailPostModal({ ...props }) {
     setEndTime("");
     setIsColor("");
     dispatch(setNotificationPostId(""));
-    if (otherId) {
-      dispatch(otherIdState(otherId));
-    }
+    // if (otherId) {
+    //   dispatch(otherIdState(otherId));
+    // }
   };
   // 닫기 클릭시(더보기에서 왔으면 더보기 true로)
   const closeModal = () => {
@@ -187,7 +187,7 @@ export default function DetailPostModal({ ...props }) {
         if (url === "home" || url === "other") {
           props.setIsSubmit(!props.isSubmit);
         }
-        if (otherId) {
+        if (url === "other") {
           props.setOtherCalendarState(true);
         }
       }
@@ -204,7 +204,7 @@ export default function DetailPostModal({ ...props }) {
         if (url === "home" || url === "other") {
           props.setIsSubmit(!props.isSubmit);
         }
-        if (otherId) {
+        if (url === "other") {
           props.setOtherCalendarState(true);
         }
       }
@@ -217,7 +217,7 @@ export default function DetailPostModal({ ...props }) {
         <DetailPostWrapper ref={outside}>
           <DetailContentWrapper>
             <HeaderWrapper>
-              {!otherId && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
+              {url === "home" && detail.postSubscribeCheck === null && String(userInfo.userId) === String(detail.writer.id) && (
                 <MoreY className="dotsIcon" onClick={editOpenClickHandler} />
               )}
               <Dismiss className="closeIncon" onClick={closeModal} />
