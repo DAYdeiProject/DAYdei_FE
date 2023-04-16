@@ -67,10 +67,29 @@ function Sidebar({ ...props }) {
   return (
     <>
       {isShortScreen ? (
-        location.pathname === "/other" || location.pathname === "/friendsdetail" ? (
+        location.pathname === "/other" ? (
           <SideOtherStyle>
             <SidebarOtherCalendar otherId={otherId} />
           </SideOtherStyle>
+        ) : location.pathname === "/friendsdetail" ? (
+          isSideStyleOpen ? (
+            <WholeWrapper ref={outside}>
+              <SideStyle isShort={isShortScreen}>
+                <SidebarOtherCalendar otherId={otherId} />
+              </SideStyle>
+              <SideStyleShort onClick={openSideStyleHandler}>
+                <IconWrapper isSideStyleOpen={isSideStyleOpen}>
+                  <Left />
+                </IconWrapper>
+              </SideStyleShort>
+            </WholeWrapper>
+          ) : (
+            <SideStyleShort onClick={openSideStyleHandler}>
+              <IconWrapper>
+                <Right />
+              </IconWrapper>
+            </SideStyleShort>
+          )
         ) : isSideStyleOpen ? (
           <WholeWrapper ref={outside}>
             <SideStyle isShort={isShortScreen}>
