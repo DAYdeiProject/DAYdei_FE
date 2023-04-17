@@ -1,6 +1,7 @@
 ## DAYDEI
-<div style="text-align: left; font-size: 30px;" >
-당신의 매일매일, 일정은 <img style="vertical-align: center;" src="https://user-images.githubusercontent.com/122579951/232423073-10f54108-07fb-4ff7-a9d0-44abfb3966f1.png" width="100" height="20"/>
+<div style="text-align: left; font-size: 40px;">
+  <img style="vertical-align: middle; display: inline-block;" src="https://user-images.githubusercontent.com/122579951/232423073-10f54108-07fb-4ff7-a9d0-44abfb3966f1.png" width="100" height="20"/>
+  <span style="vertical-align: middle; display: inline-block;">당신의 매일매일, 일정은</span>
 </div>
 
 
