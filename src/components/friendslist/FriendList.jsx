@@ -12,6 +12,7 @@ import { MdOutlineAddReaction } from "react-icons/md";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function FriendList({ FriendsList }) {
+  // console.log("FriendList 리렌더링");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -179,6 +180,8 @@ function FriendList({ FriendsList }) {
     </>
   );
 }
+
+export default FriendList;
 
 export const NoListMessageWrapper = styled.div`
   ${(props) => props.theme.FlexCol}
@@ -515,5 +518,3 @@ export const ButtonArea = styled.div`
     font-size: 9px;
   }
 `;
-
-export default FriendList;

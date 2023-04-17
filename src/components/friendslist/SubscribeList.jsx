@@ -29,6 +29,7 @@ import {
 } from "./FriendList";
 
 function SubscribeList({ SubscribesList }) {
+  // console.log("SubscribeList 리렌더링");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = GetUserInfo();
@@ -131,6 +132,8 @@ function SubscribeList({ SubscribesList }) {
   );
 }
 
+export default SubscribeList;
+
 const ButtonWrap = styled.div`
   display: flex;
   flex-direction: row;
@@ -164,5 +167,3 @@ const RecommendButton = styled.div`
     font-size: 12px;
   }
 `;
-
-export default SubscribeList;
