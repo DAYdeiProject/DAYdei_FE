@@ -93,12 +93,10 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
       </ul>
   </div>
                          
-<details>더보기 
-<summary>로그인</summary>
+<details> 
+<summary>로그인/회원가입 화면</summary>
 
 <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png"  />
-
-<summary>회원가입</summary>
 <img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" />                                                                                                                                                                                                                           
 </details>          
                                                                                                                  
