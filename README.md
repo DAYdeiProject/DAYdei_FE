@@ -12,9 +12,6 @@ DAYDEI Front-End Repository
 |------|:---:|---|:--------:|
 |정다정|FE|프론트엔드 팀장|https://github.com/daaaj|
 |김준형|FE|프론트엔드 팀원|https://github.com/juninkorea95|
-|김주희|BE|백엔드 팀장|..|
-|최정환|BE|백엔드 팀원|..|
-|한지윤|BE|백엔드 팀원|..|
 
 ## 목차
 
