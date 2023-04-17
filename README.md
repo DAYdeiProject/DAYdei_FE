@@ -1,20 +1,14 @@
 ## DAYDEI
-<div style="text-align: left; >
-  <span style="vertical-align: middle; display: inline-block;">당신의 매일매일, 일정은</span>
-  <img style="vertical-align: middle; display: inline-block;" src="https://user-images.githubusercontent.com/122579951/232423073-10f54108-07fb-4ff7-a9d0-44abfb3966f1.png" width="100" height="20"/>
-  
-</div>
 
-
-항해99 12기 A반 4조 최종프로젝트 (2023.03.10 - 2023.04.21) <br/> 
+항해99 12기 A반 4조 최종프로젝트 (2023.03.10 - 2023.04.21) <br/>
 DAYDEI Front-End Repository
 
-### 팀원 
+### 팀원
 
-|이름|포지션|팀원구분|Github|
-|------|:---:|---|:--------:|
-|정다정|FE|프론트엔드 팀장|https://github.com/daaaj|
-|김준형|FE|프론트엔드 팀원|https://github.com/juninkorea95|
+| 이름   | 포지션 | 팀원구분        |             Github              |
+| ------ | :----: | --------------- | :-----------------------------: |
+| 정다정 |   FE   | 프론트엔드 팀장 |    https://github.com/daaaj     |
+| 김준형 |   FE   | 프론트엔드 팀원 | https://github.com/juninkorea95 |
 
 ## 목차
 
@@ -52,7 +46,6 @@ DAYDEI Front-End Repository
 - 초대링크를 친구에게 보내 캘린더에서 함께 하고 싶어요.
 - 중요한 일정이나 이벤트가 시작되기 전에 알림을 받고싶어요.
 
-
 ## 2. 프로젝트 주소
 
 https://daydei.life
@@ -69,8 +62,7 @@ https://daydei.life
   <img src="https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white">
   <img src="https://img.shields.io/badge/Axios-5a2f88?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
-  <img src="https://img.shields.io/badge/react--router--dom-CA4245?style=for-the-badge&logo=react-router-dom&logoColor=white"> 
-
+  <img src="https://img.shields.io/badge/react--router--dom-CA4245?style=for-the-badge&logo=react-router-dom&logoColor=white">
 
 </div>
 
@@ -92,15 +84,9 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
         <li>비밀번호 찾기(가입 이메일로 임시 비밀번호 발급)</li>
       </ul>
   </div>
-                         
-<details> 
-<summary>로그인/회원가입 화면</summary>
-
-<img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png"  />
-<img src="https://user-images.githubusercontent.com/122579951/231502938-f3350735-55a2-4433-9fca-1ed847e7a819.png" />                                                                                                                                                                                                                           
-</details>          
-                                                                                                                 
-                                                                                                                 
+  
+  <img src="https://user-images.githubusercontent.com/86552492/232414598-6bd1935b-2a97-4d8e-9dd0-fe5cc8fedc0a.png" />
+  <img src="https://user-images.githubusercontent.com/86552492/232414742-7e56f6a9-9442-4216-8492-d022b4419856.png"/> 
    
   ### 2. 홈 캘린더 화면
   
@@ -111,47 +97,29 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 왼쪽 사이드바 (Others) : 유저 프로필 / 업데이트 된 일정 / 나와 공유한 일정
   * 메인 캘린더
   * 오른쪽 사이드바 : 메모 / 구독 캘린더 숨기기 or 표시하기
-                                                                                                                 
-<details>
-<summary>미리보기</summary>
-
-<img src="https://user-images.githubusercontent.com/122579951/231508291-f4399982-6661-45c7-8978-7d605b359bc1.png" width="900"/> 
-                                                                                                                 
-</details>                                                                                                               
-    
+  
+  <img src="https://user-images.githubusercontent.com/86552492/232415052-236be325-0e5a-4985-ada7-5c9302b0e22d.png" /> 
+  
   ### 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
   
   * 친구 신청 / 구독한 유저에 대한 정보를 알림으로 받을 수 있음
   * 캘린더에 표시된 하루 일정이 4개 이상일 때, 더보기를 눌러 전체 일정 확인 가능
   * 개별 일정 클릭 시, 상세 정보 확인 가능 
   
-<details>
-<summary>미리보기</summary>
-                                                                                                                             
-<img src = "https://user-images.githubusercontent.com/122579951/232204191-6559d60c-bf14-4368-ac5c-e03d0cdd87c3.png" width ="250" height = "350"/>
-<img src = "https://user-images.githubusercontent.com/122579951/232204232-4ecb7634-1b14-446f-b3d5-f94302a1961f.png" width ="250" height = "350"/>
-<img src = "https://user-images.githubusercontent.com/122579951/232204247-1211f1fa-ae7d-4628-b259-051c4efaf53f.png" width ="250" height = "350"/>
-                                                                                                                             
-                                                                                                                 
-</details>                                                                                                                            
-                                                                                                                               
-  ### 홈 캘린더 > 오른쪽 사이드바 > 메모장 / 구독하는 캘린더 숨김 or 표시 
-  
-  * 간단한 메모 작성 가능
-  * 내가 구독하는 계정의 일정 숨기기 / 표시하기 선택 가능 
-  
-   <details>
-<summary>미리보기</summary>
-  
-    <img src = "https://user-images.githubusercontent.com/122579951/232204949-5f3ec0e2-2fc7-4ca9-9023-b9c23fe3f8b3.png" width ="450" height = "300"/>
-   <img src = "https://user-images.githubusercontent.com/122579951/232204962-2a71d5e4-af09-4555-8bab-ebd924f5d16c.png" width ="450" height = "300"/>
-                                                                                                                                            
-                                                                                                                                               
-</details>                                                                                                                                               
-                                                                                                                                               
-  
- ### 3. 일정 작성/수정
-  
+  <img src = "https://user-images.githubusercontent.com/86552492/232415166-6d26877b-d2e5-41ed-b996-b1bb0bd0c3a3.png"/>
+  <img src = "https://user-images.githubusercontent.com/86552492/232415255-3b0862ec-14c7-4317-8732-f69bc005996f.png"/>
+  <img src = "https://user-images.githubusercontent.com/86552492/232415370-6ba359ae-c333-4ae6-b790-901e439c7206.png"/>
+
+### 홈 캘린더 > 오른쪽 사이드바 > 메모장 / 구독하는 캘린더 숨김 or 표시
+
+- 간단한 메모 작성 가능
+- 내가 구독하는 계정의 일정 숨기기 / 표시하기 선택 가능
+
+   <img src = "https://user-images.githubusercontent.com/86552492/232415513-fe69435c-1b41-4567-82fe-edc246ba92af.png"/>
+   <img src = "https://user-images.githubusercontent.com/86552492/232415618-d3563e0c-53f1-4544-bce3-2ff95ff5adc6.png"/>
+
+### 3. 일정 작성/수정
+
    <p><strong>- 구현 기능</strong></p>
   
   * 일정 작성 ( 제목 / 일시 / 일정 표시 색 / 초대 유저 (태그 가능) / 장소 및 상세 / 사진(3장까지 첨부) / 공개여부로 구성
@@ -160,56 +128,41 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 일정에 사진 첨부 가능 (3장)
   * 작성하는 일정은 모두 공개여부 설정 가능 (전체공개 & 스크랩 허용 / 전체공개 / 친구공개 / 나만보기)
 
- <details>
-<summary>미리보기</summary>
-   
-  <img src="https://user-images.githubusercontent.com/122579951/231653675-0ab97a23-a80e-4bc1-b479-704727c98304.png" width="400" height="550"/> 
- <img src="https://user-images.githubusercontent.com/122579951/231653689-a6840658-d640-4cc0-a5d6-78178bfad687.png" width="400" height="550"/>                                                                                                                                                  
-                                                                                                                                                  
-</details>          
-                                                                                                                                                             
-
+ <img src="https://user-images.githubusercontent.com/86552492/232416137-a6488b2c-a8be-4e5d-91f3-125e148478a5.png"/> 
+ <img src="https://user-images.githubusercontent.com/86552492/232416274-68b1403d-8669-45dd-8dcf-691d2f852055.png"/> 
  
   ### 4. 친구/구독 페이지
   
-    <p><strong>- 구현 기능</strong></p>
+   <p><strong>- 구현 기능</strong></p>
   
   * 친구, 구독 캘린더, 나를 구독하는 유저 리스트
   * 리스트 별로 기준에 따라 정렬 가능 (기본, 최신순, 오래된순, 구독자 많은 순)
   * 리스트 별로 유저 검색 가능
-<details>
-<summary>미리보기</summary>
-    <img src="https://user-images.githubusercontent.com/122579951/232203324-9cdc7950-f674-42db-a1d3-c60366b916e6.png" width="900">                                                                                                               
-</details
 
+ <img src="https://user-images.githubusercontent.com/86552492/232416358-d7270aa8-1fab-4480-a904-8bf27816cabc.png">
 
+### 5. 찾아보기 페이지
 
- ### 5. 찾아보기 페이지 
-  
-  * 카테고리별로 유저 찾아보기 가능 
-  * 유저 검색 가능 
-  * 친구신청 / 구독하기 및 취소 가능 
- <details>
-<summary>미리보기</summary>
-     <img src="https://user-images.githubusercontent.com/122579951/232203328-b8ab4267-9d0a-4ae7-9246-4c9f472f0f09.png" width="900">                                                                                                              
-</details>          
-                
- 
+- 카테고리별로 유저 찾아보기 가능
+- 유저 검색 가능
+- 친구신청 / 구독하기 및 취소 가능
+
+  <img src="https://user-images.githubusercontent.com/86552492/232416563-e5dad8be-a621-429c-b8e0-9d66ca91a7a4.png">
 
 </div>
-
 
 ## 6. 깃 컨벤션
 
 Cancel changes
--   `feat` : 새로운 기능 추가
--   `fix` : 버그 수정
--   `docs` : 문서 수정
--   `style` : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
--   `design` : UI 변경 작업
--   `refactor` : 코드 리펙토링
--   `test` : 테스트 코드, 리펙토링 테스트 코드 추가
--   `chore` : 빌드 업무 수정, 패키지 매니저 수정
--   `commnet` : 주석의 작성이나 변경
--   `rename` : 파일, 폴더, 패키지 등의 이름만 수정하거나 옮기기만 한 경우
--   `remove` : 파일 삭제만 한 경우
+
+- `feat` : 새로운 기능 추가
+- `fix` : 버그 수정
+- `docs` : 문서 수정
+- `style` : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
+- `design` : UI 변경 작업
+- `refactor` : 코드 리펙토링
+- `test` : 테스트 코드, 리펙토링 테스트 코드 추가
+- `chore` : 빌드 업무 수정, 패키지 매니저 수정
+- `commnet` : 주석의 작성이나 변경
+- `rename` : 파일, 폴더, 패키지 등의 이름만 수정하거나 옮기기만 한 경우
+- `remove` : 파일 삭제만 한 경우

@@ -39,9 +39,3 @@ export function GetUserInfo() {
     }
   }
 }
-
-// parma id의 유저 있는지 확인
-// export function UserCheck(id) {
-//   const dispatch = useDispatch();
-//   let result = "";
-// }

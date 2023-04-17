@@ -1,9 +1,8 @@
 import Cookies from "js-cookie";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function TokenCheck() {
-  const navigate = useNavigate();
   const location = useLocation();
   const getToken = !!Cookies.get("accessJWTToken");
 
@@ -14,7 +13,6 @@ function TokenCheck() {
   useEffect(() => {
     if (!isLoginPage && !isJoinPage && !getToken) {
       window.localStorage.clear();
-      alert("유저 정보가 유효하지 않습니다. 로그인 해주세요");
       window.location.replace(`/`);
     }
   }, [isLoginPage, isJoinPage, getToken]);

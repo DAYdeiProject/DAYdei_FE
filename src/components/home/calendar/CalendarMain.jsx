@@ -77,7 +77,7 @@ function CalendarMain({ ...props }) {
         let endtDate = "";
         let isEdit = "";
 
-        if (data.color === "GRAY" || otherId) {
+        if (data.color === "GRAY" || location.pathname === "/other") {
           isEdit = false;
         } else {
           isEdit = true;
@@ -138,7 +138,7 @@ function CalendarMain({ ...props }) {
 
   // 클릭한 date만
   const handlerDateClick = (date) => {
-    if (!otherId && token) {
+    if (location.pathname === "/home" && token) {
       setPickDate(date.date);
     }
   };

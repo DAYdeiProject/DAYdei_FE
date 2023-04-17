@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { otherIdState } from "../redux/modules/headerReducer";
 import { __getTotalPosts } from "../redux/modules/calendarSlice";
 import { ReactComponent as NotFoundImg } from "../assets/defaultIcons/notFound.svg";
+import { GetUserInfo } from "../utils/cookie/userInfo";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userInfo = GetUserInfo();
 
   const moveLoginClick = () => {
     navigate(`/home`);
@@ -22,7 +24,7 @@ export default function NotFoundPage() {
           <NotFoundImg />
         </LogoContainer>
         <BtnContainer>
-          <button onClick={moveLoginClick}>홈으로 가기</button>
+          {userInfo ? <button onClick={moveLoginClick}>홈으로 가기</button> : <button onClick={() => navigate("/")}>뒤로 가기</button>}
         </BtnContainer>
       </NotFoundWrapper>
     </>
@@ -56,12 +58,14 @@ const BtnContainer = styled.div`
   gap : 1.25rem;
   margin-bottom: 3.125rem;
   button {
-    width: 9.375rem;
-    height: 2.8125rem;
-    font-size: 1rem;
+    width: 350px;
+    height: 50px;
+    font-size: 18px;
     color: #ffffff;
     background-color: ${(props) => props.theme.Bg.color2};
     ${(props) => props.theme.BoxCustom}
-    ${(props) => props.theme.BtnHoverYellow}
+    :hover {
+      background-color: ${(props) => props.theme.Bg.mainColor5};
+    }
   }
 `;

@@ -12,57 +12,60 @@ const useAlignFunctions = () => {
   const dispatch = useDispatch();
 
   //기본 순 정렬
-  const alignBasicHandler = (id) => {
+  const alignBasicHandler = ({ id, text }) => {
+    console.log(text);
     let url = `${id}?sort=name&searchword=`;
-    if (isDropdownFriendOpen) {
+
+    if (text === "isFriend") {
       dispatch(__getFriendsList(url));
     }
-    if (isDropdownSubscribeOpen) {
+    if (text === "isSubscribe") {
       dispatch(__getSubscribeList(url));
     }
-    if (isDropdownSubscriberOpen) {
+    if (text === "isSubscriber") {
       dispatch(__getSubscriberList(url));
     }
   };
 
   // 구독자 많은 순 정렬
-  const alignSubscribeHandler = (id) => {
+  const alignSubscribeHandler = ({ id, text }) => {
     let url = `${id}?sort=famous&searchword=`;
-    if (isDropdownFriendOpen) {
+
+    if (text === "isFriend") {
       dispatch(__getFriendsList(url));
     }
-    if (isDropdownSubscribeOpen) {
+    if (text === "isSubscribe") {
       dispatch(__getSubscribeList(url));
     }
-    if (isDropdownSubscriberOpen) {
+    if (text === "isSubscriber") {
       dispatch(__getSubscriberList(url));
     }
   };
 
   // 최근 친구가 된 순으로 정렬
-  const alignNewestHandler = (id) => {
+  const alignNewestHandler = ({ id, text }) => {
     let url = `${id}?sort=recent&searchword=`;
-    if (isDropdownFriendOpen) {
+    if (text === "isFriend") {
       dispatch(__getFriendsList(url));
     }
-    if (isDropdownSubscribeOpen) {
+    if (text === "isSubscribe") {
       dispatch(__getSubscribeList(url));
     }
-    if (isDropdownSubscriberOpen) {
+    if (text === "isSubscriber") {
       dispatch(__getSubscriberList(url));
     }
   };
 
   // 오래 전 친구 맺은 순으로 정렬
-  const alignOldestHandler = (id) => {
+  const alignOldestHandler = ({ id, text }) => {
     let url = `${id}?sort=old&searchword=`;
-    if (isDropdownFriendOpen) {
+    if (text === "isFriend") {
       dispatch(__getFriendsList(url));
     }
-    if (isDropdownSubscribeOpen) {
+    if (text === "isSubscribe") {
       dispatch(__getSubscribeList(url));
     }
-    if (isDropdownSubscriberOpen) {
+    if (text === "isSubscriber") {
       dispatch(__getSubscriberList(url));
     }
   };
