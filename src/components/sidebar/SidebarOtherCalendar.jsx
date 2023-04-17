@@ -92,9 +92,11 @@ export default function SidebarOtherCalendar({ otherId }) {
     <>
       {otherUser.id && (
         <ProfileWrapper>
-          <BackImgWrapper isCover={otherUser?.backgroundImage}>{otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} />}</BackImgWrapper>
+          <BackImgWrapper isCover={otherUser?.backgroundImage}>
+            {otherUser?.backgroundImage && <img src={otherUser?.backgroundImage} alt="background" />}
+          </BackImgWrapper>
           <ImgWrapper>
-            <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} />
+            <img src={otherUser?.profileImage ? otherUser.profileImage : defaultProfile} alt="profile" />
           </ImgWrapper>
           <NickNameBox>{otherUser?.nickName}</NickNameBox>
           <EmailBox>@{otherUser?.email && otherUser.email.split("@")[0]}</EmailBox>
