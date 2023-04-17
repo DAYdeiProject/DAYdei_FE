@@ -1,7 +1,5 @@
 ## DAYDEI
-<div style="background-color: white;">
-<img src="https://user-images.githubusercontent.com/122579951/232417083-9b5d22f6-6c5b-4d21-913e-e530fc5adbdb.png"> 
-</div>
+![image](https://user-images.githubusercontent.com/122579951/232417083-9b5d22f6-6c5b-4d21-913e-e530fc5adbdb.png){: style="background-color: white;"}
   
 항해99 12기 A반 4조 최종프로젝트 (2023.03.10 - 2023.04.21) <br/> 
 DAYDEI Front-End Repository
