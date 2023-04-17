@@ -1,14 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import Modal from "../elements/Modal";
+import styled from "styled-components";
 import ModalWrap from "../elements/ModalWrap";
 import kakaoAgree from "../assets/defaultImage/kakaoAgree.png";
 import { ReactComponent as LogoIcon } from "../assets/main/logo.svg";
-import { useNavigate } from "react-router-dom";
 
 function KakaoAlertModal({ setIsKakaoModalOpen, setIsKakao }) {
-  const navigate = useNavigate();
-
   //const URI = "http://localhost:3000/kakao";
   const URI = "https://daydei.life/kakao";
   const KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${URI}&response_type=code`;
@@ -56,59 +53,45 @@ function KakaoAlertModal({ setIsKakaoModalOpen, setIsKakao }) {
 export default KakaoAlertModal;
 
 const WholeWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  width: 100%;
-  height: 37.5rem;
+  ${(props) => props.theme.FlexRow};
+  width: 600px;
+  height: 600px;
   border-radius: 1rem;
-  padding: 0rem 1rem;
-  /* background-color: pink; */
 `;
 
 const ImageWrapper = styled.div`
-  /* background-color: pink; */
-
+  width: 56%;
+  height: 100%;
+  border-radius: 1rem 0 0 1rem;
+  padding-top: 15px;
   img {
-    margin-top: 20px;
-    border-radius: 1rem;
-    width: 320px;
-    height: 550px;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem 0 0 1rem;
   }
 `;
 
 const InnerBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
+  ${(props) => props.theme.FlexCol};
   background-color: ${(props) => props.theme.Bg.mainColor3};
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  /* border-left: 1px solid black; */
-
-  width: 17.3rem;
-  height: 37.5rem;
-  gap: 3rem;
+  width: 44%;
+  height: 100%;
+  border-radius: 0 1rem 1rem 0;
+  padding: 0 20px;
 `;
 
 const LogoWrapper = styled.div`
-  margin-top: 100px;
-  /* background-color: pink; */
-  width: 220px;
+  ${(props) => props.theme.FlexCol};
+  align-items: flex-start;
+  margin-bottom: 40px;
 `;
 
 const AlertText = styled.div`
-  font-size: 16px;
-  text-align: center;
-
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+  ${(props) => props.theme.FlexCol};
+  align-items: flex-start;
   gap: 5px;
-  /* background-color: skyblue; */
+  font-size: 16px;
+  margin-bottom: 40px;
 `;
 
 const OneLine = styled.div`
@@ -123,28 +106,17 @@ const BoldText = styled.div`
 `;
 
 const ButtonWrap = styled.div`
-  width: 100%;
-  height: 200px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  /* background-color: pink; */
+  ${(props) => props.theme.FlexCol};
+  gap: 15px;
 `;
 
 const Button = styled.div`
-  width: 90%;
-  height: 25%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-radius: 5px;
-
-  font-size: 16px;
+  ${(props) => props.theme.FlexCol};
+  height: 40px;
+  border: solid 1.2px #121212;
+  box-shadow: 1px 1px 0 0 #000;
+  border-radius: 4px;
+  font-size: 14px;
   font-weight: 600;
   :hover {
     cursor: pointer;

@@ -32,7 +32,6 @@ function IntroPage() {
   const token = Cookies.get("accessJWTToken");
   useEffect(() => {
     if (token) {
-      const userInfo = GetUserInfo();
       navigate(`/home`);
     }
   }, []);
@@ -44,16 +43,11 @@ function IntroPage() {
         if (data.payload.isDeleted) {
           dispatch(alertState({ state: true, comment: "탈퇴한 회원입니다." }));
         } else if (data.payload.data.statusCode === 200) {
-          // alert("로그인 성공!");
           navigate(`/home`);
         } else {
           dispatch(alertState({ state: true, comment: "로그인 실패" }));
         }
       });
-    } else {
-      // if (isKakao === false) {
-      //   alert("이메일과 비밀번호를 입력해 주세요!");
-      // }
     }
   };
 

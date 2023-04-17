@@ -35,11 +35,13 @@ function HomePage() {
 
   return (
     <>
-      <MainWrapper>
-        <Sidebar side={side} setDetailPostId={setDetailPostId} />
-        {isModalVisible && <CategoryModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
-        <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
-      </MainWrapper>
+      {userInfo.userId && (
+        <MainWrapper>
+          <Sidebar side={side} setDetailPostId={setDetailPostId} />
+          {isModalVisible && <CategoryModal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setIsButtonClicked={setIsButtonClicked} />}
+          <CalendarMain side={side} setSide={setSide} detailPostId={detailPostId} setDetailPostId={setDetailPostId} />
+        </MainWrapper>
+      )}
     </>
   );
 }
