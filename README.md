@@ -98,14 +98,15 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
  <p><strong>- 구현 기능</strong></p>
   
   * 헤더 : 로고 / 네비게이션 바 (홈, 친구/구독, 찾아보기 탭으로 구성) / 알림 / 프로필 아이콘
-  * 왼쪽 사이드바 (Me) : 오늘의 일정 / 업데이트한 친구 
-  * 왼쪽 사이드바 (Others) : 유저 프로필 / 업데이트 된 일정 / 나와 공유한 일정
+  * 사이드바 (Me) : 오늘의 일정 / 업데이트한 친구 
+  * 사이드바 (Others) : 유저 프로필 / 업데이트 된 일정 / 나와 공유한 일정
   * 메인 캘린더
-  * 오른쪽 사이드바 : 메모 / 구독 캘린더 숨기기 or 표시하기
   
   <details>
   <summary>이미지 더보기</summary>
   <img src="https://user-images.githubusercontent.com/86552492/232415052-236be325-0e5a-4985-ada7-5c9302b0e22d.png" /> 
+  <img src="https://user-images.githubusercontent.com/122579951/232471680-527c5528-ef19-4dae-8729-52613f72ceea.png" /> 
+
   </details>
      
   ### 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
