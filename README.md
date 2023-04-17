@@ -1,5 +1,5 @@
 ## DAYDEI
-<div style="display: flex; justify-content: space-between; align-items: center; text-align: left; width: 300px;">
+<div>
   <div style="font-size: 30px;">당신의 매일매일, 일정은</div>
   <img src="https://user-images.githubusercontent.com/122579951/232423073-10f54108-07fb-4ff7-a9d0-44abfb3966f1.png" width="100" height="30"/>
 </div> 
