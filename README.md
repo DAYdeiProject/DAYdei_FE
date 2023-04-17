@@ -1,5 +1,5 @@
 ## DAYDEI
-당신의 매일매일, 일정은  <img src="https://user-images.githubusercontent.com/122579951/232422230-835a6a4a-bdde-447f-8616-2da6433c6ea2.png" width = "100" height = "100"/> 
+당신의 매일매일, 일정은  <img src="https://user-images.githubusercontent.com/122579951/232422230-835a6a4a-bdde-447f-8616-2da6433c6ea2.png" width = "80" height = "50"/> 
 
 
 항해99 12기 A반 4조 최종프로젝트 (2023.03.10 - 2023.04.21) <br/> 
