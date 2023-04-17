@@ -22,7 +22,7 @@ function KakaoAlertModal({ setIsKakaoModalOpen, setIsKakao }) {
         <Modal width="600px" height="600px">
           <WholeWrap>
             <ImageWrapper>
-              <img src={kakaoAgree} />
+              <img src={kakaoAgree} alt="kakao" />
             </ImageWrapper>
             <InnerBox>
               <LogoWrapper>
