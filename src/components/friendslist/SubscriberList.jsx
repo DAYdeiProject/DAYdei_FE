@@ -23,6 +23,7 @@ import {
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function SubscriberList({ SubscribersList }) {
+  // console.log("SubscriberList 리렌더링");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

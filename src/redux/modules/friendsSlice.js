@@ -60,7 +60,6 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
 export const __getFriendsList = createAsyncThunk("getFriendsList", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/list/${url}`);
-
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
