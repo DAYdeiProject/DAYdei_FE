@@ -85,8 +85,15 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
       </ul>
   </div>
   
-  <img src="https://user-images.githubusercontent.com/86552492/232414598-6bd1935b-2a97-4d8e-9dd0-fe5cc8fedc0a.png" />
+  <detail>
+  <summary>더보기</summary>
+  
+   <img src="https://user-images.githubusercontent.com/86552492/232414598-6bd1935b-2a97-4d8e-9dd0-fe5cc8fedc0a.png" />
   <img src="https://user-images.githubusercontent.com/86552492/232414742-7e56f6a9-9442-4216-8492-d022b4419856.png"/> 
+  
+  </detail>
+  
+ 
    
   ### 2. 홈 캘린더 화면
   
