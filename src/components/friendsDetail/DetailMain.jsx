@@ -1,6 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import _ from "lodash";
 
 import { __getFriendsList, __getRequestedUsersList } from "../../redux/modules/friendsSlice";
@@ -11,6 +10,7 @@ import DetailSubscribe from "./DetailSubscribe";
 import DetailSubscriber from "./DetailSubscriber";
 import useOutSideClick from "../../hooks/useOutsideClick";
 
+import AlignDropdown from "../../elements/AlignDropdown";
 import Loading from "../../components/Loading";
 import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 import { ReactComponent as FriendSearch } from "../../assets/friendList/friendSearch.svg";
@@ -27,8 +27,6 @@ import {
   TopRight,
   SearchBar,
   ListWrap,
-  DropdownFrame,
-  DropdownItems,
   IconWrap,
 } from "../friendslist/FriendsListMain";
 import useAlignFunctions from "../../hooks/useAlignFunctions";
@@ -224,14 +222,7 @@ function DetailMain() {
                     <FriendSearch onClick={HandleSearchFriend} />
                     <IconWrap>
                       <Filter onClick={handleDropdownFriend} />
-                      {isDropdownFriendOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(otherId)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(otherId)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(otherId)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(otherId)}>오래된순</DropdownItems>
-                        </DropdownFrame>
-                      )}
+                      {isDropdownFriendOpen && <AlignDropdown isText={"isFriend"} isSection={"otherPage"} />}
                     </IconWrap>
                   </TopRight>
                 </TopText>
@@ -258,14 +249,7 @@ function DetailMain() {
                     <FriendSearch onClick={HandleSearchSubscribe} />
                     <IconWrap>
                       <Filter onClick={handleDropdownSubscribe} />
-                      {isDropdownSubscribeOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(otherId)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(otherId)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(otherId)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(otherId)}>오래된순</DropdownItems>
-                        </DropdownFrame>
-                      )}
+                      {isDropdownSubscribeOpen && <AlignDropdown isText={"isSubscribe"} isSection={"otherPage"} />}
                     </IconWrap>
                   </TopRight>
                 </TopText>
@@ -293,14 +277,7 @@ function DetailMain() {
                     <FriendSearch onClick={HandleSearchSubscriber} />
                     <IconWrap>
                       <Filter onClick={handleDropdownSubscriber} />
-                      {isDropdownSubscriberOpen && (
-                        <DropdownFrame>
-                          <DropdownItems onClick={() => alignBasicHandler(otherId)}>기본</DropdownItems>
-                          <DropdownItems onClick={() => alignSubscribeHandler(otherId)}>구독자순</DropdownItems>
-                          <DropdownItems onClick={() => alignNewestHandler(otherId)}>최신순</DropdownItems>
-                          <DropdownItems onClick={() => alignOldestHandler(otherId)}>오래된순</DropdownItems>
-                        </DropdownFrame>
-                      )}
+                      {isDropdownSubscriberOpen && <AlignDropdown isText={"isSubscriber"} isSection={"otherPage"} />}
                     </IconWrap>
                   </TopRight>
                 </TopText>

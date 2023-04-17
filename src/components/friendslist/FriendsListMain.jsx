@@ -20,8 +20,10 @@ import { ReactComponent as FillFriendAdd } from "../../assets/friendList/fillFri
 import { ReactComponent as FriendAdd } from "../../assets/friendList/friendAdd.svg";
 import { ReactComponent as Filter } from "../../assets/friendList/filter.svg";
 import { GetUserInfo } from "../../utils/cookie/userInfo";
+import AlignDropdown from "../../elements/AlignDropdown";
 
 function FriendsListMain() {
+  // console.log("FriendsListMain 리렌더링");
   const dispatch = useDispatch();
   const usersInfo = GetUserInfo();
   const token = Cookies.get("accessJWTToken");
@@ -44,6 +46,10 @@ function FriendsListMain() {
   const [searchFriendOpen, setSearchFriendOpen] = useState(false);
   const [searchSubscribeOpen, setSearchSubscribeOpen] = useState(false);
   const [searchSubscriberOpen, setSearchSubscriberOpen] = useState(false);
+  //어떤 드롭다운이 열렸는지
+  const [isFriend, setIsFriend] = useState(false);
+  const [isSub, setIsSub] = useState(false);
+  const [isSuber, setIsSuber] = useState(false);
 
   // 친구추가 아이콘 클릭하는 순간 친구신청한 유저 불러오는 GET요청 함수 dispatch
   const approveRequestModalHandler = () => {
@@ -51,12 +57,13 @@ function FriendsListMain() {
     dispatch(__getRequestedUsersList({ token }));
   };
 
-  const handleCategoryModalClose = () => {
+  //바깥영역 누르면 -> 친구신청모달 닫힘
+  const handleApproveRequestModalClose = () => {
     setIsApproveRequestModalOpen(false);
   };
 
   const ApproveRequestModalRef = useRef(null);
-  useOutSideClick(ApproveRequestModalRef, handleCategoryModalClose);
+  useOutSideClick(ApproveRequestModalRef, handleApproveRequestModalClose);
 
   // 친구수락/거절 모달에서 수락/거절 눌렀을 때 업데이트 된 목록 가져오기
   useEffect(() => {
@@ -66,40 +73,21 @@ function FriendsListMain() {
 
   // 페이지 진입 시 친구/구독 리스트를 GET
   useEffect(() => {
+    function getSearchUrl(id, searchWord) {
+      return `${id}?sort=name&searchword=${searchWord}`;
+    }
+
     const id = usersInfo.userId;
-    if (searchWord === "") {
-      let url = `${id}?sort=name&searchword=`;
-
-      dispatch(__getFriendsList(url));
-      dispatch(__getSubscribeList(url));
-      dispatch(__getSubscriberList(url));
-    }
-
-    if (searchWord !== "") {
-      let url = `${id}?sort=name&searchword=${searchWord}`;
-
-      dispatch(__getFriendsList(url));
-    }
-
-    if (searchWordSubscribe !== "") {
-      let url = `${id}?sort=name&searchword=${searchWordSubscribe}`;
-
-      dispatch(__getSubscribeList(url));
-    }
-
-    if (searchWordSubscriber !== "") {
-      let url = `${id}?sort=name&searchword=${searchWordSubscriber}`;
-
-      dispatch(__getSubscriberList(url));
-    }
+    const friendUrl = getSearchUrl(id, searchWord);
+    const subscribeUrl = getSearchUrl(id, searchWordSubscribe);
+    const subscriberUrl = getSearchUrl(id, searchWordSubscriber);
+    dispatch(__getFriendsList(friendUrl));
+    dispatch(__getSubscribeList(subscribeUrl));
+    dispatch(__getSubscriberList(subscriberUrl));
   }, [searchWord, searchWordSubscribe, searchWordSubscriber, statusCodeFriend, statusCodeSubscribe, isApproveRequestModalOpen]);
 
-  //정렬 함수 import하여 사용
+  //정렬 함수 커스텀훅에서 import하여 사용
   const {
-    alignBasicHandler,
-    alignNewestHandler,
-    alignOldestHandler,
-    alignSubscribeHandler,
     isDropdownFriendOpen,
     setIsDropdownFriendOpen,
     isDropdownSubscribeOpen,
@@ -108,6 +96,7 @@ function FriendsListMain() {
     setIsDropdownSubscriberOpen,
   } = useAlignFunctions();
 
+  //셀렉터로 불러오는 친구, 구독, 구독자 리스트
   const FriendsList = useSelector((state) => state.friends.FriendsList);
   const SubscribesList = useSelector((state) => state.subscribe.SubscribesList);
   const SubscribersList = useSelector((state) => state.subscribe.SubscribersList);
@@ -247,14 +236,7 @@ function FriendsListMain() {
                   )}
                   <IconWrap>
                     <Filter onClick={handleDropdownFriend} />
-                    {isDropdownFriendOpen && (
-                      <DropdownFrame>
-                        <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
-                        <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
-                        <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
-                        <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
-                      </DropdownFrame>
-                    )}
+                    {isDropdownFriendOpen && <AlignDropdown isText={"isFriend"} isSection={"myPage"} />}
                   </IconWrap>
                 </TopRight>
               </TopText>
@@ -277,14 +259,7 @@ function FriendsListMain() {
                   <FriendSearch onClick={HandleSearchSubscribe} />
                   <IconWrap>
                     <Filter onClick={handleDropdownSubscribe} />
-                    {isDropdownSubscribeOpen && (
-                      <DropdownFrame>
-                        <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
-                        <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
-                        <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
-                        <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
-                      </DropdownFrame>
-                    )}
+                    {isDropdownSubscribeOpen && <AlignDropdown isText={"isSubscribe"} isSection={"myPage"} />}
                   </IconWrap>
                 </TopRight>
               </TopText>
@@ -311,14 +286,7 @@ function FriendsListMain() {
                   <FriendSearch onClick={HandleSearchSubscriber} />
                   <IconWrap>
                     <Filter onClick={handleDropdownSubscriber} />
-                    {isDropdownSubscriberOpen && (
-                      <DropdownFrame>
-                        <DropdownItems onClick={() => alignBasicHandler(usersInfo.userId)}>기본</DropdownItems>
-                        <DropdownItems onClick={() => alignSubscribeHandler(usersInfo.userId)}>구독자순</DropdownItems>
-                        <DropdownItems onClick={() => alignNewestHandler(usersInfo.userId)}>최신순</DropdownItems>
-                        <DropdownItems onClick={() => alignOldestHandler(usersInfo.userId)}>오래된순</DropdownItems>
-                      </DropdownFrame>
-                    )}
+                    {isDropdownSubscriberOpen && <AlignDropdown isText={"isSubscriber"} isSection={"myPage"} />}
                   </IconWrap>
                 </TopRight>
               </TopText>
