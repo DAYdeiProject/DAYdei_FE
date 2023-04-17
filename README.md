@@ -1,6 +1,6 @@
 ## DAYDEI
 당신의 매일매일, 일정은
-<p align="center" style="background-color: white;">
+<div="center" width  = "300" height = "100" "background-color: white;">
   <img src="https://user-images.githubusercontent.com/122579951/232417083-9b5d22f6-6c5b-4d21-913e-e530fc5adbdb.png">
 </p>
 
