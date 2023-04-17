@@ -154,7 +154,7 @@ function Header() {
               </AlertContainer>
               <ImageContainer onClick={handleDropdown}>
                 <ImgBox>
-                  <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} />
+                  <img src={headerProfile && headerProfile?.profileImage ? headerProfile.profileImage : defaultProfile} alt="profile" />
                 </ImgBox>
                 {isDropdownOpen && (
                   <DropdownFrame>

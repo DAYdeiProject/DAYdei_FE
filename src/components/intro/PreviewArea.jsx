@@ -8,7 +8,7 @@ export default function PreviewArea() {
       <Wrapprer>
         <PreviewWrapper>
           <ImgWarpper>
-            <img src={main} />
+            <img src={main} alt="preview" />
           </ImgWarpper>
         </PreviewWrapper>
       </Wrapprer>

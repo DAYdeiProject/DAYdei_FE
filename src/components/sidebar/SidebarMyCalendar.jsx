@@ -134,7 +134,7 @@ export default function SidebarMyCalendar({ ...props }) {
                 update.map((list) => (
                   <ListBox key={list.id}>
                     <ImgBox>
-                      <img src={list.profileImage ? list.profileImage : defaultProfile} />
+                      <img src={list.profileImage ? list.profileImage : defaultProfile} alt="profile" />
                     </ImgBox>
                     <InfoBox>
                       <span>{list.nickName}</span>

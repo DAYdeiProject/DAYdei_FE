@@ -47,9 +47,9 @@ export default function ProfileDetailModal({ ...props }) {
               </ProfileEditBox>
             )}
           </IconContainer>
-          <ProfileBackground>{headerProfile && headerProfile?.backgroundImage && <img src={headerProfile.backgroundImage} />}</ProfileBackground>
+          <ProfileBackground>{headerProfile && headerProfile?.backgroundImage && <img src={headerProfile.backgroundImage} alt="profile" />}</ProfileBackground>
           <ProfileImageBox>
-            <img src={headerProfile && headerProfile.profileImage ? headerProfile.profileImage : defaultProfile} />
+            <img src={headerProfile && headerProfile.profileImage ? headerProfile.profileImage : defaultProfile} alt="profile" />
           </ProfileImageBox>
           <ProfileNickNameBox>
             <span>{headerProfile && headerProfile.nickName}</span>

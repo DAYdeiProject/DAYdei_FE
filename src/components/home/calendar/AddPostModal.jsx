@@ -539,7 +539,7 @@ function AddPostModal({ ...props }) {
                           value={list.id}
                           onClick={() => targetClick({ id: list.id, nickName: list.nickName, isCheck: list.scheduleCheck })}>
                           <postStyle.TargetBoxImg>
-                            <img src={list.profileImage ? list.profileImage : defaultProfile}></img>
+                            <img src={list.profileImage ? list.profileImage : defaultProfile} alt="profile" />
                           </postStyle.TargetBoxImg>
                           <postStyle.TargetBoxText>
                             <span>{list.nickName}</span>
@@ -627,10 +627,10 @@ function AddPostModal({ ...props }) {
               <postStyle.PreviewContainer>
                 <postStyle.PreviewBox>
                   {saveView.map((url, i) => {
-                    return <img key={i} src={url} />;
+                    return <img key={i} src={url} alt="imgUpload" />;
                   })}
                   {fileImg.map((url, i) => {
-                    return <img key={i} src={url} />;
+                    return <img key={i} src={url} alt="imgUpload" />;
                   })}
                 </postStyle.PreviewBox>
               </postStyle.PreviewContainer>

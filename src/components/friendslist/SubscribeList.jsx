@@ -105,7 +105,7 @@ function SubscribeList({ SubscribesList }) {
               <ProfileWrap>
                 <PostLeft>
                   <PhotoFrame>
-                    <img src={user.profileImage ? user.profileImage : defaultProfile} />
+                    <img src={user.profileImage ? user.profileImage : defaultProfile} alt="profile" />
                   </PhotoFrame>
                   <TextArea>
                     <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"}</NickNameWrap>
