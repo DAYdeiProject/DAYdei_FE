@@ -86,7 +86,7 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   </div>
   
   <details>
-  <summary>더보기</summary>
+  <summary>이미지 더보기</summary>
   
   <img src="https://user-images.githubusercontent.com/86552492/232414598-6bd1935b-2a97-4d8e-9dd0-fe5cc8fedc0a.png" />
   <img src="https://user-images.githubusercontent.com/86552492/232414742-7e56f6a9-9442-4216-8492-d022b4419856.png"/> 
@@ -105,26 +105,35 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 메인 캘린더
   * 오른쪽 사이드바 : 메모 / 구독 캘린더 숨기기 or 표시하기
   
+   <details>
+  <summary>이미지 더보기</summary>
   <img src="https://user-images.githubusercontent.com/86552492/232415052-236be325-0e5a-4985-ada7-5c9302b0e22d.png" /> 
-  
+  </details>
+     
   ### 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
   
   * 친구 신청 / 구독한 유저에 대한 정보를 알림으로 받을 수 있음
   * 캘린더에 표시된 하루 일정이 4개 이상일 때, 더보기를 눌러 전체 일정 확인 가능
   * 개별 일정 클릭 시, 상세 정보 확인 가능 
   
+   <details>
+  <summary>이미지 더보기</summary>
   <img src = "https://user-images.githubusercontent.com/86552492/232415166-6d26877b-d2e5-41ed-b996-b1bb0bd0c3a3.png"/>
   <img src = "https://user-images.githubusercontent.com/86552492/232415255-3b0862ec-14c7-4317-8732-f69bc005996f.png"/>
   <img src = "https://user-images.githubusercontent.com/86552492/232415370-6ba359ae-c333-4ae6-b790-901e439c7206.png"/>
-
+  </details>
+     
 ### 홈 캘린더 > 오른쪽 사이드바 > 메모장 / 구독하는 캘린더 숨김 or 표시
 
 - 간단한 메모 작성 가능
 - 내가 구독하는 계정의 일정 숨기기 / 표시하기 선택 가능
 
+    <details>
+  <summary>이미지 더보기</summary>
    <img src = "https://user-images.githubusercontent.com/86552492/232415513-fe69435c-1b41-4567-82fe-edc246ba92af.png"/>
    <img src = "https://user-images.githubusercontent.com/86552492/232415618-d3563e0c-53f1-4544-bce3-2ff95ff5adc6.png"/>
-
+  </details>
+      
 ### 3. 일정 작성/수정
 
    <p><strong>- 구현 기능</strong></p>
@@ -135,9 +144,12 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 일정에 사진 첨부 가능 (3장)
   * 작성하는 일정은 모두 공개여부 설정 가능 (전체공개 & 스크랩 허용 / 전체공개 / 친구공개 / 나만보기)
 
+    <details>
+  <summary>이미지 더보기</summary>
  <img src="https://user-images.githubusercontent.com/86552492/232416137-a6488b2c-a8be-4e5d-91f3-125e148478a5.png"/> 
  <img src="https://user-images.githubusercontent.com/86552492/232416274-68b1403d-8669-45dd-8dcf-691d2f852055.png"/> 
- 
+  </details>
+      
   ### 4. 친구/구독 페이지
   
    <p><strong>- 구현 기능</strong></p>
@@ -146,16 +158,22 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 리스트 별로 기준에 따라 정렬 가능 (기본, 최신순, 오래된순, 구독자 많은 순)
   * 리스트 별로 유저 검색 가능
 
+    <details>
+  <summary>이미지 더보기</summary>
  <img src="https://user-images.githubusercontent.com/86552492/232416358-d7270aa8-1fab-4480-a904-8bf27816cabc.png">
-
+  </details>
+      
 ### 5. 찾아보기 페이지
 
 - 카테고리별로 유저 찾아보기 가능
 - 유저 검색 가능
 - 친구신청 / 구독하기 및 취소 가능
 
+    <details>
+  <summary>이미지 더보기</summary>
   <img src="https://user-images.githubusercontent.com/86552492/232416563-e5dad8be-a621-429c-b8e0-9d66ca91a7a4.png">
-
+  </details>
+      
 </div>
 
 ## 6. 깃 컨벤션
