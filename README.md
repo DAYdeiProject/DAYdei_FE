@@ -93,7 +93,7 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
       </ul>
   </div>
                          
-<details>
+<details>더보기 
 <summary>로그인</summary>
 
 <img src="https://user-images.githubusercontent.com/122579951/231502711-9777ad80-8056-4ba9-9e7a-86d30888f3e6.png"  />
