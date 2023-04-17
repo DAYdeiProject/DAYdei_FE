@@ -175,24 +175,20 @@ function ProfileSettingModal({ ...props }) {
     }
 
     const formData = new FormData();
-    formData.append("userProfileRequestDto", new Blob([JSON.stringify(userProfileRequestDto)], { type: "application/json" })); // 텍스트 데이터
+    formData.append("userProfileRequestDto", new Blob([JSON.stringify(userProfileRequestDto)], { type: "application/json" }));
     formData.append("profileImage", profile); // 파일 데이터
     formData.append("backgroundImage", background); // 파일 데이터
 
     if ((isPw === true && password === passwordCheck) || nickNameValue !== "" || profile !== "" || background !== "" || introductionValue !== "") {
-      if (headerProfile.kakaoId !== null) {
-        dispatch(alertState({ state: true, comment: "카톡 로그인 유저는 비밀번호를 변경할 수 없습니다" }));
-      } else {
-        dispatch(__setProfile(formData)).then((data) => {
-          if (data.payload !== 200) {
-            dispatch(alertState({ state: true, comment: "프로필 수정 실패" }));
-          } else {
-            dispatch(alertState({ state: true, comment: "프로필 수정 완료!" }));
-            props.setIsProfileSettingModalOpen(false);
-            props.setIsEditProfile(!props.isEditProfile);
-          }
-        });
-      }
+      dispatch(__setProfile(formData)).then((data) => {
+        if (data.payload !== 200) {
+          dispatch(alertState({ state: true, comment: "프로필 수정 실패" }));
+        } else {
+          dispatch(alertState({ state: true, comment: "프로필 수정 완료!" }));
+          props.setIsProfileSettingModalOpen(false);
+          props.setIsEditProfile(!props.isEditProfile);
+        }
+      });
     } else {
       alert("양식에 맞게 작성해주세요!");
     }
