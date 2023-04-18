@@ -524,7 +524,7 @@ function AddPostModal({ ...props }) {
                   ))}
                 </postStyle.FriendPickBox>
                 <postStyle.FriendBoxInput>
-                  <input type="text" {...register("participant")} placeholder="친구 닉네임, 이메일 검색" autocomplete="off" />
+                  <input type="text" {...register("participant")} placeholder="친구 닉네임, 이메일 검색" autoComplete="off" />
                 </postStyle.FriendBoxInput>
               </postStyle.InviteSearchBox>
               <postStyle.SerchModalContainer isShow={targetToggle} ref={outside}>
