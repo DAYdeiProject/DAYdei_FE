@@ -13,7 +13,6 @@ const useAlignFunctions = () => {
 
   //기본 순 정렬
   const alignBasicHandler = ({ id, text }) => {
-    console.log(text);
     let url = `${id}?sort=name&searchword=`;
 
     if (text === "isFriend") {
