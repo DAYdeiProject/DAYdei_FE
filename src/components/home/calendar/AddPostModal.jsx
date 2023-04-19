@@ -40,14 +40,12 @@ function AddPostModal({ ...props }) {
   const [saveView, setSaveView] = useState([]);
 
   const dispatch = useDispatch();
-  const token = Cookies.get("accessJWTToken");
-  const outside = useRef();
 
   const { postDetail } = useSelector((state) => state.post);
 
   useEffect(() => {
     if (props.modifyPostId) {
-      dispatch(__getPostDetail({ id: props.modifyPostId, token })).then((data) => {
+      dispatch(__getPostDetail({ id: props.modifyPostId })).then((data) => {
         dispatch(getPostDetail(data.payload));
         setValue("title", data.payload.title);
         setValue("scope", data.payload.scope);
@@ -84,7 +82,7 @@ function AddPostModal({ ...props }) {
 
   // 삭제
   const deleteClickHandler = () => {
-    dispatch(__deletePost({ id: props.modifyPostId, token })).then(() => {
+    dispatch(__deletePost({ id: props.modifyPostId })).then(() => {
       dispatch(alertState({ state: true, comment: "일정이 삭제되었습니다." }));
       props.setSide(!props.side);
       props.setIsSubmit(!props.isSubmit);

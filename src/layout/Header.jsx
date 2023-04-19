@@ -24,11 +24,12 @@ function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileSettingModalOpen, setIsProfileSettingModalOpen] = useState(false);
-  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
+  //const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   // 프로필 수정시 최신정보 가져오기
   const [isEditProfile, setIsEditProfile] = useState(false);
   // 프로필 디테일 오픈여부
   const [isProfileDetail, setIsProfileDetail] = useState(false);
+
   const token = Cookies.get("accessJWTToken");
   const userId = GetUserInfo();
   const location = useLocation();
@@ -119,6 +120,7 @@ function Header() {
     navigate("/home");
   };
 
+  console.log("header0----", isProfileSettingModalOpen);
   return (
     <>
       {!token && (
@@ -192,16 +194,12 @@ function Header() {
           setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
           isEditProfile={isEditProfile}
           setIsEditProfile={setIsEditProfile}
-          isProfileEditOpen={isProfileEditOpen}
-          setIsProfileEditOpen={setIsProfileEditOpen}
         />
       )}
       <ProfileDetailModal
         isProfileDetail={isProfileDetail}
         setIsProfileDetail={setIsProfileDetail}
         setIsProfileSettingModalOpen={setIsProfileSettingModalOpen}
-        isProfileEditOpen={isProfileEditOpen}
-        setIsProfileEditOpen={setIsProfileEditOpen}
       />
 
       {state && state.state && <Alert isComment={state.comment} isMax={state.max} />}
@@ -350,6 +348,8 @@ const ProfileWrap = styled.div`
   align-items: center;
   gap: 0.875rem;
   cursor: pointer;
+  padding-left: 8px;
+  border-radius: 4px;
   :hover {
     background-color: ${(props) => props.theme.Bg.hoverColor};
   }
@@ -376,6 +376,8 @@ const ProfilePhoto = styled.div`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
+  border: solid 1px #121212;
+  box-shadow: 1px 1px 0 0 #000;
 `;
 
 const IntroductionWrap = styled.div`
@@ -413,7 +415,8 @@ const Button = styled.div`
   align-items: center;
   font-size: ${(props) => props.theme.Fs.size14};
   font-weight: 800;
-  padding-left: 0.5rem;
+  padding-left: 8px;
+  border-radius: 4px;
   :hover {
     cursor: pointer;
     background-color: ${(props) => props.theme.Bg.hoverColor};
