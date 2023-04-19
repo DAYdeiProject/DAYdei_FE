@@ -64,7 +64,7 @@ function ProfileSettingModal({ ...props }) {
   const dispatch = useDispatch();
   const userInfo = GetUserInfo();
   const id = userInfo.userId;
-  console.log("setting 쪽----------", props.isProfileSettingModalOpen);
+
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
   const headerProfile = useSelector((state) => state.users.headerProfile);
