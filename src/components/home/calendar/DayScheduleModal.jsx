@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useParams } from "react-router";
 import React, { useEffect, useRef } from "react";
 import { getDate, getDay, getMonth } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +8,7 @@ import useOutSideClick from "../../../hooks/useOutsideClick";
 import { DayCheck } from "../../../utils/calendar/CalendarBasic";
 import { __getDateSchedule } from "../../../redux/modules/calendarSlice";
 import ColorFromDB, { ColorDeepFromDB, DayAmPm } from "../../../utils/calendar/CalendarBasic";
-import postStyle from "../../../shared/style/PostStyle";
+import { HeaderWrapper } from "./AddPostModal";
 import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 import { ReactComponent as CalendarIcon } from "../../../assets/calendarIcon/editCalendar.svg";
 
@@ -51,9 +50,9 @@ export default function DayScheduleModal({ ...props }) {
     <>
       <ModalBox isOpen={props.isTodaySchedule} width={"460px"}>
         <TodayScheduleWrapper ref={outside}>
-          <postStyle.HeaderWrapper>
+          <HeaderWrapper>
             <Dismiss className="closeIncon" onClick={closeModal} />
-          </postStyle.HeaderWrapper>
+          </HeaderWrapper>
           <DateTitleWrapper>
             <CalendarIcon width={25} height={28} />
             <span>

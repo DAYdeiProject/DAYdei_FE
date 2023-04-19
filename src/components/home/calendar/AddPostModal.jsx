@@ -1,38 +1,23 @@
 import Cookies from "js-cookie";
-import { get, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import { format } from "date-fns";
 import { debounce } from "lodash";
-import { ko } from "date-fns/esm/locale";
-import ModalBox from "../../../elements/ModalBox";
-import { ColorDeepFromDB, ColorList, ColorToDB, MaxSizeFile, TimeList } from "../../../utils/calendar/CalendarBasic";
-import { BiX } from "react-icons/bi";
-import "react-datepicker/dist/react-datepicker.css";
-import postStyle from "../../../shared/style/PostStyle";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { ReactComponent as Up } from "../../../assets/defaultIcons/up.svg";
-import { ReactComponent as Memo } from "../../../assets/calendarIcon/memo.svg";
-import { ReactComponent as Down } from "../../../assets/defaultIcons/down.svg";
-import { ReactComponent as Lock } from "../../../assets/calendarIcon/lock.svg";
-import { ReactComponent as Search } from "../../../assets/searchList/search.svg";
-import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
-import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
-import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
-import { ReactComponent as ImageIcon } from "../../../assets/calendarIcon/image.svg";
-import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
-import { ReactComponent as Location } from "../../../assets/calendarIcon/location.svg";
-import { ReactComponent as Calendar } from "../../../assets/calendarIcon/calendar.svg";
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import { alertState } from "../../../redux/modules/alertReducer";
+import { getPostDetail } from "../../../redux/modules/postReducer";
 import PostDate from "../post/PostDate";
 import PostColor from "../post/PostColor";
-import PostInvite from "../post/PostInvite";
-import PostLocation from "../post/PostLocation";
-import PostContent from "../post/PostContent";
 import PostImage from "../post/PostImage";
-import styled from "styled-components";
-import { getPostDetail } from "../../../redux/modules/postReducer";
+import PostInvite from "../post/PostInvite";
+import PostContent from "../post/PostContent";
+import PostLocation from "../post/PostLocation";
+import ModalBox from "../../../elements/ModalBox";
+import { ReactComponent as Lock } from "../../../assets/calendarIcon/lock.svg";
+import { ReactComponent as Delete } from "../../../assets/calendarIcon/delete.svg";
+import { ReactComponent as Dismiss } from "../../../assets/defaultIcons/dismiss.svg";
 
 function AddPostModal({ ...props }) {
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -326,7 +311,7 @@ const AddPostWrapper = styled.form`
   }
 `;
 
-const HeaderWrapper = styled.section`
+export const HeaderWrapper = styled.section`
   ${(props) => props.theme.FlexRow}
   justify-content: right;
   margin-top: 25px;
