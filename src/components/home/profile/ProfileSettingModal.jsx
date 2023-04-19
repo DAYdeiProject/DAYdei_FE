@@ -56,7 +56,6 @@ function ProfileSettingModal({ ...props }) {
   //모달 바깥쪽을 누르면 프로필 수정 모달이 닫힘
   const handleProfileSettingModalClose = () => {
     props.setIsProfileSettingModalOpen(false);
-    props.setIsProfileEditOpen(false);
   };
   const ProfileSettingModalRef = useRef(null);
   useOutSideClick(ProfileSettingModalRef, handleProfileSettingModalClose);
@@ -65,7 +64,7 @@ function ProfileSettingModal({ ...props }) {
   const dispatch = useDispatch();
   const userInfo = GetUserInfo();
   const id = userInfo.userId;
-
+  console.log("setting 쪽----------", props.isProfileSettingModalOpen);
   // store에서 내 프로필 정보 가져오기
   const myProfile = useSelector((state) => state.users.myProfile);
   const headerProfile = useSelector((state) => state.users.headerProfile);
@@ -671,8 +670,8 @@ const ButtonWrap = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #afb4bf;
-  color: ${(props) => props.theme.Bg.lightColor};
+  background: ${(props) => props.theme.Bg.color3};
+  color: ${(props) => props.theme.Bg.color1};
   border: 0.0813rem solid #121212;
   box-shadow: 0.125rem 0.125rem 0rem #000000;
   border-radius: 0.25rem;
