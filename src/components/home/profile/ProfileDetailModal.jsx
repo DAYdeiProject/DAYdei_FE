@@ -1,24 +1,14 @@
 import { React, useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-
 import { __getHeaderProfile } from "../../../redux/modules/usersSlice";
-
 import ModalBox from "../../../elements/ModalBox";
 import useOutSideClick from "../../../hooks/useOutsideClick";
 import defaultProfile from "../../../assets/defaultImage/profile.jpg";
-import { ReactComponent as WhiteDismiss } from "../../../assets/defaultIcons/whiteDismiss.svg";
-import { ReactComponent as WhiteMoreY } from "../../../assets/defaultIcons/whiteMoreY.svg";
-import { ReactComponent as Edit } from "../../../assets/calendarIcon/edit.svg";
 
 export default function ProfileDetailModal({ ...props }) {
   const outside = useRef();
   const headerProfile = useSelector((state) => state.users.headerProfile);
-
-  // 수정하기 이동
-  // const editProfileClick = () => {
-  //   props.setIsProfileEditOpen(!props.isProfileEditOpen);
-  // };
 
   const moveEditClick = () => {
     props.setIsProfileSettingModalOpen(true);
@@ -28,7 +18,6 @@ export default function ProfileDetailModal({ ...props }) {
   // 모달창 닫기
   const closeModal = () => {
     props.setIsProfileDetail(false);
-    //props.setIsProfileEditOpen(false);
   };
 
   useOutSideClick(outside, closeModal);

@@ -120,7 +120,6 @@ function Header() {
     navigate("/home");
   };
 
-  console.log("header0----", isProfileSettingModalOpen);
   return (
     <>
       {!token && (
