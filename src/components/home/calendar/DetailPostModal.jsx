@@ -622,4 +622,5 @@ const ScopeTextBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: right;
+  margin-right: 10px;
 `;

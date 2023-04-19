@@ -66,7 +66,7 @@ export function ColorToDB(data) {
 }
 
 export function ColorList() {
-  const colorList = ["#F6A89E", "#FBDF96", "#CFF4F1", "#A7EAFF", "#0EAFE1", "#E2CCFB", "#c5d1af"];
+  const colorList = ["#F6A89E", "#FBDF96", "#CFF4F1", "#A7EAFF", "#0EAFE1", "#E2CCFB", "#a8b393"];
   return colorList;
 }
 export function TimeList() {

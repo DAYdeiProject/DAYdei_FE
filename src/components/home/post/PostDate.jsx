@@ -1,24 +1,62 @@
-import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
-import { useState } from "react";
 import { ko } from "date-fns/esm/locale";
+import DatePicker from "react-datepicker";
+import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { TimeList } from "../../../utils/calendar/CalendarBasic";
-import DatePicker from "react-datepicker";
+import { ReactComponent as Clock } from "../../../assets/calendarIcon/clock.svg";
 
 export default function PostDate({ ...props }) {
-  //const [startDate, setStartDate] = useState(new Date());
-  //const [endDate, setEndDate] = useState(startDate);
-  // const [endTime, setEndTime] = useState();
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(startDate);
+  const [startTime, setStartTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("00:00");
+  const [isAllDay, setIsAllDay] = useState("");
   const time = TimeList();
 
   // 종일 체크
   const isAllDayChange = () => {
-    //props.setIsAllDay(!props.isAllDay);
+    if (isAllDay === "checked") {
+      setIsAllDay("");
+    } else {
+      setIsAllDay("checked");
+    }
   };
-  const startTimeHandler = (e) => {};
-  const endTimeHandler = (e) => {};
+  const startTimeHandler = (e) => {
+    setStartTime(e.target.value);
+  };
+  const endTimeHandler = (e) => {
+    setEndTime(e.target.value);
+  };
+
+  // 날짜 클릭시 해당날짜의 일정추가
+  useEffect(() => {
+    if (props.pickDate) {
+      setStartDate(props.pickDate);
+      setEndDate(props.pickDate);
+    }
+  }, [props.pickDate]);
+
+  useEffect(() => {
+    if (props.postDetail.length !== 0) {
+      setStartDate(new Date(props.postDetail.startDate));
+      setEndDate(new Date(props.postDetail.endDate));
+      setStartTime(props.postDetail.startTime.substr(0, 5));
+      setEndTime(props.postDetail.endTime.substr(0, 5));
+
+      if (props.postDetail.startTime.substr(0, 5) === "00:00" && props.postDetail.endTime.substr(0, 5) === "00:00") {
+        setIsAllDay("checked");
+      }
+    }
+  }, [props.postDetail]);
+
+  useEffect(() => {
+    props.setStartDate(startDate);
+    props.setEndDate(endDate);
+    props.setStartTime(startTime);
+    props.setEndTime(endTime);
+    props.setIsAllDay(isAllDay);
+  }, [startDate, endDate, startTime, endTime, isAllDay]);
 
   return (
     <>
@@ -29,38 +67,33 @@ export default function PostDate({ ...props }) {
         <DaysCheckContainer>
           <StartDateContainer>
             <span>시작</span>
-            <CustomDatePicker selected={props.startDate} onChange={(date) => props.setStartDate(date)} dateFormat="yyyy-MM-dd" locale={ko} />
-            <select onChange={startTimeHandler} disabled={props.isAllDay}>
+            <CustomDatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="yyyy-MM-dd" locale={ko} />
+            <TimeSelectBox onChange={startTimeHandler} disabled={isAllDay}>
               {time.map((item, i) => (
                 <option key={i} value={item}>
                   {item}
                 </option>
               ))}
-            </select>
+            </TimeSelectBox>
           </StartDateContainer>
 
           <StartDateContainer>
             <span>종료</span>
-            <CustomDatePicker
-              selected={props.endDate}
-              onChange={(date) => props.setEndDate(date)}
-              minDate={props.startDate}
-              dateFormat="yyyy-MM-dd"
-              locale={ko}
-            />
-            <select onChange={endTimeHandler} disabled={props.isAllDay}>
+            <CustomDatePicker selected={endDate} onChange={(date) => setEndDate(date)} minDate={startDate} dateFormat="yyyy-MM-dd" locale={ko} />
+            <TimeSelectBox onChange={endTimeHandler} disabled={isAllDay}>
               {time.map((item, i) => (
                 <option key={i} value={item}>
                   {item}
                 </option>
               ))}
-            </select>
+            </TimeSelectBox>
           </StartDateContainer>
         </DaysCheckContainer>
 
         <DaysAllCheckContainer>
-          <input type="checkbox" onChange={isAllDayChange}></input>
-          <span>종일</span>
+          <input type="checkbox" onChange={isAllDayChange} checked={isAllDay}></input>
+
+          <AllDayText>종일</AllDayText>
         </DaysAllCheckContainer>
       </DaysCheckWrapper>
     </>
@@ -83,17 +116,21 @@ const DaysCheckContainer = styled.div`
 `;
 const DaysAllCheckContainer = styled(DaysIconBox)`
   ${(props) => props.theme.FlexRow}
-  justify-content: left;
-  width: 80px;
   align-items: flex-start;
   input {
+    margin: 0;
     cursor: pointer;
   }
-  span {
-    margin: 0;
-    font-size: ${(props) => props.theme.Fs.size14};
-  }
 `;
+
+const AllDayText = styled.span`
+  width: 40px;
+  text-align: left;
+  line-height: 15px;
+  margin: 0 !important;
+  font-size: 13px;
+`;
+
 const StartDateContainer = styled.div`
   ${(props) => props.theme.FlexRow}
   width: 100%;
@@ -105,12 +142,13 @@ const StartDateContainer = styled.div`
     width: 100px;
     margin-right: 10px;
   }
-  select {
-    margin-right: 115px;
-    border: none;
-    font-size: ${(props) => props.theme.Fs.size16};
-    cursor: pointer;
-  }
+`;
+
+const TimeSelectBox = styled.select`
+  margin-right: 115px;
+  border: none;
+  font-size: ${(props) => props.theme.Fs.size16};
+  cursor: pointer;
 `;
 const CustomDatePicker = styled(DatePicker)`
   width: 100px;
