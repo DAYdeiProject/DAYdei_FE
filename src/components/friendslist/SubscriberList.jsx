@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 
 import { __cancelSubscribe } from "../../redux/modules/subscribeSlice";
@@ -23,6 +23,8 @@ import {
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function SubscriberList({ SubscribersList }) {
+
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

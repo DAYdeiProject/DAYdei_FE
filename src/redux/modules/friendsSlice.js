@@ -38,7 +38,6 @@ export const __requestFriend = createAsyncThunk("requestFriend", async (id, thun
 export const __acceptNewFriend = createAsyncThunk("acceptFriend", async (id, thunkAPI) => {
   try {
     const response = await friendsInstance.put(`/${id}`);
-
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -60,6 +59,7 @@ export const __cancelRequest = createAsyncThunk("cancelRequest", async (id, thun
 export const __getFriendsList = createAsyncThunk("getFriendsList", async (url, thunkAPI) => {
   try {
     const response = await friendsInstance.get(`/list/${url}`);
+    // console.log("getFriendsList", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -82,12 +82,8 @@ export const __getFamousList = createAsyncThunk("getFamousList", async (payload,
 
 export const __getRequestedUsersList = createAsyncThunk("getRequestedUsersList", async (payload, thunkAPI) => {
   try {
-    const response = await friendsInstance.get("/list/response", {
-      headers: {
-        Authorization: payload.token,
-      },
-    });
-
+    const response = await friendsInstance.get("/list/response");
+    // console.log("친구신청목록", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -97,7 +93,7 @@ export const __getRequestedUsersList = createAsyncThunk("getRequestedUsersList",
 export const __getSentUsersList = createAsyncThunk("getSentUsersList", async (_, thunkAPI) => {
   try {
     const response = await friendsInstance.get("/list/request");
-
+    // console.log("보낸요청", response);
     return thunkAPI.fulfillWithValue(response.data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

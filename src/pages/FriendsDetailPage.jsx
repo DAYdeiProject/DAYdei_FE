@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import Sidebar from "../layout/Sidebar";
 import DetailMain from "../components/friendsDetail/DetailMain";
+import FriendsListMain from "../components/friendslist/FriendsListMain";
 
 export default function FriendsDetailPage() {
   return (
     <HomePageWrapper>
       <MainWrapper>
         <Sidebar />
-        <DetailMain />
+        {/* <DetailMain /> */}
+        <FriendsListMain />
       </MainWrapper>
     </HomePageWrapper>
   );
