@@ -1,7 +1,8 @@
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { __getFriendsList } from "../redux/modules/friendsSlice";
 import { __getSubscribeList, __getSubscriberList } from "../redux/modules/subscribeSlice";
-import { useState } from "react";
+import useOutSideClick from "./useOutsideClick";
 
 const useAlignFunctions = () => {
   //리스트별 드롭다운 모달 열림 or 닫힘 상태
@@ -13,7 +14,6 @@ const useAlignFunctions = () => {
 
   //기본 순 정렬
   const alignBasicHandler = ({ id, text }) => {
-    console.log(text);
     let url = `${id}?sort=name&searchword=`;
 
     if (text === "isFriend") {
@@ -70,6 +70,28 @@ const useAlignFunctions = () => {
     }
   };
 
+  //드롭다운 창 닫기
+  const dropdownFriendClose = () => {
+    setIsDropdownFriendOpen(false);
+  };
+
+  const dropdownSubscribeClose = () => {
+    setIsDropdownSubscribeOpen(false);
+  };
+
+  const dropdownSubscriberClose = () => {
+    setIsDropdownSubscriberOpen(false);
+  };
+
+  const DropdownFriendRef = useRef(null);
+  useOutSideClick(DropdownFriendRef, dropdownFriendClose);
+
+  const DropdownSubscribeRef = useRef(null);
+  useOutSideClick(DropdownSubscribeRef, dropdownSubscribeClose);
+
+  const DropdownSubscriberRef = useRef(null);
+  useOutSideClick(DropdownSubscriberRef, dropdownSubscriberClose);
+
   return {
     alignBasicHandler,
     alignNewestHandler,
@@ -81,6 +103,12 @@ const useAlignFunctions = () => {
     setIsDropdownSubscribeOpen,
     isDropdownSubscriberOpen,
     setIsDropdownSubscriberOpen,
+    dropdownFriendClose,
+    dropdownSubscribeClose,
+    dropdownSubscriberClose,
+    DropdownFriendRef,
+    DropdownSubscribeRef,
+    DropdownSubscriberRef,
   };
 };
 

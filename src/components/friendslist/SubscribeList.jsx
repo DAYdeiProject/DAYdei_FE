@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { otherIdState } from "../../redux/modules/headerReducer";
@@ -29,7 +29,7 @@ import {
 } from "./FriendList";
 
 function SubscribeList({ SubscribesList }) {
-  // console.log("SubscribeList 리렌더링");
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = GetUserInfo();
@@ -119,12 +119,14 @@ function SubscribeList({ SubscribesList }) {
                 )}
               </ProfileWrap>
             </ProfileArea>
-            <ButtonArea
-              onClick={() => {
-                cancelSubscribeHandler(user.id);
-              }}>
-              {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
-            </ButtonArea>
+            {location.pathname === "/mylist" && (
+              <ButtonArea
+                onClick={() => {
+                  cancelSubscribeHandler(user.id);
+                }}>
+                {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
+              </ButtonArea>
+            )}
           </PostBox>
         );
       })}
