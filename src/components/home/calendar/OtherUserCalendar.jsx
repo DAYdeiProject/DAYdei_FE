@@ -45,7 +45,7 @@ export default function OtherUserCalendar({ ...props }) {
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
-                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
+                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} alt="profile" />
                     </ImgBox>
                     <WriterBox>
                       <span>{list.title}</span>
@@ -77,7 +77,7 @@ export default function OtherUserCalendar({ ...props }) {
                 return (
                   <UpdateBox key={list.id} onClick={() => updatePostClick(list.id)}>
                     <ImgBox>
-                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} />
+                      <img src={list.writer.profileImage ? list.writer.profileImage : defaultProfile} alt="profile" />
                     </ImgBox>
                     <WriterBox>
                       <span>{list.writer.name}</span>

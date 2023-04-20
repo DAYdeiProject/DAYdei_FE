@@ -23,6 +23,7 @@ import {
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function SubscriberList({ SubscribersList }) {
+
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ function SubscriberList({ SubscribersList }) {
               }}>
               <ProfileImgNickname>
                 <PhotoFrame>
-                  <img src={user.profileImage ? user.profileImage : defaultProfile} />
+                  <img src={user.profileImage ? user.profileImage : defaultProfile} alt="profile" />
                 </PhotoFrame>
                 <ProfileNicknameContainer>
                   <NickNameWrap>{user.nickName ? user.nickName : "이름 없음"} </NickNameWrap>

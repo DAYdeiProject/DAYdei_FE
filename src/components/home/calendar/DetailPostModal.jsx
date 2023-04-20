@@ -272,7 +272,7 @@ export default function DetailPostModal({ ...props }) {
                         <FriendDropBox>
                           {detail.writer && (
                             <WriterBox>
-                              <img src={detail.writer.profileImage ? detail.writer.profileImage : defaultProfile} />
+                              <img src={detail.writer.profileImage ? detail.writer.profileImage : defaultProfile} alt="profile" />
                               <span>{detail.writer.name}</span>
                               <div></div>
                             </WriterBox>
@@ -280,7 +280,7 @@ export default function DetailPostModal({ ...props }) {
                           {detail.participant &&
                             detail.participant.map((list) => (
                               <WriterBox key={list.participentId}>
-                                <img src={list.profileImage ? list.profileImage : defaultProfile} />
+                                <img src={list.profileImage ? list.profileImage : defaultProfile} alt="profile" />
                                 <span>{list.participentName}</span>
                               </WriterBox>
                             ))}
@@ -325,7 +325,7 @@ export default function DetailPostModal({ ...props }) {
                         <ImgDropBox>
                           {detail?.image.map((list, i) => (
                             <ImgFile key={i}>
-                              <img src={list} />
+                              <img src={list} alt="imgUpload" />
                             </ImgFile>
                           ))}
                         </ImgDropBox>
@@ -622,4 +622,5 @@ const ScopeTextBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: right;
+  margin-right: 10px;
 `;

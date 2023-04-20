@@ -120,15 +120,15 @@ export default function KakaoErrorPage() {
           </MoveWrapper>
           <ImgWrapper>
             <ImgBox ref={slideRef}>
-              <img src={flow9} />
-              <img src={flow1} />
-              <img src={flow2} />
-              <img src={flow3} />
-              <img src={flow4} />
-              <img src={flow5} />
-              <img src={flow6} />
-              <img src={flow7} />
-              <img src={flow8} />
+              <img src={flow9} alt="kakao" />
+              <img src={flow1} alt="kakao" />
+              <img src={flow2} alt="kakao" />
+              <img src={flow3} alt="kakao" />
+              <img src={flow4} alt="kakao" />
+              <img src={flow5} alt="kakao" />
+              <img src={flow6} alt="kakao" />
+              <img src={flow7} alt="kakao" />
+              <img src={flow8} alt="kakao" />
             </ImgBox>
           </ImgWrapper>
           <MoveWrapper onClick={nextClickHandler}>
