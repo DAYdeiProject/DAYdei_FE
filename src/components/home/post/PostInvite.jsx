@@ -59,6 +59,7 @@ export default function PostInvite({ ...props }) {
         startTime: newStartTime,
         endTime: newEndTime,
       };
+
       dispatch(__getTargetList(targetData)).then((data) => {
         setTargetList(data.payload);
         setTargetToggle(true);
@@ -68,7 +69,7 @@ export default function PostInvite({ ...props }) {
 
   const debounceHandler = useCallback(
     debounce((text) => friendListHandler(text), 500),
-    []
+    [props.startDate, props.endDate, props.startTime, props.endTime, props.isAllDay]
   );
 
   // input 값 가져오기

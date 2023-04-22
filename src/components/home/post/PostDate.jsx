@@ -56,7 +56,7 @@ export default function PostDate({ ...props }) {
     props.setStartTime(startTime);
     props.setEndTime(endTime);
     props.setIsAllDay(isAllDay);
-  }, [startDate, endDate, startTime, endTime, isAllDay]);
+  }, [startDate, endDate, startTime, endTime, isAllDay, props.pickDate]);
 
   return (
     <>
@@ -68,7 +68,7 @@ export default function PostDate({ ...props }) {
           <StartDateContainer>
             <span>시작</span>
             <CustomDatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="yyyy-MM-dd" locale={ko} />
-            <TimeSelectBox onChange={startTimeHandler} disabled={isAllDay}>
+            <TimeSelectBox onChange={startTimeHandler} disabled={isAllDay} value={startTime}>
               {time.map((item, i) => (
                 <option key={i} value={item}>
                   {item}
@@ -80,7 +80,7 @@ export default function PostDate({ ...props }) {
           <StartDateContainer>
             <span>종료</span>
             <CustomDatePicker selected={endDate} onChange={(date) => setEndDate(date)} minDate={startDate} dateFormat="yyyy-MM-dd" locale={ko} />
-            <TimeSelectBox onChange={endTimeHandler} disabled={isAllDay}>
+            <TimeSelectBox onChange={endTimeHandler} disabled={isAllDay} value={endTime}>
               {time.map((item, i) => (
                 <option key={i} value={item}>
                   {item}

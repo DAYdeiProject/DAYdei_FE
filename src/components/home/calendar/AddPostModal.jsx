@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { __createNewPost, __getTargetList, __postImgUpload, __getPostDetail, __updatePost, __deletePost } from "../../../redux/modules/calendarSlice";
 import { alertState } from "../../../redux/modules/alertReducer";
 import { getPostDetail } from "../../../redux/modules/postReducer";
@@ -269,6 +269,7 @@ function AddPostModal({ ...props }) {
             startTime={startTime}
             endTime={endTime}
             setTargetPick={setTargetPick}
+            pickDate={props.pickDate}
           />
           <PostLocation postDetail={postDetail} setLocation={setLocation} />
           <PostContent postDetail={postDetail} setContent={setContent} />
