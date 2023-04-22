@@ -17,7 +17,7 @@ DAYDEI Front-End Repository
 - [3. 기술스택](#3-기술스택)
 - [4. SA 및 API 명세](#4-SA-및-API-명세)
 - [5. 구현기능](#5-구현기능)
-- [6. Trouble Shooting](#6-트러블슈팅)
+- [6. Trouble Shooting](#6-Trouble Shooting)
 - [7. 깃 컨벤션](#7-깃-컨벤션)
 
 ## 1. 프로젝트 소개
