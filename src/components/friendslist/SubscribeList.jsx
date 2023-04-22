@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { otherIdState } from "../../redux/modules/headerReducer";
@@ -25,11 +25,12 @@ import {
   NickNameWrap,
   EmailWrap,
   IntroductionWrap,
+  IntroductionDetailWrap,
   ButtonArea,
 } from "./FriendList";
 
 function SubscribeList({ SubscribesList }) {
-  // console.log("SubscribeList 리렌더링");
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = GetUserInfo();
@@ -43,21 +44,32 @@ function SubscribeList({ SubscribesList }) {
   const width1720 = useMediaQuery({ maxWidth: 1720 });
   const width1640 = useMediaQuery({ maxWidth: 1640 });
   const width1518 = useMediaQuery({ maxWidth: 1518 });
+  const width1370 = useMediaQuery({ maxWidth: 1370 });
   const width1280 = useMediaQuery({ maxWidth: 1280 });
+  const width1120 = useMediaQuery({ maxWidth: 1120 });
+  const width980 = useMediaQuery({ maxWidth: 980 });
 
   useEffect(() => {
-    if (width1820 && !width1720 && !width1640 && !width1518) {
-      setNumber(13);
-    } else if (width1820 && width1720 && !width1640 && !width1518) {
-      setNumber(9);
-    } else if (width1820 && width1720 && width1640 && !width1518) {
-      setNumber(7);
-    } else if (width1820 && width1720 && width1640 && width1518) {
-      setNumber(16);
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(19) : setNumber(13);
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(16) : setNumber(9);
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(13) : setNumber(7);
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(22) : setNumber(16);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(14) : setNumber(13);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" && setNumber(11);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && width1120 && !width980) {
+      location.pathname === "/friendsdetail" && setNumber(9);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && width1120 && width980) {
+      location.pathname === "/friendsdetail" && setNumber(6);
     } else {
-      setNumber(16);
+      location.pathname === "/friendsdetail" ? setNumber(22) : setNumber(16);
     }
-  }, [width1820, width1720, width1640, width1518]);
+  }, [width1820, width1720, width1640, width1518, width1370, width1280, width1120, width980]);
 
   if (SubscribesList?.length === 0) {
     return (
@@ -98,6 +110,7 @@ function SubscribeList({ SubscribesList }) {
         return (
           <PostBox key={user.id}>
             <ProfileArea
+              isWidth={location.pathname === "/friendsdetail"}
               onClick={() => {
                 navigate(`/other`);
                 dispatch(otherIdState(user.id));
@@ -112,19 +125,27 @@ function SubscribeList({ SubscribesList }) {
                     <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                   </TextArea>
                 </PostLeft>
-                {!width1280 && (
+                {!width1280 && location.pathname === "/mylist" ? (
                   <IntroductionWrap>
                     {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
                   </IntroductionWrap>
+                ) : (
+                  location.pathname === "/friendsdetail" && (
+                    <IntroductionDetailWrap>
+                      {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
+                    </IntroductionDetailWrap>
+                  )
                 )}
               </ProfileWrap>
             </ProfileArea>
-            <ButtonArea
-              onClick={() => {
-                cancelSubscribeHandler(user.id);
-              }}>
-              {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
-            </ButtonArea>
+            {location.pathname === "/mylist" && (
+              <ButtonArea
+                onClick={() => {
+                  cancelSubscribeHandler(user.id);
+                }}>
+                {user.userSubscribeCheck === true ? "구독취소" : "구독신청"}
+              </ButtonArea>
+            )}
           </PostBox>
         );
       })}

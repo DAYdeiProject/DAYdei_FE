@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { textState } from "../../../redux/modules/headerReducer";
 import { otherIdState } from "../../../redux/modules/headerReducer";
+import { alertState } from "../../../redux/modules/alertReducer";
 
 function MemberOutModal({ ...props }) {
   const [userKey, setUserKey] = useState("");
@@ -17,12 +18,15 @@ function MemberOutModal({ ...props }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //탈퇴하기 클릭 시 호출되는 함수
   const memberOutHandler = () => {
     const user = { userKey };
 
     dispatch(__memberOut(user)).then((data) => {
+      // console.log(data);
       if (data.payload === "탈퇴가 완료되었습니다.") {
-        alert("탈퇴 완료");
+        dispatch(alertState({ state: true, comment: "탈퇴 완료" }));
         props.setIsProfileSettingModalOpen(false);
         props.setIsMemberOutModalOpen(false);
         Cookies.remove("accessJWTToken");
@@ -31,6 +35,8 @@ function MemberOutModal({ ...props }) {
           dispatch(textState("home"));
           dispatch(otherIdState(""));
         }
+      } else {
+        dispatch(alertState({ state: true, comment: "탈퇴 실패" }));
       }
     });
   };

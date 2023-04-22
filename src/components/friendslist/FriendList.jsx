@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
@@ -10,12 +10,15 @@ import { __friendsList } from "../../redux/modules/kakaoSlice";
 
 import { MdOutlineAddReaction } from "react-icons/md";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 
 function FriendList({ FriendsList }) {
   // console.log("FriendList 리렌더링");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
+  const userInfo = GetUserInfo();
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
   const [number, setNumber] = useState(0);
@@ -23,24 +26,32 @@ function FriendList({ FriendsList }) {
   const width1720 = useMediaQuery({ maxWidth: 1720 });
   const width1640 = useMediaQuery({ maxWidth: 1640 });
   const width1518 = useMediaQuery({ maxWidth: 1518 });
-  const width1374 = useMediaQuery({ maxWidth: 1374 });
+  const width1370 = useMediaQuery({ maxWidth: 1370 });
   const width1280 = useMediaQuery({ maxWidth: 1280 });
+  const width1120 = useMediaQuery({ maxWidth: 1120 });
+  const width980 = useMediaQuery({ maxWidth: 980 });
 
   useEffect(() => {
-    if (width1820 && !width1720 && !width1640 && !width1518 && !width1374) {
-      setNumber(13);
-    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1374) {
-      setNumber(9);
-    } else if (width1820 && width1720 && width1640 && !width1518 && !width1374) {
-      setNumber(7);
-    } else if (width1820 && width1720 && width1640 && width1518 && !width1374) {
-      setNumber(16);
-    } else if (width1820 && width1720 && width1640 && width1518 && width1374) {
-      setNumber(9);
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(19) : setNumber(13);
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(16) : setNumber(9);
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(13) : setNumber(7);
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(22) : setNumber(16);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && !width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" ? setNumber(14) : setNumber(13);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && !width1120 && !width980) {
+      location.pathname === "/friendsdetail" && setNumber(11);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && width1120 && !width980) {
+      location.pathname === "/friendsdetail" && setNumber(9);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && width1120 && width980) {
+      location.pathname === "/friendsdetail" && setNumber(6);
     } else {
-      setNumber(16);
+      location.pathname === "/friendsdetail" ? setNumber(22) : setNumber(16);
     }
-  }, [width1820, width1720, width1640, width1518]);
+  }, [width1820, width1720, width1640, width1518, width1370, width1280, width1120, width980]);
 
   const deleteFriendHandler = (id) => {
     dispatch(__cancelRequest(id));
@@ -137,9 +148,15 @@ function FriendList({ FriendsList }) {
         return (
           <PostBox key={user.id}>
             <ProfileArea
+              isWidth={location.pathname === "/friendsdetail"}
               onClick={() => {
-                navigate(`/other`);
-                dispatch(otherIdState(user.id));
+                if (String(user.id) === String(userInfo.userId)) {
+                  navigate("/home");
+                  dispatch(otherIdState(""));
+                } else {
+                  navigate(`/other`);
+                  dispatch(otherIdState(user.id));
+                }
               }}>
               <ProfileWrap>
                 <PostLeft>
@@ -151,31 +168,41 @@ function FriendList({ FriendsList }) {
                     <EmailWrap>@{user.email.split("@")[0]} </EmailWrap>
                   </TextArea>
                 </PostLeft>
-                {!width1280 && (
+                {!width1280 && location.pathname === "/mylist" ? (
                   <IntroductionWrap>
                     {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
                   </IntroductionWrap>
+                ) : (
+                  location.pathname === "/friendsdetail" && (
+                    <IntroductionDetailWrap>
+                      {user.introduction ? (user.introduction.length > number ? `${user.introduction.substr(0, number)}...` : user.introduction) : newDefault}
+                    </IntroductionDetailWrap>
+                  )
                 )}
               </ProfileWrap>
             </ProfileArea>
-            <ButtonArea
-              onClick={() => {
-                deleteFriendHandler(user.id);
-              }}>
-              {user.friendCheck === true ? "친구삭제" : "친구신청"}
-            </ButtonArea>
+            {location.pathname === "/mylist" && (
+              <ButtonArea
+                onClick={() => {
+                  deleteFriendHandler(user.id);
+                }}>
+                {user.friendCheck === true ? "친구삭제" : "친구신청"}
+              </ButtonArea>
+            )}
           </PostBox>
         );
       })}
-      {headerProfile && headerProfile.kakaoId === null ? (
+      {location.pathname === "/mylist" && headerProfile && headerProfile.kakaoId === null ? (
         <VisitKakaoWrap>
           <div onClick={sendKakao}>친구 초대</div>
         </VisitKakaoWrap>
       ) : (
-        <ListKakaoWrap>
-          <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
-          <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
-        </ListKakaoWrap>
+        location.pathname === "/mylist" && (
+          <ListKakaoWrap>
+            <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+            <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
+          </ListKakaoWrap>
+        )
       )}
     </>
   );
@@ -395,7 +422,7 @@ export const ProfileArea = styled.div`
   ${(props) => props.theme.FlexRow};
   justify-content: left;
   padding: 0rem;
-  width: 80%;
+  width: ${({ isWidth }) => (isWidth ? "100%" : "80%")};
   height: 2.5rem;
 `;
 
@@ -482,6 +509,12 @@ export const IntroductionWrap = styled.div`
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 140%;
+`;
+
+export const IntroductionDetailWrap = styled.div`
+  width: 100%;
+  font-weight: 400;
+  font-size: 0.875rem;
 `;
 
 export const ButtonArea = styled.div`
