@@ -22,7 +22,7 @@ function MemberOutModal({ ...props }) {
   //탈퇴하기 클릭 시 호출되는 함수
   const memberOutHandler = () => {
     const user = { userKey };
-    console.log(user);
+
     dispatch(__memberOut(user)).then((data) => {
       // console.log(data);
       if (data.payload === "탈퇴가 완료되었습니다.") {
