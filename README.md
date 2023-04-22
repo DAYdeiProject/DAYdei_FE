@@ -30,19 +30,19 @@ DAYDEI Front-End Repository
 - 취미나 관심(대외활동, 취업, 이벤트 등)있는 계정을 구독해서, 해당 정보에 대한 지식을 얻고 싶은 사람
 - 본인의 캘린더를 전문성있는 구독 계정으로 키우고 싶은 사람
 
-### 2. 목적 / 기대효과
+### 2) 목적 / 기대효과
 
 - 원하는 관심사의 캘린더 일정을 선택한 후, 내 캘린더에 등록할 수 있기 때문에, 일일이 찾아보지 않아도 자신이 원하는 정보에 대한 접근성이 높아질 뿐만 아니라, 필요한 정보도 쉽게 찾아볼 수 있다.
 - 친구나 지인들과 함께 일정을 공유하고 조율하는 과정에서 편리하고 효율적인 일정관리가 가능해진다.
 - 내 캘린더를 전문성 높은 캘린더로 성장시켜, 자신의 분야에 대한 이해도도 높일 수 있다. 또한 동종업계 사람들과의 인맥을 확대할 수 있어서 경력 발전에 도움이 될 수 있고, 후에 광고 플랫폼으로도 활용할 수 있어 수익 창출이 가능해진다.
 
-### 3.컨셉
+### 3) 컨셉
 
 - 대시보드 구조로, 한 눈에 콘텐츠를 확인할 수 있도록 직관적이고 깔끔한 UI
 - 계층 구조가 잘 보여질 수 있도록, 머티리얼 스타일 적용
 - 등록된 일정을 중요도에 따라 빠르게 파악 될 수 있게 파스텔 컬러로 표현
 
-### 4. Pain Point
+### 4) Pain Point
 
 - 다른 사람들과 내 일정을 같이 공유하고 싶어요.
 - 관심있는 분야들의 일정과 정보를 공유받고 소통하고 싶어요.
@@ -79,26 +79,17 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
  
 ### 5-1. 로그인 및 회원 가입
   
- <div class = "text-left">
-    <p><strong>- 구현 기능</strong></p>
-      <ul>
-        <li>일반 로그인 / 카카오톡 로그인</li>
-        <li>회원가입</li>
-        <li>비밀번호 찾기(가입 이메일로 임시 비밀번호 발급)</li>
-      </ul>
-  </div>
-  
+  * 일반 로그인 / 카카오톡 로그인
+  * 회원가입
+  * 비밀번호 찾기(가입 이메일로 임시 비밀번호 발급)
+   
   <details>
-  <summary>이미지 더보기</summary>
-  
-  <img src="https://user-images.githubusercontent.com/86552492/232414598-6bd1935b-2a97-4d8e-9dd0-fe5cc8fedc0a.png" />
-  <img src="https://user-images.githubusercontent.com/86552492/232414742-7e56f6a9-9442-4216-8492-d022b4419856.png"/> 
-  
+    <summary>이미지 더보기</summary>
+    <img src="https://user-images.githubusercontent.com/86552492/232414598-6bd1935b-2a97-4d8e-9dd0-fe5cc8fedc0a.png" />
+    <img src="https://user-images.githubusercontent.com/86552492/232414742-7e56f6a9-9442-4216-8492-d022b4419856.png"/> 
   </details>
   
 ### 5-2. 홈 캘린더 화면
-  
- <p><strong>- 구현 기능</strong></p>
   
   * 헤더 : 로고 / 네비게이션 바 (홈, 친구/구독, 찾아보기 탭으로 구성) / 알림 / 프로필 아이콘
   * 사이드바 (Me) : 오늘의 일정 / 업데이트한 친구 
@@ -106,10 +97,9 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 메인 캘린더
   
   <details>
-  <summary>이미지 더보기</summary>
-  <img src="https://user-images.githubusercontent.com/86552492/232415052-236be325-0e5a-4985-ada7-5c9302b0e22d.png" /> 
-  <img src="https://user-images.githubusercontent.com/122579951/232471680-527c5528-ef19-4dae-8729-52613f72ceea.png" /> 
-
+    <summary>이미지 더보기</summary>
+    <img src="https://user-images.githubusercontent.com/86552492/232415052-236be325-0e5a-4985-ada7-5c9302b0e22d.png" /> 
+    <img src="https://user-images.githubusercontent.com/122579951/232471680-527c5528-ef19-4dae-8729-52613f72ceea.png" /> 
   </details>
      
 ### 5-2-1. 홈 캘린더 > 알림 / 일정 더보기 / 개별 일정 상세보기
@@ -119,10 +109,10 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 개별 일정 클릭 시, 상세 정보 확인 가능 
   
   <details>
-  <summary>이미지 더보기</summary>
-  <img src = "https://user-images.githubusercontent.com/86552492/232415166-6d26877b-d2e5-41ed-b996-b1bb0bd0c3a3.png"/>
-  <img src = "https://user-images.githubusercontent.com/86552492/232415255-3b0862ec-14c7-4317-8732-f69bc005996f.png"/>
-  <img src = "https://user-images.githubusercontent.com/86552492/232415370-6ba359ae-c333-4ae6-b790-901e439c7206.png"/>
+    <summary>이미지 더보기</summary>
+    <img src = "https://user-images.githubusercontent.com/86552492/232415166-6d26877b-d2e5-41ed-b996-b1bb0bd0c3a3.png"/>
+    <img src = "https://user-images.githubusercontent.com/86552492/232415255-3b0862ec-14c7-4317-8732-f69bc005996f.png"/>
+    <img src = "https://user-images.githubusercontent.com/86552492/232415370-6ba359ae-c333-4ae6-b790-901e439c7206.png"/>
   </details>
      
 ### 5-2-2. 홈 캘린더 > 오른쪽 사이드바 > 메모장 / 구독하는 캘린더 숨김 or 표시
@@ -131,9 +121,9 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   - 내가 구독하는 계정의 일정 숨기기 / 표시하기 선택 가능
 
   <details>
-  <summary>이미지 더보기</summary>
-   <img src = "https://user-images.githubusercontent.com/86552492/232415513-fe69435c-1b41-4567-82fe-edc246ba92af.png"/>
-   <img src = "https://user-images.githubusercontent.com/86552492/232415618-d3563e0c-53f1-4544-bce3-2ff95ff5adc6.png"/>
+    <summary>이미지 더보기</summary>
+    <img src = "https://user-images.githubusercontent.com/86552492/232415513-fe69435c-1b41-4567-82fe-edc246ba92af.png"/>
+    <img src = "https://user-images.githubusercontent.com/86552492/232415618-d3563e0c-53f1-4544-bce3-2ff95ff5adc6.png"/>
   </details>
       
 ### 5-3. 일정 작성/수정
@@ -145,9 +135,9 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 작성하는 일정은 모두 공개여부 설정 가능 (전체공개 & 스크랩 허용 / 전체공개 / 친구공개 / 나만보기)
 
   <details>
-  <summary>이미지 더보기</summary>
-  <img src="https://user-images.githubusercontent.com/86552492/232416137-a6488b2c-a8be-4e5d-91f3-125e148478a5.png"/> 
-  <img src="https://user-images.githubusercontent.com/86552492/232416274-68b1403d-8669-45dd-8dcf-691d2f852055.png"/> 
+    <summary>이미지 더보기</summary>
+    <img src="https://user-images.githubusercontent.com/86552492/232416137-a6488b2c-a8be-4e5d-91f3-125e148478a5.png"/> 
+    <img src="https://user-images.githubusercontent.com/86552492/232416274-68b1403d-8669-45dd-8dcf-691d2f852055.png"/> 
   </details>
       
 ### 5-4. 친구/구독 페이지
@@ -157,8 +147,8 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   * 리스트 별로 유저 검색 가능
 
   <details>
-  <summary>이미지 더보기</summary>
-  <img src="https://user-images.githubusercontent.com/86552492/232416358-d7270aa8-1fab-4480-a904-8bf27816cabc.png">
+    <summary>이미지 더보기</summary>
+    <img src="https://user-images.githubusercontent.com/86552492/232416358-d7270aa8-1fab-4480-a904-8bf27816cabc.png">
   </details>
       
 ### 5-5. 찾아보기 페이지
@@ -168,8 +158,8 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 - 친구신청 / 구독하기 및 취소 가능
 
 <details>
-<summary>이미지 더보기</summary>
-<img src="https://user-images.githubusercontent.com/86552492/232416563-e5dad8be-a621-429c-b8e0-9d66ca91a7a4.png">
+  <summary>이미지 더보기</summary>
+  <img src="https://user-images.githubusercontent.com/86552492/232416563-e5dad8be-a621-429c-b8e0-9d66ca91a7a4.png">
 </details>
 
 </div>
