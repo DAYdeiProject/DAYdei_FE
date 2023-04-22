@@ -1,7 +1,6 @@
-import { debounce } from "lodash";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { alertState } from "../../../redux/modules/alertReducer";
 import { TextSpan } from "./PostColor";
 import { LocationWrapper } from "./PostLocation";

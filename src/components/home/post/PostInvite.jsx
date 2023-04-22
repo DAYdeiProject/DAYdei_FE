@@ -1,18 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import { useState } from "react";
-import { ReactComponent as Search } from "../../../assets/searchList/search.svg";
-import { BiX } from "react-icons/bi";
-import { useCallback } from "react";
 import { debounce } from "lodash";
-import { useEffect } from "react";
 import format from "date-fns/format";
-import { useRef } from "react";
-import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { __getTargetList } from "../../../redux/modules/calendarSlice";
-import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { TextSpan } from "./PostColor";
+import { __getTargetList } from "../../../redux/modules/calendarSlice";
+import { BiX } from "react-icons/bi";
+import defaultProfile from "../../../assets/defaultImage/profile.jpg";
+import { ReactComponent as Search } from "../../../assets/searchList/search.svg";
+import { ReactComponent as Invite } from "../../../assets/calendarIcon/invite.svg";
 
 export default function PostInvite({ ...props }) {
   const [inputValue, setInputValue] = useState("");
