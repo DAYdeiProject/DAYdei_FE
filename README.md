@@ -55,8 +55,6 @@ https://daydei.life
 
 ## 3. 기술스택
 
-<div><h1>📚 STACKS</h1></div>
-
 <div> 
   <img src="https://img.shields.io/badge/SSE-000000?style=for-the-badge&logo=&logoColor=white"/>
   <img src="https://img.shields.io/badge/GithubActions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/>
@@ -138,8 +136,6 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   </details>
       
 ### 5-3. 일정 작성/수정
-
-   <p><strong>- 구현 기능</strong></p>
   
   * 일정 작성 ( 제목 / 일시 / 일정 표시 색 / 초대 유저 (태그 가능) / 장소 및 상세 / 사진(3장까지 첨부) / 공개여부로 구성
   * 작성한 일정 드래그하여 일정 날짜 변경 가능 
@@ -154,9 +150,7 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
   </details>
       
 ### 5-4. 친구/구독 페이지
-  
-   <p><strong>- 구현 기능</strong></p>
-  
+    
   * 친구, 구독 캘린더, 나를 구독하는 유저 리스트
   * 리스트 별로 기준에 따라 정렬 가능 (기본, 최신순, 오래된순, 구독자 많은 순)
   * 리스트 별로 유저 검색 가능
