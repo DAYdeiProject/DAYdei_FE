@@ -55,6 +55,8 @@ function FriendsListMain() {
       url = `${id}?sort=name&searchword=`;
     } else if (location.pathname === "/friendsdetail") {
       url = `${otherId}?sort=name&searchword=`;
+
+      
     }
 
     dispatch(__getFriendsList(url));
