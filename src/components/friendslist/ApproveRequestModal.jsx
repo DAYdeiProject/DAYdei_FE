@@ -58,55 +58,51 @@ function ApproveRequestModal({ ...props }) {
             {isReceivedRequestOpen ? (
               <ModalContentWrap>
                 {props.RequestedUsersList.map((user) => (
-                  <>
-                    <PostWrap key={user.id}>
-                      <UserInfoWrap key={user.id}>
-                        <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                        <ProfileWrap>
-                          <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
-                          <EmailWrap>@{user.email.split("@")[0]}</EmailWrap>
-                        </ProfileWrap>
-                      </UserInfoWrap>
-                      <ButtonsWrap>
-                        <ButtonAccept
-                          onClick={() => {
-                            ApproveRequestHandler(user.id);
-                          }}>
-                          수락
-                        </ButtonAccept>
-                        <ButtonRefuse
-                          onClick={() => {
-                            refuseHandler(user.id);
-                          }}>
-                          요청 삭제
-                        </ButtonRefuse>
-                      </ButtonsWrap>
-                    </PostWrap>
-                  </>
+                  <PostWrap key={user.id}>
+                    <UserInfoWrap>
+                      <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                      <ProfileWrap>
+                        <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
+                        <EmailWrap>@{user.email.split("@")[0]}</EmailWrap>
+                      </ProfileWrap>
+                    </UserInfoWrap>
+                    <ButtonsWrap>
+                      <ButtonAccept
+                        onClick={() => {
+                          ApproveRequestHandler(user.id);
+                        }}>
+                        수락
+                      </ButtonAccept>
+                      <ButtonRefuse
+                        onClick={() => {
+                          refuseHandler(user.id);
+                        }}>
+                        요청 삭제
+                      </ButtonRefuse>
+                    </ButtonsWrap>
+                  </PostWrap>
                 ))}
               </ModalContentWrap>
             ) : (
               <ModalContentWrap>
                 {props.SentUsersList.map((user) => (
-                  <>
-                    <PostWrap key={user.id}>
-                      <UserInfoWrap key={user.id}>
-                        <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
-                        <ProfileWrap>
-                          <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
-                          <EmailWrap>@{user.email.split("@")[0]}</EmailWrap>
-                        </ProfileWrap>
-                      </UserInfoWrap>
-                      <ButtonsWrap>
-                        <ButtonRefuse
-                          onClick={() => {
-                            refuseHandler(user.id);
-                          }}>
-                          신청 취소
-                        </ButtonRefuse>
-                      </ButtonsWrap>
-                    </PostWrap>
-                  </>
+                  <PostWrap key={user.id}>
+                    <UserInfoWrap>
+                      <PhotoFrame src={user.profileImage ? user.profileImage : defaultProfile}></PhotoFrame>
+                      <ProfileWrap>
+                        <NicknameWrap>{user.nickName ? user.nickName : "이름 없음"}</NicknameWrap>
+                        <EmailWrap>@{user.email.split("@")[0]}</EmailWrap>
+                      </ProfileWrap>
+                    </UserInfoWrap>
+                    <ButtonsWrap>
+                      <ButtonRefuse
+                        onClick={() => {
+                          refuseHandler(user.id);
+                        }}>
+                        신청 취소
+                      </ButtonRefuse>
+                    </ButtonsWrap>
+                  </PostWrap>
                 ))}
               </ModalContentWrap>
             )}

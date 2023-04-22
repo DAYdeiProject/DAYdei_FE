@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
@@ -10,12 +10,15 @@ import { __friendsList } from "../../redux/modules/kakaoSlice";
 
 import { MdOutlineAddReaction } from "react-icons/md";
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
+import { GetUserInfo } from "../../utils/cookie/userInfo";
 
 function FriendList({ FriendsList }) {
   // console.log("FriendList 리렌더링");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
+  const userInfo = GetUserInfo();
   const headerProfile = useSelector((state) => state.users.headerProfile);
 
   const [number, setNumber] = useState(0);
@@ -138,8 +141,13 @@ function FriendList({ FriendsList }) {
           <PostBox key={user.id}>
             <ProfileArea
               onClick={() => {
-                navigate(`/other`);
-                dispatch(otherIdState(user.id));
+                if (String(user.id) === String(userInfo.userId)) {
+                  navigate("/home");
+                  dispatch(otherIdState(""));
+                } else {
+                  navigate(`/other`);
+                  dispatch(otherIdState(user.id));
+                }
               }}>
               <ProfileWrap>
                 <PostLeft>
@@ -158,24 +166,28 @@ function FriendList({ FriendsList }) {
                 )}
               </ProfileWrap>
             </ProfileArea>
-            <ButtonArea
-              onClick={() => {
-                deleteFriendHandler(user.id);
-              }}>
-              {user.friendCheck === true ? "친구삭제" : "친구신청"}
-            </ButtonArea>
+            {location.pathname === "/mylist" && (
+              <ButtonArea
+                onClick={() => {
+                  deleteFriendHandler(user.id);
+                }}>
+                {user.friendCheck === true ? "친구삭제" : "친구신청"}
+              </ButtonArea>
+            )}
           </PostBox>
         );
       })}
-      {headerProfile && headerProfile.kakaoId === null ? (
+      {location.pathname === "/mylist" && headerProfile && headerProfile.kakaoId === null ? (
         <VisitKakaoWrap>
           <div onClick={sendKakao}>친구 초대</div>
         </VisitKakaoWrap>
       ) : (
-        <ListKakaoWrap>
-          <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
-          <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
-        </ListKakaoWrap>
+        location.pathname === "/mylist" && (
+          <ListKakaoWrap>
+            <KakaoButton onClick={connectKakaoFriendsHandler}>카카오톡 친구와 연동</KakaoButton>
+            <InviteButton onClick={sendKakao}>친구 초대</InviteButton>
+          </ListKakaoWrap>
+        )
       )}
     </>
   );
