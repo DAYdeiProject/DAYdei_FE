@@ -18,7 +18,8 @@ DAYDEI Front-End Repository
 - [4. SA 및 API 명세](#4-SA-및-API-명세)
 - [5. 구현기능](#5-구현기능)
 - [6. Trouble Shooting](#6-Trouble-Shooting)
-- [7. 깃 컨벤션](#7-깃-컨벤션)
+- [7. Architecture](#7-Architecture)
+- [8. 깃 컨벤션](#8-깃-컨벤션)
 
 ## 1. 프로젝트 소개
 <img src="https://user-images.githubusercontent.com/86552492/233780306-d2071733-d6c4-4ec6-b38a-50732d70a50e.png" />
@@ -276,8 +277,14 @@ https://www.notion.so/A-4-SA-ae22a288543d455c810012fd6ac9b3a0
 
 </details>
 
+## 7. Architecture
 
-## 7. 깃 컨벤션
+<div>
+  <img src = "https://user-images.githubusercontent.com/122579951/233255906-0cf29388-f3df-47ee-85d4-ded35f562e5e.png">
+</div>
+
+
+## 8. 깃 컨벤션
 
 Cancel changes
 
