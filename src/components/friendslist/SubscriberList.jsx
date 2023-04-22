@@ -23,7 +23,6 @@ import {
 import defaultProfile from "../../assets/defaultImage/profile.jpg";
 
 function SubscriberList({ SubscribersList }) {
-
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,28 +33,31 @@ function SubscriberList({ SubscribersList }) {
   const width1640 = useMediaQuery({ maxWidth: 1640 });
   const width1518 = useMediaQuery({ maxWidth: 1518 });
   const width1370 = useMediaQuery({ maxWidth: 1370 });
+  const width1280 = useMediaQuery({ maxWidth: 1280 });
   const width1120 = useMediaQuery({ maxWidth: 1120 });
   const width980 = useMediaQuery({ maxWidth: 980 });
 
   useEffect(() => {
-    if (width1820 && !width1720 && !width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+    if (width1820 && !width1720 && !width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
       setNumber(19);
-    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+    } else if (width1820 && width1720 && !width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
       setNumber(16);
-    } else if (width1820 && width1720 && width1640 && !width1518 && !width1370 && !width1120 && !width980) {
+    } else if (width1820 && width1720 && width1640 && !width1518 && !width1370 && !width1280 && !width1120 && !width980) {
       setNumber(13);
-    } else if (width1820 && width1720 && width1640 && width1518 && !width1370 && !width1120 && !width980) {
+    } else if (width1820 && width1720 && width1640 && width1518 && !width1370 && !width1280 && !width1120 && !width980) {
       setNumber(22);
-    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && !width1120 && !width980) {
-      setNumber(16);
-    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1120 && !width980) {
-      setNumber(13);
-    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1120 && width980) {
-      setNumber(7);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && !width1280 && !width1120 && !width980) {
+      setNumber(14);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && !width1120 && !width980) {
+      setNumber(11);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && width1120 && !width980) {
+      setNumber(9);
+    } else if (width1820 && width1720 && width1640 && width1518 && width1370 && width1280 && width1120 && width980) {
+      setNumber(6);
     } else {
       setNumber(22);
     }
-  }, [width1820, width1720, width1640, width1518, width1370, width1120, width980]);
+  }, [width1820, width1720, width1640, width1518, width1370, width1280, width1120, width980]);
 
   if (SubscribersList?.length === 0) {
     return (
