@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Sidebar from "../layout/Sidebar";
-import DetailMain from "../components/friendsDetail/DetailMain";
 import FriendsListMain from "../components/friendslist/FriendsListMain";
 
 export default function FriendsDetailPage() {
@@ -9,7 +8,6 @@ export default function FriendsDetailPage() {
     <HomePageWrapper>
       <MainWrapper>
         <Sidebar />
-        {/* <DetailMain /> */}
         <FriendsListMain />
       </MainWrapper>
     </HomePageWrapper>
