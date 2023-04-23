@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import styled from "styled-components";
 import { getDay, format } from "date-fns";
-import { useLoaderData, useLocation, useParams } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useState } from "react";
 import ModalBox from "../../../elements/ModalBox";
@@ -44,6 +44,7 @@ export default function DetailPostModal({ ...props }) {
   const token = Cookies.get("accessJWTToken");
   const userInfo = GetUserInfo();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { detail } = useSelector((state) => state.calendar);
   const { notiInfo, otherId } = useSelector((state) => state.header);
@@ -209,6 +210,12 @@ export default function DetailPostModal({ ...props }) {
         }
       }
     });
+  };
+
+  // 닉네임 클릭시 캘린더 이동
+  const moveOtherUser = (id) => {
+    dispatch(otherIdState(id));
+    navigate("/other");
   };
 
   return (
@@ -377,7 +384,10 @@ export default function DetailPostModal({ ...props }) {
                   )
                 )
               ) : (
-                <span>{detail.writer.name}님의 일정입니다.</span>
+                <span>
+                  <NicknameSpan onClick={() => moveOtherUser(detail?.writer.id)}>{detail.writer.name}</NicknameSpan>
+                  님의 일정입니다.
+                </span>
               )}
             </InviteWrapper>
           )}
@@ -567,7 +577,12 @@ const InviteContainer = styled.div`
     color: #df5445;
   }
 `;
-
+const NicknameSpan = styled.span`
+  :hover {
+    cursor: pointer;
+    font-weight: 600;
+  }
+`;
 const DropBox = styled.div`
   ${(props) => props.theme.FlexCol}
   display: ${(props) => (props.isShow ? "block" : "none")};
