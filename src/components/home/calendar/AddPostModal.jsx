@@ -76,6 +76,7 @@ function AddPostModal({ ...props }) {
     setFileList([]);
     setSaveView([]);
     props.setModifyPostId("");
+    props.setPickToday(false);
     reset();
     dispatch(getPostDetail([]));
   };
@@ -259,6 +260,7 @@ function AddPostModal({ ...props }) {
             setStartTime={setStartTime}
             setEndTime={setEndTime}
             pickDate={props.pickDate}
+            pickToday={props.pickToday}
           />
           <PostColor postDetail={postDetail} setColor={setColor} />
           <PostInvite

@@ -29,6 +29,8 @@ function CalendarMain({ ...props }) {
   // 일정 추가 버튼 여부(로그인한 유저 캘린더 / 타 유저 캘린더)
   const [disabled, setDisabled] = useState(false);
   const [newData, setNewData] = useState("");
+  // 일정 추가 버튼 클릭여부
+  const [pickToday, setPickToday] = useState(false);
   // 날짜 클릭시 일정추가모달 뜨고 startDate 해당 클릭 날짜로
   const [pickDate, setPickDate] = useState("");
   const [modifyPostId, setModifyPostId] = useState("");
@@ -121,6 +123,7 @@ function CalendarMain({ ...props }) {
   };
   const showAddpostModal = () => {
     setIsAddPost(true);
+    setPickToday(true);
   };
 
   // 일정 more 클릭시
@@ -246,6 +249,8 @@ function CalendarMain({ ...props }) {
           setIsAddPost={setIsAddPost}
           side={props.side}
           setSide={props.setSide}
+          pickToday={pickToday}
+          setPickToday={setPickToday}
           pickDate={pickDate}
           setPickDate={setPickDate}
           isSubmit={isSubmit}
