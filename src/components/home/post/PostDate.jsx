@@ -38,6 +38,13 @@ export default function PostDate({ ...props }) {
   }, [props.pickDate]);
 
   useEffect(() => {
+    if (props.pickToday) {
+      setStartDate(new Date());
+      setEndDate(new Date());
+    }
+  }, [props.pickToday]);
+
+  useEffect(() => {
     if (props.postDetail.length !== 0) {
       setStartDate(new Date(props.postDetail.startDate));
       setEndDate(new Date(props.postDetail.endDate));
